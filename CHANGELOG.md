@@ -2,6 +2,7 @@
 
 ## Development — native quick-menu investigation
 
+- Started 0.6.1 after normal game exit and a fresh verified backup of 43 profile files. The log confirms automation ON and two Mods/ten managed hooks. All twelve payloads and both existing external configuration files remained hash-identical at startup. Actual combined summoning and visible menu order await the player's check.
 - Prepared the 0.6.1 combined play trial: unchanged 0.4.2 automatic summoning plus the ordered inert menu in one verified pyMHF folder-mode host. Existing preferences and manual selection remain at their original external paths. All 341 developer tests and actual framework discovery passed; the thirteen-file artifact has not been launched and live coexistence remains pending.
 - Launched the isolated 0.6.0 ordering trial after a fresh verified backup of 43 profile files. Registration reports one Mod/four managed hooks; visible order remains pending. Recorded the requirement to retain functional automatic summoning and existing preferences during subsequent menu development sessions.
 - Prepared a separate disabled 0.6.0 ordered submenu trial. It inserts the settings parent before the first individual pet/page during native construction, uses the validated original append trampoline and retains the inert child and native binding guard. The end fallback refuses already-present pets. All 309 developer tests and the real disabled-framework smoke passed. Its new ten-file artifact has not been launched; live ordering remains pending and the running 0.5.0 trial is unchanged.

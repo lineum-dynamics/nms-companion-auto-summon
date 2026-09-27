@@ -34,8 +34,9 @@ another pet or toggle every setting itself. Its children will expose automatic
 summoning, selection mode, habitat preference and the three location toggles.
 Location choices should remain on that same page within the verified depth
 limit. The first live inert entry did not open a subpage. The separate
-0.5.0-submenu-trial now running prepares one inert Settings preview child for
-navigation testing; it is not connected to these preferences.
+0.5.0-submenu-trial introduced one inert Settings preview child for navigation
+testing. The combined 0.6.1 play trial retains that child alongside the working
+automatic-summoning runtime; the child is not connected to these preferences.
 
 The first screenshot confirmed a redundant name inside the icon above the
 normal selected-item caption. The subsequent 0.5.0 submenu trial leaves inline

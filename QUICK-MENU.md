@@ -7,8 +7,8 @@ Back/close/reopen and ordinary manual pet summoning in that session. A separate
 0.5.0-submenu-trial has confirmed inert-child navigation and clean captions.
 The separate 0.6.0-order-trial inserts the parent before individual pets in
 offline checks and has registered in-game; its visible ordering remains
-unverified. A combined play trial is prepared so automatic summoning
-continues during menu development. Shortcut scenarios and
+unverified. The combined 0.6.1 play trial has registered with automatic
+summoning ON so play can continue during menu development. Shortcut scenarios and
 preference controls remain unfinished. This document separates static findings, offline verification,
 live observations and future work. Raw disassembly is private working evidence,
 not part of the repository or distribution.
@@ -708,8 +708,22 @@ restored before construction; no native hook was registered. Temporary
 preferences were preserved. The real user's two external configuration files
 also remained hash-identical through packaging. The generated PowerShell
 launcher parsed successfully, and every payload matched its manifest and
-framework report. Live coexistence is still pending a normal restart, fresh
-backup, registration and the player's automatic-summon/menu checks.
+framework report.
+
+### Combined startup
+
+The player closed NMS normally. A fresh backup of 43 profile files was copied
+and hash-verified before starting this bundle. At 20:16:10 on 27 September 2026,
+the log reported production automation ON, the ordering binding filter ready,
+and two Mods/ten managed hooks loaded. A subsequent process check found a
+responding game window. The framework's earlier window-handle warning does
+not prove its cached handle was refreshed. All twelve payloads and both
+external preference files remained hash-identical at the startup capture.
+
+This establishes combined registration with automatic summoning enabled.
+The player's next ship exit and menu navigation must still confirm actual
+coexistence and the new visible order. Neither the inert native child nor the
+custom image is a finished preference control.
 
 ## Historical observation-only live sequence
 
