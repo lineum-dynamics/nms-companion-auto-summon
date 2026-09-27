@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <title>Companion Auto Summon</title>
+  <desc>Original white paw surrounded by one clockwise arrow. Transparent UI glyph.</desc>
+  <g fill="#fff">
+    <path d="M215 147 A89 89 0 1 1 203 80" fill="none" stroke="#fff" stroke-width="17" stroke-linecap="round"/>
+    <path d="M198 59 Q196 57 196 62 L190 95 Q190 98 193 99 L224 106 Q229 107 227 102 L202 61 Q200 58 198 59Z"/>
+    <ellipse cx="83" cy="125" rx="13" ry="20" transform="rotate(-28 83 125)"/>
+    <ellipse cx="110" cy="97" rx="14" ry="22" transform="rotate(-12 110 97)"/>
+    <ellipse cx="147" cy="97" rx="14" ry="22" transform="rotate(12 147 97)"/>
+    <ellipse cx="174" cy="125" rx="13" ry="20" transform="rotate(28 174 125)"/>
+    <path d="M128 132 C117 132 111 143 103 152 C94 162 89 168 92 178 C95 189 108 187 119 184 C125 182 131 182 137 184 C148 187 161 189 164 178 C167 168 162 162 153 152 C145 143 139 132 128 132Z"/>
+  </g>
+</svg>

@@ -12,7 +12,7 @@ The current player candidate is 0.4.2-experimental; the approved name is Compani
 
 ## Intended settings integration
 
-Prefer one dedicated CompanionAutoSummon/automatic-companion entry in the companion section of the native quick menu. Its final label and position must fit the existing layout and terminology. Do not replace a vanilla action or reuse its ID for a different purpose without a verified, non-conflicting implementation.
+Prefer one dedicated CompanionAutoSummon/automatic-companion entry in the companion section of the native quick menu, before individual pets and after general companion actions. The separate 0.6.0 trial implements this order in offline checks; its live result remains pending. Its final label must fit the existing layout and terminology. Do not replace a vanilla action or reuse its ID for a different purpose without a verified, non-conflicting implementation.
 
 Expose the same underlying preferences:
 
@@ -31,18 +31,21 @@ limit. The first live inert entry did not open a subpage. The separate
 0.5.0-submenu-trial now running prepares one inert Settings preview child for
 navigation testing; it is not connected to these preferences.
 
-The player's screenshot confirmed a redundant name inside the icon above the
-normal selected-item caption. The next source revision leaves the inline tile
-name empty and retains the ordinary caption. It has not been deployed. The paw
+The first screenshot confirmed a redundant name inside the icon above the
+normal selected-item caption. The subsequent 0.5.0 submenu trial leaves inline
+names empty and retains the ordinary captions; the player's new screenshots
+confirm this appearance. The paw
 was a borrowed prototype icon, not a settled product identity. The user asked
 for an original custom icon. An original paw plus circular-arrow concept has
 been saved as an opaque preview under `assets/concepts/` in the source repository
 (excluded from the player ZIP). The transparent generation attempts had visible
-artifacts and were rejected. Final transparency, small-size appearance and
-native texture loading must be validated before replacing the borrowed icon.
+artifacts and were rejected. A clean original vector glyph and its transparent
+256-pixel PNG/RGBA32 DDS now exist under `assets/ui/`, with equal decoded pixels.
+Native texture loading, resource lifetime and in-game small-size appearance
+must be validated before replacing the borrowed icon.
 Do not overwrite a shared vanilla texture or distribute copied game artwork.
 
-Native menu insertion is not a finished player capability. The prior inert-item trial has a native binding filter and confirmed visibility, selection, Back/close/reopen and normal manual companion summoning. The new submenu trial passed offline checks and registered in NMS after a fresh verified backup; its visible behavior, shortcut, remapping and controller scenarios remain pending. Only after navigation, lifecycle and shortcut protection pass the controlled live scenarios should it change a preference. Retain the desktop panel for development until this route is proven.
+Native menu insertion is not a finished player capability. The prior inert-item trial has a native binding filter and confirmed visibility, selection, Back/close/reopen and normal manual companion summoning. The 0.5.0 submenu trial now also has the player's confirmation of its inert child, native Back/close/reopen and ordinary pet actions, with screenshots confirming both captions and empty inline names. Shortcut, changing-pet-list, remapping and controller scenarios remain pending. Only after the relevant lifecycle and shortcut protection checks pass should it change a preference. Retain the desktop panel for development until this route is proven.
 
 The initial read-only audit found a known-action dispatcher, but no verified registration API for custom entries. Existing submenu transitions in the pinned executable clamp depth to two beyond the root. Prefer a flat settings page within the verified limit; do not assume another nested location submenu is possible. A new numeric action ID alone does not create a working native action. The next investigation must establish native item construction, ownership and cleanup, then observe natural menu use before modifying it.
 

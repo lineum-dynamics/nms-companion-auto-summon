@@ -4,8 +4,10 @@ Status: 27 September 2026. The player mod remains 0.4.2-experimental. A separate
 disabled-by-default developer trial now implements one inert custom item and a
 native binding filter. The player has confirmed visibility, selection, native
 Back/close/reopen and ordinary manual pet summoning in that session. A separate
-0.5.0-submenu-trial candidate now prepares one inert child; live submenu and
-shortcut behavior remain unverified. Preference controls are not implemented. This document separates static findings, offline verification,
+0.5.0-submenu-trial has confirmed inert-child navigation and clean captions.
+The separate 0.6.0-order-trial inserts the parent before individual pets in
+offline checks; its live ordering remains unverified. Shortcut scenarios and
+preference controls remain unfinished. This document separates static findings, offline verification,
 live observations and future work. Raw disassembly is private working evidence,
 not part of the repository or distribution.
 
@@ -579,17 +581,75 @@ the framework refreshed its cached handle or any menu behavior.
 
 This establishes runtime registration only. The player has been asked to open
 Settings preview, activate the inert child, use native Back/close/reopen and
-check ordinary pet actions. Visible submenu behavior remains pending. All eight
-payload hashes still matched after startup; the running artifact was unchanged.
+check ordinary pet actions. Visible behavior was still pending at this startup
+checkpoint. All eight payload hashes still matched; the running artifact was unchanged.
+
+### First visible submenu result
+
+The trial logged parent insertion at 19:42:40.404, a supplied caption at
+19:42:41.590 and the requested submenu transition at 19:43:06.723. The player
+then confirmed that the child appears, its activation remains inert, native
+Back/close/reopen work and ordinary manual summoning still works. Two supplied
+screenshots show the parent and Settings preview captions below native paw
+icons, with no duplicated inline name. No stopped-submenu notice appears in
+this retained capture. All eight payload hashes still matched.
+
+This is a successful bounded visible/navigation result for this isolated
+version. Custom texture loading, preference actions, changing pet counts,
+shortcut binding/replay, remapping and controllers remain separate checks.
+The user requested the entry before individual pets, after general companion
+actions. The current running trial still appends it last; its order was not
+changed live.
 
 ### Custom icon follow-up
 
 A separate static audit found a current native texture-loading wrapper and its
 resource retain/release path. Historical shorter loader declarations do not
-match the current callback-object ABI. No custom loader was called, no DDS/PAK
-was created and no shared vanilla texture was replaced. Path acceptance,
-loading readiness, ownership/cleanup and a clean final asset remain unfinished;
-the submenu candidate continues to borrow the native icon.
+match the current callback-object ABI. No custom loader was called and no
+shared vanilla texture was replaced. An original SVG and transparent 256-pixel
+PNG/RGBA32 DDS now exist under `assets/ui/`; independent decoding confirms
+identical PNG/DDS pixels and transparent, opaque and antialiased regions.
+Path acceptance, actual resource readiness, lifetime and in-game appearance
+remain unverified. The submenu trials continue to borrow the native icon.
+
+## Ordered submenu candidate (0.6.0)
+
+The disabled source `tools/quick_menu_order_trial.py` retains the inert parent
+and child behavior of 0.5.0. During a paired native BuildActions invocation it
+inserts the parent immediately before the first depth-one pet or page append
+(actions 46/47), after general companion actions. With no pets/pages, the
+existing builder-completion path appends it after the general actions.
+
+A late vector rotation was rejected: the next native rebuild can otherwise
+interpret the selected custom index as a real pet before the late correction.
+Early construction keeps the rendered order and native selection order equal.
+No index remapping, native item replacement or additional scalar write is used.
+
+The new append callback requires the active builder, native thread and exact
+companion-vector header. The helper rechecks context and the unchanged incoming
+item around construction; it rejects source overlap with any vector allocation
+and a missed first pet. Every custom append uses the current managed original
+trampoline. The resolver verifies ownership, ABI, enabled state and callback
+lists, rejects the patched entry address and refuses a changed trampoline.
+Returning None preserves the incoming native arguments and original result;
+the original pet append still executes once. The pinned binding guard remains
+unchanged and outlives stopped callbacks.
+
+All 309 developer tests passed (including 17 ordering-policy, 26 adapter and
+11 new builder tests). The actual pyMHF 0.2.4 disabled-import check discovered
+six callbacks across four targets and passed five mocked dispatch cases
+(the dispatch-only case uses a synthetic menu snapshot).
+These checks do not install hooks in NMS or prove live behavior.
+
+`tools/build_quick_menu_order_trial.py --enable-order` creates a new isolated
+ten-file artifact with nine hashed payloads and refuses an existing output.
+The prepared artifact is `build/quick-menu-order-trial`; it has not been
+launched. The builder does not launch, deploy or alter the running 0.5.0 trial. The regular player
+mod remains 0.4.2; this trial has no automatic summoning, preference actions or
+custom texture loader. Start only after normal game exit and a fresh verified
+backup. Check the new position, submenu entry/Back/reopen, neighboring pet and
+page actions and duplicate prevention. Hotkey replay/binding, changing pet
+counts, remapped controls, controllers and callback cost remain separate checks.
 
 ## Historical observation-only live sequence
 
