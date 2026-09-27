@@ -552,13 +552,35 @@ checks source syntax and all copied hashes, refuses existing output directories,
 and never launches/deploys. The prepared nine-file artifact passed eight payload
 hash checks and launcher syntax validation; generated main SHA256:
 `017cca120ec65fa5e442d430489758664ed5eb52a4e1e6a44d291e8ad657f5d9`.
-It has not been launched. Before a live trial, exit normally and verify a fresh
-backup. Test opening the parent, seeing/activating the inert child, native Back
+Its first runtime registration is recorded below. Before any new live session,
+exit normally and verify a fresh backup. Test opening the parent,
+seeing/activating the inert child, native Back
 to the parent, repeated open/close, absence of duplicates and neighboring manual
 pet actions. Remapping, controllers, shortcut binding/replay and changing pet
 lists remain separate acceptance scenarios. None's classification does not
 provide every vanilla submenu-preview affordance; do not patch global action
 tables or borrow a gameplay action ID for cosmetic parity.
+
+### First submenu runtime registration
+
+After the player closed the previous trial normally, a new backup of all 43
+profile files was created at 19:41:01 local time on 27 September 2026. Source
+files stayed stable during copying and every backup hash matched. Independent
+preflight confirmed the nine-file inventory, all eight payload hashes and exact
+identity with the committed source, apart from the intended trial enablement.
+
+The new isolated session started at 19:41. Its 19:41:52.878 log reports the
+submenu trial and native binding filter ready; at 19:41:53.004 pyMHF reports
+one Mod and three managed hooks. These three native targets contain four
+callbacks; the separate native binding filter is not included in that count.
+An initial framework warning reported no window handle. A later process check
+found a nonzero window handle and a responding game; this does not itself prove
+the framework refreshed its cached handle or any menu behavior.
+
+This establishes runtime registration only. The player has been asked to open
+Settings preview, activate the inert child, use native Back/close/reopen and
+check ordinary pet actions. Visible submenu behavior remains pending. All eight
+payload hashes still matched after startup; the running artifact was unchanged.
 
 ### Custom icon follow-up
 

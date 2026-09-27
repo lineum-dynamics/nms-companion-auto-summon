@@ -2,6 +2,7 @@
 
 ## Development — native quick-menu investigation
 
+- Launched the isolated 0.5.0-submenu-trial after normal game exit, a fresh hash-verified backup of 43 profile files and independent artifact preflight. At 19:41:52 on 27 September 2026 the native binding guard reported ready, followed by one Mod/three managed hooks. Registration is confirmed; visible submenu/navigation behavior remains pending. All eight payload hashes remained unchanged after startup.
 - Recorded the player's successful inert-item selection, Back/close/reopen and manual companion summoning; the running 0.4.0 trial's seven payload hashes remain unchanged. This does not validate shortcuts, remapping or a custom submenu.
 - Added a separate disabled-by-default 0.5.0-submenu-trial with one inert Settings preview child, empty tile names, paired native activation callbacks and scoped captions. It preserves original arguments/results, native Back and existing bindings, uses native allocation/selection, and never writes the native deferred-selection flag. No preferences, summoning or custom texture are included. All 255 developer tests and the real disabled-framework metadata/mock-dispatch check passed; live submenu behavior remains unverified.
 - Added an isolated nine-file submenu builder with explicit enablement, helper hashes and overwrite refusal. It never launches or deploys. The independent custom-icon loader audit remains a feasibility result; no custom asset loading was performed.
