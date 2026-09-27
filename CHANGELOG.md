@@ -3,7 +3,7 @@
 ## Development — native quick-menu investigation
 
 - Prepared a third, menu-local phase observer to investigate controls completion, binding boundaries and final selection handling without a global input hook, key-state reads or game writes. Source/live validation is recorded separately in `QUICK-MENU.md`; this is not a binding guard or custom menu item.
-- The phase observer passed 34 focused tests and the real pyMHF ABI/owned-buffer check; all 101 diagnostic tool tests passed. Fixed a review-discovered interruption race and verified record cleanup. Its isolated artifact is ready but has not been launched in NMS.
+- The phase observer passed 34 focused tests and the real pyMHF ABI/owned-buffer check; all 101 diagnostic tool tests passed. Fixed a review-discovered interruption race and verified record cleanup. After normal game exit and a fresh verified backup, it loaded in NMS with three native hooks/four callbacks; live phase validation remains pending.
 - Located exact-build construction, append and label paths through static analysis, with remaining action-ID and text-handling constraints documented in `QUICK-MENU.md`.
 - Added a separately enabled developer observer and isolated build tool. It only reads bounded action/depth scalars before natural menu calls; it does not insert entries, summon companions or change preferences.
 - The first observer passed 24 offline tests and real-framework metadata checks, then loaded in the supported game with one hook. It captured companion submenu action 45 at depth 0 and summon action 46 at depth 1; the player confirmed opening the menu and manually summoning a pet. This is not a working custom-menu claim.

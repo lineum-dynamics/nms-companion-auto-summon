@@ -291,9 +291,12 @@ copies of four and 16 bytes. Final source SHA256:
 `1a80c82773367ffb80d45e8498e52c6139fe410de71e7e9eefcb425f6c38d73a`.
 Generated isolated observer SHA256:
 `9cbf0e6c647bb53ee3c84decd4dff996fa31053ed4c6ee88a29fb81273d6f24e`.
-The generated launcher passed PowerShell syntax validation. This stage has not
-yet been launched; its live phase sequence remains unverified. The running
-second observer and the production mod retained their previous hashes.
+The generated launcher passed PowerShell syntax validation. After normal game
+exit and a fresh verified backup, the isolated phase observer loaded at 17:57:41
+local time on 27 September 2026. The framework reports one mod and three native
+hooks, containing the four audited callbacks. This establishes registration;
+the player's live phase sequence remains unverified. The previous observers
+and the production mod retained their previous hashes.
 
 For a live trial, open the companion menu with the player's configured control,
 move among native entries, back out and reopen it. Normal activation/dismissal
