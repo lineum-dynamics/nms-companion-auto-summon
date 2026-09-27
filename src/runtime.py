@@ -185,6 +185,7 @@ class CompanionAutoSummon(Mod):
         self._probe_location = None
         self._probe_physics_context = None
         self._queue_rejection_logged = False
+        self._load_summon_pending = False
         # Mod.__init__ uses inspect.getmembers(self), which evaluates properties.
         # Initialize their backing fields before the framework discovers them.
         super().__init__()
@@ -204,11 +205,11 @@ class CompanionAutoSummon(Mod):
             self.auto_enabled = False
             self.settings_ok = False
             LOGGER.exception("Companion Auto Summon settings unavailable; automation starts OFF. The settings panel can enable it for this session.")
-        LOGGER.info("Companion Auto Summon 0.4.2 experimental: automation %s; use the CompanionAutoSummon settings panel.",
+        LOGGER.info("Companion Auto Summon 0.4.3 experimental: automation %s; use the CompanionAutoSummon settings panel.",
                     "ON" if self.auto_enabled else "OFF")
 
     @property
-    @BOOLEAN("Automatically summon companion after ship exit")
+    @BOOLEAN("Automatically summon companion")
     def automatic_summoning(self):
         if not self.enabled:
             return False
@@ -312,7 +313,7 @@ class CompanionAutoSummon(Mod):
         if self._controls_pending():
             return "Change pending; return to the game to apply and save."
         suffix = "" if self.settings_ok else " (session only)"
-        if self.auto_enabled and self.policy.pending:
+        if self.auto_enabled and (self.policy.pending or self._load_summon_pending):
             return "Waiting for a suitable place" + suffix
         return ("Automatic summoning ON" if self.auto_enabled else "Automatic summoning OFF") + suffix
 
@@ -320,12 +321,12 @@ class CompanionAutoSummon(Mod):
     @STRING("Companion")
     def companion_status(self):
         if self._visible_preferences()["selection_mode"] == "random":
-            return "Random eligible owned companion per exit; manual favorite is preserved."
+            return "Random eligible owned companion per request; manual favorite is preserved."
         slot = self.policy.last_slot
         if slot is not None:
             return f"Selected companion: slot {slot + 1}"
         if self.saved_selection is not None:
-            return "Remembered companion; ownership checked on next ship exit."
+            return "Remembered companion; waiting for ownership verification."
         return "No companion selected. Summon one manually in the game."
 
     def _apply_control(self):
@@ -342,6 +343,7 @@ class CompanionAutoSummon(Mod):
             self.selection_mode_value = requested["selection_mode"]
             self.prefer_same_biome_value = requested["prefer_same_biome"]
         self._finish_exit_diagnostic("cancelled by settings change")
+        self._load_summon_pending = False
         self.policy.enter_ship()  # Cancel pending summons; retain the chosen pet.
         if self.settings_ok:
             try:
@@ -472,6 +474,7 @@ class CompanionAutoSummon(Mod):
     def _app_for_player(self, player):
         app = C.c_void_p.from_address(_internal.BASE_ADDRESS + APPLICATION_PTR_RVA).value
         if not app:
+            self._load_summon_pending = False
             self._finish_exit_diagnostic("cancelled because application context is unavailable")
             self.policy.reset()
             self.app_identity = None
@@ -483,6 +486,7 @@ class CompanionAutoSummon(Mod):
         if app != self.app_identity:
             self._finish_exit_diagnostic("cancelled because application context changed")
             if self.app_identity is not None:
+                self._load_summon_pending = False
                 # A replacement application without an observed successful load
                 # must not inherit the last save's persisted selection.
                 self.save_key = None
@@ -531,6 +535,7 @@ class CompanionAutoSummon(Mod):
 
     def _fail_closed(self):
         self.enabled = False
+        self._load_summon_pending = False
         self._finish_exit_diagnostic("cancelled by runtime error")
         self.policy.reset()
         self.pending_notice = None
@@ -546,6 +551,7 @@ class CompanionAutoSummon(Mod):
                 return
             # The game sets pending=-1 if preparing the pet failed.
             if 0 <= slot < 30 and C.c_int32.from_address(player + PENDING_PET_OFFSET).value == slot:
+                self._load_summon_pending = False
                 previous_identity = self.saved_selection["seed"] if self.saved_selection else None
                 self._finish_exit_diagnostic("cancelled by successful manual companion selection")
                 self.policy.remember(slot)
@@ -560,12 +566,34 @@ class CompanionAutoSummon(Mod):
                     if self.auto_enabled and self.selection_mode_value == "random":
                         self.pending_notice = "Companion Auto Summon: manual favorite saved. Random selection remains ON."
                     elif self.auto_enabled:
-                        self.pending_notice = "Companion Auto Summon: companion selected for automatic summon after ship exit."
+                        self.pending_notice = "Companion Auto Summon: companion selected for automatic summoning."
                     else:
                         self.pending_notice = "Companion Auto Summon: companion selected. Automatic summoning is OFF."
                 LOGGER.info("Companion Auto Summon selected companion slot %d.", slot + 1)
         except Exception:
             self._fail_closed()
+
+    def _arm_automatic_request(self, app, source):
+        """Share the existing timing/placement path across both trigger events."""
+        self._restore_selected(app)
+        self._finish_exit_diagnostic("replaced by " + source)
+        now = time.monotonic()
+        random_selection = self.selection_mode_value == "random"
+        self.policy.eject(now, random_selection=random_selection)
+        if self.policy.pending:
+            self._pending_pet_identity = None if random_selection else self.pet_identity
+            self._exit_diagnostic = {
+                "armed_at": now, "last_time": now, "last_state": None,
+                "wait_logs": 0, "suppressed": False, "observed_waits": set(),
+            }
+            choice = ("one random eligible companion" if random_selection
+                      else f"slot {self.policy.pending_slot + 1}")
+            LOGGER.info("Companion Auto Summon %s armed for %s; stability delay=%.2fs; waiting until a suitable place.",
+                        source, choice, self.policy._delay)
+        elif self.policy.last_slot is None:
+            LOGGER.info("Companion Auto Summon %s not armed: no selected owned companion.", source)
+        else:
+            LOGGER.info("Companion Auto Summon %s not armed: policy rejected the timestamp.", source)
 
     @cas_eject.after
     def after_exit_request(self, ship, player, animate, force_during_communicator):
@@ -574,25 +602,8 @@ class CompanionAutoSummon(Mod):
         try:
             app = self._app_for_player(player)
             if app is not None:
-                self._restore_selected(app)
-                self._finish_exit_diagnostic("replaced by another ship exit")
-                now = time.monotonic()
-                random_selection = self.selection_mode_value == "random"
-                self.policy.eject(now, random_selection=random_selection)
-                if self.policy.pending:
-                    self._pending_pet_identity = None if random_selection else self.pet_identity
-                    self._exit_diagnostic = {
-                        "armed_at": now, "last_time": now, "last_state": None,
-                        "wait_logs": 0, "suppressed": False, "observed_waits": set(),
-                    }
-                    choice = ("one random eligible companion" if random_selection
-                              else f"slot {self.policy.pending_slot + 1}")
-                    LOGGER.info("Companion Auto Summon ship exit armed for %s; stability delay=%.2fs; waiting until a suitable place.",
-                                choice, self.policy._delay)
-                elif self.policy.last_slot is None:
-                    LOGGER.info("Companion Auto Summon ship exit not armed: no selected owned companion.")
-                else:
-                    LOGGER.info("Companion Auto Summon ship exit not armed: policy rejected the exit timestamp.")
+                self._load_summon_pending = False
+                self._arm_automatic_request(app, "ship exit")
         except Exception:
             self._fail_closed()
 
@@ -602,6 +613,7 @@ class CompanionAutoSummon(Mod):
             return
         try:
             if self._app_for_player(player) is not None:
+                self._load_summon_pending = False
                 self._finish_exit_diagnostic("cancelled by entering the ship")
                 self.policy.enter_ship()
         except Exception:
@@ -611,6 +623,7 @@ class CompanionAutoSummon(Mod):
     def before_load(self, player_state, common_data, state_data, network_client, resetting, arg6):
         # Network-client deserialization must not erase the local user's selection.
         if not network_client:
+            self._load_summon_pending = False
             self._finish_exit_diagnostic("cancelled by main save load")
             self.policy.reset()
             self.app_identity = None
@@ -629,6 +642,9 @@ class CompanionAutoSummon(Mod):
             if not common_data:
                 return
             save_id = C.c_uint64.from_address(common_data + SAVE_UNIVERSAL_ID_OFFSET).value
+            # This records one opportunity, not game/pet/physics readiness.
+            # Only a later local ownership update may arm the normal policy.
+            self._load_summon_pending = self.auto_enabled
             if save_id == 0:
                 LOGGER.warning("Companion Auto Summon: save has no persistent ID; selection lasts for this session only.")
                 return
@@ -638,8 +654,8 @@ class CompanionAutoSummon(Mod):
                     self.saved_selection = self.store.load(self.save_key)
                 except SelectionStoreError:
                     self._persistence_failed()
-            # Ownership may still be loading. Resolve the pet only on an exit,
-            # and leave ordinary save loading free of new summon requests.
+            # Ownership may still be loading. No native summon or placement
+            # operation is permitted during this deserialization callback.
         except Exception:
             self._fail_closed()
 
@@ -659,11 +675,58 @@ class CompanionAutoSummon(Mod):
         except Exception:
             self._fail_closed()
 
+    def _prepare_loaded_summon(self, app, owner, player, dt):
+        """Consume one load opportunity after observing a usable local context."""
+        if not self._load_summon_pending:
+            return
+        preview = C.c_int32.from_address(owner + PET_PREVIEW_OFFSET).value
+        emote = C.c_ubyte.from_address(owner + PET_EMOTE_OFFSET).value
+        active = C.c_int32.from_address(app + ACTIVE_PET_OFFSET).value
+        queued = C.c_int32.from_address(player + PENDING_PET_OFFSET).value
+        # Observe overrides even while paused, outside an allowed location,
+        # or before the saved companion has reappeared in the ownership table.
+        if (preview != -1 or emote != 0 or active != -1 or queued != -1
+                or self.policy.pending):
+            self._load_summon_pending = False
+            self._reset_probe()
+            return
+        location = C.c_int32.from_address(app + LOCATION_OFFSET).value
+        if location in SUPPORTED_SUMMON_LOCATIONS and location not in self.allowed_locations:
+            self._load_summon_pending = False
+            self._reset_probe()
+            return
+        if not math.isfinite(dt) or dt <= 0 or location not in SUPPORTED_SUMMON_LOCATIONS:
+            self._reset_probe()
+            return
+        if self.selection_mode_value == "last_manual":
+            if self.saved_selection is None and self.policy.last_slot is None:
+                self._load_summon_pending = False
+                self._reset_probe()
+                return
+            now = time.monotonic()
+            if not math.isfinite(now):
+                raise RuntimeError("Invalid startup restoration clock")
+            if now < self._next_probe_at:
+                return
+            self._next_probe_at = now + PLACEMENT_PROBE_INTERVAL
+            self._restore_selected(app)
+            if self.policy.last_slot is None:
+                # Absence is not proof of removal while ownership is loading.
+                # Keep the saved identity, never guess its previous slot.
+                return
+        # Consume BEFORE arming. Neither rejection nor later manual dismissal
+        # creates another startup request; normal policy owns any paced retry.
+        self._load_summon_pending = False
+        self._arm_automatic_request(app, "save load")
+
     @cas_pet_owner_update.after
     def after_pet_owner_update(self, owner, dt):
         # Ownership.Update normally resets placement after closing the pet menu.
         # Refresh only after that reset, and check/queue within this same callback.
-        if not self.enabled or not self.auto_enabled or not self.policy.pending:
+        if not self.enabled or not self.auto_enabled:
+            self._load_summon_pending = False
+            return
+        if not self.policy.pending and not self._load_summon_pending:
             return
         # Player.Update applies UI controls. If ownership runs first, an OFF
         # request must prevent automation immediately without doing GUI-thread I/O.
@@ -673,7 +736,10 @@ class CompanionAutoSummon(Mod):
         try:
             player = owner - PET_TABLE_OFFSET + LOCAL_PLAYER_OFFSET
             app = self._app_for_player(player)
-            if app is None or not self.policy.pending:
+            if app is None:
+                return
+            self._prepare_loaded_summon(app, owner, player, dt)
+            if not self.policy.pending:
                 return
             selected = self.policy.pending_slot
             if selected is not None and self._pending_pet_identity != self._pet_seed(app, selected):

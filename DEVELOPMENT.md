@@ -1,6 +1,6 @@
 # Companion Auto Summon development guide
 
-This repository is the canonical development location. Keep installed test copies and prior exports as deployment artifacts, not as competing source trees. The 0.4.2 naming change does not establish new live results.
+This repository is the canonical development location. Keep installed test copies and prior exports as deployment artifacts, not as competing source trees. Record live observations against the exact version; neither the historical 0.4.2 rename nor the new 0.4.3 load trigger inherits earlier gameplay verification.
 
 ## Project rules
 
@@ -13,11 +13,11 @@ This repository is the canonical development location. Keep installed test copie
 
 ## Current implementation
 
-The current candidate is 0.4.2-experimental. It adopts Companion Auto Summon while retaining the gameplay behavior of AutoPet 0.4.1. Its intended target is Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The present development launcher accepts Python 3.11–3.13 x64.
+The current candidate is 0.4.3-experimental. It adds a deferred, one-shot opportunity after a successful local save load to the existing ship-exit behavior. The load-triggered behavior is not yet live-verified. Its intended target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The present development launcher accepts Python 3.11–3.13 x64.
 
 | Component | Responsibility |
 |---|---|
-| `src/policy.py` | Pure timing, pending-exit and cancellation decisions |
+| `src/policy.py` | Shared timing, pending-request and cancellation decisions |
 | `src/persistence.py` | Per-save manual companion identity and atomic local storage |
 | `src/settings.py` | Validated global preferences, schema migration and atomic storage |
 | `src/runtime.py` | Exact-build guards, native callbacks, placement checks, settings panel and HUD |
@@ -28,7 +28,13 @@ The current candidate is 0.4.2-experimental. It adopts Companion Auto Summon whi
 
 Function addresses are relative to the loaded game module. Runtime objects and save identities are obtained from the running game. An exact executable hash guard disables Companion Auto Summon before hook registration on unsupported binaries. This supports portability of the addressing scheme for the same binary; it does not prove second-PC, multiplayer or cross-platform compatibility.
 
-The default mode remembers the last manually summoned pet per save. Random mode uses the native-eligible owned pool, optionally narrowed to the planet's native habitat. Unknown habitat or an empty matching subset falls back to the full eligible pool. A selected pet remains fixed for that exit and does not overwrite the manual favourite. Preference changes cancel pending intent without dismissing an active pet.
+The default mode remembers the last manually summoned pet per save. Random mode uses the native-eligible owned pool, optionally narrowed to the planet's native habitat. Unknown habitat or an empty matching subset falls back to the full eligible pool. A selected pet remains fixed for that request and does not overwrite the manual favourite. Preference changes cancel pending intent without dismissing an active pet.
+
+Successful local `LoadFromData` completion records one deferred opportunity when automation is enabled and common data is available. It makes no native summon, ownership-eligibility or placement function calls. A zero persistent ID still allows a session-only Random opportunity; it does not restore another save's favourite. Network-client loads leave the local context alone, and failed local loads create no opportunity.
+
+The existing local ownership-update callback observes active/queued pets, preview/emote state, location and advancing time before preparing the load request. Last-manual identity restoration retries at the existing 0.5-second pace while the saved companion is unresolved; absence on the first frame is not proof of removal. No saved/manual choice finishes that opportunity without selecting another pet. Random uses the existing eligible pool. Once prepared, the opportunity is consumed before entering the same policy, unchanged 1.5-second stability delay and native placement/queue path used by a ship exit. No new hook, native offset, gameplay limit or preference is required.
+
+Accepted manual selection, ship entry, a real local ship exit, applied preference changes, a later local load, unavailable/replaced application context or a runtime stop cancel or supersede the deferred opportunity. Active/queued pets and preview/emote observations consume it even while paused or outside supported locations. Supported locations disabled by the player cancel it; unsupported locations wait without placement calls. The first application acquisition preserves the opportunity, while a later replacement cannot inherit it. A dismissed pet does not re-arm a completed opportunity; only another successful local load or real ship exit can start one. This contract does not claim that deserialization proves ownership or physics readiness.
 
 GUI callbacks queue preference changes under a lock. The local player callback applies them. Native game operations belong to the established game callbacks, never to an installer or asynchronous GUI thread.
 
@@ -78,7 +84,7 @@ Before a local commit, inspect `git diff` and `git status --short`. Save only th
 
 ## Validation and maintenance
 
-Run `python -B build.py` after changing source fragments. Run meaningful affected tests; the current full offline suite is `python -B -m unittest discover -s tests -v`. The renamed 0.4.2 candidate passed 212 tests: 122 runtime, 34 policy, 24 settings, 14 persistence and 18 launcher. The historical AutoPet 0.4.1 baseline had 211 tests. Tests use simulated native calls and owned buffers; passing them does not verify a game's binary interface or actual spawning.
+Run `python -B build.py` after changing source fragments. Run meaningful affected tests; the current full offline suite is `python -B -m unittest discover -s tests -v`. Version 0.4.3 passed 230 production tests: 140 runtime, 34 policy, 24 settings, 14 persistence and 18 launcher. The separate developer suite passed 341 tests. The real production GUI smoke and actual-folder discovery smoke for the prepared 0.6.2 combined artifact also passed without game access or hook registration. Source hashes and bounded validation claims are recorded in `manifest.json` and the development validation reports. The historical 0.4.2 candidate passed 212 production tests; AutoPet 0.4.1 had 211. Tests use simulated native calls and owned buffers; passing them does not verify a game's binary interface or actual spawning.
 
 The real-framework smoke check separately verifies widget construction and callbacks without hook registration or a game connection. Record the exact source bytes tested. After gameplay changes, collect relevant live evidence for that version, including the player's visible result. Never copy a previous version's live-success flag into a new release merely because its tests pass.
 
@@ -92,7 +98,7 @@ For every behavior or packaging change:
 
 ## Remaining release work
 
-The renamed 0.4.2 candidate has not been launched in NMS; the biome preference introduced in 0.4.1 still needs live validation. Second-PC installation, multiplayer and several placement/control scenarios remain unverified. Historical successes of 0.4.0 and earlier are described separately in the guides.
+The 0.4.3 load-triggered behavior remains live-unverified. Production 0.4.2 was subsequently registered in the combined 0.6.1 play trial, whose log recorded an accepted station queue at 20:18:19; no new visible-pet confirmation accompanies that observation. Earlier statements that 0.4.2 had never launched describe its original rename checkpoint, not the current evidence. The biome preference, second-PC installation, multiplayer and several placement/control scenarios still need live validation. Historical successes of 0.4.0 and earlier are described separately in the guides.
 
 The proposed public installer is a portable, offline bundle with a tested private runtime and a graphical launcher. It has not been built. The existing development venv is not portable and must not be redistributed as if it were self-contained.
 

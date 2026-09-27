@@ -1,6 +1,8 @@
 # Native quick-menu investigation
 
-Status: 27 September 2026. The player mod remains 0.4.2-experimental. A separate,
+Status: 27 September 2026. The source candidate is 0.4.3-experimental, adding a
+deferred summon opportunity after local save load. Its combined 0.6.2 artifact
+has passed offline checks but has not been launched. A separate,
 disabled-by-default developer trial now implements one inert custom item and a
 native binding filter. The player has confirmed visibility, selection, native
 Back/close/reopen and ordinary manual pet summoning in that session. A separate
@@ -724,6 +726,28 @@ This establishes combined registration with automatic summoning enabled.
 The player's next ship exit and menu navigation must still confirm actual
 coexistence and the new visible order. Neither the inert native child nor the
 custom image is a finished preference control.
+
+## Startup summoning in the combined 0.6.2 candidate
+
+The player reported that loading directly on foot, for example in the Nexus,
+did not trigger automation. This matches 0.4.2: only a ship exit armed the
+policy. Production 0.4.3 now records one opportunity after successful local
+save deserialization and handles it in later local ownership callbacks. It
+waits for a supported enabled location, verified ownership and the existing
+native placement/timing path. Native operations are never performed by the
+load callback. The opportunity is consumed before arming; absence alone cannot
+re-arm it after manual dismissal. Settings changes and normal manual/context
+cancellation rules remain effective. No new native target or offset is used.
+
+Combined play trial 0.6.2 copies that production script and the unchanged
+0.6.0 menu into the new folder `build/quick-menu-play-trial-062`. The previous
+running 0.6.1 folder remains hash-identical. All 230 production tests and 341
+developer tests passed. Actual framework checks confirmed the production GUI
+and the combined discovery of two Mods/ten distinct native targets without
+registering hooks or accessing NMS. The new thirteen-file artifact's twelve
+payloads and PowerShell syntax passed preflight. It has not yet been launched;
+startup summoning needs the player's live check without entering/exiting a
+ship, followed by a dismissal check and an ordinary ship-exit regression.
 
 ## Historical observation-only live sequence
 

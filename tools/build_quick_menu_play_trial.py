@@ -38,16 +38,23 @@ README = b"""# Companion Auto Summon combined play trial
 
 This isolated developer bundle runs two mods in one pyMHF host:
 
-- CompanionAutoSummon 0.4.2-experimental: the unchanged automatic-summoning
-  implementation, including its separate preference panel.
+- CompanionAutoSummon 0.4.3-experimental: automatic summoning after loading or
+  ship exit, including its separate preference panel. The production source is
+  copied byte-identically into this bundle.
 - CompanionMenuOrderTrial 0.6.0-order-trial: the ordered native companion
   submenu with one inert Settings preview child and its binding filter.
 
-The bundle version is 0.6.1-play-trial. Coexistence is not yet live-verified.
+The bundle version is 0.6.2-play-trial. This revision is not yet live-verified.
 The menu cannot change a preference. Automatic summoning follows the existing
 preferences; their enabled state and selection mode are not reset or forced.
 Use the CompanionAutoSummon tab in the visible pyMHF window for real settings.
 The native menu icon remains borrowed; no custom texture is loaded here.
+
+When automatic summoning is enabled, loading a save records one pending startup
+intent. The first eligible local-player update handles it through the existing
+selection and placement path, using the current selection mode. No settings
+change is needed to activate this behavior. Deserialization makes no native
+summon calls; eligibility is checked later in the established player callback.
 
 Close NMS normally, preserve progress and verify a fresh backup before starting
 this separate trial. Extract the entire folder and use its
@@ -59,15 +66,15 @@ The package includes no personal data. Existing preferences and manual companion
 identity remain at the absolute LOCALAPPDATA/NMS-AutoPet/settings.json and
 LOCALAPPDATA/NMS-AutoPet/state.json paths. Packaging does not read, edit, reset
 or copy either file, and neither mod writes the game's save files. During play,
-the unchanged production mod can persist its normal local preferences and
+the production mod can persist its normal local preferences and
 manual companion identity. Native ownership, eligibility and placement rules
 still apply; no pets are granted and no gameplay limits are lowered.
 
 Open the quick menu with the configured control and enter companions. The CAS
 entry should follow general companion actions and precede individual pets or
 pet pages. Check Settings preview, native Back, close/reopen and normal manual
-pet actions. Then check automatic summoning after leaving the ship at an
-eligible location, using your current preferences. Do not rebind an occupied
+pet actions. Check automatic summoning after loading at an eligible location
+and after leaving the ship, using your current preferences. Do not rebind an occupied
 shortcut during the initial test. Remapping, controller behavior, changing pet
 lists, shortcut persistence/removal and coexistence still need acceptance tests.
 
@@ -107,7 +114,7 @@ def _launcher(data):
     return text.encode("utf-8")
 
 
-def build(*, enable_menu=False, output_name="quick-menu-play-trial"):
+def build(*, enable_menu=False, output_name="quick-menu-play-trial-062"):
     """Create one fresh, checksum-complete folder without executing payloads."""
     if enable_menu is not True:
         raise ValueError("Pass --enable-menu for this combined developer trial")
@@ -137,16 +144,16 @@ def build(*, enable_menu=False, output_name="quick-menu-play-trial"):
     payload["README.md"] = README
 
     current = json.loads((ROOT / "manifest.json").read_text(encoding="utf-8"))
-    if (current["version"] != "0.4.2-experimental"
+    if (current["version"] != "0.4.3-experimental"
             or current["framework"] != "pymhf[gui]==0.2.4"):
         raise ValueError("The play-trial host requires the reviewed production and framework versions")
     manifest = {
         "name": "Companion Auto Summon combined play trial",
-        "version": "0.6.1-play-trial",
+        "version": "0.6.2-play-trial",
         "framework": current["framework"],
         "steam_build": current["steam_build"],
         "supported_nms_exe_sha256": current["supported_nms_exe_sha256"],
-        "purpose": "Unchanged automatic summoning plus the ordered inert menu in one folder-mode host",
+        "purpose": "Automatic summoning after loading or ship exit plus the ordered inert menu in one folder-mode host",
         "observation_only": False,
         "auto_summon": True,
         "preference_actions": False,
@@ -178,7 +185,7 @@ def build(*, enable_menu=False, output_name="quick-menu-play-trial"):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--enable-menu", action="store_true")
-    parser.add_argument("--output-name", default="quick-menu-play-trial")
+    parser.add_argument("--output-name", default="quick-menu-play-trial-062")
     options = parser.parse_args()
     print(json.dumps(build(enable_menu=options.enable_menu,
                            output_name=options.output_name)))

@@ -12,7 +12,7 @@ from pathlib import Path
 import tomllib
 
 
-VERSION = "0.6.1-play-trial"
+VERSION = "0.6.2-play-trial"
 HOST_NAME = "Launch-CompanionAutoSummon-PlayTrial.py"
 BOOTSTRAP_NAME = "Launch-CompanionAutoSummon.py"
 PAYLOAD_FILES = frozenset((
@@ -23,7 +23,7 @@ PAYLOAD_FILES = frozenset((
     "pymhf.toml", "README.md",
 ))
 EXPECTED_MODS = [
-    {"name": "CompanionAutoSummon", "version": "0.4.2-experimental", "path": "CompanionAutoSummon.py"},
+    {"name": "CompanionAutoSummon", "version": "0.4.3-experimental", "path": "CompanionAutoSummon.py"},
     {"name": "CompanionMenuOrderTrial", "version": "0.6.0-order-trial", "path": "CompanionMenuOrderTrial.py"},
 ]
 EXPECTED_CONFIG = {

@@ -2,11 +2,21 @@
 
 Soukromé testovací záznamy uvedené níže jménem souboru jsou uchované mimo Git repozitář a distribuční ZIP. Dokument obsahuje jejich shrnutí; osobní záznamy ani zálohy se nedistribuují.
 
+## Jednorázové vyvolání po načtení ve verzi 0.4.3
+
+Úspěšné načtení lokálního savu zaznamená jednu příležitost, pokud je automatika zapnutá. Během deserializace se nevolá vyvolání ani hledání místa. Následující aktualizace lokálního vlastnictví vyhodnotí povolené místo a původní nativní kontroly. Platí stejné čekání 1,5 sekundy a stejný odstup dvojic kontrol 0,5 sekundy. Nezavádí se nový hook ani neověřená paměťová adresa.
+
+Uložený favorit se obnovuje podle úplné identity, nikoli podle starého slotu. Chybějící záznam při načítání se ověřuje nejvýše dvakrát za sekundu. Náhodný režim využívá stejný vhodný vlastněný soubor kandidátů. Příležitost ukončí již přítomný nebo čekající pet, ruční volba či náhled, nastoupení do lodi, změna nastavení nebo změna kontextu. Po přijatém vyvolání se nepřipravuje znovu při pouhé nepřítomnosti peta.
+
+Nová 0.4.3 zatím čeká na vlastní herní test. Připravuje se v odděleném kombinovaném balíčku 0.6.2 s dosavadním menu; běžící balíček 0.6.1 zůstává beze změny. Log předchozí 0.4.2 v balíčku 0.6.1 zaznamenal zapnutou automatiku a přijatý požadavek na stanici po výstupu z lodi, což nové spuštění po načtení nepotvrzuje.
+
+Prošlo **230/230 testů módu**: 140 runtime, 34 policy, 24 settings, 14 persistence a 18 launcher. Dále prošlo 341 testů vývojových nástrojů, skutečné vytvoření osmi prvků panelu a kontrola společného načítání dvou tříd v pyMHF se 13 callbacky pro 10 různých cílů. Při těchto kontrolách se žádný hook neinstaloval do hry. SHA256 samostatného skriptu 0.4.3 je `87c4b8e44ec85605e5483542344c6addafd8d6ecb171cf0a7a365752419ad8dc`.
+
 ## Přejmenování ve verzi 0.4.2
 
 Schválený název je **Companion Auto Summon**, repozitář `nms-companion-auto-summon`. Nový samostatný skript je `CompanionAutoSummon.py`, spouštěče `Launch-CompanionAutoSummon.py` a `Start-CompanionAutoSummon.ps1`, třída a současná záložka pyMHF `CompanionAutoSummon`. Herní pravidla, RVA, podpisy nativních funkcí, formáty uložených dat a výchozí nastavení zůstávají beze změny. Původní umístění `%LOCALAPPDATA%\NMS-AutoPet` pro preference, ruční volby a vývojový runtime zůstává kvůli kompatibilitě zachováno; samotné přejmenování osobní data nemigruje.
 
-Nový kandidát 0.4.2 ještě nebyl nasazen ani spuštěn ve hře. Jeho vlastní offline výsledky a aktuální kontrolní součty jsou v manifestu a verzovaných výstupech ověření. Níže uvedené výsledky a hash `AutoPet.py` patří výslovně starším verzím včetně 0.4.1; nepřejmenovávají se zpětně. Číslo 211 označuje historický počet testů 0.4.1, nikoli automaticky výsledek nové verze.
+V době původního záznamu ještě kandidát 0.4.2 nebyl spuštěn; následný společný start s menu zaznamenává QUICK-MENU.md. Jeho vlastní offline výsledky zůstávají verzované. Níže uvedené výsledky a hash `AutoPet.py` patří výslovně starším verzím včetně 0.4.1; nepřejmenovávají se zpětně. Číslo 211 označuje historický počet testů 0.4.1, nikoli automaticky výsledek nové verze.
 
 Přejmenovaná 0.4.2 prošla **212/212 offline testy**: 122 runtime, 34 policy, 24 settings, 14 persistence a 18 launcher. Nový regresní test ověřuje zachované preference a ruční volbu v původním datovém umístění. Kontrola skutečného pyMHF 0.2.4 / Dear PyGui 2.3.1 potvrdila jedinou třídu `CompanionAutoSummon` se zděděným `_mod_name`, osm widgetů, sedm callbacků pro šest cílů a nula hotkeys. Hooky nebyly registrovány, viewport nevznikl a hra se nespouštěla ani nepřipojovala. SHA256 vygenerovaného `CompanionAutoSummon.py`: `841c57ee82cd8fee7a4083a63eb846ee78bd6a8a23efcbbf5cef1b49fa96e472`.
 

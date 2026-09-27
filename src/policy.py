@@ -1,7 +1,9 @@
-"""Pure decision policy for summoning an owned pet after leaving a ship.
+"""Pure decision policy for one explicitly triggered owned-companion request.
 
 This module neither reads game state nor calls the game. The adapter supplies
 observations and performs the one returned summon request.
+The adapter uses the same eject/resolve lifecycle for ship exits and successful
+local-load opportunities; observing an absent pet never creates an intent.
 """
 
 import math

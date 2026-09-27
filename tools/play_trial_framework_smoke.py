@@ -181,7 +181,7 @@ def check(bundle_folder):
         "host_direct_folder_dispatch_mocked": True, "hooks_registered": False,
         "game_accessed": False, "user_preferences_accessed": False, "live_verified": False,
     }
-    report = ROOT / "build/validation/menu-play-framework.json"
+    report = ROOT / "build/validation" / f"menu-play-{host.VERSION}-framework.json"
     report.parent.mkdir(parents=True, exist_ok=True)
     report.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
     return result

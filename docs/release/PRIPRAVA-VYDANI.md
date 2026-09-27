@@ -6,37 +6,40 @@ Stav k 27. 9. 2026. Pracovní plán; mód ani stránka nebyly zveřejněné. Hla
 
 Windows x64, Steam NMS build 25442159 / Cosmos 7.04, přesný podporovaný otisk NMS.exe, pyMHF 0.2.4 a Python 3.11–3.13 x64. Další obchody a operační systémy nejsou podmínkou prvního vydání. První veřejné vydání označit jako beta s konkrétními hranicemi ověření.
 
-Funkce pro první vydání: automatické vyvolání vlastního peta po výstupu, poslední ruční volba nebo Random, volitelná preference domovského biomu v Random, volby lokací, zachování nastavení a čekání na vhodné místo. Nové funkce před dokončením ověření nepřidávat. Nativní omezení hry, vlastnictví a umístění zůstávají rozhodující.
+Funkce pro první vydání: automatické vyvolání vlastního peta po výstupu nebo po úspěšném načtení místního savu, poslední ruční volba nebo Random, volitelná preference domovského biomu v Random, volby lokací, zachování nastavení a čekání na vhodné místo. Kandidát 0.4.3 přidává po načtení jednu odloženou příležitost: zpracuje ji až vhodný callback místního hráče se stejným zpožděním a nativními kontrolami jako po výstupu. Během deserializace se nativní vyvolání nevolá. Ruční odvolání peta nespouští opakované automatické vyvolávání. Další funkce před dokončením ověření nepřidávat. Nativní omezení hry, vlastnictví a umístění zůstávají rozhodující.
 
-Požadavek vlastníka: instalace musí být co nejjednodušší a nejspolehlivější. Cílový postup je **rozbalit ZIP a spustit jednu aplikaci**, s vlastním otestovaným prostředím bez ručního Pythonu, pip příkazů a systémových změn. Tento distribuční spouštěč ještě není vytvořený; stávající zdrojový kandidát 0.4.2 je vývojový testovací balíček. Konkrétní požadavky jsou v `INSTALACE-ZADANI.md`.
+Požadavek vlastníka: instalace musí být co nejjednodušší a nejspolehlivější. Cílový postup je **rozbalit ZIP a spustit jednu aplikaci**, s vlastním otestovaným prostředím bez ručního Pythonu, pip příkazů a systémových změn. Tento distribuční spouštěč ještě není vytvořený; stávající zdrojový kandidát 0.4.3 a kombinovaný testovací balíček 0.6.2 jsou vývojové varianty. Konkrétní požadavky jsou v `INSTALACE-ZADANI.md`.
 
-Pořadí práce: připravit a ověřit jednoduché přenosné balení souběžně s herními zkouškami přejmenovaného kandidáta 0.4.2. Test druhého počítače už musí používat finální balení pro hráče.
+Pořadí práce: připravit a ověřit jednoduché přenosné balení souběžně s herními zkouškami kandidáta 0.4.3 v kombinovaném balíčku 0.6.2. Nejbližší zkouška ověří odložené vyvolání po načtení a pokračující souběh s menu. Test druhého počítače už musí používat finální balení pro hráče.
 
 Další potvrzené požadavky: celý zdrojový kód, komentáře a docstringy anglicky; uživatelské překlady odděleně. Lokalizační systém pro všech 14 oficiálních jazyků rozhraní zatím není implementovaný. Je potřeba ověřit i kódování herních potvrzení, zobrazení znaků a přepínání textů panelu. Autoritativní stav a zadání jsou v `CompanionAutoSummon/LOCALIZATION.md`; pravidla průběžné aktualizace dokumentace v `CompanionAutoSummon/DEVELOPMENT.md`.
 
-Uživatel dále požaduje přirozené začlenění do původního rozhraní hry: nenápadná herní potvrzení a nastavení v menu X. Směr popisuje `CompanionAutoSummon/DESIGN.md`. Vlastní položka v menu X zatím není implementovaná a její bezpečné vložení musí projít samostatným ověřením. Neoznačovat nynější panel pyMHF za nativní herní menu. Nejbližší vývojový krok proto zahrnuje ověření menu a textové cesty souběžně s návrhem přenosného spouštěče; finální herní testy se zopakují nad výsledným balíčkem.
+Uživatel dále požaduje přirozené začlenění do původního rozhraní hry: nenápadná herní potvrzení a nastavení v menu X. Směr popisuje `CompanionAutoSummon/DESIGN.md`. Samostatný experiment už vkládá nativní položku a jednu neaktivní podstránku Settings preview; kombinovaný kandidát 0.6.2 ponechává menu modul 0.6.0 beze změny. Podstránka zatím nemění preference. Skutečné nastavení zůstává v panelu pyMHF, který nelze označovat za nativní herní menu. Ověření životního cyklu, zkratek, přemapování a ovladače pokračuje odděleně od připraveného vstupu do podstránky; finální herní testy se zopakují nad výsledným balíčkem.
 
 ## Doložený výchozí stav
 
-- Nový zdrojový kandidát 0.4.2 přejmenovává projekt na Companion Auto Summon; prošel 212 offline testy a kontrolou jedné přejmenované třídy a osmi widgetů ve skutečném pyMHF 0.2.4 / Dear PyGui 2.3.1 bez registrace hooků, připojení ke hře či viewportu. Do hry ještě nasazen nebyl. Zachovává původní cesty `NMS-AutoPet` pro osobní data i vývojové prostředí.
-- Starší kandidát AutoPet 0.4.1 je v trvalé testovací instalaci; v dosavadních podkladech ještě nebyl spuštěn ve hře.
-- Historická verze 0.4.1 prošla 211/211 offline testy a vytvořením/obsluhou osmi widgetů ve skutečném pyMHF / Dear PyGui bez připojení ke hře.
-- Starší 0.4.0 ověřila jeden náhodný výběr a skutečné vyvolání na planetě. Starší 0.3.3 ověřila stanici a obnovení ruční volby po restartu. Tyto výsledky neoznačovat za herní ověření 0.4.1 ani 0.4.2.
-- Existuje ověřená záloha 43 souborů aktuálního profilu před nasazením 0.4.1. Před dalším testovacím spuštěním ověřit, zda od ní nevznikl nový postup; při pochybnosti pořídit čerstvou zálohu při zavřené hře.
-- Poslední Git balíček 0.4.1 měl 21 souborů. Přesný seznam a kontrolní součty nového balíčku 0.4.2 musí odpovídat jeho manifestu; savy, nastavení uživatele, runtime, herní binárky ani osobní logy se do vývojového ZIPu nepřibalují.
+- Stav k 27. 9. 2026: produkční kandidát 0.4.3 prošel 230 offline testy, z toho 140 testy runtime; vývojová sada prošla 341 testy. Kontrola skutečného produkčního GUI i kontrola kombinované složky 0.6.2 s pyMHF prošly mimo hru, bez registrace hooků. Kandidát 0.4.3 ani kombinovaný 0.6.2 zatím ve hře spuštěny nebyly. Původní cesty `NMS-AutoPet` pro osobní data a vývojové prostředí se zachovávají.
+- Dříve téhož dne se produkční 0.4.2 úspěšně zaregistrovala v kombinovaném běhu 0.6.1. Log zaznamenal přijatý požadavek na vyvolání na stanici; viditelné objevení peta hráč nepotvrdil. To dokládá registraci a požadavek, nikoli skutečný spawn ani nové chování 0.4.3.
+- Historický stav před tímto během: 0.4.2 prošla 212 offline testy a kontrolou osmi widgetů ve skutečném pyMHF 0.2.4 / Dear PyGui 2.3.1. Starší AutoPet 0.4.1 prošel 211 offline testy a kontrolou osmi widgetů; jeho preference biomu nebyla herně ověřena. Nasazení 0.4.1 je historický záznam, nikoli popis nynějšího běžícího balíčku.
+- Starší 0.4.0 ověřila jeden náhodný výběr a skutečné vyvolání na planetě. Starší 0.3.3 ověřila stanici a obnovení ruční volby po restartu. Tyto výsledky, uchované před zkouškou 0.6.1 dne 27. 9. 2026, neoznačovat za herní ověření 0.4.3.
+- Historická záloha 43 souborů profilu vznikla před nasazením 0.4.1. Není dokladem aktuální zálohy; před dalším testovacím spuštěním ověřit současný postup a zálohu při zavřené hře.
+- Historický Git balíček 0.4.1 měl 21 souborů. Přesný seznam a kontrolní součty nového kandidáta 0.4.3 i kombinovaného 0.6.2 musí odpovídat jejich vlastním manifestům; savy, nastavení uživatele, runtime, herní binárky ani osobní logy se do vývojového ZIPu nepřibalují.
 
-## 1. Herní test přejmenované 0.4.2 na současném počítači
+## 1. Herní test 0.4.3 v kombinovaném kandidátu 0.6.2
 
 Vést stručný záznam verze, situace, pozorování hráče a odpovídajícího logu. Přijatý požadavek v logu sám nedokládá, že se pet skutečně objevil.
 
 | Pokus | Očekávaný výsledek |
 |---|---|
-| Načtení savu, Random, běžný výstup na planetě | Mód se načte, objeví se nejvýše jeden vlastní způsobilý pet |
+| Načtení místního savu na přípustném místě bez výstupu z lodi | Jedna odložená příležitost použije dosavadní nastavení, stejné zpoždění a nativní kontroly; nejvýše jeden vlastní způsobilý pet |
+| Další běžný výstup na planetě | Dosavadní cesta vyvolání po výstupu zůstane funkční |
+| Ruční odvolání po dokončení požadavku z načtení | Pet se bez nové události opakovaně nevyvolává |
+| Již aktivní pet při načtení nebo nepatřičný/síťový load | Nevznikne duplicitní ani cizí automatické vyvolání |
 | Známý vhodný pet stejného biomu a zapnutá preference | Výběr je ze shodných způsobilých petů; doložit skutečný domovský biom, nestačí vzhled peta |
 | Bez vhodné shody biomu | Proběhne běžný náhodný výběr |
 | Preference biomu OFF | Běžný náhodný výběr; jediný výstup nemusí prokázat náhodné rozložení |
 | Návrat na Last manually selected | Použije se původní ruční favorit, nikoli poslední náhodný výběr |
-| Vypnutí automatiky nebo konkrétní lokace | Další výstup nespustí automatické vyvolání; již vyvolaný pet se násilně neodvolá |
+| Vypnutí automatiky nebo konkrétní lokace | Načtení ani další výstup nespustí zakázané automatické vyvolání; již vyvolaný pet se násilně neodvolá |
 | Běžné ukončení a restart přes Companion Auto Summon | Nastavení a ruční favorit se zachovají |
 | Stanice a Nexus | Vyvolání závisí na původních kontrolách hry; biom nemá ovlivnit výběr |
 | Nevhodné místo, vyčkání přes 20 sekund, přesun na vhodný terén | Tentýž výstup se dokončí až na přípustném místě, bez dalšího nastupování |
@@ -84,4 +87,4 @@ Mód navrhnout zdarma; Donation Points zapnout při splnění podmínek. Dobrovo
 
 Před zveřejněním musí být určen účet autora, hotový funkční soubor pro vyznačený rozsah podpory, finální popis a oprávnění. Teprve potom upload a kontrola veřejné stránky i staženého ZIPu. Současný plán ani textový návrh nepotvrzují schválení Nexusem.
 
-Po dokončení přejmenování a ověření balíčku: při zavřené hře výslovně nasadit 0.4.2, ověřit potřebnou aktuální zálohu a poté běžné spuštění přes nový launcher, načtení savu a kontrolovaný výstup z lodi na planetě v Random se zapnutou preferencí biomu. K potvrzení samotné preference je nutné znát domovské biomy dostupných petů.
+Další připravený krok: po běžném ukončení dosavadní hry a ověření aktuální zálohy použít oddělený kandidát 0.6.2 s produkční 0.4.3. Ověřit jednu odloženou příležitost po načtení bez změny nastavení, poté dosavadní výstup z lodi a souběh s neaktivní podstránkou menu. Tento plán není záznamem provedeného nasazení. K potvrzení samotné preference biomu je nutné znát domovské biomy dostupných petů.

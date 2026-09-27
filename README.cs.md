@@ -1,12 +1,16 @@
-# Companion Auto Summon 0.4.2 — testovací verze
+# Companion Auto Summon 0.4.3 — testovací verze
 
 Tento Git repozitář je hlavní zdrojový projekt. Testovací instalace a ZIP balíčky jsou jeho výstupy; další úpravy vznikají v repozitáři. Postup sestavení a ověření je v [DEVELOPMENT.md](DEVELOPMENT.md).
 
 Pravidla vývoje a architektura jsou v anglickém [DEVELOPMENT.md](DEVELOPMENT.md). Zdrojový kód, komentáře a vývojová diagnostika jsou anglicky. Panel i herní potvrzení jsou zatím pouze anglické; systém překladů dosud neexistuje. Cílové jazyky a zbývající práce popisuje [LOCALIZATION.md](LOCALIZATION.md).
 
-Verze 0.4.2 zavádí schválený název **Companion Auto Summon** místo pracovního AutoPet. Mění názvy skriptů, interních identifikátorů a viditelné označení; zachovává herní pravidla, výchozí hodnoty i formát osobních dat. Záložka se jmenuje **CompanionAutoSummon**, protože pyMHF používá název Python třídy. Tento kandidát ještě nebyl spuštěn v NMS. Aktuální offline výsledky zaznamenává `manifest.json`; výsledky 0.4.1 uvedené níže jsou historické.
+Verze 0.4.3 přidává jednu příležitost k automatickému vyvolání po úspěšném načtení lokálního savu. Pokud se přihlásíš rovnou pěšky například v Nexusu, nemusíš nejprve nastoupit a vystoupit z lodi. Mód počká na povolenou lokaci, ověření vlastnictví a původní kontroly umístění. Během samotného načítání dat žádné nativní vyvolání nevolá. Nové chování zatím čeká na herní ověření; přesné offline výsledky zaznamenává `manifest.json`.
 
-Přejmenovaný kandidát prošel **212 offline testy** a kontrolou skutečného pyMHF 0.2.4 / Dear PyGui 2.3.1: jedna přejmenovaná třída módu, osm prvků nastavení, sedm callbacků pro šest cílů a žádné klávesové zkratky. Hooky nebyly registrovány, hra se nepřipojovala a nevzniklo zobrazovací okno. Samostatný regresní test ověřuje zachované umístění preferencí a ruční volby po přejmenování.
+Aktuální kandidát prošel **230 testy módu** a **341 testy vývojových nástrojů**. Kontrola se skutečným pyMHF ověřila osm prvků panelu i načtení obou tříd v připraveném společném balíčku 0.6.2 bez připojení ke hře. Tyto kontroly nepotvrzují skutečné objevení peta po načtení.
+
+Předchozí verze 0.4.2 zavedla schválený název **Companion Auto Summon** místo pracovního AutoPet. Zachovala herní pravidla, výchozí hodnoty i formát osobních dat. Záložka se jmenuje **CompanionAutoSummon**, protože pyMHF používá název Python třídy. Verze 0.4.2 se následně načetla společně s testem menu v balíčku 0.6.1; log potvrdil zapnutou automatiku a přijatý požadavek po výstupu z lodi na stanici. Tento záznam nepotvrzuje nové chování 0.4.3 ani skutečné zobrazení peta.
+
+Historický kandidát 0.4.2 prošel **212 offline testy** a kontrolou skutečného pyMHF 0.2.4 / Dear PyGui 2.3.1: jedna přejmenovaná třída módu, osm prvků nastavení, sedm callbacků pro šest cílů a žádné klávesové zkratky. Hooky nebyly registrovány, hra se nepřipojovala a nevzniklo zobrazovací okno. Samostatný regresní test ověřuje zachované umístění preferencí a ruční volby po přejmenování.
 
 Automatické vyvolání vybraného peta po výstupu z lodi tam, kde ho dovolí hra. Výběr i zapnutí/vypnutí se pamatují po restartu. Obsahuje panel nastavení a krátké potvrzení výběru.
 
@@ -32,26 +36,28 @@ První automatické vyvolání ve verzi 0.3.1 selhalo vypršením čekání. Ver
 
 Po spuštění přes Companion Auto Summon se otevře samostatné okno **pyMHF**. Přepni se do něj přes **Alt+Tab** a vyber záložku **CompanionAutoSummon**. Není to položka v nativním menu NMS.
 
-- **Automatically summon companion after ship exit**: zapne nebo vypne automatiku. Výchozí stav je zapnuto.
+- **Automatically summon companion**: zapne nebo vypne automatiku po načtení savu i po výstupu z lodi. Výchozí stav je zapnuto.
 - Tři samostatná zaškrtávátka dovolují automatiku na planetách, vesmírných stanicích a v Nexusu. Výchozí stav všech je zapnuto. Vypnutí všech míst znamená, že se nikde automaticky nevyvolává.
 - **Companion selection** nabízí **Last manually selected** a **Random**. Výchozí je poslední ruční volba. Náhodný režim vybírá pouze z vlastních petů, které dovolí nativní kontrola hry.
 - **Prefer same biome in Random mode**: výchozí zapnuto. V náhodném režimu na planetě upřednostní shodné domovské prostředí mezi již vhodnými pety. Vypnutí vrátí běžný náhodný výběr; stejný výběr se použije i při neznámém biomu nebo bez shody. Preference nemění herní způsobilost petů.
 - **Status**: aktuální stav včetně **Waiting for a suitable place** (čekání na vhodné místo), případně informace, že změna čeká na návrat do hry nebo platí jen pro tuto relaci.
 - **Companion**: vybraný slot, uložená volba čekající na ověření vlastnictví nebo zapnutý náhodný režim. V režimu poslední ruční volby se při prázdném výběru zobrazí výzva k prvnímu ručnímu vyvolání.
 
-Změna se provede a uloží při další aktualizaci lokálního hráče; vrať se tedy do hry před jejím ukončením. Změna nastavení zruší čekající automatické vyvolání a ponechá již přítomného peta. Zapnutí nebo změna režimu samo nic nevyvolá — automatika počká na další výstup z lodi. Mód nezavádí vlastní klávesovou zkratku.
+Změna se provede a uloží při další aktualizaci lokálního hráče; vrať se tedy do hry před jejím ukončením. Změna nastavení zruší čekající automatické vyvolání a ponechá již přítomného peta. Zapnutí nebo změna režimu samo nic nevyvolá — automatika počká na další výstup z lodi nebo nové načtení savu. Mód nezavádí vlastní klávesovou zkratku.
 
-V režimu poslední ruční volby nemá nový hráč žádného předvybraného peta. Jednou ručně vyvolej vlastního společníka. Mód při novém výběru požádá hru o třísekundové textové potvrzení **Companion Auto Summon: companion selected for automatic summon after ship exit.** Při vypnuté automatice zpráva potvrdí výběr a uvede, že automatika je OFF. V náhodném režimu potvrdí uloženého ručního favorita a připomene, že náhodný výběr zůstává zapnutý. Stejnou volbu při opakovaném vyvolání ani obnovení po restartu znovu neoznamuje. Hlášky a panel jsou v angličtině pro sdílený balíček. Volba Random už byla úspěšně použita v herní relaci; skutečné zobrazení HUD hlášek a zbývající prvky panelu ještě potřebují ověření.
+V režimu poslední ruční volby nemá nový hráč žádného předvybraného peta. Jednou ručně vyvolej vlastního společníka. Mód při novém výběru požádá hru o třísekundové textové potvrzení **Companion Auto Summon: companion selected for automatic summoning.** Při vypnuté automatice zpráva potvrdí výběr a uvede, že automatika je OFF. V náhodném režimu potvrdí uloženého ručního favorita a připomene, že náhodný výběr zůstává zapnutý. Stejnou volbu při opakovaném vyvolání ani obnovení po restartu znovu neoznamuje. Hlášky a panel jsou v angličtině pro sdílený balíček. Volba Random už byla úspěšně použita v herní relaci; skutečné zobrazení HUD hlášek a zbývající prvky panelu ještě potřebují ověření.
 
 Při výslovném přepnutí do náhodného režimu není předchozí ruční volba nutná. Hráč však musí vlastnit alespoň jednoho vhodného peta; mód žádného nevytváří ani neodemyká. Náhodná volba nepřepisuje oblíbeného peta zapamatovaného pro režim poslední ruční volby. Tentýž pet může být náhodně vybrán i při následujícím výstupu.
 
 ## Chování
 
-Po výstupu z lodi mód počká na 1,5 sekundy souvislého pobytu v zapnuté a přípustné lokaci: planeta pěšky, vesmírná stanice nebo Nexus v Anomálii. Pokud už není žádný pet aktivní ani čekající a hra dovolí peta i jeho umístění, požádá o vyvolání. Režim poslední ruční volby vyžaduje dříve vybraného vlastního peta; náhodný režim předchozí ruční volbu nepotřebuje. Ruční vyvolání jiného peta nahradí zapamatovaného favorita.
+Po úspěšném načtení lokálního savu nebo výstupu z lodi mód počká na 1,5 sekundy souvislého pobytu v zapnuté a přípustné lokaci: planeta pěšky, vesmírná stanice nebo Nexus v Anomálii. Pokud už není žádný pet aktivní ani čekající a hra dovolí peta i jeho umístění, požádá o vyvolání. Režim poslední ruční volby vyžaduje dříve vybraného vlastního peta; náhodný režim předchozí ruční volbu nepotřebuje. Ruční vyvolání jiného peta nahradí zapamatovaného favorita.
+
+Načtení pouze zaznamená jednu příležitost. Vlastní ověření probíhá až v následných aktualizacích lokálního hráče a vlastnictví petů. Pokud uložený favorit ještě není načtený, mód ověřuje jeho úplnou identitu nejvýše dvakrát za sekundu; nepoužije náhradního peta ze stejného slotu. Chybějící první ruční volba žádného peta nevytvoří. Náhodný režim může fungovat i u savu bez trvalého ID, ale bez zapamatování volby mezi relacemi.
 
 Na platformě archivu nebo jiném nevhodném místě čekání pokračuje bez časového limitu. Původní limit 12 sekund už neplatí. Jakmile dojdeš na vhodné místo, mód může dokončit požadavek z téhož výstupu; nemusíš znovu nastupovat do lodi. Freighter a další lokace, které nativní kontrola této verze hry nepřipouští, nadále vyvolání nedovolují. V nich mód ponechá čekání a nevolá nativní hledání místa ani vyvolání; pokračovat může až v zapnuté a přípustné lokaci. Vstup do podporované lokace, kterou jsi vypnul v nastavení Companion Auto Summon, naopak čekající výstup zruší.
 
-Návrat do lodi, ruční náhled peta nebo související emote, ruční výběr peta, změna nastavení a načtení savu či reset kontextu aplikace čekání zruší. Ukončí ho také již aktivní nebo jiný čekající pet. Samotné načtení savu není spouštěčem. Po přijatém vyvolání mód během chůze nevrací ručně odvolaného peta až do dalšího výstupu z lodi.
+Návrat do lodi, ruční náhled peta nebo související emote, ruční výběr peta, změna nastavení a další načítání savu či reset kontextu aplikace předchozí čekání zruší. Ukončí ho také zjištěný aktivní nebo jiný čekající pet. Jen úspěšné dokončení dalšího lokálního načtení může vytvořit novou příležitost; načítání cizího hráče v multiplayeru ji nevytváří. Po přijatém vyvolání mód během chůze nevrací ručně odvolaného peta až do dalšího výstupu z lodi nebo dalšího načtení savu.
 
 Ověření vyvolání používá nativní hledání umístění včetně běžného herního dosahu. Mód připravuje místo i při zavřeném menu; neoznačuje nevhodné místo za platné. Kontroly tvoří čerstvé dvojice herních aktualizací s odstupem nejméně 0,5 sekundy mezi dvojicemi. Pokud hra požadavek nepřijme, mód počká na novou kontrolu a zkusí znovu téhož vybraného peta. Přijatý požadavek daný výstup dokončí. Čekání na platformě archivu, pozdější nalezení místa a opakování odmítnutého požadavku ještě potřebují herní test.
 

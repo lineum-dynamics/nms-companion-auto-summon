@@ -1102,7 +1102,7 @@ class RuntimePersistenceTests(RuntimeFixture):
             "seed": self.seed(1234).hex(), "slot": 5,
         })
 
-    def test_restart_restores_same_pet_only_after_exit_without_rewriting_file(self):
+    def test_restart_restores_same_pet_after_load_without_rewriting_file(self):
         self.save_choice()
         saved_bytes = self.state_path.read_bytes()
         self.restart()
@@ -1111,15 +1111,16 @@ class RuntimePersistenceTests(RuntimeFixture):
         self.load_save(0xA)
         self.assertIsNone(self.mod.policy.last_slot)
         self.assertFalse(self.mod.policy.pending)
-        self.update(0)
-        self.update(2)
         self.assertEqual(self.queue_calls, [])
-        self.exit(3)
+        self.refresh_placement.assert_not_called()
+        self.update(0)
         self.assertEqual(self.mod.policy.last_slot, 5)
-        self.update(3)
-        self.probe(4.5)
+        self.probe(1.5)
         self.assertEqual(self.queue_calls, [(self.player, 5)])
         self.assertEqual(self.state_path.read_bytes(), saved_bytes)
+        self.set_pending(-1)
+        self.probe(20)
+        self.assertEqual(self.queue_calls, [(self.player, 5)])
 
     def test_two_save_identities_restore_their_own_choices(self):
         self.save_choice(uid=0xA, slot=3, seed=self.seed(100))
@@ -1284,6 +1285,322 @@ class RuntimePersistenceTests(RuntimeFixture):
         self.assertIsNone(self.mod.pending_notice)
         self.update(0)
         self.assertEqual(self.notice_calls, [])
+
+
+class RuntimeStartupSummonTests(RuntimeFixture):
+    """A successful local load grants one deferred request, never a respawn loop."""
+
+    def prepare(self, *, location=3, uid=0xA, slot=5, occupied=True, random_mode=False):
+        identity = self.seed(1234)
+        self.set_pet(slot, identity, occupied=occupied)
+        self.mod.store.remember(f"nms:{uid:016x}", identity, slot)
+        self.set_location(location)
+        if random_mode:
+            self.mod.selection_mode_value = "random"
+        self.load_save(uid)
+        return identity
+
+    def assert_no_native_summon_work(self):
+        self.refresh_placement.assert_not_called()
+        self.can_summon.assert_not_called()
+        self.ownership_eligible.assert_not_called()
+        self.assertEqual(self.queue_calls, [])
+
+    def test_local_load_in_each_supported_location_is_deferred_then_one_shot(self):
+        for location in (2, 3, 14):
+            with self.subTest(location=location):
+                self.setUp()
+                self.prepare(location=location)
+                saved = self.state_path.read_bytes()
+                self.assertTrue(self.mod._load_summon_pending)
+                self.assertFalse(self.mod.policy.pending)
+                self.assert_no_native_summon_work()
+                self.update(0)
+                self.assertFalse(self.mod._load_summon_pending)
+                self.assertTrue(self.mod.policy.pending)
+                self.assertEqual(self.queue_calls, [])
+                self.probe(1.5)
+                self.assertEqual(self.queue_calls, [(self.player, 5)])
+                self.assertEqual(self.queue_reentrancy, [True])
+                self.set_pending(-1)
+                self.set_active(-1)  # A later dismissal must not replay startup.
+                self.probe(100)
+                self.assertEqual(self.queue_calls, [(self.player, 5)])
+                self.assertEqual(self.state_path.read_bytes(), saved)
+
+    def test_loading_and_nonadvancing_frames_cannot_accrue_startup_stability(self):
+        self.prepare(location=4)
+        self.probe(0)
+        self.probe(200)
+        self.set_location(14)
+        for dt in (0, -0.1, float("nan"), float("inf")):
+            self.probe(300, dt=dt)
+        self.assertTrue(self.mod._load_summon_pending)
+        self.assert_no_native_summon_work()
+        self.probe(500)
+        self.assertEqual(self.queue_calls, [])
+        self.probe(501.5)
+        self.assertEqual(self.queue_calls, [(self.player, 5)])
+
+    def test_startup_still_requires_fresh_nonzero_physics_and_native_placement(self):
+        self.prepare(location=14)
+        physics = self.player + self.module.PHYSICS_CONTEXT_OFFSET
+        ctypes.c_uint64.from_address(physics).value = 0
+        self.probe(0)
+        self.probe(2)
+        self.assert_no_native_summon_work()
+        ctypes.c_uint64.from_address(physics).value = 7
+        self.can_summon.return_value = False
+        self.update(3)
+        self.can_summon.assert_not_called()  # This frame only primes native placement.
+        self.update(3.01)
+        self.assertEqual(self.queue_calls, [])
+        self.can_summon.return_value = True
+        self.probe(5)
+        self.assertEqual(self.queue_calls, [(self.player, 5)])
+
+    def test_existing_active_pending_preview_or_emote_consumes_load_even_while_paused(self):
+        for obstruction in ("active", "pending", "preview", "emote", "invalid_active", "invalid_pending"):
+            with self.subTest(obstruction=obstruction):
+                self.setUp()
+                self.prepare(location=4)
+                if obstruction == "active":
+                    self.set_active(7)
+                elif obstruction == "pending":
+                    self.set_pending(7)
+                elif obstruction == "preview":
+                    self.set_preview(7)
+                elif obstruction == "emote":
+                    self.set_preview(-1, 1)
+                elif obstruction == "invalid_active":
+                    self.set_active(30)
+                else:
+                    self.set_pending(-2)
+                self.update(0, dt=0)
+                self.assertFalse(self.mod._load_summon_pending)
+                self.set_active(-1)
+                self.set_pending(-1)
+                self.set_preview(-1)
+                self.set_location(14)
+                self.probe(5)
+                self.probe(10)
+                self.assert_no_native_summon_work()
+
+    def test_manual_accepted_choice_cancels_startup_but_failed_choice_does_not(self):
+        for accepted in (False, True):
+            with self.subTest(accepted=accepted):
+                self.setUp()
+                self.prepare()
+                self.set_pet(7, self.seed(777))
+                self.set_pending(7 if accepted else -1)
+                self.mod.remember_pet(self.player, 7)
+                self.set_pending(-1)
+                self.assertEqual(self.mod._load_summon_pending, not accepted)
+                self.update(0)
+                self.probe(1.5)
+                self.assertEqual(self.queue_calls, [] if accepted else [(self.player, 5)])
+                if accepted:
+                    self.assertEqual(self.mod.policy.last_slot, 7)
+
+    def test_ship_entry_cancels_startup_and_later_exit_creates_only_its_own_request(self):
+        self.prepare()
+        self.mod.before_enter_ship(self.player)
+        self.assertFalse(self.mod._load_summon_pending)
+        self.probe(0)
+        self.probe(5)
+        self.assert_no_native_summon_work()
+        self.exit(10)
+        self.update(10)
+        self.probe(11.5)
+        self.assertEqual(self.queue_calls, [(self.player, 5)])
+
+    def test_real_exit_replaces_unconsumed_load_without_second_automatic_queue(self):
+        self.prepare()
+        self.exit(0)
+        self.assertFalse(self.mod._load_summon_pending)
+        self.update(0)
+        self.probe(1.5)
+        self.set_pending(-1)
+        self.probe(10)
+        self.assertEqual(self.queue_calls, [(self.player, 5)])
+
+    def test_off_or_disabled_location_consumes_load_without_replaying_after_enable(self):
+        for restriction in ("off", "location"):
+            with self.subTest(restriction=restriction):
+                self.setUp()
+                if restriction == "off":
+                    self.mod.auto_enabled = False
+                else:
+                    self.mod.allowed_locations = frozenset({3})
+                self.prepare(location=14)
+                self.probe(0)
+                self.assertFalse(self.mod._load_summon_pending)
+                if restriction == "off":
+                    self.mod.automatic_summoning = True
+                else:
+                    self.mod.nexus = True
+                self.update(2)
+                self.probe(5)
+                self.assert_no_native_summon_work()
+
+    def test_pending_preference_edits_prevent_owner_work_and_applied_edits_cancel_load(self):
+        for preference, value in (("automatic_summoning", False), ("nexus", False),
+                                  ("prefer_same_biome", False),
+                                  ("companion_selection", "random")):
+            with self.subTest(preference=preference):
+                self.setUp()
+                self.prepare(location=14)
+                if preference == "companion_selection":
+                    value = self.module.SelectionMode(value)
+                setattr(self.mod, preference, value)
+                self.mod.after_pet_owner_update(self.owner, 1 / 60)
+                self.assert_no_native_summon_work()
+                self.update(0)
+                self.assertFalse(self.mod._load_summon_pending)
+                self.probe(5)
+                self.assert_no_native_summon_work()
+
+    def test_failed_or_null_common_load_never_arms_and_network_load_preserves_local_intent(self):
+        self.prepare()
+        original = dict(self.mod.saved_selection)
+        self.load_save(0xB, network=True)
+        self.assertTrue(self.mod._load_summon_pending)
+        self.assertEqual(self.mod.saved_selection, original)
+        self.assertEqual(self.mod.save_key, "nms:000000000000000a")
+        self.load_save(0xB, success=False)
+        self.assertFalse(self.mod._load_summon_pending)
+        self.assertIsNone(self.mod.saved_selection)
+        self.mod.before_load(0, 0, 0, False, False, 0)
+        self.mod.after_load(0, 0, 0, False, False, 0, True)
+        self.assertFalse(self.mod._load_summon_pending)
+        self.probe(5)
+        self.assert_no_native_summon_work()
+
+    def test_new_local_load_replaces_pending_save_identity(self):
+        self.prepare(uid=0xA, slot=5)
+        replacement = self.seed(888)
+        self.set_pet(7, replacement)
+        self.mod.store.remember("nms:000000000000000b", replacement, 7)
+        self.load_save(0xB)
+        self.update(0)
+        self.probe(1.5)
+        self.assertEqual(self.queue_calls, [(self.player, 7)])
+        self.assertEqual(self.mod.save_key, "nms:000000000000000b")
+
+    def test_foreign_owner_cannot_consume_local_startup_request(self):
+        self.prepare()
+        self.update(0, player=self.foreign_player)
+        self.assertTrue(self.mod._load_summon_pending)
+        self.assert_no_native_summon_work()
+        self.update(1)
+        self.probe(2.5)
+        self.assertEqual(self.queue_calls, [(self.player, 5)])
+
+    def test_lost_or_replaced_application_cancels_load_before_native_calls(self):
+        for change in ("null", "replacement"):
+            with self.subTest(change=change):
+                self.setUp()
+                self.prepare()
+                self.update(0, dt=0)  # Establish the initial application without arming.
+                self.assertTrue(self.mod._load_summon_pending)
+                if change == "null":
+                    self.app_pointer.value = None
+                else:
+                    self.replacement_buffer = ctypes.create_string_buffer(0x900000)
+                    self.app_pointer.value = ctypes.addressof(self.replacement_buffer)
+                self.update(1)
+                self.assertFalse(self.mod._load_summon_pending)
+                self.assertIsNone(self.mod.save_key)
+                self.assert_no_native_summon_work()
+
+    def test_missing_or_ambiguous_favorite_rechecks_at_bounded_rate_without_slot_guess(self):
+        for condition in ("unoccupied", "replaced", "duplicate"):
+            with self.subTest(condition=condition):
+                self.setUp()
+                identity = self.prepare(occupied=condition != "unoccupied")
+                if condition == "replaced":
+                    self.set_pet(5, self.seed(4321))
+                elif condition == "duplicate":
+                    self.set_pet(7, identity)
+                original = self.state_path.read_bytes()
+                with patch.object(self.mod, "_restore_selected", wraps=self.mod._restore_selected) as restore:
+                    self.update(0)
+                    for now in (0.01, 0.1, 0.2, 0.3, 0.49):
+                        self.update(now)
+                    self.assertEqual(restore.call_count, 1)
+                    self.assertTrue(self.mod._load_summon_pending)
+                    self.assert_no_native_summon_work()
+                    self.update(0.5)
+                    self.assertEqual(restore.call_count, 2)
+                self.set_pet(5, identity, occupied=False)
+                self.set_pet(7, identity)
+                self.update(1)
+                self.probe(2.5)
+                self.assertEqual(self.queue_calls, [(self.player, 7)])
+                self.assertEqual(self.state_path.read_bytes(), original)
+
+    def test_no_favorite_consumes_load_without_creating_identity_or_state_file(self):
+        self.set_pet(5, self.seed(1234))
+        self.load_save(0xA)
+        self.update(0)
+        self.assertFalse(self.mod._load_summon_pending)
+        self.assertIsNone(self.mod.policy.last_slot)
+        self.probe(5)
+        self.assert_no_native_summon_work()
+        self.assertFalse(self.state_path.exists())
+
+    def test_startup_restoration_error_consumes_intent_and_preserves_saved_identity(self):
+        self.prepare()
+        original = self.state_path.read_bytes()
+        with patch.object(self.mod, "_restore_selected", side_effect=RuntimeError("owned restoration failure")), \
+                self.assertLogs("CompanionAutoSummon", level="ERROR"):
+            self.update(0)
+        self.assertFalse(self.mod.enabled)
+        self.assertFalse(self.mod._load_summon_pending)
+        self.assertFalse(self.mod.policy.pending)
+        self.probe(5)
+        self.assert_no_native_summon_work()
+        self.assertEqual(self.state_path.read_bytes(), original)
+
+    def test_zero_persistent_id_allows_random_session_only_but_no_invented_favorite(self):
+        for random_mode in (False, True):
+            with self.subTest(random_mode=random_mode):
+                self.setUp()
+                self.set_pet(5, self.seed(1234))
+                if random_mode:
+                    self.mod.selection_mode_value = "random"
+                with self.assertLogs("CompanionAutoSummon", level="WARNING"):
+                    self.load_save(0)
+                with patch.object(self.module.random, "choice", return_value=5) as choice:
+                    self.update(0)
+                    self.probe(1.5)
+                self.assertEqual(self.queue_calls, [(self.player, 5)] if random_mode else [])
+                self.assertEqual(choice.call_count, int(random_mode))
+                self.assertIsNone(self.mod.save_key)
+                self.assertIsNone(self.mod.saved_selection)
+                self.assertFalse(self.state_path.exists())
+
+    def test_random_startup_retries_same_owned_choice_and_preserves_favorite_in_nexus(self):
+        self.prepare(location=14, random_mode=True)
+        self.set_pet(7, self.seed(777))
+        original = self.state_path.read_bytes()
+        accepted_queue = self.module.cas_queue_pet
+        rejected = Mock(return_value=None)
+        self.module.cas_queue_pet = rejected
+        with patch.object(self.module.random, "choice", return_value=7) as choice, patch.object(
+            self.mod, "_current_planet_biome", side_effect=AssertionError("Nexus must not read biome")
+        ):
+            self.update(0)
+            self.probe(1.5)
+            self.probe(3)
+            self.assertTrue(self.mod.policy.pending)
+            self.assertFalse(self.mod._load_summon_pending)
+            self.module.cas_queue_pet = accepted_queue
+            self.probe(5)
+            choice.assert_called_once()
+        self.assertEqual(self.queue_calls, [(self.player, 7)])
+        self.assertEqual(self.mod.saved_selection["slot"], 5)
+        self.assertEqual(self.state_path.read_bytes(), original)
 
 
 class RuntimePreferencesAndRandomTests(RuntimeFixture):

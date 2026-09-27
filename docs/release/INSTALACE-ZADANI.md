@@ -1,6 +1,10 @@
 # Companion Auto Summon — jednoduchá a spolehlivá instalace
 
-Požadavek vlastníka, 27. 9. 2026. Toto je zadání veřejného balíčku, nikoli popis již hotového installeru. Přejmenovaný zdrojový kandidát 0.4.2 používá Start-CompanionAutoSummon.ps1.
+Požadavek vlastníka, stav k 27. 9. 2026. Toto je zadání veřejného balíčku, nikoli popis již hotového installeru. Zdrojový kandidát 0.4.3 používá Start-CompanionAutoSummon.ps1; oddělený kombinovaný kandidát 0.6.2 spouští produkční automatiku a experimentální menu modul 0.6.0 společně v jednom hostiteli. Ani jedna varianta není hotovým veřejným přenosným instalátorem.
+
+Produkční 0.4.3 přidává jednu odloženou příležitost po úspěšném načtení místního savu vedle dosavadního výstupu z lodi. Vyhodnotí ji až vhodný callback místního hráče se stejným zpožděním a původními pravidly; při deserializaci se nativní vyvolání neprovádí. Dosavadní nastavení zůstává rozhodující a není nutné je měnit. Ruční odvolání nezpůsobuje opakované vyvolávání. Vývojová podstránka Settings preview preference zatím nemění.
+
+Současné ověření: 230 produkčních testů (140 runtime), 341 vývojových testů a kontroly skutečného produkčního GUI i kombinované složky mimo hru prošly. Kandidát 0.4.3 / 0.6.2 ještě ve hře spuštěn nebyl. Historický běh 0.4.2 / 0.6.1 dne 27. 9. 2026 potvrdil registraci modulů a přijatý požadavek na vyvolání na stanici v logu, nikoli hráčem potvrzené objevení peta. Výsledky se nepřenášejí na nové chování ani na budoucí veřejný instalátor.
 
 ## Cílový postup hráče
 
@@ -52,6 +56,7 @@ Oficiální Python popisuje embedded distribuci jako prostředí pro přibalení
 | Zavření okna launcheru během hry | Žádné nečekané ukončení NMS |
 | Běžné ukončení NMS | Korektní ukončení doprovodného procesu |
 | Nová verze balíčku | Zachované preference, bez změny herních savů |
+| Načtení místního savu v 0.4.3, poté ruční odvolání | Jedna způsobilá odložená příležitost podle uložených preferencí; žádné opakované vyvolání po odvolání |
 | Druhý počítač se shodnou hrou | Instalace podle krátkého návodu bez vývojových nástrojů |
 
-Nejdříve ověřit importy a kontrolní režim mimo hru. Potom při zavřené hře po nové záloze otestovat stejný herní scénář přes nový launcher. Úspěch současného vývojového spouštěče se na nové balení automaticky nepřenáší.
+Nejdříve ověřit importy a kontrolní režim mimo hru. Pro připravený vývojový kandidát následuje až po běžném ukončení hry a ověření čerstvé zálohy zkouška 0.4.3 / 0.6.2: načtení, první vhodná příležitost, následný výstup z lodi a souběh s menu. Budoucí veřejné balení musí tyto scénáře zopakovat přes vlastní launcher. Úspěch současného vývojového spouštěče se na nové balení automaticky nepřenáší.

@@ -49,7 +49,7 @@ class PlayTrialBuildTests(unittest.TestCase):
         )))
         self.manifest = self.root / "manifest.json"
         self.manifest.write_text(json.dumps({
-            "version": "0.4.2-experimental", "framework": "pymhf[gui]==0.2.4",
+            "version": "0.4.3-experimental", "framework": "pymhf[gui]==0.2.4",
             "steam_build": "synthetic-build", "supported_nms_exe_sha256": "f" * 64,
         }), encoding="utf-8")
         self.root_patch = patch.object(builder, "ROOT", self.root)
@@ -70,7 +70,7 @@ class PlayTrialBuildTests(unittest.TestCase):
                      for path in self.root.rglob("*") if path.is_file()}
         result = self.build()
         output = Path(result["output"])
-        self.assertEqual(output, self.root / "build/quick-menu-play-trial")
+        self.assertEqual(output, self.root / "build/quick-menu-play-trial-062")
         self.assertEqual(result["files"], 13)
         self.assertFalse(result["launched"])
         self.assertFalse(result["deployed"])
@@ -88,9 +88,9 @@ class PlayTrialBuildTests(unittest.TestCase):
         for name in builder.HELPERS:
             self.assertEqual((output / name).read_bytes(), (self.root / "tools" / name).read_bytes())
         manifest = json.loads((output / "manifest.json").read_text())
-        self.assertEqual(manifest["version"], "0.6.1-play-trial")
+        self.assertEqual(manifest["version"], "0.6.2-play-trial")
         self.assertEqual(manifest["mods"], [
-            {"name": "CompanionAutoSummon", "version": "0.4.2-experimental", "path": builder.PRODUCTION_FILE},
+            {"name": "CompanionAutoSummon", "version": "0.4.3-experimental", "path": builder.PRODUCTION_FILE},
             {"name": "CompanionMenuOrderTrial", "version": "0.6.0-order-trial", "path": builder.MENU_FILE},
         ])
         self.assertTrue(manifest["auto_summon"])
@@ -155,11 +155,13 @@ class PlayTrialBuildTests(unittest.TestCase):
     def test_readme_explains_real_auto_summon_and_inert_menu_without_resetting_preferences(self):
         output = Path(self.build()["output"])
         readme = (output / "README.md").read_text()
-        for phrase in ("two mods", "0.4.2-experimental", "0.6.0-order-trial", "Settings preview",
-                       "Coexistence is not yet live-verified", "not reset or forced",
+        for phrase in ("two mods", "0.4.3-experimental", "0.6.0-order-trial", "Settings preview",
+                       "This revision is not yet live-verified", "not reset or forced",
                        "visible pyMHF window", "no personal data", "absolute LOCALAPPDATA",
                        "neither mod writes the game's save files", "Never hot-reload",
-                       "Exit NMS normally", "fresh backup", "no custom texture"):
+                       "Exit NMS normally", "fresh backup", "no custom texture",
+                       "first eligible local-player update", "current selection mode",
+                       "change is needed", "Deserialization makes no native"):
             self.assertIn(phrase, readme)
 
     def test_personal_data_and_unlisted_source_files_are_not_packaged(self):
@@ -179,7 +181,7 @@ class PlayTrialBuildTests(unittest.TestCase):
         self.assertFalse((output / "unrelated.py").exists())
 
     def test_existing_file_or_directory_is_not_reused(self):
-        output = self.root / "build/quick-menu-play-trial"
+        output = self.root / "build/quick-menu-play-trial-062"
         output.mkdir(parents=True)
         sentinel = output / "keep"
         sentinel.write_bytes(b"prior trial")
@@ -225,7 +227,8 @@ class PlayTrialBuildTests(unittest.TestCase):
 
     def test_production_or_framework_version_drift_is_rejected(self):
         original = json.loads(self.manifest.read_text())
-        for key, value in (("version", "0.5.0"), ("framework", "pymhf[gui]==0.3.0")):
+        for key, value in (("version", "0.4.2-experimental"), ("version", "0.5.0"),
+                           ("framework", "pymhf[gui]==0.3.0")):
             self.manifest.write_text(json.dumps({**original, key: value}))
             with self.subTest(key=key), self.assertRaises(ValueError):
                 self.build()
@@ -239,7 +242,7 @@ class PlayTrialBuildTests(unittest.TestCase):
             return original_write(path, data)
         with patch.object(Path, "write_bytes", failing_write), self.assertRaises(OSError):
             self.build()
-        output = self.root / "build/quick-menu-play-trial"
+        output = self.root / "build/quick-menu-play-trial-062"
         before = {path.name: path.read_bytes() for path in output.iterdir()}
         self.assertTrue(before)
         with self.assertRaises(FileExistsError):

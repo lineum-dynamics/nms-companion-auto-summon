@@ -1,6 +1,6 @@
 {
   "name": "Companion Auto Summon",
-  "version": "0.4.2-experimental",
+  "version": "0.4.3-experimental",
   "date": "2026-09-27",
   "installed_in_game_directory": false,
   "tested_inside_game": false,
@@ -16,23 +16,23 @@
   "selection_mode_control_verified_in_game": false,
   "biome_preference_verified_in_game": false,
   "location_preferences_verified_in_game": false,
-  "gameplay_verification_scope": "0.4.2 renames the project and its runtime identifiers. It has not been launched in NMS; 0.4.1 biome preference also remains pending live validation. Earlier gameplay results are separate historical evidence.",
+  "gameplay_verification_scope": "0.4.3 adds a deferred one-shot automatic summon opportunity after successful local save loading, using existing native ownership, placement and timing checks. This revision has not been launched; earlier runtime and gameplay observations do not verify startup summoning.",
   "supported_summon_locations": {
     "2": "SpaceStation",
     "3": "PlanetOnFoot",
     "14": "Nexus"
   },
-  "previous_live_result": "0.4.0 applied Random and successfully summoned slot 3 from three eligible owned pets on a planet, confirmed by the user; manual favorite slot 1 stayed in runtime. 0.3.3 verified station summoning and restart restoration, 0.3.2 planetary summoning. These observations do not validate the new 0.4.1 biome preference.",
+  "previous_live_result": "0.4.0 applied Random and successfully summoned slot 3 from three eligible owned pets on a planet, confirmed by the user; manual favorite slot 1 stayed in runtime. 0.3.3 verified station summoning and restart restoration, 0.3.2 planetary summoning. These observations do not validate the new 0.4.1 biome preference. In combined play trial 0.6.1, 0.4.2 registered with automation ON and the log recorded an accepted station queue after ship exit at 20:18:19 on 27 September 2026; actual appearance was not separately confirmed.",
   "offline_tests": {
-    "passed": 212,
+    "passed": 230,
     "policy": 34,
     "persistence": 14,
     "settings": 24,
-    "adapter_simulation": 122,
+    "adapter_simulation": 140,
     "host_launcher": 18
   },
   "actual_framework_import_and_gui_properties": "Passed with the real pyMHF 0.2.4 and DearPyGui: eight widgets constructed and preference callbacks exercised with temporary files, no viewport, hook registration, native game calls or game launch",
-  "launcher_validation": "Renamed launcher validated offline only; previous AutoPet 0.4.0 launcher succeeded live. Companion Auto Summon 0.4.2 has not been launched.",
+  "launcher_validation": "Standalone launcher unchanged. 0.4.2 loaded in combined play trial 0.6.1; new 0.4.3 and combined 0.6.2 await their own live checks.",
   "preferences_included": false,
   "manual_selection_path": "%LOCALAPPDATA%/NMS-AutoPet/state.json",
   "preferences_path": "%LOCALAPPDATA%/NMS-AutoPet/settings.json",
@@ -57,7 +57,7 @@
   "files": [
     {
       "path": "CompanionAutoSummon.py",
-      "sha256": "841c57ee82cd8fee7a4083a63eb846ee78bd6a8a23efcbbf5cef1b49fa96e472"
+      "sha256": "87c4b8e44ec85605e5483542344c6addafd8d6ecb171cf0a7a365752419ad8dc"
     },
     {
       "path": "Launch-CompanionAutoSummon.py",
@@ -65,19 +65,19 @@
     },
     {
       "path": "README.md",
-      "sha256": "d64ca4996c06eef7baf788729f693c094f8611cce425bb2d69027c45b3970114"
+      "sha256": "e9ae4d5780e2d003afa049aed0d7078b5f0adb0ebabc40c1202850b13fcdac36"
     },
     {
       "path": "README.cs.md",
-      "sha256": "8f4699d574398a899d4853cb2bc74c9edf1a5e3c80212596054a9a137845c651"
+      "sha256": "f7c720df113ad34b70cd42391676c2d5b3c14f71593ffb69235b1af45db9b9c7"
     },
     {
       "path": "TECHNICKE-OVERENI.md",
-      "sha256": "7bcc83d40161c0de95a57e9d86b33ea42cf06aec209c729cb3e09694bde27b3a"
+      "sha256": "18f67bf18b9bb94846f58323ba685b562aec2d5033544b5a57d96fa4729c78f4"
     },
     {
       "path": "build.py",
-      "sha256": "c9a02728880653ab48b84bab2ed68bae65ae937416e2a55add054f552d1e549f"
+      "sha256": "d49d811ced73a1868647cb981c601fb724bf05f26859eff9b16a4f5a848982d6"
     },
     {
       "path": "Start-CompanionAutoSummon.ps1",
@@ -85,43 +85,43 @@
     },
     {
       "path": "DEVELOPMENT.md",
-      "sha256": "8810dc14102f7fe33b1c9545f7ca8cec36fe05ee56acb1f959da777b049d9756"
+      "sha256": "d1a2d3a0306cefa5362f6791d5cad4d2ce1c5538466a4fbf56d5499be2b27218"
     },
     {
       "path": "LOCALIZATION.md",
-      "sha256": "4eb806df187cc5dabc33332273c793eebbc617eb255682d452164acdf8853f47"
+      "sha256": "dea11fdb322001e43d25d0d29b1fdabf31be8de4b8fa8d48212a62ab02dc7e3b"
     },
     {
       "path": "DESIGN.md",
-      "sha256": "d0232521aa84c3f909f17d721cc49314f5dbec90da1bfe1d757c7f15fd328fd1"
+      "sha256": "9c8586630dae93ab32bb5828c4f525b1ec92029157bef52b641489f0be1d6675"
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "f9567e4e2f60674321dfb180a52e5f18629649d188a83b945535d304883fbff2"
+      "sha256": "6a254589b2cc584c75a6ea1d66e7dd90c3530b72a060345304a3375dee7547c1"
     },
     {
       "path": "ROADMAP.md",
-      "sha256": "5ca74b52c989fbf2f07becb9638914d8629759c30954cd56ad21812937011622"
+      "sha256": "0d9e35f19103210e9a61632b06f28aebbf9826147a7d763a004d23d36bb7eb65"
     },
     {
       "path": "QUICK-MENU.md",
-      "sha256": "4f0d76e4794663b1787bcac19640a2027e13dcaace49451d3e031bffd86a1f8c"
+      "sha256": "04a3524667b5a123fcfa1fe421804a851e4139c9986d46933a59b8dc23c07824"
     },
     {
       "path": "docs/release/PRIPRAVA-VYDANI.md",
-      "sha256": "9f6609285bfb7f87e972883235d628e1f76beffe32e257d9e5289eda567e4015"
+      "sha256": "ec75070dc2b772723ba9e0c293ed6b4c49b07106a80282de8620418f47ec570b"
     },
     {
       "path": "docs/release/INSTALACE-ZADANI.md",
-      "sha256": "03fdc72fe502626b5f3538c3c47b2178ecde0daea8baa707ba42234cc2c46ec0"
+      "sha256": "8ba5b58d3d111eb3879e8b026fe8ec783c22596f9f69cbee9a6bff950d520d0b"
     },
     {
       "path": "docs/release/NEXUS-DESCRIPTION-DRAFT.md",
-      "sha256": "23d8f31e8dd76aa252e29cbc53f60bc5d75382fe5cd854f7981714837cc721e0"
+      "sha256": "1b4b2862cacb0f819174c074279860108fbba7b53ed85acbc31d7f1568528a84"
     },
     {
       "path": "src/policy.py",
-      "sha256": "5ebaf14d5d4b9eda0d679e19a58cc8d92d82cad3b6ba8c4dc6cd4a1d2c6b2d5f"
+      "sha256": "231b47324344edf65ca8eae3ec305cb46af64186aaae136840b6831740e279eb"
     },
     {
       "path": "src/persistence.py",
@@ -133,7 +133,7 @@
     },
     {
       "path": "src/runtime.py",
-      "sha256": "5d4177da5600352dc586cde0c3e093248357f9a7639b44ab0cca1e42e36f29fc"
+      "sha256": "7011e1c2a1482390a15ff8d1ab09a7d282c7cfd4e72d7820eb1207b98664df5a"
     },
     {
       "path": "tests/test_policy.py",
@@ -149,12 +149,14 @@
     },
     {
       "path": "tests/test_runtime.py",
-      "sha256": "44ffb664646836bfb386d5ebec7bd4e63200a2f827abb9292ef4379e05d77156"
+      "sha256": "cdee3fc24a173064f0b6490a484825fab86f4f70d9c3f9324b6022c134984691"
     },
     {
       "path": "tests/test_launcher.py",
       "sha256": "53aaeb57afc7f5b2311c4ef62faf2205dd37d0ff3870f90d863af82d38c92ae7"
     }
   ],
-  "legacy_data_directory": "NMS-AutoPet is intentionally retained for settings, remembered companions and the existing development runtime; schemas and file contents are unchanged."
+  "legacy_data_directory": "NMS-AutoPet is intentionally retained for settings, remembered companions and the existing development runtime; schemas and file contents are unchanged.",
+  "startup_summon_verified_in_game": false,
+  "startup_summon": "One opportunity after successful local save load with automation enabled. No native summon calls during deserialization. Resolve a saved identity or Random through later local ownership updates and existing 1.5-second stability/placement checks; respect active/queued pets, preview, manual choice, ship entry, settings changes and context replacement. Never rearm merely because a pet is absent."
 }
