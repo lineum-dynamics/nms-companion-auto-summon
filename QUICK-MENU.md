@@ -175,8 +175,11 @@ one disabled Mod class, two AFTER callbacks with the audited two-pointer/void
 metadata, no widgets/hotkeys, and successful 4/16/128-byte owned-buffer copies.
 The separate generated observer SHA256 is
 `d752066c87aafb1a10893a8b779e8009bc0a26c85b8dd38963e2430e28405b97`.
-Its launcher passed PowerShell syntax validation. This artifact has not yet
-been launched in NMS; live construction and label observations remain pending.
+Its launcher passed PowerShell syntax validation. After normal game exit and a
+fresh verified backup, it loaded in NMS at 16:15:24 local time on 27 September
+2026: the framework reports one mod and two hooks. This confirms registration;
+the player's menu sequence and live construction/label observations remain
+pending. No observer artifact was replaced while the game was running.
 
 ## Controlled live sequence
 
