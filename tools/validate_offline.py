@@ -22,6 +22,7 @@ def source_hashes():
     files = sorted([
         ROOT / "CompanionAutoSummon.py", ROOT / "Launch-CompanionAutoSummon.py", ROOT / "build.py",
         ROOT / "Start-CompanionAutoSummon.ps1", *ROOT.glob("src/*.py"),
+        ROOT / "cas_compatibility.py", ROOT / "compatibility.json",
         *ROOT.glob("tests/test_*.py"),
     ])
     return {path.relative_to(ROOT).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()

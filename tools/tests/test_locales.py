@@ -1,5 +1,6 @@
 """Scoped catalog and source-drift checks using only temporary authored files."""
 
+import ast
 import hashlib
 import importlib.util
 import json
@@ -23,7 +24,8 @@ class LocaleTests(unittest.TestCase):
         self.addCleanup(temporary.cleanup)
         self.root = Path(temporary.name)
         shutil.copytree(ROOT / "locales", self.root / "locales")
-        for name in ("tools/quick_menu_toggle.py", "tools/quick_menu_item.py", "src/runtime.py"):
+        for name in ("tools/quick_menu_toggle.py", "tools/quick_menu_item.py", "src/runtime.py",
+                     "cas_compatibility.py", "Start-CompanionAutoSummon.ps1"):
             target = self.root / name
             target.parent.mkdir(exist_ok=True)
             shutil.copyfile(ROOT / name, target)
@@ -43,8 +45,8 @@ class LocaleTests(unittest.TestCase):
                   for path in self.root.rglob("*") if path.is_file()}
         report = self.validate()
         self.assertEqual(report["locales"], 14)
-        self.assertEqual(report["keys_per_locale"], 30)
-        self.assertEqual(report["scope"], "native_menu_hud_technology")
+        self.assertEqual(report["keys_per_locale"], 39)
+        self.assertEqual(report["scope"], "native_menu_hud_technology_launcher")
         self.assertEqual(report["translated_drafts"], 13)
         self.assertTrue(report["source_text_verified"])
         self.assertFalse(report["native_runtime_integrated"])
@@ -79,6 +81,85 @@ class LocaleTests(unittest.TestCase):
         with self.assertRaisesRegex(VALIDATOR.CatalogError,
                                     "Stale source fingerprint: fr:tech.recharger.description"):
             self.validate()
+
+    def test_launcher_keys_cover_all_nine_scoped_messages_with_bound_placeholders(self):
+        expected = ("launcher.blocked_title", "launcher.unsupported_game", "launcher.unreadable_game",
+                    "launcher.game_required", "launcher.invalid_package", "launcher.wrong_framework",
+                    "launcher.game_changed", "launcher.game_running", "launcher.preflight_passed")
+        self.assertEqual(VALIDATOR.LAUNCHER_KEYS, expected)
+        for code in VALIDATOR.LOCALES:
+            messages = self.read(code)["messages"]
+            for key in expected:
+                fields = VALIDATOR._placeholders(messages[key]["text"])
+                wanted = {"build": 1} if key == "launcher.unsupported_game" else (
+                    {"version": 1} if key == "launcher.wrong_framework" else {})
+                with self.subTest(code=code, key=key):
+                    self.assertEqual(dict(fields), wanted)
+                    self.assertNotIn("\n", messages[key]["text"])
+                    if code != "en":
+                        self.assertNotEqual(messages[key]["text"], self.read("en")["messages"][key]["text"])
+        self.validate()
+
+    def test_launcher_english_change_invalidates_translation_fingerprints(self):
+        english = self.read("en")
+        entry = english["messages"]["launcher.unsupported_game"]
+        entry["text"] += " New supported-build meaning."
+        entry["source_sha256"] = VALIDATOR.source_fingerprint(entry["text"])
+        self.write("en", english)
+        with self.assertRaisesRegex(VALIDATOR.CatalogError,
+                                    "Stale source fingerprint: fr:launcher.unsupported_game"):
+            self.validate()
+
+    def test_launcher_translation_must_preserve_build_and_version_fields(self):
+        original = self.read("de")
+        for key, old, new in (("launcher.unsupported_game", "{build}", "{version}"),
+                              ("launcher.wrong_framework", "{version}", "")):
+            catalog = json.loads(json.dumps(original))
+            catalog["messages"][key]["text"] = catalog["messages"][key]["text"].replace(old, new)
+            self.write("de", catalog)
+            with self.subTest(key=key), self.assertRaisesRegex(VALIDATOR.CatalogError, "Placeholder mismatch"):
+                self.validate()
+
+    def test_launcher_source_key_and_emergency_fallback_drift_are_rejected(self):
+        path = self.root / "cas_compatibility.py"
+        original = path.read_text(encoding="utf-8")
+        for old, new, message in (("launcher.preflight_passed", "launcher.untracked", "warning keys"),
+                                  ("Companion Auto Summon could not start", "Unknown failure", "fallback"),
+                                  ("The mod package is incomplete or inconsistent. Extract a complete matching package and try again.",
+                                   "Untracked package warning", "fallback")):
+            tree = ast.parse(original)
+            matches = [node for node in ast.walk(tree) if isinstance(node, ast.Constant) and node.value == old]
+            self.assertTrue(matches)
+            for node in matches:
+                node.value = new
+            path.write_text(ast.unparse(tree), encoding="utf-8")
+            with self.subTest(old=old), self.assertRaisesRegex(VALIDATOR.CatalogError, message):
+                self.validate()
+        path.write_text(original, encoding="utf-8")
+
+    def test_launcher_source_is_required_but_never_imported_by_validator(self):
+        path = self.root / "cas_compatibility.py"
+        path.write_text('raise AssertionError("Launcher must never import")\n' +
+                        path.read_text(encoding="utf-8"), encoding="utf-8")
+        self.assertTrue(self.validate()["source_text_verified"])
+        path.unlink()
+        with self.assertRaisesRegex(VALIDATOR.CatalogError, "Cannot inspect source cas_compatibility.py"):
+            self.validate()
+
+    def test_powershell_fallback_and_literal_warning_key_drift_are_rejected(self):
+        path = self.root / "Start-CompanionAutoSummon.ps1"
+        original = path.read_text(encoding="utf-8")
+        for old, new, message in (("Companion Auto Summon could not start", "Untracked failure", "PowerShell recovery fallback"),
+                                  ("The mod package is incomplete or inconsistent. Extract a complete matching package and try again.",
+                                   "Untracked package error", "PowerShell recovery fallback"),
+                                  ("-Key 'launcher.game_running'", "-Key 'launcher.unknown'", "unknown warning keys"),
+                                  ("-Key 'launcher.game_running'", "-Key 'launcher.unknown-key'", "unknown warning keys"),
+                                  ("-Key 'launcher.game_running'", "-Key 'not_a_launcher_key'", "unknown warning keys")):
+            self.assertIn(old, original)
+            path.write_text(original.replace(old, new, 1), encoding="utf-8")
+            with self.subTest(old=old), self.assertRaisesRegex(VALIDATOR.CatalogError, message):
+                self.validate()
+        path.write_text(original, encoding="utf-8")
 
     def test_missing_technology_or_copied_english_technology_is_rejected(self):
         original = self.read("fr")

@@ -1,12 +1,20 @@
 # Companion Auto Summon 0.4.7 — experimental
 
-Prepared **0.8.3-play-trial** adds six original setting icons, the explicit
-`Random: prefer matching biome` label and source-catalog validation. It has
-not launched or deployed; the last installed 0.8.2 folder remains unchanged.
-All **294 production tests and 563 developer tests** passed, along with actual
-pyMHF discovery/dispatch checks outside the game. Fourteen menu/HUD catalogs
-are maintained; the thirteen translations are unreviewed drafts and runtime
-text remains English. See [LOCALIZATION.md](LOCALIZATION.md) for the scope.
+The current source candidate is **0.8.4-play-trial**, retaining production
+**0.4.7** and menu **0.8.3-settings-trial**. It adds guarded host startup and
+nine localized compatibility messages. Final validation passed **329 production
+tests and 633 developer tests**, with no failures or skips. The final bundle
+contains 40 files (39 payloads). A real-framework offline smoke passed, including
+all six controls with temporary preferences and no native hooks or game access.
+Python `--check-only` and Windows PowerShell 5.1 `-CheckOnly` both passed against
+the installed game and runtime without launch, deployment or setup. In-game
+acceptance remains pending. Prepared 0.8.3 and
+the last-launched 0.8.2 folder remain unchanged.
+
+Fourteen catalogs now contain 39 keys. Only the nine launcher compatibility
+messages use them during launch; the thirteen translations remain unreviewed
+drafts. Native menu/HUD text remains English. Full launcher translation and the
+portable public installer are unfinished. See [LOCALIZATION.md](LOCALIZATION.md).
 
 0.8.2 startup registered both Mods and 12 native targets at 23:58:46 on 27 September 2026 after a verified 43-file backup. Automation is ON; all 17 payloads and the existing player files matched. The original DDS was staged and hash-verified. Visible icon/HUD, all six controls and gameplay still need the player's check. Validation: 294 production and 519 developer tests, plus real Windows lease and pyMHF checks.
 
@@ -23,10 +31,10 @@ These leases end when their last operating-system handle closes, including
 after a crash. If process enumeration fails, normal setup refuses to continue.
 
 Production 0.4.7 changes only version metadata from 0.4.6. Installed 0.8.2 retains
-**0.8.0-settings-trial**; prepared 0.8.3 has the same six controls with distinct
-icons. The prior 0.7.1, 0.7.2 and 0.8.0 artifacts remain unchanged. The portable
-public installer and localization are still unfinished; a successful check-only
-run is not an in-game test.
+**0.8.0-settings-trial**. Prepared 0.8.3 introduced the same six controls with
+distinct icons and the explicit `Random: prefer matching biome` label; 0.8.4
+retains that menu unchanged. The prior 0.7.1, 0.7.2 and 0.8.0 artifacts remain
+unchanged. A successful check-only run is not an in-game test.
 
 The combined candidate retains all six existing
 preferences on one native companion settings page: automatic summoning,
@@ -35,7 +43,7 @@ the Space Anomaly. It shares the production preference queue and stored values;
 the temporary desktop panel remains available during development. The new page
 and original paw/arrow icon have not been tested in-game.
 
-The 0.8.3 combined launcher's next launch validates all seven DDS files before
+The current combined launcher's next launch validates all seven DDS files before
 staging them at unique mod paths with NMS closed. No vanilla texture is replaced.
 One natural resource-loading callback attempts registration; a ready custom
 role icon is preferred, with a retained native paw fallback. Notifications use text
@@ -112,7 +120,7 @@ The first automatic summon test in 0.3.1 expired without spawning. Version 0.3.2
 
 ## Supported target
 
-Windows x64, Steam NMS **build 25442159 / Cosmos 7.04**, Python **3.11–3.13 x64**, and **pyMHF 0.2.4**. The exact supported EXE SHA256 is in `manifest.json`. Other game builds, stores and operating systems require additional compatibility work.
+Windows x64, Steam NMS **build 25442159 / Cosmos 7.04**, Python **3.11–3.13 x64**, and **pyMHF 0.2.4**. `compatibility.json` records the supported target; a build gate checks agreement with the host, native declarations and manifest. Other game builds, stores and operating systems require additional compatibility work.
 
 This package contains no personal saves, account credentials, preselected pet or machine-specific installation paths. Each player has their own settings. Unsupported executables are rejected before using unverified addresses.
 
@@ -187,6 +195,20 @@ For normal setup and the first live test, close NMS and back up the current save
 Normal setup refuses to proceed while NMS is running or process enumeration is unavailable, detects Steam libraries, checks the game and packaged script, and creates a private environment under `%LOCALAPPDATA%\NMS-AutoPet\runtime-0.2.4`. It installs `pymhf[gui]==0.2.4`, including GUI dependencies, when needed, requiring internet on first setup, then launches Companion Auto Summon. This development runtime keeps its legacy path to reuse existing dependencies. Fixed session-wide setup and host leases reject a second launch across package folders; they do not use stale lock files or require manual cleanup after a process exits.
 
 An optional `-GameDirectory` argument selects a game folder for preflight checks. It must match the installation used by the active Steam client: pyMHF still launches Steam app 275850.
+
+In 0.8.4, the supported hosts verify the selected executable before importing
+the framework, then verify the executable belonging to the actual target
+process handle before each DLL injection. Startup also rejects unexpected
+framework configuration and foreign `pymhflib` entry points. An unsupported,
+changed or unreadable executable refuses mod activation with an outside-game
+warning; it does not reset preferences or use an unverified native HUD.
+These boundaries are tested offline, not yet in a launched 0.8.4 session.
+
+Compatibility warnings use the Windows UI locale with an optional `-Language`
+override, for example `-Language fr`. This is not game-language detection.
+`-NoDialog` suppresses the warning dialog while retaining console errors;
+`-CheckOnly` also avoids dialogs. Invalid translation data uses a short English
+package-error fallback. Other setup messages still have untranslated English.
 
 Diagnostic logs are written to `logs` beside CompanionAutoSummon.py. The interactive Python console and separate logging window are disabled; the settings panel remains available.
 

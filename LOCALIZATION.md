@@ -2,11 +2,12 @@
 
 ## Status
 
-The offline 0.8.3 work introduces `locales/en.json` as canonical English and
-thirteen translated **unreviewed draft** catalogs. Each now has the same 30 keys:
+`locales/en.json` is canonical English alongside thirteen translated
+**unreviewed draft** catalogs. Each now has the same 39 keys:
 the original 24 cover the native parent title, six settings labels,
-values/statuses, caption formats and current HUD notices; six additional keys
-cover the proposed rechargeable technologies. The biome label is **Random: prefer matching
+values/statuses, caption formats and current HUD notices; six keys cover the
+proposed rechargeable technologies and nine cover launcher compatibility
+messages. The biome label is **Random: prefer matching
 biome**, which only affects Random on planets. This updates source preparation;
 the previously installed 0.8.2 artifact remains unchanged.
 
@@ -14,8 +15,20 @@ The catalogs are **not integrated into the game runtime**. Native text still
 uses the existing English ASCII path. There is no language selector, automatic
 game-language detection, verified non-English rendering or native-language
 terminology review. English and Czech README files remain documentation
-translations. The development panel, launcher and older inert-preview captions
-are outside the current 30-key catalog; this is not whole-application coverage.
+translations. The development panel, other launcher/setup messages and older
+inert-preview captions are outside the current 39-key catalog; this is not
+whole-application coverage.
+
+The prepared launcher compatibility warnings are the first catalog consumer
+in the launch path. Their scope is a blocked-start title, unsupported or
+unreadable executable, missing game selection, invalid package, wrong framework,
+an executable changed during startup, an already running game and a successful
+check-only result. These warnings do not localize every existing launcher
+message. Windows UI locale selection and an explicit locale override belong to
+the launcher implementation; neither identifies the game's selected language.
+The catalogs retain `native_runtime_integrated: false`: native menu/HUD language
+binding and glyph support remain unverified. Launcher rendering and recovery
+behavior require their own tests, separate from catalog consistency.
 
 The technology entries are names, subtitles and descriptions for the working
 names **Companion Link** and **Companion Recharger**. They describe the accepted
@@ -63,7 +76,7 @@ Source: [official Steam store language table](https://store.steampowered.com/app
 
 ## Catalog and validation contract
 
-Each UTF-8 JSON file declares schema version 1, locale, `native_menu_hud_technology` scope,
+Each UTF-8 JSON file declares schema version 1, locale, `native_menu_hud_technology_launcher` scope,
 review status and `native_runtime_integrated: false`. Entries contain display
 `text` and `source_sha256`: SHA256 of that key's exact canonical English UTF-8
 text. English edits invalidate existing fingerprints in every translation.
@@ -71,7 +84,7 @@ Updating a fingerprint must follow an actual meaning/translation review, not
 serve as a way to hide an unchanged stale translation. A matching fingerprint
 proves synchronization only, not translation quality.
 
-`tools/validate_locales.py` requires exactly all fourteen files and all 30 keys,
+`tools/validate_locales.py` requires exactly all fourteen files and all 39 keys,
 rejects duplicate JSON keys, invalid/empty/oversized/control-character text and
 stale hashes, and compares named placeholder names and multiplicities. Placeholders
 are simple text names such as `{label}`, `{value}`, `{status}`, `{state}` and
@@ -96,19 +109,36 @@ builders must consume these catalog values directly rather than maintain a
 second literal copy. Existing menu/HUD source-drift checks remain in place.
 No runtime energy-warning strings are introduced by this addition.
 
+The exported `LAUNCHER_KEYS` tuple identifies the nine `launcher.*` entries.
+Only `launcher.unsupported_game` takes `{build}` and only
+`launcher.wrong_framework` takes `{version}`. They are single-line messages.
+The validator parses `cas_compatibility.py` to compare its literal
+`WARNING_KEYS` tuple and two-entry `WARNING_FALLBACKS` dictionary with the
+catalog. It never imports or executes that helper. The two English recovery
+fallbacks cover the blocked-start title and invalid package so damaged or
+missing catalogs can still produce an understandable error. These intentional
+fallbacks must remain synchronized with canonical English; other warning text
+comes from catalog lookup.
+The PowerShell launcher's two emergency fallback assignments are also checked
+against those same English entries. Literal keys passed to its warning/message
+helpers must belong to the nine-key scope. The check reads source text without
+executing PowerShell.
+
 Run `python -B tools/validate_locales.py` and
 `python -B -m unittest discover -s tools/tests -p test_locales.py`.
 The importable API is `validate(locales_dir=None, source_root=None)`: it returns
 a bounded report or raises `CatalogError`. CLI alternatives are `--locales-dir`
 and `--source-root`. Dependencies are the standard library, catalogs and the
-three inspected files: `src/runtime.py`, `tools/quick_menu_toggle.py` and
-`tools/quick_menu_item.py`. The check must run before build/package output is
+five inspected files: `src/runtime.py`, `tools/quick_menu_toggle.py`,
+`tools/quick_menu_item.py`, `cas_compatibility.py` and
+`Start-CompanionAutoSummon.ps1`. The check must run before build/package output is
 created. It never accesses the game, personal settings or saves.
 
-The eighteen focused tests cover stale hashes, exact file/key sets,
+The focused tests cover stale hashes, exact file/key sets,
 placeholders, bounds, unsupported review claims, undeclared English copies,
 source drift, absence of runtime imports and explicit-path CLI use, including
-technology completeness and meaning-change synchronization. Passing
+technology completeness, launcher placeholders, source-key/fallback drift and
+meaning-change synchronization. Passing
 them establishes data/source consistency, not linguistic or visual acceptance.
 
 ## Future runtime integration

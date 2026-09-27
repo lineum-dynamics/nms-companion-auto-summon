@@ -1,6 +1,6 @@
 # Companion Auto Summon development guide
 
-The next source candidate is **0.8.3-play-trial**, with menu **0.8.3-settings-trial** and unchanged production **0.4.7**. It adds six distinct setting icons, an explicitly Random-only biome caption and build-time catalog validation. It has not launched or deployed. The last launched folder, **0.8.2**, is immutable: its two Mods and 12 targets registered at 23:58:46 on 27 September 2026, after a verified 43-file backup. Native rendering and full controls still await player acceptance. Earlier preparation notes below retain their historical scope.
+The next source candidate is **0.8.4-play-trial**, with unchanged menu **0.8.3-settings-trial** and production **0.4.7**. It adds host compatibility checks, translated failure notices and build-profile consistency validation. It has not launched or deployed. Prepared 0.8.3 and last launched **0.8.2** remain immutable. The latter registered two Mods and 12 targets at 23:58:46 on 27 September 2026, after a verified 43-file backup. Native rendering and full controls still await player acceptance. Earlier preparation notes below retain their historical scope.
 
 This repository is the canonical development location. Keep installed test copies and prior exports as deployment artifacts, not as competing source trees. Record live observations against the exact version; neither the historical 0.4.2 rename nor the new 0.4.3 load trigger inherits earlier gameplay verification.
 
@@ -21,17 +21,43 @@ production and the prepared combined trial. Its pure model, pinned native-data
 builder and six additional technology catalog entries do not gate the current
 mod, consume inventory or write a save. See
 [technology prototype](docs/research/TECHNOLOGY-PROTOTYPE.md) for evidence and
-remaining native transaction/persistence work. The catalogs now contain 30 keys
+remaining native transaction/persistence work. The catalogs now contain 39 keys
 in each of 14 languages; thirteen remain unreviewed drafts.
 
-Update safety includes exact-build refusal and a required final localized
-outside-game warning. The current supported PowerShell/combined paths preflight
-the executable; the direct standalone Python host still relies on the injected
-Mod's later pre-hook disabled latch. Do not describe that direct path as a
-verified pre-injection refusal. Centralizing supported-build profiles and
-finishing all launcher paths are release work, not permission to relax guards.
+All maintained launchers now preflight the selected executable. The standalone
+Python host also validates sibling package hashes and the exact reviewed launch
+configuration. Both Python hosts reject foreign pyMHF libraries and install a
+final guard that obtains the actual target image from the injection handle with
+`QueryFullProcessImageNameW`, checks the chosen path and hashes the executable
+before each DLL loader call. It retains the previous loaded-DLL address check.
+No PID/name reopening or per-handle compatibility cache is used. Native class
+guards remain independent; disk hashes do not prove every mapped byte is intact.
 
-The production source remains **0.4.7-experimental**, used by the last launched **0.8.2-play-trial** and upcoming **0.8.3-play-trial**. The latter carries menu **0.8.3-settings-trial**; the installed 0.8.2 retains menu 0.8.0. Earlier artifacts remain unchanged. The target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The development launcher accepts Python 3.11–3.13 x64.
+Nine scoped compatibility messages now use the fourteen catalogs outside NMS,
+with console output and an optional Windows dialog. Windows UI language is the
+default; `-Language`/`--language` selects a launcher language, and unsupported
+languages fall back to English. Corrupt translation resources use the two
+maintained emergency English package-failure strings. `-NoDialog`/`--no-dialog`
+suppresses dialogs; `-CheckOnly`/`--check-only` performs no setup or launch and
+does not display a dialog. This is not complete launcher or native localization.
+The portable public installer and actual next-session injection remain unverified.
+
+`tools/validate_compatibility.py` compares the host constants, JSON profile,
+manifest, production mapping and framework pin without importing runtime code.
+The combined build and packaging also check generated production, menu/filter
+and technology-prototype targets. Drift stops output creation. Build the separate
+candidate with `python -B tools/build_quick_menu_play_trial.py --enable-menu`.
+
+The final 0.8.4 candidate passed 329 production and 633 developer tests, with
+unchanged sources and no skips. Its 39 payloads plus manifest passed real pyMHF
+folder discovery, Python-only dispatch and all six temporary preference paths.
+Both actual Windows PowerShell 5.1 `-CheckOnly` and Python `--check-only` passed
+against the selected installation/runtime without launch or staging. A native
+Python probe regression covers legacy PowerShell argument quoting; target-path
+tests count UTF-16 units, including non-BMP characters. No new live behavior
+has been verified by these checks.
+
+The production source remains **0.4.7-experimental**, used by the last launched **0.8.2-play-trial** and upcoming **0.8.4-play-trial**. The latter carries menu **0.8.3-settings-trial**; the installed 0.8.2 retains menu 0.8.0. Earlier artifacts remain unchanged. The target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The development launcher accepts Python 3.11–3.13 x64.
 
 The PowerShell launcher's `-CheckOnly` path validates package integrity, the
 supported game and the existing runtime without creating files/directories,

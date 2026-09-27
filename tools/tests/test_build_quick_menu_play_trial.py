@@ -36,6 +36,11 @@ class PlayTrialBuildTests(unittest.TestCase):
         self.guard_host.write_bytes(b'raise AssertionError("guard must not execute")\r\n')
         self.play_host = self.root / "tools" / builder.PLAY_HOST_FILE
         self.play_host.write_bytes(b'raise AssertionError("play host must not execute")\r\n')
+        (self.root / "cas_compatibility.py").write_bytes(b'raise AssertionError("support must not execute")\r\n')
+        (self.root / "compatibility.json").write_bytes(b'{"synthetic":true}\n')
+        (self.root / "locales").mkdir()
+        for code in builder._locale_module.LOCALES:
+            (self.root / "locales" / f"{code}.json").write_bytes(b'{"synthetic":true}\n')
         for name in builder.HELPERS:
             (self.root / "tools" / name).write_bytes(
                 b'raise AssertionError("helper must not execute")\r\n')
@@ -46,8 +51,8 @@ class PlayTrialBuildTests(unittest.TestCase):
             b"$modPath = Join-Path $PSScriptRoot 'CompanionAutoSummon.py'",
             b"$bootstrapPath = Join-Path $PSScriptRoot 'Launch-CompanionAutoSummon.py'",
             b"if (-not (Test-Path -LiteralPath $modPath -PathType Leaf)) { throw 'missing' }",
-            b"foreach ($scriptName in @('CompanionAutoSummon.py', 'Launch-CompanionAutoSummon.py')) {}",
-            b"& $runtimePython $bootstrapPath $modPath",
+            b"foreach ($scriptName in @('CompanionAutoSummon.py', 'Launch-CompanionAutoSummon.py', 'cas_compatibility.py', 'compatibility.json')) {}",
+            b"& $runtimePython $bootstrapPath $modPath @hostOptions",
             b'throw "launcher must not execute"', b"",
         )))
         self.manifest = self.root / "manifest.json"
@@ -63,6 +68,9 @@ class PlayTrialBuildTests(unittest.TestCase):
         locale_patch = patch.object(builder, "validate_locales", return_value={})
         self.locale_validator = locale_patch.start()
         self.addCleanup(locale_patch.stop)
+        profile_patch = patch.object(builder, "validate_compatibility", return_value={})
+        self.profile_validator = profile_patch.start()
+        self.addCleanup(profile_patch.stop)
 
     def build(self, **kwargs):
         return builder.build(enable_menu=True, **kwargs)
@@ -81,13 +89,20 @@ class PlayTrialBuildTests(unittest.TestCase):
             locales_dir=self.root / "locales", source_root=self.root)
         self.assertFalse((self.root / "build").exists())
 
+    def test_inconsistent_compatibility_profile_prevents_all_outputs(self):
+        self.profile_validator.side_effect = ValueError("Unverified native mapping")
+        with self.assertRaisesRegex(ValueError, "Unverified native mapping"):
+            self.build()
+        self.assertFalse((self.root / "build").exists())
+        self.profile_validator.assert_called_once_with(source_root=self.root, developer=True, generated=True)
+
     def test_exact_two_mod_bundle_preserves_sources_and_hashes_all_payloads(self):
         originals = {str(path.relative_to(self.root)): path.read_bytes()
                      for path in self.root.rglob("*") if path.is_file()}
         result = self.build()
         output = Path(result["output"])
-        self.assertEqual(output, self.root / "build/quick-menu-play-trial-083")
-        self.assertEqual(result["files"], 24)
+        self.assertEqual(output, self.root / "build/quick-menu-play-trial-084")
+        self.assertEqual(result["files"], 40)
         self.assertFalse(result["launched"])
         self.assertFalse(result["deployed"])
         self.assertTrue(result["auto_summon"])
@@ -107,7 +122,7 @@ class PlayTrialBuildTests(unittest.TestCase):
         for name in builder.HELPERS:
             self.assertEqual((output / name).read_bytes(), (self.root / "tools" / name).read_bytes())
         manifest = json.loads((output / "manifest.json").read_text())
-        self.assertEqual(manifest["version"], "0.8.3-play-trial")
+        self.assertEqual(manifest["version"], "0.8.4-play-trial")
         self.assertEqual(manifest["mods"], [
             {"name": "CompanionAutoSummon", "version": "0.4.7-experimental", "path": builder.PRODUCTION_FILE},
             {"name": "CompanionMenuOrderTrial", "version": "0.8.3-settings-trial", "path": builder.MENU_FILE},
@@ -120,9 +135,9 @@ class PlayTrialBuildTests(unittest.TestCase):
         self.assertEqual(manifest["steam_build"], "synthetic-build")
         self.assertEqual(manifest["supported_nms_exe_sha256"], "f" * 64)
         entries = manifest["files"]
-        self.assertEqual(len(entries), 23)
+        self.assertEqual(len(entries), 39)
         self.assertEqual({entry["path"] for entry in entries},
-                         {path.name for path in output.iterdir()} - {"manifest.json"})
+                         {path.relative_to(output).as_posix() for path in output.rglob("*") if path.is_file()} - {"manifest.json"})
         for entry in entries:
             self.assertEqual(entry["sha256"], hashlib.sha256((output / entry["path"]).read_bytes()).hexdigest())
 
@@ -147,26 +162,23 @@ class PlayTrialBuildTests(unittest.TestCase):
             b"$bootstrapPath = Join-Path $PSScriptRoot 'Launch-CompanionAutoSummon.py'",
             b"$bootstrapPath = Join-Path $PSScriptRoot 'Launch-CompanionAutoSummon-PlayTrial.py'"
         ).replace(
-            b"@('CompanionAutoSummon.py', 'Launch-CompanionAutoSummon.py')",
+            b"@('CompanionAutoSummon.py', 'Launch-CompanionAutoSummon.py', 'cas_compatibility.py', 'compatibility.json')",
             ("@(" + ", ".join("'" + name + "'" for name in builder.CHECKED_FILES) + ")").encode()
         ).replace(
             b"(Test-Path -LiteralPath $modPath -PathType Leaf)",
             b"(Test-Path -LiteralPath $modPath -PathType Container)"
-        ).replace(
-            b"& $runtimePython $bootstrapPath $modPath",
-            b"& $runtimePython $bootstrapPath $modPath --game-directory $matchingGames[0]"
         )
         self.assertEqual(generated, expected)
-        self.assertEqual(set(builder.CHECKED_FILES), {path.name for path in output.iterdir()}
+        self.assertEqual(set(builder.CHECKED_FILES), {path.relative_to(output).as_posix() for path in output.rglob("*") if path.is_file()}
                          - {"README.md", "manifest.json"})
-        self.assertIn(b"& $runtimePython $bootstrapPath $modPath --game-directory $matchingGames[0]\r\n", generated)
+        self.assertIn(b"& $runtimePython $bootstrapPath $modPath @hostOptions\r\n", generated)
 
     def test_missing_or_duplicate_launcher_marker_fails_before_creation(self):
         original = self.launcher.read_bytes()
         for marker in (
             b"$modPath = Join-Path $PSScriptRoot 'CompanionAutoSummon.py'",
             b"$bootstrapPath = Join-Path $PSScriptRoot 'Launch-CompanionAutoSummon.py'",
-            b"@('CompanionAutoSummon.py', 'Launch-CompanionAutoSummon.py')",
+            b"@('CompanionAutoSummon.py', 'Launch-CompanionAutoSummon.py', 'cas_compatibility.py', 'compatibility.json')",
             b"(Test-Path -LiteralPath $modPath -PathType Leaf)",
         ):
             for changed in (original.replace(marker, b"# changed marker"), original + marker):
@@ -205,7 +217,7 @@ class PlayTrialBuildTests(unittest.TestCase):
         self.assertFalse((output / "unrelated.py").exists())
 
     def test_existing_file_or_directory_is_not_reused(self):
-        output = self.root / "build/quick-menu-play-trial-083"
+        output = self.root / "build/quick-menu-play-trial-084"
         output.mkdir(parents=True)
         sentinel = output / "keep"
         sentinel.write_bytes(b"prior trial")
@@ -221,10 +233,10 @@ class PlayTrialBuildTests(unittest.TestCase):
 
     def test_new_output_name_keeps_earlier_output_immutable(self):
         first = Path(self.build()["output"])
-        before = {path.name: path.read_bytes() for path in first.iterdir()}
+        before = {path.relative_to(first).as_posix(): path.read_bytes() for path in first.rglob("*") if path.is_file()}
         second = Path(self.build(output_name="quick-menu-play-next")["output"])
         self.assertNotEqual(first, second)
-        self.assertEqual(before, {path.name: path.read_bytes() for path in first.iterdir()})
+        self.assertEqual(before, {path.relative_to(first).as_posix(): path.read_bytes() for path in first.rglob("*") if path.is_file()})
 
     def test_invalid_or_escaping_output_name_fails_before_creation(self):
         for name in (None, "../escape", "C:\\escape", "quick-menu-x/y", "quick-menu-x\\y",
@@ -266,7 +278,7 @@ class PlayTrialBuildTests(unittest.TestCase):
             return original_write(path, data)
         with patch.object(Path, "write_bytes", failing_write), self.assertRaises(OSError):
             self.build()
-        output = self.root / "build/quick-menu-play-trial-083"
+        output = self.root / "build/quick-menu-play-trial-084"
         before = {path.name: path.read_bytes() for path in output.iterdir()}
         self.assertTrue(before)
         with self.assertRaises(FileExistsError):

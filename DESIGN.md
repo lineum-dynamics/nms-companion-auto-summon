@@ -8,7 +8,7 @@ Companion Auto Summon should feel consistent with No Man's Sky: familiar control
 
 ## Current state
 
-Upcoming combined 0.8.3 retains production 0.4.7, all six existing preferences
+Upcoming combined 0.8.4 retains production 0.4.7, menu 0.8.3, all six existing preferences
 and 5.5-second confirmations. It adds distinct icons for the six settings and
 uses the original paw/arrow for the parent and notices. Resource registration
 is attempted once in the verified natural loading phase; a retained native paw
@@ -64,8 +64,11 @@ must show a clear localized reason outside the game and distinguish game mismatc
 from framework or package failure. Do not call an unverified HUD to report it,
 overwrite preferences, offer a force-enable bypass, remove technology from saves
 or silently promise an already modified save is safe without its data package.
-The current development launcher has an English refusal and runtime guards;
-the complete localized player-facing flow remains unfinished.
+The current candidate implements nine localized compatibility messages in the
+host, with both preflight and actual-process checks before injection. It keeps
+the native disabled guard. Other launcher text, the final portable installer
+and native language selection remain unfinished. A compatibility refusal must
+not start another game, reset preferences or attempt a native HUD notification.
 
 ## Summoning after loading
 

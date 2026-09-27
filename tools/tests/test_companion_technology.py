@@ -87,7 +87,7 @@ class TechnologyBuilderTests(unittest.TestCase):
         self.output = self.root / "work" / "prototype"
         self.addCleanup(patch.stopall)
         patch.object(BUILDER, "ROOT", self.root).start()
-        for relative in ("tools/validate_locales.py", "tools/quick_menu_toggle.py",
+        for relative in ("cas_compatibility.py", "Start-CompanionAutoSummon.ps1", "tools/validate_locales.py", "tools/quick_menu_toggle.py",
                          "tools/quick_menu_item.py", "src/runtime.py"):
             target = self.root / relative
             target.parent.mkdir(parents=True, exist_ok=True)

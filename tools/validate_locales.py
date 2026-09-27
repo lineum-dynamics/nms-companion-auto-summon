@@ -1,4 +1,4 @@
-"""Offline validation of menu/HUD/technology drafts; never imports the runtime.
+"""Offline validation of scoped translation drafts; never imports the runtime.
 
 This checks catalog structure, English source fingerprints and current English
 presentation. It does not select a language, render glyphs or validate wording.
@@ -22,14 +22,17 @@ MENU_KEYS = ("menu.automation", "menu.selection", "menu.biome", "menu.planets",
              "menu.space_stations", "menu.space_anomaly")
 TECHNOLOGY_KEYS = ("tech.link.name", "tech.link.subtitle", "tech.link.description",
                    "tech.recharger.name", "tech.recharger.subtitle", "tech.recharger.description")
-SCOPE = "native_menu_hud_technology"
+LAUNCHER_KEYS = ("launcher.blocked_title", "launcher.unsupported_game", "launcher.unreadable_game",
+                "launcher.game_required", "launcher.invalid_package", "launcher.wrong_framework",
+                "launcher.game_changed", "launcher.game_running", "launcher.preflight_passed")
+SCOPE = "native_menu_hud_technology_launcher"
 KEYS = frozenset(("menu.parent_title", *MENU_KEYS, "value.on", "value.off",
                   "value.last_selected", "value.random", "status.pending",
                   "status.session_only", "status.unavailable", "status.stopped",
                   "format.setting", "format.with_status", "hud.automation_state",
                   "hud.settings_updated", "hud.session_suffix", "hud.companion_saved",
                   "hud.companion_session", "hud.auto_off_suffix", "hud.random_on_suffix",
-                  *TECHNOLOGY_KEYS))
+                  *TECHNOLOGY_KEYS, *LAUNCHER_KEYS))
 UNCHANGED_ALLOWED = frozenset(("menu.parent_title", "format.setting", "format.with_status",
                                "hud.automation_state"))
 TOP_KEYS = frozenset(("schema_version", "locale", "scope", "review_status",
@@ -177,6 +180,27 @@ def _evaluate_notice(expression, environment):
 
 
 def _check_sources(english, source_root):
+    compatibility = _tree(source_root / "cas_compatibility.py")
+    _require(_assignment(compatibility, "WARNING_KEYS") == LAUNCHER_KEYS,
+             "Launcher warning keys differ from catalog scope")
+    _require(_assignment(compatibility, "WARNING_FALLBACKS") == {
+        "launcher.blocked_title": english["launcher.blocked_title"],
+        "launcher.invalid_package": english["launcher.invalid_package"]},
+        "Launcher recovery fallback differs from English catalog")
+    try:
+        powershell = (source_root / "Start-CompanionAutoSummon.ps1").read_text(encoding="utf-8")
+    except (OSError, UnicodeError) as error:
+        raise CatalogError("Cannot inspect source Start-CompanionAutoSummon.ps1") from error
+    _require(len(powershell) <= 100_000, "PowerShell launcher exceeds source-check bound")
+    for variable, key in (("fallbackTitle", "launcher.blocked_title"),
+                          ("fallbackBody", "launcher.invalid_package")):
+        values = re.findall(r"^[ \t]*\$" + variable + r"[ \t]*=[ \t]*'([^'\r\n]*)'[ \t]*$",
+                            powershell, re.MULTILINE | re.IGNORECASE)
+        _require(values == [english[key]], "PowerShell recovery fallback differs from English catalog")
+    calls = re.findall(r"(?:Throw-LauncherCompatibility|Get-LauncherMessage)\s+-Key\s+(['\"])([^'\"\r\n]*)\1",
+                       powershell, re.IGNORECASE)
+    _require(bool(calls) and all(key in LAUNCHER_KEYS for _quote, key in calls),
+             "PowerShell launcher contains unknown warning keys")
     menu = _tree(source_root / "tools/quick_menu_toggle.py")
     item = _tree(source_root / "tools/quick_menu_item.py")
     _require(_assignment(item, "DEFAULT_LABEL") == english["menu.parent_title"], "Parent title differs from English catalog")

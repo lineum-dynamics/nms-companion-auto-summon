@@ -10,9 +10,18 @@ import hashlib
 from importlib import metadata, util
 from pathlib import Path
 import tomllib
+import sys
+
+# Source tooling lives in tools/; an exported bundle has this helper beside it.
+_support_directory = Path(__file__).resolve().parent
+if not (_support_directory / "cas_compatibility.py").is_file():
+    _support_directory = _support_directory.parent
+if str(_support_directory) not in sys.path:
+    sys.path.insert(0, str(_support_directory))
+import cas_compatibility as compatibility
 
 
-VERSION = "0.8.3-play-trial"
+VERSION = "0.8.4-play-trial"
 HOST_NAME = "Launch-CompanionAutoSummon-PlayTrial.py"
 BOOTSTRAP_NAME = "Launch-CompanionAutoSummon.py"
 PAYLOAD_FILES = frozenset((
@@ -24,6 +33,9 @@ PAYLOAD_FILES = frozenset((
     "AUTOMATION.DDS", "SELECTION.DDS", "BIOME.DDS", "PLANET.DDS", "STATION.DDS", "ANOMALY.DDS",
     HOST_NAME, BOOTSTRAP_NAME, "Start-CompanionAutoSummon.ps1",
     "pymhf.toml", "README.md",
+    "cas_compatibility.py", "compatibility.json",
+    *(f"locales/{code}.json" for code in ("en", "fr", "it", "de", "es-ES", "nl", "ja", "ko",
+                                         "pl", "pt-PT", "pt-BR", "ru", "zh-Hans", "zh-Hant")),
 ))
 EXPECTED_MODS = [
     {"name": "CompanionAutoSummon", "version": "0.4.7-experimental", "path": "CompanionAutoSummon.py"},
@@ -59,6 +71,8 @@ def validate_bundle(folder):
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     if (not isinstance(manifest, dict) or manifest.get("version") != VERSION
             or manifest.get("framework") != "pymhf[gui]==0.2.4"
+            or manifest.get("supported_nms_exe_sha256") != compatibility.SUPPORTED_GAME_SHA256
+            or manifest.get("steam_build") != compatibility.STEAM_BUILD
             or manifest.get("auto_summon") is not True
             or manifest.get("preference_actions") is not True
             or manifest.get("preference_keys") != ["enabled", "selection_mode", "prefer_same_biome", "locations"]
@@ -77,13 +91,15 @@ def validate_bundle(folder):
                 or any(character not in "0123456789abcdef" for character in digest)):
             raise BundleError("The play-trial manifest has an invalid checksum entry.")
         path = bundle / name
-        if not path.is_file() or path.resolve(strict=True).parent != bundle:
+        if not path.is_file() or path.resolve(strict=True) != bundle / name:
             raise BundleError("A required file is outside the play-trial folder or missing.")
         if hashlib.sha256(path.read_bytes()).hexdigest() != digest:
             raise BundleError("A required play-trial file does not match its checksum.")
         checked.add(name)
     if checked != PAYLOAD_FILES:
         raise BundleError("The play-trial manifest is incomplete.")
+    if json.loads((bundle / "compatibility.json").read_text(encoding="utf-8")) != compatibility.PROFILE:
+        raise BundleError("The play-trial compatibility profile differs.")
     # pyMHF folder discovery scans the root and one child-directory level.
     # Reject unlisted Python files instead of allowing another mod to load.
     discovered = {path.relative_to(bundle).as_posix() for path in bundle.glob("*.py")}
@@ -178,10 +194,14 @@ def _prepare_icon_asset(bundle, game_directory):
     if not isinstance(expected, str) or len(expected) != 64:
         raise BundleError("A supported executable checksum is required before asset setup.")
     if not _game_closed():
-        raise BundleError("Close NMS normally before preparing its icon asset.")
-    with binary.open("rb") as stream:
-        if hashlib.file_digest(stream, "sha256").hexdigest() != expected:
-            raise BundleError("The explicit game directory has an unsupported executable.")
+        raise compatibility.CompatibilityError("launcher.game_running")
+    try:
+        with binary.open("rb") as stream:
+            actual_hash = hashlib.file_digest(stream, "sha256").hexdigest()
+    except OSError:
+        raise compatibility.CompatibilityError("launcher.unreadable_game") from None
+    if actual_hash != expected:
+        raise compatibility.CompatibilityError("launcher.game_changed")
     spec = util.spec_from_file_location("_cas_play_icon_asset_installer", bundle / "quick_menu_assets.py")
     module = util.module_from_spec(spec)
     spec.loader.exec_module(module)
@@ -192,23 +212,40 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("bundle_folder", help="Absolute folder containing this isolated play trial")
     parser.add_argument("--game-directory", required=True, help="Absolute verified Steam game directory")
+    parser.add_argument("--language", help="Launcher language; defaults to the Windows UI language")
+    parser.add_argument("--no-dialog", action="store_true", help="Write failure text without a modal dialog")
+    parser.add_argument("--check-only", action="store_true", help="Validate without asset staging or game startup")
     args = parser.parse_args(argv)
-    bundle, config = validate_bundle(args.bundle_folder)
-    if metadata.version("pymhf") != "0.2.4":
-        raise BundleError("The play trial requires pyMHF 0.2.4.")
-    if tuple(metadata.entry_points().select(group="pymhflib")):
-        raise BundleError("The play-trial runtime must not load additional pyMHF libraries.")
-    bootstrap = _load_bootstrap(bundle)
-    with bootstrap.launcher_session():
-        bootstrap.install_injection_guard()
-        _prepare_icon_asset(bundle, args.game_directory)
-        if not _game_closed():
-            raise BundleError("NMS started during setup; close it before starting this trial.")
-        # Omitting plugin_name explicitly selects MOD_FOLDER. The 0.2.4 CLI's
-        # folder path instead enters library/user-configuration handling.
-        from pymhf.main import run_module
-        return run_module(str(bundle), config)
+    try:
+        bundle, config = validate_bundle(args.bundle_folder)
+        verified_executable = compatibility.verify_game_directory(args.game_directory)
+        compatibility.verify_framework()
+        if tuple(metadata.entry_points().select(group="pymhflib")):
+            raise compatibility.CompatibilityError("launcher.invalid_package")
+        if args.check_only:
+            print(compatibility.warning_text("launcher.preflight_passed", args.language))
+            return 0
+        bootstrap = _load_bootstrap(bundle)
+        with bootstrap.launcher_session():
+            if not _game_closed():
+                raise compatibility.CompatibilityError("launcher.game_running")
+            bootstrap.install_injection_guard(expected_executable=verified_executable)
+            _prepare_icon_asset(bundle, args.game_directory)
+            if not _game_closed():
+                raise compatibility.CompatibilityError("launcher.game_running")
+            # Omitting plugin_name explicitly selects MOD_FOLDER. The 0.2.4 CLI's
+            # folder path instead enters library/user-configuration handling.
+            from pymhf.main import run_module
+            return run_module(str(bundle), config)
+    except compatibility.CompatibilityError as error:
+        compatibility.show_failure(error, language=args.language,
+                                   show_dialog=not (args.no_dialog or args.check_only))
+        return 1
+    except (BundleError, OSError, ValueError, KeyError) as error:
+        compatibility.show_failure(compatibility.CompatibilityError("launcher.invalid_package"),
+                                   language=args.language, show_dialog=not (args.no_dialog or args.check_only))
+        return 1
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

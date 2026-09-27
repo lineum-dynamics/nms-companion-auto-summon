@@ -4,6 +4,12 @@ Status: offline development, 28 September 2026. No technology is installed,
 no inventory is granted and no live charge or battery mutation is implemented.
 The working production mod remains independent of this prototype.
 
+The separate launcher candidate is now **0.8.4-play-trial**, with unchanged
+production 0.4.7 and menu 0.8.3-settings-trial. Its guarded host and localized
+compatibility warnings do not install or activate these technologies. The
+prepared 0.8.3 artifact and last-launched 0.8.2 installation remain unchanged;
+no new live technology or save mutation is authorized by this checkpoint.
+
 ## Accepted direction
 
 Companion Link is an earned exosuit technology for automatically summoning
@@ -34,12 +40,13 @@ that the game's charging UI uses these units. There is no new fuel preference:
 an installed usable controller supplies the proposed automatic recharge ability.
 The four energy event IDs contain no player prose and are not wired to the HUD.
 
-Validation of the frozen candidate passed all 601 developer tests, including
+The earlier technology-prototype checkpoint passed all 601 developer tests, including
 17 energy-model tests, 18 technology-builder tests and 18 catalog tests. The
 energy regression includes acceptance followed by rejection: the rejection
 revokes the earlier queue latch and cannot authorize a debit. Tests use owned
 synthetic data; none injects into or launches the game. The production 0.4.7
-generated file remains byte-identical to the previously tested version.
+generated file remained byte-identical to the previously tested version. These
+counts predate the new host guard and expanded launcher catalog checks.
 
 ## Native data prototype
 
@@ -121,16 +128,27 @@ be checked before adding a supported build; a successful pattern search is a
 candidate match, not sufficient ABI verification.
 
 Unknown or unreadable executable identity must refuse integration before
-hook binding or native calls. The supported PowerShell and combined paths check
-the exact hash and the Mods have a disabled latch; the finished player flow
-still needs a maintained localized outside-game warning, explicit recovery
-guidance and a tested direct-launch boundary. Report the detected/expected
-build where known, never guess a patch version from an unrecognized hash.
+hook binding or native calls. Current 0.8.4 source checks the selected executable
+before framework import and the executable obtained from the actual target
+process handle before each DLL injection. It also rejects unexpected framework
+configuration and foreign `pymhflib` entry points. A shared compatibility profile
+must agree with host/native declarations and the manifest during builds.
+
+Nine outside-game launcher messages now use the maintained fourteen catalogs,
+which contain 39 keys; thirteen translations remain drafts. Windows UI locale
+or an explicit override selects those messages, not a game-language reader.
+Corrupt catalogs have an English package-error fallback. Other launcher text
+and native menu/HUD localization remain unfinished. Offline checks cover the
+guarded direct-launch boundary; final-bundle and live acceptance remain distinct.
+Report the detected/expected build where known, never guess a patch version
+from an unrecognized hash.
 Do not implement an unsafe force-enable button or silently disable every other
 mod. Do not make a compatibility warning depend on the unverified native HUD.
 
-Before a future release, test mismatch and hash-read failure with mocked inputs,
-verify zero injection/hook activity, and verify that settings and saves stay
-untouched. Handle the runtime and custom-data installation separately: retaining
+The host's offline regressions cover mismatch and hash-read failure without
+injection and preserve owned test files. They do not validate saved custom IDs.
+Before a future release, repeat those checks against the final package and
+verify that settings and saves stay untouched. Handle the runtime and
+custom-data installation separately: retaining
 an old saved item, disabling an obsolete table patch and launching without that
 data all require evidence, not an automatic cleanup guess.

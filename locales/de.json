@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "locale": "de",
-  "scope": "native_menu_hud_technology",
+  "scope": "native_menu_hud_technology_launcher",
   "review_status": "draft_unreviewed",
   "native_runtime_integrated": false,
   "unchanged_keys": [
@@ -130,6 +130,42 @@
     "tech.recharger.description": {
       "text": "Verbraucht automatisch Ionenbatterien aus dem Exoanzug-Inventar, um eine installierte Begleiterverbindung aufzuladen. Erfordert eine Begleiterverbindung; liefert keine kostenlose Energie.",
       "source_sha256": "5f608bf2ec639e6883f3e378a2b617d6bfabcf3e52031bf57ae8defaf9dee80e"
+    },
+    "launcher.blocked_title": {
+      "text": "Companion Auto Summon konnte nicht gestartet werden",
+      "source_sha256": "da358e7460a65a69b7f5d85c46716edfb81a535b0630206f2f6906d14152fa8c"
+    },
+    "launcher.unsupported_game": {
+      "text": "Diese Spielversion wurde für Companion Auto Summon noch nicht überprüft. Unterstützte Version: {build}. Die Mod wurde nicht aktiviert. Suche nach einem kompatiblen Update der Mod.",
+      "source_sha256": "9bc820fd9db3a56d83daf51f40edc855301c0d4a4c007e011e374cad46942d82"
+    },
+    "launcher.unreadable_game": {
+      "text": "Die ausführbare Spieldatei konnte nicht überprüft werden. Die Mod wurde nicht aktiviert. Prüfe die ausgewählte Installation und versuche es erneut.",
+      "source_sha256": "d644b535a6aca597d78d63c8f63d492e43b7bc66a1c2bd1a917b9817de629a6f"
+    },
+    "launcher.game_required": {
+      "text": "Wähle deine Installation von No Man’s Sky aus, bevor du die Mod startest.",
+      "source_sha256": "432b755a6960b6ce70d7589f8d7be88b463efcd85faf8841baebde6a28b8a398"
+    },
+    "launcher.invalid_package": {
+      "text": "Das Mod-Paket ist unvollständig oder enthält nicht zusammenpassende Dateien. Entpacke ein vollständiges Paket derselben Version und versuche es erneut.",
+      "source_sha256": "4a650dd3d85707b5632056c2f2f208479fe7c16e13b5dc82748cc6839b2af4f5"
+    },
+    "launcher.wrong_framework": {
+      "text": "Diese Mod benötigt pyMHF {version}. Repariere die Laufzeitumgebung der Mod, bevor du es erneut versuchst.",
+      "source_sha256": "d0cb5aab8b5c9d188d2a580b7e21d34e11a9f9d89a1a156862232612ea4a2822"
+    },
+    "launcher.game_changed": {
+      "text": "Die ausführbare Spieldatei hat sich während des Starts geändert. Die Mod wurde nicht aktiviert. Starte mit einer kompatiblen Mod-Version erneut.",
+      "source_sha256": "c20cd93d54a674e6e3227e8884132dc7f04775b92fd86fcd513add6b1a47d2e4"
+    },
+    "launcher.game_running": {
+      "text": "No Man’s Sky wird bereits ausgeführt. Beende das Spiel regulär, bevor du Companion Auto Summon startest.",
+      "source_sha256": "99e2aa17ffff50dc1a5af884a14a68268520cd4317d0bdcfa57d47310babab06"
+    },
+    "launcher.preflight_passed": {
+      "text": "Spielkompatibilität überprüft. Weder Spiel noch Mod wurden gestartet.",
+      "source_sha256": "652cce3e713a5e9ba3eff4675dd0304bc1259a53ce1f8350723ce8764e717991"
     }
   }
 }

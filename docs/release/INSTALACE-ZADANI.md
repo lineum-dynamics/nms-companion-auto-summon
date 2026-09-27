@@ -1,7 +1,14 @@
 # Companion Auto Summon — jednoduchá a spolehlivá instalace
 
-Aktuální připravovaný kandidát **0.4.7 / 0.8.2-play-trial** doplňuje vývojový
-spouštěč. Režim PowerShell `-CheckOnly` ověří balíček, podporovanou hru a
+Aktuální zdrojový kandidát **0.8.4-play-trial** používá produkci **0.4.7**
+a menu **0.8.3-settings-trial**. Finální ověření prošlo 329 produkčními
+a 633 vývojovými testy, bez chyb a vynechaných testů. Hotový balíček obsahuje
+40 souborů (39 datových souborů a manifest). Prošla kontrola skutečného frameworku
+a šesti voleb s dočasnými preferencemi, bez nativních hooků a přístupu ke hře.
+Python `--check-only` i Windows PowerShell 5.1 `-CheckOnly` prošly proti instalované
+hře a runtime, bez spuštění, nasazení nebo instalace závislostí. Herní ověření
+zůstává nedokončené. Připravený 0.8.3 a poslední spuštěný 0.8.2
+zůstávají nedotčené. Režim PowerShell `-CheckOnly` ověří balíček, podporovanou hru a
 existující runtime i za běhu NMS. Nic nevytváří, neinstaluje, nekopíruje do hry
 ani nespouští. Chybějící předpoklady ohlásí; jejich náprava vyžaduje samostatné
 běžné spuštění při zavřené hře. Úspěšná kontrola není herní ověření.
@@ -12,10 +19,22 @@ systémových handlů; zavření posledního je uvolní i po pádu procesu. Nejd
 zámkové soubory vyžadující ruční odstranění. Pokud zjišťování běžících procesů
 selže, běžná příprava se odmítne.
 
-Produkce 0.4.7 mění proti 0.4.6 pouze údaj o verzi. Menu zůstává
-**0.8.0-settings-trial**, se stejnými šesti volbami a ikonou. Běžící 0.7.1 a
-připravené 0.7.2 / 0.8.0 zůstávají nedotčené. Veřejný přenosný instalátor ani
-lokalizace nejsou hotové; níže je jejich zadání a oddělená historická evidence.
+Hostitelé 0.8.4 kontrolují vybraný EXE před importem frameworku a skutečný EXE
+cílového procesu podle jeho handlu před každým vložením DLL. Odmítnou
+neodpovídající konfiguraci a cizí rozšíření `pymhflib`. Sestavení navíc kontroluje
+shodu `compatibility.json` s hostitelem, nativními deklaracemi a manifestem.
+Neznámý nebo nečitelný build se nedá vynutit a preference se neresetují.
+
+Devět kompatibilitních zpráv používá 14 katalogů s celkem 39 klíči; 13 překladů
+zůstává bez jazykové revize. Jazyk volí prostředí Windows nebo parametr
+`-Language`, nikoli zjištění jazyka hry. `-NoDialog` potlačí dialog a ponechá
+konzolovou chybu. Chybný katalog použije stručnou anglickou chybu balíčku.
+Ostatní texty spouštěče ani nativní menu/HUD nejsou tímto lokalizované.
+
+Produkce 0.4.7 zůstává nezměněná. Poslední spuštěná 0.8.2 obsahuje menu 0.8.0;
+aktuální 0.8.4 přebírá menu 0.8.3 se sedmi odlišnými ikonami. Veřejný přenosný
+instalátor, úplné překlady a bezpečnost budoucí uložené technologie nejsou
+hotové; níže je jejich zadání a oddělená historická evidence.
 
 Historická produkce 0.4.4 / kombinovaný balíček 0.7.1 přidaly pasivní
 diagnostiku po přijetí požadavku na peta. Způsob instalace, dvě instance módů,
@@ -78,7 +97,7 @@ Oficiální Python popisuje embedded distribuci jako prostředí pro přibalení
 - Běžící hru neukončovat a nesnažit se připojit druhý launcher. Zobrazit stručnou instrukci, co má hráč udělat.
 - Dvojklik opakovaný v krátkém čase nesmí vytvořit dvě instance módu.
 - Při neshodě hry sdělit podporovanou a nalezenou verzi, pokud je spolehlivě známá; samotný dlouhý hex řetězec nepatří do hlavního chybového hlášení.
-- Neshoda nebo nemožnost verzi ověřit automaticky zabrání napojení módu. Hlášku zobrazí spouštěč mimo hru, s udržovanými překlady; nevolat herní HUD přes neověřené adresy. Zachovat preference a nepřidávat možnost vynutit spuštění na neznámé verzi. Ověřit také přímé spuštění Python hostu, které zatím spoléhá na pozdější blokování nativních hooků.
+- Neshoda nebo nemožnost verzi ověřit automaticky zabrání napojení módu. Zdroj 0.8.4 už kontroluje také přímý Python host před frameworkem i skutečný cílový proces před DLL. Devět kompatibilitních zpráv se překládá mimo hru; nepoužívá se neověřený nativní HUD. Preference se zachovají a není možnost vynutit neznámou verzi. Finální balíček prošel kontrolami Python `--check-only` i Windows PowerShell 5.1 `-CheckOnly` proti instalované hře a runtime bez spuštění, nasazení nebo instalace závislostí. Nativní ověření v nové herní relaci stále čeká.
 - Nabídnout otevření složky s logem. Neodesílat logy ani uživatelská data automaticky.
 - Zavření běžného ovládacího okna nesmí potichu ukončit hru. Současné provázání životního cyklu pyMHF a hry vyžaduje při návrhu launcheru výslovné ošetření a test.
 - Nevypínat zabezpečení Windows, antivirovou ochranu ani pravidla pro spouštění skriptů. Nelze předem slíbit absenci upozornění SmartScreen nebo schválení antivirem.

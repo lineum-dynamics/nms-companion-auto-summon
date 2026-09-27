@@ -50,9 +50,15 @@ class PlayTrialFixture(unittest.TestCase):
                 data = (ROOT / name).read_bytes()
             elif name == "pymhf.toml":
                 data = CONFIG
-            (self.bundle / name).write_bytes(data)
+            elif name in {"cas_compatibility.py", "compatibility.json"} or name.startswith("locales/"):
+                data = (ROOT / name).read_bytes()
+            destination = self.bundle / name
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_bytes(data)
         self.manifest = {
-            "version": "0.8.3-play-trial", "framework": "pymhf[gui]==0.2.4",
+            "version": "0.8.4-play-trial", "framework": "pymhf[gui]==0.2.4",
+            "steam_build": LAUNCHER.compatibility.STEAM_BUILD,
+            "supported_nms_exe_sha256": LAUNCHER.compatibility.SUPPORTED_GAME_SHA256,
             "auto_summon": True, "preference_actions": True,
             "preference_keys": ["enabled", "selection_mode", "prefer_same_biome", "locations"],
             "mods": [
@@ -70,8 +76,12 @@ class PlayTrialFixture(unittest.TestCase):
         self.addCleanup(self.host_patch.stop)
         self.events = []
         self.asset_setup = Mock(side_effect=lambda *args: self.events.append("asset"))
+        self.verified_executable = self.root / "game" / "Binaries" / "NMS.exe"
+        self.verify_game = Mock(return_value=self.verified_executable)
+        self.failure = Mock()
+        self.closed = Mock(return_value=True)
         self.bootstrap = types.SimpleNamespace(
-            install_injection_guard=Mock(side_effect=lambda: self.events.append("guard")),
+            install_injection_guard=Mock(side_effect=lambda **kwargs: self.events.append("guard")),
             launcher_session=Mock(side_effect=self.host_lease))
         self.runtime = types.ModuleType("pymhf.main")
         self.runtime.run_module = Mock(side_effect=self.run_module)
@@ -109,12 +119,25 @@ class PlayTrialFixture(unittest.TestCase):
         ), patch.object(LAUNCHER.metadata, "entry_points", return_value=self.entrypoints), patch.dict(
             sys.modules, {"pymhf": self.package, "pymhf.main": self.runtime}
         ), patch.object(LAUNCHER, "_prepare_icon_asset", self.asset_setup), \
-                patch.object(LAUNCHER, "_game_closed", return_value=True):
+                patch.object(LAUNCHER, "_game_closed", self.closed), \
+                patch.object(LAUNCHER.compatibility, "verify_game_directory", self.verify_game), \
+                patch.object(LAUNCHER.compatibility, "show_failure", self.failure):
             arguments = [str(self.bundle)] if argv is None else list(argv)
-            arguments += ["--game-directory", str(self.root / "game")]
+            arguments += ["--game-directory", str(self.root / "game"), "--no-dialog"]
+            if "--language" not in arguments:
+                arguments += ["--language", "en"]
+            self.loader = loader
             result = LAUNCHER.main(arguments)
-            loader.assert_called_once_with(self.bundle.resolve())
             return result
+
+    def assert_bundle_refused(self, path=None):
+        path = str(self.bundle) if path is None else path
+        with self.assertRaises((LAUNCHER.BundleError, OSError, ValueError, KeyError)):
+            LAUNCHER.validate_bundle(path)
+        self.assertEqual(self.main([path]), 1)
+        self.loader.assert_not_called()
+        self.assertEqual(self.failure.call_args.args[0].key, "launcher.invalid_package")
+        self.assertIs(self.failure.call_args.kwargs["show_dialog"], False)
 
 
 class BundleValidationTests(PlayTrialFixture):
@@ -122,7 +145,7 @@ class BundleValidationTests(PlayTrialFixture):
         bundle, config = LAUNCHER.validate_bundle(str(self.bundle))
         self.assertEqual(bundle, self.bundle.resolve())
         self.assertTrue(config["gui"]["shown"])
-        self.assertEqual(len(self.manifest["files"]), 23)
+        self.assertEqual(len(self.manifest["files"]), 39)
         self.assertEqual({entry["name"] for entry in self.manifest["mods"]},
                          {"CompanionAutoSummon", "CompanionMenuOrderTrial"})
         self.assertFalse((self.bundle / "settings.json").exists())
@@ -133,8 +156,8 @@ class BundleValidationTests(PlayTrialFixture):
         other.mkdir()
         for value in ("bundle", str(other), str(self.root / "absent"),
                       str(self.bundle / "CompanionAutoSummon.py")):
-            with self.subTest(value=value), self.assertRaises((LAUNCHER.BundleError, OSError)):
-                self.main([value])
+            with self.subTest(value=value):
+                self.assert_bundle_refused(value)
         self.bootstrap.install_injection_guard.assert_not_called()
         self.runtime.run_module.assert_not_called()
 
@@ -155,12 +178,10 @@ class BundleValidationTests(PlayTrialFixture):
                 path = self.bundle / name
                 old = path.read_bytes()
                 path.write_bytes(old + b"# changed\n")
-                with self.assertRaises(LAUNCHER.BundleError):
-                    self.main()
+                self.assert_bundle_refused()
                 path.write_bytes(old)
         (self.bundle / "quick_menu_item.py").unlink()
-        with self.assertRaises(LAUNCHER.BundleError):
-            self.main()
+        self.assert_bundle_refused()
         self.bootstrap.install_injection_guard.assert_not_called()
         self.runtime.run_module.assert_not_called()
 
@@ -174,8 +195,7 @@ class BundleValidationTests(PlayTrialFixture):
             with self.subTest(key=key, value=value):
                 self.manifest = {**copy.deepcopy(pristine), key: value}
                 self.save_manifest()
-                with self.assertRaises(LAUNCHER.BundleError):
-                    self.main()
+                self.assert_bundle_refused()
         self.bootstrap.install_injection_guard.assert_not_called()
 
     def test_missing_duplicate_traversal_and_bad_checksum_entries_are_rejected(self):
@@ -195,8 +215,7 @@ class BundleValidationTests(PlayTrialFixture):
                     entries[0] = "invalid"
                 self.manifest["files"] = entries
                 self.save_manifest()
-                with self.assertRaises(LAUNCHER.BundleError):
-                    self.main()
+                self.assert_bundle_refused()
         self.bootstrap.install_injection_guard.assert_not_called()
 
     def test_extra_root_or_child_python_and_competing_project_are_rejected(self):
@@ -205,8 +224,7 @@ class BundleValidationTests(PlayTrialFixture):
                 path = self.bundle / name
                 path.parent.mkdir(exist_ok=True)
                 path.write_bytes(b"# An unlisted discovery input")
-                with self.assertRaises(LAUNCHER.BundleError):
-                    self.main()
+                self.assert_bundle_refused()
                 path.unlink()
         self.bootstrap.install_injection_guard.assert_not_called()
 
@@ -218,8 +236,8 @@ class BundleValidationTests(PlayTrialFixture):
             if path == alias:
                 return actual_resolve(self.bundle / "CompanionAutoSummon.py", *args, **kwargs)
             return actual_resolve(path, *args, **kwargs)
-        with patch.object(Path, "resolve", resolve), self.assertRaises(LAUNCHER.BundleError):
-            self.main()
+        with patch.object(Path, "resolve", resolve):
+            self.assert_bundle_refused()
         self.bootstrap.install_injection_guard.assert_not_called()
 
     def test_config_changes_are_rejected_even_with_matching_checksum(self):
@@ -229,9 +247,16 @@ class BundleValidationTests(PlayTrialFixture):
             with self.subTest(content=content):
                 (self.bundle / "pymhf.toml").write_bytes(content)
                 self.rehash("pymhf.toml")
-                with self.assertRaises(LAUNCHER.BundleError):
-                    self.main()
+                self.assert_bundle_refused()
         self.bootstrap.install_injection_guard.assert_not_called()
+
+    def test_profile_disagreement_is_rejected_even_with_updated_checksum(self):
+        profile = dict(LAUNCHER.compatibility.PROFILE, exe_sha256="0" * 64)
+        (self.bundle / "compatibility.json").write_text(json.dumps(profile), encoding="utf-8")
+        self.rehash("compatibility.json")
+        self.assert_bundle_refused()
+        self.verify_game.assert_not_called()
+        self.asset_setup.assert_not_called()
 
 
 class HostRoutingTests(PlayTrialFixture):
@@ -310,7 +335,8 @@ class HostRoutingTests(PlayTrialFixture):
             (self.bundle / name).write_bytes((ROOT / "assets/ui" / name).read_bytes())
         sentinel = game / "keep.txt"
         sentinel.write_bytes(b"preserved")
-        with patch.object(LAUNCHER, "_game_closed", return_value=False), self.assertRaises(LAUNCHER.BundleError):
+        with patch.object(LAUNCHER, "_game_closed", return_value=False), \
+                self.assertRaisesRegex(LAUNCHER.compatibility.CompatibilityError, "launcher.game_running"):
             LAUNCHER._prepare_icon_asset(self.bundle, str(game))
         self.assertFalse((game / "GAMEDATA").exists())
         with patch.object(LAUNCHER, "_game_closed", return_value=True):
@@ -318,7 +344,7 @@ class HostRoutingTests(PlayTrialFixture):
             self.assertTrue(result["installed"])
             self.assertTrue(LAUNCHER._prepare_icon_asset(self.bundle, str(game))["reused"])
             (game / "Binaries/NMS.exe").write_bytes(b"unsupported")
-            with self.assertRaises(LAUNCHER.BundleError):
+            with self.assertRaises(LAUNCHER.compatibility.CompatibilityError):
                 LAUNCHER._prepare_icon_asset(self.bundle, str(game))
         self.assertEqual(sentinel.read_bytes(), b"preserved")
 
@@ -342,7 +368,11 @@ class HostRoutingTests(PlayTrialFixture):
         self.runtime.run_module.assert_called_once_with(str(self.bundle.resolve()), LAUNCHER.EXPECTED_CONFIG)
         self.assertIs(sys.argv, previous)
         self.assertEqual(sys.argv, original)
-        self.entrypoints.select.assert_called_once_with(group="pymhflib")
+        self.assertTrue(self.entrypoints.select.called)
+        self.assertTrue(all(call.kwargs == {"group": "pymhflib"}
+                            for call in self.entrypoints.select.call_args_list))
+        self.verify_game.assert_called_once_with(str(self.root / "game"))
+        self.bootstrap.install_injection_guard.assert_called_once_with(expected_executable=self.verified_executable)
 
     def test_framework_error_propagates_without_argv_changes_or_retry(self):
         previous = sys.argv
@@ -356,11 +386,11 @@ class HostRoutingTests(PlayTrialFixture):
         self.assertEqual(sys.argv, original)
 
     def test_wrong_framework_or_additional_library_stops_before_guard(self):
-        with self.assertRaises(LAUNCHER.BundleError):
-            self.main(runtime_version="0.2.3")
+        self.assertEqual(self.main(runtime_version="0.2.3"), 1)
+        self.assertEqual(self.failure.call_args.args[0].key, "launcher.wrong_framework")
         self.entrypoints.select.return_value = (object(),)
-        with self.assertRaises(LAUNCHER.BundleError):
-            self.main()
+        self.assertEqual(self.main(), 1)
+        self.assertEqual(self.failure.call_args.args[0].key, "launcher.invalid_package")
         self.bootstrap.install_injection_guard.assert_not_called()
         self.runtime.run_module.assert_not_called()
 
@@ -373,21 +403,90 @@ class HostRoutingTests(PlayTrialFixture):
 
     def test_sibling_bootstrap_retains_verified_remote_dll_guard(self):
         bootstrap = LAUNCHER._load_bootstrap(self.bundle)
+        self.assertIs(bootstrap.compatibility, LAUNCHER.compatibility)
         dll = self.root / "owned-placeholder.pyd"
         dll.write_bytes(b"Never loaded; only filename validation is exercised")
         canonical = os.path.normcase(os.path.realpath(str(dll)))
         remote_base, local_base = 0x7FFDA1200000, 0x7FFC55000000
+        calls = []
         api = types.SimpleNamespace(
-            inject_dll_from_path=Mock(return_value=local_base),
+            inject_dll_from_path=Mock(side_effect=lambda *args: calls.append("inject") or local_base),
             enum_process_module=Mock(return_value=[types.SimpleNamespace(
                 filename=str(dll), lpBaseOfDll=remote_base)]))
         original = api.inject_dll_from_path
-        guarded = bootstrap.install_injection_guard(api)
+        validator = Mock(side_effect=lambda handle: calls.append(("validate", handle)))
+        guarded = bootstrap.install_injection_guard(api, target_validator=validator)
         self.assertEqual(guarded(123, str(dll)), remote_base)
+        self.assertEqual(calls, [("validate", 123), "inject"])
         original.assert_called_once_with(123, canonical)
         api.enum_process_module.return_value = []
         with self.assertRaises(bootstrap.InjectionGuardError):
             guarded(123, str(dll))
+        self.assertEqual(calls, [("validate", 123), "inject", ("validate", 123), "inject"])
+
+    def test_actual_target_refusal_precedes_injection_and_remote_dll_enumeration(self):
+        bootstrap = LAUNCHER._load_bootstrap(self.bundle)
+        dll = self.root / "never-loaded.pyd"
+        dll.write_bytes(b"Owned path fixture")
+        api = types.SimpleNamespace(inject_dll_from_path=Mock(), enum_process_module=Mock())
+        original = api.inject_dll_from_path
+        rejection = LAUNCHER.compatibility.CompatibilityError("launcher.unsupported_game")
+        validator = Mock(side_effect=rejection)
+        guarded = bootstrap.install_injection_guard(api, target_validator=validator)
+        with self.assertRaises(LAUNCHER.compatibility.CompatibilityError) as result:
+            guarded(123, str(dll))
+        self.assertIs(result.exception, rejection)
+        validator.assert_called_once_with(123)
+        original.assert_not_called()
+        api.enum_process_module.assert_not_called()
+
+    def test_game_mismatch_and_read_failure_report_without_lease_assets_or_framework(self):
+        for key in ("launcher.unsupported_game", "launcher.unreadable_game"):
+            with self.subTest(key=key):
+                rejection = LAUNCHER.compatibility.CompatibilityError(key)
+                self.verify_game.side_effect = rejection
+                self.assertEqual(self.main([str(self.bundle), "--language", "fr"]), 1)
+                self.failure.assert_called_with(rejection, language="fr", show_dialog=False)
+                self.loader.assert_not_called()
+        self.bootstrap.launcher_session.assert_not_called()
+        self.bootstrap.install_injection_guard.assert_not_called()
+        self.asset_setup.assert_not_called()
+        self.runtime.run_module.assert_not_called()
+
+    def test_check_only_does_not_probe_closed_state_take_lease_stage_or_launch(self):
+        self.closed.side_effect = AssertionError("Check-only must permit a running game")
+        before = {path.relative_to(self.root): path.read_bytes()
+                  for path in self.root.rglob("*") if path.is_file()}
+        with patch("sys.stdout"):
+            self.assertEqual(self.main([str(self.bundle), "--check-only"]), 0)
+        after = {path.relative_to(self.root): path.read_bytes()
+                 for path in self.root.rglob("*") if path.is_file()}
+        self.assertEqual(after, before)
+        self.verify_game.assert_called_once()
+        self.loader.assert_not_called()
+        self.bootstrap.launcher_session.assert_not_called()
+        self.bootstrap.install_injection_guard.assert_not_called()
+        self.asset_setup.assert_not_called()
+        self.runtime.run_module.assert_not_called()
+        self.failure.assert_not_called()
+
+    def test_running_game_refuses_before_guard_and_asset_staging(self):
+        self.closed.return_value = False
+        self.assertEqual(self.main(), 1)
+        self.assertEqual(self.failure.call_args.args[0].key, "launcher.game_running")
+        self.assertEqual(self.events, ["lease", "release"])
+        self.bootstrap.install_injection_guard.assert_not_called()
+        self.asset_setup.assert_not_called()
+        self.runtime.run_module.assert_not_called()
+
+    def test_target_rejection_during_framework_entry_releases_lease_without_retry(self):
+        previous = sys.argv
+        self.runtime.run_module.side_effect = LAUNCHER.compatibility.CompatibilityError("launcher.game_changed")
+        self.assertEqual(self.main(), 1)
+        self.assertEqual(self.events, ["lease", "guard", "asset", "release"])
+        self.runtime.run_module.assert_called_once()
+        self.assertIs(sys.argv, previous)
+        self.assertEqual(self.failure.call_args.args[0].key, "launcher.game_changed")
 
     def test_bootstrap_without_guard_function_is_rejected(self):
         (self.bundle / LAUNCHER.BOOTSTRAP_NAME).write_bytes(b"# Owned empty module\n")

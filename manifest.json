@@ -24,15 +24,16 @@
   },
   "previous_live_result": "0.4.0 applied Random and successfully summoned slot 3 from three eligible owned pets on a planet, confirmed by the user; manual favorite slot 1 stayed in runtime. 0.3.3 verified station summoning and restart restoration, 0.3.2 planetary summoning. These observations do not validate the new 0.4.1 biome preference. In combined play trial 0.6.1, 0.4.2 registered with automation ON and the log recorded an accepted station queue after ship exit at 20:18:19 on 27 September 2026; actual appearance was not separately confirmed.",
   "offline_tests": {
-    "passed": 294,
+    "passed": 329,
     "policy": 34,
     "persistence": 14,
     "settings": 24,
     "adapter_simulation": 192,
-    "host_launcher": 30
+    "host_launcher": 41,
+    "compatibility": 24
   },
   "actual_framework_import_and_gui_properties": "Passed with the real pyMHF 0.2.4 and DearPyGui: eight widgets constructed and preference callbacks exercised with temporary files, no viewport, hook registration, native game calls or game launch",
-  "launcher_validation": "294 production and 563 developer tests passed for the prepared source, plus real pyMHF source and combined 0.8.3 checks outside the game. Earlier real Windows lease checks and 0.8.2 Toolhelp launch evidence remain scoped to that prior revision; 0.8.3 has not launched.",
+  "launcher_validation": "329 production and 633 developer tests passed on unchanged sources, plus final combined 0.8.4 real pyMHF offline discovery and six temporary preferences. Actual Python and Windows PowerShell 5.1 check-only both accepted the selected installation/runtime without setup, staging, game launch or injection. No live 0.8.4 launch; prior 0.8.2/0.8.3 artifacts remain unchanged.",
   "preferences_included": false,
   "manual_selection_path": "%LOCALAPPDATA%/NMS-AutoPet/state.json",
   "preferences_path": "%LOCALAPPDATA%/NMS-AutoPet/settings.json",
@@ -61,51 +62,59 @@
     },
     {
       "path": "Launch-CompanionAutoSummon.py",
-      "sha256": "b0a3333ca80e15191c30b94dc408d9e808a3252e81d9cf251c02b3c9a9bcb98c"
+      "sha256": "7546cd2ac43aee84d34f57774ab80e492f23f136832719b9c980c91f73f0ed7d"
     },
     {
       "path": "README.md",
-      "sha256": "1bc1e0596ee12d95781489e440da5586b504ca31bf32d7688e85111b6a713ad2"
+      "sha256": "efbfba7a540f581857037efc32e9a5fd01aa624f2ed09ef67eb13f4ccdb9cb3d"
     },
     {
       "path": "README.cs.md",
-      "sha256": "1f9d433d9b0104323faf51224fb5d27000f3997b97c2a9b03e4b9d46d3ca8b29"
+      "sha256": "4ed8907ea7e7aca0dbe14ad24ff5a1bd7800789ef17d6f311d1bbeb15903c250"
+    },
+    {
+      "path": "cas_compatibility.py",
+      "sha256": "3998aba60cb965204a6f7b627bef5b351c542c089068c03e451f7163d18433ad"
+    },
+    {
+      "path": "compatibility.json",
+      "sha256": "cdfcb9e9cc8fc13e37713ca100b23137c420430509143fdbf37af5fe08a4330d"
     },
     {
       "path": "TECHNICKE-OVERENI.md",
-      "sha256": "40895bcc306609e148fab58c32bc666e18e7f50ffb3bd35a3cfc478af9d706a7"
+      "sha256": "0609b823404e78f1958cc87a99c551ff1ad146cf728bf0c9bde229fe65d76c44"
     },
     {
       "path": "build.py",
-      "sha256": "10f1fd64ea389fe61ac5b7d524624e1a64aaa59ad423c2e30c3bd9c3a9c3ec60"
+      "sha256": "51e2ce0083a91d718bb92936329065363692d98105750a7cf21b594e6b071126"
     },
     {
       "path": "Start-CompanionAutoSummon.ps1",
-      "sha256": "3e5981eb9f74f473c8699bde6f1afe2ed98a75ff594c61ff3428c8383d78db06"
+      "sha256": "48777c3e01e124a34c18b5dc0e416dd69dd77be79af551187cfb90cd447c59dd"
     },
     {
       "path": "DEVELOPMENT.md",
-      "sha256": "0264bb3a259b0cdba121ce774b910c3c8a88b11d6983d3568b9449a1548f9eae"
+      "sha256": "7dcd34aabe435449d39338ae7af8d22fa40c51a996f2d0b7366c80a06229d22b"
     },
     {
       "path": "LOCALIZATION.md",
-      "sha256": "b8464fb1255d2c0fc8b4da485fb17d442bc140be66265746f4cfafd1a4277349"
+      "sha256": "dddb761ecee4992f4d3cdad8af9dfb748ee7f9e34fee1bd7ba60b312e95c8221"
     },
     {
       "path": "DESIGN.md",
-      "sha256": "2a97151af52c850d7bf1830ee8fbe02c5aed221a0f60dbfa6ed0b2fb5854dafe"
+      "sha256": "5f7b21691fe549c9e1586ce559a00052ace36691be3ea7715faf8966b315aff2"
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "25f3583647dfcc9448b4f9037cd236afff4052f6238b4c333059eede4a2debde"
+      "sha256": "3e2aa0c905331ff0d69b3d1f937edacbbcf89b7e463b77eb870a991aa847705e"
     },
     {
       "path": "ROADMAP.md",
-      "sha256": "94d100dad6f9e017b327ea810a2f43c45c9df651308be7b2dc021ac7518a3abe"
+      "sha256": "405b3131d3c3ee30b8c11bf3e4e42f5198817fabf88911b2f921f6c3ec6dab2e"
     },
     {
       "path": "QUICK-MENU.md",
-      "sha256": "e4ee347bf86c9966de4f7bf59f29cebffd1e5f06e553e3fd6e5363f21e5a2513"
+      "sha256": "6184614068462f3baa85aceb343fe99070186cbfc4f3d700d57f220b4da9e425"
     },
     {
       "path": "docs/release/PRIPRAVA-VYDANI.md",
@@ -113,7 +122,7 @@
     },
     {
       "path": "docs/release/INSTALACE-ZADANI.md",
-      "sha256": "3339e0c48606690f9be6a4f7c6500cdd618d19d8d33c9cb29dc59a544344cb93"
+      "sha256": "8d96a35d2765d8b2bce7dcdef22e94afd1e7de807b7a960c0c96a85bfae53932"
     },
     {
       "path": "docs/release/NEXUS-DESCRIPTION-DRAFT.md",
@@ -121,7 +130,7 @@
     },
     {
       "path": "docs/research/TECHNOLOGY-PROTOTYPE.md",
-      "sha256": "1e54e5baf33d45e10d3159d560a49855ae488a6203b959698ff8d8de4ce516e0"
+      "sha256": "52b80e7c5332d923b5f91a6b9f591daeeca2f0afd4001190c74ee02b1e35db53"
     },
     {
       "path": "docs/research/TECHNOLOGY-RUNTIME-AUDIT.md",
@@ -129,7 +138,7 @@
     },
     {
       "path": "docs/research/COMPATIBILITY-GUARD-AUDIT.md",
-      "sha256": "47b5680376a92e8efd6bc1a2c4d1844804f23b29f132fa930c9a9bf9b3644fa5"
+      "sha256": "e5f8211c60f89893c1ac2be61da84fa130f2eec0a36be8c33c6176744a392c63"
     },
     {
       "path": "src/policy.py",
@@ -165,11 +174,15 @@
     },
     {
       "path": "tests/test_launcher.py",
-      "sha256": "3d12e22f82051d9f0d2657ce964fc5ad27fe58c7b9e322c6a7147765836bcf0c"
+      "sha256": "33a896a5843bddd0d2957a2a0c8e587c6b591ba20cececdc5a90f5627d5f080f"
+    },
+    {
+      "path": "tests/test_compatibility.py",
+      "sha256": "08669d8db215c6095b883bc8068433249941cfa235940b51693047de283bc4bf"
     },
     {
       "path": "tools/validate_locales.py",
-      "sha256": "331945e05af5ce0fa5aa3387e19d724be1802870246ca2773a2f04f8aa6e885c"
+      "sha256": "1a6aaac55db2963c832c6e649ad20ce9519618da4c703ce6c3d8147d61886d34"
     },
     {
       "path": "tools/quick_menu_toggle.py",
@@ -180,60 +193,64 @@
       "sha256": "144509932f1b650d6d684888c5422fa2ea15a1fd74f7dea3d1c6bb4ba4989068"
     },
     {
+      "path": "tools/validate_compatibility.py",
+      "sha256": "b94700605fc0babb3d76c50b0dcba46c10e9042c98113f8490dccea28ba76c07"
+    },
+    {
       "path": "locales/en.json",
-      "sha256": "ec61a03ee624bd93648004bdb238417f54e3248a91ae2fb1d9fac9424f128f9b"
+      "sha256": "213fcbff643224337d75e4bcc82a68c14711cbba0f9420acded352b96f87531e"
     },
     {
       "path": "locales/fr.json",
-      "sha256": "3ae472fbd18a1e19e82efdfe52526a01f92122ce2758c979d84205612f73819f"
+      "sha256": "497e706f2d3560d27a154cf40c8c4db0de6d6771b02906f97c264f5b2fc822cc"
     },
     {
       "path": "locales/it.json",
-      "sha256": "ab23b2ea8561cbd42a83364fdd09e79e9f927479b362e6a1f371b3027fb015c8"
+      "sha256": "ab8592951f31e51a715de47c2743d7b3e424e0243cc176b006a342ed17b0591b"
     },
     {
       "path": "locales/de.json",
-      "sha256": "34d5c3a00c56ec5e47f04920ccad61ca3f02748481571f4c62a8b169f9ba4bb5"
+      "sha256": "ccdd6be0f89f4a46cfac3b369eb652fe58cd63bb1e137ca0a4069f28d1471167"
     },
     {
       "path": "locales/es-ES.json",
-      "sha256": "a9170583e7c57943bf7a41c76e3d7263d4614e16baec86948833f2a71a8d84b8"
+      "sha256": "615e245c9d355abda891287f2b4c72a6a40d95ac6b3a0117a9472f814ea0e334"
     },
     {
       "path": "locales/nl.json",
-      "sha256": "89c34335c6a998742d59c9626ebf39a1a1c302c0d2c86ac546ce6f1c57011563"
+      "sha256": "2dc1c2e4329be231edc30e16cd5472280c169bcdd9ef60ed21f259a2bd1d4c4c"
     },
     {
       "path": "locales/ja.json",
-      "sha256": "cf764d4d76dcfe4541dc9337afe9386fe796c90c68df789a7822e970a69afed0"
+      "sha256": "111ef2ad69c68fc8da3147d688b08b771e0805f66f14c25a6bbca1f4c162c5de"
     },
     {
       "path": "locales/ko.json",
-      "sha256": "45fd4a9fcdd65eca1d57b5a1475fd236fea65d00ebce511d9f589c265f27a19d"
+      "sha256": "c92c0783e7efc1f40865545a315592f5f4d83386c08dcdca4ad0afa5eb929dcd"
     },
     {
       "path": "locales/pl.json",
-      "sha256": "65a06f655320aba583444f6b1be694be43e566269781657e846d6046243dba36"
+      "sha256": "f31c7c85890e83b07785ebd8101df3afd5a59bfc38b2d077cff987c7ac5dcd18"
     },
     {
       "path": "locales/pt-PT.json",
-      "sha256": "a570a84ce5a67216754da99e77f8a81b3084d04750b980d1a43a22071eca1501"
+      "sha256": "e6f5d97463e2268c3f325d5c0515cc1931acb86a3303956bc833ef5075ff0e87"
     },
     {
       "path": "locales/pt-BR.json",
-      "sha256": "e42d9b00182004aab01f383c5219f59e5edd870e05d30083448c355b89a86ad2"
+      "sha256": "53063329403873e6f9f0ae88ec108a1fdae6e209903c47a9efc7e31042913f94"
     },
     {
       "path": "locales/ru.json",
-      "sha256": "a899279888f76421ed4df2a254f4f6fef9775ecf96cfa3be7946b8a82f46052c"
+      "sha256": "1c1c2b6cd3869a4948cd822da4f26cb4e2d930a6d148f42e08330dfe8d9ef39a"
     },
     {
       "path": "locales/zh-Hans.json",
-      "sha256": "72268a1aa6e688763bd4511ebcd1e1fa5984cee618fa6d38e63c6944077631f2"
+      "sha256": "9c08399e5c81a072a04f8400bb44b104a681acb2543ef4b30a68a40d63cbcee7"
     },
     {
       "path": "locales/zh-Hant.json",
-      "sha256": "59a06adf5e3082831ac9bb5a9b07abdb584f9bffbf4d1fa4408078611379bb97"
+      "sha256": "4817d7e8aa6118619c6d3e6a46082eb064b3f0ceadae56c33b6d431b7e13a51c"
     }
   ],
   "legacy_data_directory": "NMS-AutoPet is intentionally retained for settings, remembered companions and the existing development runtime; schemas and file contents are unchanged.",
@@ -276,7 +293,7 @@
     "scope": "Separately built, predicate-gated native ON/OFF candidate. Requires same-menu false then true native confirmation, one matching selected-child trigger and original false result; no tail-only activation. Existing production applies and persists the queued setting. Other preferences remain in the temporary development panel. Registered on 27 September 2026 after normal exit and a fresh verified backup: two Mods, 11 hook targets, automation ON and 14 unchanged payloads. Complete live preference validation, remapping/controllers and held input await testing."
   },
   "developer_native_menu_trial": {
-    "version": "0.8.3-play-trial",
+    "version": "0.8.4-play-trial",
     "menu_version": "0.8.3-settings-trial",
     "preference_keys": [
       "enabled",
@@ -289,14 +306,14 @@
     "launched": false,
     "registration_verified": false,
     "included_in_player_zip": false,
-    "scope": "Prepared source-only candidate: seven owned role icons and explicit Random biome caption. Production 0.4.7 and prior installed 0.8.2 are unchanged. Native rendering, lifetime, input and gameplay still require live acceptance.",
-    "developer_tests_passed": 563,
+    "scope": "Prepared unlaunched candidate with unchanged production 0.4.7/menu 0.8.3, guarded hosts, nine localized compatibility messages and a cross-source compatibility profile. Real-framework offline discovery and both actual read-only host preflights passed. Native rendering, input and gameplay still require live acceptance.",
+    "developer_tests_passed": 633,
     "actual_framework_discovery_verified": true,
     "temporary_all_six_preferences_verified": true,
     "optional_icon_provider_binding_verified": true,
     "callbacks": 18,
     "distinct_native_targets": 12,
-    "payload_files": 23,
+    "payload_files": 39,
     "custom_icons_included": 7,
     "custom_icon_deployed": false,
     "custom_icon_live_verified": false,
@@ -304,7 +321,10 @@
     "menu_sha256": "8bd8302569aafc0a22d8c8946fccec84d798be57c42e0bd977d356f4a3205326",
     "locale_validation_required_during_build": true,
     "physical_hotkeys": 0,
-    "shortcut_binding_enabled": false
+    "shortcut_binding_enabled": false,
+    "host_compatibility_guard_included": true,
+    "localized_launcher_messages": 9,
+    "compatibility_profile_validation_required": true
   },
   "post_queue_observation": {
     "passive_only": true,
@@ -338,7 +358,7 @@
     "previous_live_duration_seconds": 3.0,
     "candidate_hides_icon_containers": "Only when no ready icon is available.",
     "native_hide_flag_mapping_verified": true,
-    "scope": "Production 0.4.7 was loaded in 0.8.2 with optional owned-icon provider and text-only fallback; visible results are unconfirmed. Upcoming 0.8.3 only adds distinct child icons and remains unlaunched."
+    "scope": "Production 0.4.7 was loaded in 0.8.2 with an optional owned-icon provider and text-only fallback; visible results remain unconfirmed. Upcoming 0.8.4 retains the unlaunched 0.8.3 role icons and only adds host safeguards/localized warnings."
   },
   "previous_044_live_evidence": {
     "version": "0.4.4-experimental",
@@ -489,9 +509,9 @@
   },
   "localization_catalogs": {
     "locales": 14,
-    "keys_per_locale": 30,
+    "keys_per_locale": 39,
     "translated_drafts": 13,
-    "scope": "native_menu_hud_technology",
+    "scope": "native_menu_hud_technology_launcher",
     "source_text_verified": true,
     "native_runtime_integrated": false,
     "language_review_verified": false
@@ -541,9 +561,62 @@
     "checked_date": "2026-09-28",
     "exact_build_native_hook_refusal_verified_in_source": true,
     "supported_launcher_pre_injection_refusal": true,
-    "direct_standalone_python_pre_injection_refusal": false,
+    "direct_standalone_python_pre_injection_refusal": true,
     "localized_player_warning_complete": false,
-    "central_cross_source_profile_assertion_complete": false,
-    "saved_custom_technology_update_behavior_verified": false
+    "central_cross_source_profile_assertion_complete": true,
+    "saved_custom_technology_update_behavior_verified": false,
+    "actual_process_handle_checked_before_each_dll": true,
+    "localized_compatibility_messages_implemented": 9,
+    "localized_compatibility_catalogs": 14,
+    "translations_reviewed": false,
+    "native_warning_api_used": false,
+    "force_enable_available": false,
+    "windows_powershell_native_probe_verified": true,
+    "python_and_powershell_check_only_verified": true,
+    "scoped_warning_implementation": "Console and optional host dialog; Windows UI language or explicit override; corrupt resources use maintained English package-error fallback. Other launcher texts and final portable GUI remain unfinished.",
+    "source_test_counts": {
+      "production": 329,
+      "developer": 633
+    },
+    "live_candidate_launch_verified": false
+  },
+  "previous_unlaunched_083_developer_native_menu_trial": {
+    "version": "0.8.3-play-trial",
+    "menu_version": "0.8.3-settings-trial",
+    "preference_keys": [
+      "enabled",
+      "selection_mode",
+      "prefer_same_biome",
+      "locations"
+    ],
+    "production_script_byte_identical": true,
+    "live_verified": false,
+    "launched": false,
+    "registration_verified": false,
+    "included_in_player_zip": false,
+    "scope": "Prepared source-only candidate: seven owned role icons and explicit Random biome caption. Production 0.4.7 and prior installed 0.8.2 are unchanged. Native rendering, lifetime, input and gameplay still require live acceptance.",
+    "developer_tests_passed": 563,
+    "actual_framework_discovery_verified": true,
+    "temporary_all_six_preferences_verified": true,
+    "optional_icon_provider_binding_verified": true,
+    "callbacks": 18,
+    "distinct_native_targets": 12,
+    "payload_files": 23,
+    "custom_icons_included": 7,
+    "custom_icon_deployed": false,
+    "custom_icon_live_verified": false,
+    "production_sha256": "d8cf09a808322900db9149e601248ddf18e4dedf094c44e22f7396c950871268",
+    "menu_sha256": "8bd8302569aafc0a22d8c8946fccec84d798be57c42e0bd977d356f4a3205326",
+    "locale_validation_required_during_build": true,
+    "physical_hotkeys": 0,
+    "shortcut_binding_enabled": false
+  },
+  "compatibility_profile_validation": {
+    "steam_build": "25442159",
+    "game_release": "Cosmos 7.04",
+    "native_sources_checked": 6,
+    "generated_source_checked": true,
+    "developer_sources_checked": true,
+    "all_declarations_match": true
   }
 }

@@ -1,6 +1,32 @@
 # Companion Auto Summon — rozsah ověření k 28. 9. 2026
 
-## Připravená 0.8.3 — ikony a jazykové katalogy
+## Připravená 0.8.4 — ochrana před neověřenou verzí
+
+Spouštěče nyní ověřují zvolenou hru a před každou injekcí DLL znovu ověří
+skutečný cílový proces. Neznámá nebo nečitelná verze, odlišná instalace,
+neodpovídající framework, cizí rozšíření pyMHF a neúplný balíček start odmítnou.
+Neprovádí se vynucené povolení, změna předvoleb ani zápis do savů.
+Nativní ochrana před registrací hooků zůstává nezávislá.
+
+Devět zpráv spouštěče má texty ve všech 14 katalozích; třináct překladů
+zůstává neověřeným návrhem. Varování používá konzoli a případně dialog Windows,
+nikoli neověřenou herní funkci. Jazyk vychází z Windows nebo explicitní volby.
+Režim pouze pro ověření a volba bez dialogu žádné okno nezobrazují.
+Katalogy nyní obsahují 39 klíčů; úplná lokalizace aplikace není dokončená.
+
+Produkční automatika 0.4.7 a menu 0.8.3 jsou beze změn. Kandidát 0.8.4
+nebyl spuštěn ve hře ani nasazen. Poslední instalace 0.8.2 a předchozí
+nespuštěný balíček 0.8.3 zůstávají nedotčené. Ochrana runtime sama nepotvrzuje
+bezpečnost budoucích vlastních technologií uložených v inventáři.
+
+Finální zdroj prošel 329 produkčními a 633 vývojovými testy bez vynechání.
+Společný balíček má 39 souborů a manifest. Skutečné pyMHF ověřilo načtení
+obou tříd a šest voleb s dočasnými preferencemi, bez připojení ke hře a hooků.
+Přímé kontroly přes Python i Windows PowerShell 5.1 uspěly nad existující hrou
+a runtime bez spuštění či instalace. Opravena byla i chyba uvozovek v testovacím
+příkazu staršího PowerShellu a zpracování cest se znaky mimo základní Unicode.
+
+## Předchozí příprava 0.8.3 — ikony a jazykové katalogy
 
 Samostatný nespuštěný balíček 0.8.3 zachovává produkci 0.4.7 beze změny a
 přidává menu 0.8.3. Obsahuje sedm původních ikon, jasný popisek biomové volby

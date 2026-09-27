@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.8.4 developer trial — guarded launch and localized compatibility failures
+
+- Prepared a separate launcher candidate with byte-identical production 0.4.7 and menu 0.8.3. Prior 0.8.2/0.8.3 artifacts stay unchanged; no launch or deployment is part of this change.
+- Added selected-game preflight to direct Python startup and a shared actual-process image/path/hash check before each DLL injection. Retained post-injection DLL identity verification and the independent pre-hook class guards. Reject foreign pyMHF libraries and changed/extra standalone launch configuration.
+- Added nine outside-game compatibility messages in all 14 catalogs (39 keys total). Windows UI language or an explicit launcher language selects the text; unsupported languages use English. Missing or invalid message resources use maintained English emergency text. No-dialog and check-only paths avoid modal UI. Thirteen translations remain drafts; other launcher and native text are not fully localized.
+- Added build-time agreement checks for host/profile/manifest, native mapping, generated framework pin and developer targets. No unknown-build override, native HUD call, setting reset or save mutation is added.
+- Corrected the real Windows PowerShell 5.1 Python probe quoting and UTF-16 image-path length validation. Foreign framework libraries now fail both preflight and normal startup. Passed 329 production and 633 developer tests, including 19 actual PowerShell integration cases; the final 40-file candidate passed real-framework discovery and both read-only launch preflights. No game launch or deployment occurred.
+
 ## Unreleased research — earned companion technologies
 
 - Added an isolated immutable energy model with separately confirmed debit and battery-refill requests, stale-context rejection, one-request accounting and bounded warning suppression. Queue acceptance alone cannot incur a charge. No production import, native inventory mutation or save access was added.

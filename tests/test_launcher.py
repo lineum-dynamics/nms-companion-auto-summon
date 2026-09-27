@@ -3,6 +3,8 @@
 import builtins
 import ctypes
 import importlib.util
+import hashlib
+import json
 import os
 from pathlib import Path
 import sys
@@ -58,7 +60,7 @@ class LauncherSessionTests(unittest.TestCase):
     def test_concurrent_package_refused_without_releasing_original_lease(self):
         api = FakeMutexAPI()
         # Independently imported copies still refer to one fixed kernel name.
-        duplicate = {"__name__": "another_package_launcher"}
+        duplicate = {"__name__": "another_package_launcher", "__file__": str(SOURCE_PATH)}
         exec(compile(SOURCE_PATH.read_bytes(), str(SOURCE_PATH), "exec"), duplicate)
         with launcher.launcher_session(api):
             with self.assertRaisesRegex(launcher.LauncherSessionError, "already starting"):
@@ -170,6 +172,16 @@ class LauncherTests(unittest.TestCase):
         mutex_patch = patch.object(launcher, "_launcher_mutex_api", return_value=self.mutex)
         mutex_patch.start()
         self.addCleanup(mutex_patch.stop)
+        self.verified_executable = self.root / "game/Binaries/NMS.exe"
+        self.compatibility_mocks = {}
+        for name, returned in (("verify_target", self.verified_executable), ("verify_game_directory", self.verified_executable),
+                               ("verify_framework", True), ("game_closed", True), ("show_failure", None)):
+            item = patch.object(launcher.compatibility, name, return_value=returned)
+            self.compatibility_mocks[name] = item.start()
+            self.addCleanup(item.stop)
+        package_patch = patch.object(launcher, "validate_standalone_package", return_value=True)
+        self.package_check = package_patch.start()
+        self.addCleanup(package_patch.stop)
 
     def install(self):
         original = self.api.inject_dll_from_path
@@ -184,7 +196,7 @@ class LauncherTests(unittest.TestCase):
             return real_import(name, *args, **kwargs)
         with patch.object(builtins, "__import__", side_effect=checked_import):
             exec(compile(SOURCE_PATH.read_text(encoding="utf-8"), str(SOURCE_PATH), "exec"),
-                 {"__name__": "offline_import"})
+                 {"__name__": "offline_import", "__file__": str(SOURCE_PATH)})
 
     def test_returns_actual_remote_base_instead_of_local_base(self):
         original, guarded = self.install()
@@ -296,7 +308,7 @@ class LauncherTests(unittest.TestCase):
             self.assertEqual(len(self.mutex.handles), 1)
             return 42
         fake_pymhf = SimpleNamespace(run=fake_run)
-        with patch.object(launcher, "install_injection_guard", side_effect=lambda: events.append("guard")), \
+        with patch.object(launcher, "install_injection_guard", side_effect=lambda **kwargs: events.append("guard")), \
              patch.dict(sys.modules, {"pymhf": fake_pymhf}):
             self.assertEqual(launcher.main([str(mod)]), 42)
         self.assertEqual(events, ["guard", "run"])
@@ -351,6 +363,142 @@ class LauncherTests(unittest.TestCase):
                 with self.subTest(path=path), self.assertRaises(SystemExit):
                     launcher.main([path])
         guard.assert_not_called()
+
+    def test_actual_target_is_verified_before_every_dll_load(self):
+        events = []
+        self.compatibility_mocks["verify_target"].side_effect = lambda *a, **kw: events.append("verify")
+        self.api.inject_dll_from_path.side_effect = lambda *a: events.append("inject")
+        _, guarded = self.install()
+        guarded(123, str(self.dll))
+        guarded(123, str(self.dll))
+        self.assertEqual(events, ["verify", "inject", "verify", "inject"])
+
+    def test_target_refusal_prevents_first_and_second_injection(self):
+        original, guarded = self.install()
+        checker = self.compatibility_mocks["verify_target"]
+        checker.side_effect = launcher.compatibility.CompatibilityError("launcher.unsupported_game")
+        with self.assertRaises(launcher.compatibility.CompatibilityError):
+            guarded(123, str(self.dll))
+        original.assert_not_called()
+        self.api.enum_process_module.assert_not_called()
+        checker.side_effect = [self.verified_executable,
+                               launcher.compatibility.CompatibilityError("launcher.game_changed")]
+        guarded(123, str(self.dll))
+        with self.assertRaises(launcher.compatibility.CompatibilityError):
+            guarded(123, str(self.dll))
+        self.assertEqual(original.call_count, 1)
+
+    def test_wrapper_cannot_silently_reuse_a_different_selected_game(self):
+        launcher.install_injection_guard(self.api, expected_executable=self.verified_executable)
+        with self.assertRaises(launcher.compatibility.CompatibilityError):
+            launcher.install_injection_guard(self.api, expected_executable=self.root / "other.exe")
+
+    def test_preflight_failure_reports_without_lease_framework_or_injection(self):
+        mod = self.root / "CompanionAutoSummon.py"
+        mod.write_bytes(b"# owned fixture")
+        for method, key in (("verify_game_directory", "launcher.unsupported_game"),
+                            ("verify_framework", "launcher.wrong_framework")):
+            mock = self.compatibility_mocks[method]
+            failure = launcher.compatibility.CompatibilityError(key)
+            mock.side_effect = failure
+            with patch.object(launcher, "install_injection_guard") as guard:
+                self.assertEqual(launcher.main([str(mod), "--language", "fr", "--no-dialog"]), 1)
+                guard.assert_not_called()
+            self.compatibility_mocks["show_failure"].assert_called_with(failure, language="fr", show_dialog=False)
+            self.assertEqual(self.mutex.events, [])
+            mock.side_effect = None
+
+    def test_missing_mod_path_reports_without_reading_game_or_starting_host(self):
+        with patch.object(launcher, "install_injection_guard") as guard:
+            self.assertEqual(launcher.main([str(self.root / "missing/CompanionAutoSummon.py"), "--no-dialog"]), 1)
+            guard.assert_not_called()
+        self.compatibility_mocks["verify_game_directory"].assert_not_called()
+        failure = self.compatibility_mocks["show_failure"].call_args.args[0]
+        self.assertEqual(failure.key, "launcher.invalid_package")
+        self.assertEqual(self.mutex.events, [])
+
+    def test_check_only_skips_lease_process_probe_and_framework_entry(self):
+        mod = self.root / "CompanionAutoSummon.py"
+        mod.write_bytes(b"# owned fixture")
+        with patch.object(launcher, "install_injection_guard") as guard, patch("sys.stdout"):
+            self.assertEqual(launcher.main([str(mod), "--check-only"]), 0)
+            guard.assert_not_called()
+        self.compatibility_mocks["game_closed"].assert_not_called()
+        self.assertEqual(self.mutex.events, [])
+
+    def test_final_gate_refusal_returns_failure_and_releases_host(self):
+        mod = self.root / "CompanionAutoSummon.py"
+        mod.write_bytes(b"# owned fixture")
+        failure = launcher.compatibility.CompatibilityError("launcher.game_changed")
+        fake = SimpleNamespace(run=Mock(side_effect=failure))
+        previous = sys.argv
+        with patch.object(launcher, "install_injection_guard") as guard, patch.dict(sys.modules, {"pymhf": fake}):
+            self.assertEqual(launcher.main([str(mod), "--no-dialog"]), 1)
+            guard.assert_called_once_with(expected_executable=self.verified_executable)
+        self.assertIs(sys.argv, previous)
+        self.assertEqual(self.mutex.handles, {})
+        self.compatibility_mocks["show_failure"].assert_called_once_with(failure, language=None, show_dialog=False)
+
+
+class StandalonePackageTests(unittest.TestCase):
+    def setUp(self):
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        self.root = Path(temporary.name)
+        self.mod = self.root / "CompanionAutoSummon.py"
+        self.mod.write_bytes((SOURCE_PATH.parent / "CompanionAutoSummon.py").read_bytes())
+        for name in (SOURCE_PATH.name, "cas_compatibility.py"):
+            (self.root / name).write_bytes(b"# owned inert fixture")
+        (self.root / "compatibility.json").write_text(json.dumps(launcher.compatibility.PROFILE), encoding="utf-8")
+        host_patch = patch.object(launcher, "__file__", str(self.root / SOURCE_PATH.name))
+        host_patch.start()
+        self.addCleanup(host_patch.stop)
+        self.rehash()
+
+    def rehash(self):
+        self.manifest = {"steam_build": launcher.compatibility.STEAM_BUILD,
+                         "supported_nms_exe_sha256": launcher.compatibility.SUPPORTED_GAME_SHA256,
+                         "framework": "pymhf[gui]==0.2.4",
+                         "files": [{"path": p.name, "sha256": hashlib.sha256(p.read_bytes()).hexdigest()}
+                                   for p in self.root.iterdir() if p.name != "manifest.json"]}
+        self.save_manifest()
+
+    def save_manifest(self):
+        (self.root / "manifest.json").write_text(json.dumps(self.manifest), encoding="utf-8")
+
+    def test_owned_complete_package_validates_without_executing_it(self):
+        self.assertEqual(launcher.validate_standalone_package(self.mod), self.mod.resolve())
+
+    def test_bad_sibling_and_duplicate_records_refused(self):
+        for name in ("cas_compatibility.py", SOURCE_PATH.name, "CompanionAutoSummon.py"):
+            target = self.root / name
+            saved = target.read_bytes()
+            target.write_bytes(saved + b"# changed")
+            with self.subTest(name=name), self.assertRaises(launcher.compatibility.CompatibilityError):
+                launcher.validate_standalone_package(self.mod)
+            target.write_bytes(saved)
+        self.manifest["files"].append(self.manifest["files"][0])
+        self.save_manifest()
+        with self.assertRaises(launcher.compatibility.CompatibilityError):
+            launcher.validate_standalone_package(self.mod)
+
+    def test_matching_hash_does_not_allow_paused_or_foreign_game_configuration(self):
+        original = self.mod.read_bytes()
+        for old, replacement in ((b"start_paused = false", b"start_paused = true"),
+                                  (b"steam_gameid = 275850", b"steam_gameid = 42"),
+                                  (b'exe = "NMS.exe"', b'exe = "Other.exe"'),
+                                  (b"interactive_console = false", b'interactive_console = false\n# required_assemblies = ["foreign.dll"]')):
+            self.mod.write_bytes(original.replace(old, replacement, 1))
+            self.rehash()
+            with self.subTest(old=old), self.assertRaises(launcher.compatibility.CompatibilityError):
+                launcher.validate_standalone_package(self.mod)
+
+    def test_inconsistent_profile_refused_even_with_updated_file_checksum(self):
+        profile = dict(launcher.compatibility.PROFILE, exe_sha256="0" * 64)
+        (self.root / "compatibility.json").write_text(json.dumps(profile), encoding="utf-8")
+        self.rehash()
+        with self.assertRaises(launcher.compatibility.CompatibilityError):
+            launcher.validate_standalone_package(self.mod)
 
 
 if __name__ == "__main__":

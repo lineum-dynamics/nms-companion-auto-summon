@@ -6,12 +6,104 @@ Example: .\Start-CompanionAutoSummon.ps1 -GameDirectory 'D:\SteamLibrary\steamap
 Use -CheckOnly to validate an existing installation without setup or launch, even while the game is running.
 #>
 [CmdletBinding()]
-param([string]$GameDirectory, [switch]$CheckOnly)
+param([string]$GameDirectory, [switch]$CheckOnly, [string]$Language, [switch]$NoDialog)
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 $runtimeVersion = '0.2.4'
 $runtimeRequirement = "pymhf[gui]==$runtimeVersion"
+$script:CasSupportedBuild = 'Cosmos 7.04 (Steam 25442159)'
+
+function Read-LauncherCatalog {
+    param([string]$Code)
+    $path = Join-Path $PSScriptRoot "locales\$Code.json"
+    $file = Get-Item -LiteralPath $path -ErrorAction Stop
+    if ($file.Length -gt 65536) { throw 'Oversized launcher catalog' }
+    $raw = [IO.File]::ReadAllText($path)
+    $catalog = $raw | ConvertFrom-Json
+    $review = if ($Code -eq 'en') { 'canonical' } else { 'draft_unreviewed' }
+    if (($catalog.schema_version -isnot [int] -and $catalog.schema_version -isnot [long]) -or $catalog.schema_version -ne 1 -or
+        $catalog.locale -cne $Code -or $catalog.scope -cne 'native_menu_hud_technology_launcher' -or
+        $catalog.review_status -cne $review -or $catalog.native_runtime_integrated -isnot [bool] -or $catalog.native_runtime_integrated) {
+        throw 'Invalid launcher catalog metadata'
+    }
+    $keys = @('launcher.blocked_title','launcher.unsupported_game','launcher.unreadable_game','launcher.game_required',
+              'launcher.invalid_package','launcher.wrong_framework','launcher.game_changed','launcher.game_running','launcher.preflight_passed')
+    $result = @{}
+    foreach ($key in $keys) {
+        if ([regex]::Matches($raw, '(?<!\\)"' + [regex]::Escape($key) + '"\s*:').Count -ne 1) { throw 'Duplicate or missing launcher key' }
+        $entry = $catalog.messages.PSObject.Properties[$key].Value
+        if ($entry.text -isnot [string] -or -not $entry.text.Trim() -or
+            [Text.Encoding]::UTF8.GetByteCount($entry.text) -gt 1024 -or $entry.text -match '[\x00-\x1F]' -or
+            $entry.source_sha256 -isnot [string] -or $entry.source_sha256 -cnotmatch '^[0-9a-f]{64}$') { throw 'Invalid launcher text' }
+        $expected = if ($key -eq 'launcher.unsupported_game') { '{build}' } elseif ($key -eq 'launcher.wrong_framework') { '{version}' } else { '' }
+        $plain = $entry.text
+        if ($expected) {
+            if ([regex]::Matches($plain, [regex]::Escape($expected)).Count -ne 1) { throw 'Invalid launcher placeholders' }
+            $plain = $plain.Replace($expected, '')
+        }
+        if ($plain -match '[{}]') { throw 'Invalid launcher placeholders' }
+        if ($Code -eq 'en') {
+            $hasher = [Security.Cryptography.SHA256]::Create()
+            try { $digest = [BitConverter]::ToString($hasher.ComputeHash([Text.Encoding]::UTF8.GetBytes($entry.text))).Replace('-', '').ToLowerInvariant() }
+            finally { $hasher.Dispose() }
+            if ($digest -cne $entry.source_sha256) { throw 'Changed English launcher text' }
+        }
+        $result[$key] = $entry
+    }
+    return $result
+}
+
+function Get-LauncherMessage {
+    param([string]$Key)
+    # These two emergency strings are checked against the English catalog.
+    $fallbackTitle = 'Companion Auto Summon could not start'
+    $fallbackBody = 'The mod package is incomplete or inconsistent. Extract a complete matching package and try again.'
+    $code = $Language
+    if (-not $code) { $code = [Globalization.CultureInfo]::CurrentUICulture.Name }
+    $code = $code.Replace('_', '-').ToLowerInvariant()
+    $aliases = @{'es'='es-ES'; 'pt'='pt-PT'; 'pt-br'='pt-BR'; 'pt-pt'='pt-PT'; 'zh-tw'='zh-Hant'; 'zh-hk'='zh-Hant'; 'zh-mo'='zh-Hant'; 'zh-hant'='zh-Hant'; 'zh'='zh-Hans'; 'zh-cn'='zh-Hans'; 'zh-sg'='zh-Hans'; 'zh-hans'='zh-Hans'}
+    if ($aliases.ContainsKey($code)) { $code = $aliases[$code] }
+    elseif ($code -like 'zh-hant-*') { $code = 'zh-Hant' }
+    elseif ($code -like 'zh-hans-*') { $code = 'zh-Hans' }
+    else {
+        $code = $code.Split('-')[0]
+        if ($aliases.ContainsKey($code)) { $code = $aliases[$code] }
+        elseif ($code -notin @('en','fr','it','de','nl','ja','ko','pl','ru')) { $code = 'en' }
+    }
+    try {
+        $english = Read-LauncherCatalog -Code 'en'
+        if ($english['launcher.blocked_title'].text -cne $fallbackTitle -or $english['launcher.invalid_package'].text -cne $fallbackBody) { throw 'Emergency text differs' }
+        $selected = if ($code -eq 'en') { $english } else { Read-LauncherCatalog -Code $code }
+        foreach ($name in $english.Keys) {
+            if ($selected[$name].source_sha256 -cne $english[$name].source_sha256 -or
+                ($code -ne 'en' -and $selected[$name].text -ceq $english[$name].text)) { throw 'Stale or untranslated launcher text' }
+        }
+        return $selected[$Key].text.Replace('{build}', $script:CasSupportedBuild).Replace('{version}', $runtimeVersion)
+    } catch { } # Corrupt translation resources cannot change the refusal decision.
+    if ($Key -eq 'launcher.blocked_title') { return $fallbackTitle }
+    return $fallbackBody
+}
+
+function Throw-LauncherCompatibility {
+    param([string]$Key)
+    $exception = [InvalidOperationException]::new($Key)
+    $exception.Data['CAS.CompatibilityKey'] = $Key
+    throw $exception
+}
+
+function Show-LauncherFailure {
+    param([string]$Key)
+    $message = Get-LauncherMessage -Key $Key
+    Write-Error -Message $message -ErrorAction Continue
+    if (-not $CheckOnly -and -not $NoDialog) {
+        try {
+            Add-Type -AssemblyName System.Windows.Forms
+            [void][Windows.Forms.MessageBox]::Show($message, (Get-LauncherMessage -Key 'launcher.blocked_title'),
+                [Windows.Forms.MessageBoxButtons]::OK, [Windows.Forms.MessageBoxIcon]::Warning)
+        } catch { } # The console message remains available if desktop UI fails.
+    }
+}
 
 function Get-GameRunning {
     try {
@@ -24,13 +116,17 @@ function Get-GameRunning {
 
 function Assert-GameClosed {
     if (Get-GameRunning) {
-        throw 'No Man''s Sky is running. Close it before starting Companion Auto Summon; this launcher will not attach to an existing game.'
+        Throw-LauncherCompatibility -Key 'launcher.game_running'
     }
 }
 
 function Get-PythonInfo {
     param([string]$Executable, [string[]]$Arguments = @())
-    $probe = 'import sys,os,struct,json,importlib.util as u,importlib.metadata as m; versions={d.metadata.get("Name","").lower():d.version for d in m.distributions()}; print(json.dumps({"exe":os.path.realpath(sys.executable),"major":sys.version_info.major,"minor":sys.version_info.minor,"bits":struct.calcsize("P")*8,"pymhf":versions.get("pymhf"),"dearpygui":versions.get("dearpygui") if u.find_spec("dearpygui") else None}))'
+    # Windows PowerShell 5.1 strips embedded double quotes in native arguments.
+    # Python single-quoted literals survive that boundary unchanged.
+    $probe = @'
+import sys,os,struct,json,importlib.util as u,importlib.metadata as m; versions={d.metadata.get('Name','').lower():d.version for d in m.distributions()}; print(json.dumps({'exe':os.path.realpath(sys.executable),'major':sys.version_info.major,'minor':sys.version_info.minor,'bits':struct.calcsize('P')*8,'pymhf':versions.get('pymhf'),'dearpygui':versions.get('dearpygui') if u.find_spec('dearpygui') else None,'pymhflib_count':len(m.entry_points(group='pymhflib'))}))
+'@
     try {
         $lines = @(& $Executable @Arguments -B -c $probe 2>$null)
         if ($LASTEXITCODE -ne 0 -or $lines.Count -ne 1) { return $null }
@@ -125,36 +221,43 @@ try {
     $modPath = Join-Path $PSScriptRoot 'CompanionAutoSummon.py'
     $bootstrapPath = Join-Path $PSScriptRoot 'Launch-CompanionAutoSummon.py'
     if (-not (Test-Path -LiteralPath $manifestPath -PathType Leaf) -or -not (Test-Path -LiteralPath $modPath -PathType Leaf) -or -not (Test-Path -LiteralPath $bootstrapPath -PathType Leaf)) {
-        throw 'The Companion Auto Summon package is incomplete. Extract the entire ZIP before running this launcher.'
+        Throw-LauncherCompatibility -Key 'launcher.invalid_package'
     }
     $manifest = [IO.File]::ReadAllText($manifestPath) | ConvertFrom-Json
     if ($manifest.framework -ne $runtimeRequirement) { throw 'The manifest requires a different runtime. Download a complete matching Companion Auto Summon package.' }
-    foreach ($scriptName in @('CompanionAutoSummon.py', 'Launch-CompanionAutoSummon.py')) {
+    foreach ($scriptName in @('CompanionAutoSummon.py', 'Launch-CompanionAutoSummon.py', 'cas_compatibility.py', 'compatibility.json')) {
         $scriptEntries = @($manifest.files | Where-Object { $_.path -ceq $scriptName })
-        if ($scriptEntries.Count -ne 1 -or $scriptEntries[0].sha256 -notmatch '^[0-9a-fA-F]{64}$') { throw "The manifest has no valid $scriptName checksum." }
-        if ((Get-FileHash -LiteralPath (Join-Path $PSScriptRoot $scriptName) -Algorithm SHA256).Hash -ine $scriptEntries[0].sha256) {
-            throw "$scriptName does not match the package manifest. Re-extract an intact package before launching."
+        if ($scriptEntries.Count -ne 1 -or $scriptEntries[0].sha256 -notmatch '^[0-9a-fA-F]{64}$') { Throw-LauncherCompatibility -Key 'launcher.invalid_package' }
+        if (-not (Test-Path -LiteralPath (Join-Path $PSScriptRoot $scriptName) -PathType Leaf) -or
+            (Get-FileHash -LiteralPath (Join-Path $PSScriptRoot $scriptName) -Algorithm SHA256).Hash -ine $scriptEntries[0].sha256) {
+            Throw-LauncherCompatibility -Key 'launcher.invalid_package'
         }
     }
-    $expectedGameHash = $manifest.supported_nms_exe_sha256
-    if ($expectedGameHash -notmatch '^[0-9a-fA-F]{64}$') { throw 'The package has no valid supported-game checksum.' }
+    $profile = [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'compatibility.json')) | ConvertFrom-Json
+    $expectedGameHash = $profile.exe_sha256
+    if (($profile.schema_version -isnot [int] -and $profile.schema_version -isnot [long]) -or
+        $profile.schema_version -ne 1 -or $expectedGameHash -notmatch '^[0-9a-f]{64}$' -or
+        $profile.framework_version -ne $runtimeVersion -or $profile.steam_build -cne $manifest.steam_build -or
+        $expectedGameHash -cne $manifest.supported_nms_exe_sha256) { Throw-LauncherCompatibility -Key 'launcher.invalid_package' }
+    $script:CasSupportedBuild = "$($profile.game_release) (Steam $($profile.steam_build))"
     if ($GameDirectory) {
         $directories = @([IO.Path]::GetFullPath($GameDirectory))
     } else {
         $directories = @(Find-SteamGameDirectories | Sort-Object -Unique)
     }
     if ($directories.Count -eq 0) {
-        throw 'No Steam installation of No Man''s Sky was found. Run again with -GameDirectory pointing to its installation folder.'
+        Throw-LauncherCompatibility -Key 'launcher.game_required'
     }
     $matchingGames = @()
     foreach ($directory in $directories) {
         $exePath = Join-Path $directory 'Binaries\NMS.exe'
-        if ((Test-Path -LiteralPath $exePath -PathType Leaf) -and (Get-FileHash -LiteralPath $exePath -Algorithm SHA256).Hash -ieq $expectedGameHash) {
-            $matchingGames += $directory
-        }
+        try {
+            if (-not (Test-Path -LiteralPath $exePath -PathType Leaf)) { Throw-LauncherCompatibility -Key 'launcher.unreadable_game' }
+            if ((Get-FileHash -LiteralPath $exePath -Algorithm SHA256).Hash -ieq $expectedGameHash) { $matchingGames += $directory }
+        } catch { Throw-LauncherCompatibility -Key 'launcher.unreadable_game' }
     }
-    if ($matchingGames.Count -eq 0) { throw "The game executable is unsupported. This package requires the exact Steam build $($manifest.steam_build) listed in manifest.json. No mod was launched." }
-    if ($matchingGames.Count -ne 1) { throw 'Multiple supported installations were found. Select the active Steam installation with -GameDirectory.' }
+    if ($matchingGames.Count -eq 0) { Throw-LauncherCompatibility -Key 'launcher.unsupported_game' }
+    if ($matchingGames.Count -ne 1) { Throw-LauncherCompatibility -Key 'launcher.game_required' }
     Write-Host "Validated game: $($matchingGames[0])"
     if (-not $CheckOnly) { Write-Host 'Companion Auto Summon is experimental. Start Steam with the account that owns this installation.' }
 
@@ -172,6 +275,9 @@ try {
     }
     $runtimeInfo = Get-PythonInfo -Executable $runtimePython
     if (-not $runtimeInfo) { throw "The isolated runtime is damaged or uses an unsupported Python version: $runtimeDirectory. Close NMS before repairing or recreating it; CheckOnly never repairs files." }
+    if (($runtimeInfo.pymhflib_count -isnot [int] -and $runtimeInfo.pymhflib_count -isnot [long]) -or $runtimeInfo.pymhflib_count -ne 0) {
+        Throw-LauncherCompatibility -Key 'launcher.invalid_package'
+    }
     # Resolve Windows package/file virtualization before handing paths to NMS,
     # which is launched by Steam outside this launcher's filesystem context.
     $runtimePython = $runtimeInfo.exe
@@ -184,6 +290,9 @@ try {
         $runtimeInfo = Get-PythonInfo -Executable $runtimePython
         if (-not $runtimeInfo -or $runtimeInfo.pymhf -ne $runtimeVersion -or -not $runtimeInfo.dearpygui) { throw 'The installed pyMHF version and Dear PyGui dependency could not be verified.' }
     }
+    if (($runtimeInfo.pymhflib_count -isnot [int] -and $runtimeInfo.pymhflib_count -isnot [long]) -or $runtimeInfo.pymhflib_count -ne 0) {
+        Throw-LauncherCompatibility -Key 'launcher.invalid_package'
+    }
     if ($CheckOnly) {
         $gameRunning = Get-GameRunning
         Write-Host "Validated exact game build: $($manifest.steam_build)"
@@ -195,18 +304,25 @@ try {
     Assert-GameClosed
     # Steam may have updated the executable while dependencies were installing.
     $verifiedExe = Join-Path $matchingGames[0] 'Binaries\NMS.exe'
-    if ((Get-FileHash -LiteralPath $verifiedExe -Algorithm SHA256).Hash -ine $expectedGameHash) { throw 'The game executable changed during setup. Companion Auto Summon was not launched.' }
+    try { $finalHash = (Get-FileHash -LiteralPath $verifiedExe -Algorithm SHA256).Hash }
+    catch { Throw-LauncherCompatibility -Key 'launcher.unreadable_game' }
+    if ($finalHash -ine $expectedGameHash) { Throw-LauncherCompatibility -Key 'launcher.game_changed' }
     Write-Host 'Starting Companion Auto Summon through pyMHF and Steam. Keep this window open.'
     Push-Location -LiteralPath $PSScriptRoot
     try {
         Assert-GameClosed
-        & $runtimePython $bootstrapPath $modPath
+        $hostOptions = @('--game-directory', $matchingGames[0])
+        if ($Language) { $hostOptions += @('--language', $Language) }
+        if ($NoDialog) { $hostOptions += '--no-dialog' }
+        & $runtimePython $bootstrapPath $modPath @hostOptions
         if ($LASTEXITCODE -ne 0) { throw "pyMHF exited with code $LASTEXITCODE. See its output above." }
     } finally {
         Pop-Location
     }
 } catch {
-    Write-Error -Message $_.Exception.Message -ErrorAction Continue
+    if ($_.Exception.Data.Contains('CAS.CompatibilityKey')) {
+        Show-LauncherFailure -Key $_.Exception.Data['CAS.CompatibilityKey']
+    } else { Write-Error -Message $_.Exception.Message -ErrorAction Continue }
     exit 1
 } finally {
     if ($null -ne $setupLease) { $setupLease.Dispose() }

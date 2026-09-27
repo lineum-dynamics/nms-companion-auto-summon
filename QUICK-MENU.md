@@ -1,14 +1,17 @@
 # Native quick-menu investigation
 
-## Current status: live 0.8.2, prepared 0.8.3
+## Current status: last launched 0.8.2, prepared 0.8.4
 
-The immutable live **0.8.2-play-trial** folder contains production **0.4.7**
+The immutable last-launched **0.8.2-play-trial** folder contains production **0.4.7**
 and menu **0.8.0-settings-trial**, with the original single custom icon.
 Registration and native active-state logs are not visual confirmation of an
 icon or companion. Gameplay and interface acceptance remain separate checks.
 
-Prepared **0.8.3-play-trial** pairs unchanged production **0.4.7** with
+Prepared **0.8.4-play-trial** pairs unchanged production **0.4.7** with
 **0.8.3-settings-trial** and seven distinct role icons. It has not launched.
+This revision adds the host compatibility guard, nine cataloged launcher
+messages and build-profile validation. It changes no menu/native behavior.
+The earlier prepared 0.8.3 folder is retained unchanged.
 The six existing preferences remain on a flat page: automatic summoning,
 Last selected/Random, matching-biome preference, planets, space stations and
 the Space Anomaly. The desktop development panel remains until the native

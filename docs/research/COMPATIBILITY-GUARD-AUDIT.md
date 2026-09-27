@@ -1,5 +1,53 @@
 # Compatibility guard audit
 
+## Follow-up implementation: candidate 0.8.4
+
+The historical gaps numbered 1 and 3 below are now addressed in source. Both
+maintained Python hosts preflight the chosen game and the actual process is
+rechecked before every DLL injection. The wrapper uses the existing target
+handle with Unicode `QueryFullProcessImageNameW`, rehashes its image file and
+requires equality with the selected path. It never substitutes a name/PID
+search, caches a numeric handle or changes the original injector's return
+address checks. Foreign `pymhflib` entries are rejected. Standalone package
+validation additionally refuses missing/changed sibling files and unreviewed
+TOML fields such as `required_assemblies` or suspended startup.
+
+Gap 2 now has a scoped implementation: nine translated compatibility warnings
+outside the game, selected from Windows UI language or an explicit override.
+PowerShell and Python preserve console text and can show a host dialog; check-only
+and explicit no-dialog modes suppress it. Malformed/stale catalogs retain
+refusal and use emergency English package-failure text. Other launcher messages
+and the final portable interface are not claimed complete. No native HUD route
+is used, and none of the warning tests opens a real dialog.
+
+Build/profile validation compares the host constants, JSON, manifest, native
+and generated production mappings/framework pin, menu/filter and prototype
+target. It parses source as data and refuses drift before creating outputs.
+The native class/discovery latch remains in place; ordinary callback stopping
+still does not mean native hooks have been unregistered.
+
+Static inspection of installed pyMHF 0.2.4 confirms that this distinct
+CompatibilityError propagates before its later game-termination cleanup block;
+it is not one of the process-not-found errors that trigger another launch.
+Both DLL loads in pyrun_injected pass the already-open actual process handle.
+The wrapper does not kill, resume or relaunch a refused target. Live injection
+of this candidate remains untested. The disk hash is not a complete audit of
+the mapped executable, and saved custom technologies still need the separate
+update/removal verification described in historical gap 5.
+
+Final offline validation passed 329 production and 633 developer tests without
+skips, including 19 actual PowerShell cases. Real Windows PowerShell 5.1 and
+Python check-only invocations both accepted the current selected installation
+and runtime. The former now avoids native argument double-quote stripping;
+target path lengths are validated as UTF-16 units. The 40-file combined folder
+also passed real-framework discovery and temporary preference exercises with
+no native hooks or game connection. These do not establish a new live launch.
+
+The API contract is documented by
+[Microsoft: QueryFullProcessImageNameW](https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-queryfullprocessimagenamew).
+
+## Historical audit before this implementation
+
 Reviewed on 28 September 2026 against production 0.4.7 and prepared combined
 trial 0.8.3, plus the installed pyMHF 0.2.4 source. This was a read-only source
 audit: no game/process inspection, injection, hook registration or deployment.

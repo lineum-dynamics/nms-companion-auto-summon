@@ -16,6 +16,10 @@ _locale_spec = util.spec_from_file_location("_cas_build_locales", Path(__file__)
 _locale_module = util.module_from_spec(_locale_spec)
 _locale_spec.loader.exec_module(_locale_module)
 validate_locales = _locale_module.validate
+_profile_spec = util.spec_from_file_location("_cas_build_profile", Path(__file__).with_name("validate_compatibility.py"))
+_profile_module = util.module_from_spec(_profile_spec)
+_profile_spec.loader.exec_module(_profile_module)
+validate_compatibility = _profile_module.validate
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -30,7 +34,8 @@ PLAY_HOST_FILE = "Launch-CompanionAutoSummon-PlayTrial.py"
 LAUNCHER_FILE = "Start-CompanionAutoSummon.ps1"
 CONFIG_FILE = "pymhf.toml"
 CHECKED_FILES = (PRODUCTION_FILE, MENU_FILE, GUARD_HOST_FILE, PLAY_HOST_FILE,
-                 *HELPERS, CONFIG_FILE, LAUNCHER_FILE, *ASSET_HASHES)
+                 "cas_compatibility.py", "compatibility.json", *HELPERS, CONFIG_FILE, LAUNCHER_FILE, *ASSET_HASHES,
+                 *(f"locales/{code}.json" for code in _locale_module.LOCALES))
 CONFIG = b"""[pymhf]
 exe = "NMS.exe"
 steam_gameid = 275850
@@ -56,7 +61,12 @@ This isolated developer bundle runs two mods in one pyMHF host:
 - CompanionMenuOrderTrial 0.8.3-settings-trial: the ordered native companion
   submenu with all six settings, its binding filter and distinct setting icons.
 
-The bundle version is 0.8.3-play-trial. This revision is not yet live-verified.
+The bundle version is 0.8.4-play-trial. This revision is not yet live-verified.
+It adds exact-build checks before host startup and before each DLL injection
+into the actual selected game process. Compatibility failures use translated
+outside-game notices; --language/-Language selects a launcher language, otherwise
+the Windows UI language is used with English fallback. This does not translate
+the native menu. The catalogs remain unreviewed translation drafts.
 This launcher revision adds a fixed setup lease and a separate host lease to
 refuse duplicate launches before Steam has created NMS. Each lease lasts until
 its process closes the handle. Normal setup refuses unavailable process checks.
@@ -154,12 +164,8 @@ def _replace_once(text, marker, replacement, description):
 
 
 def _launcher(data):
-    """Preserve the reviewed launcher except for five exact folder-mode edits."""
+    """Preserve the reviewed launcher except for four exact folder-mode edits."""
     text = data.decode("utf-8")
-    text = _replace_once(
-        text, "& $runtimePython $bootstrapPath $modPath",
-        "& $runtimePython $bootstrapPath $modPath --game-directory $matchingGames[0]",
-        "verified game-directory argument")
     text = _replace_once(
         text, "$modPath = Join-Path $PSScriptRoot 'CompanionAutoSummon.py'",
         "$modPath = $PSScriptRoot", "mod-path assignment")
@@ -168,7 +174,7 @@ def _launcher(data):
         f"$bootstrapPath = Join-Path $PSScriptRoot '{PLAY_HOST_FILE}'",
         "host-path assignment")
     text = _replace_once(
-        text, "@('CompanionAutoSummon.py', 'Launch-CompanionAutoSummon.py')",
+        text, "@('CompanionAutoSummon.py', 'Launch-CompanionAutoSummon.py', 'cas_compatibility.py', 'compatibility.json')",
         "@(" + ", ".join("'" + name + "'" for name in CHECKED_FILES) + ")",
         "checksum list")
     # The original package check must accept the folder argument, while still
@@ -180,7 +186,7 @@ def _launcher(data):
     return text.encode("utf-8")
 
 
-def build(*, enable_menu=False, output_name="quick-menu-play-trial-083"):
+def build(*, enable_menu=False, output_name="quick-menu-play-trial-084"):
     """Create one fresh, checksum-complete folder without executing payloads."""
     if enable_menu is not True:
         raise ValueError("Pass --enable-menu for this combined developer trial")
@@ -190,6 +196,7 @@ def build(*, enable_menu=False, output_name="quick-menu-play-trial-083"):
     if output.exists() or output.is_symlink():
         raise FileExistsError("Trial output already exists; choose a new output name")
     validate_locales(locales_dir=ROOT / "locales", source_root=ROOT)
+    validate_compatibility(source_root=ROOT, developer=True, generated=True)
 
     menu = (ROOT / "tools/quick_menu_order_trial.py").read_bytes()
     if menu.count(b"TRIAL_ENABLED = False") != 1:
@@ -207,11 +214,15 @@ def build(*, enable_menu=False, output_name="quick-menu-play-trial-083"):
         MENU_FILE: menu,
         GUARD_HOST_FILE: (ROOT / GUARD_HOST_FILE).read_bytes(),
         PLAY_HOST_FILE: (ROOT / "tools" / PLAY_HOST_FILE).read_bytes(),
+        "cas_compatibility.py": (ROOT / "cas_compatibility.py").read_bytes(),
     }
     for name in HELPERS:
         payload[name] = (ROOT / "tools" / name).read_bytes()
     for name, data in payload.items():
         compile(data, name, "exec")
+    payload["compatibility.json"] = (ROOT / "compatibility.json").read_bytes()
+    for code in _locale_module.LOCALES:
+        payload[f"locales/{code}.json"] = (ROOT / "locales" / f"{code}.json").read_bytes()
     for asset_name in ASSET_HASHES:
         payload[asset_name] = (ROOT / "assets/ui" / asset_name).read_bytes()
         validate_asset(payload[asset_name], asset_name)
@@ -226,7 +237,7 @@ def build(*, enable_menu=False, output_name="quick-menu-play-trial-083"):
         raise ValueError("The play-trial host requires the reviewed production and framework versions")
     manifest = {
         "name": "Companion Auto Summon combined play trial",
-        "version": "0.8.3-play-trial",
+        "version": "0.8.4-play-trial",
         "framework": current["framework"],
         "steam_build": current["steam_build"],
         "supported_nms_exe_sha256": current["supported_nms_exe_sha256"],
@@ -251,6 +262,7 @@ def build(*, enable_menu=False, output_name="quick-menu-play-trial-083"):
     payload["manifest.json"] = (json.dumps(manifest, indent=2) + "\n").encode("utf-8")
     output.mkdir(parents=True, exist_ok=False)
     for name, data in payload.items():
+        (output / name).parent.mkdir(parents=True, exist_ok=True)
         (output / name).write_bytes(data)
     if any((output / name).read_bytes() != data for name, data in payload.items()):
         raise RuntimeError("Combined play trial readback failed")
@@ -263,7 +275,7 @@ def build(*, enable_menu=False, output_name="quick-menu-play-trial-083"):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--enable-menu", action="store_true")
-    parser.add_argument("--output-name", default="quick-menu-play-trial-083")
+    parser.add_argument("--output-name", default="quick-menu-play-trial-084")
     options = parser.parse_args()
     print(json.dumps(build(enable_menu=options.enable_menu,
                            output_name=options.output_name)))

@@ -148,7 +148,8 @@ def check(bundle_folder):
     spec.loader.exec_module(host)
     bundle, config = host.validate_bundle(str(bundle))
     paths = [bundle / name for name in host.PAYLOAD_FILES] + [bundle / "manifest.json"]
-    hashes = {path.name: hashlib.sha256(path.read_bytes()).hexdigest() for path in paths}
+    hashes = {path.relative_to(bundle).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()
+              for path in paths}
     require((bundle / "CompanionAutoSummon.py").read_bytes() == (ROOT / "CompanionAutoSummon.py").read_bytes(),
             "Production auto-summon source must be byte-identical")
     require((bundle / host.BOOTSTRAP_NAME).read_bytes() == (ROOT / host.BOOTSTRAP_NAME).read_bytes(),
@@ -331,15 +332,18 @@ def check(bundle_folder):
                 require(not settings_path.with_name("state.json").exists(), "Bridge changed companion memory")
 
             # Exercise host validation and dispatch with the real folder and
-            # configuration. Only injection and run_module itself are mocked.
+            # configuration. Game preflight, leases, injection, asset staging
+            # and run_module are mocked; no game path or process is accessed.
             canonical = host._load_bootstrap(bundle)
             require(Path(canonical.__file__).resolve() == bundle / host.BOOTSTRAP_NAME,
                     "The host did not import the canonical sibling bootstrap")
             order = []
-            guard = Mock(side_effect=lambda: order.append("guard"))
+            guard = Mock(side_effect=lambda **kwargs: order.append("guard"))
             launch = Mock(side_effect=lambda *args: order.append("folder") or "mocked")
             argv_before = sys.argv
             asset_setup = Mock(side_effect=lambda *args: order.append("asset"))
+            fake_game = Path(temporary) / "game"
+            fake_executable = fake_game / "NMS.exe"
             @contextmanager
             def owned_lease():
                 order.append("lease")
@@ -349,17 +353,23 @@ def check(bundle_folder):
                     order.append("release")
             with patch.object(host, "_load_bootstrap", return_value=SimpleNamespace(
                     install_injection_guard=guard, launcher_session=owned_lease)), \
+                    patch.object(host.compatibility, "verify_game_directory",
+                                 return_value=fake_executable) as preflight, \
+                    patch.object(host.compatibility, "show_failure",
+                                 side_effect=AssertionError("Unexpected compatibility refusal")), \
                     patch.object(host, "_prepare_icon_asset", asset_setup), \
                     patch.object(host, "_game_closed", return_value=True), \
                     patch.object(framework_main, "run_module", launch):
-                require(host.main([str(bundle), "--game-directory", str(Path(temporary) / "game")]) == "mocked",
+                require(host.main([str(bundle), "--game-directory", str(fake_game), "--no-dialog"]) == "mocked",
                         "Host dispatch result changed")
-            guard.assert_called_once_with()
+            preflight.assert_called_once_with(str(fake_game))
+            guard.assert_called_once_with(expected_executable=fake_executable)
             launch.assert_called_once_with(str(bundle), config)
             require(order == ["lease", "guard", "asset", "folder", "release"] and sys.argv is argv_before,
                     "Host dispatch order or argument lifetime differs")
 
-    require(all(hashlib.sha256(path.read_bytes()).hexdigest() == hashes[path.name] for path in paths),
+    require(all(hashlib.sha256(path.read_bytes()).hexdigest()
+                == hashes[path.relative_to(bundle).as_posix()] for path in paths),
             "Bundle changed during smoke check")
     result = {
         "version": host.VERSION, "framework": "0.2.4", "pymhflib_entry_points": [],
@@ -374,7 +384,8 @@ def check(bundle_folder):
         "real_preference_bridge_queue_apply_verified": True,
         "real_preference_bridge_all_six_settings_verified": True,
         "real_optional_icon_provider_binding_verified": True,
-        "host_direct_folder_dispatch_mocked": True, "hooks_registered": False,
+        "host_direct_folder_dispatch_mocked": True, "host_game_preflight_mocked": True,
+        "actual_framework_metadata_checked": True, "hooks_registered": False,
         "game_accessed": False, "user_preferences_accessed": False, "live_verified": False,
     }
     report = ROOT / "build/validation" / f"menu-play-{host.VERSION}-framework.json"

@@ -1,6 +1,7 @@
 """Build a standalone source mod; never installs or launches anything."""
 from pathlib import Path
 from tools.validate_locales import validate as validate_locales
+from tools.validate_compatibility import validate as validate_compatibility
 
 ROOT = Path(__file__).resolve().parent
 HEADER = '''# /// script
@@ -29,6 +30,7 @@ HEADER = '''# /// script
 
 def build():
     validate_locales(locales_dir=ROOT / "locales", source_root=ROOT)
+    validate_compatibility(source_root=ROOT)
     result = HEADER + (ROOT / "src/policy.py").read_text(encoding="utf-8")
     result += "\n\n" + (ROOT / "src/persistence.py").read_text(encoding="utf-8")
     result += "\n\n" + (ROOT / "src/settings.py").read_text(encoding="utf-8")

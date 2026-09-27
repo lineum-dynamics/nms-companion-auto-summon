@@ -1,6 +1,6 @@
 # Companion Auto Summon roadmap
 
-This is the canonical backlog for unfinished release work and future ideas. It is not a feature list for the current package or a promise of release dates. Status updated on 28 September 2026: the immutable last-launched 0.8.2 folder contains production 0.4.7 and menu 0.8.0, with the original single icon. Prepared 0.8.3-play-trial / 0.8.3-settings-trial has not launched and leaves production 0.4.7 unchanged. Registration and native active-state logs do not confirm visible icons or companions. Gameplay and interface acceptance are pending. New proposals below remain unapproved for implementation.
+This is the canonical backlog for unfinished release work and future ideas. It is not a feature list for the current package or a promise of release dates. Status updated on 28 September 2026: current source candidate 0.8.4-play-trial retains production 0.4.7 and menu 0.8.3-settings-trial. Final validation passed 329 production and 633 developer tests without failures or skips. The final 40-file bundle (39 payloads), real-framework offline smoke and both Python and Windows PowerShell 5.1 read-only preflights passed. No launch, deployment or setup occurred. Prepared 0.8.3 and the immutable last-launched 0.8.2 folder remain unchanged. The latter contains menu 0.8.0 and the original single icon. Registration and native active-state logs do not confirm visible icons or companions. Gameplay and interface acceptance are pending. Unaccepted proposals below remain unapproved for implementation.
 
 Use [DESIGN.md](DESIGN.md) for accepted product behavior, [LOCALIZATION.md](LOCALIZATION.md) for language requirements and [the release plan](docs/release/PRIPRAVA-VYDANI.md) for publication checks. Update this backlog when a proposal is accepted, deferred, rejected or implemented. Record the version and verification evidence when a task is completed.
 
@@ -28,6 +28,20 @@ installation is untouched. The label **Random: prefer matching biome** clarifies
 the existing rule without changing it. Final validation totals belong in the
 candidate manifest, and visual acceptance requires the next separate live trial.
 
+The 0.8.4 host guard verifies the selected executable before framework import
+and the actual target-handle executable before every DLL injection. It rejects
+unexpected framework configuration and foreign `pymhflib` entry points.
+The shared compatibility profile is checked against source/manifest declarations
+during builds. Nine scoped launcher messages now consume the 14 catalogs
+(39 keys each; 13 draft translations). Final validation passed 329 production
+and 633 developer tests with no failures or skips. The real-framework smoke
+passed with all six controls and temporary preferences, without native hooks
+or game access. The rebuilt final bundle contains 40 files (39 payloads).
+Python `--check-only` and Windows PowerShell 5.1 `-CheckOnly` both passed against
+the installed game and runtime without launch, deployment or setup.
+These checks do not complete the portable installer, all launcher translations, native
+localization or the saved-technology safety work.
+
 Historical 0.4.4 / 0.7.1 added bounded passive post-queue observation; one Anomaly startup has player and native-active
 confirmation, with no automatic retry. Repeatability remains unverified. Validate it against the failed Anomaly case before
 deciding on a behavioral fix. That result followed a fresh backup and does not establish repeatability in newer candidates.
@@ -42,10 +56,10 @@ remapping and controllers remain untested; rapid toggles were repeated presses.
 
 | Work | Current boundary | Completion evidence |
 |---|---|---|
-| Simple, reliable installation | The 0.4.7 / 0.8.2 launcher adds read-only preflight and distinct setup/host leases across package folders. Normal setup still requires external Python and prepares dependencies. A portable offline runtime and graphical launcher are not implemented. | Validate check-only without writes or startup, duplicate launches across folders, normal/crash lease release and refusal on failed process enumeration; then extract-and-launch on a clean second Windows account/PC, relocated/non-ASCII paths, no external Python dependency, exact-build checks and no unexpected game termination. Follow [installer requirements](docs/release/INSTALACE-ZADANI.md). |
-| Native quick-menu settings | Installed 0.8.2 contains the six-row menu from 0.8.0; prepared, unlaunched 0.8.3 adds seven distinct icons and clarifies the Random biome label. All seven DDS files are validated before closed-game staging; each role has native-paw fallback. Full-page acceptance and resource rendering/lifetime remain unverified. Keep automatic summoning and the desktop panel during acceptance. See [QUICK-MENU.md](QUICK-MENU.md). | All six controls apply/persist without changing unrelated values; native navigation/rebuilds and ordinary pet actions; default/remapped keyboard and controllers; seven correct icons, retained fallback and text-only behavior; no changed gameplay limits or shared vanilla textures. |
+| Simple, reliable installation | Current 0.8.4 adds the guarded direct host, shared compatibility profile and nine localized compatibility messages to existing read-only preflight and setup/host leases. Both final-bundle preflights passed against the installed game/runtime. Normal setup still requires external Python and prepares dependencies. A portable offline runtime and finished graphical launcher are not implemented. | Retain the offline mismatch/no-write/lease tests, then verify extract-and-launch on a clean second Windows account/PC, relocated/non-ASCII paths, no external Python dependency and no unexpected game termination. Follow [installer requirements](docs/release/INSTALACE-ZADANI.md). |
+| Native quick-menu settings | Installed 0.8.2 contains the six-row menu from 0.8.0; current unlaunched 0.8.4 retains the prepared 0.8.3 menu, seven distinct icons and explicit Random biome label. All seven DDS files are validated before closed-game staging; each role has native-paw fallback. Full-page acceptance and resource rendering/lifetime remain unverified. Keep automatic summoning and the desktop panel during acceptance. See [QUICK-MENU.md](QUICK-MENU.md). | All six controls apply/persist without changing unrelated values; native navigation/rebuilds and ordinary pet actions; default/remapped keyboard and controllers; seven correct icons, retained fallback and text-only behavior; no changed gameplay limits or shared vanilla textures. |
 | Native number shortcuts | Requested next work; blocked by tagged None serialization losing the marker and potentially replacing a prior binding with an empty action. The existing native binding guard remains required. No custom shortcut or physical hotkey is implemented. | Verify native binding, replay, removal and persistence without losing existing shortcuts; prove remapped native-input behavior and controller handling before enabling it. Do not substitute physical key hooks or a second hotkey system. |
-| Localization and natural feedback | Fourteen draft source catalogs and a required offline build validator are implemented. Runtime UI/HUD remain English; no verified game-language reader or non-English glyph path exists. Catalogs are not live localization. | Reviewed catalogs for all 14 official interface languages, verified language selection, placeholder checks and in-game rendering checks. Quiet ordinary summons, honest save/session-only messages and a restrained first-activation notice. |
+| Localization and natural feedback | Fourteen catalogs contain 39 keys; thirteen translations are drafts. Nine launcher compatibility messages use catalog lookup, with Windows UI locale/explicit override and English recovery fallback. Other launcher text and the panel remain outside this scope. Native menu/HUD remain English; no verified game-language reader or non-English glyph path exists. | Reviewed catalogs for all 14 official interface languages, complete launcher coverage, verified language selection, placeholders and in-game rendering. Quiet ordinary summons, honest save/session-only messages and a restrained first-activation notice. |
 | Live behavior and compatibility | In combined trial 0.6.2, production 0.4.3 summoned one Random companion after an on-foot station load without a ship-exit trigger; the log and player confirm the result. The player later confirmed one manual dismissal without reappearance after traveling in the same unchanged session. Earlier visible results belong to their original versions. | Broaden dismissal regression; test planet/Nexus and Last manually selected startup, then normal ship-exit regression; existing preferences; biome preference/fallback; location controls; restart/save switching; rejected placement followed by a suitable location; cancellation and unsupported locations. Record actual appearance separately from an accepted queue request. |
 | Multiplayer and release preparation | Second-PC installation and multiplayer remain unverified; Nexus material is still a draft. | Controlled tests with one and then, where available, two mod users; no duplicate or foreign-pet changes; accurate support limits; owner-approved attribution/reuse terms and distribution contents; current platform/publisher policy review. |
 
@@ -109,10 +123,11 @@ or inject prototype inventory into the normal player save. Compiling an XML
 definition does not validate these behaviors.
 
 Unknown game versions must stop native integration before hooks or native calls.
-The existing exact-build checks remain mandatory. The final player launcher
-must give a clear localized outside-game warning and recovery guidance without
-an unsafe bypass or preference reset. A saved custom item requires separately
-verified update/removal behavior; runtime auto-disable is only one part of that.
+The current 0.8.4 source implements the guarded host and scoped localized
+outside-game warnings without an unsafe bypass or preference reset. Final-bundle
+offline checks passed; live acceptance remains pending. A saved custom item still requires verified
+update/removal behavior. Runtime refusal alone does not establish inventory or
+data-table safety.
 
 ## Deferred idea: temporary pause
 
