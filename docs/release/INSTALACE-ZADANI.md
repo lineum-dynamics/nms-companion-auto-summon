@@ -3,9 +3,11 @@
 Nový kandidát 0.4.4 / kombinovaný balíček 0.7.1 přidává pouze pasivní
 diagnostiku po přijetí požadavku na peta. Způsob instalace, dvě instance módů,
 původní cesty preferencí a kontrola přesné verze hry zůstávají zachované.
-Balíček se připravuje mimo běžící 0.7.0 a zatím nebyl spuštěn. Nejde o opravu
-Anomálie ani o dokončený veřejný instalátor. Po dokončení kontrol následuje
-nová záloha a spuštění až po běžném ukončení hry.
+Balíček 0.7.1 se po nové záloze spustil 27. 9. 2026 v 22:22:35;
+registrace obou módů a 11 hook cílů je potvrzená. Nejde o opravu
+Anomálie ani o dokončený veřejný instalátor. Jedno skutečné vyvolání po načtení
+v Anomálii je potvrzené hráčem i novým pozorováním aktivního peta; opakovatelnost
+a příčina dřívějšího selhání zůstávají otevřené. Původní 0.7.0 je zachované.
 
 Požadavek vlastníka, stav k 27. 9. 2026. Toto je zadání veřejného balíčku, nikoli popis již hotového installeru. Zdrojový kandidát 0.4.3 používá Start-CompanionAutoSummon.ps1; oddělený kombinovaný kandidát 0.6.2 spouští produkční automatiku a experimentální menu modul 0.6.0 společně v jednom hostiteli. Ani jedna varianta není hotovým veřejným přenosným instalátorem.
 

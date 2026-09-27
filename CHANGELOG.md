@@ -2,6 +2,7 @@
 
 ## 0.4.4 — passive post-queue diagnostics
 
+- Launched combined 0.7.1 after normal game exit and a fresh hash-verified backup of 43 profile files. Both Mods and 11 hook targets registered at 22:22:35 on 27 September 2026 with automation ON; all 14 payloads and the existing settings/state matched at startup. A subsequent Random-mode Anomaly load queued slot 2 after a logged 2.56 seconds; the first observer callback recorded the expected active companion 0.02 seconds later and stopped. The player confirmed visible appearance, without a preceding ship exit. This one success does not resolve the earlier intermittent failure.
 - Added bounded observation after matching native queue acceptance, using the existing local ownership callback and verified fields. Records the trigger source and sanitized queue/active transitions; a native active slot is not claimed as visible spawn.
 - Observation ends on active-pet detection, replacement/cancellation, invalid state or diagnostic time/read limits. Queue disappearance remains indeterminate and never retries or re-arms automation. Existing policy, native calls, gameplay limits, delays and preference application are preserved.
 - Prepared combined trial 0.7.1 with the existing 0.7.0 toggle and a version-pinned bridge for production 0.4.4. Running 0.7.0 remains unchanged. No new live result; Anomaly startup and the white HUD disc remain open.

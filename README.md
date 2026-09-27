@@ -9,7 +9,11 @@ accepts a summon request. It records native queued/active transitions without
 retrying, changing summon timing, or writing game saves. A native active-slot
 observation still needs the player's visible confirmation. The separate
 **0.7.1-play-trial** keeps the existing native ON/OFF menu with this candidate.
-Neither version has been launched; the running 0.7.0 folder remains unchanged.
+The 0.7.1 bundle registered both Mods and 11 hook targets on 27 September
+2026 at 22:22:35, after a fresh verified backup. Automation is ON;
+the player has now confirmed one Random-mode Anomaly startup, corroborated
+by the new native active-state observation. This single result does not
+establish a fix for the earlier intermittent failure.
 Anomaly startup and the unwanted white HUD disc are still open issues.
 The evidence below belongs to the earlier versions explicitly named there.
 

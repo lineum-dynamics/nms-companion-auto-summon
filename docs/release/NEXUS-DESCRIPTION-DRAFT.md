@@ -3,12 +3,16 @@
 **LOCAL DRAFT — not uploaded. Update the validation status, final installer instructions, attribution and permissions before publishing.**
 
 Current source candidate: 0.4.4, with separate combined developer trial 0.7.1.
-This unlaunched candidate adds passive post-queue diagnostics only; it does not
+The candidate registered both Mods and 11 hook targets with automation ON
+on 27 September 2026 at 22:22:35 after a fresh verified backup. It adds
+passive post-queue diagnostics only; registration does not verify spawn or
 fix the failed visible Anomaly startup or white HUD disc observed in 0.7.0.
 Basic native ON/OFF application has partial evidence in the older trial, not
 complete input/navigation coverage. Do not publish claims of verified startup
 across all locations or finished native settings. Earlier results below retain
 their explicit version boundaries.
+
+One Random-mode Anomaly startup is now confirmed for 0.4.4 / 0.7.1. On 27 September 2026, load arming at 22:23:39.698 led to native queue acceptance at 22:23:42.250 (logged 2.56 seconds). The new observer recorded the expected active companion at 22:23:42.266, on its first update, then stopped. The player confirmed visible appearance. No ship exit or automatic retry preceded this result. This is one successful run, not a fix for the earlier intermittent failure; only passive diagnostics changed.
 
 ## Short description
 

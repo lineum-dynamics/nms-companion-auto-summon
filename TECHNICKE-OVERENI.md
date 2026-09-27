@@ -8,10 +8,17 @@ Pasivní sledování po přijetí požadavku nemění vyvolávání. Čte dosava
 údaje přes stávající callback, má limit 15 sekund, 4096 volání diagnostiky
 a osm přechodových zpráv. Zmizení z fronty nezpůsobí opakování; aktivní slot
 je údaj hry, nikoli důkaz viditelného peta. Při změně kontextu nebo zásahu hráče
-sledování končí. Nový kandidát zatím nemá herní ověření a neopravuje bílý kruh.
-Běžící soubory 0.7.0 ani nastavení hráče příprava nemění.
+sledování končí. Nový kandidát má jedno potvrzené vyvolání v Anomálii popsané níže;
+bílý kruh neopravuje.
+Po běžném ukončení hry a nové ověřené záloze 43 souborů se 0.7.1
+spustil 27. 9. 2026 v 22:22:35. Načetly se oba módy a 11 hook cílů
+s automatikou ON. Všech 14 payloadů, nastavení i paměť ruční volby
+zůstaly při startu shodné. Registrace není ověřením viditelného vyvolání.
+Podklady: `menu-play-0.7.1-startup.json` a příslušný záznam zálohy.
 
 Kontroly nového kandidáta prošly: **253 produkčních testů** (včetně 23 nových případů diagnostiky), **408 vývojových testů** a ověření skutečného pyMHF i společného balíčku mimo hru. Testy nečetly osobní nastavení, nespouštěly hru a neregistrovaly herní hooky.
+
+Jedno vyvolání v Random po načtení v Anomálii je pro 0.4.4 / 0.7.1 potvrzené. Dne 27. 9. 2026 log zaznamenal aktivaci načtením v 22:23:39.698, přijetí frontou v 22:23:42.250 (uváděných 2,56 sekundy) a očekávaného aktivního peta v 22:23:42.266 při první aktualizaci diagnostiky. Hráč potvrdil skutečné objevení. Nepředcházel výstup z lodi ani opakované vyvolání. Jde o jeden úspěšný běh; předchozí občasné selhání není tímto opravené, protože změna byla pouze diagnostická.
 
 ## Dílčí herní výsledek 0.7.0 a zjištěné chyby
 

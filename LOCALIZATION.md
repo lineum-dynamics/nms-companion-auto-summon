@@ -16,7 +16,7 @@ summoning: ON/OFF**, with **(pending)**, **(session only)**, **unavailable** or
 **stopped** as appropriate. These are English prototype captions, not translated
 catalog entries. Pending is a queued request, not a claim that it was saved.
 The older 0.6.2 artifact retains its inert preview; the active developer trial
-is now 0.7.0, with live preference validation in progress.
+is now 0.7.1, with unchanged captions and live validation in progress.
 
 The owner requires English source code and player-facing localization covering the game's official interface languages. Translations will be separate data resources. Technical log identifiers and developer diagnostics remain English, while actionable player-facing errors must be localized.
 

@@ -3,10 +3,14 @@
 Prepared successor: **0.7.1-play-trial** pairs production 0.4.4 passive
 post-queue diagnostics with the unchanged 0.7.0 native menu and a bridge
 pinned to the new reviewed production initializer. No preference behavior,
-input hook, icon or native binding guard changes. It is not launched and
-cannot inherit the following 0.7.0 live results. The running folder is untouched.
+input hook, icon or native binding guard changes. It registered both Mods and 11 hook targets at 22:22:35 on 27 September
+2026 after a fresh verified backup, with automation ON and unchanged
+preferences/state. All 14 payloads matched. This does not establish visible
+spawn or inherit the following 0.7.0 live results.
 
-Current live trial: **0.7.0-play-trial**, containing unchanged
+One Random-mode Anomaly startup is now confirmed for 0.4.4 / 0.7.1. On 27 September 2026, load arming at 22:23:39.698 led to native queue acceptance at 22:23:42.250 (logged 2.56 seconds). The new observer recorded the expected active companion at 22:23:42.266, on its first update, then stopped. The player confirmed visible appearance. No ship exit or automatic retry preceded this result. This is one successful run, not a fix for the earlier intermittent failure; only passive diagnostics changed.
+
+Previous live trial: **0.7.0-play-trial**, containing unchanged
 production 0.4.3 and an opt-in 0.7.0 native automation toggle. It passed 408
 developer tests and real-framework discovery/temporary-preference checks.
 It registered in-game at 21:48:38 on 27 September 2026 after normal exit and

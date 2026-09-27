@@ -13,7 +13,7 @@ This repository is the canonical development location. Keep installed test copie
 
 ## Current implementation
 
-The current candidate is 0.4.4-experimental. It adds passive post-queue diagnostics to the earlier 0.4.3 behavior described below. It has not been launched. The target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The present development launcher accepts Python 3.11–3.13 x64.
+The current candidate is 0.4.4-experimental. It adds passive post-queue diagnostics to the earlier 0.4.3 behavior described below. It registered in combined trial 0.7.1 at 22:22:35 on 27 September 2026 after a fresh verified backup of 43 profile files. Both Mods and 11 hook targets loaded with automation ON; all 14 payloads and both preference/state files matched at startup. This establishes registration only. The target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The present development launcher accepts Python 3.11–3.13 x64.
 
 After a matching native queue acceptance, policy intent is still consumed.
 A separate observer samples only the existing verified fields through the
@@ -29,7 +29,7 @@ hooks, offsets, preference fields or game-save writes.
 The separate 0.7.1 bundle retains the 0.7.0 native menu with the preference
 bridge pinned to the reviewed 0.4.4 initializer. It keeps the same production
 control lock, queue, application callback and two-Mod discovery contract.
-The existing 0.7.0 installation is not rebuilt or edited while running.
+The former 0.7.0 installation remains intact. The active 0.7.1 folder is immutable while running.
 
 Offline validation for this candidate passed: **253 production tests** (including 23 new observer cases), **408 developer tests**, actual pyMHF widget checks and combined-folder discovery/preference checks. No game access or live hook registration occurred during validation.
 
@@ -89,6 +89,8 @@ runtime consumes intent at queue acceptance and performs no post-queue active-pe
 observation. Diagnose that lifecycle before authorizing retries: disappearance
 alone cannot distinguish failed materialization from a manual dismissal.
 The player's screenshot confirms HUD text rendering with an unwanted white disc.
+
+One Random-mode Anomaly startup is now confirmed for 0.4.4 / 0.7.1. On 27 September 2026, load arming at 22:23:39.698 led to native queue acceptance at 22:23:42.250 (logged 2.56 seconds). The new observer recorded the expected active companion at 22:23:42.266, on its first update, then stopped. The player confirmed visible appearance. No ship exit or automatic retry preceded this result. This is one successful run, not a fix for the earlier intermittent failure; only passive diagnostics changed.
 
 ## Naming and compatibility
 

@@ -8,9 +8,9 @@ Use [DESIGN.md](DESIGN.md) for accepted product behavior, [LOCALIZATION.md](LOCA
 
 These requirements were accepted before this backlog was created. Finish them before adding optional features that would complicate the first release.
 
-Prepared 0.4.4 / 0.7.1 adds bounded passive post-queue observation; no live
-result or automatic retry. Validate it against the failed Anomaly case before
-deciding on a behavioral fix. The running 0.7.0 trial stays available.
+Prepared 0.4.4 / 0.7.1 adds bounded passive post-queue observation; one Anomaly startup now has player and native-active
+confirmation, with no automatic retry. Repeatability remains unverified. Validate it against the failed Anomaly case before
+deciding on a behavioral fix. The 0.7.1 trial now runs after a fresh backup; the earlier 0.7.0 folder remains intact.
 
 Latest 0.7.0 live findings: basic ON/OFF application has partial player and log
 confirmation. Anomaly startup accepted a queue without a visible pet, and the

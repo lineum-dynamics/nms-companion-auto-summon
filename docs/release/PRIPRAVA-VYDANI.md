@@ -4,11 +4,14 @@ Stav k 27. 9. 2026. Pracovní plán; mód ani stránka nebyly zveřejněné. Hla
 
 Aktuálně připravovaný kandidát je 0.4.4 v odděleném balíčku 0.7.1. Přidává
 pouze pasivní sledování po přijetí požadavku. Neopakuje vyvolání, nemění
-prodlevy ani preference a zatím nebyl spuštěn ve hře. Základní přepínání
-v běžícím 0.7.0 má dílčí potvrzení, ale po načtení v Anomálii se pet neobjevil
+prodlevy ani preference. Po nové záloze se 27. 9. 2026 v 22:22:35
+načetly oba módy a 11 hook cílů s automatikou ON; viditelný výsledek čeká. Základní přepínání
+v předchozím 0.7.0 má dílčí potvrzení, ale po načtení v Anomálii se pet neobjevil
 navzdory přijetí požadavku. Diagnostika má zjistit další průběh. Bílý kruh
 u hlášky zůstává samostatnou chybou vzhledu. Níže jsou starší výsledky 0.4.3;
 na nový kandidát se nepřenášejí. Veřejné vydání je nadále předčasné.
+
+Jedno vyvolání v Random po načtení v Anomálii je pro 0.4.4 / 0.7.1 potvrzené. Dne 27. 9. 2026 log zaznamenal aktivaci načtením v 22:23:39.698, přijetí frontou v 22:23:42.250 (uváděných 2,56 sekundy) a očekávaného aktivního peta v 22:23:42.266 při první aktualizaci diagnostiky. Hráč potvrdil skutečné objevení. Nepředcházel výstup z lodi ani opakované vyvolání. Jde o jeden úspěšný běh; předchozí občasné selhání není tímto opravené, protože změna byla pouze diagnostická.
 
 ## Připravený test nativního nastavení 0.7.0
 

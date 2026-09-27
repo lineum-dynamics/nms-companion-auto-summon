@@ -8,12 +8,13 @@ Companion Auto Summon should feel consistent with No Man's Sky: familiar control
 
 ## Current state
 
-The new unlaunched 0.4.4 candidate and combined 0.7.1 trial add passive
+The new 0.4.4 candidate and combined 0.7.1 trial add passive
 post-queue diagnostics only. They preserve gameplay and existing ON/OFF
 behavior. Native activation must be distinguished from visible appearance;
 absence alone must never trigger a retry after a possible manual dismissal.
 Anomaly startup and white-disc rendering remain unresolved. The current live
-session is 0.4.3 in the immutable 0.7.0 folder; its evidence follows.
+session is now 0.4.4 in the immutable 0.7.1 folder, registered at 22:22:35
+on 27 September 2026. Earlier 0.4.3 evidence follows.
 
 The current live production is 0.4.3-experimental; the approved name is Companion Auto Summon. It adds one deferred opportunity after a successful local save load, using the existing automation toggle and summon checks. One Random-mode startup on a space station is confirmed by the log and the user, without a ship exit. Production 0.4.2 previously registered in the combined 0.6.1 trial and logged an accepted station queue at 20:18:19 without separate visible-pet confirmation. The separate pyMHF tab uses the class name `CompanionAutoSummon`. Settings remain in that window, in English. HUD messages use the game's existing timed-message function; the 0.7.0 trial screenshot confirms OFF text rendering with an unwanted solid white disc above it. The player package has no working custom quick-menu settings, localization system or finished public launcher. The separate developer trial's visible menu entry is described below.
 

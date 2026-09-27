@@ -6,8 +6,11 @@ Nový kandidát **0.4.4** přidává pouze omezené sledování po přijetí po�
 na vyvolání. Zapisuje přechody nativní fronty a aktivního peta, nic neopakuje
 a nemění zpoždění ani pravidla hry. Aktivní slot v paměti stále potřebuje
 hráčovo potvrzení viditelného peta. Oddělený balíček **0.7.1-play-trial**
-zachovává dosavadní nativní přepínač ON/OFF. Nové verze zatím nebyly spuštěné;
-běžící 0.7.0 zůstává beze změny. Chybějící vyvolání po načtení v Anomálii
+zachovává dosavadní nativní přepínač ON/OFF. Balíček 0.7.1 se po nové ověřené záloze spustil
+27. 9. 2026 v 22:22:35: oba módy, 11 hook cílů, automatika ON.
+Hráč už potvrdil jedno vyvolání v Random po načtení v Anomálii;
+nová diagnostika zaznamenala i očekávaného aktivního peta. Jeden úspěch
+ještě neprokazuje opravu předchozího občasného selhání. Chybějící vyvolání po načtení v Anomálii
 a bílý kruh u hlášky ještě nejsou opravené. Dřívější výsledky níže platí jen
 pro konkrétně uvedené verze.
 
