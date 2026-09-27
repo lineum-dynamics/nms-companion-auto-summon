@@ -19,6 +19,22 @@ from unittest.mock import patch
 from build_quick_menu_probe import ROOT, STAGES
 
 
+POINTER = ctypes.c_void_p
+HOOK_CONTRACTS = {
+    "actions": {(0x1526940, "BEFORE"): (ctypes.c_bool, [POINTER, POINTER, ctypes.c_bool])},
+    "structure": {
+        (0x151ED00, "AFTER"): (None, [POINTER, POINTER]),
+        (0x1523220, "AFTER"): (None, [POINTER, POINTER]),
+    },
+    "phases": {
+        (0x151D200, "BEFORE"): (None, [POINTER, ctypes.c_float, POINTER]),
+        (0x151D200, "AFTER"): (None, [POINTER, ctypes.c_float, POINTER]),
+        (0x1530C00, "AFTER"): (None, [POINTER, POINTER, POINTER]),
+        (0x1525600, "BEFORE"): (None, [POINTER, POINTER]),
+    },
+}
+
+
 def check(stage):
     profile = STAGES[stage]
     source = ROOT / "tools" / profile["source"]
@@ -41,24 +57,21 @@ def check(stage):
             if module.PROBE_ENABLED or not mods[0]._disabled:
                 raise RuntimeError("Source observer must be disabled outside the game")
             instance = mods[0]()
-            expected = ({0x1526940} if stage == "actions" else {0x151ED00, 0x1523220})
+            expected = HOOK_CONTRACTS[stage]
             hooks = instance.hooks
-            if len(hooks) != len(expected) or {hook._hook_offset for hook in hooks} != expected:
+            actual = {(hook._hook_offset, hook._hook_time.name): hook for hook in hooks}
+            if len(hooks) != len(expected) or set(actual) != set(expected):
                 raise RuntimeError("Unexpected diagnostic hook metadata")
-            expected_time = "BEFORE" if stage == "actions" else "AFTER"
-            if any(hook._hook_time.name != expected_time or hook._noop for hook in hooks):
+            if any(hook._noop for hook in hooks):
                 raise RuntimeError("Diagnostic must preserve the natural original call")
-            expected_result = ctypes.c_bool if stage == "actions" else None
-            expected_arguments = [ctypes.c_void_p, ctypes.c_void_p]
-            if stage == "actions":
-                expected_arguments.append(ctypes.c_bool)
-            if any(hook._hook_func_def.restype is not expected_result
-                   or hook._hook_func_def.argtypes != expected_arguments for hook in hooks):
-                raise RuntimeError("Actual framework ABI metadata differs from the audited contract")
+            for key, (expected_result, expected_arguments) in expected.items():
+                declaration = actual[key]._hook_func_def
+                if declaration.restype is not expected_result or declaration.argtypes != expected_arguments:
+                    raise RuntimeError("Actual framework ABI metadata differs from the audited contract")
             if instance._gui_widgets or instance._hotkey_funcs:
                 raise RuntimeError("Diagnostic must not expose GUI or hotkeys")
             reader = module.create_current_process_reader()
-            sizes = (4,) if stage == "actions" else (4, 16, 128)
+            sizes = {"actions": (4,), "structure": (4, 16, 128), "phases": (4, 16)}[stage]
             for size in sizes:
                 fixture = bytes(index % 251 for index in range(size))
                 owned = ctypes.create_string_buffer(fixture, size)
@@ -72,7 +85,9 @@ def check(stage):
         "stage": stage, "source_sha256": source_hash, "framework": "0.2.4",
         "disabled_outside_game": True, "hooks_discovered_not_registered": len(hooks),
         "hook_abi_metadata_verified": True,
-        "hook_time": expected_time.lower(), "gui_widgets": 0, "hotkeys": 0,
+        "hook_times": sorted({hook._hook_time.name.lower() for hook in hooks}),
+        "native_targets": len({hook._hook_offset for hook in hooks}),
+        "gui_widgets": 0, "hotkeys": 0,
         "owned_test_host_buffers_copied": list(sizes), "game_accessed": False,
         "live_verified": False,
     }

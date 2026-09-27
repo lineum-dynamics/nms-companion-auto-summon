@@ -1,7 +1,7 @@
 """Build an isolated, explicitly enabled menu observer; never launch the game.
 
 The production mod, installed test copy and personal settings are not modified.
-The generated filenames reuse the existing guarded launcher contract. Neither
+The generated filenames reuse the existing guarded launcher contract. No
 diagnostic performs automatic summoning. Existing output folders are immutable
 to this builder, including a folder whose observer may still be running.
 """
@@ -27,6 +27,13 @@ STAGES = {
         "purpose": "Observe natural menu construction and label lengths; no writes or auto-summon",
         "scope": "Its after-hooks sample bounded menu headers, selected enums and label lengths.\n"
                  "Label text, pet names, pointers and identity values are never logged.",
+    },
+    "phases": {
+        "source": "quick_menu_phase_probe.py", "version": "0.3.0-observer",
+        "output": "quick-menu-phase-probe", "class": "CompanionMenuPhaseProbe",
+        "purpose": "Observe menu-local phase order and selection stability; no input or game writes",
+        "scope": "Its four callbacks track natural update, controls and tail-processing phases.\n"
+                 "It does not inspect physical keys, mask selection, bind shortcuts or insert items.",
     },
 }
 
@@ -82,8 +89,9 @@ save backup when needed. Then use Start-CompanionAutoSummon.ps1 from this folder
 The existing launcher checks the package, exact game build and runtime. The
 framework injects the observer and logs to this folder's logs directory.
 
-Load a save, open X, open the companion section and its summon list, back out,
-close and reopen the menu, then manually summon one owned companion if desired.
+Load a save, open the quick menu using your configured control, enter the
+companion section and its summon list, back out, then close and reopen the menu.
+You may manually summon an owned companion. No shortcut reassignment is needed.
 Do not expect a new item yet. A read or validation failure disables further
 observation for the session. High-frequency structure observations are sampled
 and capped; the structure probe records lengths, not the actual label text.
@@ -106,7 +114,7 @@ def main():
     parser.add_argument("--enable-observer", action="store_true",
                         help="Build the explicitly enabled, isolated observer artifact")
     parser.add_argument("--stage", choices=STAGES, default="actions",
-                        help="Choose action dispatch or natural construction/label observation")
+                        help="Choose action dispatch, structure/labels, or menu-local phase observation")
     parser.add_argument("--output-name", help="New quick-menu- prefixed directory under build/")
     args = parser.parse_args()
     print(json.dumps(build(enable_observer=args.enable_observer, stage=args.stage,

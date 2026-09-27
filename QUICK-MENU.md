@@ -227,6 +227,82 @@ needed across ctypes callbacks, use an explicit bounded invocation map;
 Sequence observations would not by themselves prove safe mutation or coverage
 of remapped controls.
 
+## Third diagnostic: menu-local phases
+
+`tools/quick_menu_phase_probe.py` is the separate, disabled-source observation
+stage for that sequence. It uses four callbacks on three native routines:
+
+| Routine | Callback | Audited argument contract |
+|---|---|---|
+| Quick-action update, `0x151D200` | BEFORE and AFTER | menu pointer, elapsed float, render-state pointer |
+| Controls text, `0x1530C00` | AFTER | menu pointer, render-state pointer, render state + `0x100` |
+| Tail selection processing, `0x1525600` | BEFORE | menu pointer, render-state pointer |
+
+All three diagnostic declarations use void return and every callback returns
+None. No routine is called by the observer. The controls callback does not read
+either text buffer: their identities only verify the expected invocation.
+
+The exact-build RTTI/vtable and a virtual caller support Update's menu/float/
+render contract; its scalar arithmetic uses single precision and the caller
+ignores its return. Controls also has a virtual slot, so the known direct call
+does not exclude other contexts. The observer must report an unmatched callback
+as unsupported sequencing rather than assume that every call belongs to its
+current update.
+
+An explicit bounded record keyed by native thread ID connects one update entry,
+controls completion, tail entry and update exit. Pointer identities are retained
+only for comparison inside that invocation; each memory copy uses the fresh
+menu argument supplied to the current callback. No pointer or thread ID is
+logged. Sampled observations compare depth, bounded vector headers, selected
+indices and selected action IDs. Internal vector storage identity comparisons
+are emitted as booleans, never addresses.
+
+An update that returns without controls or tail processing is counted as
+skipped, not as a broken sequence: the native hot-action replay path can return
+early before controls. Changes made by the tail handler before update exit are
+also normal observations. Duplicate, unmatched, mismatched, nested or concurrent
+sequences must not be reported as balanced. Ambiguous sequences, failed reads
+or lock contention stop this diagnostic and clear its transient records.
+
+Sampling begins at controls completion, at most four sampled invocations per
+second. Closed-menu/skipped updates do not use the sample or detail budgets.
+Limits are 120,000 update entries, 2,048 completed samples and 32 changed detailed
+records, with a bounded terminal summary. These are observer budgets; they
+change no native game limits. No input function is intercepted or called, no
+physical keys are inspected, and no selection masking or shortcut write occurs.
+
+```text
+python -B -m unittest discover -s tools/tests -p "test_*probe.py" -v
+python -B tools/probe_framework_smoke.py --stage phases
+python -B tools/build_quick_menu_probe.py --enable-observer --stage phases
+```
+
+The isolated output is a new `build/quick-menu-phase-probe/` folder. As with the
+earlier stages, creating this artifact does not launch or deploy it. The phase
+stage passed 34 focused tests; the combined tool suite passed 101 tests (24
+action, 37 structure, 34 phase and six builder checks). Review identified an
+interrupted-entry cleanup race; the corrected source clears retained identities
+on stop and has regressions for contention during clock/thread lookup and exit.
+Do not alter a running diagnostic.
+
+The real pyMHF 0.2.4 check verified one disabled class, four callbacks on three
+native targets, the audited ABI metadata, no GUI/hotkeys and owned-host-buffer
+copies of four and 16 bytes. Final source SHA256:
+`1a80c82773367ffb80d45e8498e52c6139fe410de71e7e9eefcb425f6c38d73a`.
+Generated isolated observer SHA256:
+`9cbf0e6c647bb53ee3c84decd4dff996fa31053ed4c6ee88a29fb81273d6f24e`.
+The generated launcher passed PowerShell syntax validation. This stage has not
+yet been launched; its live phase sequence remains unverified. The running
+second observer and the production mod retained their previous hashes.
+
+For a live trial, open the companion menu with the player's configured control,
+move among native entries, back out and reopen it. Normal activation/dismissal
+can exercise the tail handler; no shortcut reassignment is required. Default
+keyboard input alone does not verify remapped or controller paths. A balanced
+trace establishes the observed ordering and identity only; concurrency,
+mutation recovery and binding-path coverage remain distinct prerequisites for
+a custom item.
+
 ## Controlled live sequence
 
 1. Close NMS normally and preserve current progress; verify a fresh backup as needed.
@@ -250,3 +326,4 @@ localization, multiplayer and other game builds remain separate work.
 - [NMS.py TriggerAction source](https://github.com/monkeyman192/NMS.py/blob/b41bf9e6fdff1c833b77d805bb0c8da555c4ced4/nmspy/data/types.py): discovery hint; its incomplete structures are not a current ABI contract.
 - [pyMHF 0.2.4 hooking](https://github.com/monkeyman192/pyMHF/blob/0c8ebc1c29074c5bc35207e0aff36d4035e20bac/pymhf/core/hooking.py): a before callback returning None preserves native arguments.
 - [Windows ReadProcessMemory](https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-readprocessmemory) and [GetCurrentProcess](https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentprocess): bounded copying and pseudo-handle lifetime.
+- [Python ctypes callback functions](https://docs.python.org/3.11/library/ctypes.html#callback-functions): foreign-thread callbacks and the limitation of thread-local state across invocations.

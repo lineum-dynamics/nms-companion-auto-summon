@@ -73,6 +73,20 @@ class ObserverBuildTests(unittest.TestCase):
         alternate = BUILDER.build(enable_observer=True, output_name="quick-menu-fresh-trial")
         self.assertNotEqual(alternate["output"], str(output))
 
+    def test_phase_stage_preserves_both_previous_observers(self):
+        retained = {}
+        for stage in ("actions", "structure"):
+            output = Path(BUILDER.build(enable_observer=True, stage=stage)["output"])
+            retained[output] = {path.name: path.read_bytes() for path in output.iterdir()}
+        result = BUILDER.build(enable_observer=True, stage="phases")
+        output = Path(result["output"])
+        self.assertNotIn(output, retained)
+        manifest = json.loads((output / "manifest.json").read_text(encoding="utf-8"))
+        self.assertEqual(manifest["version"], "0.3.0-observer")
+        self.assertFalse(manifest["live_verified"])
+        for previous, contents in retained.items():
+            self.assertEqual({path.name: path.read_bytes() for path in previous.iterdir()}, contents)
+
     def test_output_name_cannot_escape_build_directory(self):
         for name in ("../outside", "quick-menu-../escape", "C:\\outside", "", "quick-menu-"):
             with self.subTest(name=name), self.assertRaises(ValueError):
