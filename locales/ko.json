@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "locale": "ko",
-  "scope": "native_menu_hud",
+  "scope": "native_menu_hud_technology",
   "review_status": "draft_unreviewed",
   "native_runtime_integrated": false,
   "unchanged_keys": [
@@ -106,6 +106,30 @@
     "hud.random_on_suffix": {
       "text": " 무작위는 계속 켜져 있습니다.",
       "source_sha256": "d07e99aa4f67341bcc9e51db5fd74b688c04a3ae6f48b53fbfa141872ba30f93"
+    },
+    "tech.link.name": {
+      "text": "동료 연결 장치",
+      "source_sha256": "7493411e3e6066732d8692627caaf2e4e149b3c99daa5ae983759a93b2d0b634"
+    },
+    "tech.link.subtitle": {
+      "text": "동료 자동 소환",
+      "source_sha256": "20cb17fde402c28139286f2a4be0adf536d79c7e126e2c358ffa781607b42400"
+    },
+    "tech.link.description": {
+      "text": "보유한 동료를 자동으로 소환할 수 있게 합니다. 저장된 충전량을 소모하며 이온 배터리로 충전할 수 있습니다. 게임의 기본 배치 규칙을 따릅니다.",
+      "source_sha256": "994539d012f320d9743c387d868baf54d78f83becdbdeb4132e4d36ad010f4de"
+    },
+    "tech.recharger.name": {
+      "text": "동료 충전 장치",
+      "source_sha256": "8212a4431c017a0951c4d20be038a0a2a5506ba2cee19036b3f14f5cd87ca763"
+    },
+    "tech.recharger.subtitle": {
+      "text": "배터리를 이용한 자동 충전",
+      "source_sha256": "bf6609603bec1d7455bb621ffddfa2a27c57f750929f34255cbc270c921d4332"
+    },
+    "tech.recharger.description": {
+      "text": "엑소슈트 인벤토리의 이온 배터리를 자동으로 소모하여 설치된 동료 연결 장치를 충전합니다. 동료 연결 장치가 필요하며, 에너지를 무료로 제공하지 않습니다.",
+      "source_sha256": "5f608bf2ec639e6883f3e378a2b617d6bfabcf3e52031bf57ae8defaf9dee80e"
     }
   }
 }

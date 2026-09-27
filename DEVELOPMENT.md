@@ -16,6 +16,21 @@ This repository is the canonical development location. Keep installed test copie
 
 ## Current implementation
 
+The earned-technology work is an **offline prototype**, separate from both
+production and the prepared combined trial. Its pure model, pinned native-data
+builder and six additional technology catalog entries do not gate the current
+mod, consume inventory or write a save. See
+[technology prototype](docs/research/TECHNOLOGY-PROTOTYPE.md) for evidence and
+remaining native transaction/persistence work. The catalogs now contain 30 keys
+in each of 14 languages; thirteen remain unreviewed drafts.
+
+Update safety includes exact-build refusal and a required final localized
+outside-game warning. The current supported PowerShell/combined paths preflight
+the executable; the direct standalone Python host still relies on the injected
+Mod's later pre-hook disabled latch. Do not describe that direct path as a
+verified pre-injection refusal. Centralizing supported-build profiles and
+finishing all launcher paths are release work, not permission to relax guards.
+
 The production source remains **0.4.7-experimental**, used by the last launched **0.8.2-play-trial** and upcoming **0.8.3-play-trial**. The latter carries menu **0.8.3-settings-trial**; the installed 0.8.2 retains menu 0.8.0. Earlier artifacts remain unchanged. The target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The development launcher accepts Python 3.11–3.13 x64.
 
 The PowerShell launcher's `-CheckOnly` path validates package integrity, the

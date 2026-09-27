@@ -79,86 +79,40 @@ Default remains the global profile. Use the existing stable save identity and ex
 
 ### 5. Craftable, rechargeable technology for automatic summoning
 
-**Status: feasibility requested on 28 September 2026; not implemented.** The
-player asked whether automatic summoning could fit the game's progression
-through an item or upgrade. A working concept is an exosuit technology named
-**Companion Link**: acquire a recipe, craft and install it, then permit the
-existing automation while it is installed. Acquisition, recipe, name and slot
-cost are undecided. This is a mod design concept, not an existing game item.
+**Status: accepted prototype direction; offline implementation in progress.**
+The owner accepted two earned exosuit technologies: Companion Link for automatic
+release of already owned companions, and a dependent Companion Recharger that
+consumes stored Ion Batteries. Each uses a technology slot. The base module has
+manual battery recharge; the controller adds automatic battery use. No free
+default requirement bypass, pet grant or lowered native limit is intended.
+Names, research prices, recipes and capacity/cost numbers remain provisional.
 
-The owner prefers a meaningful cost for the convenience, including recharge.
-The earlier assistant suggestion of an optional requirement and free default
-was not accepted as a decision. Explore an earned technology with an installation
-cost and charge consumed by successful automatic summons. Exact acquisition,
-fuel, capacity and usage cost remain undecided. Failed placement or cancelled
-requests should not consume charge; manual summoning should retain native rules.
-No pet stat bonus, free pet or lowered native limit is proposed. Native X-menu
-preferences would remain the control surface. The existing runtime is unchanged.
+Energy is consumed once for a confirmed successful automatic summon, never for
+placement failure, cancellation or following. Native manual summoning stays
+available. Keep ON distinct from insufficient charge. Explain low charge,
+depletion and missing batteries with nonrepeating notices plus persistent
+native-menu status. Recharge means ready again, not an immediate summon.
+All actual UI additions must include English and the affected translations.
 
-The owner compared it to a Pokeball/Pokedex and asked whether it belongs on a
-multitool. The current recommendation is a personal summoning module in the
-exosuit, independent of the selected multitool. The analogy is automatic release
-of an already owned companion, not capture, scanning or a new companion registry.
-Pokemon is a design analogy only; use original NMS-appropriate naming and art.
-Exosuit placement and the proposed energy-per-success rule are not implemented.
+The pure energy model now produces separately confirmable debit/recharge
+requests from copied snapshots. It performs no native actions. Six technology
+strings are maintained in all fourteen catalogs; thirteen translations remain
+drafts. A pinned native-data prototype prepares the custom records and research
+branch separately from the production mod. See the
+[prototype and verification boundary](docs/research/TECHNOLOGY-PROTOTYPE.md)
+and [exact-build inventory audit](docs/research/TECHNOLOGY-RUNTIME-AUDIT.md).
 
-Fuel recommendation: use the existing Ion Battery rather than adding a second
-custom consumable. One battery would refill a reservoir for several successful
-automatic summons; neither ordinary following nor a failed placement would
-drain it. Depletion would suspend future automation without dismissing an active
-pet. Capacity and per-summon cost need playtesting. This recommendation is not
-implemented or finalized; the [official Prisms notes](https://www.nomanssky.com/prisms-update/)
-document Ion Battery crafting as an existing game mechanic.
+Before live use, verify native registration, installed-item reads, actual charge
+and battery transactions, normal recharge UI, persistence, uninstall, packaging,
+transfer to unmodified peers and multiplayer. Do not directly edit save files
+or inject prototype inventory into the normal player save. Compiling an XML
+definition does not validate these behaviors.
 
-**Accepted communication requirement for this proposed feature:** energy loss
-must never look like a broken mod. Show one low-energy warning before depletion,
-a clear recharge-required notice at depletion, and persistent charge/reason
-information in the native X menu. Keep the player's automation preference ON
-while energy temporarily blocks operation; do not conflate depletion with a
-manual OFF selection. A brief recharge confirmation should say the module is
-ready again without promising an immediate summon outside normal triggers.
-Do not repeat warnings on every ship exit or warn about inactive automation.
-Define warning reset/reload behavior so existing depletion is explained once
-after loading, without notification spam. All added wording and its English
-source must enter every locale catalog in the same implementation change.
-These are recorded requirements; no charge or notification behavior is added
-to the current build.
-
-Automatic recharge is also under discussion. Distinguish automatic consumption
-of stored Ion Batteries from passive energy regeneration without consumables.
-The current recommendation is manual battery recharge on the basic module and
-a separately earned later upgrade for automatic battery use, with transparent
-inventory consumption. No fuel-use setting or extra upgrade is approved yet.
-The owner subsequently suggested making automatic recharge a further upgraded
-module. The recommended design is two dependent technologies: the basic summon
-module works with manual recharge; a separately crafted recharge controller
-automatically consumes available Ion Batteries to refill the basic module.
-The controller would require the basic module and its own technology slot;
-it would provide no pet bonuses or energy without fuel. Warn clearly when
-available batteries run out. Names, costs and whether the controller is a
-separate module or replacement tier remain proposals, not implementation.
-Hello Games' [Beyond notes](https://www.nomanssky.com/beyond-update/) provide a
-design precedent for a separate Launch System Recharger that replenishes launch
-energy over time; this does not prove our custom module can reuse that behavior.
-
-Feasibility evidence: the [MBINCompiler technology schema](https://github.com/monkeyman192/MBINCompiler/blob/development/libMBIN/Source/NMS/GameComponents/GcTechnology.cs)
-exposes ID, recipe requirements, category and charge fields. The author's
-[historical new-technology mod](https://www.nexusmods.com/nomanssky/mods/259)
-demonstrates distinct additions, but dates from 2016 and does not verify Cosmos
-7.04. The newer author source for [Aquatic Blaster 6.00](https://raw.githubusercontent.com/MetaIdea/nms-amumss-lua-mod-script-collection/main/FriendlyFirePL/FF_AquaticBlaster/FF_AquaticBlaster_600.lua)
-also demonstrates custom technology/recipe/research entries, but reuses a native
-weapon function and does not verify our target. Custom summon-triggered
-consumption still requires runtime work and exact-build validation. Multiplayer safety is unverified: Hello Games describes
-[technology packaging and transfer](https://www.nomanssky.com/waypoint-update/),
-so test custom-ID packaging/transfer to a player without the mod, in addition
-to ordinary mixed sessions, saving/reloading and uninstall behavior. Do not
-assume a technology stays local merely because the summon controller is local.
-
-The current no-progression-change/no-save-write contract still applies to
-implementation: research native item registration and save ownership first, including
-what happens when uninstalling the technology or the mod, changing saves and
-playing expeditions or multiplayer. Do not silently add inventory contents or
-edit saves to prototype this idea.
+Unknown game versions must stop native integration before hooks or native calls.
+The existing exact-build checks remain mandatory. The final player launcher
+must give a clear localized outside-game warning and recovery guidance without
+an unsafe bypass or preference reset. A saved custom item requires separately
+verified update/removal behavior; runtime auto-disable is only one part of that.
 
 ## Deferred idea: temporary pause
 

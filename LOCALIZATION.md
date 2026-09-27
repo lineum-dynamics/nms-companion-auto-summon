@@ -3,9 +3,10 @@
 ## Status
 
 The offline 0.8.3 work introduces `locales/en.json` as canonical English and
-thirteen translated **unreviewed draft** catalogs. Each has the same 24 keys,
-covering the native parent title, six settings labels, values/statuses, caption
-formats and current HUD notices. The biome label is **Random: prefer matching
+thirteen translated **unreviewed draft** catalogs. Each now has the same 30 keys:
+the original 24 cover the native parent title, six settings labels,
+values/statuses, caption formats and current HUD notices; six additional keys
+cover the proposed rechargeable technologies. The biome label is **Random: prefer matching
 biome**, which only affects Random on planets. This updates source preparation;
 the previously installed 0.8.2 artifact remains unchanged.
 
@@ -14,7 +15,16 @@ uses the existing English ASCII path. There is no language selector, automatic
 game-language detection, verified non-English rendering or native-language
 terminology review. English and Czech README files remain documentation
 translations. The development panel, launcher and older inert-preview captions
-are outside the current 24-key catalog; this is not whole-application coverage.
+are outside the current 30-key catalog; this is not whole-application coverage.
+
+The technology entries are names, subtitles and descriptions for the working
+names **Companion Link** and **Companion Recharger**. They describe the accepted
+design: owned-companion summoning consumes stored charge and respects native
+placement; Ion Batteries recharge the Link; the separate Recharger consumes
+those batteries from the exosuit and requires an installed Link. These are
+offline prototype inputs, not a claim that charging, battery consumption or
+technology-gated summoning already works. All thirteen translations remain
+drafts, including their native-game terminology.
 
 Pending means queued, not saved. `Companion saved.` is used only after successful
 persistence; otherwise it is `Companion selected (session only).` OFF/Random
@@ -53,7 +63,7 @@ Source: [official Steam store language table](https://store.steampowered.com/app
 
 ## Catalog and validation contract
 
-Each UTF-8 JSON file declares schema version 1, locale, `native_menu_hud` scope,
+Each UTF-8 JSON file declares schema version 1, locale, `native_menu_hud_technology` scope,
 review status and `native_runtime_integrated: false`. Entries contain display
 `text` and `source_sha256`: SHA256 of that key's exact canonical English UTF-8
 text. English edits invalidate existing fingerprints in every translation.
@@ -61,7 +71,7 @@ Updating a fingerprint must follow an actual meaning/translation review, not
 serve as a way to hide an unchanged stale translation. A matching fingerprint
 proves synchronization only, not translation quality.
 
-`tools/validate_locales.py` requires exactly all fourteen files and all 24 keys,
+`tools/validate_locales.py` requires exactly all fourteen files and all 30 keys,
 rejects duplicate JSON keys, invalid/empty/oversized/control-character text and
 stale hashes, and compares named placeholder names and multiplicities. Placeholders
 are simple text names such as `{label}`, `{value}`, `{status}`, `{state}` and
@@ -79,6 +89,13 @@ menu combinations and every current HUD notice against the catalog. It parses
 text function runs, with restricted calls and owned sample state. Source strings
 changed without matching catalog updates fail the check.
 
+The exported `TECHNOLOGY_KEYS` tuple identifies `tech.link.name`,
+`tech.link.subtitle`, `tech.link.description`, `tech.recharger.name`,
+`tech.recharger.subtitle` and `tech.recharger.description`. Technology data
+builders must consume these catalog values directly rather than maintain a
+second literal copy. Existing menu/HUD source-drift checks remain in place.
+No runtime energy-warning strings are introduced by this addition.
+
 Run `python -B tools/validate_locales.py` and
 `python -B -m unittest discover -s tools/tests -p test_locales.py`.
 The importable API is `validate(locales_dir=None, source_root=None)`: it returns
@@ -88,9 +105,10 @@ three inspected files: `src/runtime.py`, `tools/quick_menu_toggle.py` and
 `tools/quick_menu_item.py`. The check must run before build/package output is
 created. It never accesses the game, personal settings or saves.
 
-The initial fifteen focused tests cover stale hashes, exact file/key sets,
+The eighteen focused tests cover stale hashes, exact file/key sets,
 placeholders, bounds, unsupported review claims, undeclared English copies,
-source drift, absence of runtime imports and explicit-path CLI use. Passing
+source drift, absence of runtime imports and explicit-path CLI use, including
+technology completeness and meaning-change synchronization. Passing
 them establishes data/source consistency, not linguistic or visual acceptance.
 
 ## Future runtime integration

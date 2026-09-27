@@ -85,23 +85,23 @@
     },
     {
       "path": "DEVELOPMENT.md",
-      "sha256": "3649172c5608512d10ef3db58df9826616f4c876248b93b1f469d84191ac7126"
+      "sha256": "0264bb3a259b0cdba121ce774b910c3c8a88b11d6983d3568b9449a1548f9eae"
     },
     {
       "path": "LOCALIZATION.md",
-      "sha256": "c556f39fc189ebc5a507b92506fd614efecebfbb05e183f499a0be1002bea81e"
+      "sha256": "b8464fb1255d2c0fc8b4da485fb17d442bc140be66265746f4cfafd1a4277349"
     },
     {
       "path": "DESIGN.md",
-      "sha256": "e706a7a7cf73a634b2a995677d91c5ecfcb01b11fe19f4630a045ba083c168b4"
+      "sha256": "2a97151af52c850d7bf1830ee8fbe02c5aed221a0f60dbfa6ed0b2fb5854dafe"
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "bb7354b204c69abcfe5197a3d582bcecf17180a4ed7ef6d330f9b2d0cf9639f9"
+      "sha256": "25f3583647dfcc9448b4f9037cd236afff4052f6238b4c333059eede4a2debde"
     },
     {
       "path": "ROADMAP.md",
-      "sha256": "72be10c460559a45b921a31b25f83e2742c197d02a79429fd7131c8032b26965"
+      "sha256": "94d100dad6f9e017b327ea810a2f43c45c9df651308be7b2dc021ac7518a3abe"
     },
     {
       "path": "QUICK-MENU.md",
@@ -113,11 +113,23 @@
     },
     {
       "path": "docs/release/INSTALACE-ZADANI.md",
-      "sha256": "690f4ba68fb85b28df70970fd3a49eba754ed5e8290ecb6554f582c815e6e2ea"
+      "sha256": "3339e0c48606690f9be6a4f7c6500cdd618d19d8d33c9cb29dc59a544344cb93"
     },
     {
       "path": "docs/release/NEXUS-DESCRIPTION-DRAFT.md",
       "sha256": "503f4dbba7e2373a24c34fbe6c9505d407995610e02e5f9b38edfa36b068b1ff"
+    },
+    {
+      "path": "docs/research/TECHNOLOGY-PROTOTYPE.md",
+      "sha256": "1e54e5baf33d45e10d3159d560a49855ae488a6203b959698ff8d8de4ce516e0"
+    },
+    {
+      "path": "docs/research/TECHNOLOGY-RUNTIME-AUDIT.md",
+      "sha256": "997522671467ce093d4b7744d2abb501f40ecad151cfb1b728f020841bed3efd"
+    },
+    {
+      "path": "docs/research/COMPATIBILITY-GUARD-AUDIT.md",
+      "sha256": "47b5680376a92e8efd6bc1a2c4d1844804f23b29f132fa930c9a9bf9b3644fa5"
     },
     {
       "path": "src/policy.py",
@@ -157,7 +169,7 @@
     },
     {
       "path": "tools/validate_locales.py",
-      "sha256": "ddc8d04ed9590b7244fe91a832a25405b9615ffc834fac389efa3437b8a0c7af"
+      "sha256": "331945e05af5ce0fa5aa3387e19d724be1802870246ca2773a2f04f8aa6e885c"
     },
     {
       "path": "tools/quick_menu_toggle.py",
@@ -169,59 +181,59 @@
     },
     {
       "path": "locales/en.json",
-      "sha256": "3513de32bd033a8ba134f7efa4a06be666d96f78b1fdd4e9cba5cd68e59330a7"
+      "sha256": "ec61a03ee624bd93648004bdb238417f54e3248a91ae2fb1d9fac9424f128f9b"
     },
     {
       "path": "locales/fr.json",
-      "sha256": "656556d0335418915d73fe04bb74084d99f7843c39eceb2447d04f120d160b26"
+      "sha256": "3ae472fbd18a1e19e82efdfe52526a01f92122ce2758c979d84205612f73819f"
     },
     {
       "path": "locales/it.json",
-      "sha256": "35fa5435e34047f95f40bc761507fe1e6641ac07bbbef8244e00936e4c34e917"
+      "sha256": "ab23b2ea8561cbd42a83364fdd09e79e9f927479b362e6a1f371b3027fb015c8"
     },
     {
       "path": "locales/de.json",
-      "sha256": "e0d80b701d503858b8a20256a5bfd27fdb83697e001d3684391401e32c8b09ce"
+      "sha256": "34d5c3a00c56ec5e47f04920ccad61ca3f02748481571f4c62a8b169f9ba4bb5"
     },
     {
       "path": "locales/es-ES.json",
-      "sha256": "a98556add7a8f266c4ad31072640cc30bac76ddbecc729b098b0e027db5e54a6"
+      "sha256": "a9170583e7c57943bf7a41c76e3d7263d4614e16baec86948833f2a71a8d84b8"
     },
     {
       "path": "locales/nl.json",
-      "sha256": "76882c97260229633cdb0d808008510595c6960e651e6efefe4d5e179e3b21e7"
+      "sha256": "89c34335c6a998742d59c9626ebf39a1a1c302c0d2c86ac546ce6f1c57011563"
     },
     {
       "path": "locales/ja.json",
-      "sha256": "a3cb695391ff61dcc9b41b892da0e181da2672650b51706f33659237af9b6d8e"
+      "sha256": "cf764d4d76dcfe4541dc9337afe9386fe796c90c68df789a7822e970a69afed0"
     },
     {
       "path": "locales/ko.json",
-      "sha256": "b48627dab18c5efb91ae2b6cf4403bf337b47329e5c40f2c1c9fe721d9d1c9ec"
+      "sha256": "45fd4a9fcdd65eca1d57b5a1475fd236fea65d00ebce511d9f589c265f27a19d"
     },
     {
       "path": "locales/pl.json",
-      "sha256": "8f5aaf5ca8109b490a868a2494eea1c0dfdd0b86c49f5fc86211affe3ea6dae8"
+      "sha256": "65a06f655320aba583444f6b1be694be43e566269781657e846d6046243dba36"
     },
     {
       "path": "locales/pt-PT.json",
-      "sha256": "044a890565b89cf22c0a6c8559dcab5b522e35e997f253a80d171eedb5d384d0"
+      "sha256": "a570a84ce5a67216754da99e77f8a81b3084d04750b980d1a43a22071eca1501"
     },
     {
       "path": "locales/pt-BR.json",
-      "sha256": "2a78290ca6906ae9b34065401e5cce8ec6ad17323e6f8485435fe75b77e5926b"
+      "sha256": "e42d9b00182004aab01f383c5219f59e5edd870e05d30083448c355b89a86ad2"
     },
     {
       "path": "locales/ru.json",
-      "sha256": "acba47fe8d73d349535c2bf871d0d81882e870b268a5aed185e0ff32db3fcc72"
+      "sha256": "a899279888f76421ed4df2a254f4f6fef9775ecf96cfa3be7946b8a82f46052c"
     },
     {
       "path": "locales/zh-Hans.json",
-      "sha256": "b8541cc1dbbbbd252b8fb9d8c866addd8ceb1ef0edc779c9c65d9cc473f17f93"
+      "sha256": "72268a1aa6e688763bd4511ebcd1e1fa5984cee618fa6d38e63c6944077631f2"
     },
     {
       "path": "locales/zh-Hant.json",
-      "sha256": "f1097644904a22c53ce0deb14061a4f3f598a18fc781812cb3d3e94f11599739"
+      "sha256": "59a06adf5e3082831ac9bb5a9b07abdb584f9bffbf4d1fa4408078611379bb97"
     }
   ],
   "legacy_data_directory": "NMS-AutoPet is intentionally retained for settings, remembered companions and the existing development runtime; schemas and file contents are unchanged.",
@@ -477,11 +489,61 @@
   },
   "localization_catalogs": {
     "locales": 14,
-    "keys_per_locale": 24,
+    "keys_per_locale": 30,
     "translated_drafts": 13,
-    "scope": "native_menu_hud",
+    "scope": "native_menu_hud_technology",
     "source_text_verified": true,
     "native_runtime_integrated": false,
     "language_review_verified": false
+  },
+  "technology_prototype": {
+    "status": "offline_only_not_installable",
+    "technology_ids": [
+      "CAS_LINK",
+      "CAS_RECHARGE"
+    ],
+    "runtime_integrated": false,
+    "installed": false,
+    "save_writes": false,
+    "native_transactions_verified": false,
+    "uninstall_verified": false,
+    "multiplayer_verified": false,
+    "included_in_player_zip": false,
+    "developer_suite_passed": 601,
+    "energy_tests": 17,
+    "technology_builder_tests": 18,
+    "catalog_tests": 18,
+    "compiler_semantic_roundtrips_passed": 3,
+    "compiler_sha256": "82836bfa95051f7282274d087a7972ef28494302f23fa4dd22d0cc43080ebfeb",
+    "compiled_files": [
+      {
+        "path": "LANGUAGE/CAS_TECHNOLOGY.MXML",
+        "semantic_roundtrip_equal": true,
+        "mbin_bytes": 10123,
+        "mbin_sha256": "38ca04d96466ee815cb88b890378d697873676d1d8e4ebe94ad734fc471d147c"
+      },
+      {
+        "path": "METADATA/REALITY/TABLES/NMS_REALITY_GCTECHNOLOGYTABLE.MXML",
+        "semantic_roundtrip_equal": true,
+        "mbin_bytes": 357441,
+        "mbin_sha256": "71fd04058adc83660aed392229cf8286c9cd37f3983016816762babbf7d9f56a"
+      },
+      {
+        "path": "METADATA/REALITY/TABLES/UNLOCKABLEITEMTREES.MXML",
+        "semantic_roundtrip_equal": true,
+        "mbin_bytes": 47928,
+        "mbin_sha256": "d3ca6c5b10f61842ace82523977231647e5880f9fae28c8e21e015df5e8967a0"
+      }
+    ],
+    "scope": "Pinned exact native tables plus authored additions compiled and roundtripped offline; this does not establish native registration, charge semantics, persistence, removal or live behavior."
+  },
+  "compatibility_guard_audit": {
+    "checked_date": "2026-09-28",
+    "exact_build_native_hook_refusal_verified_in_source": true,
+    "supported_launcher_pre_injection_refusal": true,
+    "direct_standalone_python_pre_injection_refusal": false,
+    "localized_player_warning_complete": false,
+    "central_cross_source_profile_assertion_complete": false,
+    "saved_custom_technology_update_behavior_verified": false
   }
 }

@@ -43,13 +43,55 @@ class LocaleTests(unittest.TestCase):
                   for path in self.root.rglob("*") if path.is_file()}
         report = self.validate()
         self.assertEqual(report["locales"], 14)
-        self.assertEqual(report["keys_per_locale"], 24)
+        self.assertEqual(report["keys_per_locale"], 30)
+        self.assertEqual(report["scope"], "native_menu_hud_technology")
         self.assertEqual(report["translated_drafts"], 13)
         self.assertTrue(report["source_text_verified"])
         self.assertFalse(report["native_runtime_integrated"])
         self.assertFalse(report["language_review_verified"])
         self.assertEqual(before, {str(path): hashlib.sha256(path.read_bytes()).digest()
                                   for path in self.root.rglob("*") if path.is_file()})
+
+    def test_technology_keys_are_six_distinct_catalog_inputs_with_draft_translations(self):
+        self.assertEqual(VALIDATOR.TECHNOLOGY_KEYS,
+                         ("tech.link.name", "tech.link.subtitle", "tech.link.description",
+                          "tech.recharger.name", "tech.recharger.subtitle", "tech.recharger.description"))
+        english = self.read("en")["messages"]
+        for code in VALIDATOR.LOCALES:
+            catalog = self.read(code)
+            for key in VALIDATOR.TECHNOLOGY_KEYS:
+                entry = catalog["messages"][key]
+                with self.subTest(code=code, key=key):
+                    self.assertEqual(entry["source_sha256"],
+                                     VALIDATOR.source_fingerprint(english[key]["text"]))
+                    self.assertNotIn(key, catalog["unchanged_keys"])
+                    if code != "en":
+                        self.assertEqual(catalog["review_status"], "draft_unreviewed")
+                        self.assertNotEqual(entry["text"], english[key]["text"])
+        self.validate()
+
+    def test_technology_meaning_change_requires_updated_translation_fingerprints(self):
+        english = self.read("en")
+        entry = english["messages"]["tech.recharger.description"]
+        entry["text"] += " Changed battery requirement."
+        entry["source_sha256"] = VALIDATOR.source_fingerprint(entry["text"])
+        self.write("en", english)
+        with self.assertRaisesRegex(VALIDATOR.CatalogError,
+                                    "Stale source fingerprint: fr:tech.recharger.description"):
+            self.validate()
+
+    def test_missing_technology_or_copied_english_technology_is_rejected(self):
+        original = self.read("fr")
+        catalog = json.loads(json.dumps(original))
+        del catalog["messages"]["tech.link.description"]
+        self.write("fr", catalog)
+        with self.assertRaisesRegex(VALIDATOR.CatalogError, "message keys"):
+            self.validate()
+        catalog = json.loads(json.dumps(original))
+        catalog["messages"]["tech.link.name"]["text"] = self.read("en")["messages"]["tech.link.name"]["text"]
+        self.write("fr", catalog)
+        with self.assertRaisesRegex(VALIDATOR.CatalogError, "Untranslated English"):
+            self.validate()
 
     def test_changed_english_invalidates_every_unupdated_translation(self):
         english = self.read("en")

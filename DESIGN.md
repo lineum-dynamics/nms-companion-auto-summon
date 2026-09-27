@@ -39,6 +39,34 @@ bundle for normal play while menu presentation is tested. A deliberately
 menu-only diagnostic is an exception and must be identified explicitly; it
 must not silently replace the working mod for a player's ongoing session.
 
+## Earned technology and update safety
+
+The accepted next design is an earned **Companion Link** exosuit technology:
+recipe acquisition, crafting, a technology slot and stored energy pay for the
+convenience. The working fuel is the existing Ion Battery. Consume charge only
+for a confirmed successful automatic summon; failed placement, cancelled intent,
+ordinary following and native manual summoning must not consume this charge.
+A separately earned **Companion Recharger** requires the base module and its own
+slot and consumes actual batteries to refill it. It provides no free energy.
+Names, recipes, research prices and numerical balance are prototype values.
+
+Low energy, depletion and missing recharge fuel need concise, nonrepeating
+feedback and persistent charge/reason information in the native settings page.
+Energy unavailability does not change the player's ON preference or dismiss an
+active pet. Recharge restores readiness; it does not create a new summon trigger.
+Current implementation is an isolated offline model and native-data prototype,
+not an installed requirement. See [technology research](docs/research/TECHNOLOGY-PROTOTYPE.md).
+
+An unsupported executable must stop native integration automatically before
+binding hooks or calling game functions. Exact executable identity, rather than
+only a displayed patch number, is the compatibility boundary. The final launcher
+must show a clear localized reason outside the game and distinguish game mismatch
+from framework or package failure. Do not call an unverified HUD to report it,
+overwrite preferences, offer a force-enable bypass, remove technology from saves
+or silently promise an already modified save is safe without its data package.
+The current development launcher has an English refusal and runtime guards;
+the complete localized player-facing flow remains unfinished.
+
 ## Summoning after loading
 
 Loading directly on foot should offer the same automatic-companion behavior as a ship exit. Successful local load completion records one opportunity; it does not call native summoning or prove the world is ready. A later local ownership update waits for a supported enabled location, advancing time and the remembered identity or eligible Random pool. A missing favourite during initial ownership loading is retried at the existing 0.5-second pace. The normal 1.5-second stability delay, ownership rules and placement checks remain unchanged. Random can work session-only with a zero save ID; Last-manual mode never guesses an identity from another save.

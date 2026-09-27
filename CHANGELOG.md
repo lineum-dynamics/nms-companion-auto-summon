@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased research — earned companion technologies
+
+- Added an isolated immutable energy model with separately confirmed debit and battery-refill requests, stale-context rejection, one-request accounting and bounded warning suppression. Queue acceptance alone cannot incur a charge. No production import, native inventory mutation or save access was added.
+- Prepared the offline native-data direction for Companion Link and Companion Recharger, with stable authored IDs, an earned research branch and provisional recipes. Native registration, charge APIs, persistence, removal and mixed multiplayer remain unverified; the technology prototype is not installed or included in the player package.
+- Added six technology name/subtitle/description entries to every catalog: 14 catalogs with 30 keys each, thirteen honest translation drafts. The original 24 entries and source checks remain unchanged; native language selection/rendering is still unfinished.
+- Recorded automatic refusal on unknown game builds and a clear localized outside-game warning as release requirements. Existing exact-hash/pre-hook guards remain; direct standalone-host pre-injection coverage and final warning presentation are unfinished. Saved custom technology requires separate update/removal verification.
+- Passed 601 developer tests, including 17 energy and 18 technology-data cases. Actual target-data build and all three MXML/MBIN/MXML semantic roundtrips passed with compiler 7.04.0.1. Rebuilt production remains byte-identical. No technology or runtime deployment occurred.
+
 ## 0.8.3 developer trial — role icons and maintained locale drafts
 
 - Prepared a separate, unlaunched menu 0.8.3 with unchanged production 0.4.7. The previous 0.8.2 installation is immutable; this change does not deploy into the game.

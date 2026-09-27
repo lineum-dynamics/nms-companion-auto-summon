@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "locale": "pt-PT",
-  "scope": "native_menu_hud",
+  "scope": "native_menu_hud_technology",
   "review_status": "draft_unreviewed",
   "native_runtime_integrated": false,
   "unchanged_keys": [
@@ -106,6 +106,30 @@
     "hud.random_on_suffix": {
       "text": " O modo aleatório continua ATIVADO.",
       "source_sha256": "d07e99aa4f67341bcc9e51db5fd74b688c04a3ae6f48b53fbfa141872ba30f93"
+    },
+    "tech.link.name": {
+      "text": "Ligação de companheiro",
+      "source_sha256": "7493411e3e6066732d8692627caaf2e4e149b3c99daa5ae983759a93b2d0b634"
+    },
+    "tech.link.subtitle": {
+      "text": "Invocação automática de companheiros",
+      "source_sha256": "20cb17fde402c28139286f2a4be0adf536d79c7e126e2c358ffa781607b42400"
+    },
+    "tech.link.description": {
+      "text": "Permite invocar automaticamente os companheiros que possuis. Consome a carga armazenada e pode ser recarregada com baterias de iões. Respeita as regras normais de posicionamento do jogo.",
+      "source_sha256": "994539d012f320d9743c387d868baf54d78f83becdbdeb4132e4d36ad010f4de"
+    },
+    "tech.recharger.name": {
+      "text": "Recarregador de companheiro",
+      "source_sha256": "8212a4431c017a0951c4d20be038a0a2a5506ba2cee19036b3f14f5cd87ca763"
+    },
+    "tech.recharger.subtitle": {
+      "text": "Recarga automática com baterias",
+      "source_sha256": "bf6609603bec1d7455bb621ffddfa2a27c57f750929f34255cbc270c921d4332"
+    },
+    "tech.recharger.description": {
+      "text": "Consome automaticamente baterias de iões do inventário do exofato para recarregar uma Ligação de companheiro instalada. Requer uma Ligação de companheiro; não fornece energia gratuita.",
+      "source_sha256": "5f608bf2ec639e6883f3e378a2b617d6bfabcf3e52031bf57ae8defaf9dee80e"
     }
   }
 }

@@ -1,4 +1,4 @@
-"""Offline validation of scoped menu/HUD drafts; never imports the runtime.
+"""Offline validation of menu/HUD/technology drafts; never imports the runtime.
 
 This checks catalog structure, English source fingerprints and current English
 presentation. It does not select a language, render glyphs or validate wording.
@@ -20,12 +20,16 @@ LOCALES = ("en", "fr", "it", "de", "es-ES", "nl", "ja", "ko", "pl", "pt-PT",
            "pt-BR", "ru", "zh-Hans", "zh-Hant")
 MENU_KEYS = ("menu.automation", "menu.selection", "menu.biome", "menu.planets",
              "menu.space_stations", "menu.space_anomaly")
+TECHNOLOGY_KEYS = ("tech.link.name", "tech.link.subtitle", "tech.link.description",
+                   "tech.recharger.name", "tech.recharger.subtitle", "tech.recharger.description")
+SCOPE = "native_menu_hud_technology"
 KEYS = frozenset(("menu.parent_title", *MENU_KEYS, "value.on", "value.off",
                   "value.last_selected", "value.random", "status.pending",
                   "status.session_only", "status.unavailable", "status.stopped",
                   "format.setting", "format.with_status", "hud.automation_state",
                   "hud.settings_updated", "hud.session_suffix", "hud.companion_saved",
-                  "hud.companion_session", "hud.auto_off_suffix", "hud.random_on_suffix"))
+                  "hud.companion_session", "hud.auto_off_suffix", "hud.random_on_suffix",
+                  *TECHNOLOGY_KEYS))
 UNCHANGED_ALLOWED = frozenset(("menu.parent_title", "format.setting", "format.with_status",
                                "hud.automation_state"))
 TOP_KEYS = frozenset(("schema_version", "locale", "scope", "review_status",
@@ -78,7 +82,7 @@ def _read_catalog(path, code):
         raise CatalogError(f"Cannot read catalog {code}") from error
     _require(type(catalog) is dict and set(catalog) == TOP_KEYS, f"Invalid {code} catalog fields")
     _require(type(catalog["schema_version"]) is int and catalog["schema_version"] == 1
-             and catalog["locale"] == code and catalog["scope"] == "native_menu_hud"
+             and catalog["locale"] == code and catalog["scope"] == SCOPE
              and catalog["native_runtime_integrated"] is False,
              f"Invalid {code} metadata or unsupported integration claim")
     _require(catalog["review_status"] == ("canonical" if code == "en" else "draft_unreviewed"),
@@ -246,7 +250,7 @@ def validate(locales_dir=None, source_root=None):
                  f"Untranslated English or incorrect unchanged-key declaration: {code}")
     _check_sources(english, source_root)
     return {"locales": len(LOCALES), "keys_per_locale": len(KEYS), "translated_drafts": len(LOCALES) - 1,
-            "scope": "native_menu_hud", "source_text_verified": True,
+            "scope": SCOPE, "source_text_verified": True,
             "native_runtime_integrated": False, "language_review_verified": False}
 
 

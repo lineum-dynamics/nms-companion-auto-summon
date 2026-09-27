@@ -78,6 +78,7 @@ Oficiální Python popisuje embedded distribuci jako prostředí pro přibalení
 - Běžící hru neukončovat a nesnažit se připojit druhý launcher. Zobrazit stručnou instrukci, co má hráč udělat.
 - Dvojklik opakovaný v krátkém čase nesmí vytvořit dvě instance módu.
 - Při neshodě hry sdělit podporovanou a nalezenou verzi, pokud je spolehlivě známá; samotný dlouhý hex řetězec nepatří do hlavního chybového hlášení.
+- Neshoda nebo nemožnost verzi ověřit automaticky zabrání napojení módu. Hlášku zobrazí spouštěč mimo hru, s udržovanými překlady; nevolat herní HUD přes neověřené adresy. Zachovat preference a nepřidávat možnost vynutit spuštění na neznámé verzi. Ověřit také přímé spuštění Python hostu, které zatím spoléhá na pozdější blokování nativních hooků.
 - Nabídnout otevření složky s logem. Neodesílat logy ani uživatelská data automaticky.
 - Zavření běžného ovládacího okna nesmí potichu ukončit hru. Současné provázání životního cyklu pyMHF a hry vyžaduje při návrhu launcheru výslovné ošetření a test.
 - Nevypínat zabezpečení Windows, antivirovou ochranu ani pravidla pro spouštění skriptů. Nelze předem slíbit absenci upozornění SmartScreen nebo schválení antivirem.
@@ -88,6 +89,7 @@ Oficiální Python popisuje embedded distribuci jako prostředí pro přibalení
 - Výměnu runtime neprovádět za běhu hry; zabránit smíchání souborů dvou verzí.
 - Hrát bez módu lze po úplném ukončení hry běžným spuštěním přes Steam.
 - Přenosné soubory odstraňovat až po ukončení hry i runtime. Reset osobních voleb je samostatný, výslovný krok; běžné odebrání nesmí upravovat herní savy.
+- Budoucí vlastní technologie vyžaduje zvláštní ověření při aktualizaci a odebrání. Vypnutý runtime sám neřeší položku uloženou v inventáři ani konflikt datových tabulek. Současné pokyny k hraní bez módu platí pro aktuální verzi bez této technologie; její prototyp se zatím neinstaluje.
 
 ## Přijímací testy balíčku
 
