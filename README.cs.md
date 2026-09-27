@@ -1,26 +1,31 @@
-# Companion Auto Summon 0.4.4 — testovací verze
+# Companion Auto Summon 0.4.5 — testovací verze
 
 Tento Git repozitář je hlavní zdrojový projekt. Testovací instalace a ZIP balíčky jsou jeho výstupy; další úpravy vznikají v repozitáři. Postup sestavení a ověření je v [DEVELOPMENT.md](DEVELOPMENT.md).
 
-Nový kandidát **0.4.4** přidává pouze omezené sledování po přijetí požadavku
-na vyvolání. Zapisuje přechody nativní fronty a aktivního peta, nic neopakuje
-a nemění zpoždění ani pravidla hry. Aktivní slot v paměti stále potřebuje
-hráčovo potvrzení viditelného peta. Oddělený balíček **0.7.1-play-trial**
-zachovává dosavadní nativní přepínač ON/OFF. Balíček 0.7.1 se po nové ověřené záloze spustil
-27. 9. 2026 v 22:22:35: oba módy, 11 hook cílů, automatika ON.
-Hráč už potvrdil jedno vyvolání v Random po načtení v Anomálii;
-nová diagnostika zaznamenala i očekávaného aktivního peta. Jeden úspěch
-ještě neprokazuje opravu předchozího občasného selhání. Chybějící vyvolání po načtení v Anomálii
-a bílý kruh u hlášky ještě nejsou opravené. Dřívější výsledky níže platí jen
-pro konkrétně uvedené verze.
+Připravený zdrojový kandidát **0.4.5** a společný balíček **0.7.2-play-trial**
+ukládají ručního favorita pouze po odpovídající úspěšné akci nativního ovládání
+petů. Samotné přijetí požadavku do fronty, například při obnovení řízeném hrou,
+favorita nezmění a nevytvoří potvrzení ruční volby. Původ konkrétního volání
+po aréně není doložený; dosavadní uložený výběr proto automaticky nevracíme zpět.
 
-Kontroly nového kandidáta prošly: **253 produkčních testů** (včetně 23 nových případů diagnostiky), **408 vývojových testů** a ověření skutečného pyMHF i společného balíčku mimo hru. Testy nečetly osobní nastavení, nespouštěly hru a neregistrovaly herní hooky.
+Krátká potvrzení explicitních změn mají nově **5,5 sekundy**. Staticky ověřený
+příznak hry skryje bloky ikony a ponechá text; řeší tím cestu vytvářející bílý
+kruh. Kandidát ještě nebyl spuštěn ani vizuálně ověřen. Běžící instalace
+**0.4.4 / 0.7.1** zůstává beze změny. Prošlo **279 produkčních testů**,
+**408 vývojových testů** a kontroly skutečného frameworku i společného balíčku
+bez přístupu ke hře. Jeho 17 callbacků sdílí 11 nativních cílů; nejde o herní
+ověření. Starší počty níže patří uvedeným verzím.
+
+Historická 0.4.4 / 0.7.1 prošla 253 produkčními a 408 vývojovými testy a po
+nové ověřené záloze se spustila 27. 9. 2026 v 22:22:35. Diagnostika i hráč
+potvrdili jedno vyvolání v Random po načtení v Anomálii. Jeden úspěch neřeší
+předchozí občasné selhání. Pasivní sledování nic znovu nevyvolává a neupravuje savy.
 
 Pravidla vývoje a architektura jsou v anglickém [DEVELOPMENT.md](DEVELOPMENT.md). Zdrojový kód, komentáře a vývojová diagnostika jsou anglicky. Panel i herní potvrzení jsou zatím pouze anglické; systém překladů dosud neexistuje. Cílové jazyky a zbývající práce popisuje [LOCALIZATION.md](LOCALIZATION.md).
 
 Verze 0.4.3 přidává jednu příležitost k automatickému vyvolání po úspěšném načtení lokálního savu. Po přihlášení rovnou pěšky tedy nemusíš nejprve nastoupit a vystoupit z lodi. Mód počká na povolenou lokaci, ověření vlastnictví a původní kontroly umístění. Během samotného načítání dat žádné nativní vyvolání nevolá.
 
-Oddělený vývojový kandidát **0.7.0-play-trial** přidává první skutečnou volbu
+Starší vývojový balíček **0.7.0-play-trial** přidal první skutečnou volbu
 v menu X: zapnutí nebo vypnutí automatiky. Změnu předává původnímu runtime
 0.4.3 a jeho ukládání nastavení. Základní ON/OFF má dílčí potvrzení hráče i logu;
 úplná zkouška ovládání a navigace ještě není dokončená.
@@ -33,7 +38,7 @@ Obě chyby zůstávají otevřené.
 
 **Ve společném testovacím balíčku 0.6.2 se pet po načtení pěšky na vesmírné stanici automaticky objevil v režimu Random.** Log potvrzuje spuštění načtením savu bez výstupu z lodi, výběr jednoho z pěti vhodných vlastních petů a přijetí požadavku přibližně po 2,69 sekundy. Uživatel potvrdil skutečné objevení. Nexus ani planeta nebyly místem tohoto testu; jejich načtení a režim poslední ruční volby po načtení ještě čekají na ověření. Později uživatel potvrdil i jedno ruční odvolání bez opětovného objevení. Mezitím cestoval; přesné místo a délka tohoto pozorování nebyly nezávisle změřeny. Přesný rozsah zaznamenává `manifest.json`.
 
-Aktuální kandidát prošel **230 testy módu** a **341 testy vývojových nástrojů**. Kontrola se skutečným pyMHF ověřila osm prvků panelu i načtení obou tříd v připraveném společném balíčku 0.6.2 bez připojení ke hře. Tyto kontroly nepotvrzují skutečné objevení peta po načtení.
+Kandidát 0.4.3 prošel **230 testy módu** a společný balíček 0.6.2 **341 testy vývojových nástrojů**. Kontrola se skutečným pyMHF ověřila osm prvků panelu i načtení obou tříd bez připojení ke hře. Tyto kontroly nepotvrzují skutečné objevení peta po načtení.
 
 Předchozí verze 0.4.2 zavedla schválený název **Companion Auto Summon** místo pracovního AutoPet. Zachovala herní pravidla, výchozí hodnoty i formát osobních dat. Záložka se jmenuje **CompanionAutoSummon**, protože pyMHF používá název Python třídy. Verze 0.4.2 se následně načetla společně s testem menu v balíčku 0.6.1; log potvrdil zapnutou automatiku a přijatý požadavek po výstupu z lodi na stanici. Tento záznam nepotvrzuje nové chování 0.4.3 ani skutečné zobrazení peta.
 
@@ -72,7 +77,7 @@ Po spuštění přes Companion Auto Summon se otevře samostatné okno **pyMHF**
 
 Změna se provede a uloží při další aktualizaci lokálního hráče; vrať se tedy do hry před jejím ukončením. Změna nastavení zruší čekající automatické vyvolání a ponechá již přítomného peta. Zapnutí nebo změna režimu samo nic nevyvolá — automatika počká na další výstup z lodi nebo nové načtení savu. Mód nezavádí vlastní klávesovou zkratku.
 
-V režimu poslední ruční volby nemá nový hráč žádného předvybraného peta. Jednou ručně vyvolej vlastního společníka. Mód při novém výběru požádá hru o třísekundové textové potvrzení **Companion Auto Summon: companion selected for automatic summoning.** Při vypnuté automatice zpráva potvrdí výběr a uvede, že automatika je OFF. V náhodném režimu potvrdí uloženého ručního favorita a připomene, že náhodný výběr zůstává zapnutý. Stejnou volbu při opakovaném vyvolání ani obnovení po restartu znovu neoznamuje. Hlášky a panel jsou v angličtině pro sdílený balíček. Volba Random už byla úspěšně použita v herní relaci; skutečné zobrazení HUD hlášek a zbývající prvky panelu ještě potřebují ověření.
+V režimu poslední ruční volby nemá nový hráč žádného předvybraného peta. Úspěšně ručně vyvolej vlastního společníka. Změněná volba požádá hru o tiché potvrzení na 5,5 sekundy: **Companion saved.** Bez úspěšného trvalého uložení uvede **Companion selected (session only).** Podle stavu doplní, že automatika je OFF nebo Random zůstává ON. Opakování stejné volby, automatické vyvolání a obnovení řízené hrou zůstávají tiché. Nové znění a skrytí ikony ještě čekají na herní vizuální zkoušku. Hlášky a panel jsou zatím pouze anglické.
 
 Při výslovném přepnutí do náhodného režimu není předchozí ruční volba nutná. Hráč však musí vlastnit alespoň jednoho vhodného peta; mód žádného nevytváří ani neodemyká. Náhodná volba nepřepisuje oblíbeného peta zapamatovaného pro režim poslední ruční volby. Tentýž pet může být náhodně vybrán i při následujícím výstupu.
 

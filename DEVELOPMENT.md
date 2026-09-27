@@ -13,7 +13,32 @@ This repository is the canonical development location. Keep installed test copie
 
 ## Current implementation
 
-The current candidate is 0.4.4-experimental. It adds passive post-queue diagnostics to the earlier 0.4.3 behavior described below. It registered in combined trial 0.7.1 at 22:22:35 on 27 September 2026 after a fresh verified backup of 43 profile files. Both Mods and 11 hook targets loaded with automation ON; all 14 payloads and both preference/state files matched at startup. This establishes registration only. The target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The present development launcher accepts Python 3.11–3.13 x64.
+The current source candidate is **0.4.5-experimental**, prepared with combined trial **0.7.2** and not launched. The running 0.4.4 / 0.7.1 installation remains unchanged. The target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The development launcher accepts Python 3.11–3.13 x64.
+
+Manual-favourite learning now requires a paired native companion UI action 46,
+one matching accepted local queue, and a successful original result. The pair
+copies and revalidates the full identity, application, save context and native
+thread; the AFTER callback never rereads the original action pointer. Unknown
+accepted queues cancel pending automatic intent but cannot replace the favourite
+or show its confirmation. Native battle restoration can reach the queue directly;
+the actual caller in the earlier arena report remains unknown. Existing stored
+choices are preserved. Attribution failures stop learning, not automation.
+
+Production adds BEFORE/AFTER callbacks to the same `TriggerAction` target already
+used by the menu, RVA `0x1526940`, with unchanged `bool(pointer, pointer, bool)`
+ABI and `None` callback returns. The bundle has nine production and eight menu
+callbacks over eleven distinct managed targets. This is shared framework
+dispatch, not a second native detour at that address; the native binding guard
+is unchanged. Both callback orders passed the real Python registry/compound
+dispatch check with all four Boolean combinations and one mocked original call.
+
+Explicit confirmations request 5.5 seconds. A changed manual identity says
+`Companion saved.` only after persistence succeeds, otherwise
+`Companion selected (session only).`; OFF/Random context is appended as needed.
+Repeated choices, automatic requests and game restoration remain quiet. The
+existing eleven-argument timed-message ABI, owned text/colour/empty-icon buffers
+and silent audio are preserved. Its statically verified final Boolean now hides
+both icon containers while retaining the title; visual verification is pending.
 
 After a matching native queue acceptance, policy intent is still consumed.
 A separate observer samples only the existing verified fields through the
@@ -26,14 +51,22 @@ trigger, preferences, manual selection/preview/emote and invalid state end it.
 Observer failures do not disable working automation. It adds no native calls,
 hooks, offsets, preference fields or game-save writes.
 
-The separate 0.7.1 bundle retains the 0.7.0 native menu with the preference
-bridge pinned to the reviewed 0.4.4 initializer. It keeps the same production
-control lock, queue, application callback and two-Mod discovery contract.
-The former 0.7.0 installation remains intact. The active 0.7.1 folder is immutable while running.
+The separate 0.7.2 bundle retains the native menu and pins its preference bridge
+to the reviewed 0.4.5 initializer. It keeps the production control lock, queue,
+application callback and two-Mod discovery contract. Old artifacts are retained;
+the active 0.7.1 folder is immutable while running.
 
-Offline validation for this candidate passed: **253 production tests** (including 23 new observer cases), **408 developer tests**, actual pyMHF widget checks and combined-folder discovery/preference checks. No game access or live hook registration occurred during validation.
+Offline validation passed **279 production tests** (189 runtime, 34 policy,
+14 persistence, 24 settings, 18 launcher) and **408 developer tests**. Actual
+pyMHF 0.2.4 / Dear PyGui checks passed with nine production callbacks, eight
+widgets and zero hotkeys. The generated 0.7.2 folder passed two-Mod discovery,
+17-callback/11-target registration metadata, shared Python dispatch and temporary
+preference-bridge checks; its PowerShell launcher parsed successfully. Shared
+dispatch used a disabled menu and a mocked native original. No game access or
+native hook binding occurred. Historical 0.4.4 / 0.7.1 had 253 production and
+408 developer tests and registered in-game at 22:22:35 on 27 September 2026.
 
-Earlier production 0.4.3 adds a deferred, one-shot opportunity after a successful local save load to the existing ship-exit behavior. One station startup in Random mode was confirmed by both log and user, without a ship exit. Those results are historical evidence for that version, not live validation of 0.4.4.
+Earlier production 0.4.3 added a deferred, one-shot opportunity after a successful local save load to the existing ship-exit behavior. One station startup in Random mode was confirmed by both log and user, without a ship exit. Those results are historical evidence for that version, not live validation of 0.4.5.
 
 | Component | Responsibility |
 |---|---|
@@ -58,7 +91,7 @@ Accepted manual selection, ship entry, a real local ship exit, applied preferenc
 
 GUI callbacks queue preference changes under a lock. The local player callback applies them. Native game operations belong to the established game callbacks, never to an installer or asynchronous GUI thread.
 
-The separate 0.7.0 play-trial candidate enables the first native menu preference
+The historical 0.7.0 play-trial candidate enabled the first native menu preference
 without changing the production script: `tools/quick_menu_toggle.py` recognizes
 the selected child, `tools/quick_menu_preferences.py` resolves the actual
 registered production instance and queues only `enabled` under its existing
@@ -84,8 +117,8 @@ the initial startup check found existing settings and companion memory unchanged
 The game window was subsequently responding despite an initial missing-window
 warning. Subsequent player feedback and logs support basic ON/OFF application,
 but held input, remapping/controllers and complete navigation remain unverified.
-Anomaly startup accepted a native queue without a visible pet. The current
-runtime consumes intent at queue acceptance and performs no post-queue active-pet
+Anomaly startup accepted a native queue without a visible pet. That 0.4.3
+runtime consumed intent at queue acceptance and performed no post-queue active-pet
 observation. Diagnose that lifecycle before authorizing retries: disappearance
 alone cannot distinguish failed materialization from a manual dismissal.
 The player's screenshot confirms HUD text rendering with an unwanted white disc.

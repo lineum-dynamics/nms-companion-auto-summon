@@ -64,7 +64,7 @@ def main():
             require(module.EXPECTED_PYMHF == framework_version, "Generated mod framework requirement differs")
             mod = module.CompanionAutoSummon()
             require(mod._mod_name == "CompanionAutoSummon", "Framework mod identity differs")
-            require(len(mod.hooks) == 7, "Expected seven hook callbacks after the rename")
+            require(len(mod.hooks) == 9, "Expected nine callbacks including native UI attribution")
             require(len(mod._gui_widgets) == 8, "Expected eight GUI widgets")
             require(len(mod._hotkey_funcs) == 0, "No CompanionAutoSummon hotkeys should be registered")
             require(mod.automatic_summoning and mod.planets and mod.space_stations and mod.nexus,

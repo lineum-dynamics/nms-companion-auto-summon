@@ -2,21 +2,26 @@
 
 ## Status
 
-The 0.4.4 candidate adds only English developer diagnostics, with no new
-player-facing strings or localization behavior. Its 0.7.1 bundle retains the
-existing native menu captions and HUD. The white-disc rendering issue remains
-open; no unverified icon pointer or rendering flags are substituted.
+Prepared 0.4.5 / 0.7.2 uses shorter English confirmations lasting 5.5 seconds.
+`Companion saved.` is used only after successful persistence; otherwise the
+message is `Companion selected (session only).` Relevant suffixes are
+`Auto summoning OFF.` and `Random stays ON.` Only a changed, matched successful
+native UI choice announces a favourite; automatic summoning and game restoration
+stay quiet. The verified final timed-message flag hides icon containers without
+changing text encoding. Wording and icon hiding await a live visual check.
+The running 0.4.4 / 0.7.1 artifact remains unchanged.
 
-Companion Auto Summon 0.4.3 has no localization catalog, language selector or automatic game-language detection. Its settings labels, selection options, statuses, HUD messages and launcher errors are hardcoded in English. English and Czech README files are documentation translations, not a localization system.
+Companion Auto Summon 0.4.5 has no localization catalog, language selector or automatic game-language detection. Its settings labels, selection options, statuses, HUD messages and launcher errors are hardcoded in English. English and Czech README files are documentation translations, not a localization system.
 
-The load-trigger update reuses the existing control as **Automatically summon companion**, covering ship exits and successful local save loads. Status can show **Waiting for a suitable place** while a load opportunity still awaits ownership. The companion status describes a random choice per request or a remembered identity awaiting ownership verification; the manual-selection notice says **companion selected for automatic summoning**. Future translations must preserve this scope instead of promising a summon immediately during loading or only after a ship exit. No new preference or language selector accompanies the change. The developer menu's **Settings preview** child remains inert and English-only.
+The load-trigger update reuses **Automatically summon companion**, covering ship exits and successful local save loads. Status can show **Waiting for a suitable place** while a load opportunity still awaits ownership. The companion status describes a random choice per request or a remembered identity awaiting ownership verification. Future translations must preserve this scope instead of promising a summon immediately during loading or only after a ship exit. No new preference or language selector accompanies the change. Older developer artifacts retain an inert English **Settings preview** child.
 
 In the separate 0.7.0 developer candidate that child becomes **Automatic
 summoning: ON/OFF**, with **(pending)**, **(session only)**, **unavailable** or
 **stopped** as appropriate. These are English prototype captions, not translated
 catalog entries. Pending is a queued request, not a claim that it was saved.
 The older 0.6.2 artifact retains its inert preview; the active developer trial
-is now 0.7.1, with unchanged captions and live validation in progress.
+is 0.7.1, with unchanged captions and live validation in progress. Prepared 0.7.2
+retains those captions; its new confirmations are not yet live-tested.
 
 The owner requires English source code and player-facing localization covering the game's official interface languages. Translations will be separate data resources. Technical log identifiers and developer diagnostics remain English, while actionable player-facing errors must be localized.
 

@@ -1,9 +1,45 @@
 # Native quick-menu investigation
 
-Prepared successor: **0.7.1-play-trial** pairs production 0.4.4 passive
-post-queue diagnostics with the unchanged 0.7.0 native menu and a bridge
-pinned to the new reviewed production initializer. No preference behavior,
-input hook, icon or native binding guard changes. It registered both Mods and 11 hook targets at 22:22:35 on 27 September
+Prepared successor: **0.7.2-play-trial**, with production **0.4.5**, has not
+launched. It preserves native-menu preferences and the binding guard, while
+restricting manual-favourite learning to a matched successful native companion
+UI action. An unknown accepted queue cancels pending automatic intent but cannot
+replace the favourite or announce a manual choice. Static battle-restoration
+callers reach the queue directly; the specific 0.7.1 arena caller remains
+unknown, and no previous favourite is rolled back.
+
+Production adds a BEFORE/AFTER pair at the existing menu `TriggerAction` target,
+RVA `0x1526940`, preserving its `bool(pointer, pointer, bool)` ABI and native
+arguments/results. It copies action 46's slot/identity before dispatch, observes
+one matching accepted local queue, and revalidates context after original
+success without rereading the old action pointer. Nine production and eight
+menu callbacks share eleven distinct managed targets. Actual pyMHF registry and
+Python compound-dispatch checks passed both callback orders, four Boolean
+combinations each and exactly one mocked original call. The menu was disabled
+for that dispatch smoke; this does not prove active native coexistence in-game.
+
+The candidate passed **279 production tests**, **408 developer tests**, real
+GUI metadata/widgets and final two-Mod bundle/preference-bridge checks. The
+PowerShell launcher parsed successfully. No native hook binding or game access
+occurred. The running 0.4.4 / 0.7.1 folder remains unchanged.
+
+### Prepared HUD correction
+
+Explicit notices request 5.5 seconds and distinguish saved from session-only
+choices. Automatic summoning, repeated choices and game restoration stay quiet.
+The eleven-argument `AddTimedMessage` ABI and owned text/colour/empty-icon buffers
+remain unchanged. In the guarded executable, final argument 11 is stored at
+message `+0x2DB`; the lower-message path passes it to renderer `0x6C1C30`.
+True sets `IsHidden` on both `LARGE_ICON` and `ICON` containers, independently of
+the already assigned `TITLE`. The zero-resource path can show background/glow
+children, explaining why an empty icon handle alone did not remove the disc.
+The candidate now sets this verified final flag. This is static evidence;
+readability and the actual disappearance of the white disc need a live check.
+
+### Historical and current running trial: 0.7.1
+
+Production 0.4.4 added passive post-queue diagnostics with the existing native
+menu and a version-pinned bridge. It registered both Mods and 11 hook targets at 22:22:35 on 27 September
 2026 after a fresh verified backup, with automation ON and unchanged
 preferences/state. All 14 payloads matched. This does not establish visible
 spawn or inherit the following 0.7.0 live results.
@@ -25,7 +61,7 @@ The same session exposed a failed visible Anomaly startup despite native queue
 acceptance, and a solid white disc above the HUD text. These remain open defects.
 The following chronological records retain their original version boundaries.
 
-Status: 27 September 2026. The source candidate is 0.4.3-experimental, adding a
+Historical 0.4.3 / 0.6.2 snapshot, 27 September 2026: that candidate added a
 deferred summon opportunity after local save load. Its combined 0.6.2 artifact
 has passed offline checks and registered with automation ON. One Random-mode
 startup summon on a space station is confirmed by the log and player; Nexus and

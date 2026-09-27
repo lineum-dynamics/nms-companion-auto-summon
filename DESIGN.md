@@ -8,15 +8,17 @@ Companion Auto Summon should feel consistent with No Man's Sky: familiar control
 
 ## Current state
 
-The new 0.4.4 candidate and combined 0.7.1 trial add passive
-post-queue diagnostics only. They preserve gameplay and existing ON/OFF
-behavior. Native activation must be distinguished from visible appearance;
+The prepared 0.4.5 candidate and combined 0.7.2 trial restrict favourite learning
+to a matched successful native UI action and add short 5.5-second confirmations.
+The verified native icon-hide flag is enabled; its visual result still needs a
+live check. They passed 279 production and 408 developer tests plus actual
+framework checks, but have not launched. The current live session remains
+0.4.4 in the immutable 0.7.1 folder, registered at 22:22:35 on 27 September 2026.
+Its one confirmed Anomaly startup does not resolve the earlier intermittent
+failure. Native activation must be distinguished from visible appearance;
 absence alone must never trigger a retry after a possible manual dismissal.
-Anomaly startup and white-disc rendering remain unresolved. The current live
-session is now 0.4.4 in the immutable 0.7.1 folder, registered at 22:22:35
-on 27 September 2026. Earlier 0.4.3 evidence follows.
 
-The current live production is 0.4.3-experimental; the approved name is Companion Auto Summon. It adds one deferred opportunity after a successful local save load, using the existing automation toggle and summon checks. One Random-mode startup on a space station is confirmed by the log and the user, without a ship exit. Production 0.4.2 previously registered in the combined 0.6.1 trial and logged an accepted station queue at 20:18:19 without separate visible-pet confirmation. The separate pyMHF tab uses the class name `CompanionAutoSummon`. Settings remain in that window, in English. HUD messages use the game's existing timed-message function; the 0.7.0 trial screenshot confirms OFF text rendering with an unwanted solid white disc above it. The player package has no working custom quick-menu settings, localization system or finished public launcher. The separate developer trial's visible menu entry is described below.
+Historical production 0.4.3 added one deferred opportunity after a successful local save load, using the existing automation toggle and summon checks. One Random-mode startup on a space station is confirmed by the log and the user, without a ship exit. Production 0.4.2 previously registered in the combined 0.6.1 trial and logged an accepted station queue at 20:18:19 without separate visible-pet confirmation. The separate pyMHF tab uses the class name `CompanionAutoSummon`. Settings remain in that window, in English; the combined developer trial also exposes automation ON/OFF in the native menu. HUD messages use the game's existing timed-message function. The 0.7.0 trial screenshot confirms OFF text rendering with an unwanted solid white disc above it. Full native settings, localization and a finished public launcher remain incomplete.
 
 Menu development sessions should retain functional automatic summoning and the
 player's existing preferences. Use a separately validated combined development
@@ -119,20 +121,23 @@ has not yet been implemented or verified.
 
 ## Notifications
 
-The current 0.4.4 attribution is insufficient: an accepted native queue outside
-the mod's own automatic call is treated as a manual selection. A pet-battle
-restore path can reach the same hook. Until positive manual origin is verified,
-the runtime cannot honestly infer a manual choice from that queue alone. The
-0.7.1 arena report changed the stored favourite, while a later read-only snapshot
-showed no active or pending pet; the exact live caller was not captured.
+The 0.4.4 queue-only attribution was insufficient: a pet-battle restore path can
+reach the same hook. The 0.7.1 arena report changed the stored favourite, while a
+later read-only snapshot showed no active or pending pet; the live caller was
+not captured. No previous favourite is rolled back on that uncertain evidence.
 
-The correction must preserve a favourite only for an authenticated native UI
-selection/shortcut, without changing unrelated native queues or their timing.
-An unclassified queue must not overwrite the favourite or show a manual-choice
-confirmation. Verify ordinary, remapped and shortcut routes before claiming
-complete coverage. A saved confirmation must also reflect successful persistence.
-Target concise explicit-action notices lasting about 5.5 seconds; the current
-implementation still uses 3 seconds. The white-disc renderer issue remains open.
+Prepared 0.4.5 requires a matched native companion selection/shortcut, accepted
+queue and successful original UI result, with fresh identity/context checks.
+Unclassified queues cannot replace the favourite or announce a manual choice.
+They retain native behavior and cancel pending automatic intent. Ordinary,
+remapped and shortcut routes still need live checks before claiming coverage.
+
+Explicit confirmations request 5.5 seconds. `Companion saved.` means persistence
+succeeded; otherwise use `Companion selected (session only).` OFF or Random
+context is appended where relevant. Repeating the same choice, automatic
+summoning and game restoration stay quiet. The verified final timed-message
+flag hides both icon containers independently of the text; a new visual check
+must establish the actual white-disc outcome.
 
 Use the game's existing visual presentation and a short localized sentence. Avoid a startup banner on every load, repeated waiting errors, sounds on every summon, or messages that obscure ordinary game information.
 

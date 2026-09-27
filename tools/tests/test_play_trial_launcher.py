@@ -51,10 +51,10 @@ class PlayTrialFixture(unittest.TestCase):
                 data = CONFIG
             (self.bundle / name).write_bytes(data)
         self.manifest = {
-            "version": "0.7.1-play-trial", "framework": "pymhf[gui]==0.2.4",
+            "version": "0.7.2-play-trial", "framework": "pymhf[gui]==0.2.4",
             "auto_summon": True, "preference_actions": True, "preference_keys": ["enabled"],
             "mods": [
-                {"name": "CompanionAutoSummon", "version": "0.4.4-experimental",
+                {"name": "CompanionAutoSummon", "version": "0.4.5-experimental",
                  "path": "CompanionAutoSummon.py"},
                 {"name": "CompanionMenuOrderTrial", "version": "0.7.0-toggle-trial",
                  "path": "CompanionMenuOrderTrial.py"},

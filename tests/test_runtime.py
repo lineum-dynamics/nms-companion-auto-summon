@@ -136,7 +136,7 @@ class RuntimeGuardTests(unittest.TestCase):
         module = load_runtime()
         self.assertTrue(module.CompanionAutoSummon._disabled)
         self.assertEqual(module._test_events, [("class-created", True)])
-        self.assertEqual(len(module._test_declarations), 11)
+        self.assertEqual(len(module._test_declarations), 12)
 
     def test_wrong_framework_disables_before_registration_and_skips_binary(self):
         module = load_runtime(injected=True, framework_version="0.2.3")
@@ -195,6 +195,10 @@ class RuntimeFixture(unittest.TestCase):
         self.mod.store = self.module.PetSelectionStore(self.state_path)
         self.common_buffer = ctypes.create_string_buffer(0xA000)
         self.common_address = ctypes.addressof(self.common_buffer)
+        self.manual_menu_buffer = ctypes.create_string_buffer(0xA200)
+        self.manual_menu = ctypes.addressof(self.manual_menu_buffer)
+        self.manual_action_buffer = ctypes.create_string_buffer(0xE0)
+        self.manual_action = ctypes.addressof(self.manual_action_buffer)
         self.can_summon = Mock(return_value=True)
         self.ownership_eligible = Mock(return_value=True)
         self.use_hand = Mock(return_value=False)
@@ -267,9 +271,21 @@ class RuntimeFixture(unittest.TestCase):
         ).value = value
 
     def select(self, slot=5):
+        """Model a completed native UI dispatch, not an arbitrary queue call."""
+        self.begin_manual_action(slot)
         self.set_pending(slot)
         self.mod.remember_pet(self.player, slot)
+        self.end_manual_action()
         self.set_pending(-1)
+
+    def begin_manual_action(self, slot=5, *, action=46, called_as_menu=True):
+        ctypes.c_int32.from_address(self.manual_action + 4).value = action
+        ctypes.c_int32.from_address(self.manual_action + 0x84).value = slot
+        self.mod.before_manual_action(self.manual_menu, self.manual_action, called_as_menu)
+
+    def end_manual_action(self, *, result=True, called_as_menu=True):
+        self.mod.after_manual_action(self.manual_menu, self.manual_action, called_as_menu,
+                                     _result_=result)
 
     def exit(self, now=0.0, player=None):
         self.clock.now = now
@@ -328,6 +344,251 @@ class RuntimeFixture(unittest.TestCase):
         ).value = 1 if occupied else 0
         ctypes.memmove(entry + self.module.PET_SEED_OFFSET, seed[:8], 8)
         ctypes.memmove(entry + self.module.PET_BIRTH_TIME_OFFSET, seed[8:], 8)
+
+
+class RuntimeManualOriginTests(RuntimeFixture):
+    """Positive native UI evidence is required before replacing a favourite."""
+
+    def setUp(self):
+        super().setUp()
+        self.set_pet(5, self.seed(500))
+        self.set_pet(7, self.seed(700))
+        self.load_save(0xAA)
+        self.select(5)
+        self.mod.pending_notice = None
+        self.original_state = self.state_path.read_bytes()
+        self.original_selection = dict(self.mod.saved_selection)
+
+    def accepted_queue(self, slot=7):
+        self.set_pending(slot)
+        self.mod.remember_pet(self.player, slot)
+
+    def assert_preserved(self):
+        self.assertEqual(self.state_path.read_bytes(), self.original_state)
+        self.assertEqual(self.mod.saved_selection, self.original_selection)
+        self.assertIsNone(self.mod.pending_notice)
+        self.assertTrue(self.mod.enabled)
+        self.assertEqual(self.queue_calls, [])
+
+    def test_unclassified_battle_restore_cancels_intent_without_learning(self):
+        self.exit()
+        self.mod._load_summon_pending = True
+        self.accepted_queue()
+        self.assertFalse(self.mod.policy.pending)
+        self.assertFalse(self.mod._load_summon_pending)
+        self.assertEqual(self.mod.policy.last_slot, 5)
+        self.assertTrue(self.mod._manual_attribution_ok)
+        self.assert_preserved()
+
+    def test_scope_does_not_persist_or_notify_until_native_success(self):
+        self.begin_manual_action(7)
+        self.accepted_queue()
+        self.assert_preserved()
+        self.end_manual_action()
+        self.assertEqual(self.mod.policy.last_slot, 7)
+        self.assertEqual(self.mod.pending_notice, "Companion saved.")
+        self.assertNotEqual(self.state_path.read_bytes(), self.original_state)
+
+    def test_only_literal_success_completes_the_choice(self):
+        for result in (False, None, 1, "true"):
+            with self.subTest(result=result):
+                self.begin_manual_action(7)
+                self.accepted_queue()
+                self.end_manual_action(result=result)
+                self.assert_preserved()
+
+    def test_native_dismissal_without_queue_does_not_learn(self):
+        self.set_active(7)
+        self.begin_manual_action(7)
+        self.end_manual_action()
+        self.assert_preserved()
+
+    def test_failed_native_placement_does_not_learn(self):
+        self.begin_manual_action(7)
+        self.set_pending(-1)
+        self.mod.remember_pet(self.player, 7)
+        self.end_manual_action(result=False)
+        self.assert_preserved()
+
+    def test_unrelated_action_cannot_authorize_a_queue(self):
+        self.begin_manual_action(7, action=0)
+        self.accepted_queue()
+        self.end_manual_action()
+        self.assertTrue(self.mod._manual_attribution_ok)
+        self.assert_preserved()
+
+    def test_automatic_queue_never_inherits_ui_authority(self):
+        self.begin_manual_action(7)
+        self.mod.in_auto_call = True
+        self.accepted_queue()
+        self.mod.in_auto_call = False
+        self.end_manual_action()
+        self.assert_preserved()
+
+    def test_native_menu_flag_is_preserved_for_both_dispatch_forms(self):
+        for called_as_menu, slot in ((False, 7), (True, 5)):
+            with self.subTest(called_as_menu=called_as_menu):
+                self.begin_manual_action(slot, called_as_menu=called_as_menu)
+                self.accepted_queue(slot)
+                self.end_manual_action(called_as_menu=called_as_menu)
+                self.assertEqual(self.mod.policy.last_slot, slot)
+                self.assertTrue(self.mod._manual_attribution_ok)
+
+    def test_replayed_completion_cannot_persist_twice(self):
+        with patch.object(self.mod.store, "remember", wraps=self.mod.store.remember) as persist:
+            self.begin_manual_action(7)
+            self.accepted_queue()
+            self.end_manual_action()
+            self.mod.pending_notice = None
+            self.end_manual_action()
+        persist.assert_called_once()
+        self.assertIsNone(self.mod.pending_notice)
+
+    def test_no_borrowed_item_read_after_native_return(self):
+        self.begin_manual_action(7)
+        self.accepted_queue()
+        ctypes.memset(self.manual_action, 0xFF, 0xE0)
+        with patch.object(self.mod, "_manual_item_integer", side_effect=AssertionError("Expired item")):
+            self.end_manual_action()
+        self.assertEqual(self.mod.policy.last_slot, 7)
+
+    def test_nested_dispatch_disables_only_learning(self):
+        self.begin_manual_action(action=0)
+        self.begin_manual_action(7)
+        self.accepted_queue()
+        self.end_manual_action()
+        self.assertFalse(self.mod._manual_attribution_ok)
+        self.assert_preserved()
+        self.set_pending(-1)
+        self.exit()
+        self.probe(0)
+        self.probe(1.5)
+        self.assertEqual(self.queue_calls, [(self.player, 5)])
+
+    def test_duplicate_native_queue_is_ambiguous(self):
+        self.begin_manual_action(7)
+        self.accepted_queue()
+        self.accepted_queue()
+        self.end_manual_action()
+        self.assertFalse(self.mod._manual_attribution_ok)
+        self.assert_preserved()
+
+    def test_wrong_slot_cannot_replace_favourite(self):
+        self.begin_manual_action(7)
+        self.accepted_queue(5)
+        self.end_manual_action()
+        self.assert_preserved()
+
+    def test_cross_thread_queue_cannot_inherit_scope(self):
+        with patch.object(self.module, "get_native_id", return_value=101):
+            self.begin_manual_action(7)
+        with patch.object(self.module, "get_native_id", return_value=202):
+            self.accepted_queue()
+        with patch.object(self.module, "get_native_id", return_value=101):
+            self.end_manual_action()
+        self.assert_preserved()
+
+    def test_cross_thread_completion_cannot_commit(self):
+        with patch.object(self.module, "get_native_id", return_value=101):
+            self.begin_manual_action(7)
+            self.accepted_queue()
+        with patch.object(self.module, "get_native_id", return_value=202):
+            self.end_manual_action()
+        self.assert_preserved()
+
+    def test_mismatched_completion_keeps_native_result_and_favourite(self):
+        self.begin_manual_action(7)
+        self.accepted_queue()
+        returned = self.mod.after_manual_action(self.manual_menu + 1, self.manual_action, True, True)
+        self.assertIsNone(returned)
+        self.assert_preserved()
+
+    def test_identity_changed_before_queue_or_completion_is_rejected(self):
+        for before_queue in (True, False):
+            with self.subTest(before_queue=before_queue):
+                self.setUp()
+                self.begin_manual_action(7)
+                if not before_queue:
+                    self.accepted_queue()
+                self.set_pet(7, self.seed(701))
+                if before_queue:
+                    self.accepted_queue()
+                self.end_manual_action()
+                self.assert_preserved()
+
+    def test_cleared_pending_slot_prevents_confirmation(self):
+        self.begin_manual_action(7)
+        self.accepted_queue()
+        self.set_pending(-1)
+        self.end_manual_action()
+        self.assert_preserved()
+
+    def test_same_save_reload_invalidates_old_native_scope(self):
+        self.begin_manual_action(7)
+        self.accepted_queue()
+        self.load_save(0xAA)
+        with patch.object(self.mod.store, "remember", wraps=self.mod.store.remember) as persist:
+            self.end_manual_action()
+        persist.assert_not_called()
+        self.assertEqual(self.state_path.read_bytes(), self.original_state)
+        self.assertIsNone(self.mod.pending_notice)
+
+    def test_ship_entry_invalidates_inflight_scope(self):
+        self.begin_manual_action(7)
+        self.accepted_queue()
+        self.mod.before_enter_ship(self.player)
+        self.end_manual_action()
+        self.assert_preserved()
+
+    def test_context_loss_does_not_reuse_an_old_accepted_scope(self):
+        self.begin_manual_action(7)
+        self.accepted_queue()
+        self.app_pointer.value = None
+        self.mod._app_for_player(self.player)
+        self.app_pointer.value = self.app_address
+        self.mod._app_for_player(self.player)
+        with patch.object(self.mod.store, "remember", wraps=self.mod.store.remember) as persist:
+            self.end_manual_action()
+        persist.assert_not_called()
+        self.assertEqual(self.state_path.read_bytes(), self.original_state)
+
+    def test_lock_contention_stops_learning_without_blocking_native_action(self):
+        self.mod._manual_lock.acquire()
+        try:
+            self.begin_manual_action(7)
+        finally:
+            self.mod._manual_lock.release()
+        self.accepted_queue()
+        self.end_manual_action()
+        self.assertFalse(self.mod._manual_attribution_ok)
+        self.assert_preserved()
+
+    def test_off_mode_still_learns_but_notice_does_not_promise_summon(self):
+        self.mod.auto_enabled = False
+        self.select(7)
+        self.assertEqual(self.mod.policy.last_slot, 7)
+        self.assertEqual(self.mod.pending_notice, "Companion saved. Auto summoning OFF.")
+        self.assertEqual(self.queue_calls, [])
+
+    def test_random_mode_remains_random_after_explicit_choice(self):
+        self.mod.selection_mode_value = "random"
+        self.select(7)
+        self.assertEqual(self.mod.policy.last_slot, 7)
+        self.assertEqual(self.mod.selection_mode_value, "random")
+        self.assertEqual(self.mod.pending_notice, "Companion saved. Random stays ON.")
+
+    def test_failed_persistence_never_claims_saved(self):
+        with patch.object(self.mod.store, "remember", side_effect=self.module.SelectionStoreError("test write failure")):
+            self.select(7)
+        self.assertEqual(self.mod.pending_notice, "Companion selected (session only).")
+        self.assertEqual(self.mod.policy.last_slot, 7)
+        self.assertEqual(self.state_path.read_bytes(), self.original_state)
+
+    def test_unknown_save_identity_never_claims_saved(self):
+        self.mod.save_key = None
+        self.select(7)
+        self.assertEqual(self.mod.pending_notice, "Companion selected (session only).")
+        self.assertEqual(self.state_path.read_bytes(), self.original_state)
 
 
 class RuntimeRoutingTests(RuntimeFixture):
@@ -972,7 +1233,7 @@ class RuntimeDiagnosticTests(RuntimeFixture):
             self.exit()
             self.select(8)
         self.assertEqual(sum("cancelled by entering the ship" in line for line in logs.output), 1)
-        self.assertEqual(sum("cancelled by successful manual companion selection" in line
+        self.assertEqual(sum("cancelled by accepted native companion queue" in line
                              for line in logs.output), 1)
         self.assertFalse(self.mod.policy.pending)
         self.assertIsNone(self.mod._exit_diagnostic)
@@ -1394,8 +1655,10 @@ class RuntimeStartupSummonTests(RuntimeFixture):
                 self.setUp()
                 self.prepare()
                 self.set_pet(7, self.seed(777))
+                self.begin_manual_action(7)
                 self.set_pending(7 if accepted else -1)
                 self.mod.remember_pet(self.player, 7)
+                self.end_manual_action(result=accepted)
                 self.set_pending(-1)
                 self.assertEqual(self.mod._load_summon_pending, not accepted)
                 self.update(0)
@@ -2214,11 +2477,11 @@ class RuntimeControlTests(RuntimeFixture):
         self.assertEqual(notice["notifications"], self.app_address + self.module.NOTIFICATIONS_OFFSET)
         self.assertEqual(notice["colour_address"] % 16, 0)
         self.assertEqual(notice["colour"], (1.0, 1.0, 1.0, 1.0))
-        self.assertEqual(notice["duration"], 3.0)
+        self.assertEqual(notice["duration"], 5.5)
         self.assertEqual(notice["audio"], 0)
         self.assertEqual(notice["icon"], 0)
-        self.assertEqual(notice["tail"], (False, 0.0, False, False, False))
-        self.assertIn("companion selected", notice["message"])
+        self.assertEqual(notice["tail"], (False, 0.0, False, False, True))
+        self.assertIn("companion", notice["message"].lower())
 
     def test_full_or_blocked_notification_queue_delays_latest_notice(self):
         self.mod.pending_notice = "first"

@@ -2,13 +2,43 @@
 
 Soukromé testovací záznamy uvedené níže jménem souboru jsou uchované mimo Git repozitář a distribuční ZIP. Dokument obsahuje jejich shrnutí; osobní záznamy ani zálohy se nedistribuují.
 
-## Nový diagnostický kandidát 0.4.4 / 0.7.1
+## Připravený kandidát 0.4.5 / 0.7.2 — zatím nespouštěný
+
+Nová ruční volba vyžaduje odpovídající nativní akci ovládání petů, přijetí
+shodného požadavku a úspěšný návrat původní funkce. Identita, lokální hráč,
+aplikace a kontext savu se znovu ověřují; po návratu se původní ukazatel položky
+nečte. Nezařazené požadavky včetně obnovování řízeného hrou zruší čekající
+automatiku, ale nepřepíší favorita ani neoznámí ruční volbu. Skutečný původ
+staršího volání po aréně neznáme, proto dosavadní volbu automaticky nevracíme.
+
+Krátká potvrzení výslovných změn mají 5,5 sekundy. `Companion saved.` znamená
+úspěšné uložení; jinak se zobrazí `Companion selected (session only).` Podle
+potřeby se doplní stav OFF nebo Random. Opakování stejné volby, automatické
+vyvolávání a nativní obnovení zůstávají tiché. Statický rozbor doložil, že poslední
+příznak původní funkce hlášek skrývá oba bloky ikony nezávisle na textu.
+Kandidát jej zapíná se zachovaným ABI i vlastními buffery. Zmizelý bílý kruh
+a čitelnost ještě musí potvrdit herní vizuální zkouška.
+
+Prošlo **279 produkčních testů**: 189 runtime (26 nových), 34 policy,
+14 persistence, 24 settings a 18 launcher. Dále prošlo **408 vývojových testů**,
+skutečné pyMHF 0.2.4 / Dear PyGui se všemi osmi widgety a výsledný společný
+balíček. Jeho devět produkčních a osm menu callbacků sdílí 11 různých cílů;
+nový produkční pár používá stejný `TriggerAction` jako menu. Python registrace
+a společné předávání callbacků prošly v obou pořadích a čtyřech kombinacích
+Boolean výsledků, vždy s jediným voláním simulovaného originálu. Menu bylo při
+tomto testu vypnuté; nativní hooky se neinstalovaly a hra se nepoužila. Prošlo
+i dočasné nastavení přes společný můstek a syntaxe PowerShell spouštěče.
+
+Verze 0.4.5 / 0.7.2 ještě nebyla spuštěna. Běžící 0.4.4 / 0.7.1 a starší
+artefakty zůstávají beze změny; jejich výsledky níže se na kandidáta nepřenášejí.
+
+## Dosavadní diagnostická verze 0.4.4 / 0.7.1
 
 Pasivní sledování po přijetí požadavku nemění vyvolávání. Čte dosavadní nativní
 údaje přes stávající callback, má limit 15 sekund, 4096 volání diagnostiky
 a osm přechodových zpráv. Zmizení z fronty nezpůsobí opakování; aktivní slot
 je údaj hry, nikoli důkaz viditelného peta. Při změně kontextu nebo zásahu hráče
-sledování končí. Nový kandidát má jedno potvrzené vyvolání v Anomálii popsané níže;
+sledování končí. Tato verze má jedno potvrzené vyvolání v Anomálii popsané níže;
 bílý kruh neopravuje.
 Po běžném ukončení hry a nové ověřené záloze 43 souborů se 0.7.1
 spustil 27. 9. 2026 v 22:22:35. Načetly se oba módy a 11 hook cílů
@@ -16,7 +46,7 @@ s automatikou ON. Všech 14 payloadů, nastavení i paměť ruční volby
 zůstaly při startu shodné. Registrace není ověřením viditelného vyvolání.
 Podklady: `menu-play-0.7.1-startup.json` a příslušný záznam zálohy.
 
-Kontroly nového kandidáta prošly: **253 produkčních testů** (včetně 23 nových případů diagnostiky), **408 vývojových testů** a ověření skutečného pyMHF i společného balíčku mimo hru. Testy nečetly osobní nastavení, nespouštěly hru a neregistrovaly herní hooky.
+Kontroly 0.4.4 / 0.7.1 prošly: **253 produkčních testů** (včetně 23 nových případů diagnostiky), **408 vývojových testů** a ověření skutečného pyMHF i společného balíčku mimo hru. Testy nečetly osobní nastavení, nespouštěly hru a neregistrovaly herní hooky.
 
 Jedno vyvolání v Random po načtení v Anomálii je pro 0.4.4 / 0.7.1 potvrzené. Dne 27. 9. 2026 log zaznamenal aktivaci načtením v 22:23:39.698, přijetí frontou v 22:23:42.250 (uváděných 2,56 sekundy) a očekávaného aktivního peta v 22:23:42.266 při první aktualizaci diagnostiky. Hráč potvrdil skutečné objevení. Nepředcházel výstup z lodi ani opakované vyvolání. Jde o jeden úspěšný běh; předchozí občasné selhání není tímto opravené, protože změna byla pouze diagnostická.
 
@@ -27,7 +57,7 @@ Jedno vyvolání v Random po načtení v Anomálii je pro 0.4.4 / 0.7.1 potvrzen
 Hráč ohlásil „manual favorite saved“ po aréně, ale nedokáže určit spouštěcí
 událost. Log v 22:35:48.366 zaznamenal přijetí slotu 2 a externí paměť módu
 se v témže okamžiku změnila ze slotu 3 na slot 2 s jinou identitou. Nastavení
-ON/Random zůstalo shodné. Současný hook nerozlišuje původ přijatých požadavků
+ON/Random zůstalo shodné. Hook verze 0.4.4 nerozlišuje původ přijatých požadavků
 mimo vlastní automatické volání; skutečná ruční volba tedy není doložená.
 Statický rozbor potvrzuje, že do stejné funkce vede i návrat peta z petího
 souboje, ale původ konkrétního živého volání nebyl zachycen.
@@ -38,8 +68,8 @@ okamžiku nebyl evidovaný jako aktivní ani čekající; snímek neprokazuje je
 stav v celém předchozím intervalu. Byla ověřena přesná binárka. Žádný zápis
 do hry, runtime ani uložených preferencí diagnostika neprovedla.
 
-Délka hlášky je v současném kódu 3 sekundy. Bílý kruh přetrvává; neexistuje
-ověřený přepínač pro jeho odstranění. Podklady jsou v soukromém záznamu
+Délka hlášky v této verzi je 3 sekundy a bílý kruh přetrvává. Později ověřený
+příznak skrytí ikony je použit až v připravené 0.4.5. Podklady jsou v soukromém záznamu
 `menu-play-0.7.1-arena-notice-observation.json`. Oprava přiřazení ruční volby,
 čitelnosti a vykreslení zatím nebyla nasazená.
 

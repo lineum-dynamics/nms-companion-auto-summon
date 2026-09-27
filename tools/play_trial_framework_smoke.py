@@ -6,6 +6,8 @@ outside the game with flags restored and preferences under a temporary path.
 """
 
 import argparse
+import ctypes as C
+from functools import wraps
 import hashlib
 from importlib import metadata, util
 import inspect
@@ -23,6 +25,7 @@ PRODUCTION_HOOKS = {
     (0x146AC90, "AFTER"), (0x17479D0, "AFTER"), (0x1479490, "BEFORE"),
     (0x56FA50, "BEFORE"), (0x56FA50, "AFTER"), (0x1440CD0, "AFTER"),
     (0x5066A0, "AFTER"),
+    (0x1526940, "BEFORE"), (0x1526940, "AFTER"),
 }
 MENU_HOOKS = {
     (0x151ED00, "BEFORE"), (0x151ED00, "AFTER"), (0x1523220, "AFTER"),
@@ -34,6 +37,102 @@ MENU_HOOKS = {
 def require(condition, message):
     if not condition:
         raise RuntimeError(message)
+
+
+def check_shared_dispatch(production, menu, hooking):
+    """Use real Python registration/dispatch, with no native hook binding.
+
+    cyminhook's original attribute is read-only. Override only that attribute
+    and binding in a local subclass; retain the real FuncHook initializer,
+    detour lists and compound dispatcher. The actual callbacks run on an owned
+    inert item. The menu instance remains disabled, so this does not establish
+    active menu/native integration or manual-action gameplay behavior.
+    """
+    class UnboundFuncHook(hooking.FuncHook):
+        @property
+        def original(self):
+            return self._smoke_original
+
+        def bind(self):
+            raise AssertionError("No native binding in shared-dispatch smoke")
+
+    evidence = []
+    item = C.create_string_buffer(224)  # Native None action: no app/pet reads.
+    menu_storage = C.create_string_buffer(8)
+    for owners in (("production", "menu"), ("menu", "production")):
+        registry = hooking.HookManager()
+        events = []
+        shared_callbacks = []
+        instances = {"production": production, "menu": menu}
+
+        def instrument(callback, owner):
+            phase = callback._hook_time.name
+
+            @wraps(callback)
+            def observed(*args, **kwargs):
+                events.append((owner, phase, args, kwargs))
+                result = callback(*args, **kwargs)
+                require(result is None, "A shared callback changed native arguments or result")
+                return result
+
+            return observed
+
+        with patch.object(hooking, "FuncHook", UnboundFuncHook), \
+                patch.object(hooking, "_get_binary_info", return_value=None), \
+                patch.object(registry, "initialize_hooks", side_effect=AssertionError("No native hooks")):
+            for owner in owners:
+                for callback in instances[owner].hooks:
+                    if callback._hook_offset == 0x1526940:
+                        definition = callback._hook_func_def
+                        require(definition.restype is C.c_bool
+                                and definition.argtypes == [C.c_void_p, C.c_void_p, C.c_bool],
+                                "Shared TriggerAction declarations disagree on ABI")
+                        callback = instrument(callback, owner)
+                        shared_callbacks.append(callback)
+                    registry.register_hook(callback)
+        require(len(registry.hooks) == 11 and not registry.failed_hooks,
+                "Python registry did not merge exactly the shared target")
+        targets = [hook for key, hook in registry.hooks.items() if key.offset == 0x1526940]
+        require(len(targets) == 1, "Shared TriggerAction created multiple function hooks")
+        merged = targets[0]
+        require(len(merged._before_detours) == 2 and not merged._after_detours
+                and len(merged._after_detours_with_results) == 2
+                and not merged._has_noop and not merged._disabled_detours,
+                "Shared detour phases or original-call policy differ")
+        require(set(merged._before_detours + merged._after_detours_with_results)
+                == set(shared_callbacks), "Shared callbacks were lost during registration")
+        require(all(hook.state is None for hook in registry.hooks.values()),
+                "A Python-only registry hook was unexpectedly bound")
+        for native_result in (False, True):
+            for called_as_menu in (False, True):
+                events.clear()
+                args = (C.addressof(menu_storage), C.addressof(item), called_as_menu)
+
+                def original(*received):
+                    events.append(("original", "CALL", received, {}))
+                    return native_result
+
+                merged._smoke_original = Mock(side_effect=original)
+                result = merged._compound_detour(*args)
+                merged._smoke_original.assert_called_once_with(*args)
+                require(result is native_result, "Compound dispatch replaced the original Boolean")
+                expected_order = ([(owner, "BEFORE") for owner in owners]
+                                  + [("original", "CALL")]
+                                  + [(owner, "AFTER") for owner in owners])
+                require([(owner, phase) for owner, phase, _, _ in events] == expected_order,
+                        "Compound dispatch lost or reordered a shared callback")
+                require(all(received == args for _, _, received, _ in events),
+                        "Compound dispatch changed callback arguments")
+                require(all(kwargs == {"_result_": native_result}
+                            for _, phase, _, kwargs in events if phase == "AFTER"),
+                        "A shared AFTER callback did not receive the native result")
+                require(not merged._disabled_detours and production._manual_attribution_ok
+                        and production._manual_action is None and menu._stopped,
+                        "Inert shared dispatch failed or changed activation state")
+        evidence.append({"registration_order": list(owners), "python_targets": len(registry.hooks),
+                         "shared_before": 2, "shared_after_with_result": 2,
+                         "argument_result_cases": 4, "native_original": "mocked_once_per_case"})
+    return evidence
 
 
 def check(bundle_folder):
@@ -76,6 +175,7 @@ def check(bundle_folder):
         with patch.dict(os.environ, {"PYTEST_VERSION": "cas-play-framework", "LOCALAPPDATA": temporary}):
             from pymhf import Mod
             from pymhf.core import _internal, mod_loader
+            from pymhf.core import hooking
             from pymhf.core.hooking import hook_manager
             import pymhf.main as framework_main
 
@@ -135,12 +235,14 @@ def check(bundle_folder):
             require(production._abc_initialised and menu._abc_initialised, "Framework initialization failed")
             production_hooks = {(hook._hook_offset, hook._hook_time.name) for hook in production.hooks}
             menu_hooks = {(hook._hook_offset, hook._hook_time.name) for hook in menu.hooks}
-            require(len(production.hooks) == 7 and production_hooks == PRODUCTION_HOOKS,
+            require(len(production.hooks) == 9 and production_hooks == PRODUCTION_HOOKS,
                     "Production hook callbacks differ")
             require(len(menu.hooks) == 8 and menu_hooks == MENU_HOOKS, "Menu hook callbacks differ")
             production_targets = {offset for offset, _ in production_hooks}
             menu_targets = {offset for offset, _ in menu_hooks}
-            require(not production_targets & menu_targets, "Production and menu targets overlap")
+            require(production_targets & menu_targets == {0x1526940},
+                    "Only TriggerAction may be shared between production and menu")
+            shared_dispatch = check_shared_dispatch(production, menu, hooking)
             require(len(production._gui_widgets) == 8 and not menu._gui_widgets,
                     "GUI widget discovery differs")
             require(not production._hotkey_funcs and not menu._hotkey_funcs,
@@ -208,7 +310,10 @@ def check(bundle_folder):
         "bundle_sha256": hashes, "production_byte_identical": True,
         "menu_only_two_enable_flags_changed": True, "actual_folder_discovery": True,
         "disabled_flags_lifted_for_discovery_only": True, "mods_preloaded_not_registered": 2,
-        "production_callbacks": 7, "menu_callbacks": 8, "distinct_native_targets": 11,
+        "production_callbacks": 9, "menu_callbacks": 8, "distinct_native_targets": 11,
+        "shared_target": "0x1526940", "shared_python_registry_and_dispatch": shared_dispatch,
+        "shared_dispatch_owned_none_item_menu_disabled": True,
+        "native_hook_binding_performed": False,
         "gui_widgets": 8, "physical_hotkeys": 0, "temporary_preferences_preserved_before_apply": True,
         "real_preference_bridge_queue_apply_verified": True,
         "host_direct_folder_dispatch_mocked": True, "hooks_registered": False,
