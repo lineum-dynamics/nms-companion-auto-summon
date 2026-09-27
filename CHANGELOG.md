@@ -1,5 +1,12 @@
 # Changelog
 
+## Development — native quick-menu investigation
+
+- Located exact-build construction, append and label paths through static analysis, with remaining action-ID and text-handling constraints documented in `QUICK-MENU.md`.
+- Added a separately enabled developer observer and isolated build tool. It only reads bounded action/depth scalars before natural menu calls; it does not insert entries, summon companions or change preferences.
+- The observer passed 24 offline tests and real-framework metadata checks, then loaded in the supported game with one hook. Natural menu behavior still awaits the player's test; this is not a working custom-menu claim.
+- The production 0.4.2 script remains unchanged. A custom X-menu entry and in-game settings are still not implemented.
+
 ## 0.4.2 experimental — 2026-09-27
 
 - Adopted the approved name **Companion Auto Summon** and repository slug `nms-companion-auto-summon`, replacing the working name AutoPet.
