@@ -456,8 +456,12 @@ End placement follows the prototype's native append operation. The paw is the
 borrowed native companion icon. The helper currently fills the item's inline
 64-byte name as well as supplying the separate selected-item label through the
 128-byte label callback. There is no custom scrolling animation or overlay in
-the mod. The unexpected tile text is being investigated as native rendering of
-that populated name field. Its appearance and a possible position before the
+the mod. A follow-up exact-build static trace confirmed that the renderer finds
+the tile's NAME element and supplies item + 0x98 to its text path; an empty first
+byte skips that name path. Thus the populated inline name causes the tile text.
+The exact scrolling timer was not traced. Leaving the 64-byte inline name empty
+while retaining the independent selected-label callback is a proposed cosmetic
+adjustment, not a deployed change. Its appearance and a possible position before the
 individual pet entries are presentation decisions, not changes already applied
 to the running trial. No live file has been modified for this feedback.
 
