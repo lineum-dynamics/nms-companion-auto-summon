@@ -43,13 +43,24 @@ tag would not round-trip. Normal outside-menu replay ignores None's action
 class, but that does not prevent the loss of the prior binding. No custom
 binding was created in the live observation test.
 
-A candidate prevention point is the native bind-modifier input query, scoped
-to a verified tagged selection and its exact update context. It must suppress
-only that binding attempt, without changing input state or ordinary actions.
-The call sequence, thread scope, indirect callers and cleanup still require
-verification before any interception. Allowing a binding and then restoring it,
-or modifying save serialization, is not the chosen direction. This is static
-investigation, not an implemented hotkey guard.
+A candidate prevention point was the native bind-modifier input query, scoped
+to a verified tagged selection and its exact update context. That trace alone
+does not establish coverage of remapped keyboard or controller actions. Never
+turn the observed default Ctrl query into a general physical-key suppression
+rule. The accepted requirement is item-specific protection at the native
+binding operation, independent of the player's chosen input.
+
+Hooking the global input query in Python adds callback overhead even to queries
+the observer immediately rejects. Current investigation therefore favors
+menu-local phase boundaries before any filtering. The call sequence, thread
+scope, input-path coverage and cleanup still require verification. Allowing a
+binding and then restoring it, or modifying save serialization, is not the
+chosen direction. This is investigation, not an implemented hotkey guard.
+
+One proposed menu-local approach was ruled out statically: marking selection
+invalid until the end of the update would reach a tail handler that navigates,
+activates or closes the menu. Restoring after it could overwrite legitimate
+changes. No selection masking was implemented or tested in the running game.
 
 The update path rebuilds the action vectors before clamping selection and
 copying items into the render state. A future insertion should use a verified
@@ -126,12 +137,13 @@ isolated diagnostic session. The original mod and its files stay separate.
 
 ## Second diagnostic: construction and labels
 
-The next separate observer is `tools/quick_menu_structure_probe.py`, disabled
+The second separate observer is `tools/quick_menu_structure_probe.py`, disabled
 in source and excluded from the player package. It observes natural completion
 of the builder and label functions with after-hooks that return None. All
 observed direct callers pass two pointers and ignore their return values. This
-static finding justifies the diagnostic declarations; their live behavior still
-needs testing. Neither function is called explicitly by the observer.
+static finding justifies the diagnostic declarations. The bounded live result
+below covers natural menu use; neither function is called explicitly by the
+observer.
 
 This diagnostic reads bounded vector headers and selected action IDs after a
 natural rebuild. It does not copy complete items or names. Selection clamping
@@ -177,9 +189,43 @@ The separate generated observer SHA256 is
 `d752066c87aafb1a10893a8b779e8009bc0a26c85b8dd38963e2430e28405b97`.
 Its launcher passed PowerShell syntax validation. After normal game exit and a
 fresh verified backup, it loaded in NMS at 16:15:24 local time on 27 September
-2026: the framework reports one mod and two hooks. This confirms registration;
-the player's menu sequence and live construction/label observations remain
-pending. No observer artifact was replaced while the game was running.
+2026: the framework reports one mod and two hooks. No observer artifact was
+replaced while the game was running.
+
+### Captured construction and label result
+
+The player reported completing the requested navigation sequence, with no
+specific issue reported. The retained 16:16:22.716 through 16:16:40.064 capture
+contains 28 changed builder snapshots and 25 changed label snapshots. The last
+recorded counters reach 926 callbacks and 64 sampled reads in each channel;
+identical samples are deliberately not logged, so these are recorded counters,
+not a claim about totals for the entire session.
+
+- Root and companion depth 0/1 transitions were captured, including selected
+  companion parent 45 and summon action 46 at several pet indices.
+- Root and companion lists each had eight items with capacity 18 in this
+  capture. The unused depth-2 list was empty; paging through depth 2 remains
+  unverified.
+- Recorded label lengths were 0, 5, 9, 10, 12, 13, 14, 15 and 18 bytes, all with
+  a NUL terminator inside the bounded 128-byte copy. No text was logged.
+- All recorded callback thread comparisons were equal. During continuously
+  open-menu segments the counters advanced at about 60 callbacks per second,
+  while the observer sampled no faster than four times per second.
+- No observer failure or budget-limit notice appeared in this capture.
+
+This supports the observed layout and natural completion paths on the guarded
+build. It does not establish text correctness, every thread/path, mutation
+safety, allocation, custom labels or a working settings item. Binding protection
+remains the next prerequisite before inserting an inert entry.
+
+The next bounded investigation is menu-local sequencing around controls
+generation, the binding block and the tail selection handler. An observer must
+preserve all arguments/results, never mask selection or change input state,
+and reject ambiguous/reentrant phase records. If native thread identity is
+needed across ctypes callbacks, use an explicit bounded invocation map;
+`threading.local` is not a reliable store for callbacks from foreign threads.
+Sequence observations would not by themselves prove safe mutation or coverage
+of remapped controls.
 
 ## Controlled live sequence
 
@@ -193,9 +239,9 @@ pending. No observer artifact was replaced while the game was running.
    its own launcher in a later session.
 
 Do not expect a new menu item in this test. A passing observer test establishes
-only the observed route on that build. Once natural behavior is confirmed, the
-next stage can validate construction and label callbacks before one inert,
-uniquely tagged entry. Preference changes come after navigation, rendering,
+only the observed route on that build. Natural action, construction and label
+observations have now been captured. Verify binding protection before one
+inert, uniquely tagged entry. Preference changes come after navigation, rendering,
 rebuilds and coexistence with vanilla actions have passed. Controller operation,
 localization, multiplayer and other game builds remain separate work.
 

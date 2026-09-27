@@ -27,7 +27,29 @@ Native menu insertion is a feasibility task, not an implemented capability. Firs
 
 The initial read-only audit found a known-action dispatcher, but no verified registration API for custom entries. Existing submenu transitions in the pinned executable clamp depth to two beyond the root. Prefer a flat settings page within the verified limit; do not assume another nested location submenu is possible. A new numeric action ID alone does not create a working native action. The next investigation must establish native item construction, ownership and cleanup, then observe natural menu use before modifying it.
 
-The subsequent exact-build static audit located menu construction, native item append and label-building paths. It also found unchecked action-classification indexing and no general custom-name fallback. An isolated observation-only probe captured the natural companion submenu and summon actions; the player confirmed a manual summon. A separate construction/label observer is the next stage before any custom item is inserted. See [QUICK-MENU.md](QUICK-MENU.md) for the verified scope, diagnostic procedure and remaining boundaries.
+The subsequent exact-build static audit located menu construction, native item append and label-building paths. It also found unchecked action-classification indexing and no general custom-name fallback. Isolated observation-only probes captured the natural companion submenu/summon route, menu vector rebuilds and bounded label completion during the player's menu sequence. Native hotkey serialization can lose an existing binding if a custom None item is bound; binding protection therefore remains a prerequisite before any custom item is inserted. See [QUICK-MENU.md](QUICK-MENU.md) for the verified scope, diagnostic procedure and remaining boundaries.
+
+### Remappable controls
+
+Players can change their bindings. Native-menu integration must follow the
+game's current actions, focus and prompts, rather than assume physical X, Ctrl,
+number keys or particular controller buttons. X is only shorthand for the
+default quick-menu binding in development discussions.
+
+Scope shortcut protection to the mod's uniquely identified menu item and the
+native binding operation, independently of the physical input that requests it.
+Preserve the player's ordinary navigation, activation, dismissal and native
+shortcuts. Do not install a global physical-key suppression rule, rewrite the
+player's bindings, or read game-save files to discover them. Player-facing
+prompts must use verified native input hints; a translated literal key name does
+not implement remapping support.
+
+Before claiming support, test default and remapped keyboard/mouse actions,
+reopening after an in-session binding change, controller navigation and any
+supported controller remapping. Verify both the mod item and neighboring native
+items, including binding attempts and retained existing shortcuts. These are
+accepted requirements and test scenarios; remapping support for a custom menu
+has not yet been implemented or verified.
 
 ## Notifications
 
