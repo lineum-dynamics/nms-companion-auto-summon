@@ -4,7 +4,10 @@
 
 - Located exact-build construction, append and label paths through static analysis, with remaining action-ID and text-handling constraints documented in `QUICK-MENU.md`.
 - Added a separately enabled developer observer and isolated build tool. It only reads bounded action/depth scalars before natural menu calls; it does not insert entries, summon companions or change preferences.
-- The observer passed 24 offline tests and real-framework metadata checks, then loaded in the supported game with one hook. Natural menu behavior still awaits the player's test; this is not a working custom-menu claim.
+- The first observer passed 24 offline tests and real-framework metadata checks, then loaded in the supported game with one hook. It captured companion submenu action 45 at depth 0 and summon action 46 at depth 1; the player confirmed opening the menu and manually summoning a pet. This is not a working custom-menu claim.
+- Prepared a separate construction/label observer with bounded read-only sampling, passing 37 focused tests and actual pyMHF 0.2.4 metadata/owned-buffer checks. Independent review identified and confirmed a timestamp ordering fix for interleaved callbacks. This second observer has not been launched in NMS.
+- The builder now refuses to overwrite existing diagnostic folders, preserving any running trial; five offline builder tests cover isolation, opt-in, hashes and overwrite rejection. The combined diagnostic tool suite passed all 66 tests.
+- Traced native hotkey serialization: binding a custom None action could overwrite an existing saved shortcut, so a verified binding guard remains a prerequisite for insertion. No custom binding or save change was performed by the observer.
 - The production 0.4.2 script remains unchanged. A custom X-menu entry and in-game settings are still not implemented.
 
 ## 0.4.2 experimental — 2026-09-27

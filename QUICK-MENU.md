@@ -36,6 +36,21 @@ hot-action records. A disabled flag does not establish prevention. Binding,
 replay, removal and game-managed persistence must be addressed before inserting
 the first custom item, rather than treating them as a later cosmetic issue.
 
+The follow-up static audit traced three context banks of ten hot-action records.
+The game's save conversion writes the action integer unconditionally. Binding
+None over an existing action can therefore save an empty binding; the custom
+tag would not round-trip. Normal outside-menu replay ignores None's action
+class, but that does not prevent the loss of the prior binding. No custom
+binding was created in the live observation test.
+
+A candidate prevention point is the native bind-modifier input query, scoped
+to a verified tagged selection and its exact update context. It must suppress
+only that binding attempt, without changing input state or ordinary actions.
+The call sequence, thread scope, indirect callers and cleanup still require
+verification before any interception. Allowing a binding and then restoring it,
+or modifying save serialization, is not the chosen direction. This is static
+investigation, not an implemented hotkey guard.
+
 The update path rebuilds the action vectors before clamping selection and
 copying items into the render state. A future insertion should use a verified
 native construction point, not write directly into the render state's buffers.
@@ -68,9 +83,21 @@ four-byte value from a deliberately allocated buffer in the test host process;
 no game process was accessed by that check.
 
 The isolated observer subsequently loaded in NMS on 27 September 2026: the
-framework log at 15:54:43 local time reports one mod and one hook. This confirms
-registration, not menu behavior or a custom item. The player's natural-menu
-sequence and scalar observations are still pending. Generated observer SHA256:
+framework log at 15:54:43 local time reports one mod and one hook. During the
+player's natural-menu test at 15:58:27 through 15:59:37 local time it recorded:
+
+| Native route | Observed action | Depth | Called as menu |
+|---|---|---|---|
+| Companion submenu | 45 | 0 | true |
+| Summon pet | 46 | 1 | true |
+
+The player confirmed opening the companion menu and successfully summoning a
+pet manually. Ten observations were captured, also including native IDs 34 and
+50 at depth 1; their meanings are not needed for this result. No observer failure
+or limit notice appeared in this capture. The paged pet submenu (47) was not
+observed. This establishes the two observed routes and the player's manual
+summon result, not custom insertion, labels, vector ownership, hotkeys or all
+navigation paths. Generated observer SHA256:
 `67518f9a8edc8efb56869d6a6fa5667598c725016ffca8949dab20a58f893dd2`.
 
 Two preceding host attempts stopped before game startup: an inherited module
@@ -87,12 +114,69 @@ python -B -m unittest discover -s tools/tests -p test_quick_menu_probe.py -v
 python -B tools/build_quick_menu_probe.py --enable-observer
 ```
 
-The builder writes only to `build/quick-menu-probe/` and never launches, attaches,
-deploys or modifies the installed mod. It copies the existing guarded launchers
+The action-stage builder writes only to a new `build/quick-menu-probe/` folder
+and never launches, attaches, deploys or modifies the installed mod. It refuses
+to overwrite any existing output folder, including a running diagnostic. Use
+`--output-name quick-menu-new-trial` to retain an earlier artifact and create a
+separate trial. It copies the existing guarded launchers
 and emits a small diagnostic manifest. The generated script filename remains
 `CompanionAutoSummon.py` to satisfy the guarded launcher's filename contract, but
 its only Mod class is `CompanionMenuProbe`. Automatic summoning is absent in this
 isolated diagnostic session. The original mod and its files stay separate.
+
+## Second diagnostic: construction and labels
+
+The next separate observer is `tools/quick_menu_structure_probe.py`, disabled
+in source and excluded from the player package. It observes natural completion
+of the builder and label functions with after-hooks that return None. All
+observed direct callers pass two pointers and ignore their return values. This
+static finding justifies the diagnostic declarations; their live behavior still
+needs testing. Neither function is called explicitly by the observer.
+
+This diagnostic reads bounded vector headers and selected action IDs after a
+natural rebuild. It does not copy complete items or names. Selection clamping
+occurs after construction, so an out-of-range selection is recorded as stale
+without reading the item. Empty vectors are normal. Capacity/count must remain
+within a conservative diagnostic ceiling of 256; exceeding it stops observation
+and never changes a gameplay limit. Label observation copies at most the known
+128-byte output, records only its NUL-terminated length, and never writes or
+logs the text. Read errors or unexpected data stop observation.
+
+Each callback channel samples at most four times per second and retains only
+changed sanitized observations, capped at 2,048 samples or 32 detailed events
+per channel plus a terminal summary. This
+avoids consuming the detailed log budget on identical rebuilds before the
+player reaches the menu. Callback counts, elapsed time and anonymous callback
+thread comparisons support later lifecycle analysis; they do not prove that
+all callbacks run on a particular engine thread.
+
+```text
+python -B -m unittest discover -s tools/tests -p "test_*probe.py" -v
+python -B tools/probe_framework_smoke.py --stage structure
+python -B tools/build_quick_menu_probe.py --enable-observer --stage structure
+```
+
+This writes a new `build/quick-menu-structure-probe/` artifact; it never overwrites
+the first observer or changes a running game. The source passed 37 focused
+offline tests, including pointer/read bounds, throttling, independent budgets,
+stale selections, label termination and callback preemption. Together with the
+24 first-observer tests and five builder tests, all 66 checks passed. Independent
+review confirmed the timestamp ordering fix; no live-test blocker remained
+within the read-only scope. No custom entry is inserted, and automatic summoning
+remains absent from the separate observer session.
+
+Run the framework smoke command with the prepared pyMHF 0.2.4 interpreter. It
+inspects disabled source metadata and copies only deliberate buffers owned by
+its own test host. It does not register hooks or read the NMS process.
+
+The real pyMHF 0.2.4 check passed for source SHA256
+`83bcd6a01e7b4be7e8ba90f54f0f4b73b06c9ec33080a68af3252e0614f4d28a`:
+one disabled Mod class, two AFTER callbacks with the audited two-pointer/void
+metadata, no widgets/hotkeys, and successful 4/16/128-byte owned-buffer copies.
+The separate generated observer SHA256 is
+`d752066c87aafb1a10893a8b779e8009bc0a26c85b8dd38963e2430e28405b97`.
+Its launcher passed PowerShell syntax validation. This artifact has not yet
+been launched in NMS; live construction and label observations remain pending.
 
 ## Controlled live sequence
 
