@@ -2,6 +2,8 @@
 
 ## Development — native quick-menu investigation
 
+- Prepared source revision 0.4.1-inert-item-trial to remove the redundant inline tile name while preserving the ordinary selected-item caption. The screenshot confirms both had appeared together. All 50 affected item/trial tests, seven builder checks and the real disabled-framework smoke passed. The current running 0.4.0 trial is unchanged; this revision has not been built or deployed.
+- Clarified that the entry is intended to open one flat settings page. Saved an original paw/circular-arrow icon concept as an opaque preview in the source repository, excluded from the player ZIP; transparent attempts had artifacts and were rejected. Final texture preparation, the submenu and custom texture integration remain unfinished.
 - Implemented a separate disabled-by-default inert-item trial with a native leaf binding filter. The entry uses native construction/append, a full private marker and a bounded label; it has no preference or summoning effect. The production mod remains unchanged.
 - After normal game exit and a fresh hash-verified backup of 43 profile files, the isolated trial registered in NMS at 18:46:26 on 27 September 2026. Its native binding filter reports ready and pyMHF reports one Mod/two managed hooks. Visible entry, navigation and shortcut behavior remain pending; registration is not a functional menu result.
 - Subsequently captured successful native append/readback and label callbacks. The player confirmed the entry appears after the individual pets with the borrowed paw icon and moving text inside the icon. This is the first visible result; presentation review and the full navigation/shortcut/replay scenarios remain separate. The running trial was left unchanged.

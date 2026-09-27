@@ -212,11 +212,12 @@ def _construct(constructor, icon):
             or owned[BINDING_OFFSET:BINDING_OFFSET + 4] != b"\xff" * 4
             or owned[MARKER_OFFSET:MARKER_OFFSET + 16] != bytes(16)):
         raise MenuItemError("Constructor output differs from the candidate contract")
-    name = encode_label(DEFAULT_LABEL)
-    if len(name) >= NAME_SIZE or len(CUSTOM_ACTION_MARKER) != 16:
-        raise MenuItemError("Candidate identity or inline name exceeds its field")
+    if len(CUSTOM_ACTION_MARKER) != 16:
+        raise MenuItemError("Candidate identity exceeds its field")
     owned[MARKER_OFFSET:MARKER_OFFSET + 16] = CUSTOM_ACTION_MARKER
-    owned[NAME_OFFSET:NAME_OFFSET + NAME_SIZE] = name + bytes(NAME_SIZE - len(name))
+    # The native tile NAME widget is separate from the selected-item caption.
+    # Keep it empty so the title appears only in the normal caption below.
+    owned[NAME_OFFSET:NAME_OFFSET + NAME_SIZE] = bytes(NAME_SIZE)
     return bytes(owned)
 
 

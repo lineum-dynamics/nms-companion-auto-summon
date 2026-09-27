@@ -453,17 +453,30 @@ notice appears in the retained capture. This confirms visible insertion and the
 reported presentation, not the full navigation, binding or replay scenarios.
 
 End placement follows the prototype's native append operation. The paw is the
-borrowed native companion icon. The helper currently fills the item's inline
+borrowed native companion icon. The running 0.4.0 helper fills the item's inline
 64-byte name as well as supplying the separate selected-item label through the
 128-byte label callback. There is no custom scrolling animation or overlay in
 the mod. A follow-up exact-build static trace confirmed that the renderer finds
 the tile's NAME element and supplies item + 0x98 to its text path; an empty first
 byte skips that name path. Thus the populated inline name causes the tile text.
-The exact scrolling timer was not traced. Leaving the 64-byte inline name empty
-while retaining the independent selected-label callback is a proposed cosmetic
-adjustment, not a deployed change. Its appearance and a possible position before the
+The exact scrolling timer was not traced. The subsequent 0.4.1-inert-item-trial
+source leaves all 64 inline-name bytes empty while retaining the independent
+selected-label callback. This cosmetic change passed the 50 affected item/trial
+tests, seven builder tests and the real disabled-framework metadata check. It
+has not been built into a new trial or deployed. Its appearance and a possible position before the
 individual pet entries are presentation decisions, not changes already applied
 to the running trial. No live file has been modified for this feedback.
+
+The attached screenshot additionally confirms that the normal caption already
+displays the full name below the tile, so the moving tile text is redundant.
+The user asked about an original icon and a settings submenu. One flat settings
+page is the intended behavior; it is not implemented by the inert test. A custom
+icon concept is saved as an opaque design preview under `assets/concepts/` in
+the source repository, outside the player ZIP. Transparent generation attempts
+were rejected for visible artifacts; the preview is not a usable game texture.
+Native texture registration and lifetime remain unverified. The existing native Utilities resource was located,
+but its pixels were not inspected and it must not be described as a verified
+gear icon. No existing shared game texture has been replaced.
 
 ## Historical observation-only live sequence
 

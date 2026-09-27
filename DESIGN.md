@@ -8,7 +8,7 @@ Companion Auto Summon should feel consistent with No Man's Sky: familiar control
 
 ## Current state
 
-The current candidate is 0.4.2-experimental; the approved name is Companion Auto Summon. The separate pyMHF tab uses the class name `CompanionAutoSummon`. Settings are in the separate pyMHF window, in English. HUD messages use the game's existing timed-message function, but actual on-screen rendering has not yet been confirmed. There is no custom entry in the game's X quick menu, no localization system and no finished public launcher.
+The current player candidate is 0.4.2-experimental; the approved name is Companion Auto Summon. The separate pyMHF tab uses the class name `CompanionAutoSummon`. Settings are in the separate pyMHF window, in English. HUD messages use the game's existing timed-message function, but actual on-screen rendering has not yet been confirmed. The player package has no custom quick-menu settings, localization system or finished public launcher. The separate developer trial's first visible menu entry is described below.
 
 ## Intended settings integration
 
@@ -22,6 +22,23 @@ Expose the same underlying preferences:
 - Per-location controls for planets, space stations and the Nexus, if the menu safely supports a compact subpage.
 
 The native menu and any retained development panel must share one preference store and apply changes through the same established game-thread path. Translated labels must not become internal setting values. A menu appearance change must not bypass native eligibility, change a companion's attributes or write game save files.
+
+The custom entry is intended to open one flat settings page, rather than act as
+another pet or toggle every setting itself. Its children will expose automatic
+summoning, selection mode, habitat preference and the three location toggles.
+Location choices should remain on that same page within the verified depth
+limit. The current inert entry does not open this page yet.
+
+The player's screenshot confirmed a redundant name inside the icon above the
+normal selected-item caption. The next source revision leaves the inline tile
+name empty and retains the ordinary caption. It has not been deployed. The paw
+was a borrowed prototype icon, not a settled product identity. The user asked
+for an original custom icon. An original paw plus circular-arrow concept has
+been saved as an opaque preview under `assets/concepts/` in the source repository
+(excluded from the player ZIP). The transparent generation attempts had visible
+artifacts and were rejected. Final transparency, small-size appearance and
+native texture loading must be validated before replacing the borrowed icon.
+Do not overwrite a shared vanilla texture or distribute copied game artwork.
 
 Native menu insertion is not a finished player capability. A separate disabled-by-default developer trial now implements one inert entry with a native binding filter, backed by offline tests and successful exact-build runtime registration. The player confirmed the entry is visible after the pets with a paw icon and moving in-icon text; presentation needs review, and full navigation/shortcut behavior remain pending. Only after its navigation, lifecycle and shortcut protection pass the controlled live scenarios should it change a preference. Retain the desktop panel for development until this route is proven.
 

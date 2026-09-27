@@ -93,11 +93,11 @@
     },
     {
       "path": "DESIGN.md",
-      "sha256": "f0c2239e4d4afab4067f7fa12d0f46bf47e597a1764d41f7efe1d4480eadafd5"
+      "sha256": "61f15893a348faf1028682fff2c8663ace964bfaf9c66c0e8865a672e2286fa2"
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "626c35de6d5a0bc96e80b8147e7a44f1e7fde94c7024274f57c80ab8e7469430"
+      "sha256": "38fc372ee8f0759bec6aac2d1e6ac33d625a9fbf1eaf5a9b9dfdc508fc73f3e6"
     },
     {
       "path": "ROADMAP.md",
@@ -105,7 +105,7 @@
     },
     {
       "path": "QUICK-MENU.md",
-      "sha256": "1104bd9a19dcd7e2c670074a2f1cc729692e390afb505cfa80eef6f87fbc19db"
+      "sha256": "47568662539138fb90cc1d1fea0611d889fa0287040d4dd655ac7b0b8609dc52"
     },
     {
       "path": "docs/release/PRIPRAVA-VYDANI.md",

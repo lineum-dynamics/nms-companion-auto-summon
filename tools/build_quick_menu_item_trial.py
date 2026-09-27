@@ -66,7 +66,7 @@ Never copy this trial into GAMEDATA/MODS or over an installed/running version.
     current = json.loads((ROOT / "manifest.json").read_text(encoding="utf-8"))
     manifest = {
         "name": "Companion Auto Summon inert menu trial",
-        "version": "0.4.0-inert-item-trial",
+        "version": "0.4.1-inert-item-trial",
         "framework": current["framework"], "steam_build": current["steam_build"],
         "supported_nms_exe_sha256": current["supported_nms_exe_sha256"],
         "purpose": "One inert visible native companion-menu item with a separate binding filter",

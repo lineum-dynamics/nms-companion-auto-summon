@@ -142,7 +142,7 @@ def cas_item_label(menu: C.c_void_p, output: C.c_void_p) -> None:
 
 
 class CompanionMenuItemTrial(Mod):
-    _version = "0.4.0-inert-item-trial"
+    _version = "0.4.1-inert-item-trial"
     _author = "Companion Auto Summon contributors"
     _description = "One inert native-menu item with a separate native binding guard"
     _disabled = not supported_runtime()

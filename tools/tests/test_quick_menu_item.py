@@ -130,8 +130,7 @@ class GuardAndConstructionTests(ItemFixture):
         payload = self.append_callback.call_args.args[1]
         expected = bytearray(self.constructed)
         expected[0x88:0x98] = ITEM.CUSTOM_ACTION_MARKER
-        label = b"Companion Auto Summon"
-        expected[0x98:0xD8] = label + bytes(64 - len(label))
+        expected[0x98:0xD8] = bytes(64)
         self.assertEqual(payload, bytes(expected))
         self.assertEqual(bytes(self.regions[self.root_data]), original_root)
         self.assertEqual(bytes(self.regions[0x6660000][:-224]), original_neighbors)
