@@ -294,9 +294,31 @@ Generated isolated observer SHA256:
 The generated launcher passed PowerShell syntax validation. After normal game
 exit and a fresh verified backup, the isolated phase observer loaded at 17:57:41
 local time on 27 September 2026. The framework reports one mod and three native
-hooks, containing the four audited callbacks. This establishes registration;
-the player's live phase sequence remains unverified. The previous observers
-and the production mod retained their previous hashes.
+hooks, containing the four audited callbacks. The previous observers and the
+production mod retained their previous hashes.
+
+### Captured phase result
+
+The player reported that the native menu worked so far and noted the absence
+of the mod item. That absence is expected: the observer adds no item, settings
+action or automatic summoning. Explain this distinction before subsequent
+trials rather than describing an observation-only test as testing the mod menu.
+
+The retained capture from 18:01:16.196 through 18:02:11.857 contains 22 changed
+detail records, with the last recorded counters reaching 749 update entries
+and 52 completed samples. All recorded phase details used anonymous thread
+ordinal 1. Controls-completion and tail-entry snapshots matched, including all
+three vector-storage identity comparisons. No interval change, post-tail change
+or observer-stop notice was recorded in this capture. The absence of a recorded
+post-tail change does not verify the handler's other activation/navigation paths.
+
+This establishes successful natural phase observations for the tested sequence.
+It does not establish exclusive ownership, every concurrent reader, recovery
+after a failed mutation, remapped/controller binding coverage or a custom item.
+The next implementation target is an inert visible Companion Auto Summon entry
+with binding protection, followed by its navigation/lifecycle trial. The
+protection and item are not yet implemented; this result alone does not remove
+the remaining mutation prerequisites documented above.
 
 For a live trial, open the companion menu with the player's configured control,
 move among native entries, back out and reopen it. Normal activation/dismissal
