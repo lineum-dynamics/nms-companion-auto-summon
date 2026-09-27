@@ -65,15 +65,15 @@
     },
     {
       "path": "README.md",
-      "sha256": "3eacd90577026fce2cba731d454663763e187afe7523caad2ed75ab5d4979ecd"
+      "sha256": "b0f18c634ea77d98a4b64b975d37b82bd55cda9c3152f6b7bb40420441e3f82d"
     },
     {
       "path": "README.cs.md",
-      "sha256": "16147487b10d982a1887f29eb06e3ea882e15b31084e1458b60891cc9b588282"
+      "sha256": "37a1f3b9f421862c6558d01a9e14ad89701a17a21d1fa9a14cc384e4bef31dfd"
     },
     {
       "path": "TECHNICKE-OVERENI.md",
-      "sha256": "2573b44512caccc5022891467ed665bb9153c2bcfe0a547971ed2e11c46832f2"
+      "sha256": "df3a736950e1f11f42ae606256f2378ab7bed5eaa1123c1381cb159b572b5adf"
     },
     {
       "path": "build.py",
@@ -85,7 +85,7 @@
     },
     {
       "path": "DEVELOPMENT.md",
-      "sha256": "ae658748390ae5f653c06b6e0debf398cb283fbe38646f9f6f1774df236b2b8e"
+      "sha256": "1334f044ded828132e9d1061acd5dcbae14dc3b3b60cd7f8ef6813e7d76ad5ec"
     },
     {
       "path": "LOCALIZATION.md",
@@ -93,19 +93,19 @@
     },
     {
       "path": "DESIGN.md",
-      "sha256": "15f1c30e0783aea63602a8d7922cc65c9ab593c155f28ef2540d754aa2647cb8"
+      "sha256": "2dd84a5de5d2639fa4516dc5221efe73eccbaa9f9450f93282349ec8e908a376"
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "6a460bdc863f9b7b7a53342636662d420e47ee82bb3c6c9297d8ad1f42bb1a7d"
+      "sha256": "3bbb8c27febbb48fb17968937348b721cd4af2d84f49d536c2207a99b8d623cf"
     },
     {
       "path": "ROADMAP.md",
-      "sha256": "e6e2cb02194a3e94af00eb3eee5c713520a813bc5fbd5e09d74d2e391f209eab"
+      "sha256": "d1774897c54eed8b34f754d904eb57c094c392132c9941e98a260a1721b8e6a4"
     },
     {
       "path": "QUICK-MENU.md",
-      "sha256": "4cbb03ff781baf139c0d8e02896bb7abc32b9b5a8ac95a1d32dcb812b26dd41c"
+      "sha256": "f927e47b066c99737383bbb8dd03ac8cbd688e67db3e035ce26dacba7c7019f0"
     },
     {
       "path": "docs/release/PRIPRAVA-VYDANI.md",
@@ -182,6 +182,11 @@
     "launched": true,
     "registration_verified": true,
     "registered_at": "2026-09-27T21:48:38+02:00",
+    "basic_toggle_evidence": "Partial player report of ON ship-exit summoning and later OFF suppression, matching queue/apply logs and an OFF menu/HUD screenshot. Initial OFF attempt is ambiguous; first logged exit followed an ON change. Rapid toggles were repeated presses, not held-input validation.",
+    "open_live_defects": [
+      "Player saw no pet after Anomaly startup although the native queue accepted slot 2. Runtime currently ends intent at queue acceptance without observing subsequent activation; cause inside the game is unresolved.",
+      "A solid white disc appears above the otherwise visible HUD status text; icon/render suppression has not been validated."
+    ],
     "included_in_player_zip": false,
     "scope": "Separately built, predicate-gated native ON/OFF candidate. Requires same-menu false then true native confirmation, one matching selected-child trigger and original false result; no tail-only activation. Existing production applies and persists the queued setting. Other preferences remain in the temporary development panel. Registered on 27 September 2026 after normal exit and a fresh verified backup: two Mods, 11 hook targets, automation ON and 14 unchanged payloads. Complete live preference validation, remapping/controllers and held input await testing."
   }

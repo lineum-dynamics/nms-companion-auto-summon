@@ -2,6 +2,7 @@
 
 ## 0.4.3 — summon opportunity after loading
 
+- Recorded partial 0.7.0 native-toggle evidence: player-reported ON ship-exit summoning and later OFF suppression, matching queued/applied logs and an OFF menu/HUD screenshot. Rapid toggles were repeated presses; held input remains untested. Recorded a failed visible Anomaly startup despite accepted queue and an unwanted white HUD disc. No running payload was modified; queue acceptance is not spawn confirmation.
 - Launched separate play trial 0.7.0 after normal game exit and a fresh hash-verified backup of 43 profile files. At 21:48:38 on 27 September 2026 both Mods and 11 hook targets registered with automation ON. All 14 payloads remained unchanged; existing settings and companion memory matched their pre-launch hashes in the initial startup check. Complete live toggle validation remains pending.
 - A successful local save load records one deferred summon opportunity when automation is enabled. An eligible local ownership update restores the saved identity or uses Random, then follows the existing 1.5-second stability, native ownership and paced placement checks. No native calls occur during save deserialization.
 - Existing active/queued pets, manual selection/preview, entering the ship, preference changes, another local load or loss/replacement of application context cancel the opportunity. It is consumed before arming; later manual dismissal does not cause repeated respawning. Missing ownership data is retried at the existing 0.5-second interval without guessing another pet.

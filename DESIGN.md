@@ -8,7 +8,7 @@ Companion Auto Summon should feel consistent with No Man's Sky: familiar control
 
 ## Current state
 
-The current player candidate is 0.4.3-experimental; the approved name is Companion Auto Summon. It adds one deferred opportunity after a successful local save load, using the existing automation toggle and summon checks. One Random-mode startup on a space station is confirmed by the log and the user, without a ship exit. Production 0.4.2 previously registered in the combined 0.6.1 trial and logged an accepted station queue at 20:18:19 without separate visible-pet confirmation. The separate pyMHF tab uses the class name `CompanionAutoSummon`. Settings remain in that window, in English. HUD messages use the game's existing timed-message function, but actual on-screen rendering has not yet been confirmed. The player package has no working custom quick-menu settings, localization system or finished public launcher. The separate developer trial's visible menu entry is described below.
+The current player candidate is 0.4.3-experimental; the approved name is Companion Auto Summon. It adds one deferred opportunity after a successful local save load, using the existing automation toggle and summon checks. One Random-mode startup on a space station is confirmed by the log and the user, without a ship exit. Production 0.4.2 previously registered in the combined 0.6.1 trial and logged an accepted station queue at 20:18:19 without separate visible-pet confirmation. The separate pyMHF tab uses the class name `CompanionAutoSummon`. Settings remain in that window, in English. HUD messages use the game's existing timed-message function; the 0.7.0 trial screenshot confirms OFF text rendering with an unwanted solid white disc above it. The player package has no working custom quick-menu settings, localization system or finished public launcher. The separate developer trial's visible menu entry is described below.
 
 Menu development sessions should retain functional automatic summoning and the
 player's existing preferences. Use a separately validated combined development
@@ -25,6 +25,11 @@ Use the existing **Automatically summon companion** toggle for both triggers. OF
 The confirmed 27 September 2026 station test used production 0.4.3 in combined trial 0.6.2: the load armed at 20:42:58.578, selected one of five eligible companions and received an accepted queue about 2.69 seconds later. The user confirmed the pet appeared. The player later confirmed one manual dismissal without reappearance after traveling in the same unchanged session; its exact location and duration were not independently measured. Planet/Nexus startup, Last-manual startup, broader dismissal regression, biome matching and multiplayer remain separate unverified scenarios.
 
 ## Intended settings integration
+
+The 0.7.0 trial has partial player/log evidence for basic ON/OFF application.
+Its Anomaly load produced an accepted queue but no visible pet according to
+the player. This open defect requires post-queue diagnosis; do not infer spawn
+from acceptance or add retries that could override a manual dismissal.
 
 Prefer one dedicated CompanionAutoSummon/automatic-companion entry in the companion section of the native quick menu, before individual pets and after general companion actions. The separate 0.6.0 trial implements this order in offline checks; its live result remains pending. Its final label must fit the existing layout and terminology. Do not replace a vanilla action or reuse its ID for a different purpose without a verified, non-conflicting implementation.
 

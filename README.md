@@ -6,7 +6,8 @@ This Git repository is the canonical source for Companion Auto Summon. Developme
 
 The separate developer candidate **0.7.0-play-trial** adds the first native
 setting: automatic summoning ON/OFF. It queues changes through the unchanged
-0.4.3 production runtime. It has not been verified in game. The remaining
+0.4.3 production runtime. Basic ON/OFF behavior now has partial player and log
+confirmation; complete input/navigation testing remains pending. The remaining
 preferences still use the temporary pyMHF development panel, which will be
 retired from the player interface once all native controls are complete.
 This separately built candidate registered in-game on 27 September 2026 after

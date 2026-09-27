@@ -8,6 +8,14 @@ Use [DESIGN.md](DESIGN.md) for accepted product behavior, [LOCALIZATION.md](LOCA
 
 These requirements were accepted before this backlog was created. Finish them before adding optional features that would complicate the first release.
 
+Latest 0.7.0 live findings: basic ON/OFF application has partial player and log
+confirmation. Anomaly startup accepted a queue without a visible pet, and the
+HUD shows an unwanted white disc. The next diagnostic should observe the
+accepted queue's lifecycle without retrying or changing summon timing. Any
+future retry must distinguish failed materialization from manual dismissal.
+Icon suppression needs verified native rendering semantics. Held confirmation,
+remapping and controllers remain untested; rapid toggles were repeated presses.
+
 | Work | Current boundary | Completion evidence |
 |---|---|---|
 | Simple, reliable installation | The development launcher still requires an external Python installation and prepares dependencies. A portable offline runtime and graphical launcher are not implemented. | Extract-and-launch on a clean second Windows account/PC; relocated and non-ASCII paths; no external Python dependency; exact-build checks; no duplicate host or unexpected game termination. Follow [installer requirements](docs/release/INSTALACE-ZADANI.md). |

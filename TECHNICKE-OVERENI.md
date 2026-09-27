@@ -2,6 +2,26 @@
 
 Soukromé testovací záznamy uvedené níže jménem souboru jsou uchované mimo Git repozitář a distribuční ZIP. Dokument obsahuje jejich shrnutí; osobní záznamy ani zálohy se nedistribuují.
 
+## Dílčí herní výsledek 0.7.0 a zjištěné chyby
+
+Hráč potvrdil vyvolání po výstupu při ON a pozdější potlačení při OFF.
+Screenshot ukazuje OFF v položce menu i v herní hlášce; log potvrzuje předání
+a použití změn. První popis pokusu s OFF je nejednoznačný: před prvním
+zaznamenaným výstupem v 21:50:12 se stav znovu změnil na ON v 21:50:07.
+Rychlé změny hráč výslovně vysvětlil opakovanými stisky. Nejde o ověření podržení,
+přemapování, ovladače ani celého návratu a znovuotevření nabídky.
+
+Po načtení v Anomálii se podle hráče pet neobjevil, přestože nativní fronta
+přijala slot 2 v 21:49:21.727. Toto je neúspěšný viditelný výsledek, nikoli
+ověřené vyvolání. Runtime po přijetí frontou ukončí požadavek a další aktivaci
+peta už nesleduje. Přesná příčina uvnitř hry zatím není zjištěná. Samotná
+nepřítomnost peta neopravňuje k opakování: mohla by následovat po ručním odvolání.
+
+Screenshot zároveň poprvé potvrzuje vykreslení stavové hlášky. Nad textem je
+nežádoucí bílý kruh. Volání předává ukazatel na nulový prostředek ikony, jehož
+vizuální výsledek předtím nebyl ověřen. Záznam a screenshot jsou uchované jako
+`menu-play-0.7.0-user-observation.json` a `menu-play-0.7.0-off-hud.png`.
+
 ## Připravený přepínač v nativním menu 0.7.0
 
 Oddělený balíček 0.7.0 obsahuje nezměněný produkční skript 0.4.3 a první

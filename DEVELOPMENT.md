@@ -62,7 +62,13 @@ game exit and a fresh hash-verified backup of 43 profile files. Both Mods and
 11 hook targets loaded with automation ON. All 14 payloads remained unchanged;
 the initial startup check found existing settings and companion memory unchanged.
 The game window was subsequently responding despite an initial missing-window
-warning. This confirms startup, not the complete native preference test.
+warning. Subsequent player feedback and logs support basic ON/OFF application,
+but held input, remapping/controllers and complete navigation remain unverified.
+Anomaly startup accepted a native queue without a visible pet. The current
+runtime consumes intent at queue acceptance and performs no post-queue active-pet
+observation. Diagnose that lifecycle before authorizing retries: disappearance
+alone cannot distinguish failed materialization from a manual dismissal.
+The player's screenshot confirms HUD text rendering with an unwanted white disc.
 
 ## Naming and compatibility
 

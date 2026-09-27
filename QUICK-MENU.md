@@ -5,7 +5,14 @@ production 0.4.3 and an opt-in 0.7.0 native automation toggle. It passed 408
 developer tests and real-framework discovery/temporary-preference checks.
 It registered in-game at 21:48:38 on 27 September 2026 after normal exit and
 a fresh verified backup of 43 profile files. Two Mods and 11 hook targets
-loaded with automation ON. The complete live preference check is pending.
+loaded with automation ON. The player subsequently reported summoning on ship
+exit when ON and no summon in a later OFF attempt. The screenshot shows OFF
+in both the child caption and HUD; logs confirm queued and applied toggles.
+The initial OFF report is ambiguous: the first logged exit followed another
+ON change. Rapid toggles were confirmed as repeated presses, not held input.
+Held input, remapping, controller and complete navigation checks remain pending.
+The same session exposed a failed visible Anomaly startup despite native queue
+acceptance, and a solid white disc above the HUD text. These remain open defects.
 The following chronological records retain their original version boundaries.
 
 Status: 27 September 2026. The source candidate is 0.4.3-experimental, adding a
