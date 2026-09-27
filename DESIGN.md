@@ -23,7 +23,7 @@ Expose the same underlying preferences:
 
 The native menu and any retained development panel must share one preference store and apply changes through the same established game-thread path. Translated labels must not become internal setting values. A menu appearance change must not bypass native eligibility, change a companion's attributes or write game save files.
 
-Native menu insertion is a feasibility task, not an implemented capability. First verify menu construction, available item ownership/IDs, text handling and action dispatch for the pinned binary. Then try one harmless read-only custom entry in a controlled test. Only after its navigation and lifecycle are sound should it be allowed to change a preference. Retain the desktop panel for development until this route is proven.
+Native menu insertion is not a verified player capability. A separate disabled-by-default developer trial now implements one inert entry with a native binding filter, backed by offline tests but not yet launched in NMS. Only after its navigation, lifecycle and shortcut protection pass the controlled live scenarios should it change a preference. Retain the desktop panel for development until this route is proven.
 
 The initial read-only audit found a known-action dispatcher, but no verified registration API for custom entries. Existing submenu transitions in the pinned executable clamp depth to two beyond the root. Prefer a flat settings page within the verified limit; do not assume another nested location submenu is possible. A new numeric action ID alone does not create a working native action. The next investigation must establish native item construction, ownership and cleanup, then observe natural menu use before modifying it.
 

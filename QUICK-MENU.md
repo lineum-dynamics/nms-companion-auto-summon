@@ -1,10 +1,11 @@
 # Native quick-menu investigation
 
-Status: 27 September 2026. The player mod remains 0.4.2-experimental. No custom
-quick-menu entry or quick-menu preference control has been implemented. This
-document separates exact-build static findings from live observations and
-future mutation work. Raw disassembly is private working evidence, not part of
-the repository or distribution.
+Status: 27 September 2026. The player mod remains 0.4.2-experimental. A separate,
+disabled-by-default developer trial now implements one inert custom item and a
+native binding filter. It has not been launched in NMS; preference controls are
+not implemented. This document separates static findings, offline verification,
+live observations and future work. Raw disassembly is private working evidence,
+not part of the repository or distribution.
 
 ## Verified static scope
 
@@ -51,11 +52,13 @@ rule. The accepted requirement is item-specific protection at the native
 binding operation, independent of the player's chosen input.
 
 Hooking the global input query in Python adds callback overhead even to queries
-the observer immediately rejects. Current investigation therefore favors
-menu-local phase boundaries before any filtering. The call sequence, thread
-scope, input-path coverage and cleanup still require verification. Allowing a
+the observer immediately rejects. The implemented candidate instead uses a
+native leaf filter: unrelated callers go straight to the original trampoline,
+before any menu read and without a Python callback. The earlier menu-local
+phase observations remain separate evidence. Allowing a
 binding and then restoring it, or modifying save serialization, is not the
-chosen direction. This is investigation, not an implemented hotkey guard.
+chosen direction. The guard candidate's own-buffer evidence and remaining live
+scope are described below; it is not yet a live-verified hotkey guard.
 
 One proposed menu-local approach was ruled out statically: marking selection
 invalid until the end of the update would reach a tail handler that navigates,
@@ -315,10 +318,10 @@ post-tail change does not verify the handler's other activation/navigation paths
 This establishes successful natural phase observations for the tested sequence.
 It does not establish exclusive ownership, every concurrent reader, recovery
 after a failed mutation, remapped/controller binding coverage or a custom item.
-The next implementation target is an inert visible Companion Auto Summon entry
-with binding protection, followed by its navigation/lifecycle trial. The
-protection and item are not yet implemented; this result alone does not remove
-the remaining mutation prerequisites documented above.
+At this checkpoint the next target was an inert visible entry with binding
+protection. The source candidate below was subsequently implemented using a
+native filter, without temporary selection masking. The phase observations
+alone did not establish the safety of a mutation or input interception.
 
 For a live trial, open the companion menu with the player's configured control,
 move among native entries, back out and reopen it. Normal activation/dismissal
@@ -328,7 +331,101 @@ trace establishes the observed ordering and identity only; concurrency,
 mutation recovery and binding-path coverage remain distinct prerequisites for
 a custom item.
 
-## Controlled live sequence
+## Inert-item candidate, not yet live verified
+
+The separate `tools/quick_menu_item_trial.py` source is disabled unless an
+explicit isolated build enables it. It uses two AFTER callbacks: native item
+construction and label completion. Its sole entry is **Companion Auto Summon**,
+with the borrowed companion icon, an ASCII label, native None action 0 and a
+complete private 16-byte marker. Activating it intentionally changes nothing.
+It is not connected to preferences or automatic summoning.
+
+`quick_menu_item.py` supplies bounded, independently testable inspection and
+construction policy. It appends only at depth 1 beneath native companion action
+45, rejects duplicate/ambiguous markers, rechecks the current vectors and icon,
+and requires an active guard before construction and again before append. Native
+constructor/append adapters use 16-byte-aligned temporary buffers and the game's
+own allocator. They do not replace vector pointers or retain item pointers.
+The label callback writes only the audited 128-byte output for the selected
+tagged entry. Errors and overlapping callbacks stop further insertion; they do
+not unload the native guard or try to roll back native storage.
+
+`quick_menu_native_guard.py` emits original Win64 leaf code. It checks the real
+stack return address against the exact binding-query return site `0x151DDEB`
+before reading RDI. At this site RDI is the live menu throughout the native
+Update invocation; the preceding controls call has returned and no native call
+intervenes. The filter validates depth, signed vector counts/capacity, selected
+index and the complete None+marker identity. Only that item returns false for
+the native binding query; every other call tail-jumps to the original trampoline
+with the original arguments, nonvolatile registers and stack intact. No physical
+button is assumed, no Python callback handles unrelated inputs and no selection
+field is masked. Existing tagged items remain protected after vector capacity
+growth; the insertion helper's diagnostic budget is not a filter limit.
+
+The leaf's direct reads rely on that synchronous native object's lifetime.
+Bounds are not a general memory-validity guarantee. A static review found no
+additional selected-item-to-primary-binding writer in the examined bank-accessor
+callers and load/export paths. Replay separately refreshes cached submenu paths;
+those paths are not serialized as primary bindings, but replay compatibility
+still needs a targeted live test. Do not claim that all runtime-bank copies pass
+through this filter.
+
+`quick_menu_guard_runtime.py` verifies the exact executable, current injected
+process, framework versions and unmodified target prefix before installation.
+Its raw cyminhook integer-address detour bypasses Python on input calls. It
+checks the installed target, relay, complete 19-byte original trampoline and RX
+filter bytes before authorizing insertion. The hook and executable allocation
+are pinned to the process before activation and have no removal/free endpoint.
+Failed installation is retained and cannot be retried in that process. This
+prevents callback failure or module reload from freeing a still-needed guard.
+Unsupported or competing hook layouts refuse insertion. Later third-party hook
+changes and hot reload are outside this isolated trial's support scope.
+
+All 184 diagnostic/developer tests pass: 101 retained observer checks, 26 item
+policy checks, 26 guard-runtime checks, 24 item-trial checks and seven isolated
+builder checks. The actual cyminhook 0.1.6 native smoke passed 45 cases and 10,000
+repeated calls against buffers allocated by its own Python process. It verified
+the integer detour, full marker checks, forwarding from unrelated call sites
+even with an invalid menu argument, unchanged data, the complete original
+trampoline layout and successful test-hook removal. This is not NMS execution or
+multiplayer/remapping verification. The
+real pyMHF metadata smoke separately confirms disabled initialization, normal
+Mod initialization, two AFTER callbacks with the audited ABI and no GUI or
+physical hotkeys, without installing a game hook.
+
+```text
+python -B -m unittest discover -s tools/tests -p "test_*.py" -q
+python -B tools/native_menu_guard_smoke.py
+python -B tools/item_trial_framework_smoke.py
+python -B tools/build_quick_menu_item_trial.py --enable-inert-item
+```
+
+Use the prepared exact framework interpreter for the two smoke commands. The
+builder creates a new `build/quick-menu-inert-item/` folder, verifies copied
+bytes and refuses to replace an existing output. Its launcher checks every
+helper's hash in addition to the main script/bootstrap. It never launches NMS,
+attaches to it, changes the running observer or deploys the regular player mod.
+All trial files remain excluded from the player ZIP.
+
+The prepared isolated artifact contains eight files, passed launcher syntax and
+byte readback checks, and has not been launched. Generated trial script SHA256:
+`c5693f2652fc2cce3fe06904619d58d7bedb1181d899274de477d738e4a3ee39`.
+The source entry, item helper, native filter and guard-runtime hashes are retained
+in the metadata report and the generated manifest. A file-only check confirmed
+the exact installed executable and target PE mapping. The production script
+and the still-running phase observer retained their earlier hashes throughout
+preparation; no running artifact was changed.
+
+The next live trial must begin after normal game exit and a fresh verified save
+backup. Explain explicitly that an inert item should now be visible, while
+settings and auto-summon are absent in this isolated session. First check
+companion-menu display, selection, back/close/reopen and neighboring native
+actions. Do not rebind an occupied shortcut during that initial display test.
+Existing shortcut replay, binding protection, remapped/controller controls,
+save/reload/removal and mod coexistence are separate acceptance scenarios before
+preferences or a release claim. Do not hot-reload this developer trial.
+
+## Historical observation-only live sequence
 
 1. Close NMS normally and preserve current progress; verify a fresh backup as needed.
 2. Use the isolated folder's `Start-CompanionAutoSummon.ps1`. The exact executable,

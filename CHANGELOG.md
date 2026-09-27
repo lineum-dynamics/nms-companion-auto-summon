@@ -2,6 +2,9 @@
 
 ## Development — native quick-menu investigation
 
+- Implemented a separate disabled-by-default inert-item trial with a native leaf binding filter. The entry uses native construction/append, a full private marker and a bounded label; it has no preference or summoning effect. The production mod remains unchanged and the trial has not been launched in NMS.
+- The native filter passed 45 own-process MinHook cases and 10,000 repeated calls. Unrelated input calls forward without Python callbacks or menu reads; protection follows item identity and the exact native operation, not physical buttons. Process-pinned guard resources survive stopped callbacks, with explicit installation/integrity checks and no unload endpoint.
+- All 184 diagnostic/developer tests pass, together with the real disabled-framework metadata check. Independent review corrected missing Mod initialization, late-callback cancellation and diagnostic error handling. The isolated builder checks all helper hashes and never replaces, deploys or starts a running artifact. See `QUICK-MENU.md` for the remaining live, replay and remapping scope.
 - Prepared a third, menu-local phase observer to investigate controls completion, binding boundaries and final selection handling without a global input hook, key-state reads or game writes. Source/live validation is recorded separately in `QUICK-MENU.md`; this is not a binding guard or custom menu item.
 - The phase observer passed 34 focused tests and the real pyMHF ABI/owned-buffer check; all 101 diagnostic tool tests passed. Fixed a review-discovered interruption race and verified record cleanup. After normal game exit and a fresh verified backup, it loaded in NMS with three native hooks/four callbacks.
 - Captured 22 changed phase records reaching 749 updates and 52 completed samples, with stable controls-to-tail snapshots and no recorded observer failure. The player reported normal native-menu behavior. The observer deliberately has no mod item; binding protection and a visible prototype remain unimplemented.
@@ -13,7 +16,7 @@
 - The builder now refuses to overwrite existing diagnostic folders, preserving any running trial; five offline builder tests cover isolation, opt-in, hashes and overwrite rejection. The combined diagnostic tool suite passed all 66 tests.
 - Traced native hotkey serialization: binding a custom None action could overwrite an existing saved shortcut, so a verified binding guard remains a prerequisite for insertion. No custom binding or save change was performed by the observer.
 - Recorded remappable keyboard/mouse and controller controls as an explicit acceptance requirement: protection must follow the tagged item/native operation, not fixed physical keys. No custom-menu remapping support is claimed yet.
-- The production 0.4.2 script remains unchanged. A custom X-menu entry and in-game settings are still not implemented.
+- The production 0.4.2 script remains unchanged. The separate inert-item source candidate is not an implemented player settings feature; in-game preferences remain unfinished.
 
 ## 0.4.2 experimental — 2026-09-27
 
