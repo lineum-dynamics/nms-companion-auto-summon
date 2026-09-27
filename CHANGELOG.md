@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.4 — passive post-queue diagnostics
+
+- Added bounded observation after matching native queue acceptance, using the existing local ownership callback and verified fields. Records the trigger source and sanitized queue/active transitions; a native active slot is not claimed as visible spawn.
+- Observation ends on active-pet detection, replacement/cancellation, invalid state or diagnostic time/read limits. Queue disappearance remains indeterminate and never retries or re-arms automation. Existing policy, native calls, gameplay limits, delays and preference application are preserved.
+- Prepared combined trial 0.7.1 with the existing 0.7.0 toggle and a version-pinned bridge for production 0.4.4. Running 0.7.0 remains unchanged. No new live result; Anomaly startup and the white HUD disc remain open.
+
 ## 0.4.3 — summon opportunity after loading
 
 - Recorded partial 0.7.0 native-toggle evidence: player-reported ON ship-exit summoning and later OFF suppression, matching queued/applied logs and an OFF menu/HUD screenshot. Rapid toggles were repeated presses; held input remains untested. Recorded a failed visible Anomaly startup despite accepted queue and an unwanted white HUD disc. No running payload was modified; queue acceptance is not spawn confirmation.

@@ -2,6 +2,14 @@
 
 **LOCAL DRAFT — not uploaded. Update the validation status, final installer instructions, attribution and permissions before publishing.**
 
+Current source candidate: 0.4.4, with separate combined developer trial 0.7.1.
+This unlaunched candidate adds passive post-queue diagnostics only; it does not
+fix the failed visible Anomaly startup or white HUD disc observed in 0.7.0.
+Basic native ON/OFF application has partial evidence in the older trial, not
+complete input/navigation coverage. Do not publish claims of verified startup
+across all locations or finished native settings. Earlier results below retain
+their explicit version boundaries.
+
 ## Short description
 
 Automatically summon an owned companion after loading a save or leaving your starship. Remember your manual favourite or choose a random eligible pet, optionally preferring the current planet's habitat. Native summoning and placement rules still apply.

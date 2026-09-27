@@ -1,22 +1,22 @@
 {
   "name": "Companion Auto Summon",
-  "version": "0.4.3-experimental",
+  "version": "0.4.4-experimental",
   "date": "2026-09-27",
   "installed_in_game_directory": false,
-  "tested_inside_game": true,
-  "runtime_load_verified": true,
+  "tested_inside_game": false,
+  "runtime_load_verified": false,
   "gameplay_verified": false,
   "multiplayer_verified": false,
-  "basic_auto_summon_verified": true,
+  "basic_auto_summon_verified": false,
   "restart_selection_verified": false,
-  "station_auto_summon_verified": true,
+  "station_auto_summon_verified": false,
   "nexus_auto_summon_verified": false,
   "deferred_summon_verified_in_game": false,
-  "random_selection_verified_in_game": true,
+  "random_selection_verified_in_game": false,
   "selection_mode_control_verified_in_game": false,
   "biome_preference_verified_in_game": false,
   "location_preferences_verified_in_game": false,
-  "gameplay_verification_scope": "0.4.3 in combined play trial 0.6.2 registered with automation ON and two Mods/ten managed hooks on 27 September 2026. One on-foot station load in Random armed via save load (no ship-exit trigger before that startup request), chose slot 1 from five eligible owned companions, and queued it after 2.69 seconds. The player confirmed actual appearance. The player later confirmed one manual dismissal without reappearance after traveling in the unchanged session; exact dismissal location and duration were not independently measured. This does not verify Nexus/planet startup, Last manually selected startup, broader dismissal regression, biome preference, multiplayer or all settings.",
+  "gameplay_verification_scope": "Unlaunched 0.4.4 candidate adds bounded passive observation after matching native queue acceptance. It does not retry, re-arm, change delays or alter summon rules. Earlier 0.4.3 results and the failed visible Anomaly startup belong to the previous version.",
   "supported_summon_locations": {
     "2": "SpaceStation",
     "3": "PlanetOnFoot",
@@ -24,15 +24,15 @@
   },
   "previous_live_result": "0.4.0 applied Random and successfully summoned slot 3 from three eligible owned pets on a planet, confirmed by the user; manual favorite slot 1 stayed in runtime. 0.3.3 verified station summoning and restart restoration, 0.3.2 planetary summoning. These observations do not validate the new 0.4.1 biome preference. In combined play trial 0.6.1, 0.4.2 registered with automation ON and the log recorded an accepted station queue after ship exit at 20:18:19 on 27 September 2026; actual appearance was not separately confirmed.",
   "offline_tests": {
-    "passed": 230,
+    "passed": 253,
     "policy": 34,
     "persistence": 14,
     "settings": 24,
-    "adapter_simulation": 140,
+    "adapter_simulation": 163,
     "host_launcher": 18
   },
   "actual_framework_import_and_gui_properties": "Passed with the real pyMHF 0.2.4 and DearPyGui: eight widgets constructed and preference callbacks exercised with temporary files, no viewport, hook registration, native game calls or game launch",
-  "launcher_validation": "Combined 0.6.2 folder launcher loaded production 0.4.3 and the unchanged menu after normal game exit and a fresh hash-verified backup of 43 profile files. Running payloads and external preference files matched at startup. Standalone 0.4.3 launcher remains unchanged but was not separately exercised in this run.",
+  "launcher_validation": "Unlaunched 0.4.4 and combined 0.7.1 passed production and developer tests, actual pyMHF widget construction and folder discovery/preference queue/application checks outside the game. Same two Mods, 15 callbacks across 11 targets; no hooks registered or personal preferences accessed during smoke checks.",
   "preferences_included": false,
   "manual_selection_path": "%LOCALAPPDATA%/NMS-AutoPet/state.json",
   "preferences_path": "%LOCALAPPDATA%/NMS-AutoPet/settings.json",
@@ -57,7 +57,7 @@
   "files": [
     {
       "path": "CompanionAutoSummon.py",
-      "sha256": "87c4b8e44ec85605e5483542344c6addafd8d6ecb171cf0a7a365752419ad8dc"
+      "sha256": "bd8dadd52f7274e9fb8f6c466fa8c114019dd5a0639414f19b8de3fe41ec79b7"
     },
     {
       "path": "Launch-CompanionAutoSummon.py",
@@ -65,19 +65,19 @@
     },
     {
       "path": "README.md",
-      "sha256": "b0f18c634ea77d98a4b64b975d37b82bd55cda9c3152f6b7bb40420441e3f82d"
+      "sha256": "d9766481419a35e01441f6a14d77af8cf9d3f48a3349c86641b10a386d0ba198"
     },
     {
       "path": "README.cs.md",
-      "sha256": "37a1f3b9f421862c6558d01a9e14ad89701a17a21d1fa9a14cc384e4bef31dfd"
+      "sha256": "13a7fa3a8d61767a744a5012bcfaec8b4930c5809908905c3e02468b9a00a712"
     },
     {
       "path": "TECHNICKE-OVERENI.md",
-      "sha256": "df3a736950e1f11f42ae606256f2378ab7bed5eaa1123c1381cb159b572b5adf"
+      "sha256": "7efd8c44e83201111a37f4fa4c415519ad63f6834ac842b34da150fe12479137"
     },
     {
       "path": "build.py",
-      "sha256": "d49d811ced73a1868647cb981c601fb724bf05f26859eff9b16a4f5a848982d6"
+      "sha256": "1034e3dee8039118439c712bead1d1b53fcb34cb4bd6f8c72b633c3ed62c7b17"
     },
     {
       "path": "Start-CompanionAutoSummon.ps1",
@@ -85,39 +85,39 @@
     },
     {
       "path": "DEVELOPMENT.md",
-      "sha256": "1334f044ded828132e9d1061acd5dcbae14dc3b3b60cd7f8ef6813e7d76ad5ec"
+      "sha256": "382a8713c261718a724e84cf070158f6553a1bd0eb269888eaf20d2a9a7a35cb"
     },
     {
       "path": "LOCALIZATION.md",
-      "sha256": "6f9ab3cb312c933fced2e792464b135cc067b373b1bed55160b6c9f207a2092d"
+      "sha256": "c86f3a29bdf4163f70a09bc477d821a772971140eb54b10c964df814fd615e8e"
     },
     {
       "path": "DESIGN.md",
-      "sha256": "2dd84a5de5d2639fa4516dc5221efe73eccbaa9f9450f93282349ec8e908a376"
+      "sha256": "fc647fde8add7af2e3d596b8f96e9946fcb0f25a1fb747eec82dece858c2504d"
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "3bbb8c27febbb48fb17968937348b721cd4af2d84f49d536c2207a99b8d623cf"
+      "sha256": "8f842428bb3ca64644c01955070bb6315c59ed416b62c2c1177ada6fae76b821"
     },
     {
       "path": "ROADMAP.md",
-      "sha256": "d1774897c54eed8b34f754d904eb57c094c392132c9941e98a260a1721b8e6a4"
+      "sha256": "b578f3550270511963ea011f16b531f25b0dc5917894b92e0814f31b5e311fe8"
     },
     {
       "path": "QUICK-MENU.md",
-      "sha256": "f927e47b066c99737383bbb8dd03ac8cbd688e67db3e035ce26dacba7c7019f0"
+      "sha256": "36849dfd40343e2f87b31ed2cd2c0726bd794528f9ba423db8eac785f62c1bb7"
     },
     {
       "path": "docs/release/PRIPRAVA-VYDANI.md",
-      "sha256": "6c530f17f58eb2d4f109a14a11bb0ca6eeb77c4ea4712fa0b1c083368aea4049"
+      "sha256": "d54b33488389d071fa2e2d2e8f57cebb44d20b91a3016c1159cdeb04a88b6778"
     },
     {
       "path": "docs/release/INSTALACE-ZADANI.md",
-      "sha256": "15ed3c43198ad56e0005d85969456bdd705ac29cdbbfceff48e13edbd17c4e94"
+      "sha256": "91124ff65d7d7248aaed114842734489a15a821e35a0914c0c46757aaee27a83"
     },
     {
       "path": "docs/release/NEXUS-DESCRIPTION-DRAFT.md",
-      "sha256": "8a8eae49216da1050da1ae2b448a6d3a5ad51fe4ba40c627992ba6df204ccb55"
+      "sha256": "2ceeafe4ed09624dca0725cb74685971ab0773ec7ef4709a580e708e8f07619d"
     },
     {
       "path": "src/policy.py",
@@ -133,7 +133,7 @@
     },
     {
       "path": "src/runtime.py",
-      "sha256": "7011e1c2a1482390a15ff8d1ab09a7d282c7cfd4e72d7820eb1207b98664df5a"
+      "sha256": "a7240828939ed30cfff281de20c0074f331fb99df0bdf730929ea0d074a4423e"
     },
     {
       "path": "tests/test_policy.py",
@@ -149,7 +149,7 @@
     },
     {
       "path": "tests/test_runtime.py",
-      "sha256": "cdee3fc24a173064f0b6490a484825fab86f4f70d9c3f9324b6022c134984691"
+      "sha256": "dc3f0e4bab499228c9ee4bc5228d729948161415a6c228f63c69e21a1b66d2d5"
     },
     {
       "path": "tests/test_launcher.py",
@@ -157,12 +157,17 @@
     }
   ],
   "legacy_data_directory": "NMS-AutoPet is intentionally retained for settings, remembered companions and the existing development runtime; schemas and file contents are unchanged.",
-  "startup_summon_verified_in_game": true,
+  "startup_summon_verified_in_game": false,
   "startup_summon": "One opportunity after successful local save load with automation enabled. No native summon calls during deserialization. Resolve a saved identity or Random through later local ownership updates and existing 1.5-second stability/placement checks; respect active/queued pets, preview, manual choice, ship entry, settings changes and context replacement. Never rearm merely because a pet is absent.",
   "startup_summon_verification_scope": "One Random-mode startup on a space station: save load armed at 20:42:58.578, location enum 2, request accepted at 20:43:01.261, user confirmed actual pet appearance. Nexus was explicitly not the test location.",
-  "manual_dismissal_verified_in_game": true,
-  "manual_dismissal_verification_scope": "One player-reported manual dismissal without reappearance during combined 0.6.2 / production 0.4.3. The suggested check was about ten seconds on foot, but exact location, timestamp and duration were not independently measured. Travel separated this from the initial station load; no claim of a controlled immediately-after-startup dismissal test.",
-  "developer_native_menu_trial": {
+  "manual_dismissal_verified_in_game": false,
+  "manual_dismissal_verification_scope": "Not live-verified for 0.4.4. Passive observation must terminate without any retry; previous 0.4.3 user evidence is preserved separately.",
+  "previous_production_verification": {
+    "version": "0.4.3-experimental",
+    "scope": "0.4.3 in combined play trial 0.6.2 registered with automation ON and two Mods/ten managed hooks on 27 September 2026. One on-foot station load in Random armed via save load (no ship-exit trigger before that startup request), chose slot 1 from five eligible owned companions, and queued it after 2.69 seconds. The player confirmed actual appearance. The player later confirmed one manual dismissal without reappearance after traveling in the unchanged session; exact dismissal location and duration were not independently measured. This does not verify Nexus/planet startup, Last manually selected startup, broader dismissal regression, biome preference, multiplayer or all settings.",
+    "manual_dismissal_scope": "One player-reported manual dismissal without reappearance during combined 0.6.2 / production 0.4.3. The suggested check was about ten seconds on foot, but exact location, timestamp and duration were not independently measured. Travel separated this from the initial station load; no claim of a controlled immediately-after-startup dismissal test."
+  },
+  "previous_developer_native_menu_trial": {
     "version": "0.7.0-play-trial",
     "production_script_byte_identical": true,
     "preference_keys": [
@@ -189,5 +194,34 @@
     ],
     "included_in_player_zip": false,
     "scope": "Separately built, predicate-gated native ON/OFF candidate. Requires same-menu false then true native confirmation, one matching selected-child trigger and original false result; no tail-only activation. Existing production applies and persists the queued setting. Other preferences remain in the temporary development panel. Registered on 27 September 2026 after normal exit and a fresh verified backup: two Mods, 11 hook targets, automation ON and 14 unchanged payloads. Complete live preference validation, remapping/controllers and held input await testing."
+  },
+  "developer_native_menu_trial": {
+    "version": "0.7.1-play-trial",
+    "menu_version": "0.7.0-toggle-trial",
+    "production_script_byte_identical": true,
+    "preference_keys": [
+      "enabled"
+    ],
+    "live_verified": false,
+    "launched": false,
+    "registration_verified": false,
+    "included_in_player_zip": false,
+    "scope": "Existing native toggle with a version-pinned bridge to production 0.4.4. The new production adds passive post-queue diagnostics only. The live 0.7.0 folder remains untouched. The white HUD disc is unresolved.",
+    "developer_tests_passed": 408,
+    "actual_framework_discovery_verified": true,
+    "temporary_preference_queue_apply_verified": true,
+    "managed_callbacks": 15,
+    "distinct_native_targets": 11
+  },
+  "post_queue_observation": {
+    "passive_only": true,
+    "seconds_limit": 15.0,
+    "callback_limit": 4096,
+    "transition_log_limit": 8,
+    "new_runtime_tests": 23,
+    "new_native_hooks_or_calls": false,
+    "automatic_retry": false,
+    "active_slot_is_not_visible_spawn_confirmation": true,
+    "live_verified": false
   }
 }

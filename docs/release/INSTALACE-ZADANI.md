@@ -1,5 +1,12 @@
 # Companion Auto Summon — jednoduchá a spolehlivá instalace
 
+Nový kandidát 0.4.4 / kombinovaný balíček 0.7.1 přidává pouze pasivní
+diagnostiku po přijetí požadavku na peta. Způsob instalace, dvě instance módů,
+původní cesty preferencí a kontrola přesné verze hry zůstávají zachované.
+Balíček se připravuje mimo běžící 0.7.0 a zatím nebyl spuštěn. Nejde o opravu
+Anomálie ani o dokončený veřejný instalátor. Po dokončení kontrol následuje
+nová záloha a spuštění až po běžném ukončení hry.
+
 Požadavek vlastníka, stav k 27. 9. 2026. Toto je zadání veřejného balíčku, nikoli popis již hotového installeru. Zdrojový kandidát 0.4.3 používá Start-CompanionAutoSummon.ps1; oddělený kombinovaný kandidát 0.6.2 spouští produkční automatiku a experimentální menu modul 0.6.0 společně v jednom hostiteli. Ani jedna varianta není hotovým veřejným přenosným instalátorem.
 
 Produkční 0.4.3 přidává jednu odloženou příležitost po úspěšném načtení místního savu vedle dosavadního výstupu z lodi. Vyhodnotí ji až vhodný callback místního hráče se stejným zpožděním a původními pravidly; při deserializaci se nativní vyvolání neprovádí. Dosavadní nastavení zůstává rozhodující a není nutné je měnit. Ruční odvolání nezpůsobuje opakované vyvolávání. Vývojová podstránka Settings preview preference zatím nemění.

@@ -2,6 +2,14 @@
 
 Stav k 27. 9. 2026. Pracovní plán; mód ani stránka nebyly zveřejněné. Hlavní zdrojový projekt už je v lokálním Gitu; tento soubor se udržuje v `docs/release/`. Odkazy na dokumenty ve složce `CompanionAutoSummon/` níže označují dokumenty v kořeni repozitáře a distribučního balíčku.
 
+Aktuálně připravovaný kandidát je 0.4.4 v odděleném balíčku 0.7.1. Přidává
+pouze pasivní sledování po přijetí požadavku. Neopakuje vyvolání, nemění
+prodlevy ani preference a zatím nebyl spuštěn ve hře. Základní přepínání
+v běžícím 0.7.0 má dílčí potvrzení, ale po načtení v Anomálii se pet neobjevil
+navzdory přijetí požadavku. Diagnostika má zjistit další průběh. Bílý kruh
+u hlášky zůstává samostatnou chybou vzhledu. Níže jsou starší výsledky 0.4.3;
+na nový kandidát se nepřenášejí. Veřejné vydání je nadále předčasné.
+
 ## Připravený test nativního nastavení 0.7.0
 
 Oddělený balíček 0.7.0-play-trial obsahuje nezměněnou produkci 0.4.3 a první

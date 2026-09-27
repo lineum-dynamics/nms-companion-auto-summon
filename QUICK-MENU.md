@@ -1,6 +1,12 @@
 # Native quick-menu investigation
 
-Current developer candidate: **0.7.0-play-trial**, containing unchanged
+Prepared successor: **0.7.1-play-trial** pairs production 0.4.4 passive
+post-queue diagnostics with the unchanged 0.7.0 native menu and a bridge
+pinned to the new reviewed production initializer. No preference behavior,
+input hook, icon or native binding guard changes. It is not launched and
+cannot inherit the following 0.7.0 live results. The running folder is untouched.
+
+Current live trial: **0.7.0-play-trial**, containing unchanged
 production 0.4.3 and an opt-in 0.7.0 native automation toggle. It passed 408
 developer tests and real-framework discovery/temporary-preference checks.
 It registered in-game at 21:48:38 on 27 September 2026 after normal exit and

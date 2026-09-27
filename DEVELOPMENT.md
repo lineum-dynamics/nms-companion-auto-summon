@@ -13,7 +13,27 @@ This repository is the canonical development location. Keep installed test copie
 
 ## Current implementation
 
-The current candidate is 0.4.3-experimental. It adds a deferred, one-shot opportunity after a successful local save load to the existing ship-exit behavior. One station startup in Random mode has been confirmed by both log and user, without a ship exit. Its intended target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The present development launcher accepts Python 3.11–3.13 x64.
+The current candidate is 0.4.4-experimental. It adds passive post-queue diagnostics to the earlier 0.4.3 behavior described below. It has not been launched. The target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The present development launcher accepts Python 3.11–3.13 x64.
+
+After a matching native queue acceptance, policy intent is still consumed.
+A separate observer samples only the existing verified fields through the
+local ownership callback. It stops after 15 seconds or 4096 observer callbacks,
+with at most eight transition logs. These are diagnostic caps, not summon
+delays or retry conditions. Native active state ends observation permanently;
+pending disappearance without observed activity remains indeterminate. A manual
+dismissal cannot re-arm this observer or the policy. Context changes, a new
+trigger, preferences, manual selection/preview/emote and invalid state end it.
+Observer failures do not disable working automation. It adds no native calls,
+hooks, offsets, preference fields or game-save writes.
+
+The separate 0.7.1 bundle retains the 0.7.0 native menu with the preference
+bridge pinned to the reviewed 0.4.4 initializer. It keeps the same production
+control lock, queue, application callback and two-Mod discovery contract.
+The existing 0.7.0 installation is not rebuilt or edited while running.
+
+Offline validation for this candidate passed: **253 production tests** (including 23 new observer cases), **408 developer tests**, actual pyMHF widget checks and combined-folder discovery/preference checks. No game access or live hook registration occurred during validation.
+
+Earlier production 0.4.3 adds a deferred, one-shot opportunity after a successful local save load to the existing ship-exit behavior. One station startup in Random mode was confirmed by both log and user, without a ship exit. Those results are historical evidence for that version, not live validation of 0.4.4.
 
 | Component | Responsibility |
 |---|---|

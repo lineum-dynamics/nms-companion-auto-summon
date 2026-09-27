@@ -50,6 +50,10 @@ NOTICE_BLOCK_OFFSET = 0x4BF50C
 # Membership alone never replaces that native check or placement validation.
 SUPPORTED_SUMMON_LOCATIONS = frozenset({2, 3, 14})
 DIAGNOSTIC_WAIT_LIMIT = 8
+# Passive evidence budgets only; none controls summon timing or retry behavior.
+POST_QUEUE_OBSERVATION_SECONDS = 15.0
+POST_QUEUE_OBSERVATION_MAX_UPDATES = 4096  # Includes foreign ownership callbacks.
+POST_QUEUE_OBSERVATION_TRANSITION_LIMIT = 8
 PET_ARC_OFFSET = 0x1B9140
 PET_PREVIEW_OFFSET = 0x1B9300
 PET_EMOTE_OFFSET = 0x1B937D
@@ -178,6 +182,7 @@ class CompanionAutoSummon(Mod):
         self.saved_selection = None
         self.persistence_ok = True
         self._exit_diagnostic = None
+        self._summon_observation = None
         self._placement_warmed = False
         self._pending_pet_identity = None
         self._next_probe_at = 0.0
@@ -205,7 +210,7 @@ class CompanionAutoSummon(Mod):
             self.auto_enabled = False
             self.settings_ok = False
             LOGGER.exception("Companion Auto Summon settings unavailable; automation starts OFF. The settings panel can enable it for this session.")
-        LOGGER.info("Companion Auto Summon 0.4.3 experimental: automation %s; use the CompanionAutoSummon settings panel.",
+        LOGGER.info("Companion Auto Summon 0.4.4 experimental: automation %s; use the CompanionAutoSummon settings panel.",
                     "ON" if self.auto_enabled else "OFF")
 
     @property
@@ -360,6 +365,7 @@ class CompanionAutoSummon(Mod):
                     requested["locations"], requested["selection_mode"], requested["prefer_same_biome"])
 
     def _finish_exit_diagnostic(self, reason):
+        self._finish_summon_observation(reason)
         # All cancellation/context transitions invalidate the previous ray jobs
         # for automation. The game owns their actual cleanup; never alter them.
         self._reset_probe()
@@ -368,6 +374,129 @@ class CompanionAutoSummon(Mod):
         if self._exit_diagnostic is not None:
             LOGGER.info("Companion Auto Summon exit finished: %s.", reason)
             self._exit_diagnostic = None
+
+    def _finish_summon_observation(self, reason):
+        """Discard only passive evidence; never alter the summon policy."""
+        observation = self._summon_observation
+        self._summon_observation = None
+        if observation is None:
+            return
+        try:
+            LOGGER.info(
+                "Companion Auto Summon post-queue observation finished: %s; source=%s "
+                "requested_slot=%d elapsed=%.2fs updates=%d callbacks=%d. No automatic retry.",
+                reason, observation["source"], observation["slot"] + 1,
+                observation["last_time"] - observation["accepted_at"], observation["updates"],
+                observation["callbacks"],
+            )
+        except Exception:
+            # Diagnostic/logging faults must not stop working automation.
+            pass
+
+    def _arm_summon_observation(self, app, slot, identity, source, location, now):
+        """Copy acceptance metadata after policy completion; no native operations."""
+        try:
+            if (type(identity) is not bytes or len(identity) != 16
+                    or not 0 <= slot < 30 or not math.isfinite(now)):
+                return
+            self._summon_observation = {
+                "app": app, "slot": slot, "identity": bytes(identity),
+                "source": source if source in ("save load", "ship exit") else "unknown",
+                "location": location, "accepted_at": now, "last_time": now,
+                "updates": 0, "callbacks": 0, "last_state": None,
+                "transition_logs": 0, "suppressed": False,
+            }
+            LOGGER.info(
+                "Companion Auto Summon post-queue observation started: source=%s requested_slot=%d; "
+                "queue acceptance does not establish active appearance.",
+                self._summon_observation["source"], slot + 1,
+            )
+        except Exception:
+            self._finish_summon_observation("observer error while starting")
+
+    def _observe_queued_summon(self, owner, dt):
+        """Bounded read-only follow-up, separate from policy and placement work."""
+        observation = self._summon_observation
+        if observation is None:
+            return
+        try:
+            if observation["callbacks"] >= POST_QUEUE_OBSERVATION_MAX_UPDATES:
+                self._finish_summon_observation("callback limit without active observation; outcome indeterminate")
+                return
+            observation["callbacks"] += 1
+            if not self.enabled or not self.auto_enabled:
+                self._finish_summon_observation("automation unavailable or OFF")
+                return
+            if self._controls_pending():
+                self._finish_summon_observation("settings change pending")
+                return
+            now = time.monotonic()
+            if not math.isfinite(now) or now < observation["last_time"]:
+                self._finish_summon_observation("invalid observation clock")
+                return
+            observation["last_time"] = now
+            if now - observation["accepted_at"] >= POST_QUEUE_OBSERVATION_SECONDS:
+                self._finish_summon_observation("time limit without active observation; outcome indeterminate")
+                return
+            # The first native read is the current application slot. Never dereference the
+            # retained identity as an address or use _app_for_player here: its
+            # lifecycle side effects belong to the normal automation path.
+            app = C.c_void_p.from_address(_internal.BASE_ADDRESS + APPLICATION_PTR_RVA).value
+            if not app or app != observation["app"] or app != self.app_identity:
+                self._finish_summon_observation("application context unavailable or changed")
+                return
+            if owner != app + PET_TABLE_OFFSET:
+                if observation["callbacks"] >= POST_QUEUE_OBSERVATION_MAX_UPDATES:
+                    self._finish_summon_observation("callback limit without active observation; outcome indeterminate")
+                return  # This callback belongs to another ownership object.
+            observation["updates"] += 1
+            player = app + LOCAL_PLAYER_OFFSET
+            active = C.c_int32.from_address(app + ACTIVE_PET_OFFSET).value
+            pending = C.c_int32.from_address(player + PENDING_PET_OFFSET).value
+            location = C.c_int32.from_address(app + LOCATION_OFFSET).value
+            preview = C.c_int32.from_address(owner + PET_PREVIEW_OFFSET).value
+            emote = C.c_ubyte.from_address(owner + PET_EMOTE_OFFSET).value
+            if not (-1 <= active < 30 and -1 <= pending < 30 and -1 <= preview < 30):
+                self._finish_summon_observation("invalid companion indices")
+                return
+            if (location not in SUPPORTED_SUMMON_LOCATIONS or location != observation["location"]
+                    or location not in self.allowed_locations):
+                self._finish_summon_observation("summon location unavailable or changed")
+                return
+            if preview != -1 or emote != 0:
+                self._finish_summon_observation("native companion preview or emote")
+                return
+            slot = observation["slot"]
+            if self._pet_seed(app, slot) != observation["identity"]:
+                self._finish_summon_observation("companion identity changed")
+                return
+            if active not in (-1, slot) or pending not in (-1, slot):
+                self._finish_summon_observation("different companion active or queued")
+                return
+            if active == slot:
+                self._finish_summon_observation("expected native active companion observed")
+                return
+            advancing = math.isfinite(dt) and dt > 0
+            state = (pending, advancing)
+            if state != observation["last_state"]:
+                reason = ("native queue still pending" if pending == slot else
+                          "queue cleared without active observation; outcome indeterminate")
+                if observation["transition_logs"] < POST_QUEUE_OBSERVATION_TRANSITION_LIMIT:
+                    LOGGER.info(
+                        "Companion Auto Summon post-queue observation: %s; source=%s "
+                        "elapsed=%.2fs location=%d advancing=%s active_pet=%d native_pending_pet=%d.",
+                        reason, observation["source"], now - observation["accepted_at"],
+                        location, advancing, active, pending,
+                    )
+                    observation["transition_logs"] += 1
+                elif not observation["suppressed"]:
+                    LOGGER.info("Companion Auto Summon post-queue transition log limit reached; awaiting terminal observation.")
+                    observation["suppressed"] = True
+                observation["last_state"] = state
+            if observation["callbacks"] >= POST_QUEUE_OBSERVATION_MAX_UPDATES:
+                self._finish_summon_observation("callback limit without active observation; outcome indeterminate")
+        except Exception:
+            self._finish_summon_observation("observer error")
 
     def _trace_policy_tick(self, now, *, location, advancing, active_pet, native_pending,
                            eligible, slot, wait_reason=None):
@@ -583,6 +712,7 @@ class CompanionAutoSummon(Mod):
         if self.policy.pending:
             self._pending_pet_identity = None if random_selection else self.pet_identity
             self._exit_diagnostic = {
+                "source": source,
                 "armed_at": now, "last_time": now, "last_state": None,
                 "wait_logs": 0, "suppressed": False, "observed_waits": set(),
             }
@@ -723,6 +853,7 @@ class CompanionAutoSummon(Mod):
     def after_pet_owner_update(self, owner, dt):
         # Ownership.Update normally resets placement after closing the pet menu.
         # Refresh only after that reset, and check/queue within this same callback.
+        self._observe_queued_summon(owner, dt)
         if not self.enabled or not self.auto_enabled:
             self._load_summon_pending = False
             return
@@ -790,6 +921,7 @@ class CompanionAutoSummon(Mod):
                     previous = self._exit_diagnostic and self._exit_diagnostic["last_state"]
                     wait_reason = previous[0] if previous else "deadline_before_placement_check"
             chosen_identity = self._pending_pet_identity
+            source = self._exit_diagnostic.get("source", "unknown") if self._exit_diagnostic else "unknown"
             slot = self.policy.tick(now, on_foot_in_summon_location=on_foot,
                                     active_pet=active_pet, native_pending_pet=native_pending,
                                     eligible=eligible)
@@ -834,6 +966,7 @@ class CompanionAutoSummon(Mod):
                 return
             self.policy.resolve(True)
             self._finish_exit_diagnostic("summon request accepted")
+            self._arm_summon_observation(app, slot, chosen_identity, source, location, now)
             LOGGER.info("Companion Auto Summon queued slot %d through the game's normal summon path.", slot + 1)
         except Exception:
             self._fail_closed()

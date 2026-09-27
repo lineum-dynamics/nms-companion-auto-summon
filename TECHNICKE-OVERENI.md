@@ -2,6 +2,17 @@
 
 Soukromé testovací záznamy uvedené níže jménem souboru jsou uchované mimo Git repozitář a distribuční ZIP. Dokument obsahuje jejich shrnutí; osobní záznamy ani zálohy se nedistribuují.
 
+## Nový diagnostický kandidát 0.4.4 / 0.7.1
+
+Pasivní sledování po přijetí požadavku nemění vyvolávání. Čte dosavadní nativní
+údaje přes stávající callback, má limit 15 sekund, 4096 volání diagnostiky
+a osm přechodových zpráv. Zmizení z fronty nezpůsobí opakování; aktivní slot
+je údaj hry, nikoli důkaz viditelného peta. Při změně kontextu nebo zásahu hráče
+sledování končí. Nový kandidát zatím nemá herní ověření a neopravuje bílý kruh.
+Běžící soubory 0.7.0 ani nastavení hráče příprava nemění.
+
+Kontroly nového kandidáta prošly: **253 produkčních testů** (včetně 23 nových případů diagnostiky), **408 vývojových testů** a ověření skutečného pyMHF i společného balíčku mimo hru. Testy nečetly osobní nastavení, nespouštěly hru a neregistrovaly herní hooky.
+
 ## Dílčí herní výsledek 0.7.0 a zjištěné chyby
 
 Hráč potvrdil vyvolání po výstupu při ON a pozdější potlačení při OFF.

@@ -1,6 +1,17 @@
-# Companion Auto Summon 0.4.3 — testovací verze
+# Companion Auto Summon 0.4.4 — testovací verze
 
 Tento Git repozitář je hlavní zdrojový projekt. Testovací instalace a ZIP balíčky jsou jeho výstupy; další úpravy vznikají v repozitáři. Postup sestavení a ověření je v [DEVELOPMENT.md](DEVELOPMENT.md).
+
+Nový kandidát **0.4.4** přidává pouze omezené sledování po přijetí požadavku
+na vyvolání. Zapisuje přechody nativní fronty a aktivního peta, nic neopakuje
+a nemění zpoždění ani pravidla hry. Aktivní slot v paměti stále potřebuje
+hráčovo potvrzení viditelného peta. Oddělený balíček **0.7.1-play-trial**
+zachovává dosavadní nativní přepínač ON/OFF. Nové verze zatím nebyly spuštěné;
+běžící 0.7.0 zůstává beze změny. Chybějící vyvolání po načtení v Anomálii
+a bílý kruh u hlášky ještě nejsou opravené. Dřívější výsledky níže platí jen
+pro konkrétně uvedené verze.
+
+Kontroly nového kandidáta prošly: **253 produkčních testů** (včetně 23 nových případů diagnostiky), **408 vývojových testů** a ověření skutečného pyMHF i společného balíčku mimo hru. Testy nečetly osobní nastavení, nespouštěly hru a neregistrovaly herní hooky.
 
 Pravidla vývoje a architektura jsou v anglickém [DEVELOPMENT.md](DEVELOPMENT.md). Zdrojový kód, komentáře a vývojová diagnostika jsou anglicky. Panel i herní potvrzení jsou zatím pouze anglické; systém překladů dosud neexistuje. Cílové jazyky a zbývající práce popisuje [LOCALIZATION.md](LOCALIZATION.md).
 

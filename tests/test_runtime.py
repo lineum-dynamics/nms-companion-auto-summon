@@ -1323,6 +1323,8 @@ class RuntimeStartupSummonTests(RuntimeFixture):
                 self.assertEqual(self.queue_calls, [(self.player, 5)])
                 self.assertEqual(self.queue_reentrancy, [True])
                 self.set_pending(-1)
+                self.set_active(5)
+                self.update(2)  # Observe activation before simulating dismissal.
                 self.set_active(-1)  # A later dismissal must not replay startup.
                 self.probe(100)
                 self.assertEqual(self.queue_calls, [(self.player, 5)])
@@ -2244,6 +2246,409 @@ class RuntimeControlTests(RuntimeFixture):
         self.probe(1.5)
         self.assertEqual(self.queue_calls, [(self.player, 5)])
         self.module.cas_add_timed_message.assert_called_once()
+
+
+class RuntimePostQueueObservationTests(RuntimeFixture):
+    """Passive native-state evidence never grants another summon opportunity."""
+
+    def accept_queue(self, *, source="ship exit", location=14, random_mode=False):
+        self.set_location(location)
+        self.set_pet(5, self.seed(0x13579, 91))
+        self.set_pet(7, self.seed(0x24680, 92))
+        self.load_save(0xABCD)
+        self.select(5)
+        if random_mode:
+            self.mod.selection_mode_value = "random"
+            self.module.random = types.SimpleNamespace(choice=Mock(return_value=7))
+        if source == "save load":
+            self.load_save(0xABCD)
+        else:
+            self.exit(1)
+        self.probe(1)
+        self.probe(2.5)
+        self.observed_slot = 7 if random_mode else 5
+        self.assertEqual(self.queue_calls, [(self.player, self.observed_slot)])
+        self.assertFalse(self.mod.policy.pending)
+        self.assertFalse(self.mod._load_summon_pending)
+        self.assertIsNotNone(self.mod._summon_observation)
+        self.accepted_at = self.mod._summon_observation["accepted_at"]
+        self.module.LOGGER = Mock()
+
+    def observe(self, now, *, dt=1 / 60, owner=None):
+        self.clock.now = now
+        self.mod.after_pet_owner_update(self.owner if owner is None else owner, dt)
+
+    def begin_passive_checks(self):
+        self.policy_before = dict(vars(self.mod.policy))
+        self.favorite_before = dict(self.mod.saved_selection)
+        self.identity_before = self.mod.pet_identity
+        self.preferences_before = self.mod._current_preferences()
+        self.saved_before = self.state_path.read_bytes()
+        self.settings_before = self.settings_path.read_bytes() if self.settings_path.exists() else None
+        self.policy_spies = []
+        for name in ("eject", "tick", "resolve", "remember", "enter_ship", "reset", "select_for_exit"):
+            spy = Mock(wraps=getattr(self.mod.policy, name))
+            setattr(self.mod.policy, name, spy)
+            self.policy_spies.append(spy)
+        self.native_spies = []
+        for name in ("cas_can_summon", "cas_owned_pet_eligible", "cas_use_summon_hand",
+                     "cas_refresh_pet_placement", "cas_queue_pet", "cas_add_timed_message"):
+            spy = Mock(side_effect=AssertionError("Passive observation called native code"))
+            setattr(self.module, name, spy)
+            self.native_spies.append(spy)
+        self.persistence_spies = []
+        for owner, name in ((self.mod.store, "remember"), (self.mod.settings_store, "save_preferences")):
+            spy = Mock(wraps=getattr(owner, name))
+            setattr(owner, name, spy)
+            self.persistence_spies.append(spy)
+
+    def assert_passive(self):
+        for spy in self.policy_spies + self.native_spies + self.persistence_spies:
+            spy.assert_not_called()
+        actual_policy = {key: value for key, value in vars(self.mod.policy).items()
+                         if key in self.policy_before}
+        self.assertEqual(actual_policy, self.policy_before)
+        self.assertEqual(self.mod.saved_selection, self.favorite_before)
+        self.assertEqual(self.mod.pet_identity, self.identity_before)
+        self.assertEqual(self.mod._current_preferences(), self.preferences_before)
+        self.assertEqual(self.mod.requested_preferences, {})
+        self.assertEqual(self.state_path.read_bytes(), self.saved_before)
+        self.assertEqual(self.settings_path.read_bytes() if self.settings_path.exists() else None,
+                         self.settings_before)
+        self.assertEqual(self.queue_calls, [(self.player, self.observed_slot)])
+        self.assertFalse(self.mod.policy.pending)
+        self.assertFalse(self.mod._load_summon_pending)
+        self.assertTrue(self.mod.enabled)
+
+    def messages(self):
+        result = []
+        for call in self.module.LOGGER.mock_calls:
+            if call.args:
+                template, *arguments = call.args
+                result.append(str(template) % tuple(arguments) if arguments else str(template))
+        return result
+
+    def test_accepted_queue_observes_native_active_once_then_dismissal_never_rearms(self):
+        for source in ("ship exit", "save load"):
+            with self.subTest(source=source):
+                self.setUp()
+                self.accept_queue(source=source)
+                self.assertEqual(self.mod._summon_observation["source"], source)
+                self.begin_passive_checks()
+                self.set_pending(-1)
+                self.set_active(self.observed_slot)
+                self.observe(3)
+                self.assertIsNone(self.mod._summon_observation)
+                terminal_messages = list(self.messages())
+                self.assertTrue(any("active" in line for line in terminal_messages))
+                self.assertFalse(any(word in " ".join(terminal_messages).lower()
+                                     for word in ("visible", "materialized", "spawn succeeded")))
+                self.set_active(-1)
+                self.observe(4)
+                self.observe(100)
+                self.assertEqual(self.messages(), terminal_messages)
+                self.assert_passive()
+
+    def test_cleared_queue_without_active_observation_remains_indeterminate_and_never_retries(self):
+        self.accept_queue()
+        self.begin_passive_checks()
+        self.set_pending(-1)
+        self.observe(3)
+        self.assertIsNotNone(self.mod._summon_observation)
+        self.assertTrue(any("indeterminate" in line for line in self.messages()))
+        initial_messages = list(self.messages())
+        for now in (4, 5, 7, 10):
+            self.observe(now)
+        self.assertEqual(self.messages(), initial_messages)
+        self.observe(self.accepted_at + self.module.POST_QUEUE_OBSERVATION_SECONDS)
+        self.assertIsNone(self.mod._summon_observation)
+        self.observe(1000)
+        self.assert_passive()
+
+    def test_native_active_after_an_empty_interval_is_observed_without_a_second_request(self):
+        self.accept_queue()
+        self.begin_passive_checks()
+        self.set_pending(-1)
+        self.observe(3)
+        self.set_pending(self.observed_slot)
+        self.observe(4)
+        self.set_pending(-1)
+        self.set_active(self.observed_slot)
+        self.observe(5)
+        self.assertIsNone(self.mod._summon_observation)
+        self.assertTrue(any("indeterminate" in line for line in self.messages()))
+        self.assertTrue(any("active" in line for line in self.messages()))
+        self.assert_passive()
+
+    def test_random_observation_preserves_distinct_manual_favorite_and_private_identity(self):
+        self.accept_queue(random_mode=True)
+        self.assertEqual(self.mod.policy.last_slot, 5)
+        self.assertEqual(self.mod._summon_observation["slot"], 7)
+        identity = self.seed(0x24680, 92)
+        self.assertEqual(self.mod._summon_observation["identity"], identity)
+        self.begin_passive_checks()
+        self.set_pending(-1)
+        self.observe(3)
+        self.set_active(7)
+        self.observe(4)
+        self.assertIsNone(self.mod._summon_observation)
+        messages = " ".join(self.messages())
+        for private_value in (identity.hex(), self.mod.save_key, str(self.app_address), str(self.state_path)):
+            self.assertNotIn(private_value, messages)
+        self.assert_passive()
+
+    def test_same_slot_with_changed_identity_is_not_reported_as_original_active_companion(self):
+        self.accept_queue()
+        self.begin_passive_checks()
+        self.set_pet(self.observed_slot, self.seed(0x99999, 93))
+        self.set_pending(-1)
+        self.set_active(self.observed_slot)
+        self.observe(3)
+        self.assertIsNone(self.mod._summon_observation)
+        self.assertTrue(any("identity" in line for line in self.messages()))
+        self.assert_passive()
+
+    def test_foreign_owner_callbacks_do_not_dereference_or_consume_local_budget(self):
+        self.accept_queue()
+        self.begin_passive_checks()
+        record = self.mod._summon_observation
+        before = dict(record)
+        global_read = Mock(return_value=types.SimpleNamespace(value=self.app_address))
+        field_read = Mock(side_effect=AssertionError("Foreign owner fields must not be read"))
+        fake_c = types.SimpleNamespace(c_void_p=types.SimpleNamespace(from_address=global_read),
+                                       c_int32=types.SimpleNamespace(from_address=field_read),
+                                       c_ubyte=types.SimpleNamespace(from_address=field_read))
+        with patch.object(self.module, "C", fake_c):
+            for owner in (1, self.owner + 0x80):
+                self.observe(3, owner=owner)
+        self.assertIs(self.mod._summon_observation, record)
+        self.assertEqual(record["updates"], before["updates"])
+        self.assertEqual(record["callbacks"], before["callbacks"] + 2)
+        self.assertEqual(record["last_time"], 3)
+        for key in before.keys() - {"callbacks", "last_time"}:
+            self.assertEqual(record[key], before[key])
+        self.assertEqual(global_read.call_count, 2)
+        field_read.assert_not_called()
+        self.assertEqual(self.messages(), [])
+        self.assert_passive()
+
+    def test_foreign_only_callback_at_deadline_terminates_before_any_native_read(self):
+        self.accept_queue()
+        self.begin_passive_checks()
+        forbidden = Mock(side_effect=AssertionError("Expired observer must not read native memory"))
+        fake_c = types.SimpleNamespace(c_void_p=types.SimpleNamespace(from_address=forbidden),
+                                       c_int32=types.SimpleNamespace(from_address=forbidden),
+                                       c_ubyte=types.SimpleNamespace(from_address=forbidden))
+        with patch.object(self.module, "C", fake_c):
+            self.observe(self.accepted_at + self.module.POST_QUEUE_OBSERVATION_SECONDS, owner=1)
+            self.assertIsNone(self.mod._summon_observation)
+            self.observe(1000, owner=1)
+        forbidden.assert_not_called()
+        self.assertTrue(any("time limit" in line for line in self.messages()))
+        self.assert_passive()
+
+    def test_foreign_callback_storm_has_bounded_global_reads_without_local_updates(self):
+        self.accept_queue()
+        self.begin_passive_checks()
+        record = self.mod._summon_observation
+        global_read = Mock(return_value=types.SimpleNamespace(value=self.app_address))
+        field_read = Mock(side_effect=AssertionError("Foreign owner fields must not be read"))
+        fake_c = types.SimpleNamespace(c_void_p=types.SimpleNamespace(from_address=global_read),
+                                       c_int32=types.SimpleNamespace(from_address=field_read),
+                                       c_ubyte=types.SimpleNamespace(from_address=field_read))
+        with patch.object(self.module, "C", fake_c):
+            for _ in range(self.module.POST_QUEUE_OBSERVATION_MAX_UPDATES + 10):
+                self.observe(3, owner=1)
+        self.assertIsNone(self.mod._summon_observation)
+        self.assertEqual(record["updates"], 0)
+        self.assertEqual(record["callbacks"], self.module.POST_QUEUE_OBSERVATION_MAX_UPDATES)
+        self.assertEqual(global_read.call_count, self.module.POST_QUEUE_OBSERVATION_MAX_UPDATES)
+        field_read.assert_not_called()
+        self.assertEqual(len(self.messages()), 1)
+        self.assertTrue(any("callback limit" in line for line in self.messages()))
+        self.assert_passive()
+
+    def test_null_or_replaced_application_only_cancels_diagnostic(self):
+        for pointer in (None, 1):
+            with self.subTest(pointer=pointer):
+                self.setUp()
+                self.accept_queue()
+                self.begin_passive_checks()
+                self.app_pointer.value = pointer
+                self.observe(3)
+                self.assertIsNone(self.mod._summon_observation)
+                self.assert_passive()
+
+    def test_other_active_or_pending_slot_ends_observation_without_changing_gameplay(self):
+        for field in ("active", "pending"):
+            with self.subTest(field=field):
+                self.setUp()
+                self.accept_queue()
+                self.begin_passive_checks()
+                (self.set_active if field == "active" else self.set_pending)(8)
+                self.observe(3)
+                self.assertIsNone(self.mod._summon_observation)
+                self.assert_passive()
+
+    def test_invalid_native_indices_cancel_diagnostic_only(self):
+        for field in ("active", "pending"):
+            for invalid in (-2, 30):
+                with self.subTest(field=field, invalid=invalid):
+                    self.setUp()
+                    self.accept_queue()
+                    self.begin_passive_checks()
+                    (self.set_active if field == "active" else self.set_pending)(invalid)
+                    self.observe(3)
+                    self.assertIsNone(self.mod._summon_observation)
+                    self.assert_passive()
+
+    def test_preview_emote_location_or_automation_off_cancel_without_gameplay_actions(self):
+        for cause in ("preview", "emote", "location", "off"):
+            with self.subTest(cause=cause):
+                self.setUp()
+                self.accept_queue()
+                if cause == "off":
+                    self.mod.auto_enabled = False
+                self.begin_passive_checks()
+                if cause == "preview":
+                    self.set_preview(5)
+                elif cause == "emote":
+                    self.set_preview(-1, emote=1)
+                elif cause == "location":
+                    self.set_location(4)
+                self.observe(3)
+                self.assertIsNone(self.mod._summon_observation)
+                self.assert_passive()
+
+    def test_pending_preference_edit_stops_observer_without_applying_or_persisting_it(self):
+        self.accept_queue()
+        self.begin_passive_checks()
+        self.mod.automatic_summoning = False
+        self.observe(3)
+        self.assertIsNone(self.mod._summon_observation)
+        self.assertEqual(self.mod.requested_preferences, {"enabled": False})
+        self.assertTrue(self.mod.auto_enabled)
+        self.mod.requested_preferences.clear()
+        self.assert_passive()
+
+    def test_local_load_ship_entry_manual_selection_and_applied_preferences_cancel_record(self):
+        for cause in ("load", "ship", "manual", "settings"):
+            with self.subTest(cause=cause):
+                self.setUp()
+                self.accept_queue()
+                if cause == "load":
+                    self.load_save(0xDCBA, success=False)
+                elif cause == "ship":
+                    self.mod.before_enter_ship(self.player)
+                elif cause == "manual":
+                    self.select(7)
+                else:
+                    self.mod.automatic_summoning = False
+                    self.mod.after_player_update(self.player, 0)
+                self.assertIsNone(self.mod._summon_observation)
+                self.assertEqual(self.queue_calls, [(self.player, 5)])
+                self.assertFalse(self.mod.policy.pending)
+                self.assertTrue(self.mod.enabled)
+
+    def test_network_load_and_foreign_ship_or_manual_events_preserve_local_observer(self):
+        self.accept_queue()
+        record = self.mod._summon_observation
+        self.load_save(0xDCBA, network=True)
+        self.mod.before_enter_ship(self.foreign_player)
+        self.mod.remember_pet(self.foreign_player, 7)
+        self.exit(3, player=self.foreign_player)
+        self.assertIs(self.mod._summon_observation, record)
+        self.assertEqual(self.queue_calls, [(self.player, 5)])
+        self.assertFalse(self.mod.policy.pending)
+
+    def test_nonfinite_or_backward_monotonic_clock_stops_only_diagnostic(self):
+        for now in (float("nan"), float("inf"), float("-inf"), 0):
+            with self.subTest(now=now):
+                self.setUp()
+                self.accept_queue()
+                self.begin_passive_checks()
+                self.observe(now)
+                self.assertIsNone(self.mod._summon_observation)
+                self.assert_passive()
+
+    def test_nonadvancing_dt_still_has_a_finite_wall_clock_observation_window(self):
+        self.accept_queue()
+        self.begin_passive_checks()
+        for dt in (0, -0.1, float("nan"), float("inf")):
+            self.observe(3, dt=dt)
+            self.assertIsNotNone(self.mod._summon_observation)
+        self.observe(self.accepted_at + self.module.POST_QUEUE_OBSERVATION_SECONDS, dt=0)
+        self.assertIsNone(self.mod._summon_observation)
+        self.assert_passive()
+
+    def test_nonadvancing_clock_has_a_finite_local_update_budget(self):
+        self.accept_queue()
+        self.begin_passive_checks()
+        for _ in range(self.module.POST_QUEUE_OBSERVATION_MAX_UPDATES + 1):
+            self.observe(3, dt=0)
+        self.assertIsNone(self.mod._summon_observation)
+        self.assertLessEqual(len(self.messages()), self.module.POST_QUEUE_OBSERVATION_TRANSITION_LIMIT + 3)
+        self.assert_passive()
+
+    def test_flapping_state_logs_are_capped_and_terminal_timeout_remains_available(self):
+        self.accept_queue()
+        self.begin_passive_checks()
+        for index in range(40):
+            self.set_pending(-1 if index % 2 else self.observed_slot)
+            self.observe(3 + index / 100)
+        self.assertIsNotNone(self.mod._summon_observation)
+        self.assertLessEqual(len(self.messages()), self.module.POST_QUEUE_OBSERVATION_TRANSITION_LIMIT + 1)
+        previous = len(self.messages())
+        self.observe(self.accepted_at + self.module.POST_QUEUE_OBSERVATION_SECONDS)
+        self.assertIsNone(self.mod._summon_observation)
+        self.assertEqual(len(self.messages()), previous + 1)
+        self.assert_passive()
+
+    def test_diagnostic_logging_failure_never_disables_runtime_or_alters_policy(self):
+        for stage in ("transition", "terminal"):
+            with self.subTest(stage=stage):
+                self.setUp()
+                self.accept_queue()
+                self.begin_passive_checks()
+                self.module.LOGGER.info.side_effect = RuntimeError("synthetic logging failure")
+                if stage == "terminal":
+                    self.set_pending(-1)
+                    self.set_active(self.observed_slot)
+                self.observe(3)
+                self.assertIsNone(self.mod._summon_observation)
+                self.assert_passive()
+
+    def test_diagnostic_arm_logging_failure_cannot_fail_closed_or_change_completed_request(self):
+        self.accept_queue()
+        record = dict(self.mod._summon_observation)
+        self.mod._finish_summon_observation("synthetic replacement")
+        self.begin_passive_checks()
+        self.module.LOGGER.info.side_effect = RuntimeError("synthetic start logging failure")
+        self.mod._arm_summon_observation(
+            record["app"], record["slot"], record["identity"], record["source"],
+            record["location"], record["accepted_at"],
+        )
+        self.assertIsNone(self.mod._summon_observation)
+        self.assert_passive()
+
+    def test_diagnostic_native_read_failure_does_not_fail_closed_gameplay(self):
+        self.accept_queue()
+        self.begin_passive_checks()
+        with patch.object(self.mod, "_pet_seed", side_effect=RuntimeError("synthetic read failure")):
+            self.observe(3)
+        self.assertIsNone(self.mod._summon_observation)
+        self.assert_passive()
+
+    def test_rejected_queue_does_not_start_passive_observation(self):
+        self.set_pet(5, self.seed(5))
+        self.select(5)
+        self.module.cas_queue_pet = Mock(return_value=None)
+        self.exit(1)
+        self.probe(1)
+        self.probe(2.5)
+        self.module.cas_queue_pet.assert_called_once_with(self.player, 5)
+        self.assertIsNone(self.mod._summon_observation)
+        self.assertTrue(self.mod.policy.pending)
 
 
 if __name__ == "__main__":

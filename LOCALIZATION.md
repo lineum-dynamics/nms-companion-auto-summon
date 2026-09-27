@@ -2,6 +2,11 @@
 
 ## Status
 
+The 0.4.4 candidate adds only English developer diagnostics, with no new
+player-facing strings or localization behavior. Its 0.7.1 bundle retains the
+existing native menu captions and HUD. The white-disc rendering issue remains
+open; no unverified icon pointer or rendering flags are substituted.
+
 Companion Auto Summon 0.4.3 has no localization catalog, language selector or automatic game-language detection. Its settings labels, selection options, statuses, HUD messages and launcher errors are hardcoded in English. English and Czech README files are documentation translations, not a localization system.
 
 The load-trigger update reuses the existing control as **Automatically summon companion**, covering ship exits and successful local save loads. Status can show **Waiting for a suitable place** while a load opportunity still awaits ownership. The companion status describes a random choice per request or a remembered identity awaiting ownership verification; the manual-selection notice says **companion selected for automatic summoning**. Future translations must preserve this scope instead of promising a summon immediately during loading or only after a ship exit. No new preference or language selector accompanies the change. The developer menu's **Settings preview** child remains inert and English-only.

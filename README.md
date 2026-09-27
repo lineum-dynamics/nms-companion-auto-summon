@@ -1,8 +1,19 @@
-# Companion Auto Summon 0.4.3 — experimental
+# Companion Auto Summon 0.4.4 — experimental
 
 [Český návod](README.cs.md)
 
 This Git repository is the canonical source for Companion Auto Summon. Development commands and the maintained documentation map are in [DEVELOPMENT.md](DEVELOPMENT.md). The installed test copy and exported ZIPs are built outputs.
+
+The new **0.4.4** candidate adds bounded passive diagnostics after the game
+accepts a summon request. It records native queued/active transitions without
+retrying, changing summon timing, or writing game saves. A native active-slot
+observation still needs the player's visible confirmation. The separate
+**0.7.1-play-trial** keeps the existing native ON/OFF menu with this candidate.
+Neither version has been launched; the running 0.7.0 folder remains unchanged.
+Anomaly startup and the unwanted white HUD disc are still open issues.
+The evidence below belongs to the earlier versions explicitly named there.
+
+Offline validation for this candidate passed: **253 production tests** (including 23 new observer cases), **408 developer tests**, actual pyMHF widget checks and combined-folder discovery/preference checks. No game access or live hook registration occurred during validation.
 
 The separate developer candidate **0.7.0-play-trial** adds the first native
 setting: automatic summoning ON/OFF. It queues changes through the unchanged
