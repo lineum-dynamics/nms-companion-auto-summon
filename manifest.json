@@ -1,0 +1,139 @@
+{
+  "name": "AutoPet",
+  "version": "0.4.1-experimental",
+  "date": "2026-09-27",
+  "installed_in_game_directory": false,
+  "tested_inside_game": false,
+  "runtime_load_verified": false,
+  "gameplay_verified": false,
+  "multiplayer_verified": false,
+  "basic_auto_summon_verified": false,
+  "restart_selection_verified": false,
+  "station_auto_summon_verified": false,
+  "nexus_auto_summon_verified": false,
+  "deferred_summon_verified_in_game": false,
+  "random_selection_verified_in_game": false,
+  "selection_mode_control_verified_in_game": false,
+  "biome_preference_verified_in_game": false,
+  "location_preferences_verified_in_game": false,
+  "gameplay_verification_scope": "0.4.1 is an offline-validated candidate. Its native-biome preference, new control and schema migration still require live validation; prior 0.4.0 gameplay results are separate historical evidence.",
+  "supported_summon_locations": {
+    "2": "SpaceStation",
+    "3": "PlanetOnFoot",
+    "14": "Nexus"
+  },
+  "previous_live_result": "0.4.0 applied Random and successfully summoned slot 3 from three eligible owned pets on a planet, confirmed by the user; manual favorite slot 1 stayed in runtime. 0.3.3 verified station summoning and restart restoration, 0.3.2 planetary summoning. These observations do not validate the new 0.4.1 biome preference.",
+  "offline_tests": {
+    "passed": 211,
+    "policy": 34,
+    "persistence": 14,
+    "settings": 24,
+    "adapter_simulation": 121,
+    "host_launcher": 18
+  },
+  "actual_framework_import_and_gui_properties": "Passed with the real pyMHF 0.2.4 and DearPyGui: eight widgets constructed and preference callbacks exercised with temporary files, no viewport, hook registration, native game calls or game launch",
+  "launcher_validation": "The unchanged guarded launcher started previous 0.4.0 with six native hooks; 0.4.1 has not been launched yet",
+  "preferences_included": false,
+  "manual_selection_path": "%LOCALAPPDATA%/NMS-AutoPet/state.json",
+  "preferences_path": "%LOCALAPPDATA%/NMS-AutoPet/settings.json",
+  "preferences_schema": 3,
+  "default_preferences": {
+    "enabled": true,
+    "locations": [
+      2,
+      3,
+      14
+    ],
+    "selection_mode": "last_manual",
+    "prefer_same_biome": true
+  },
+  "biome_preference": "Optional and default ON, only in Random on PlanetOnFoot. Prefer eligible owned pets whose native habitat matches the normalized current planet habitat; fallback to the full eligible pool if unknown or no match. Ignored in stations/Nexus and last-manual mode. A chosen pet remains fixed during deferred retries.",
+  "deferred_summon": "No default deadline; native eligibility and placement still required. Probe pairs paced at 0.5 seconds. Rejected requests retain the same choice until success or cancellation.",
+  "controls": "AutoPet tab in the separate pyMHF window; no mod hotkey",
+  "hud_notifications_verified_in_game": false,
+  "framework": "pymhf[gui]==0.2.4",
+  "steam_build": "25442159",
+  "supported_nms_exe_sha256": "b7913f268dfc62386b6b68f524bfc8ade4a44a9f4fbad39085b7bf51be3680cb",
+  "files": [
+    {
+      "path": "AutoPet.py",
+      "sha256": "234cddbc483d626cff5a637d4e4f23c912c9d5bf69b5516982b965d799164fb8"
+    },
+    {
+      "path": "Launch-AutoPet.py",
+      "sha256": "a7996c1dadd4884b9af91f97ef4df30f9cd4b1c10c3236ea5ce8f7443d742123"
+    },
+    {
+      "path": "README.md",
+      "sha256": "29c4961db9e0a3684169c77491ecaa3cd4834c75bed7b7f3c6f18e78848f4de6"
+    },
+    {
+      "path": "README.cs.md",
+      "sha256": "c9d03b6ed62c854b3862207a6696a8eec184d4a0b5ae85cdb12a9f61eb0302d9"
+    },
+    {
+      "path": "TECHNICKE-OVERENI.md",
+      "sha256": "e659f3d7b8085af25dd3a3d8725d6f4d3ba1905d9e0672d95a8a920ac487cb66"
+    },
+    {
+      "path": "build.py",
+      "sha256": "d12b5c0f25eeb46e764aad993944b6492eae855f05ee879dcbd9733fd25fc371"
+    },
+    {
+      "path": "Start-AutoPet.ps1",
+      "sha256": "04f8c99fb712b7258df5cb5d6eaa7bd98af6118f626098a50e3bb79cad6dfd2b"
+    },
+    {
+      "path": "DEVELOPMENT.md",
+      "sha256": "5918681a6ff5425fa01dfc1f03ba9ac29f4546a82a479950da746d6e9a8e54c1"
+    },
+    {
+      "path": "LOCALIZATION.md",
+      "sha256": "1062a2ba6e5519104862fb755a4934b9dc1d1a5bd873bdece6425013c4e79e5d"
+    },
+    {
+      "path": "DESIGN.md",
+      "sha256": "12b1f906286bb3e77be97c677fd1544c65af0c3ca97141577be45461d4d7df6a"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "11217019431807eb9ee32866ab75157fa4e2416d3ff44b9f6abcd77adeb53cef"
+    },
+    {
+      "path": "src/policy.py",
+      "sha256": "0c2ee54710412b0eef338b5c5eceee084419ac2726ac17828da409ae9fe172ca"
+    },
+    {
+      "path": "src/persistence.py",
+      "sha256": "d840506bb495122aae76aba94dff89cf685d60e7d55f4ec70bceb20484754581"
+    },
+    {
+      "path": "src/settings.py",
+      "sha256": "d9cda0241be1b4d1a9aac6b2d8c7d4b3546ef242127b1525196db2edb11438ab"
+    },
+    {
+      "path": "src/runtime.py",
+      "sha256": "28074b76a5f2813d02c509774281cef69f165d9fdb27f6ec18bfc8f9c4cfbada"
+    },
+    {
+      "path": "tests/test_policy.py",
+      "sha256": "d8839941a53aa099448243cca5664c011deb3276d3342051457c3e827dd842a4"
+    },
+    {
+      "path": "tests/test_persistence.py",
+      "sha256": "6e906db88b1da82034266fb9df38757ab893a5f7999df1ae192353f7f0b32989"
+    },
+    {
+      "path": "tests/test_settings.py",
+      "sha256": "2e452b4059266183a10b8f527deb79a8198d473a8537832e99f4d7825c35673d"
+    },
+    {
+      "path": "tests/test_runtime.py",
+      "sha256": "ee247695f0ba3facae0ba3aea658a95290c54e0caac5abd5f5c3d7d331cec348"
+    },
+    {
+      "path": "tests/test_launcher.py",
+      "sha256": "9cb2da64e5d46ed8cfb70cda90137aae19c7e1c960ca0e200b3d3fae56989026"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+# Local Python and editor state
+__pycache__/
+*.py[cod]
+/.venv/
+/venv/
+/.idea/
+/.vscode/
+.DS_Store
+Thumbs.db
+
+# Generated reports, distribution archives and private working material
+/build/
+/dist/
+/work/
+/local/
+*.zip
+*.7z
+*.log
+*.dmp
+**/logs/
+
+# Installed runtimes, game files, saves and user preferences
+/runtime*/
+*.dll
+*.pyd
+*.exe
+*.pak
+*.mbin
+*.MBIN
+*.hg
+**/Backups/
+**/settings.json
+**/state.json
+
+# Credentials and local environment configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
