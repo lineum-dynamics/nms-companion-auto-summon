@@ -9,20 +9,20 @@ from unittest.mock import patch
 
 
 _SOURCE_PATH = Path(__file__).resolve().parents[1] / "src" / "settings.py"
-_spec = importlib.util.spec_from_file_location("auto_pet_settings_under_test", _SOURCE_PATH)
+_spec = importlib.util.spec_from_file_location("companion_auto_summon_settings_under_test", _SOURCE_PATH)
 _module = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(_module)
-AutoPetSettingsStore = _module.AutoPetSettingsStore
+CompanionAutoSummonSettingsStore = _module.CompanionAutoSummonSettingsStore
 SettingsStoreError = _module.SettingsStoreError
 
 
-class AutoPetSettingsStoreTests(unittest.TestCase):
+class CompanionAutoSummonSettingsStoreTests(unittest.TestCase):
     def setUp(self):
-        self.directory = tempfile.TemporaryDirectory(prefix="auto-pet-settings-")
+        self.directory = tempfile.TemporaryDirectory(prefix="companion-auto-summon-settings-")
         self.addCleanup(self.directory.cleanup)
         self.root = Path(self.directory.name)
         self.path = self.root / "nested" / "settings.json"
-        self.store = AutoPetSettingsStore(self.path)
+        self.store = CompanionAutoSummonSettingsStore(self.path)
 
     def write_raw(self, raw):
         self.path.parent.mkdir(parents=True, exist_ok=True)
@@ -35,7 +35,7 @@ class AutoPetSettingsStoreTests(unittest.TestCase):
         with self.assertRaises(SettingsStoreError):
             self.store.save(False)
         with self.assertRaises(SettingsStoreError):
-            self.store.save_preferences(AutoPetSettingsStore.defaults())
+            self.store.save_preferences(CompanionAutoSummonSettingsStore.defaults())
         self.assertEqual(self.path.read_bytes(), raw)
         self.assertEqual(list(self.path.parent.iterdir()), [self.path])
 
@@ -46,7 +46,7 @@ class AutoPetSettingsStoreTests(unittest.TestCase):
         ), patch.object(_module.os, "replace", side_effect=AssertionError("unexpected replace")):
             namespace = {"__name__": "offline_settings_import"}
             exec(compile(source, "<offline-settings.py>", "exec"), namespace)
-            fresh = namespace["AutoPetSettingsStore"](self.path)
+            fresh = namespace["CompanionAutoSummonSettingsStore"](self.path)
         self.assertEqual(fresh.path, self.path)
         self.assertFalse(self.path.parent.exists())
 
@@ -59,7 +59,7 @@ class AutoPetSettingsStoreTests(unittest.TestCase):
         self.assertFalse(self.path.parent.exists())
 
     def test_defaults_and_load_results_do_not_share_mutable_locations(self):
-        defaults = AutoPetSettingsStore.defaults()
+        defaults = CompanionAutoSummonSettingsStore.defaults()
         defaults["locations"].clear()
         defaults["enabled"] = False
         loaded = self.store.load_preferences()
@@ -67,17 +67,17 @@ class AutoPetSettingsStoreTests(unittest.TestCase):
             "enabled": True, "locations": [2, 3, 14], "selection_mode": "last_manual", "prefer_same_biome": True
         })
         loaded["locations"].append(99)
-        self.assertEqual(self.store.load_preferences(), AutoPetSettingsStore.defaults())
+        self.assertEqual(self.store.load_preferences(), CompanionAutoSummonSettingsStore.defaults())
         self.assertFalse(self.path.parent.exists())
 
     def test_disabled_choice_survives_restart_and_can_be_enabled_again(self):
         self.store.save(False)
-        self.assertIs(AutoPetSettingsStore(self.path).load(), False)
+        self.assertIs(CompanionAutoSummonSettingsStore(self.path).load(), False)
         self.assertEqual(json.loads(self.path.read_text()), {
             "schema": 3, "enabled": False, "locations": [2, 3, 14],
             "selection_mode": "last_manual", "prefer_same_biome": True
         })
-        AutoPetSettingsStore(self.path).save(True)
+        CompanionAutoSummonSettingsStore(self.path).save(True)
         self.assertIs(self.store.load(), True)
         self.assertEqual(list(self.path.parent.iterdir()), [self.path])
 
@@ -90,13 +90,13 @@ class AutoPetSettingsStoreTests(unittest.TestCase):
         self.assertEqual(self.path.read_bytes(), original)
         self.store.save_preferences(expected)
         self.assertEqual(json.loads(self.path.read_bytes()), {"schema": 3, **expected})
-        self.assertEqual(AutoPetSettingsStore(self.path).load_preferences(), expected)
+        self.assertEqual(CompanionAutoSummonSettingsStore(self.path).load_preferences(), expected)
 
     def test_all_preferences_round_trip_in_canonical_order_without_mutating_input(self):
         preferences = {"enabled": False, "locations": [14, 2, 3], "selection_mode": "random", "prefer_same_biome": False}
         self.store.save_preferences(preferences)
         expected = {"enabled": False, "locations": [2, 3, 14], "selection_mode": "random", "prefer_same_biome": False}
-        self.assertEqual(AutoPetSettingsStore(self.path).load_preferences(), expected)
+        self.assertEqual(CompanionAutoSummonSettingsStore(self.path).load_preferences(), expected)
         self.assertEqual(json.loads(self.path.read_bytes()), {"schema": 3, **expected})
         self.assertEqual(preferences["locations"], [14, 2, 3])
         preferences["locations"].clear()
@@ -114,7 +114,7 @@ class AutoPetSettingsStoreTests(unittest.TestCase):
                 self.assertEqual(self.path.read_bytes(), original)
                 self.store.save(False)
                 self.assertEqual(json.loads(self.path.read_bytes()), {"schema": 3, **expected})
-                self.assertEqual(AutoPetSettingsStore(self.path).load_preferences(), expected)
+                self.assertEqual(CompanionAutoSummonSettingsStore(self.path).load_preferences(), expected)
 
     def test_invalid_schema_two_preferences_are_not_repaired_during_migration(self):
         legacy = {"schema": 2, "enabled": False, "locations": [2, 3], "selection_mode": "random"}
@@ -126,7 +126,7 @@ class AutoPetSettingsStoreTests(unittest.TestCase):
     def test_empty_location_selection_is_valid_and_survives_restart(self):
         preferences = {"enabled": True, "locations": [], "selection_mode": "random", "prefer_same_biome": True}
         self.store.save_preferences(preferences)
-        self.assertEqual(AutoPetSettingsStore(self.path).load_preferences(), preferences)
+        self.assertEqual(CompanionAutoSummonSettingsStore(self.path).load_preferences(), preferences)
 
     def test_boolean_compatibility_save_preserves_custom_preferences(self):
         original = {"enabled": True, "locations": [14, 3], "selection_mode": "random", "prefer_same_biome": False}
@@ -136,7 +136,7 @@ class AutoPetSettingsStoreTests(unittest.TestCase):
         self.assertEqual(self.store.load_preferences(), {
             "enabled": False, "locations": [3, 14], "selection_mode": "random", "prefer_same_biome": False
         })
-        AutoPetSettingsStore(self.path).save(True)
+        CompanionAutoSummonSettingsStore(self.path).save(True)
         self.assertEqual(self.store.load_preferences(), {
             "enabled": True, "locations": [3, 14], "selection_mode": "random", "prefer_same_biome": False
         })
@@ -162,7 +162,7 @@ class AutoPetSettingsStoreTests(unittest.TestCase):
                 self.assert_invalid_preserved(raw)
 
     def test_unknown_schemas_fields_and_wrong_types_are_preserved(self):
-        valid = {"schema": 3, **AutoPetSettingsStore.defaults()}
+        valid = {"schema": 3, **CompanionAutoSummonSettingsStore.defaults()}
         documents = [
             None, [], True, 1,
             {}, {"schema": 1}, {"enabled": True},
@@ -206,11 +206,11 @@ class AutoPetSettingsStoreTests(unittest.TestCase):
 
     def test_oversized_file_is_preserved(self):
         prefix = b'{"schema":1,"enabled":true}'
-        self.assert_invalid_preserved(prefix + b" " * (AutoPetSettingsStore.MAX_BYTES + 1))
+        self.assert_invalid_preserved(prefix + b" " * (CompanionAutoSummonSettingsStore.MAX_BYTES + 1))
 
     def test_exact_size_limit_accepts_valid_document(self):
         prefix = b'{"schema":1,"enabled":false}'
-        self.write_raw(prefix + b" " * (AutoPetSettingsStore.MAX_BYTES - len(prefix)))
+        self.write_raw(prefix + b" " * (CompanionAutoSummonSettingsStore.MAX_BYTES - len(prefix)))
         self.assertIs(self.store.load(), False)
         self.store.save(True)
         self.assertIs(self.store.load(), True)
@@ -223,7 +223,7 @@ class AutoPetSettingsStoreTests(unittest.TestCase):
         self.assertFalse(self.path.parent.exists())
 
     def test_invalid_preferences_are_rejected_before_any_io(self):
-        valid = AutoPetSettingsStore.defaults()
+        valid = CompanionAutoSummonSettingsStore.defaults()
         invalid = [
             None, [], True, 1, {}, {"enabled": True},
             {"schema": 2, **valid}, {**valid, "extra": 0},
@@ -260,7 +260,7 @@ class AutoPetSettingsStoreTests(unittest.TestCase):
         original = self.path.read_bytes()
         with patch.object(_module.os, "replace", side_effect=OSError("test replace failure")):
             with self.assertRaises(SettingsStoreError):
-                self.store.save_preferences(AutoPetSettingsStore.defaults())
+                self.store.save_preferences(CompanionAutoSummonSettingsStore.defaults())
         self.assertEqual(self.path.read_bytes(), original)
         self.assertEqual(list(self.path.parent.iterdir()), [self.path])
         self.assertEqual(self.store.load_preferences(), preferences)

@@ -1,12 +1,12 @@
-# AutoPet — jednoduchá a spolehlivá instalace
+# Companion Auto Summon — jednoduchá a spolehlivá instalace
 
-Požadavek vlastníka, 27. 9. 2026. Toto je zadání veřejného balíčku, nikoli popis již hotového installeru. Stávající testovací 0.4.1 nadále používá Start-AutoPet.ps1.
+Požadavek vlastníka, 27. 9. 2026. Toto je zadání veřejného balíčku, nikoli popis již hotového installeru. Přejmenovaný zdrojový kandidát 0.4.2 používá Start-CompanionAutoSummon.ps1.
 
 ## Cílový postup hráče
 
 1. Stáhnout ZIP z Nexusu a rozbalit do vlastní zapisovatelné složky.
-2. Dvojklikem otevřít aplikaci AutoPet.
-3. Spouštěč ověří instalaci a nabídne **Spustit hru s AutoPet**. Pokud najde více instalací nebo Steam nelze určit, nabídne výběr složky.
+2. Dvojklikem otevřít aplikaci Companion Auto Summon.
+3. Spouštěč ověří instalaci a nabídne **Spustit hru s Companion Auto Summon**. Pokud najde více instalací nebo Steam nelze určit, nabídne výběr složky.
 
 Hráč nemusí instalovat Python, psát příkazy do terminálu, volit verze knihoven ani měnit systémové proměnné. Mód má mít vlastní předem otestované prostředí. Běžné spuštění nemá vyžadovat administrátorská oprávnění.
 
@@ -33,7 +33,7 @@ Oficiální Python popisuje embedded distribuci jako prostředí pro přibalení
 
 ## Aktualizace a odebrání
 
-- Nový balíček musí zachovat nastavení a ruční volby mimo svou složku.
+- Nový balíček musí zachovat nastavení a ruční volby mimo svou složku. Při přejmenování na Companion Auto Summon zůstávají cesty `%LOCALAPPDATA%\NMS-AutoPet` včetně stávajícího vývojového runtime beze změny; přejmenování není migrace dat.
 - Výměnu runtime neprovádět za běhu hry; zabránit smíchání souborů dvou verzí.
 - Hrát bez módu lze po úplném ukončení hry běžným spuštěním přes Steam.
 - Přenosné soubory odstraňovat až po ukončení hry i runtime. Reset osobních voleb je samostatný, výslovný krok; běžné odebrání nesmí upravovat herní savy.
@@ -48,7 +48,7 @@ Oficiální Python popisuje embedded distribuci jako prostředí pro přibalení
 | Závislosti bez přístupu k internetu | Není potřeba pip ani stahování; dostupnost samotného Steamu se posuzuje odděleně |
 | Nesprávný herní EXE | Žádný hook ani pokus použít neověřené adresy |
 | Neúplné rozbalení nebo poškozený soubor | Jasná chyba před startem módu |
-| Již běžící NMS nebo druhý AutoPet | Nedojde k druhému připojení ani ukončení hry |
+| Již běžící NMS nebo druhý Companion Auto Summon | Nedojde k druhému připojení ani ukončení hry |
 | Zavření okna launcheru během hry | Žádné nečekané ukončení NMS |
 | Běžné ukončení NMS | Korektní ukončení doprovodného procesu |
 | Nová verze balíčku | Zachované preference, bez změny herních savů |

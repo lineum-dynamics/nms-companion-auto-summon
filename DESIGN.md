@@ -1,18 +1,18 @@
-# AutoPet player experience
+# Companion Auto Summon player experience
 
 This document records the accepted product direction. It distinguishes the current experimental implementation from the intended public experience.
 
 ## Goal
 
-AutoPet should feel consistent with No Man's Sky: familiar controls, the game's presentation style, appropriate language and a small number of meaningful notifications. It remains a third-party mod; do not claim official endorsement or disguise the origin of its installer or download page.
+Companion Auto Summon should feel consistent with No Man's Sky: familiar controls, the game's presentation style, appropriate language and a small number of meaningful notifications. It remains a third-party mod; do not claim official endorsement or disguise the origin of its installer or download page.
 
 ## Current state
 
-The gameplay candidate is 0.4.1. Settings are in the separate pyMHF window, in English. HUD messages use the game's existing timed-message function, but actual on-screen rendering has not yet been confirmed. There is no custom entry in the game's X quick menu, no localization system and no finished public launcher.
+The current candidate is 0.4.2-experimental; the approved name is Companion Auto Summon. The separate pyMHF tab uses the class name `CompanionAutoSummon`. Settings are in the separate pyMHF window, in English. HUD messages use the game's existing timed-message function, but actual on-screen rendering has not yet been confirmed. There is no custom entry in the game's X quick menu, no localization system and no finished public launcher.
 
 ## Intended settings integration
 
-Prefer one dedicated AutoPet/automatic-companion entry in the companion section of the native quick menu. Its final label and position must fit the existing layout and terminology. Do not replace a vanilla action or reuse its ID for a different purpose without a verified, non-conflicting implementation.
+Prefer one dedicated CompanionAutoSummon/automatic-companion entry in the companion section of the native quick menu. Its final label and position must fit the existing layout and terminology. Do not replace a vanilla action or reuse its ID for a different purpose without a verified, non-conflicting implementation.
 
 Expose the same underlying preferences:
 

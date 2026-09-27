@@ -16,9 +16,11 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 REPORT_DIRECTORY = ROOT / "build" / "validation"
 PACKAGE_FILES = (
-    "AutoPet.py", "Launch-AutoPet.py", "README.md", "README.cs.md",
-    "TECHNICKE-OVERENI.md", "build.py", "Start-AutoPet.ps1", "DEVELOPMENT.md",
-    "LOCALIZATION.md", "DESIGN.md", "CHANGELOG.md",
+    "CompanionAutoSummon.py", "Launch-CompanionAutoSummon.py", "README.md", "README.cs.md",
+    "TECHNICKE-OVERENI.md", "build.py", "Start-CompanionAutoSummon.ps1", "DEVELOPMENT.md",
+    "LOCALIZATION.md", "DESIGN.md", "CHANGELOG.md", "ROADMAP.md",
+    "docs/release/PRIPRAVA-VYDANI.md", "docs/release/INSTALACE-ZADANI.md",
+    "docs/release/NEXUS-DESCRIPTION-DRAFT.md",
     "src/policy.py", "src/persistence.py", "src/settings.py", "src/runtime.py",
     "tests/test_policy.py", "tests/test_persistence.py", "tests/test_settings.py",
     "tests/test_runtime.py", "tests/test_launcher.py",
@@ -54,7 +56,7 @@ def main():
     # Take a byte snapshot once, so ZIP entries and hashes describe the same
     # files even if an editor changes the worktree while packaging.
     payload = {name: (ROOT / name).read_bytes() for name in PACKAGE_FILES}
-    tested_names = {"AutoPet.py", "Launch-AutoPet.py", "build.py", "Start-AutoPet.ps1"}
+    tested_names = {"CompanionAutoSummon.py", "Launch-CompanionAutoSummon.py", "build.py", "Start-CompanionAutoSummon.ps1"}
     tested_names.update(path.relative_to(ROOT).as_posix() for path in ROOT.glob("src/*.py"))
     tested_names.update(path.relative_to(ROOT).as_posix() for path in ROOT.glob("tests/test_*.py"))
     require(set(validation["source_sha256"]) == tested_names, "Offline source coverage differs")
@@ -73,7 +75,7 @@ def main():
             "Actual framework and GUI check did not pass")
     require(framework["framework_requirement"] == manifest["framework"]
             == f"pymhf[gui]=={framework['framework_version']}", "Framework version does not match the manifest")
-    require(framework["generated_source_sha256"] == digest(payload["AutoPet.py"]),
+    require(framework["generated_source_sha256"] == digest(payload["CompanionAutoSummon.py"]),
             "Generated source differs from the actual-framework check")
 
     # Preserve every other manifest field, particularly bounded live-test claims.
@@ -84,18 +86,18 @@ def main():
     }
     manifest["files"] = [{"path": name, "sha256": digest(payload[name])} for name in PACKAGE_FILES]
     payload["manifest.json"] = (json.dumps(manifest, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
-    archive_path = ROOT / "dist" / f"AutoPet-{package_version}.zip"
+    archive_path = ROOT / "dist" / f"CompanionAutoSummon-{package_version}.zip"
     archive_path.parent.mkdir(parents=True, exist_ok=True)
     temporary_archive = archive_path.with_suffix(".zip.tmp")
     try:
         with zipfile.ZipFile(temporary_archive, "w", zipfile.ZIP_DEFLATED) as archive:
             for name, content in payload.items():
-                archive.writestr("AutoPet/" + name, content)
+                archive.writestr("CompanionAutoSummon/" + name, content)
         with zipfile.ZipFile(temporary_archive) as archive:
             require(archive.testzip() is None, "ZIP integrity verification failed")
-            require(set(archive.namelist()) == {"AutoPet/" + name for name in payload}, "ZIP file list differs")
+            require(set(archive.namelist()) == {"CompanionAutoSummon/" + name for name in payload}, "ZIP file list differs")
             for name, content in payload.items():
-                require(archive.read("AutoPet/" + name) == content, f"ZIP bytes differ: {name}")
+                require(archive.read("CompanionAutoSummon/" + name) == content, f"ZIP bytes differ: {name}")
         for name in PACKAGE_FILES:
             require((ROOT / name).read_bytes() == payload[name], f"Project file changed during packaging: {name}")
         temporary_archive.replace(archive_path)

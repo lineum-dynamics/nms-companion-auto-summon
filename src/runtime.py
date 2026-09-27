@@ -19,7 +19,7 @@ from pymhf.gui.decorators import BOOLEAN, ENUM, STRING
 
 EXPECTED_EXE_SHA256 = "b7913f268dfc62386b6b68f524bfc8ade4a44a9f4fbad39085b7bf51be3680cb"
 EXPECTED_PYMHF = "0.2.4"
-LOGGER = logging.getLogger("AutoPet")
+LOGGER = logging.getLogger("CompanionAutoSummon")
 
 # All addresses are RVAs in the exact Steam 25442159 / Cosmos 7.04 executable.
 # Derived offline from its native quick-menu SummonPet branch and player update.
@@ -66,6 +66,7 @@ def selection_store_path():
     local_data = os.environ.get("LOCALAPPDATA")
     if not local_data or not Path(local_data).is_absolute():
         raise SelectionStoreError("LOCALAPPDATA must be an absolute directory path")
+    # Stable legacy directory preserves existing settings and per-save choices.
     return Path(local_data) / "NMS-AutoPet" / "state.json"
 
 
@@ -89,60 +90,60 @@ def supported_runtime():
 # Each definition is a native wrapper, not a Python implementation of the game.
 # No wrapper below is called during module import.
 @static_function_hook(offset=0x146AC90)
-def ap_queue_pet(player: C.c_void_p, slot: C.c_int32) -> None:
+def cas_queue_pet(player: C.c_void_p, slot: C.c_int32) -> None:
     ...
 
 
 @static_function_hook(offset=0x146A410)
-def ap_can_summon(player: C.c_void_p, slot: C.c_int32) -> C.c_bool:
+def cas_can_summon(player: C.c_void_p, slot: C.c_int32) -> C.c_bool:
     ...
 
 
 @static_function_hook(offset=0x5066A0)
-def ap_pet_owner_update(owner: C.c_void_p, dt: C.c_float) -> None:
+def cas_pet_owner_update(owner: C.c_void_p, dt: C.c_float) -> None:
     ...
 
 
 @static_function_hook(offset=0x1438040)
-def ap_refresh_pet_placement(arc: C.c_void_p, range1: C.c_float, range2: C.c_float,
+def cas_refresh_pet_placement(arc: C.c_void_p, range1: C.c_float, range2: C.c_float,
                              hand: C.c_uint32) -> None:
     ...
 
 
 @static_function_hook(offset=0x505B70)
-def ap_owned_pet_eligible(owner: C.c_void_p, slot: C.c_int32) -> C.c_bool:
+def cas_owned_pet_eligible(owner: C.c_void_p, slot: C.c_int32) -> C.c_bool:
     ...
 
 
 @static_function_hook(offset=0x60B770)
-def ap_use_summon_hand() -> C.c_bool:
+def cas_use_summon_hand() -> C.c_bool:
     ...
 
 
 @static_function_hook(offset=0x17479D0)
-def ap_eject(ship: C.c_void_p, player: C.c_void_p, animate: C.c_bool,
+def cas_eject(ship: C.c_void_p, player: C.c_void_p, animate: C.c_bool,
              force_during_communicator: C.c_bool) -> None:
     ...
 
 
 @static_function_hook(offset=0x1479490)
-def ap_enter_cockpit(player: C.c_void_p) -> None:
+def cas_enter_cockpit(player: C.c_void_p) -> None:
     ...
 
 
 @static_function_hook(offset=0x1440CD0)
-def ap_player_update(player: C.c_void_p, dt: C.c_float) -> None:
+def cas_player_update(player: C.c_void_p, dt: C.c_float) -> None:
     ...
 
 
 @static_function_hook(offset=0x56FA50)
-def ap_load_save(player_state: C.c_void_p, common_data: C.c_void_p, state_data: C.c_void_p,
+def cas_load_save(player_state: C.c_void_p, common_data: C.c_void_p, state_data: C.c_void_p,
                  network_client: C.c_bool, resetting: C.c_bool, arg6: C.c_uint32) -> C.c_bool:
     ...
 
 
 @static_function_hook(offset=0x9B8300)
-def ap_add_timed_message(notifications: C.c_void_p, message: C.c_void_p,
+def cas_add_timed_message(notifications: C.c_void_p, message: C.c_void_p,
                          duration: C.c_float, colour: C.c_void_p,
                          audio: C.c_uint32, icon: C.c_void_p,
                          flag7: C.c_bool, extra_time: C.c_float,
@@ -150,13 +151,13 @@ def ap_add_timed_message(notifications: C.c_void_p, message: C.c_void_p,
     ...
 
 
-class AutoPet(Mod):
+class CompanionAutoSummon(Mod):
     """Experimental summon after a ship exit where native game rules permit it."""
 
     _disabled = not supported_runtime()
 
     def __init__(self):
-        self.policy = AutoPetPolicy()
+        self.policy = CompanionAutoSummonPolicy()
         self.enabled = True
         # User preference is separate from the runtime safety latch above.
         self.auto_enabled = True
@@ -192,7 +193,7 @@ class AutoPet(Mod):
         except SelectionStoreError:
             self._persistence_failed()
         try:
-            self.settings_store = AutoPetSettingsStore(settings_store_path())
+            self.settings_store = CompanionAutoSummonSettingsStore(settings_store_path())
             preferences = self.settings_store.load_preferences()
             self.auto_enabled = preferences["enabled"]
             self.allowed_locations = frozenset(preferences["locations"])
@@ -202,8 +203,8 @@ class AutoPet(Mod):
             # An unreadable preference must not silently turn automation back on.
             self.auto_enabled = False
             self.settings_ok = False
-            LOGGER.exception("AutoPet settings unavailable; automation starts OFF. The settings panel can enable it for this session.")
-        LOGGER.info("AutoPet 0.4.1 experimental: automation %s; use the AutoPet settings panel.",
+            LOGGER.exception("Companion Auto Summon settings unavailable; automation starts OFF. The settings panel can enable it for this session.")
+        LOGGER.info("Companion Auto Summon 0.4.2 experimental: automation %s; use the CompanionAutoSummon settings panel.",
                     "ON" if self.auto_enabled else "OFF")
 
     @property
@@ -347,13 +348,13 @@ class AutoPet(Mod):
                 self.settings_store.save_preferences(requested)
             except SettingsStoreError:
                 self.settings_ok = False
-                LOGGER.exception("AutoPet toggle applies to this session only; settings file preserved.")
+                LOGGER.exception("Companion Auto Summon toggle applies to this session only; settings file preserved.")
         state = "ON" if self.auto_enabled else "OFF"
         suffix = "" if self.settings_ok else " (session only)"
-        self.pending_notice = (f"AutoPet: {state}{suffix}" if previous["enabled"] != self.auto_enabled
-                               else f"AutoPet: settings updated{suffix}")
+        self.pending_notice = (f"Companion Auto Summon: {state}{suffix}" if previous["enabled"] != self.auto_enabled
+                               else f"Companion Auto Summon: settings updated{suffix}")
         LOGGER.info(self.pending_notice)
-        LOGGER.info("AutoPet preferences: locations=%s selection=%s prefer_same_biome=%s.",
+        LOGGER.info("Companion Auto Summon preferences: locations=%s selection=%s prefer_same_biome=%s.",
                     requested["locations"], requested["selection_mode"], requested["prefer_same_biome"])
 
     def _finish_exit_diagnostic(self, reason):
@@ -363,7 +364,7 @@ class AutoPet(Mod):
         self._pending_pet_identity = None
         self._queue_rejection_logged = False
         if self._exit_diagnostic is not None:
-            LOGGER.info("AutoPet exit finished: %s.", reason)
+            LOGGER.info("Companion Auto Summon exit finished: %s.", reason)
             self._exit_diagnostic = None
 
     def _trace_policy_tick(self, now, *, location, advancing, active_pet, native_pending,
@@ -400,7 +401,7 @@ class AutoPet(Mod):
             diagnostic["observed_waits"].add(reason)
         if slot is not None:
             if not diagnostic.get("request_logged", False):
-                LOGGER.info("AutoPet exit ready after %.2fs; requesting slot %d.", elapsed, slot + 1)
+                LOGGER.info("Companion Auto Summon exit ready after %.2fs; requesting slot %d.", elapsed, slot + 1)
                 diagnostic["request_logged"] = True
             return
         if not self.policy.pending:
@@ -415,7 +416,7 @@ class AutoPet(Mod):
             else:
                 outcome = "cancelled by policy"
             LOGGER.info(
-                "AutoPet exit %s after %.2fs; final_wait=%s location=%d advancing=%s "
+                "Companion Auto Summon exit %s after %.2fs; final_wait=%s location=%d advancing=%s "
                 "eligible=%s active_pet=%d native_pending_pet=%d observed_waits=%s.",
                 outcome, elapsed, reason, location, advancing, eligible, active_pet, native_pending,
                 ",".join(sorted(diagnostic["observed_waits"])) or "none",
@@ -426,13 +427,13 @@ class AutoPet(Mod):
         if state != diagnostic["last_state"]:
             if diagnostic["wait_logs"] < DIAGNOSTIC_WAIT_LIMIT:
                 LOGGER.info(
-                    "AutoPet exit waiting: %s; elapsed=%.2fs location=%d advancing=%s "
+                    "Companion Auto Summon exit waiting: %s; elapsed=%.2fs location=%d advancing=%s "
                     "eligible=%s active_pet=%d native_pending_pet=%d.",
                     reason, elapsed, location, advancing, eligible, active_pet, native_pending,
                 )
                 diagnostic["wait_logs"] += 1
             elif not diagnostic["suppressed"]:
-                LOGGER.info("AutoPet exit wait log limit reached; further transitions suppressed until final result.")
+                LOGGER.info("Companion Auto Summon exit wait log limit reached; further transitions suppressed until final result.")
                 diagnostic["suppressed"] = True
         diagnostic["last_state"] = state
         diagnostic["last_time"] = now
@@ -460,13 +461,13 @@ class AutoPet(Mod):
             colour[:] = (1.0, 1.0, 1.0, 1.0)
             empty_icon = C.c_int32(0)
             self.pending_notice = None  # One attempt, no duplicate native retry.
-            ap_add_timed_message(notifications, C.addressof(message), 3.0,
+            cas_add_timed_message(notifications, C.addressof(message), 3.0,
                                  colour_address, 0, C.addressof(empty_icon),
                                  False, 0.0, False, False, False)
         except Exception:
             self.notifications_ok = False
             self.pending_notice = None
-            LOGGER.exception("AutoPet HUD confirmation unavailable; see the settings panel for status.")
+            LOGGER.exception("Companion Auto Summon HUD confirmation unavailable; see the settings panel for status.")
 
     def _app_for_player(self, player):
         app = C.c_void_p.from_address(_internal.BASE_ADDRESS + APPLICATION_PTR_RVA).value
@@ -522,20 +523,20 @@ class AutoPet(Mod):
         if len(matches) == 1:
             self.policy.remember(matches[0])
             self.pet_identity = identity
-            LOGGER.info("AutoPet restored the remembered pet for this save (slot %d).", matches[0] + 1)
+            LOGGER.info("Companion Auto Summon restored the remembered pet for this save (slot %d).", matches[0] + 1)
 
     def _persistence_failed(self):
         self.persistence_ok = False
-        LOGGER.exception("AutoPet persistence unavailable; manual selection still works for this session. File preserved.")
+        LOGGER.exception("Companion Auto Summon persistence unavailable; manual selection still works for this session. File preserved.")
 
     def _fail_closed(self):
         self.enabled = False
         self._finish_exit_diagnostic("cancelled by runtime error")
         self.policy.reset()
         self.pending_notice = None
-        LOGGER.exception("AutoPet disabled after a runtime error. Restart before trying again.")
+        LOGGER.exception("Companion Auto Summon disabled after a runtime error. Restart before trying again.")
 
-    @ap_queue_pet.after
+    @cas_queue_pet.after
     def remember_pet(self, player, slot):
         if not self.enabled or self.in_auto_call:
             return
@@ -557,16 +558,16 @@ class AutoPet(Mod):
                         self._persistence_failed()
                 if self.pet_identity.hex() != previous_identity:
                     if self.auto_enabled and self.selection_mode_value == "random":
-                        self.pending_notice = "AutoPet: manual favorite saved. Random selection remains ON."
+                        self.pending_notice = "Companion Auto Summon: manual favorite saved. Random selection remains ON."
                     elif self.auto_enabled:
-                        self.pending_notice = "AutoPet: companion selected for automatic summon after ship exit."
+                        self.pending_notice = "Companion Auto Summon: companion selected for automatic summon after ship exit."
                     else:
-                        self.pending_notice = "AutoPet: companion selected. Automatic summoning is OFF."
-                LOGGER.info("AutoPet selected companion slot %d.", slot + 1)
+                        self.pending_notice = "Companion Auto Summon: companion selected. Automatic summoning is OFF."
+                LOGGER.info("Companion Auto Summon selected companion slot %d.", slot + 1)
         except Exception:
             self._fail_closed()
 
-    @ap_eject.after
+    @cas_eject.after
     def after_exit_request(self, ship, player, animate, force_during_communicator):
         if not self.enabled or not self.auto_enabled:
             return
@@ -586,16 +587,16 @@ class AutoPet(Mod):
                     }
                     choice = ("one random eligible companion" if random_selection
                               else f"slot {self.policy.pending_slot + 1}")
-                    LOGGER.info("AutoPet ship exit armed for %s; stability delay=%.2fs; waiting until a suitable place.",
+                    LOGGER.info("Companion Auto Summon ship exit armed for %s; stability delay=%.2fs; waiting until a suitable place.",
                                 choice, self.policy._delay)
                 elif self.policy.last_slot is None:
-                    LOGGER.info("AutoPet ship exit not armed: no selected owned companion.")
+                    LOGGER.info("Companion Auto Summon ship exit not armed: no selected owned companion.")
                 else:
-                    LOGGER.info("AutoPet ship exit not armed: policy rejected the exit timestamp.")
+                    LOGGER.info("Companion Auto Summon ship exit not armed: policy rejected the exit timestamp.")
         except Exception:
             self._fail_closed()
 
-    @ap_enter_cockpit.before
+    @cas_enter_cockpit.before
     def before_enter_ship(self, player):
         if not self.enabled:
             return
@@ -606,7 +607,7 @@ class AutoPet(Mod):
         except Exception:
             self._fail_closed()
 
-    @ap_load_save.before
+    @cas_load_save.before
     def before_load(self, player_state, common_data, state_data, network_client, resetting, arg6):
         # Network-client deserialization must not erase the local user's selection.
         if not network_client:
@@ -618,7 +619,7 @@ class AutoPet(Mod):
             self.saved_selection = None
             self.pending_notice = None
 
-    @ap_load_save.after
+    @cas_load_save.after
     def after_load(self, player_state, common_data, state_data, network_client, resetting, arg6, _result_):
         if not self.enabled or network_client or not _result_:
             return
@@ -629,7 +630,7 @@ class AutoPet(Mod):
                 return
             save_id = C.c_uint64.from_address(common_data + SAVE_UNIVERSAL_ID_OFFSET).value
             if save_id == 0:
-                LOGGER.warning("AutoPet: save has no persistent ID; selection lasts for this session only.")
+                LOGGER.warning("Companion Auto Summon: save has no persistent ID; selection lasts for this session only.")
                 return
             self.save_key = f"nms:{save_id:016x}"
             if self.persistence_ok:
@@ -642,7 +643,7 @@ class AutoPet(Mod):
         except Exception:
             self._fail_closed()
 
-    @ap_player_update.after
+    @cas_player_update.after
     def after_player_update(self, player, dt):
         if not self.enabled:
             return
@@ -658,7 +659,7 @@ class AutoPet(Mod):
         except Exception:
             self._fail_closed()
 
-    @ap_pet_owner_update.after
+    @cas_pet_owner_update.after
     def after_pet_owner_update(self, owner, dt):
         # Ownership.Update normally resets placement after closing the pet menu.
         # Refresh only after that reset, and check/queue within this same callback.
@@ -680,7 +681,7 @@ class AutoPet(Mod):
                 if self.selection_mode_value == "last_manual":
                     self.policy.reset()
                     self.pet_identity = None
-                    LOGGER.info("AutoPet forgot a companion slot whose identity changed.")
+                    LOGGER.info("Companion Auto Summon forgot a companion slot whose identity changed.")
                 else:
                     self.policy.enter_ship()
                 return
@@ -749,7 +750,7 @@ class AutoPet(Mod):
             # for a fresh throttled placement pair before retrying the same pet.
             self.in_auto_call = True
             try:
-                ap_queue_pet(player, slot)
+                cas_queue_pet(player, slot)
             finally:
                 self.in_auto_call = False
             queued_slot = C.c_int32.from_address(player + PENDING_PET_OFFSET).value
@@ -757,17 +758,17 @@ class AutoPet(Mod):
                 self.policy.resolve(False)
                 self._reset_probe(next_at=now + PLACEMENT_PROBE_INTERVAL)
                 if not self._queue_rejection_logged:
-                    LOGGER.info("AutoPet queue was not accepted; waiting for a suitable place with the same companion.")
+                    LOGGER.info("Companion Auto Summon queue was not accepted; waiting for a suitable place with the same companion.")
                     self._queue_rejection_logged = True
                 return
             if queued_slot != slot:
                 self.enabled = False
                 self.policy.reset()
-                LOGGER.error("AutoPet disabled: unexpected queued companion after summon request.")
+                LOGGER.error("Companion Auto Summon disabled: unexpected queued companion after summon request.")
                 return
             self.policy.resolve(True)
             self._finish_exit_diagnostic("summon request accepted")
-            LOGGER.info("AutoPet queued slot %d through the game's normal summon path.", slot + 1)
+            LOGGER.info("Companion Auto Summon queued slot %d through the game's normal summon path.", slot + 1)
         except Exception:
             self._fail_closed()
 
@@ -778,14 +779,14 @@ class AutoPet(Mod):
 
     @staticmethod
     def _native_owned(owner, slot):
-        result = ap_owned_pet_eligible(owner, slot)
+        result = cas_owned_pet_eligible(owner, slot)
         if result is None:
             raise RuntimeError("Native companion ownership eligibility call failed.")
         return bool(result)
 
     @staticmethod
     def _native_can_summon(player, slot):
-        result = ap_can_summon(player, slot)
+        result = cas_can_summon(player, slot)
         if result is None:
             raise RuntimeError("Native summon eligibility call failed.")
         return bool(result)
@@ -847,12 +848,12 @@ class AutoPet(Mod):
         arc_range = C.c_float.from_address(_internal.BASE_ADDRESS + SUMMON_ARC_RANGE_RVA).value
         if not math.isfinite(arc_range) or arc_range <= 0:
             raise RuntimeError("Native summon placement range is invalid.")
-        use_hand = ap_use_summon_hand()
+        use_hand = cas_use_summon_hand()
         if use_hand is None:
             raise RuntimeError("Native summon hand selection call failed.")
         hand = C.c_uint32.from_address(app + SUMMON_HAND_OFFSET).value if use_hand else 0
         warmed = self._placement_warmed
-        ap_refresh_pet_placement(owner + PET_ARC_OFFSET, arc_range, arc_range, hand)
+        cas_refresh_pet_placement(owner + PET_ARC_OFFSET, arc_range, arc_range, hand)
         self._placement_warmed = True
         return warmed
 
@@ -901,10 +902,10 @@ class AutoPet(Mod):
             slot = random.choice(candidates)
             self.policy.select_for_exit(slot)
             self._pending_pet_identity = self._pet_seed(app, slot)
-            LOGGER.info("AutoPet chose random companion slot %d from %d eligible owned companions for this exit.",
+            LOGGER.info("Companion Auto Summon chose random companion slot %d from %d eligible owned companions for this exit.",
                         slot + 1, len(candidates))
         return True, None
 
 
-if AutoPet._disabled:
-    LOGGER.error("AutoPet is disabled: requires pyMHF 0.2.4 and the exact supported NMS.exe SHA256.")
+if CompanionAutoSummon._disabled:
+    LOGGER.error("Companion Auto Summon is disabled: requires pyMHF 0.2.4 and the exact supported NMS.exe SHA256.")

@@ -7,6 +7,7 @@ This check imports pyMHF but never invokes its launcher or registers hooks.
 
 from datetime import datetime, timezone
 import hashlib
+import inspect
 from importlib.metadata import version as installed_version
 import importlib.util
 import json
@@ -40,26 +41,32 @@ def main():
     framework_version = installed_version("pymhf")
     gui_version = installed_version("dearpygui")
     require(framework_version == match.group(1), "Installed pyMHF does not match manifest.json")
-    source = ROOT / "AutoPet.py"
+    source = ROOT / "CompanionAutoSummon.py"
     source_hash = hashlib.sha256(source.read_bytes()).hexdigest()
 
     # The framework's test-mode guard skips interactive prompt construction.
     # Temporary LOCALAPPDATA prevents access to the user's real preferences.
-    with tempfile.TemporaryDirectory(prefix="autopet-framework-smoke-") as directory:
-        with patch.dict(os.environ, {"PYTEST_VERSION": "autopet-offline-smoke", "LOCALAPPDATA": directory}):
+    with tempfile.TemporaryDirectory(prefix="companion_auto_summon-framework-smoke-") as directory:
+        with patch.dict(os.environ, {"PYTEST_VERSION": "companion_auto_summon-offline-smoke", "LOCALAPPDATA": directory}):
             from pymhf.core import _internal
             from pymhf.gui.widgets import Widget
             import dearpygui.dearpygui as dpg
 
             require(not _internal.IS_INJECTED, "This check must run outside the game")
-            spec = importlib.util.spec_from_file_location("autopet_offline_framework_smoke", source)
+            spec = importlib.util.spec_from_file_location("companion_auto_summon_offline_framework_smoke", source)
             module = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(module)
-            require(module.AutoPet._disabled, "AutoPet must be disabled outside the game")
+            exported_mods = [name for name, value in inspect.getmembers(module, inspect.isclass)
+                             if value is not module.Mod and issubclass(value, module.Mod)]
+            require(exported_mods == ["CompanionAutoSummon"],
+                    "The framework must discover exactly one renamed mod, without a legacy alias")
+            require(module.CompanionAutoSummon._disabled, "CompanionAutoSummon must be disabled outside the game")
             require(module.EXPECTED_PYMHF == framework_version, "Generated mod framework requirement differs")
-            mod = module.AutoPet()
+            mod = module.CompanionAutoSummon()
+            require(mod._mod_name == "CompanionAutoSummon", "Framework mod identity differs")
+            require(len(mod.hooks) == 7, "Expected seven hook callbacks after the rename")
             require(len(mod._gui_widgets) == 8, "Expected eight GUI widgets")
-            require(len(mod._hotkey_funcs) == 0, "No AutoPet hotkeys should be registered")
+            require(len(mod._hotkey_funcs) == 0, "No CompanionAutoSummon hotkeys should be registered")
             require(mod.automatic_summoning and mod.planets and mod.space_stations and mod.nexus,
                     "Default location controls differ")
             require(mod.companion_selection.name == "Last manually selected" and mod.prefer_same_biome,

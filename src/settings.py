@@ -1,4 +1,4 @@
-"""Small, atomic storage for the user's AutoPet preferences.
+"""Small, atomic storage for the user's Companion Auto Summon preferences.
 
 Only the caller-supplied settings path is used. Import and construction perform
 no filesystem operations; this module never reads or modifies game saves.
@@ -14,7 +14,7 @@ class SettingsStoreError(Exception):
     """Settings could not be read, validated, or replaced safely."""
 
 
-class AutoPetSettingsStore:
+class CompanionAutoSummonSettingsStore:
     """Store schema-3 preferences and read legacy schema-1/2 settings.
 
     Missing settings use fresh defaults. Legacy settings migrate in memory only

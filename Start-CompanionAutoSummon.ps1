@@ -1,8 +1,8 @@
 #requires -Version 5.1
 <#
-Starts the packaged experimental AutoPet mod for the supported Windows Steam build.
+Starts the packaged experimental Companion Auto Summon mod for the supported Windows Steam build.
 Run only after closing No Man's Sky. Dependencies stay in a separate user runtime.
-Example: .\Start-AutoPet.ps1 -GameDirectory 'D:\SteamLibrary\steamapps\common\No Man''s Sky'
+Example: .\Start-CompanionAutoSummon.ps1 -GameDirectory 'D:\SteamLibrary\steamapps\common\No Man''s Sky'
 #>
 [CmdletBinding()]
 param([string]$GameDirectory)
@@ -14,7 +14,7 @@ $runtimeRequirement = "pymhf[gui]==$runtimeVersion"
 
 function Assert-GameClosed {
     if (Get-Process -Name NMS -ErrorAction SilentlyContinue) {
-        throw 'No Man''s Sky is running. Close it before starting AutoPet; this launcher will not attach to an existing game.'
+        throw 'No Man''s Sky is running. Close it before starting Companion Auto Summon; this launcher will not attach to an existing game.'
     }
 }
 
@@ -105,14 +105,14 @@ try {
     Assert-GameClosed
     if (-not $env:LOCALAPPDATA) { throw 'LOCALAPPDATA is unavailable. Run this launcher from your normal Windows account.' }
     $manifestPath = Join-Path $PSScriptRoot 'manifest.json'
-    $modPath = Join-Path $PSScriptRoot 'AutoPet.py'
-    $bootstrapPath = Join-Path $PSScriptRoot 'Launch-AutoPet.py'
+    $modPath = Join-Path $PSScriptRoot 'CompanionAutoSummon.py'
+    $bootstrapPath = Join-Path $PSScriptRoot 'Launch-CompanionAutoSummon.py'
     if (-not (Test-Path -LiteralPath $manifestPath -PathType Leaf) -or -not (Test-Path -LiteralPath $modPath -PathType Leaf) -or -not (Test-Path -LiteralPath $bootstrapPath -PathType Leaf)) {
-        throw 'The AutoPet package is incomplete. Extract the entire ZIP before running this launcher.'
+        throw 'The Companion Auto Summon package is incomplete. Extract the entire ZIP before running this launcher.'
     }
     $manifest = [IO.File]::ReadAllText($manifestPath) | ConvertFrom-Json
-    if ($manifest.framework -ne $runtimeRequirement) { throw 'The manifest requires a different runtime. Download a complete matching AutoPet package.' }
-    foreach ($scriptName in @('AutoPet.py', 'Launch-AutoPet.py')) {
+    if ($manifest.framework -ne $runtimeRequirement) { throw 'The manifest requires a different runtime. Download a complete matching Companion Auto Summon package.' }
+    foreach ($scriptName in @('CompanionAutoSummon.py', 'Launch-CompanionAutoSummon.py')) {
         $scriptEntries = @($manifest.files | Where-Object { $_.path -ceq $scriptName })
         if ($scriptEntries.Count -ne 1 -or $scriptEntries[0].sha256 -notmatch '^[0-9a-fA-F]{64}$') { throw "The manifest has no valid $scriptName checksum." }
         if ((Get-FileHash -LiteralPath (Join-Path $PSScriptRoot $scriptName) -Algorithm SHA256).Hash -ine $scriptEntries[0].sha256) {
@@ -139,9 +139,10 @@ try {
     if ($matchingGames.Count -eq 0) { throw "The game executable is unsupported. This package requires the exact Steam build $($manifest.steam_build) listed in manifest.json. No mod was launched." }
     if ($matchingGames.Count -ne 1) { throw 'Multiple supported installations were found. Select the active Steam installation with -GameDirectory.' }
     Write-Host "Validated game: $($matchingGames[0])"
-    Write-Host 'AutoPet is experimental. Start Steam with the account that owns this installation.'
+    Write-Host 'Companion Auto Summon is experimental. Start Steam with the account that owns this installation.'
 
     Assert-GameClosed
+    # Reuse the legacy runtime location; virtual environments are not moved.
     $runtimeDirectory = Join-Path $env:LOCALAPPDATA "NMS-AutoPet\runtime-$runtimeVersion"
     $runtimePython = Join-Path $runtimeDirectory 'Scripts\python.exe'
     if (-not (Test-Path -LiteralPath $runtimePython -PathType Leaf)) {
@@ -149,7 +150,7 @@ try {
         Assert-GameClosed
         Write-Host "Creating isolated Python runtime: $runtimeDirectory"
         & $basePython -m venv $runtimeDirectory
-        if ($LASTEXITCODE -ne 0) { throw 'Could not create the AutoPet Python environment.' }
+        if ($LASTEXITCODE -ne 0) { throw 'Could not create the Companion Auto Summon Python environment.' }
     }
     $runtimeInfo = Get-PythonInfo -Executable $runtimePython
     if (-not $runtimeInfo) { throw "The isolated runtime is damaged or uses an unsupported Python version: $runtimeDirectory. Rename that folder and try again." }
@@ -167,8 +168,8 @@ try {
     Assert-GameClosed
     # Steam may have updated the executable while dependencies were installing.
     $verifiedExe = Join-Path $matchingGames[0] 'Binaries\NMS.exe'
-    if ((Get-FileHash -LiteralPath $verifiedExe -Algorithm SHA256).Hash -ine $expectedGameHash) { throw 'The game executable changed during setup. AutoPet was not launched.' }
-    Write-Host 'Starting AutoPet through pyMHF and Steam. Keep this window open.'
+    if ((Get-FileHash -LiteralPath $verifiedExe -Algorithm SHA256).Hash -ine $expectedGameHash) { throw 'The game executable changed during setup. Companion Auto Summon was not launched.' }
+    Write-Host 'Starting Companion Auto Summon through pyMHF and Steam. Keep this window open.'
     Push-Location -LiteralPath $PSScriptRoot
     try {
         Assert-GameClosed

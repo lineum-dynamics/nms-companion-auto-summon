@@ -109,8 +109,8 @@ def load_runtime(*, injected=False, framework_version="0.2.4", version_error=Non
         # Real hashlib is allowed to hash these owned bytes, never an executable.
         return io.BytesIO(b"offline-fake-executable-with-deliberately-wrong-hash")
 
-    module = types.ModuleType("auto_pet_runtime_under_test")
-    module.__file__ = "<offline-concatenated-AutoPet.py>"
+    module = types.ModuleType("companion_auto_summon_runtime_under_test")
+    module.__file__ = "<offline-concatenated-CompanionAutoSummon.py>"
     modules = {
         "pymhf": pymhf,
         "pymhf.core": core,
@@ -134,13 +134,13 @@ def load_runtime(*, injected=False, framework_version="0.2.4", version_error=Non
 class RuntimeGuardTests(unittest.TestCase):
     def test_not_injected_disables_before_fake_registration_without_file_reads(self):
         module = load_runtime()
-        self.assertTrue(module.AutoPet._disabled)
+        self.assertTrue(module.CompanionAutoSummon._disabled)
         self.assertEqual(module._test_events, [("class-created", True)])
         self.assertEqual(len(module._test_declarations), 11)
 
     def test_wrong_framework_disables_before_registration_and_skips_binary(self):
         module = load_runtime(injected=True, framework_version="0.2.3")
-        self.assertTrue(module.AutoPet._disabled)
+        self.assertTrue(module.CompanionAutoSummon._disabled)
         self.assertEqual(
             module._test_events,
             [("version", "pymhf"), ("class-created", True)],
@@ -148,7 +148,7 @@ class RuntimeGuardTests(unittest.TestCase):
 
     def test_wrong_hash_disables_before_registration_using_only_bytesio(self):
         module = load_runtime(injected=True)
-        self.assertTrue(module.AutoPet._disabled)
+        self.assertTrue(module.CompanionAutoSummon._disabled)
         self.assertEqual(
             [event[0] for event in module._test_events],
             ["version", "open", "class-created"],
@@ -160,7 +160,7 @@ class RuntimeGuardTests(unittest.TestCase):
             injected=True,
             version_error=importlib.metadata.PackageNotFoundError("pymhf"),
         )
-        self.assertTrue(module.AutoPet._disabled)
+        self.assertTrue(module.CompanionAutoSummon._disabled)
         self.assertEqual(module._test_events[-1], ("class-created", True))
         self.assertFalse(any(event[0] == "open" for event in module._test_events))
 
@@ -186,12 +186,12 @@ class RuntimeFixture(unittest.TestCase):
         self.foreign_player = self.player + 0x80
         self.clock = types.SimpleNamespace(now=0.0)
         self.module.time = types.SimpleNamespace(monotonic=lambda: self.clock.now)
-        self.temp_directory = tempfile.TemporaryDirectory(prefix="auto-pet-runtime-")
+        self.temp_directory = tempfile.TemporaryDirectory(prefix="companion-auto-summon-runtime-")
         self.addCleanup(self.temp_directory.cleanup)
-        self.state_path = Path(self.temp_directory.name) / "AutoPet-state.json"
+        self.state_path = Path(self.temp_directory.name) / "CompanionAutoSummon-state.json"
         self.settings_path = Path(self.temp_directory.name) / "NMS-AutoPet" / "settings.json"
         with patch.dict(os.environ, {"LOCALAPPDATA": self.temp_directory.name}):
-            self.mod = self.module.AutoPet()
+            self.mod = self.module.CompanionAutoSummon()
         self.mod.store = self.module.PetSelectionStore(self.state_path)
         self.common_buffer = ctypes.create_string_buffer(0xA000)
         self.common_address = ctypes.addressof(self.common_buffer)
@@ -210,11 +210,11 @@ class RuntimeFixture(unittest.TestCase):
             # The real native wrapper invokes this after-hook synchronously.
             self.mod.remember_pet(player, slot)
 
-        self.module.ap_can_summon = self.can_summon
-        self.module.ap_owned_pet_eligible = self.ownership_eligible
-        self.module.ap_use_summon_hand = self.use_hand
-        self.module.ap_refresh_pet_placement = self.refresh_placement
-        self.module.ap_queue_pet = fake_queue
+        self.module.cas_can_summon = self.can_summon
+        self.module.cas_owned_pet_eligible = self.ownership_eligible
+        self.module.cas_use_summon_hand = self.use_hand
+        self.module.cas_refresh_pet_placement = self.refresh_placement
+        self.module.cas_queue_pet = fake_queue
 
         def fake_notice(*args):
             self.assertEqual(len(args), 11)
@@ -229,7 +229,7 @@ class RuntimeFixture(unittest.TestCase):
                 "tail": args[6:],
             })
 
-        self.module.ap_add_timed_message = Mock(side_effect=fake_notice)
+        self.module.cas_add_timed_message = Mock(side_effect=fake_notice)
         self.set_location(3)
         self.set_active(-1)
         self.set_pending(-1)
@@ -289,7 +289,7 @@ class RuntimeFixture(unittest.TestCase):
     def restart(self):
         """Discard instance caches; only the test-owned JSON survives."""
         with patch.dict(os.environ, {"LOCALAPPDATA": self.temp_directory.name}):
-            self.mod = self.module.AutoPet()
+            self.mod = self.module.CompanionAutoSummon()
         self.mod.store = self.module.PetSelectionStore(self.state_path)
         self.clock.now = 0.0
         self.set_active(-1)
@@ -297,7 +297,7 @@ class RuntimeFixture(unittest.TestCase):
         self.queue_calls.clear()
         self.queue_reentrancy.clear()
         self.notice_calls.clear()
-        self.module.ap_add_timed_message.reset_mock()
+        self.module.cas_add_timed_message.reset_mock()
         self.can_summon.reset_mock(return_value=True, side_effect=True)
         self.can_summon.return_value = True
         self.ownership_eligible.reset_mock(return_value=True, side_effect=True)
@@ -534,7 +534,7 @@ class RuntimeRoutingTests(RuntimeFixture):
         self.select()
         self.exit()
         self.can_summon.side_effect = RuntimeError("fake native adapter failure")
-        with self.assertLogs("AutoPet", level="ERROR"):
+        with self.assertLogs("CompanionAutoSummon", level="ERROR"):
             self.probe(0)
         self.assertFalse(self.mod.enabled)
         self.assertIsNone(self.mod.policy.last_slot)
@@ -545,7 +545,7 @@ class RuntimeRoutingTests(RuntimeFixture):
         self.select()
         self.exit()
         self.can_summon.return_value = None
-        with self.assertLogs("AutoPet", level="ERROR"):
+        with self.assertLogs("CompanionAutoSummon", level="ERROR"):
             self.probe(0)
         self.assertFalse(self.mod.enabled)
         self.assertIsNone(self.mod.policy.last_slot)
@@ -558,7 +558,7 @@ class RuntimeRoutingTests(RuntimeFixture):
     def test_queue_rejection_retains_choice_and_retries_only_after_fresh_pair(self):
         self.select(); self.exit()
         rejected = Mock(return_value=None)
-        self.module.ap_queue_pet = rejected
+        self.module.cas_queue_pet = rejected
         self.update(0); self.probe(1.5)
         rejected.assert_called_once_with(self.player, 5)
         self.assertTrue(self.mod.policy.pending)
@@ -573,9 +573,9 @@ class RuntimeRoutingTests(RuntimeFixture):
     def test_unexpected_queue_index_still_disables_automation(self):
         self.select()
         self.exit()
-        self.module.ap_queue_pet = lambda player, slot: self.set_pending(-2)
+        self.module.cas_queue_pet = lambda player, slot: self.set_pending(-2)
         self.update(0)
-        with self.assertLogs("AutoPet", level="ERROR"):
+        with self.assertLogs("CompanionAutoSummon", level="ERROR"):
             self.probe(1.5)
         self.assertFalse(self.mod.enabled)
         self.assertFalse(self.mod.policy.pending)
@@ -677,7 +677,7 @@ class RuntimePlacementTests(RuntimeFixture):
         self.assertTrue(self.mod.policy.pending)
 
     def test_first_refresh_warms_jobs_then_next_owner_callback_can_queue_once(self):
-        self.mod.policy = self.module.AutoPetPolicy(delay_seconds=0)
+        self.mod.policy = self.module.CompanionAutoSummonPolicy(delay_seconds=0)
         self.select()
         self.exit()
         calls = Mock()
@@ -754,7 +754,7 @@ class RuntimePlacementTests(RuntimeFixture):
     def test_pause_or_leaving_supported_locations_invalidates_warmup_before_resuming(self):
         for paused in (True, False):
             with self.subTest(paused=paused):
-                self.mod.policy = self.module.AutoPetPolicy(delay_seconds=0)
+                self.mod.policy = self.module.CompanionAutoSummonPolicy(delay_seconds=0)
                 self.set_location(3)
                 self.select()
                 self.exit()
@@ -851,7 +851,7 @@ class RuntimePlacementTests(RuntimeFixture):
         self.use_hand.assert_not_called()
         self.refresh_placement.assert_not_called()
         self.can_summon.assert_not_called()
-        self.module.ap_add_timed_message.assert_not_called()
+        self.module.cas_add_timed_message.assert_not_called()
         self.assertTrue(self.mod.policy.pending)
         self.assertFalse(self.mod._placement_warmed)
 
@@ -877,7 +877,7 @@ class RuntimePlacementTests(RuntimeFixture):
         self.assertTrue(self.mod._placement_warmed)
         self.load_save(123)
         self.assertFalse(self.mod._placement_warmed)
-        self.mod.policy = self.module.AutoPetPolicy(delay_seconds=0)
+        self.mod.policy = self.module.CompanionAutoSummonPolicy(delay_seconds=0)
         self.select()
         self.exit(1)
         self.update(1)
@@ -992,6 +992,36 @@ class RuntimeDiagnosticTests(RuntimeFixture):
 
 
 class RuntimePersistenceTests(RuntimeFixture):
+    def test_renamed_mod_reads_legacy_preferences_and_favorite_without_rewriting(self):
+        legacy_root = Path(self.temp_directory.name) / "NMS-AutoPet"
+        legacy_root.mkdir(exist_ok=True)
+        seed = self.seed(1234)
+        favorite = {"seed": seed.hex(), "slot": 5}
+        state_path = legacy_root / "state.json"
+        settings_path = legacy_root / "settings.json"
+        state_bytes = json.dumps({"schema": 1, "selections": {
+            "nms:000000000000000a": favorite}}).encode("utf-8")
+        settings_bytes = json.dumps({"schema": 3, "enabled": False,
+            "locations": [2], "selection_mode": "random",
+            "prefer_same_biome": False}).encode("utf-8")
+        state_path.write_bytes(state_bytes)
+        settings_path.write_bytes(settings_bytes)
+        with patch.dict(os.environ, {"LOCALAPPDATA": self.temp_directory.name}):
+            self.mod = self.module.CompanionAutoSummon()
+        self.set_pet(5, seed)
+        self.load_save(0xA)
+        self.assertFalse(self.mod.auto_enabled)
+        self.assertEqual(self.mod.allowed_locations, frozenset({2}))
+        self.assertEqual(self.mod.selection_mode_value, "random")
+        self.assertFalse(self.mod.prefer_same_biome_value)
+        self.assertEqual(self.mod.saved_selection, favorite)
+        self.assertEqual(self.mod.store.path, state_path)
+        self.assertEqual(self.mod.settings_store.path, settings_path)
+        self.assertEqual(state_path.read_bytes(), state_bytes)
+        self.assertEqual(settings_path.read_bytes(), settings_bytes)
+        self.assertEqual(self.queue_calls, [])
+        self.assertFalse((legacy_root.parent / "NMS-CompanionAutoSummon").exists())
+
     def save_choice(self, *, uid=0xA, slot=5, seed=None):
         if seed is None:
             seed = self.seed(1234)
@@ -1002,13 +1032,13 @@ class RuntimePersistenceTests(RuntimeFixture):
 
     def test_instance_initialization_reads_settings_only_without_other_io(self):
         with patch.dict(os.environ, {"LOCALAPPDATA": self.temp_directory.name}), patch.object(
-            self.module.AutoPetSettingsStore, "load_preferences", return_value=self.module.AutoPetSettingsStore.defaults()
+            self.module.CompanionAutoSummonSettingsStore, "load_preferences", return_value=self.module.CompanionAutoSummonSettingsStore.defaults()
         ) as settings_load, patch.object(
             Path, "open", side_effect=AssertionError("unexpected read")
         ), patch.object(
             Path, "mkdir", side_effect=AssertionError("unexpected write")
         ):
-            fresh = self.module.AutoPet()
+            fresh = self.module.CompanionAutoSummon()
         self.assertIsNone(fresh.save_key)
         self.assertIsNone(fresh.saved_selection)
         self.assertTrue(fresh.persistence_ok)
@@ -1018,11 +1048,11 @@ class RuntimePersistenceTests(RuntimeFixture):
     def test_default_store_path_uses_current_users_localappdata(self):
         user_data = Path(self.temp_directory.name) / "DifferentUserData"
         with patch.dict(os.environ, {"LOCALAPPDATA": str(user_data)}), patch.object(
-            self.module.AutoPetSettingsStore, "load_preferences", return_value=self.module.AutoPetSettingsStore.defaults()
+            self.module.CompanionAutoSummonSettingsStore, "load_preferences", return_value=self.module.CompanionAutoSummonSettingsStore.defaults()
         ), patch.object(
             Path, "open", side_effect=AssertionError("unexpected read")
         ), patch.object(Path, "mkdir", side_effect=AssertionError("unexpected write")):
-            fresh = self.module.AutoPet()
+            fresh = self.module.CompanionAutoSummon()
         self.assertEqual(fresh.store.path, user_data / "NMS-AutoPet" / "state.json")
         self.assertFalse(user_data.exists())
 
@@ -1038,9 +1068,9 @@ class RuntimePersistenceTests(RuntimeFixture):
 
     def test_missing_profile_keeps_manual_session_functional(self):
         with patch.dict(os.environ, {"LOCALAPPDATA": ""}), self.assertLogs(
-            "AutoPet", level="WARNING"
+            "CompanionAutoSummon", level="WARNING"
         ):
-            self.mod = self.module.AutoPet()
+            self.mod = self.module.CompanionAutoSummon()
         self.assertIsNone(self.mod.store)
         self.assertFalse(self.mod.persistence_ok)
         self.assertTrue(self.mod.enabled)
@@ -1189,7 +1219,7 @@ class RuntimePersistenceTests(RuntimeFixture):
         corrupt = b"{invalid-json-do-not-overwrite"
         self.state_path.write_bytes(corrupt)
         self.set_pet(5, self.seed(1234))
-        with self.assertLogs("AutoPet", level="WARNING"):
+        with self.assertLogs("CompanionAutoSummon", level="WARNING"):
             self.load_save(0xA)
         self.assertFalse(self.mod.persistence_ok)
         self.assertTrue(self.mod.enabled)
@@ -1211,7 +1241,7 @@ class RuntimePersistenceTests(RuntimeFixture):
         self.assertEqual(self.state_path.read_bytes(), original_bytes)
 
     def test_zero_uid_stays_session_only_without_guessing_identity(self):
-        with self.assertLogs("AutoPet", level="WARNING"):
+        with self.assertLogs("CompanionAutoSummon", level="WARNING"):
             self.load_save(0)
         self.assertIsNone(self.mod.save_key)
         self.select(5)
@@ -1381,7 +1411,7 @@ class RuntimePreferencesAndRandomTests(RuntimeFixture):
         self.set_pet(1, self.seed(1)); self.set_pet(2, self.seed(2))
         choice = self.choose(1)
         self.random_mode(); self.exit(1); self.probe(1)
-        rejected = Mock(return_value=None); self.module.ap_queue_pet = rejected
+        rejected = Mock(return_value=None); self.module.cas_queue_pet = rejected
         self.probe(2.5)
         self.assertTrue(self.mod.policy.pending)
         self.can_summon.side_effect = lambda player, slot: slot != 1
@@ -1390,7 +1420,7 @@ class RuntimePreferencesAndRandomTests(RuntimeFixture):
         rejected.assert_called_once_with(self.player, 1)
         self.assertEqual(self.mod.policy.pending_slot, 1)
         self.can_summon.side_effect = None
-        self.module.ap_queue_pet = lambda player, slot: self.set_pending(slot)
+        self.module.cas_queue_pet = lambda player, slot: self.set_pending(slot)
         self.probe(301)
         self.assertFalse(self.mod.policy.pending)
         self.assertEqual(ctypes.c_int32.from_address(self.player + self.module.PENDING_PET_OFFSET).value, 1)
@@ -1479,7 +1509,7 @@ class RuntimePreferencesAndRandomTests(RuntimeFixture):
 
     def test_rejected_retries_do_not_spam_logs_or_hud(self):
         self.select(); self.exit()
-        rejected = Mock(return_value=None); self.module.ap_queue_pet = rejected
+        rejected = Mock(return_value=None); self.module.cas_queue_pet = rejected
         with self.assertLogs(self.module.LOGGER, level="INFO") as logs:
             self.probe(0)
             for now in range(2, 102): self.probe(now)
@@ -1635,12 +1665,12 @@ class RuntimeBiomeTests(RuntimeFixture):
         saved = self.state_path.read_bytes()
         choice = self.choose(1)
         self.random_mode(); self.exit(1); self.probe(1)
-        queue = self.module.ap_queue_pet
-        self.module.ap_queue_pet = Mock(return_value=None)
+        queue = self.module.cas_queue_pet
+        self.module.cas_queue_pet = Mock(return_value=None)
         self.probe(2.5)
         self.assertTrue(self.mod.policy.pending)
         self.set_planet(1)
-        self.module.ap_queue_pet = queue
+        self.module.cas_queue_pet = queue
         self.probe(300)
         choice.assert_called_once_with([1])
         self.assertEqual(self.queue_calls, [(self.player, 1)])
@@ -1677,7 +1707,7 @@ class RuntimeControlTests(RuntimeFixture):
             "companion_status": "STRING",
         }
         for name, kind in controls.items():
-            prop = getattr(self.module.AutoPet, name)
+            prop = getattr(self.module.CompanionAutoSummon, name)
             self.assertIsInstance(prop, property)
             self.assertEqual(prop.fget._test_gui_type, kind)
             self.assertTrue(prop.fget._test_gui_label)
@@ -1697,7 +1727,7 @@ class RuntimeControlTests(RuntimeFixture):
         self.assertTrue(self.mod.auto_enabled)
         self.assertIs(self.mod.requested_preferences.get("enabled"), False)
         self.can_summon.assert_not_called()
-        self.module.ap_add_timed_message.assert_not_called()
+        self.module.cas_add_timed_message.assert_not_called()
         self.assertFalse(self.settings_path.exists())
 
     def test_nonboolean_ui_requests_are_ignored(self):
@@ -1762,7 +1792,7 @@ class RuntimeControlTests(RuntimeFixture):
         self.update(0)
         self.assertFalse(self.settings_path.exists())
         self.can_summon.assert_not_called()
-        self.module.ap_add_timed_message.assert_not_called()
+        self.module.cas_add_timed_message.assert_not_called()
 
     def test_off_still_remembers_manual_pet_and_announces_disabled_state(self):
         self.load_save(0xA)
@@ -1797,7 +1827,7 @@ class RuntimeControlTests(RuntimeFixture):
         corrupt = b"{keep-this-invalid-json"
         self.settings_path.parent.mkdir(parents=True, exist_ok=True)
         self.settings_path.write_bytes(corrupt)
-        with self.assertLogs("AutoPet", level="WARNING"):
+        with self.assertLogs("CompanionAutoSummon", level="WARNING"):
             self.restart()
         self.assertFalse(self.mod.auto_enabled)
         self.assertFalse(self.mod.settings_ok)
@@ -1812,7 +1842,7 @@ class RuntimeControlTests(RuntimeFixture):
         original = self.settings_path.read_bytes()
         self.mod.automatic_summoning = False
         with patch.object(self.mod.settings_store, "save_preferences", side_effect=self.module.SettingsStoreError("test write failure")), self.assertLogs(
-            "AutoPet", level="WARNING"
+            "CompanionAutoSummon", level="WARNING"
         ):
             self.update(0, dt=0)
         self.assertFalse(self.mod.auto_enabled)
@@ -1886,17 +1916,17 @@ class RuntimeControlTests(RuntimeFixture):
         self.assertEqual([notice["message"] for notice in self.notice_calls], ["latest"])
 
     def test_notification_failure_disables_hud_only_and_does_not_retry(self):
-        self.module.ap_add_timed_message.side_effect = RuntimeError("test HUD failure")
+        self.module.cas_add_timed_message.side_effect = RuntimeError("test HUD failure")
         self.select(5)
         self.exit()
-        with self.assertLogs("AutoPet", level="WARNING"):
+        with self.assertLogs("CompanionAutoSummon", level="WARNING"):
             self.update(0)
         self.assertTrue(self.mod.enabled)
         self.assertFalse(self.mod.notifications_ok)
         self.assertIsNone(self.mod.pending_notice)
         self.probe(1.5)
         self.assertEqual(self.queue_calls, [(self.player, 5)])
-        self.module.ap_add_timed_message.assert_called_once()
+        self.module.cas_add_timed_message.assert_called_once()
 
 
 if __name__ == "__main__":

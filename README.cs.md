@@ -1,16 +1,20 @@
-# AutoPet 0.4.1 — testovací verze
+# Companion Auto Summon 0.4.2 — testovací verze
 
 Tento Git repozitář je hlavní zdrojový projekt. Testovací instalace a ZIP balíčky jsou jeho výstupy; další úpravy vznikají v repozitáři. Postup sestavení a ověření je v [DEVELOPMENT.md](DEVELOPMENT.md).
 
 Pravidla vývoje a architektura jsou v anglickém [DEVELOPMENT.md](DEVELOPMENT.md). Zdrojový kód, komentáře a vývojová diagnostika jsou anglicky. Panel i herní potvrzení jsou zatím pouze anglické; systém překladů dosud neexistuje. Cílové jazyky a zbývající práce popisuje [LOCALIZATION.md](LOCALIZATION.md).
 
+Verze 0.4.2 zavádí schválený název **Companion Auto Summon** místo pracovního AutoPet. Mění názvy skriptů, interních identifikátorů a viditelné označení; zachovává herní pravidla, výchozí hodnoty i formát osobních dat. Záložka se jmenuje **CompanionAutoSummon**, protože pyMHF používá název Python třídy. Tento kandidát ještě nebyl spuštěn v NMS. Aktuální offline výsledky zaznamenává `manifest.json`; výsledky 0.4.1 uvedené níže jsou historické.
+
+Přejmenovaný kandidát prošel **212 offline testy** a kontrolou skutečného pyMHF 0.2.4 / Dear PyGui 2.3.1: jedna přejmenovaná třída módu, osm prvků nastavení, sedm callbacků pro šest cílů a žádné klávesové zkratky. Hooky nebyly registrovány, hra se nepřipojovala a nevzniklo zobrazovací okno. Samostatný regresní test ověřuje zachované umístění preferencí a ruční volby po přejmenování.
+
 Automatické vyvolání vybraného peta po výstupu z lodi tam, kde ho dovolí hra. Výběr i zapnutí/vypnutí se pamatují po restartu. Obsahuje panel nastavení a krátké potvrzení výběru.
 
-Verze 0.4.1 přidává **Prefer same biome in Random mode**, výchozí zapnutou preferenci stejného biomu. Na planetě náhodný režim nejprve vybírá z vhodných vlastních petů se stejným domovským prostředím. Když žádný neodpovídá nebo biom nelze určit, použije běžný náhodný výběr. Poslední ruční volbu, stanice ani Nexus tato preference neovlivňuje. Nová verze ještě čeká na herní ověření; níže uvedené úspěchy 0.4.0 jsou historické výsledky.
+Předchozí AutoPet 0.4.1 přidala **Prefer same biome in Random mode**, výchozí zapnutou preferenci stejného biomu. Na planetě náhodný režim nejprve vybírá z vhodných vlastních petů se stejným domovským prostředím. Když žádný neodpovídá nebo biom nelze určit, použije běžný náhodný výběr. Poslední ruční volbu, stanice ani Nexus tato preference neovlivňuje. Chování preference biomu ještě čeká na herní ověření; níže uvedené úspěchy 0.4.0 jsou historické výsledky.
 
 Shoda prostředí používá stejné kategorie jako hra, včetně bažinatých, lávových a exotických variant; aktuální počasí se nebere v úvahu. Mění pouze skupinu pro náhodný výběr. Jakmile je pet vybraný, přechod do jiného prostředí ho během téhož výstupu nepřelosuje.
 
-Verze 0.4.1 prošla **211 offline testy** a kontrolou vytvoření i obsluhy všech **osmi prvků nastavení** se skutečným pyMHF 0.2.4 a Dear PyGui. Kontroly proběhly bez připojení ke hře, registrace hooků a zobrazovacího okna. Načtení 0.4.1 v NMS ani výběr podle biomu ještě nejsou herně ověřené.
+Historický základ AutoPet 0.4.1 prošel **211 offline testy** a kontrolou vytvoření i obsluhy všech **osmi prvků nastavení** se skutečným pyMHF 0.2.4 a Dear PyGui. Kontroly proběhly bez připojení ke hře, registrace hooků a zobrazovacího okna. Načtení 0.4.1 v NMS ani výběr podle biomu ještě nejsou herně ověřené.
 
 Verze 0.4.0 přidává samostatné volby planet, vesmírných stanic a Nexusu, režim náhodného vlastního peta a čekání na vhodné místo bez časového limitu. Výchozí nastavení: automatika zapnutá, všechny tři lokace zapnuté, poslední ručně vybraný pet. Jedno základní vyvolání v náhodném režimu na planetě už je ověřené; preference lokací a odložené vyvolání ještě čekají na herní zkoušku.
 
@@ -26,7 +30,7 @@ První automatické vyvolání ve verzi 0.3.1 selhalo vypršením čekání. Ver
 
 ## Ovládání
 
-Po spuštění přes AutoPet se otevře samostatné okno **pyMHF**. Přepni se do něj přes **Alt+Tab** a vyber záložku **AutoPet**. Není to položka v nativním menu NMS.
+Po spuštění přes Companion Auto Summon se otevře samostatné okno **pyMHF**. Přepni se do něj přes **Alt+Tab** a vyber záložku **CompanionAutoSummon**. Není to položka v nativním menu NMS.
 
 - **Automatically summon companion after ship exit**: zapne nebo vypne automatiku. Výchozí stav je zapnuto.
 - Tři samostatná zaškrtávátka dovolují automatiku na planetách, vesmírných stanicích a v Nexusu. Výchozí stav všech je zapnuto. Vypnutí všech míst znamená, že se nikde automaticky nevyvolává.
@@ -37,7 +41,7 @@ Po spuštění přes AutoPet se otevře samostatné okno **pyMHF**. Přepni se d
 
 Změna se provede a uloží při další aktualizaci lokálního hráče; vrať se tedy do hry před jejím ukončením. Změna nastavení zruší čekající automatické vyvolání a ponechá již přítomného peta. Zapnutí nebo změna režimu samo nic nevyvolá — automatika počká na další výstup z lodi. Mód nezavádí vlastní klávesovou zkratku.
 
-V režimu poslední ruční volby nemá nový hráč žádného předvybraného peta. Jednou ručně vyvolej vlastního společníka. Mód při novém výběru požádá hru o třísekundové textové potvrzení **AutoPet: companion selected for automatic summon after ship exit.** Při vypnuté automatice zpráva potvrdí výběr a uvede, že automatika je OFF. V náhodném režimu potvrdí uloženého ručního favorita a připomene, že náhodný výběr zůstává zapnutý. Stejnou volbu při opakovaném vyvolání ani obnovení po restartu znovu neoznamuje. Hlášky a panel jsou v angličtině pro sdílený balíček. Volba Random už byla úspěšně použita v herní relaci; skutečné zobrazení HUD hlášek a zbývající prvky panelu ještě potřebují ověření.
+V režimu poslední ruční volby nemá nový hráč žádného předvybraného peta. Jednou ručně vyvolej vlastního společníka. Mód při novém výběru požádá hru o třísekundové textové potvrzení **Companion Auto Summon: companion selected for automatic summon after ship exit.** Při vypnuté automatice zpráva potvrdí výběr a uvede, že automatika je OFF. V náhodném režimu potvrdí uloženého ručního favorita a připomene, že náhodný výběr zůstává zapnutý. Stejnou volbu při opakovaném vyvolání ani obnovení po restartu znovu neoznamuje. Hlášky a panel jsou v angličtině pro sdílený balíček. Volba Random už byla úspěšně použita v herní relaci; skutečné zobrazení HUD hlášek a zbývající prvky panelu ještě potřebují ověření.
 
 Při výslovném přepnutí do náhodného režimu není předchozí ruční volba nutná. Hráč však musí vlastnit alespoň jednoho vhodného peta; mód žádného nevytváří ani neodemyká. Náhodná volba nepřepisuje oblíbeného peta zapamatovaného pro režim poslední ruční volby. Tentýž pet může být náhodně vybrán i při následujícím výstupu.
 
@@ -45,7 +49,7 @@ Při výslovném přepnutí do náhodného režimu není předchozí ruční vol
 
 Po výstupu z lodi mód počká na 1,5 sekundy souvislého pobytu v zapnuté a přípustné lokaci: planeta pěšky, vesmírná stanice nebo Nexus v Anomálii. Pokud už není žádný pet aktivní ani čekající a hra dovolí peta i jeho umístění, požádá o vyvolání. Režim poslední ruční volby vyžaduje dříve vybraného vlastního peta; náhodný režim předchozí ruční volbu nepotřebuje. Ruční vyvolání jiného peta nahradí zapamatovaného favorita.
 
-Na platformě archivu nebo jiném nevhodném místě čekání pokračuje bez časového limitu. Původní limit 12 sekund už neplatí. Jakmile dojdeš na vhodné místo, mód může dokončit požadavek z téhož výstupu; nemusíš znovu nastupovat do lodi. Freighter a další lokace, které nativní kontrola této verze hry nepřipouští, nadále vyvolání nedovolují. V nich mód ponechá čekání a nevolá nativní hledání místa ani vyvolání; pokračovat může až v zapnuté a přípustné lokaci. Vstup do podporované lokace, kterou jsi vypnul v nastavení AutoPet, naopak čekající výstup zruší.
+Na platformě archivu nebo jiném nevhodném místě čekání pokračuje bez časového limitu. Původní limit 12 sekund už neplatí. Jakmile dojdeš na vhodné místo, mód může dokončit požadavek z téhož výstupu; nemusíš znovu nastupovat do lodi. Freighter a další lokace, které nativní kontrola této verze hry nepřipouští, nadále vyvolání nedovolují. V nich mód ponechá čekání a nevolá nativní hledání místa ani vyvolání; pokračovat může až v zapnuté a přípustné lokaci. Vstup do podporované lokace, kterou jsi vypnul v nastavení Companion Auto Summon, naopak čekající výstup zruší.
 
 Návrat do lodi, ruční náhled peta nebo související emote, ruční výběr peta, změna nastavení a načtení savu či reset kontextu aplikace čekání zruší. Ukončí ho také již aktivní nebo jiný čekající pet. Samotné načtení savu není spouštěčem. Po přijatém vyvolání mód během chůze nevrací ručně odvolaného peta až do dalšího výstupu z lodi.
 
@@ -56,6 +60,8 @@ V náhodném režimu se po přípravě umístění vybere nejvýše jeden kandid
 Nemění růst, rychlosti, důvěru, vejce, bojové hodnoty ani kapacity. Nezvyšuje limity vyvolání, neodemyká ani nevytváří pety a neobchází nativní omezení umístění.
 
 ## Zapamatování
+
+Původní složka `NMS-AutoPet` zůstává záměrně zachována. Nepřejmenovávat ji: ruční favorit, preference i dosavadní vývojové prostředí dále používají stejné umístění. Přejmenování módu osobní data neresetuje ani nekopíruje.
 
 Ruční volby petů jsou v `%LOCALAPPDATA%\NMS-AutoPet\state.json`. Každý uživatel Windows má vlastní soubor a uvnitř jsou volby rozdělené podle trvalého ID savu. Zapnutí, povolená místa, režim výběru a `prefer_same_biome` jsou v sousedním `settings.json` ve schématu 3 a platí pro všechny savy tohoto uživatele. Schémata 1 a 2 se převedou v paměti se zapnutou preferencí biomu, přičemž zachovají dosavadní volby včetně vypnuté automatiky. Schéma 3 se zapíše až při výslovném uložení nastavení; již uložená vypnutá preference biomu se sama nezapíná. Do samotných herních savů mód nezapisuje.
 
@@ -69,11 +75,11 @@ Pokud nelze přečíst `settings.json`, automatika začne vypnutá. V panelu ji 
 
 Balíček nemá pevnou osobní cestu, účet ani tvůj save. Podporovaný cíl: Windows x64, Steam build 25442159 / Cosmos 7.04, Python 3.11–3.13 x64, pyMHF 0.2.4. Jiný herní EXE se odmítne podle kontrolního součtu; nové verze hry vyžadují novou kontrolu kompatibility.
 
-`Start-AutoPet.ps1` vyhledá Steam a připraví vlastní Python prostředí v profilu uživatele. Při prvním nastavení stáhne `pymhf[gui]==0.2.4` včetně GUI závislostí. Při běžící hře odmítne pokračovat. Volitelný parametr `-GameDirectory` musí ukazovat na instalaci používanou aktivním Steamem. Podrobnosti jsou v [anglickém návodu](README.md).
+`Start-CompanionAutoSummon.ps1` vyhledá Steam a připraví vlastní Python prostředí v profilu uživatele. Při prvním nastavení stáhne `pymhf[gui]==0.2.4` včetně GUI závislostí. Při běžící hře odmítne pokračovat. Volitelný parametr `-GameDirectory` musí ukazovat na instalaci používanou aktivním Steamem. Podrobnosti jsou v [anglickém návodu](README.md).
 
-Pro diagnostiku se zapisují logy do podsložky `logs` u AutoPet.py. Interaktivní Python konzole a samostatné logovací okno jsou vypnuté; panel nastavení zůstává dostupný.
+Pro diagnostiku se zapisují logy do podsložky `logs` u CompanionAutoSummon.py. Interaktivní Python konzole a samostatné logovací okno jsou vypnuté; panel nastavení zůstává dostupný.
 
-Používej `Start-AutoPet.ps1` z běžného terminálu PowerShell. Volá pomocný `Launch-AutoPet.py`, který ověřuje skutečně načtené knihovny ještě před spuštěním Python kódu uvnitř hry. Žádné soubory nainstalovaného frameworku tím neupravuje.
+Používej `Start-CompanionAutoSummon.ps1` z běžného terminálu PowerShell. Volá pomocný `Launch-CompanionAutoSummon.py`, který ověřuje skutečně načtené knihovny ještě před spuštěním Python kódu uvnitř hry. Žádné soubory nainstalovaného frameworku tím neupravuje.
 
 Před prvním herním testem ukončit současné hraní a vytvořit novou zálohu aktuálního profilu. Ověřit osm prvků panelu, přepínač OFF/ON, jednotlivé lokace, náhodný režim, preferenci biomu a potvrzení výběru. U biomu zkusit shodného vhodného peta, žádnou shodu, vypnutí, nepoužití na stanici/Nexusu a zachování ruční volby. Na platformě archivu nebo nevhodném terénu zůstat déle než 12 sekund a potom dojít na vhodné místo: pet má přijít jednou bez dalšího výstupu z lodi. Dále ověřit běžnou planetu a peta, stanici, rychlý návrat do lodi, ruční změnu, jiný save a restart. Multiplayer až po základním ověření.
 

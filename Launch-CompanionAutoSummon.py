@@ -64,7 +64,7 @@ def install_injection_guard(process_api=None):
     if process_api is None:
         import pymem.process as process_api
     original = process_api.inject_dll_from_path
-    if getattr(original, "_autopet_injection_guard", False) is True:
+    if getattr(original, "_companion_auto_summon_injection_guard", False) is True:
         return original
 
     @wraps(original)
@@ -79,20 +79,20 @@ def install_injection_guard(process_api=None):
         except Exception as exc:
             raise InjectionGuardError("Could not verify the injected target DLL.") from exc
 
-    guarded_inject._autopet_injection_guard = True
+    guarded_inject._companion_auto_summon_injection_guard = True
     process_api.inject_dll_from_path = guarded_inject
     return guarded_inject
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(description="Start verified AutoPet through pyMHF.")
-    parser.add_argument("mod_path", help="Absolute path to AutoPet.py")
+    parser = argparse.ArgumentParser(description="Start verified Companion Auto Summon through pyMHF.")
+    parser.add_argument("mod_path", help="Absolute path to CompanionAutoSummon.py")
     args = parser.parse_args(argv)
     if not os.path.isabs(args.mod_path):
-        parser.error("AutoPet.py must be supplied as an absolute path.")
+        parser.error("CompanionAutoSummon.py must be supplied as an absolute path.")
     mod_path = os.path.realpath(args.mod_path, strict=True)
-    if os.path.basename(mod_path) != "AutoPet.py" or not os.path.isfile(mod_path):
-        parser.error("Expected an existing AutoPet.py file.")
+    if os.path.basename(mod_path) != "CompanionAutoSummon.py" or not os.path.isfile(mod_path):
+        parser.error("Expected an existing CompanionAutoSummon.py file.")
 
     install_injection_guard()
     # Import after installing the guard, then use pyMHF's public console entry

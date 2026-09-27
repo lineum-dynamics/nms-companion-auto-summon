@@ -7,7 +7,7 @@ observations and performs the one returned summon request.
 import math
 
 
-class AutoPetPolicy:
+class CompanionAutoSummonPolicy:
     """Remember a manual favorite and allow one in-flight request per exit.
 
     Acceptance finishes the exit; rejection retains its fixed choice for a

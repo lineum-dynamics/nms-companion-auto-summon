@@ -1,6 +1,16 @@
-# AutoPet 0.4.1 — rozsah ověření k 27. 9. 2026
+# Companion Auto Summon — rozsah ověření k 27. 9. 2026
 
 Soukromé testovací záznamy uvedené níže jménem souboru jsou uchované mimo Git repozitář a distribuční ZIP. Dokument obsahuje jejich shrnutí; osobní záznamy ani zálohy se nedistribuují.
+
+## Přejmenování ve verzi 0.4.2
+
+Schválený název je **Companion Auto Summon**, repozitář `nms-companion-auto-summon`. Nový samostatný skript je `CompanionAutoSummon.py`, spouštěče `Launch-CompanionAutoSummon.py` a `Start-CompanionAutoSummon.ps1`, třída a současná záložka pyMHF `CompanionAutoSummon`. Herní pravidla, RVA, podpisy nativních funkcí, formáty uložených dat a výchozí nastavení zůstávají beze změny. Původní umístění `%LOCALAPPDATA%\NMS-AutoPet` pro preference, ruční volby a vývojový runtime zůstává kvůli kompatibilitě zachováno; samotné přejmenování osobní data nemigruje.
+
+Nový kandidát 0.4.2 ještě nebyl nasazen ani spuštěn ve hře. Jeho vlastní offline výsledky a aktuální kontrolní součty jsou v manifestu a verzovaných výstupech ověření. Níže uvedené výsledky a hash `AutoPet.py` patří výslovně starším verzím včetně 0.4.1; nepřejmenovávají se zpětně. Číslo 211 označuje historický počet testů 0.4.1, nikoli automaticky výsledek nové verze.
+
+Přejmenovaná 0.4.2 prošla **212/212 offline testy**: 122 runtime, 34 policy, 24 settings, 14 persistence a 18 launcher. Nový regresní test ověřuje zachované preference a ruční volbu v původním datovém umístění. Kontrola skutečného pyMHF 0.2.4 / Dear PyGui 2.3.1 potvrdila jedinou třídu `CompanionAutoSummon` se zděděným `_mod_name`, osm widgetů, sedm callbacků pro šest cílů a nula hotkeys. Hooky nebyly registrovány, viewport nevznikl a hra se nespouštěla ani nepřipojovala. SHA256 vygenerovaného `CompanionAutoSummon.py`: `841c57ee82cd8fee7a4083a63eb846ee78bd6a8a23efcbbf5cef1b49fa96e472`.
+
+## Historická evidence AutoPet do verze 0.4.1
 
 ## Co je doloženo
 
@@ -184,7 +194,7 @@ SHA256 vygenerovaného `AutoPet.py`: `234cddbc483d626cff5a637d4e4f23c912c9d5bf69
 
 ## Co zbývá
 
-Pro 0.4.1 zbývá samotné načtení ve hře a preference biomu: známá shoda, žádná shoda, vypnutí, vynechání na stanici/Nexusu a zachování ručního favorita. Dosud není herně ověřena úplná sada nynějších osmi prvků panelu, preference jednotlivých lokací, opakované náhodné výběry, návrat k ručnímu favoritovi po přepnutí, zachování či migrace nastavení při restartu ani čekání bez expirace a opakování odmítnutého požadavku. Volba Random a jeden planetární výstup uspěly ve 0.4.0. Uživatel poblíž nemá vhodné místo pro zkoušku odmítnutého umístění, takže tento scénář zatím nebyl proveden a nejde o selhání. Až se přirozeně naskytne platforma archivu nebo nevhodný terén, lze zůstat déle než 12 sekund a potom bez dalšího vstupu do lodi přejít na místo, které hra dovolí. Tato zkouška má ověřit jedno vyvolání, zachování stejné volby při odmítnutí a účinnost všech způsobů zrušení.
+Nevyřešené scénáře z 0.4.1 je potřeba ověřit i na přejmenované 0.4.2, včetně nového spouštěče, názvu panelu a obnovení dosavadních preferencí. Zbývá samotné načtení ve hře a preference biomu: známá shoda, žádná shoda, vypnutí, vynechání na stanici/Nexusu a zachování ručního favorita. Dosud není herně ověřena úplná sada nynějších osmi prvků panelu, preference jednotlivých lokací, opakované náhodné výběry, návrat k ručnímu favoritovi po přepnutí, zachování či migrace nastavení při restartu ani čekání bez expirace a opakování odmítnutého požadavku. Volba Random a jeden planetární výstup uspěly ve 0.4.0. Uživatel poblíž nemá vhodné místo pro zkoušku odmítnutého umístění, takže tento scénář zatím nebyl proveden a nejde o selhání. Až se přirozeně naskytne platforma archivu nebo nevhodný terén, lze zůstat déle než 12 sekund a potom bez dalšího vstupu do lodi přejít na místo, které hra dovolí. Tato zkouška má ověřit jedno vyvolání, zachování stejné volby při odmítnutí a účinnost všech způsobů zrušení.
 
 Herně neověřené zůstává také vyvolání v Nexusu, zobrazení HUD potvrzení, přepínání OFF/ON a jeho persistence, odmítnutí na freighteru, všechny nativní větve včetně různých vstupních režimů, reakce při rychlém návratu do lodi, specifické druhy petů, dlouhodobý souběh s Companion Behavior Adjustments ani multiplayer. Statická analýza a simulované testy tyto body nenahrazují. Proto je verze stále označena jako experimentální.
 

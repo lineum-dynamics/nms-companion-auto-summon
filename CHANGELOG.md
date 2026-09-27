@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.4.2 experimental — 2026-09-27
+
+- Adopted the approved name **Companion Auto Summon** and repository slug `nms-companion-auto-summon`, replacing the working name AutoPet.
+- Renamed the standalone script, guarded launchers, internal identifiers, diagnostics and current documentation. The pyMHF tab uses its class name, `CompanionAutoSummon`.
+- Kept the legacy `NMS-AutoPet` preference, manual-selection and development-runtime paths, with unchanged stored schemas and defaults. No personal data migration or gameplay-rule change is part of this rename.
+- Retained old version records and checksums under their historical names. Current verification is recorded in the 0.4.2 manifest; earlier offline and live results are not relabelled as tests of this version.
+- Passed 212 offline tests and the real pyMHF 0.2.4 / Dear PyGui 2.3.1 check with one renamed class, eight widgets, seven callbacks for six targets and zero hotkeys. The added regression check verifies existing preference and manual-selection storage compatibility.
+- Added a maintained roadmap separating accepted release work from proposed features and support-link policy questions. Included the roadmap and linked release documents in the source package.
+- This source candidate has not been deployed or launched in NMS. Native-menu integration, localization and the portable public launcher remain planned work.
+
 ## Development — local Git baseline
 
 - Established one canonical Git source tree with English development instructions, explicit ignore rules and preserved release plans.

@@ -1,5 +1,6 @@
-# AutoPet development instructions
+# Companion Auto Summon development instructions
 
+- The approved public name is Companion Auto Summon; the repository slug is `nms-companion-auto-summon`. Keep the legacy `NMS-AutoPet` data and development-runtime paths for compatibility; do not silently reset or migrate player data during a rename.
 - This repository is the canonical source. Installed game-test copies and old exported packages are outputs, not parallel development roots.
 - Read `DEVELOPMENT.md`, `DESIGN.md`, `LOCALIZATION.md` and the current manifest before changing behavior or compatibility claims.
 - All source code, identifiers, comments, docstrings, test names, tooling and developer diagnostics must be English. Translated player-facing values belong in separate locale resources. Preserve Unicode coverage in test data.

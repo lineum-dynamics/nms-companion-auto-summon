@@ -9,7 +9,7 @@ from unittest.mock import patch
 
 
 _spec = importlib.util.spec_from_file_location(
-    "auto_pet_persistence_under_test",
+    "companion_auto_summon_persistence_under_test",
     Path(__file__).resolve().parents[1] / "src" / "persistence.py",
 )
 _module = importlib.util.module_from_spec(_spec)

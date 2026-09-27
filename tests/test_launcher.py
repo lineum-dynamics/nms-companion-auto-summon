@@ -11,15 +11,15 @@ import unittest
 from unittest.mock import Mock, patch
 
 
-SOURCE_PATH = Path(__file__).resolve().parents[1] / "Launch-AutoPet.py"
-spec = importlib.util.spec_from_file_location("auto_pet_launcher_under_test", SOURCE_PATH)
+SOURCE_PATH = Path(__file__).resolve().parents[1] / "Launch-CompanionAutoSummon.py"
+spec = importlib.util.spec_from_file_location("companion_auto_summon_launcher_under_test", SOURCE_PATH)
 launcher = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(launcher)
 
 
 class LauncherTests(unittest.TestCase):
     def setUp(self):
-        directory = tempfile.TemporaryDirectory(prefix="autopet-launcher-test-")
+        directory = tempfile.TemporaryDirectory(prefix="companion_auto_summon-launcher-test-")
         self.addCleanup(directory.cleanup)
         self.root = Path(directory.name)
         self.dll = self.root / "runtime" / "injector.pyd"
@@ -148,7 +148,7 @@ class LauncherTests(unittest.TestCase):
         original.assert_called_once()
 
     def test_main_installs_guard_before_public_entrypoint_and_restores_argv(self):
-        mod = self.root / "AutoPet.py"
+        mod = self.root / "CompanionAutoSummon.py"
         mod.write_text("# Test fixture; never executed.\n", encoding="utf-8")
         events = []
         previous = sys.argv
@@ -164,7 +164,7 @@ class LauncherTests(unittest.TestCase):
         self.assertIs(sys.argv, previous)
 
     def test_main_restores_argv_when_public_entrypoint_raises(self):
-        mod = self.root / "AutoPet.py"
+        mod = self.root / "CompanionAutoSummon.py"
         mod.write_bytes(b"# Test fixture")
         previous = sys.argv
         fake_pymhf = SimpleNamespace(run=Mock(side_effect=RuntimeError("test")))
@@ -179,7 +179,7 @@ class LauncherTests(unittest.TestCase):
         other.write_bytes(b"# Test fixture")
         with patch.object(launcher, "install_injection_guard") as guard, \
              patch("sys.stderr"):
-            for path in ("AutoPet.py", str(other), str(self.root)):
+            for path in ("CompanionAutoSummon.py", str(other), str(self.root)):
                 with self.subTest(path=path), self.assertRaises(SystemExit):
                     launcher.main([path])
         guard.assert_not_called()

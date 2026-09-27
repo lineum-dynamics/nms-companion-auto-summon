@@ -6,17 +6,17 @@ import unittest
 
 
 _spec = importlib.util.spec_from_file_location(
-    "auto_pet_policy_under_test",
+    "companion_auto_summon_policy_under_test",
     Path(__file__).resolve().parents[1] / "src" / "policy.py",
 )
 _module = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(_module)
-AutoPetPolicy = _module.AutoPetPolicy
+CompanionAutoSummonPolicy = _module.CompanionAutoSummonPolicy
 
 
-class AutoPetPolicyTests(unittest.TestCase):
+class CompanionAutoSummonPolicyTests(unittest.TestCase):
     def setUp(self):
-        self.policy = AutoPetPolicy()
+        self.policy = CompanionAutoSummonPolicy()
 
     def tick(self, now, **overrides):
         state = dict(
@@ -141,7 +141,7 @@ class AutoPetPolicyTests(unittest.TestCase):
         self.assertEqual(self.tick(301), 7)
 
     def test_explicit_optional_expiry_wins_at_deadline(self):
-        self.policy = AutoPetPolicy(expiry_seconds=12)
+        self.policy = CompanionAutoSummonPolicy(expiry_seconds=12)
         self.arm()
         self.assertIsNone(self.tick(10.5))
         self.assertIsNone(self.tick(12))
@@ -233,11 +233,11 @@ class AutoPetPolicyTests(unittest.TestCase):
         for value in (-1, float("nan"), float("inf"), True, "1.5", None):
             with self.subTest(delay=value):
                 with self.assertRaises(ValueError):
-                    AutoPetPolicy(delay_seconds=value)
+                    CompanionAutoSummonPolicy(delay_seconds=value)
         for value in (0, -1, float("nan"), float("inf"), True, "12"):
             with self.subTest(expiry=value):
                 with self.assertRaises(ValueError):
-                    AutoPetPolicy(expiry_seconds=value)
+                    CompanionAutoSummonPolicy(expiry_seconds=value)
 
     def test_random_exit_arms_without_manual_favorite_and_waits_for_binding(self):
         self.policy.eject(0, random_selection=True)
@@ -317,7 +317,7 @@ class AutoPetPolicyTests(unittest.TestCase):
         self.assertFalse(self.policy.resolve(True))
 
     def test_custom_zero_delay_still_needs_eligible_location_observation(self):
-        self.policy = AutoPetPolicy(delay_seconds=0, expiry_seconds=1)
+        self.policy = CompanionAutoSummonPolicy(delay_seconds=0, expiry_seconds=1)
         self.arm()
         self.assertIsNone(self.tick(0, on_foot_in_summon_location=False))
         self.assertIsNone(self.tick(0.1, eligible=False))

@@ -1,14 +1,14 @@
-# AutoPet localization
+# Companion Auto Summon localization
 
 ## Status
 
-AutoPet 0.4.1 has no localization catalog, language selector or automatic game-language detection. Its settings labels, selection options, statuses, HUD messages and launcher errors are hardcoded in English. English and Czech README files are documentation translations, not a localization system.
+Companion Auto Summon 0.4.2 has no localization catalog, language selector or automatic game-language detection. Its settings labels, selection options, statuses, HUD messages and launcher errors are hardcoded in English. English and Czech README files are documentation translations, not a localization system.
 
 The owner requires English source code and player-facing localization covering the game's official interface languages. Translations will be separate data resources. Technical log identifiers and developer diagnostics remain English, while actionable player-facing errors must be localized.
 
 ## Target languages
 
-The Steam listing for No Man's Sky identifies these 14 interface languages, checked on 27 September 2026. The locale keys below are proposed AutoPet catalog keys, not verified internal NMS language IDs.
+The Steam listing for No Man's Sky identifies these 14 interface languages, checked on 27 September 2026. The locale keys below are proposed Companion Auto Summon catalog keys, not verified internal NMS language IDs.
 
 | Proposed catalog key | Interface language |
 |---|---|
@@ -36,7 +36,7 @@ Source: [official Steam store language table](https://store.steampowered.com/app
 - Keep stable stored settings such as `last_manual` and `random` independent of translated display text.
 - Provide a language override and English fallback. An automatic game-language choice must use a verified read-only source; no such reader is currently implemented.
 - Before game startup, a launcher may use a verified configured choice or a system-language fallback. That is not proof of the game's language.
-- Cover all player-facing panel labels, options, status messages, HUD notices, launch/setup errors and recovery instructions. Messages controlled by third-party framework UI need a separate coverage decision; do not claim the entire framework is translated by translating AutoPet alone.
+- Cover all player-facing panel labels, options, status messages, HUD notices, launch/setup errors and recovery instructions. Messages controlled by third-party framework UI need a separate coverage decision; do not claim the entire framework is translated by translating Companion Auto Summon alone.
 
 ## Technical work required
 
@@ -44,7 +44,7 @@ The current HUD path uses ASCII encoding. Directly inserting accented or CJK tex
 
 pyMHF GUI decorators currently capture fixed labels at class definition, and the selection widget displays Enum member names. Updating a dictionary alone will not translate existing controls. Implement and verify an appropriate label/option binding or rebuild mechanism without changing stable selection values.
 
-The current panel has no AutoPet font/glyph configuration for the entire target language set. Verify accent, Cyrillic, Japanese, Korean and both Chinese character coverage, font licensing and readable layouts. English-only GUI smoke tests do not establish this coverage.
+The current panel has no Companion Auto Summon font/glyph configuration for the entire target language set. Verify accent, Cyrillic, Japanese, Korean and both Chinese character coverage, font licensing and readable layouts. English-only GUI smoke tests do not establish this coverage.
 
 ## Completion criteria
 
