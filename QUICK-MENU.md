@@ -2,8 +2,8 @@
 
 Status: 27 September 2026. The player mod remains 0.4.2-experimental. A separate,
 disabled-by-default developer trial now implements one inert custom item and a
-native binding filter. It has not been launched in NMS; preference controls are
-not implemented. This document separates static findings, offline verification,
+native binding filter. It has now registered in NMS; visual/navigation results
+are pending and preference controls are not implemented. This document separates static findings, offline verification,
 live observations and future work. Raw disassembly is private working evidence,
 not part of the repository or distribution.
 
@@ -331,7 +331,7 @@ trace establishes the observed ordering and identity only; concurrency,
 mutation recovery and binding-path coverage remain distinct prerequisites for
 a custom item.
 
-## Inert-item candidate, not yet live verified
+## Inert-item candidate, registered but visible behavior pending
 
 The separate `tools/quick_menu_item_trial.py` source is disabled unless an
 explicit isolated build enables it. It uses two AFTER callbacks: native item
@@ -407,8 +407,8 @@ helper's hash in addition to the main script/bootstrap. It never launches NMS,
 attaches to it, changes the running observer or deploys the regular player mod.
 All trial files remain excluded from the player ZIP.
 
-The prepared isolated artifact contains eight files, passed launcher syntax and
-byte readback checks, and has not been launched. Generated trial script SHA256:
+The prepared isolated artifact contains eight files and passed launcher syntax
+and byte readback checks. Generated trial script SHA256:
 `c5693f2652fc2cce3fe06904619d58d7bedb1181d899274de477d738e4a3ee39`.
 The source entry, item helper, native filter and guard-runtime hashes are retained
 in the metadata report and the generated manifest. A file-only check confirmed
@@ -416,7 +416,7 @@ the exact installed executable and target PE mapping. The production script
 and the still-running phase observer retained their earlier hashes throughout
 preparation; no running artifact was changed.
 
-The next live trial must begin after normal game exit and a fresh verified save
+The live trial begins after normal game exit and a fresh verified save
 backup. Explain explicitly that an inert item should now be visible, while
 settings and auto-summon are absent in this isolated session. First check
 companion-menu display, selection, back/close/reopen and neighboring native
@@ -424,6 +424,23 @@ actions. Do not rebind an occupied shortcut during that initial display test.
 Existing shortcut replay, binding protection, remapped/controller controls,
 save/reload/removal and mod coexistence are separate acceptance scenarios before
 preferences or a release claim. Do not hot-reload this developer trial.
+
+### Initial runtime registration
+
+After the player closed NMS normally, a fresh backup of all 43 profile files was
+created at 18:44:59 local time on 27 September 2026. The source remained stable
+during copying and every copied SHA256 matched. Independent preflight verified
+all seven payload hashes, the eight-file inventory, committed helper/source
+identity and unchanged production code.
+
+The new isolated session started at 18:46. Its log at 18:46:26 confirms the inert
+trial's native binding filter was installed, followed by one Mod and two managed
+framework hooks. The native filter is separately owned; it is not one of those
+two framework hooks. No initialization error appeared in this startup capture.
+This establishes exact-build runtime registration only. The player has been
+asked to inspect the new entry, neighboring actions and close/reopen behavior;
+visible rendering, navigation and shortcut behavior remain unverified here.
+The generated artifact and its original manifest remain unchanged while running.
 
 ## Historical observation-only live sequence
 
