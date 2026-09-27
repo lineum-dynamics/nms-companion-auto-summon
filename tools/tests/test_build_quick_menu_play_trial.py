@@ -72,7 +72,7 @@ class PlayTrialBuildTests(unittest.TestCase):
                      for path in self.root.rglob("*") if path.is_file()}
         result = self.build()
         output = Path(result["output"])
-        self.assertEqual(output, self.root / "build/quick-menu-play-trial-081")
+        self.assertEqual(output, self.root / "build/quick-menu-play-trial-082")
         self.assertEqual(result["files"], 18)
         self.assertFalse(result["launched"])
         self.assertFalse(result["deployed"])
@@ -93,7 +93,7 @@ class PlayTrialBuildTests(unittest.TestCase):
         for name in builder.HELPERS:
             self.assertEqual((output / name).read_bytes(), (self.root / "tools" / name).read_bytes())
         manifest = json.loads((output / "manifest.json").read_text())
-        self.assertEqual(manifest["version"], "0.8.1-play-trial")
+        self.assertEqual(manifest["version"], "0.8.2-play-trial")
         self.assertEqual(manifest["mods"], [
             {"name": "CompanionAutoSummon", "version": "0.4.7-experimental", "path": builder.PRODUCTION_FILE},
             {"name": "CompanionMenuOrderTrial", "version": "0.8.0-settings-trial", "path": builder.MENU_FILE},
@@ -191,7 +191,7 @@ class PlayTrialBuildTests(unittest.TestCase):
         self.assertFalse((output / "unrelated.py").exists())
 
     def test_existing_file_or_directory_is_not_reused(self):
-        output = self.root / "build/quick-menu-play-trial-081"
+        output = self.root / "build/quick-menu-play-trial-082"
         output.mkdir(parents=True)
         sentinel = output / "keep"
         sentinel.write_bytes(b"prior trial")
@@ -252,7 +252,7 @@ class PlayTrialBuildTests(unittest.TestCase):
             return original_write(path, data)
         with patch.object(Path, "write_bytes", failing_write), self.assertRaises(OSError):
             self.build()
-        output = self.root / "build/quick-menu-play-trial-081"
+        output = self.root / "build/quick-menu-play-trial-082"
         before = {path.name: path.read_bytes() for path in output.iterdir()}
         self.assertTrue(before)
         with self.assertRaises(FileExistsError):

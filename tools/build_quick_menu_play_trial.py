@@ -46,7 +46,7 @@ This isolated developer bundle runs two mods in one pyMHF host:
 - CompanionMenuOrderTrial 0.8.0-settings-trial: the ordered native companion
   submenu with all six settings, its binding filter and an optional custom icon.
 
-The bundle version is 0.8.1-play-trial. This revision is not yet live-verified.
+The bundle version is 0.8.2-play-trial. This revision is not yet live-verified.
 This launcher revision adds a fixed setup lease and a separate host lease to
 refuse duplicate launches before Steam has created NMS. Each lease lasts until
 its process closes the handle. Normal setup refuses unavailable process checks.
@@ -160,7 +160,7 @@ def _launcher(data):
     return text.encode("utf-8")
 
 
-def build(*, enable_menu=False, output_name="quick-menu-play-trial-081"):
+def build(*, enable_menu=False, output_name="quick-menu-play-trial-082"):
     """Create one fresh, checksum-complete folder without executing payloads."""
     if enable_menu is not True:
         raise ValueError("Pass --enable-menu for this combined developer trial")
@@ -205,7 +205,7 @@ def build(*, enable_menu=False, output_name="quick-menu-play-trial-081"):
         raise ValueError("The play-trial host requires the reviewed production and framework versions")
     manifest = {
         "name": "Companion Auto Summon combined play trial",
-        "version": "0.8.1-play-trial",
+        "version": "0.8.2-play-trial",
         "framework": current["framework"],
         "steam_build": current["steam_build"],
         "supported_nms_exe_sha256": current["supported_nms_exe_sha256"],
@@ -242,7 +242,7 @@ def build(*, enable_menu=False, output_name="quick-menu-play-trial-081"):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--enable-menu", action="store_true")
-    parser.add_argument("--output-name", default="quick-menu-play-trial-081")
+    parser.add_argument("--output-name", default="quick-menu-play-trial-082")
     options = parser.parse_args()
     print(json.dumps(build(enable_menu=options.enable_menu,
                            output_name=options.output_name)))

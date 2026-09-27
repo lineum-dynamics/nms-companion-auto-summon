@@ -1,8 +1,10 @@
 # Companion Auto Summon — rozsah ověření k 27. 9. 2026
 
+Aktuální běh 0.8.2: po ověřené záloze 43 souborů a opětovné kontrole hashů před startem se 27. 9. 2026 v 23:58:46 načetly oba módy a 12 cílů, automatika ON. Všech 17 souborů i osobní nastavení zůstalo shodných. Textura byla připravená a její hash souhlasil; samotné vykreslení není potvrzené. Prošlo 294 produkčních a 519 vývojových testů. Dřívější 0.8.1 zastavila kontrola před startem: psutil nepojmenovalo chráněný proces Secure System. Opravený nativní výpis Windows ho rozpoznává a stále odmítá neúplné či chybné výsledky. Podklad: menu-play-0.8.2-startup.json. Herní přijetí čeká.
+
 Soukromé testovací záznamy uvedené níže jménem souboru jsou uchované mimo Git repozitář a distribuční ZIP. Dokument obsahuje jejich shrnutí; osobní záznamy ani zálohy se nedistribuují.
 
-## Připravený kandidát 0.4.7 / 0.8.1 — doplněný spouštěč
+## Spuštěný kandidát 0.4.7 / 0.8.2 — doplněný spouštěč
 
 Před společným herním testem doplňuje spouštěč dvě oddělené ochrany proti
 souběžnému startu. První drží PowerShell během přípravy prostředí a čekání
@@ -20,13 +22,13 @@ Herní chování, nativní menu 0.8.0 a ikona se proti předchozímu kandidátu
 nemění. Vše zůstává připravené pro jeden společný test. Běžící 0.7.1 i
 nespuštěné 0.7.2 a 0.8.0 zůstávají zachované.
 
-Prošlo **294 produkčních testů** a **517 vývojových testů**.
+Prošlo **294 produkčních testů** a **519 vývojových testů**.
 Samostatný test se skutečnými procesy Windows v izolovaném testovacím jmenném
 prostoru ověřil odmítnutí druhého hostitele a uvolnění po řádném i náhlém
 ukončení testovacího procesu. Nepoužil produkční zámek ani hru. Skutečné pyMHF
 znovu prošlo kontrolou widgetů, obou módů, všech šesti nastavení i pořadí
-zámek–kontrola–asset–spuštění–uvolnění se simulovaným startem. Nová verze se
-zatím ve hře nespouštěla; nejde o herní ověření.
+zámek–kontrola–asset–spuštění–uvolnění se simulovaným startem. Následné skutečné
+načtení módů je popsáno výše; viditelný výsledek a ovládání stále čekají na ověření.
 
 ## Starší připravený kandidát 0.4.6 / 0.8.0 — společný test
 

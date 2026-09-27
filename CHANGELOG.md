@@ -2,7 +2,11 @@
 
 ## 0.4.7 — read-only preflight and duplicate-launch protection
 
-- Prepared the next production 0.4.7 / combined 0.8.1-play-trial candidate. Production behavior is unchanged from 0.4.6 apart from version metadata. The native menu remains 0.8.0-settings-trial, with the same six settings and icon path. Running 0.7.1 and prepared 0.7.2 / 0.8.0 artifacts remain unchanged.
+- Combined 0.8.2 registered two Mods and 12 targets at 23:58:46 on 27 September 2026 after a verified 43-file backup. Automation is ON; 17 payloads and player files matched. DDS staging and one native resource registration were observed, while visible icon/HUD and control acceptance remain pending. Passed 294 production and 519 developer tests plus real-framework and Windows checks.
+
+- Combined0.8.2 repairs process enumeration: a complete native Windows Toolhelp snapshot recognizes protected system processes whose names psutil omitted. Unknown names, incomplete enumeration and errors still refuse launch. Earlier0.8.1 attempts stopped before asset staging or NMS startup; its built files are retained.
+
+- Prepared the next production 0.4.7 / combined 0.8.2-play-trial candidate. Production behavior is unchanged from 0.4.6 apart from version metadata. The native menu remains 0.8.0-settings-trial, with the same six settings and icon path. Running 0.7.1 and prepared 0.7.2 / 0.8.0 artifacts remain unchanged.
 - Added PowerShell `-CheckOnly` to validate package/game/existing-runtime prerequisites while NMS may remain running. It creates, installs, stages and starts nothing; missing prerequisites are reported. This check does not validate gameplay.
 - Added distinct fixed `Setup.v1` and `Host.v1` Windows session mutex leases, shared across package folders. Leases remain for their OS handle lifetime and disappear when the last handle closes, including after a crash; no stale lock-file cleanup is needed.
 - Normal setup refuses to continue when process enumeration fails. The portable public installer and localization remain unfinished. Live validation is pending; test evidence will be recorded separately for this revision.

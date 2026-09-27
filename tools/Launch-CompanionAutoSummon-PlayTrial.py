@@ -12,7 +12,7 @@ from pathlib import Path
 import tomllib
 
 
-VERSION = "0.8.1-play-trial"
+VERSION = "0.8.2-play-trial"
 HOST_NAME = "Launch-CompanionAutoSummon-PlayTrial.py"
 BOOTSTRAP_NAME = "Launch-CompanionAutoSummon.py"
 PAYLOAD_FILES = frozenset((
@@ -111,15 +111,56 @@ def _load_bootstrap(bundle):
     return module
 
 
-def _game_closed():
-    """Refuse setup if process enumeration is unavailable or NMS is running."""
+def _windows_process_names(api=None):
+    """Copy a bounded Toolhelp snapshot, including protected process names."""
+    import ctypes as C
+    from ctypes import wintypes as W
+    class Entry(C.Structure):
+        _fields_ = [("size", W.DWORD), ("usage", W.DWORD), ("pid", W.DWORD),
+                    ("heap", C.c_size_t), ("module", W.DWORD), ("threads", W.DWORD),
+                    ("parent", W.DWORD), ("priority", W.LONG), ("flags", W.DWORD),
+                    ("name", W.WCHAR * 260)]
+    if api is None:
+        from types import SimpleNamespace
+        kernel = C.WinDLL("kernel32", use_last_error=True)
+        kernel.CreateToolhelp32Snapshot.argtypes = [W.DWORD, W.DWORD]
+        kernel.CreateToolhelp32Snapshot.restype = W.HANDLE
+        for function in (kernel.Process32FirstW, kernel.Process32NextW):
+            function.argtypes = [W.HANDLE, C.POINTER(Entry)]
+            function.restype = W.BOOL
+        kernel.CloseHandle.argtypes = [W.HANDLE]
+        kernel.CloseHandle.restype = W.BOOL
+        api = SimpleNamespace(CreateToolhelp32Snapshot=kernel.CreateToolhelp32Snapshot,
+                              Process32FirstW=kernel.Process32FirstW,
+                              Process32NextW=kernel.Process32NextW,
+                              CloseHandle=kernel.CloseHandle, get_last_error=C.get_last_error)
+    handle = api.CreateToolhelp32Snapshot(2, 0)
+    if not handle or handle == C.c_void_p(-1).value:
+        raise BundleError("Windows process snapshot is unavailable.")
     try:
-        import psutil
-        for process in psutil.process_iter(["name"]):
-            name = process.info.get("name")
-            if type(name) is not str or not name or name.casefold() == "nms.exe":
-                return False
-        return True
+        entry = Entry()
+        entry.size = C.sizeof(entry)
+        names = []
+        available = api.Process32FirstW(handle, C.byref(entry))
+        while available:
+            if len(names) >= 65536:
+                raise BundleError("Windows process snapshot exceeded its limit.")
+            names.append(entry.name)
+            available = api.Process32NextW(handle, C.byref(entry))
+        if api.get_last_error() != 18 or not names:
+            raise BundleError("Windows process snapshot is incomplete.")
+        return names
+    finally:
+        if not api.CloseHandle(handle):
+            raise BundleError("Windows process snapshot cleanup failed.")
+
+
+def _game_closed():
+    """Refuse setup on unknown names, failed enumeration or a running NMS."""
+    try:
+        names = _windows_process_names()
+        return bool(names) and all(type(name) is str and name and name.casefold() != "nms.exe"
+                                   for name in names)
     except Exception:
         return False
 

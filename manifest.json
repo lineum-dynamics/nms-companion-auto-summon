@@ -3,8 +3,8 @@
   "version": "0.4.7-experimental",
   "date": "2026-09-27",
   "installed_in_game_directory": false,
-  "tested_inside_game": false,
-  "runtime_load_verified": false,
+  "tested_inside_game": true,
+  "runtime_load_verified": true,
   "gameplay_verified": false,
   "multiplayer_verified": false,
   "basic_auto_summon_verified": false,
@@ -16,7 +16,7 @@
   "selection_mode_control_verified_in_game": false,
   "biome_preference_verified_in_game": false,
   "location_preferences_verified_in_game": false,
-  "gameplay_verification_scope": "Unlaunched 0.4.7 / 0.8.1 retains 0.4.6 gameplay/menu/icon behavior and adds launcher leases plus read-only validation. No earlier live result is inherited.",
+  "gameplay_verification_scope": "Combined 0.8.2 registered production0.4.7 and native menu0.8.0 at23:58:46 on27 September2026 after a43-file verified backup and final save-hash recheck. Two Mods/12 native targets, automation ON,17 unchanged payloads. The DDS was staged and verified; visible icon/summon and six-control behavior are not yet confirmed.",
   "supported_summon_locations": {
     "2": "SpaceStation",
     "3": "PlanetOnFoot",
@@ -32,7 +32,7 @@
     "host_launcher": 30
   },
   "actual_framework_import_and_gui_properties": "Passed with the real pyMHF 0.2.4 and DearPyGui: eight widgets constructed and preference callbacks exercised with temporary files, no viewport, hook registration, native game calls or game launch",
-  "launcher_validation": "517 developer tests passed. Separate real Windows test verified cross-process host refusal and release after normal return or abrupt test-process exit. CheckOnly and setup lease verified using temporary fixtures; no game launched.",
+  "launcher_validation": "294 production and519 developer tests passed, plus real Windows cross-process lease and real pyMHF checks. Earlier0.8.1 refused an unnamed protected process before launch. Corrected Toolhelp enumeration allowed0.8.2 startup; package/game/runtime preflight passed and no duplicate host was started.",
   "preferences_included": false,
   "manual_selection_path": "%LOCALAPPDATA%/NMS-AutoPet/state.json",
   "preferences_path": "%LOCALAPPDATA%/NMS-AutoPet/settings.json",
@@ -65,15 +65,15 @@
     },
     {
       "path": "README.md",
-      "sha256": "55132bbd072810453585302e184a0631f1164ff3ee66ed6571a7875165ea8a9d"
+      "sha256": "57781b7e0976aa716deae0c2a8a17665e57aecd99bfc834d35e10f67bd21ef78"
     },
     {
       "path": "README.cs.md",
-      "sha256": "3e11278615f529b4981a2dc6a0e473f2a79478c36ac0cbdd39543224dff4f00f"
+      "sha256": "0ff2489b2521bd370e0d5acfb5804607addff4274c7bb13afbc4dec94c324735"
     },
     {
       "path": "TECHNICKE-OVERENI.md",
-      "sha256": "66045a3cfce8fec04ef0dbcf4bcb903e8621ba93421ce3d799b56a5607014a93"
+      "sha256": "7aebe6b91992405ad94d363be70fd211cf7a10e836921d9cda79db69f8e1c94f"
     },
     {
       "path": "build.py",
@@ -85,7 +85,7 @@
     },
     {
       "path": "DEVELOPMENT.md",
-      "sha256": "b86809e71d6d5342628c6a734e81fe09e0fe57382849f0c77acd2b7357099cbf"
+      "sha256": "35e2c6c4ec2b216364885f20dbfa28f69d076304c2df44f62c8d050df016811f"
     },
     {
       "path": "LOCALIZATION.md",
@@ -97,11 +97,11 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "e0b10f2632b256670ebdd8423c05ee84b220a1363538e82af33b82b2ca86908d"
+      "sha256": "9a810ea97a9a9160ad0f6e15f44b823d288bca1defb764f590c0b7041821b47c"
     },
     {
       "path": "ROADMAP.md",
-      "sha256": "f610d3a979912d243728e22efe475c4c7a1b341e2baa587c98a7d4611284b1ce"
+      "sha256": "e8b7653b0277b2d93a22e33f2d227ae72ccba237a37be68d0b511b7279ca3e35"
     },
     {
       "path": "QUICK-MENU.md",
@@ -113,7 +113,7 @@
     },
     {
       "path": "docs/release/INSTALACE-ZADANI.md",
-      "sha256": "b31390593f2b5a94447f7d406ee9980e645d4b52485a8fe460052bd0b3ff5fbe"
+      "sha256": "690f4ba68fb85b28df70970fd3a49eba754ed5e8290ecb6554f582c815e6e2ea"
     },
     {
       "path": "docs/release/NEXUS-DESCRIPTION-DRAFT.md",
@@ -196,7 +196,7 @@
     "scope": "Separately built, predicate-gated native ON/OFF candidate. Requires same-menu false then true native confirmation, one matching selected-child trigger and original false result; no tail-only activation. Existing production applies and persists the queued setting. Other preferences remain in the temporary development panel. Registered on 27 September 2026 after normal exit and a fresh verified backup: two Mods, 11 hook targets, automation ON and 14 unchanged payloads. Complete live preference validation, remapping/controllers and held input await testing."
   },
   "developer_native_menu_trial": {
-    "version": "0.8.1-play-trial",
+    "version": "0.8.2-play-trial",
     "menu_version": "0.8.0-settings-trial",
     "preference_keys": [
       "enabled",
@@ -206,11 +206,11 @@
     ],
     "production_script_byte_identical": true,
     "live_verified": false,
-    "launched": false,
-    "registration_verified": false,
+    "launched": true,
+    "registration_verified": true,
     "included_in_player_zip": false,
-    "scope": "Unlaunched 0.8.1 adds setup/host leases and read-only PowerShell validation to the 0.8.0 six-setting/icon candidate. Real pyMHF Python-only checks cover 18 callbacks/12 targets, both shared-target registration orders, all six temporary preferences, icon provider and lease/guard/assets/run/release dispatch order. Game behavior and texture rendering remain unverified. Prior 0.7.1, 0.7.2 and 0.8.0 artifacts are unchanged.",
-    "developer_tests_passed": 517,
+    "scope": "Combined0.8.2 launched after verified backup. Registration only is confirmed; six-setting input, resource lifetime, visible icon/HUD and gameplay remain pending.",
+    "developer_tests_passed": 519,
     "actual_framework_discovery_verified": true,
     "temporary_all_six_preferences_verified": true,
     "optional_icon_provider_binding_verified": true,
@@ -218,10 +218,11 @@
     "distinct_native_targets": 12,
     "payload_files": 17,
     "custom_icon_included": true,
-    "custom_icon_deployed": false,
+    "custom_icon_deployed": true,
     "custom_icon_live_verified": false,
     "production_sha256": "d8cf09a808322900db9149e601248ddf18e4dedf094c44e22f7396c950871268",
-    "menu_sha256": "b372a24929a4513ce7043746e0a3df06d428ae1a9bdf19169f8bacf43e41bbb8"
+    "menu_sha256": "b372a24929a4513ce7043746e0a3df06d428ae1a9bdf19169f8bacf43e41bbb8",
+    "registered_at": "2026-09-27T23:58:46+02:00"
   },
   "post_queue_observation": {
     "passive_only": true,
@@ -368,5 +369,11 @@
       "production_sha256": "454e9baba7f350513fd3eadb005638b5cba0b1292477a7b0ac68bcbe0ae9f92a",
       "menu_sha256": "b372a24929a4513ce7043746e0a3df06d428ae1a9bdf19169f8bacf43e41bbb8"
     }
+  },
+  "previous_081_launch_failure": {
+    "game_started": false,
+    "asset_staged": false,
+    "reason": "psutil returned an empty name for a protected Secure System process; closed-game guard refused launch.",
+    "repair": "Use a bounded complete Windows Toolhelp snapshot; still reject unknown names/errors."
   }
 }

@@ -1,10 +1,12 @@
 # Companion Auto Summon 0.4.7 — experimental
 
+0.8.2 startup registered both Mods and 12 native targets at 23:58:46 on 27 September 2026 after a verified 43-file backup. Automation is ON; all 17 payloads and the existing player files matched. The original DDS was staged and hash-verified. Visible icon/HUD, all six controls and gameplay still need the player's check. Validation: 294 production and 519 developer tests, plus real Windows lease and pyMHF checks.
+
 [Český návod](README.cs.md)
 
 This Git repository is the canonical source for Companion Auto Summon. Development commands and the maintained documentation map are in [DEVELOPMENT.md](DEVELOPMENT.md). The installed test copy and exported ZIPs are built outputs.
 
-The next **0.4.7 / 0.8.1-play-trial** candidate improves the development
+The current **0.4.7 / 0.8.2-play-trial** candidate improves the development
 launcher. `-CheckOnly` checks the package, supported game and existing runtime
 while NMS can remain running; it creates, installs and starts nothing. Normal
 setup and the running host use separate Windows session leases, `Setup.v1` and
@@ -19,7 +21,7 @@ public installer and localization are still unfinished; a successful check-only
 run is not an in-game test.
 
 The combined candidate retains all six existing
-preferences to one native companion settings page: automatic summoning,
+preferences on one native companion settings page: automatic summoning,
 Last selected/Random, matching-biome preference, planets, space stations and
 the Space Anomaly. It shares the production preference queue and stored values;
 the temporary desktop panel remains available during development. The new page
@@ -42,8 +44,8 @@ is rolled back automatically.
 
 Explicit confirmations now request **5.5 seconds** and use shorter, truthful
 wording. A statically verified native flag hides icon containers when no usable
-icon exists, retaining text. These changes have not been launched or visually
-verified. The running **0.4.4 / 0.7.1** installation and unlaunched **0.7.2**
+icon exists, retaining text. These changes are loaded in 0.8.2 but have not been
+visually verified. The previous **0.4.4 / 0.7.1** installation and unlaunched **0.7.2**
 artifact remain unchanged. The earlier 0.4.5 candidate passed **279 production tests** and **408
 developer tests**, plus real-framework widget and combined-bundle checks without
 game access. Its 17 callbacks share 11 native targets; this is offline evidence.
@@ -108,7 +110,7 @@ This package contains no personal saves, account credentials, preselected pet or
 
 ## Settings
 
-The separate **0.8.1 combined developer trial** retains a flat settings page
+The separate **0.8.2 combined developer trial** retains a flat settings page
 under Companion Auto Summon in the native companion menu. Confirm a row using
 the game's configured Select action: selection mode cycles between Last
 selected and Random; the other five rows toggle ON/OFF. Matching-biome preference
@@ -188,7 +190,7 @@ To disable the whole mod: quit NMS and launch normally through Steam. To forget 
 
 ## Source
 
-Development rules and architecture are maintained in [DEVELOPMENT.md](DEVELOPMENT.md). Source code, comments and developer diagnostics are English. The settings panel and HUD are currently English-only; the planned language coverage and remaining work are recorded in [LOCALIZATION.md](LOCALIZATION.md). [DESIGN.md](DESIGN.md) records the native-menu and notification goals. The 0.8.1 combined candidate retains all six preferences from 0.8.0; the running 0.7.1 has the native automation toggle, and older artifacts retain an inert **Settings preview** child. Version-scoped changes are in [CHANGELOG.md](CHANGELOG.md).
+Development rules and architecture are maintained in [DEVELOPMENT.md](DEVELOPMENT.md). Source code, comments and developer diagnostics are English. The settings panel and HUD are currently English-only; the planned language coverage and remaining work are recorded in [LOCALIZATION.md](LOCALIZATION.md). [DESIGN.md](DESIGN.md) records the native-menu and notification goals. The 0.8.2 combined candidate retains all six preferences from 0.8.0; the running 0.7.1 has the native automation toggle, and older artifacts retain an inert **Settings preview** child. Version-scoped changes are in [CHANGELOG.md](CHANGELOG.md).
 
 `src/` contains policy, pet persistence, settings and runtime code. `build.py` rebuilds and syntax-checks CompanionAutoSummon.py without installing or launching it. Run offline tests with `python -B -m unittest discover -s tests -v`. `manifest.json` records checksums and validation status. `TECHNICKE-OVERENI.md` contains technical evidence in Czech. The panel uses the framework's documented [GUI properties](https://github.com/monkeyman192/pyMHF/blob/0c8ebc1c29074c5bc35207e0aff36d4035e20bac/docs/docs/gui/gui.rst).
 

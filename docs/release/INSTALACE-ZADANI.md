@@ -1,6 +1,6 @@
 # Companion Auto Summon — jednoduchá a spolehlivá instalace
 
-Aktuální připravovaný kandidát **0.4.7 / 0.8.1-play-trial** doplňuje vývojový
+Aktuální připravovaný kandidát **0.4.7 / 0.8.2-play-trial** doplňuje vývojový
 spouštěč. Režim PowerShell `-CheckOnly` ověří balíček, podporovanou hru a
 existující runtime i za běhu NMS. Nic nevytváří, neinstaluje, nekopíruje do hry
 ani nespouští. Chybějící předpoklady ohlásí; jejich náprava vyžaduje samostatné

@@ -52,7 +52,7 @@ class PlayTrialFixture(unittest.TestCase):
                 data = CONFIG
             (self.bundle / name).write_bytes(data)
         self.manifest = {
-            "version": "0.8.1-play-trial", "framework": "pymhf[gui]==0.2.4",
+            "version": "0.8.2-play-trial", "framework": "pymhf[gui]==0.2.4",
             "auto_summon": True, "preference_actions": True,
             "preference_keys": ["enabled", "selection_mode", "prefer_same_biome", "locations"],
             "mods": [
@@ -259,15 +259,44 @@ class HostRoutingTests(PlayTrialFixture):
         self.assertEqual(self.events, ["lease", "guard", "asset", "release"])
 
     def test_closed_probe_refuses_unknown_names_or_enumeration_failure(self):
-        process_api = types.ModuleType("psutil")
-        process_api.process_iter = Mock()
-        with patch.dict(sys.modules, {"psutil": process_api}):
+        with patch.object(LAUNCHER, "_windows_process_names") as names:
             for name, expected in (("NMS.exe", False), (None, False), ("", False), ("other.exe", True)):
                 with self.subTest(name=name):
-                    process_api.process_iter.return_value = [types.SimpleNamespace(info={"name": name})]
+                    names.return_value = [name]
                     self.assertIs(LAUNCHER._game_closed(), expected)
-            process_api.process_iter.side_effect = RuntimeError("enumeration unavailable")
+            names.return_value = ["Secure System", "python.exe"]
+            self.assertTrue(LAUNCHER._game_closed())
+            names.return_value = []
             self.assertFalse(LAUNCHER._game_closed())
+            names.side_effect = RuntimeError("enumeration unavailable")
+            self.assertFalse(LAUNCHER._game_closed())
+
+    def test_native_snapshot_copies_protected_names_and_closes_handle(self):
+        values = iter(["Secure System", "NMS.exe"])
+        def advance(handle, pointer):
+            name = next(values, None)
+            if name is None:
+                return False
+            pointer._obj.name = name
+            return True
+        api = types.SimpleNamespace(CreateToolhelp32Snapshot=Mock(return_value=123),
+                                    Process32FirstW=Mock(side_effect=advance),
+                                    Process32NextW=Mock(side_effect=advance),
+                                    CloseHandle=Mock(return_value=True), get_last_error=Mock(return_value=18))
+        self.assertEqual(LAUNCHER._windows_process_names(api), ["Secure System", "NMS.exe"])
+        api.CloseHandle.assert_called_once_with(123)
+        api.CreateToolhelp32Snapshot.assert_called_once_with(2, 0)
+
+    def test_incomplete_native_snapshot_refuses_and_releases_handle(self):
+        def first(handle, pointer):
+            pointer._obj.name = "python.exe"
+            return True
+        api = types.SimpleNamespace(CreateToolhelp32Snapshot=Mock(return_value=123),
+                                    Process32FirstW=first, Process32NextW=Mock(return_value=False),
+                                    CloseHandle=Mock(return_value=True), get_last_error=Mock(return_value=5))
+        with self.assertRaisesRegex(LAUNCHER.BundleError, "incomplete"):
+            LAUNCHER._windows_process_names(api)
+        api.CloseHandle.assert_called_once_with(123)
 
     def test_icon_setup_requires_matching_explicit_game_and_preserves_other_files(self):
         game = self.root / "game"

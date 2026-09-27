@@ -1,8 +1,10 @@
 # Companion Auto Summon 0.4.7 — testovací verze
 
+Balíček 0.8.2 po ověřené záloze 43 souborů načetl 27. 9. 2026 v 23:58:46 oba módy a 12 nativních cílů s automatikou ON. Všech 17 souborů balíčku i osobní nastavení zůstalo shodných. Vlastní DDS je připravené a jeho hash ověřený. Viditelnou ikonu, hlášky, všech šest voleb a hraní teprve ověří hráč. Prošlo 294 produkčních a 519 vývojových testů i kontroly Windows a pyMHF.
+
 Tento Git repozitář je hlavní zdrojový projekt. Testovací instalace a ZIP balíčky jsou jeho výstupy; další úpravy vznikají v repozitáři. Postup sestavení a ověření je v [DEVELOPMENT.md](DEVELOPMENT.md).
 
-Nový kandidát **0.4.7 / 0.8.1-play-trial** doplňuje spouštěč. Parametr
+Nový kandidát **0.4.7 / 0.8.2-play-trial** doplňuje spouštěč. Parametr
 `-CheckOnly` ověří balíček, podporovanou hru a existující runtime i za běhu NMS;
 nic nevytváří, neinstaluje ani nespouští. Běžnou přípravu a hostitele chrání
 oddělené zámky relace Windows `Setup.v1` a `Host.v1`, společné i pro balíčky
@@ -14,7 +16,7 @@ Produkce 0.4.7 se proti 0.4.6 liší pouze údajem o verzi. Modul menu zůstáv�
 **0.8.0-settings-trial**, se stejnými šesti volbami a ikonou. Překlady jsou stále
 nedokončené. Běžící 0.7.1 i připravené balíčky 0.7.2 a 0.8.0 zůstávají nedotčené.
 
-Zdrojový kandidát **0.4.7** a společný balíček **0.8.1-play-trial**
+Zdrojový kandidát **0.4.7** a společný balíček **0.8.2-play-trial**
 ukládají ručního favorita pouze po odpovídající úspěšné akci nativního ovládání
 petů. Samotné přijetí požadavku do fronty, například při obnovení řízeném hrou,
 favorita nezmění a nevytvoří potvrzení ruční volby. Původ konkrétního volání
@@ -29,10 +31,10 @@ a čitelnost ještě vyžadují herní vizuální zkoušku.
 Menu obsahuje šest voleb: zapnutí automatiky, poslední ruční nebo náhodný
 výběr, přednost stejného biomu a samostatné povolení planet, stanic a Anomálie.
 Používá dosavadní ukládání nastavení a přenastavené nativní ovládání. Textura
-se připraví až při budoucím spuštění se zavřenou hrou; neznámý existující soubor
+se připravuje při spuštění se zavřenou hrou; neznámý existující soubor
 se nepřepisuje. Dočasný panel zůstává k porovnání při tomto společném testu.
 
-Kandidát ještě nebyl spuštěn. Běžící instalace **0.4.4 / 0.7.1** a připravený
+Kandidát 0.8.2 je načtený. Předchozí instalace **0.4.4 / 0.7.1** a připravený
 starší balíček **0.4.5 / 0.7.2** zůstávají beze změny. Samostatný produkční ZIP
 obsahuje 0.4.7 bez pokusného menu a DDS; bez poskytovatele ikony používá čistý
 text. Přesný rozsah kontrol aktuálního kandidáta uvádí
@@ -89,7 +91,7 @@ První automatické vyvolání ve verzi 0.3.1 selhalo vypršením čekání. Ver
 ## Ovládání
 
 Samostatný produkční balíček používá okno **pyMHF**: přes **Alt+Tab** otevři
-záložku **CompanionAutoSummon**. Společný vývojový kandidát **0.8.1** navíc
+záložku **CompanionAutoSummon**. Společný vývojový kandidát **0.8.2** navíc
 nabízí všech šest voleb v rychlém menu hry, v položce **Companion Auto Summon**
 před konkrétními pety. Nabídku otevři svým nastaveným herním ovládáním.
 Dočasný panel zůstává během ověření k dispozici.

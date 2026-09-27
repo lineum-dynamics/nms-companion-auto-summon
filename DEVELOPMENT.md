@@ -1,5 +1,7 @@
 # Companion Auto Summon development guide
 
+Current live session is the immutable 0.8.2 folder: production0.4.7 and menu0.8.0 registered at23:58:46 on27 September2026 after a verified43-file backup. Two Mods/12 targets and automation ON are confirmed.17 payloads and player files matched at startup; DDS staged/verified.519 developer and294 production tests passed. Native rendering, controls and gameplay remain unverified. Earlier unlaunched preparation notes below retain their source-stage meaning.
+
 This repository is the canonical development location. Keep installed test copies and prior exports as deployment artifacts, not as competing source trees. Record live observations against the exact version; neither the historical 0.4.2 rename nor the new 0.4.3 load trigger inherits earlier gameplay verification.
 
 ## Project rules
@@ -13,7 +15,7 @@ This repository is the canonical development location. Keep installed test copie
 
 ## Current implementation
 
-The next source candidate is **0.4.7-experimental**, with combined trial **0.8.1-play-trial**, and has not launched. Production behavior is unchanged from 0.4.6 apart from version metadata; the menu remains **0.8.0-settings-trial**. The running 0.4.4 / 0.7.1 installation and prepared 0.7.2 and 0.8.0 artifacts remain unchanged. The target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The development launcher accepts Python 3.11–3.13 x64.
+The current source is **0.4.7-experimental**, loaded in combined trial **0.8.2-play-trial**. Production behavior is unchanged from 0.4.6 apart from version metadata; the menu remains **0.8.0-settings-trial**. The previous 0.4.4 / 0.7.1 installation and prepared 0.7.2 and 0.8.0 artifacts remain unchanged. The target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The development launcher accepts Python 3.11–3.13 x64.
 
 The PowerShell launcher's `-CheckOnly` path validates package integrity, the
 supported game and the existing runtime without creating files/directories,
@@ -89,7 +91,7 @@ trigger, preferences, manual selection/preview/emote and invalid state end it.
 Observer failures do not disable working automation. It adds no native calls,
 hooks, offsets, preference fields or game-save writes.
 
-The separate 0.8.1 bundle pins its preference bridge to the versioned 0.4.7
+The separate 0.8.2 bundle pins its preference bridge to the versioned 0.4.7
 initializer. It keeps the production control lock, queue, application callback
 and two-Mod discovery contract. The additional resource callback belongs to
 the menu Mod. Old artifacts are retained; the active 0.7.1 folder is immutable.
