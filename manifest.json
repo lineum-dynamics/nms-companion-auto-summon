@@ -73,7 +73,7 @@
     },
     {
       "path": "TECHNICKE-OVERENI.md",
-      "sha256": "ea6b275402586ef5e27b83315cfe8fd65be336dbfa2431ab9fd0e96d56c3e803"
+      "sha256": "21cb62273fdf122bec19295de14c3c6660104abcdceedd29b2554e84191eb06a"
     },
     {
       "path": "build.py",
@@ -93,15 +93,15 @@
     },
     {
       "path": "DESIGN.md",
-      "sha256": "66fa8bcff2ebe45f0e3df3e5cafd06c5fd30e4a7d1c1d6d8c6c869c5cdf3e373"
+      "sha256": "e54b932c7b114aa6761a2f178dc8c659173200b53c6c4ad7911f31f0c0687c92"
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "f0db18b656b82c9045ba2fdd411e7fe8d531f36b712582cf12ae93e7a4252374"
+      "sha256": "b26d4363447277a1c740f8b345b05a8d8a97bcc9bd5f8cc5875594ad673166ac"
     },
     {
       "path": "ROADMAP.md",
-      "sha256": "a5b485013ba35ddd90d6bb682c596e92551886371cb88cf10527ca6dc6ae35e1"
+      "sha256": "a624ed61b30360aac88319d888b79e7b70de6909ad181971b5a1d8353367b090"
     },
     {
       "path": "QUICK-MENU.md",
@@ -226,5 +226,18 @@
     "live_verified": false,
     "expected_active_path_verified_in_game": true,
     "live_scope": "One expected-active terminal observation on the first callback after Anomaly load queue acceptance. Player corroborated appearance. Queue-loss, timeout, cancellation and repeated-run live paths remain unverified."
+  },
+  "known_manual_attribution_issue": {
+    "confirmed_code_gap": true,
+    "scope": "The accepted queue hook classifies every non-CAS automatic call as manual. A game pet-battle restore path reaches this hook. In 0.7.1 a reported arena notice coincided with a persisted favorite change, but the actual live caller and user intent were not recorded.",
+    "later_native_snapshot": "Location14, active=-1 and pending=-1 in two stable external read-only samples at2026-09-27T22:40:26+02:00. Earlier appearance cannot be inferred.",
+    "favorite_write_requires_verified_manual_origin": true,
+    "fixed": false
+  },
+  "known_hud_issue": {
+    "white_disc_unresolved": true,
+    "current_duration_seconds": 3.0,
+    "readability_target_seconds": 5.5,
+    "fix_deployed": false
   }
 }

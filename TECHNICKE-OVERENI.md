@@ -22,6 +22,27 @@ Jedno vyvolání v Random po načtení v Anomálii je pro 0.4.4 / 0.7.1 potvrzen
 
 ## Dílčí herní výsledek 0.7.0 a zjištěné chyby
 
+### Pozdější hláška po aréně v 0.7.1
+
+Hráč ohlásil „manual favorite saved“ po aréně, ale nedokáže určit spouštěcí
+událost. Log v 22:35:48.366 zaznamenal přijetí slotu 2 a externí paměť módu
+se v témže okamžiku změnila ze slotu 3 na slot 2 s jinou identitou. Nastavení
+ON/Random zůstalo shodné. Současný hook nerozlišuje původ přijatých požadavků
+mimo vlastní automatické volání; skutečná ruční volba tedy není doložená.
+Statický rozbor potvrzuje, že do stejné funkce vede i návrat peta z petího
+souboje, ale původ konkrétního živého volání nebyl zachycen.
+
+Omezené externí čtení přes query/read-only handle v 22:40:26 potvrdilo ve dvou
+shodných snímcích lokaci 14, aktivní slot -1 a čekající slot -1. Pet v tomto
+okamžiku nebyl evidovaný jako aktivní ani čekající; snímek neprokazuje jeho
+stav v celém předchozím intervalu. Byla ověřena přesná binárka. Žádný zápis
+do hry, runtime ani uložených preferencí diagnostika neprovedla.
+
+Délka hlášky je v současném kódu 3 sekundy. Bílý kruh přetrvává; neexistuje
+ověřený přepínač pro jeho odstranění. Podklady jsou v soukromém záznamu
+`menu-play-0.7.1-arena-notice-observation.json`. Oprava přiřazení ruční volby,
+čitelnosti a vykreslení zatím nebyla nasazená.
+
 Hráč potvrdil vyvolání po výstupu při ON a pozdější potlačení při OFF.
 Screenshot ukazuje OFF v položce menu i v herní hlášce; log potvrzuje předání
 a použití změn. První popis pokusu s OFF je nejednoznačný: před prvním

@@ -119,6 +119,21 @@ has not yet been implemented or verified.
 
 ## Notifications
 
+The current 0.4.4 attribution is insufficient: an accepted native queue outside
+the mod's own automatic call is treated as a manual selection. A pet-battle
+restore path can reach the same hook. Until positive manual origin is verified,
+the runtime cannot honestly infer a manual choice from that queue alone. The
+0.7.1 arena report changed the stored favourite, while a later read-only snapshot
+showed no active or pending pet; the exact live caller was not captured.
+
+The correction must preserve a favourite only for an authenticated native UI
+selection/shortcut, without changing unrelated native queues or their timing.
+An unclassified queue must not overwrite the favourite or show a manual-choice
+confirmation. Verify ordinary, remapped and shortcut routes before claiming
+complete coverage. A saved confirmation must also reflect successful persistence.
+Target concise explicit-action notices lasting about 5.5 seconds; the current
+implementation still uses 3 seconds. The white-disc renderer issue remains open.
+
 Use the game's existing visual presentation and a short localized sentence. Avoid a startup banner on every load, repeated waiting errors, sounds on every summon, or messages that obscure ordinary game information.
 
 | Event | Intended feedback |

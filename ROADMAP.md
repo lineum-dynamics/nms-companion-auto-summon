@@ -8,6 +8,14 @@ Use [DESIGN.md](DESIGN.md) for accepted product behavior, [LOCALIZATION.md](LOCA
 
 These requirements were accepted before this backlog was created. Finish them before adding optional features that would complicate the first release.
 
+Priority defect from the 0.7.1 arena report: the queue hook can misattribute a
+game-driven restore as a manual selection and overwrite the stored favourite.
+Persist/announce a manual favourite only after positive native UI provenance;
+retain ordinary manual and shortcut behavior, and leave unrelated native queues
+untouched. The event's actual caller was not logged. A later read-only snapshot
+showed no active/pending pet. Shorter notices and about 5.5 seconds of display
+are the readability target; the white disc still needs a verified rendering fix.
+
 Prepared 0.4.4 / 0.7.1 adds bounded passive post-queue observation; one Anomaly startup now has player and native-active
 confirmation, with no automatic retry. Repeatability remains unverified. Validate it against the failed Anomaly case before
 deciding on a behavioral fix. The 0.7.1 trial now runs after a fresh backup; the earlier 0.7.0 folder remains intact.
