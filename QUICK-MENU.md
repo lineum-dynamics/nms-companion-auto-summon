@@ -2,8 +2,9 @@
 
 Status: 27 September 2026. The player mod remains 0.4.2-experimental. A separate,
 disabled-by-default developer trial now implements one inert custom item and a
-native binding filter. It has now registered in NMS; visual/navigation results
-are pending and preference controls are not implemented. This document separates static findings, offline verification,
+native binding filter. The player has confirmed the item is visible in NMS;
+presentation differences, navigation and shortcut behavior still need work or
+verification. Preference controls are not implemented. This document separates static findings, offline verification,
 live observations and future work. Raw disassembly is private working evidence,
 not part of the repository or distribution.
 
@@ -331,7 +332,7 @@ trace establishes the observed ordering and identity only; concurrency,
 mutation recovery and binding-path coverage remain distinct prerequisites for
 a custom item.
 
-## Inert-item candidate, registered but visible behavior pending
+## Inert-item candidate, first visible result captured
 
 The separate `tools/quick_menu_item_trial.py` source is disabled unless an
 explicit isolated build enables it. It uses two AFTER callbacks: native item
@@ -441,6 +442,24 @@ This establishes exact-build runtime registration only. The player has been
 asked to inspect the new entry, neighboring actions and close/reopen behavior;
 visible rendering, navigation and shortcut behavior remain unverified here.
 The generated artifact and its original manifest remain unchanged while running.
+
+### First visible result
+
+The native append/readback logged success at 18:47:58.099, and the scoped label
+callback logged its first supplied label at 18:48:03.059. The player subsequently
+confirmed seeing the item in the companion menu, at the end after the individual
+pets, with a paw icon and moving text inside the icon. No insertion-stop/error
+notice appears in the retained capture. This confirms visible insertion and the
+reported presentation, not the full navigation, binding or replay scenarios.
+
+End placement follows the prototype's native append operation. The paw is the
+borrowed native companion icon. The helper currently fills the item's inline
+64-byte name as well as supplying the separate selected-item label through the
+128-byte label callback. There is no custom scrolling animation or overlay in
+the mod. The unexpected tile text is being investigated as native rendering of
+that populated name field. Its appearance and a possible position before the
+individual pet entries are presentation decisions, not changes already applied
+to the running trial. No live file has been modified for this feedback.
 
 ## Historical observation-only live sequence
 
