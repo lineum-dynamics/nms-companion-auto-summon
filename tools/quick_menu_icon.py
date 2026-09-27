@@ -25,7 +25,14 @@ HANDLE_RETAIN_RVA = 0x2D5C890
 MANAGER_PTR_RVA = 0x6E0D090
 RETAIN_MANAGER_PTR_RVA = 0x5901610
 COMPANION_ICON_OFFSET = 0xA104
-VIRTUAL_PATH = b"TEXTURES/UI/FRONTEND/ICONS/COMPANIONAUTOSUMMON/SETTINGS.DDS"
+VIRTUAL_PATHS = tuple(
+    b"TEXTURES/UI/FRONTEND/ICONS/COMPANIONAUTOSUMMON/" + filename
+    for filename in (
+        b"SETTINGS.DDS", b"AUTOMATION.DDS", b"SELECTION.DDS", b"BIOME.DDS",
+        b"PLANET.DDS", b"STATION.DDS", b"ANOMALY.DDS",
+    )
+)
+VIRTUAL_PATH = VIRTUAL_PATHS[0]
 RECORD_SIZE = 24
 HANDLE_OFFSET = 0x10
 MIN_ADDRESS = 0x10000
@@ -138,8 +145,24 @@ def _resource(reader, manager_slot, manager, handle):
     return _Resource(pointer, name, not (error or substitute) and bool(image or texture))
 
 
+class _TextureRecord:
+    """An owned path and aligned native load record, retained with the owner."""
+
+    def __init__(self, path):
+        self.path = path
+        self.identity = None
+        self._path = C.create_string_buffer(path + b"\0")
+        self._storage = C.create_string_buffer(RECORD_SIZE + 15)
+        self.address = (C.addressof(self._storage) + 15) & ~15
+        C.c_void_p.from_address(self.address).value = C.addressof(self._path)
+
+    @property
+    def handle(self):
+        return C.c_uint32.from_address(self.address + HANDLE_OFFSET).value
+
+
 class IconOwner:
-    """One registration attempt and at most two process-pinned references.
+    """One phase attempt with seven custom references and one retained paw.
 
     pin_owner(self) must return exactly True and retain self independently of
     any Mod instance/toggle. The adapter must reject a second process owner.
@@ -155,12 +178,8 @@ class IconOwner:
         self._disabled = False
         self._manager = None
         self._manager_slot = None
-        self._custom = None
+        self._textures = tuple(_TextureRecord(path) for path in VIRTUAL_PATHS)
         self._paw = None
-        self._path = C.create_string_buffer(VIRTUAL_PATH + b"\0")
-        self._storage = C.create_string_buffer(RECORD_SIZE + 15)
-        self._record_address = (C.addressof(self._storage) + 15) & ~15
-        C.c_void_p.from_address(self._record_address).value = C.addressof(self._path)
         self._paw_handle = C.c_uint32(0)
         self.status = "not_observed"
 
@@ -181,8 +200,9 @@ class IconOwner:
         """Attempt initialization once at the validated natural native phase.
 
         Returns True when the registration sequence completed, not when the
-        image is ready or visible. Failure keeps any possibly acquired buffers
-        pinned; a retained and freshly validated paw can still be used.
+        images are ready or visible. Failure stops remaining loads and keeps
+        all buffers pinned. Previously confirmed icons and the retained paw
+        remain available through fresh validation, without another attempt.
         """
         if not self._lock.acquire(blocking=False):
             return False
@@ -218,16 +238,15 @@ class IconOwner:
                 if retained is None or retained != paw:
                     raise IconError("Native companion icon changed during retain")
                 self._paw = paw
-            if not self._same_manager(reader, manager_slot):
-                return False
-            load_texture(self._record_address)
-            if not self._same_manager(reader, manager_slot):
-                return False
-            custom_handle = C.c_uint32.from_address(
-                self._record_address + HANDLE_OFFSET).value
-            custom = _resource(reader, manager_slot, manager, custom_handle)
-            if custom is not None and custom.name == VIRTUAL_PATH:
-                self._custom = custom
+            for texture in self._textures:
+                if not self._same_manager(reader, manager_slot):
+                    return False
+                load_texture(texture.address)
+                if not self._same_manager(reader, manager_slot):
+                    return False
+                custom = _resource(reader, manager_slot, manager, texture.handle)
+                if custom is not None and custom.name == texture.path:
+                    texture.identity = custom
             self.status = "registered"
             return True
         except _ManagerChanged:
@@ -240,8 +259,14 @@ class IconOwner:
         finally:
             self._lock.release()
 
-    def icon_handle(self, reader, manager_slot):
-        """Return a freshly vetted owned handle or zero, without native calls."""
+    def icon_handle(self, reader, manager_slot, role=-1):
+        """Return the role's validated icon or retained paw, without native calls.
+
+        Role -1 is the parent; roles 0..5 match the six settings in path order.
+        Invalid roles return zero without reading, loading or changing owners.
+        """
+        if type(role) is not int or not -1 <= role <= 5:
+            return 0
         if not self._lock.acquire(blocking=False):
             return 0
         try:
@@ -249,9 +274,9 @@ class IconOwner:
                 return 0
             if not self._same_manager(reader, manager_slot):
                 return 0
+            texture = self._textures[role + 1]
             for identity, handle, source in (
-                (self._custom, C.c_uint32.from_address(
-                    self._record_address + HANDLE_OFFSET).value, "custom_ready"),
+                (texture.identity, texture.handle, "custom_ready"),
                 (self._paw, self._paw_handle.value, "native_ready"),
             ):
                 if identity is None:

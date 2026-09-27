@@ -225,7 +225,7 @@ else:
 
 
 class CompanionMenuOrderTrial(Mod):
-    _version = ("0.8.0-settings-trial" if EXTENDED_SETTINGS_ENABLED or CUSTOM_ICON_ENABLED
+    _version = ("0.8.3-settings-trial" if EXTENDED_SETTINGS_ENABLED or CUSTOM_ICON_ENABLED
                 else "0.7.0-toggle-trial" if SETTINGS_TOGGLE_ENABLED else "0.6.0-order-trial")
     _author = "Companion Auto Summon contributors"
     _description = ("Native automation toggle before individual companions" if SETTINGS_TOGGLE_ENABLED
@@ -384,10 +384,13 @@ class CompanionMenuOrderTrial(Mod):
                 and not self._stopped)
 
     def _notification_icon(self):
+        return self._icon_for_role(-1)
+
+    def _icon_for_role(self, role=-1):
         if self._icons is None:
             return 0
         try:
-            handle = self._icons.icon_handle(self._reader, _internal.BASE_ADDRESS + icons.MANAGER_PTR_RVA)
+            handle = self._icons.icon_handle(self._reader, _internal.BASE_ADDRESS + icons.MANAGER_PTR_RVA, role)
             status = self._icons.status
             if type(status) is str and status not in self._icon_status_seen and len(self._icon_status_seen) < 6:
                 self._icon_status_seen.add(status)
@@ -431,18 +434,23 @@ class CompanionMenuOrderTrial(Mod):
 
     def _menu_options(self, *, construction=False):
         options = {"child_roles": toggle.CHILD_ROLES} if EXTENDED_SETTINGS_ENABLED else {}
-        handle = self._notification_icon()
-        if handle and handle not in self._known_icon_handles:
-            if len(self._known_icon_handles) < 2:
-                self._known_icon_handles.add(handle)
-            else:
-                handle = 0
+        fresh = {}
+        roles = (-1, *toggle.CHILD_ROLES) if EXTENDED_SETTINGS_ENABLED else (-1,)
+        for role in roles:
+            handle = self._icon_for_role(role)
+            if handle and handle not in self._known_icon_handles:
+                if len(self._known_icon_handles) < 8:
+                    self._known_icon_handles.add(handle)
+                else:
+                    handle = 0
+            if handle:
+                fresh[role] = handle
         # Recognition of already copied items survives a temporarily pending
         # provider. Only a freshly vetted handle may be used for new items.
         if self._known_icon_handles:
             options["permitted_icons"] = tuple(sorted(self._known_icon_handles))
-        if handle and construction:
-            options["icon_handle"] = handle
+        if fresh and construction:
+            options["role_icons"] = fresh
         if self._preferences is not None and self._icons is not None:
             self._preferences.bind_notice_icon(self._icon_provider)
         return options

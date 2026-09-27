@@ -165,9 +165,10 @@ def check(bundle_folder):
     expected_menu = expected_menu.encode("utf-8")
     require((bundle / "CompanionMenuOrderTrial.py").read_bytes() == expected_menu,
             "Menu must differ only by its four explicit build enable flags")
-    require((bundle / "SETTINGS.DDS").read_bytes() == (ROOT / "assets/ui/SETTINGS.DDS").read_bytes(),
-            "Packaged original icon differs from its source")
     for name in host.PAYLOAD_FILES:
+        if name.endswith(".DDS"):
+            require((bundle / name).read_bytes() == (ROOT / "assets/ui" / name).read_bytes(),
+                    "Packaged role icon differs from its source")
         if name.startswith("quick_menu_"):
             require((bundle / name).read_bytes() == (ROOT / "tools" / name).read_bytes(),
                     "Menu helper differs from reviewed source")

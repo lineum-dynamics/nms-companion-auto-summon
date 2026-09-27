@@ -1,6 +1,29 @@
-# Companion Auto Summon — rozsah ověření k 27. 9. 2026
+# Companion Auto Summon — rozsah ověření k 28. 9. 2026
 
-Aktuální běh 0.8.2: po ověřené záloze 43 souborů a opětovné kontrole hashů před startem se 27. 9. 2026 v 23:58:46 načetly oba módy a 12 cílů, automatika ON. Všech 17 souborů i osobní nastavení zůstalo shodných. Textura byla připravená a její hash souhlasil; samotné vykreslení není potvrzené. Prošlo 294 produkčních a 519 vývojových testů. Dřívější 0.8.1 zastavila kontrola před startem: psutil nepojmenovalo chráněný proces Secure System. Opravený nativní výpis Windows ho rozpoznává a stále odmítá neúplné či chybné výsledky. Podklad: menu-play-0.8.2-startup.json. Herní přijetí čeká.
+## Připravená 0.8.3 — ikony a jazykové katalogy
+
+Samostatný nespuštěný balíček 0.8.3 zachovává produkci 0.4.7 beze změny a
+přidává menu 0.8.3. Obsahuje sedm původních ikon, jasný popisek biomové volby
+pro Random a stejná herní pravidla. Předchozí instalace 0.8.2 nebyla přepsána.
+Prošlo 294 produkčních a 563 vývojových testů, včetně kontrol přiřazení ikon,
+samostatného návratu k původní tlapce a odmítnutí neznámých cílových souborů.
+Skutečné pyMHF ověřilo dvě třídy modů, 18 callbacků pro 12 cílů, společné
+zpracování a všech šest nastavení v dočasných souborech. Bez připojení ke hře,
+nativních hooků nebo změn osobních dat. Spouštěč prošel syntaktickou kontrolou.
+Nezávislé dekódování všech šesti nových PNG/DDS párů potvrdilo shodné pixely
+a průhlednost. V dočasné složce prošlo také sestavení z rozbaleného zdrojového
+ZIP a spuštění jeho lokalizační kontroly; výsledný produkční soubor je shodný.
+
+Všech 14 katalogů má 24 shodných klíčů; 13 překladů je označeno jako
+neověřený návrh. Validator kontroluje aktuálnost, parametry a soulad s anglickým
+menu i hláškami. Samostatné sestavení, společný balíček a vydání zdrojového ZIP
+kontrolu vyžadují před zápisem. Testy potvrdily odmítnutí chybějícího překladu
+bez přepsání předchozího výstupu. Nejde o herní podporu jazyků: detekce jazyka,
+vykreslení znaků a pokrytí panelu i spouštěče zbývají.
+
+## Předchozí spuštění 0.8.2
+
+Při spuštění 0.8.2 se po ověřené záloze 43 souborů a opětovné kontrole hashů před startem načetly 27. 9. 2026 v 23:58:46 oba módy a 12 cílů, automatika ON. Všech 17 souborů i osobní nastavení zůstalo shodných. Textura byla připravená a její hash souhlasil; samotné vykreslení není potvrzené. Prošlo 294 produkčních a 519 vývojových testů. Dřívější 0.8.1 zastavila kontrola před startem: psutil nepojmenovalo chráněný proces Secure System. Opravený nativní výpis Windows ho rozpoznává a stále odmítá neúplné či chybné výsledky. Podklad: menu-play-0.8.2-startup.json. Herní přijetí čeká.
 
 Soukromé testovací záznamy uvedené níže jménem souboru jsou uchované mimo Git repozitář a distribuční ZIP. Dokument obsahuje jejich shrnutí; osobní záznamy ani zálohy se nedistribuují.
 

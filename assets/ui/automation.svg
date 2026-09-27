@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <title>Automatic summoning</title>
+  <desc>Original power symbol, white on transparent.</desc>
+  <g fill="none" stroke="#fff" stroke-width="18" stroke-linecap="round">
+    <path d="M79 72 A84 84 0 1 0 177 72"/>
+    <path d="M128 31 V121"/>
+  </g>
+</svg>

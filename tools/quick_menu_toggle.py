@@ -15,7 +15,7 @@ import quick_menu_submenu as submenu
 MenuItemError = item.MenuItemError
 CHILD_ROLES = submenu.SETTINGS_CHILD_ROLES
 SETTING_KEYS = ("enabled", "selection_mode", "prefer_same_biome", "planets", "space_stations", "nexus")
-SETTING_LABELS = ("Automatic summoning", "Selection", "Prefer matching biome",
+SETTING_LABELS = ("Automatic summoning", "Selection", "Random: prefer matching biome",
                   "Planets", "Space stations", "Space Anomaly")
 
 

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <title>Companion selection</title>
+  <desc>Original paw between selection arrows, white on transparent.</desc>
+  <g fill="#fff">
+    <ellipse cx="83" cy="116" rx="13" ry="20" transform="rotate(-28 83 116)"/>
+    <ellipse cx="110" cy="87" rx="14" ry="22" transform="rotate(-12 110 87)"/>
+    <ellipse cx="147" cy="87" rx="14" ry="22" transform="rotate(12 147 87)"/>
+    <ellipse cx="174" cy="116" rx="13" ry="20" transform="rotate(28 174 116)"/>
+    <path d="M128 133 C115 133 110 145 101 156 C92 166 86 174 91 184 C96 196 111 191 120 188 C125 186 132 186 137 188 C148 191 161 196 166 184 C171 174 164 166 155 156 C146 145 141 133 128 133Z"/>
+  </g>
+  <g fill="none" stroke="#fff" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M43 108 L20 131 L43 154 M213 108 L236 131 L213 154"/>
+  </g>
+</svg>

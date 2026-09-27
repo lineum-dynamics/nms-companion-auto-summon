@@ -64,11 +64,35 @@ def _roles(child_roles):
 def _icons(permitted_icons):
     if permitted_icons is None:
         return ()
-    if (type(permitted_icons) is not tuple or len(permitted_icons) > 2
+    if (type(permitted_icons) is not tuple or len(permitted_icons) > 8
             or any(type(icon) is not int or not 0 <= icon <= 0xFFFFFFFF for icon in permitted_icons)
             or len(set(permitted_icons)) != len(permitted_icons)):
         raise MenuItemError("Unsupported explicit submenu icon handles")
     return permitted_icons
+
+
+def _role_icons(role_icons, child_roles):
+    """Copy explicit construction choices; resource readiness is adapter-owned."""
+    if role_icons is None:
+        return {}
+    roles = _roles(child_roles)
+    if (type(role_icons) is not dict or len(role_icons) > len(roles) + 1
+            or any(type(role) is not int or role not in (ROOT_SLOT,) + roles
+                   for role in role_icons)
+            or any(type(icon) is not int or not 0 < icon <= 0x7FFFFFFF
+                   for icon in role_icons.values())):
+        raise MenuItemError("Unsupported explicit role icon mapping")
+    return role_icons.copy()
+
+
+def _construction_icons(state, child_roles, permitted_icons, icon_handle, role_icons):
+    allowed = (state.icon,) + _icons(permitted_icons)
+    choices = _role_icons(role_icons, child_roles)
+    fallback = state.icon if icon_handle is None else icon_handle
+    if (type(fallback) is not int or fallback not in allowed
+            or any(icon not in allowed for icon in choices.values())):
+        raise MenuItemError("Construction icon was not explicitly permitted")
+    return fallback, choices
 
 
 def _candidate(reader, pointer, index, slot, icon, *, permitted_icons=None):
@@ -136,13 +160,11 @@ def _same_snapshot(reader, menu, expected, *, child_roles=(CHILD_SLOT,), permitt
 
 
 def _append_role(reader, menu, expected, role, constructor, append, guard, *, child_roles=(CHILD_SLOT,),
-                 permitted_icons=None, icon_handle=None):
+                 permitted_icons=None, icon_handle=None, role_icons=None):
     roles = _roles(child_roles)
-    allowed_icons = _icons(permitted_icons)
     state, vectors = expected
-    chosen_icon = state.icon if icon_handle is None else icon_handle
-    if type(chosen_icon) is not int or chosen_icon not in (state.icon,) + allowed_icons:
-        raise MenuItemError("Construction icon was not explicitly permitted")
+    fallback, choices = _construction_icons(state, roles, permitted_icons, icon_handle, role_icons)
+    chosen_icon = choices.get(role, fallback)
     options = dict(child_roles=roles, permitted_icons=permitted_icons, _allow_partial=True)
     depth = 1 if role == ROOT_SLOT else 2
     if role == ROOT_SLOT:
@@ -182,19 +204,30 @@ def _append_role(reader, menu, expected, role, constructor, append, guard, *, ch
             raise MenuItemError("Native submenu parent append could not be verified")
     elif (after_vectors[1] != vectors[1] or after.child_count != state.child_count + 1):
         raise MenuItemError("Native submenu child append could not be verified")
+    appended_index = state.companion_count if role == ROOT_SLOT else state.child_count
+    if item._integer(reader, after_vectors[depth][2], appended_index * item.ITEM_SIZE,
+                     signed=False) != chosen_icon:
+        raise MenuItemError("Native submenu append changed the requested icon")
     return current
 
 
 def complete_builder(reader, menu, *, constructor, append, guard_capability, child_roles=(CHILD_SLOT,),
-                     permitted_icons=None, icon_handle=None):
-    """Restore the parent and its exact explicit page, preserving native entries."""
+                     permitted_icons=None, icon_handle=None, role_icons=None):
+    """Restore the exact page; role-specific icons never rewrite existing entries.
+
+    The adapter supplies fresh verified handles and their explicit allowlist.
+    Missing roles use icon_handle, then the native paw. Choices are owned scalar
+    copies for this transaction; neither the mapping nor native pointers escape.
+    """
     roles = _roles(child_roles)
+    choices = _role_icons(role_icons, roles)
     options = dict(child_roles=roles, permitted_icons=permitted_icons)
-    append_options = dict(options, icon_handle=icon_handle)
+    append_options = dict(options, icon_handle=icon_handle, role_icons=choices)
     item._authorize(guard_capability, menu)
     snapshot = _snapshot(reader, menu, **options)
     if snapshot is None:
         return BuilderResult("outside_context")
+    _construction_icons(snapshot[0], roles, permitted_icons, icon_handle, choices)
     root_added = child_added = False
     if snapshot[0].parent_index is None:
         snapshot = _append_role(reader, menu, snapshot, ROOT_SLOT, constructor, append, guard_capability,

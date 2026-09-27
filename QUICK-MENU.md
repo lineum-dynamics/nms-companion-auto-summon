@@ -1,12 +1,18 @@
 # Native quick-menu investigation
 
-## Current candidate: 0.8.0 settings and icon trial
+## Current status: live 0.8.2, prepared 0.8.3
 
-Prepared **0.8.0-play-trial** pairs production **0.4.6** with a flat page for
-all six existing preferences: automatic summoning, Last selected/Random,
-matching-biome preference, planets, space stations and the Space Anomaly. It
-has not launched. The running 0.4.4 / 0.7.1 and unlaunched 0.7.2 are unchanged.
-The desktop development panel remains until the native controls pass acceptance.
+The immutable live **0.8.2-play-trial** folder contains production **0.4.7**
+and menu **0.8.0-settings-trial**, with the original single custom icon.
+Registration and native active-state logs are not visual confirmation of an
+icon or companion. Gameplay and interface acceptance remain separate checks.
+
+Prepared **0.8.3-play-trial** pairs unchanged production **0.4.7** with
+**0.8.3-settings-trial** and seven distinct role icons. It has not launched.
+The six existing preferences remain on a flat page: automatic summoning,
+Last selected/Random, matching-biome preference, planets, space stations and
+the Space Anomaly. The desktop development panel remains until the native
+controls pass acceptance.
 
 Each child is a uniquely marked None action with an explicit role. Full-page
 validation requires exactly the six expected children; foreign/native content
@@ -16,27 +22,50 @@ native confirmation queues only the selected preference through the existing
 production instance/lock. Unrelated requests and the manual favourite survive;
 pending and session-only captions do not promise a disk save. Mode cycles existing
 values, the other five controls toggle, and all three locations may be OFF.
-Biome preference remains effective only for Random on planets. Legacy source
-defaults retain the one-child trial; the new bundle explicitly enables six rows.
+The biome row now says **Random: prefer matching biome: ON/OFF**; its behavior
+remains effective only for Random on planets. Legacy source defaults retain the
+one-child trial; the new bundle explicitly enables six rows.
 
-The bundle includes the original DDS. Its launcher stages the unique asset only
-before a game-closed launch, verifies exact bytes and refuses unexpected existing
-files. A new AFTER callback at the statically verified natural `LoadResources`
-phase attempts one registration. The owner is process-pinned before loading or
-retaining references; it retains a validated native paw for fallback and never
-writes the menu's original paw field. Fresh bounded manager/resource checks
-prefer the ready custom handle, then the retained paw. There is no retry,
-late-load or release path. A production notice provider uses the same owned
-resource; missing/invalid handles select the verified text-only HUD path.
+The bundle includes `SETTINGS.DDS` for the parent and `AUTOMATION.DDS`,
+`SELECTION.DDS`, `BIOME.DDS`, `PLANET.DDS`, `STATION.DDS` and `ANOMALY.DDS` for
+roles 0..5. The launcher validates all seven exact hashes/headers and existing
+destinations before closed-game staging under the unique CompanionAutoSummon
+asset directory. Identical files are reused; unexpected files or redirects are
+refused. Publication is atomic per file; packaging does not deploy.
+
+The AFTER callback at the statically verified natural `LoadResources` phase
+attempts each load at most once. All aligned records/path buffers are pinned
+before resource calls, with one validated native paw retained for fallback.
+No menu paw field or shared vanilla texture is replaced. Fresh dual-manager
+and original-resource checks select each role's ready custom icon or the paw.
+Observed manager transitions or recycled resources disable the provider;
+partial registration failure stops remaining loads. There is no retry,
+late-load or release path. The production HUD uses the parent icon only;
+missing/invalid handles select the verified text-only HUD path.
 The standalone production ZIP has neither custom asset nor native settings.
 
 Offline helper checks cover six-role topology, stale preference captures,
 unrelated queued writes, explicit icon allowlists and fallback ownership.
-Current aggregate validation is recorded in the manifest. Native resource
-mounting/decoding, lifetime, small-size rendering and all six controls remain
-unverified in-game. Test browsing without changes, each confirmed row, held
+Final aggregate validation belongs in the candidate manifest. The unlaunched
+seven-icon revision has no live evidence for native mounting/decoding,
+lifetime or small-size rendering. All six controls still need acceptance.
+Test browsing without changes, each confirmed row, held
 input, Back/reopen/rebuild, ordinary pets, saved values and remapped/controller
 inputs. The optional icon must not become a prerequisite for automatic summoning.
+
+### Requested next work: native number shortcuts and localization
+
+Native number shortcuts are requested, but custom binding remains blocked.
+The current tagged None action loses its marker during native serialization;
+binding it over an existing shortcut can persist an empty action and lose the
+previous binding. Keep the protective native binding guard until a verified
+design covers binding, replay, removal, persistence and remapped native input.
+Physical key hooks or parallel hotkeys are not the requested solution.
+
+Draft source catalogs and an offline validator are being prepared separately.
+The runtime remains English; neither a reliable game-language reader nor the
+required non-English glyph path has been confirmed. Catalog presence alone is
+not translated in-game behavior. See [LOCALIZATION.md](LOCALIZATION.md).
 
 ## Retained unlaunched predecessor: 0.7.2
 
@@ -78,7 +107,7 @@ an owned ready icon when available and otherwise keeps this flag set.
 This is static evidence;
 readability and the actual disappearance of the white disc need a live check.
 
-### Historical and current running trial: 0.7.1
+### Historical live trial: 0.7.1
 
 Production 0.4.4 added passive post-queue diagnostics with the existing native
 menu and a version-pinned bridge. It registered both Mods and 11 hook targets at 22:22:35 on 27 September

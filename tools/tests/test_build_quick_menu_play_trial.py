@@ -27,7 +27,8 @@ class PlayTrialBuildTests(unittest.TestCase):
         self.menu.write_bytes(
             b'TRIAL_ENABLED = False\r\nSETTINGS_TOGGLE_ENABLED = False\r\nEXTENDED_SETTINGS_ENABLED = False\r\nCUSTOM_ICON_ENABLED = False\r\nraise AssertionError("menu must not execute")\r\n')
         (self.root / "assets/ui").mkdir(parents=True)
-        (self.root / "assets/ui/SETTINGS.DDS").write_bytes((TOOLS.parent / "assets/ui/SETTINGS.DDS").read_bytes())
+        for name in builder.ASSET_HASHES:
+            (self.root / "assets/ui" / name).write_bytes((TOOLS.parent / "assets/ui" / name).read_bytes())
         self.production = self.root / builder.PRODUCTION_FILE
         self.production.write_bytes(
             b'# preserved production\r\nraise AssertionError("production must not execute")\r\n')
@@ -57,6 +58,11 @@ class PlayTrialBuildTests(unittest.TestCase):
         self.root_patch = patch.object(builder, "ROOT", self.root)
         self.root_patch.start()
         self.addCleanup(self.root_patch.stop)
+        # Synthetic payloads deliberately cannot execute; catalog behavior is
+        # exercised separately against real source and in the build-gate test.
+        locale_patch = patch.object(builder, "validate_locales", return_value={})
+        self.locale_validator = locale_patch.start()
+        self.addCleanup(locale_patch.stop)
 
     def build(self, **kwargs):
         return builder.build(enable_menu=True, **kwargs)
@@ -67,13 +73,21 @@ class PlayTrialBuildTests(unittest.TestCase):
                 builder.build(enable_menu=enabled)
         self.assertFalse((self.root / "build").exists())
 
+    def test_invalid_locales_prevent_output_creation(self):
+        self.locale_validator.side_effect = ValueError("Stale translation")
+        with self.assertRaisesRegex(ValueError, "Stale translation"):
+            self.build()
+        self.locale_validator.assert_called_once_with(
+            locales_dir=self.root / "locales", source_root=self.root)
+        self.assertFalse((self.root / "build").exists())
+
     def test_exact_two_mod_bundle_preserves_sources_and_hashes_all_payloads(self):
         originals = {str(path.relative_to(self.root)): path.read_bytes()
                      for path in self.root.rglob("*") if path.is_file()}
         result = self.build()
         output = Path(result["output"])
-        self.assertEqual(output, self.root / "build/quick-menu-play-trial-082")
-        self.assertEqual(result["files"], 18)
+        self.assertEqual(output, self.root / "build/quick-menu-play-trial-083")
+        self.assertEqual(result["files"], 24)
         self.assertFalse(result["launched"])
         self.assertFalse(result["deployed"])
         self.assertTrue(result["auto_summon"])
@@ -93,10 +107,10 @@ class PlayTrialBuildTests(unittest.TestCase):
         for name in builder.HELPERS:
             self.assertEqual((output / name).read_bytes(), (self.root / "tools" / name).read_bytes())
         manifest = json.loads((output / "manifest.json").read_text())
-        self.assertEqual(manifest["version"], "0.8.2-play-trial")
+        self.assertEqual(manifest["version"], "0.8.3-play-trial")
         self.assertEqual(manifest["mods"], [
             {"name": "CompanionAutoSummon", "version": "0.4.7-experimental", "path": builder.PRODUCTION_FILE},
-            {"name": "CompanionMenuOrderTrial", "version": "0.8.0-settings-trial", "path": builder.MENU_FILE},
+            {"name": "CompanionMenuOrderTrial", "version": "0.8.3-settings-trial", "path": builder.MENU_FILE},
         ])
         self.assertTrue(manifest["auto_summon"])
         self.assertTrue(manifest["preference_actions"])
@@ -106,7 +120,7 @@ class PlayTrialBuildTests(unittest.TestCase):
         self.assertEqual(manifest["steam_build"], "synthetic-build")
         self.assertEqual(manifest["supported_nms_exe_sha256"], "f" * 64)
         entries = manifest["files"]
-        self.assertEqual(len(entries), 17)
+        self.assertEqual(len(entries), 23)
         self.assertEqual({entry["path"] for entry in entries},
                          {path.name for path in output.iterdir()} - {"manifest.json"})
         for entry in entries:
@@ -165,7 +179,7 @@ class PlayTrialBuildTests(unittest.TestCase):
     def test_readme_explains_native_toggle_and_preserves_other_preferences(self):
         output = Path(self.build()["output"])
         readme = (output / "README.md").read_text()
-        for phrase in ("two mods", "0.4.7-experimental", "0.8.0-settings-trial", "Automatic summoning: ON/OFF",
+        for phrase in ("two mods", "0.4.7-experimental", "0.8.3-settings-trial", "Automatic summoning: ON/OFF",
                        "This revision is not yet live-verified", "not reset or forced",
                        "temporary CompanionAutoSummon development panel", "no personal data", "absolute LOCALAPPDATA",
                        "neither mod writes the game's save files", "Never hot-reload",
@@ -191,7 +205,7 @@ class PlayTrialBuildTests(unittest.TestCase):
         self.assertFalse((output / "unrelated.py").exists())
 
     def test_existing_file_or_directory_is_not_reused(self):
-        output = self.root / "build/quick-menu-play-trial-082"
+        output = self.root / "build/quick-menu-play-trial-083"
         output.mkdir(parents=True)
         sentinel = output / "keep"
         sentinel.write_bytes(b"prior trial")
@@ -252,7 +266,7 @@ class PlayTrialBuildTests(unittest.TestCase):
             return original_write(path, data)
         with patch.object(Path, "write_bytes", failing_write), self.assertRaises(OSError):
             self.build()
-        output = self.root / "build/quick-menu-play-trial-082"
+        output = self.root / "build/quick-menu-play-trial-083"
         before = {path.name: path.read_bytes() for path in output.iterdir()}
         self.assertTrue(before)
         with self.assertRaises(FileExistsError):

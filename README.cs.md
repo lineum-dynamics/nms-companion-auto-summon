@@ -1,10 +1,18 @@
 # Companion Auto Summon 0.4.7 — testovací verze
 
+Připravený **0.8.3-play-trial** přidává šest různých ikon nastavení, výslovný
+popisek `Random: prefer matching biome` a kontrolu jazykových katalogů při
+sestavování. Ještě nebyl spuštěn ani nasazen; poslední instalace 0.8.2 je
+nedotčená. Prošlo **294 produkčních a 563 vývojových testů** i ověření pyMHF
+mimo hru. Existuje 14 katalogů pro menu a hlášky; 13 překladů jsou zatím návrhy
+bez jazykové revize. Hra stále používá anglické texty. Rozsah uvádí
+[LOCALIZATION.md](LOCALIZATION.md).
+
 Balíček 0.8.2 po ověřené záloze 43 souborů načetl 27. 9. 2026 v 23:58:46 oba módy a 12 nativních cílů s automatikou ON. Všech 17 souborů balíčku i osobní nastavení zůstalo shodných. Vlastní DDS je připravené a jeho hash ověřený. Viditelnou ikonu, hlášky, všech šest voleb a hraní teprve ověří hráč. Prošlo 294 produkčních a 519 vývojových testů i kontroly Windows a pyMHF.
 
 Tento Git repozitář je hlavní zdrojový projekt. Testovací instalace a ZIP balíčky jsou jeho výstupy; další úpravy vznikají v repozitáři. Postup sestavení a ověření je v [DEVELOPMENT.md](DEVELOPMENT.md).
 
-Nový kandidát **0.4.7 / 0.8.2-play-trial** doplňuje spouštěč. Parametr
+Poslední spuštěný kandidát **0.4.7 / 0.8.2-play-trial** doplnil spouštěč. Parametr
 `-CheckOnly` ověří balíček, podporovanou hru a existující runtime i za běhu NMS;
 nic nevytváří, neinstaluje ani nespouští. Běžnou přípravu a hostitele chrání
 oddělené zámky relace Windows `Setup.v1` a `Host.v1`, společné i pro balíčky
@@ -12,9 +20,9 @@ v různých složkách. Jejich platnost končí zavřením posledního systémov
 handlu, také při pádu procesu. Pokud nelze zjistit běžící procesy, běžná příprava
 se odmítne. Nejde o dokončený přenosný instalátor ani o herní ověření.
 
-Produkce 0.4.7 se proti 0.4.6 liší pouze údajem o verzi. Modul menu zůstává
-**0.8.0-settings-trial**, se stejnými šesti volbami a ikonou. Překlady jsou stále
-nedokončené. Běžící 0.7.1 i připravené balíčky 0.7.2 a 0.8.0 zůstávají nedotčené.
+Produkce 0.4.7 se proti 0.4.6 liší pouze údajem o verzi. V instalaci 0.8.2
+zůstává menu **0.8.0-settings-trial**. Připravená 0.8.3 má stejných šest voleb
+s odlišnými ikonami. Starší balíčky 0.7.1, 0.7.2 a 0.8.0 zůstávají nedotčené.
 
 Zdrojový kandidát **0.4.7** a společný balíček **0.8.2-play-trial**
 ukládají ručního favorita pouze po odpovídající úspěšné akci nativního ovládání
@@ -34,7 +42,7 @@ Používá dosavadní ukládání nastavení a přenastavené nativní ovládán
 se připravuje při spuštění se zavřenou hrou; neznámý existující soubor
 se nepřepisuje. Dočasný panel zůstává k porovnání při tomto společném testu.
 
-Kandidát 0.8.2 je načtený. Předchozí instalace **0.4.4 / 0.7.1** a připravený
+Kandidát 0.8.2 byl spuštěn. Předchozí instalace **0.4.4 / 0.7.1** a připravený
 starší balíček **0.4.5 / 0.7.2** zůstávají beze změny. Samostatný produkční ZIP
 obsahuje 0.4.7 bez pokusného menu a DDS; bez poskytovatele ikony používá čistý
 text. Přesný rozsah kontrol aktuálního kandidáta uvádí
@@ -45,7 +53,7 @@ nové ověřené záloze se spustila 27. 9. 2026 v 22:22:35. Diagnostika i hrá�
 potvrdili jedno vyvolání v Random po načtení v Anomálii. Jeden úspěch neřeší
 předchozí občasné selhání. Pasivní sledování nic znovu nevyvolává a neupravuje savy.
 
-Pravidla vývoje a architektura jsou v anglickém [DEVELOPMENT.md](DEVELOPMENT.md). Zdrojový kód, komentáře a vývojová diagnostika jsou anglicky. Panel i herní potvrzení jsou zatím pouze anglické; systém překladů dosud neexistuje. Cílové jazyky a zbývající práce popisuje [LOCALIZATION.md](LOCALIZATION.md).
+Pravidla vývoje a architektura jsou v anglickém [DEVELOPMENT.md](DEVELOPMENT.md). Zdrojový kód, komentáře a vývojová diagnostika jsou anglicky. Panel i herní potvrzení jsou zatím pouze anglické. Jazykové katalogy a kontrola jejich aktuálnosti už existují; zapojení do hry a jazykové i vizuální ověření zbývá. Rozsah popisuje [LOCALIZATION.md](LOCALIZATION.md).
 
 Verze 0.4.3 přidává jednu příležitost k automatickému vyvolání po úspěšném načtení lokálního savu. Po přihlášení rovnou pěšky tedy nemusíš nejprve nastoupit a vystoupit z lodi. Mód počká na povolenou lokaci, ověření vlastnictví a původní kontroly umístění. Během samotného načítání dat žádné nativní vyvolání nevolá.
 

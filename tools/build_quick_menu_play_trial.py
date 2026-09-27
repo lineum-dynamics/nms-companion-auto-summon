@@ -2,10 +2,20 @@
 
 import argparse
 import hashlib
+from importlib import util
 import json
 from pathlib import Path
 import re
 import tomllib
+
+_asset_spec = util.spec_from_file_location("_cas_build_assets", Path(__file__).with_name("quick_menu_assets.py"))
+_asset_module = util.module_from_spec(_asset_spec)
+_asset_spec.loader.exec_module(_asset_module)
+ASSET_HASHES, validate_asset = _asset_module.ASSET_HASHES, _asset_module.validate_asset
+_locale_spec = util.spec_from_file_location("_cas_build_locales", Path(__file__).with_name("validate_locales.py"))
+_locale_module = util.module_from_spec(_locale_spec)
+_locale_spec.loader.exec_module(_locale_module)
+validate_locales = _locale_module.validate
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -20,7 +30,7 @@ PLAY_HOST_FILE = "Launch-CompanionAutoSummon-PlayTrial.py"
 LAUNCHER_FILE = "Start-CompanionAutoSummon.ps1"
 CONFIG_FILE = "pymhf.toml"
 CHECKED_FILES = (PRODUCTION_FILE, MENU_FILE, GUARD_HOST_FILE, PLAY_HOST_FILE,
-                 *HELPERS, CONFIG_FILE, LAUNCHER_FILE, ASSET_FILE)
+                 *HELPERS, CONFIG_FILE, LAUNCHER_FILE, *ASSET_HASHES)
 CONFIG = b"""[pymhf]
 exe = "NMS.exe"
 steam_gameid = 275850
@@ -43,10 +53,10 @@ This isolated developer bundle runs two mods in one pyMHF host:
 - CompanionAutoSummon 0.4.7-experimental: automatic summoning after loading or
   ship exit, including its separate preference panel. The production source is
   copied byte-identically into this bundle.
-- CompanionMenuOrderTrial 0.8.0-settings-trial: the ordered native companion
-  submenu with all six settings, its binding filter and an optional custom icon.
+- CompanionMenuOrderTrial 0.8.3-settings-trial: the ordered native companion
+  submenu with all six settings, its binding filter and distinct setting icons.
 
-The bundle version is 0.8.2-play-trial. This revision is not yet live-verified.
+The bundle version is 0.8.3-play-trial. This revision is not yet live-verified.
 This launcher revision adds a fixed setup lease and a separate host lease to
 refuse duplicate launches before Steam has created NMS. Each lease lasts until
 its process closes the handle. Normal setup refuses unavailable process checks.
@@ -60,7 +70,7 @@ battle restoration, cannot overwrite that choice or announce it as saved.
 Passive observation remains; no new retries or summon delays are added.
 Shorter notices last 5.5 seconds. In-game validation is still required.
 The native page contains Automatic summoning: ON/OFF, companion selection
-(Last selected/Random), same-biome preference and three separate location
+(Last selected/Random), Random: prefer matching biome and three separate location
 switches (planets, space stations and Space Anomaly). Confirm a row with the
 configured native Select action to queue its change. The local player update
 applies and saves it through the existing production preference path. Pending
@@ -73,16 +83,26 @@ The temporary CompanionAutoSummon development panel remains available for
 this acceptance trial. The final player interface will retire it after the
 native controls are verified. Existing settings are not reset or forced.
 
-The original paw-with-arrow icon is included as SETTINGS.DDS. At a future
-closed-game launch, the host verifies the executable and stages the exact DDS
-under GAMEDATA/MODS/CompanionAutoSummon/TEXTURES/UI/FRONTEND/ICONS/
-COMPANIONAUTOSUMMON/SETTINGS.DDS. It reuses identical bytes and refuses to
-overwrite an unknown file. Packaging itself installs nothing. One natural
-menu-resource phase attempts registration; owned resources remain pinned
-for the process lifetime. A ready custom icon is preferred for menu entries
-and notices, then a retained native paw, then clean text for notices. There
-is no late-load or retry. Asset mounting, native lifetime and visual results
-still need the live trial; the white-circle fix is not yet visually confirmed.
+The original paw-with-arrow icon is included as SETTINGS.DDS for the parent
+and notices. Each child has its own original icon: power, companion selection,
+biome, planet, station and Anomaly. The biome preference affects Random on
+planets only; Last selected preserves its stored value without using it.
+At a future closed-game launch, the host validates all seven assets before
+staging under GAMEDATA/MODS/CompanionAutoSummon/TEXTURES/UI/FRONTEND/ICONS/
+COMPANIONAUTOSUMMON/. It reuses identical bytes and refuses to overwrite an
+unknown file. Packaging installs nothing. One natural menu-resource phase
+attempts registration; buffers remain pinned for the process lifetime. A ready
+role icon is preferred, then a retained native paw, then clean text for notices.
+There is no late-load or retry. Asset mounting, native lifetime and visual
+results still need a live trial; the white-circle fix is not visually confirmed.
+
+Number shortcuts for CAS entries remain blocked until native persistence and
+replay are verified. Binding the current tagged None action could erase an
+existing shortcut. The game may still display its standard Quick Bind hint.
+This does not affect ordinary native actions or add physical hotkeys.
+The source repository now validates draft menu/HUD catalogs for fourteen
+languages during builds. Runtime text in this trial remains English; automatic
+game-language detection and non-ASCII rendering are not yet implemented.
 
 When automatic summoning is enabled, loading a save records one pending startup
 intent. The first eligible local-player update handles it through the existing
@@ -160,7 +180,7 @@ def _launcher(data):
     return text.encode("utf-8")
 
 
-def build(*, enable_menu=False, output_name="quick-menu-play-trial-082"):
+def build(*, enable_menu=False, output_name="quick-menu-play-trial-083"):
     """Create one fresh, checksum-complete folder without executing payloads."""
     if enable_menu is not True:
         raise ValueError("Pass --enable-menu for this combined developer trial")
@@ -169,6 +189,7 @@ def build(*, enable_menu=False, output_name="quick-menu-play-trial-082"):
     output = ROOT / "build" / output_name
     if output.exists() or output.is_symlink():
         raise FileExistsError("Trial output already exists; choose a new output name")
+    validate_locales(locales_dir=ROOT / "locales", source_root=ROOT)
 
     menu = (ROOT / "tools/quick_menu_order_trial.py").read_bytes()
     if menu.count(b"TRIAL_ENABLED = False") != 1:
@@ -191,9 +212,9 @@ def build(*, enable_menu=False, output_name="quick-menu-play-trial-082"):
         payload[name] = (ROOT / "tools" / name).read_bytes()
     for name, data in payload.items():
         compile(data, name, "exec")
-    payload[ASSET_FILE] = (ROOT / "assets/ui" / ASSET_FILE).read_bytes()
-    if hashlib.sha256(payload[ASSET_FILE]).hexdigest() != "808a8b3f887a17a8ccc2b32752196e802915c87ecec43abb07205a5c7d30e9fe":
-        raise ValueError("The original icon asset differs from its reviewed bytes")
+    for asset_name in ASSET_HASHES:
+        payload[asset_name] = (ROOT / "assets/ui" / asset_name).read_bytes()
+        validate_asset(payload[asset_name], asset_name)
     tomllib.loads(CONFIG.decode("utf-8"))
     payload[CONFIG_FILE] = CONFIG
     payload[LAUNCHER_FILE] = _launcher((ROOT / LAUNCHER_FILE).read_bytes())
@@ -205,11 +226,11 @@ def build(*, enable_menu=False, output_name="quick-menu-play-trial-082"):
         raise ValueError("The play-trial host requires the reviewed production and framework versions")
     manifest = {
         "name": "Companion Auto Summon combined play trial",
-        "version": "0.8.2-play-trial",
+        "version": "0.8.3-play-trial",
         "framework": current["framework"],
         "steam_build": current["steam_build"],
         "supported_nms_exe_sha256": current["supported_nms_exe_sha256"],
-        "purpose": "Automatic summoning, six predicate-gated native settings and an optional owned icon in one folder-mode host",
+        "purpose": "Automatic summoning, six predicate-gated native settings and seven owned role icons in one folder-mode host",
         "observation_only": False,
         "auto_summon": True,
         "preference_actions": True,
@@ -221,7 +242,7 @@ def build(*, enable_menu=False, output_name="quick-menu-play-trial-082"):
         "mods": [
             {"name": "CompanionAutoSummon", "version": current["version"],
              "path": PRODUCTION_FILE},
-            {"name": "CompanionMenuOrderTrial", "version": "0.8.0-settings-trial",
+            {"name": "CompanionMenuOrderTrial", "version": "0.8.3-settings-trial",
              "path": MENU_FILE},
         ],
         "files": [{"path": name, "sha256": hashlib.sha256(data).hexdigest()}
@@ -242,7 +263,7 @@ def build(*, enable_menu=False, output_name="quick-menu-play-trial-082"):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--enable-menu", action="store_true")
-    parser.add_argument("--output-name", default="quick-menu-play-trial-082")
+    parser.add_argument("--output-name", default="quick-menu-play-trial-083")
     options = parser.parse_args()
     print(json.dumps(build(enable_menu=options.enable_menu,
                            output_name=options.output_name)))

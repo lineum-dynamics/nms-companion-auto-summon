@@ -8,20 +8,28 @@ Companion Auto Summon should feel consistent with No Man's Sky: familiar control
 
 ## Current state
 
-The prepared 0.4.6 candidate and combined 0.8.0 trial include the manual-origin
-repair and short 5.5-second confirmations from unlaunched 0.4.5 / 0.7.2. The new
-combined trial adds all six existing preferences to the flat native page and
-one original paw/arrow texture. It attempts resource registration once in the
-verified natural loading phase, uses a retained native paw fallback, and keeps
-notifications text-only when no owned icon is usable. The standalone production
-ZIP remains text-only without an optional provider and has no native menu.
-The six controls, resource lifetime and visual results are not live-verified.
-Keep the desktop development panel until native acceptance passes. The earlier
-0.7.2 artifact remains unlaunched and unchanged. The current live session remains
-0.4.4 in the immutable 0.7.1 folder, registered at 22:22:35 on 27 September 2026.
-Its one confirmed Anomaly startup does not resolve the earlier intermittent
-failure. Native activation must be distinguished from visible appearance;
-absence alone must never trigger a retry after a possible manual dismissal.
+Upcoming combined 0.8.3 retains production 0.4.7, all six existing preferences
+and 5.5-second confirmations. It adds distinct icons for the six settings and
+uses the original paw/arrow for the parent and notices. Resource registration
+is attempted once in the verified natural loading phase; a retained native paw
+is the per-role fallback. Notices remain text-only when no owned icon is usable.
+The biome label explicitly identifies Random as its scope. The installed 0.8.2
+folder is unchanged. Its registration and logged native activation do not
+establish visible appearance or full control acceptance. Keep the development
+panel until native acceptance passes. The standalone production ZIP has no
+native page or custom textures. Absence alone must never trigger a retry after
+a possible manual dismissal.
+
+Fourteen menu/HUD catalogs are now maintained and validated during builds.
+The thirteen non-English catalogs are drafts, not verified language support.
+Native runtime text remains English until language detection and glyph paths
+are verified. Every change must review locale impact; changed text or meaning
+requires the corresponding English and translation updates in the same change.
+
+Native number shortcuts are requested. Their acceptance requires safe storage,
+replay after restart, removal and preservation of existing assignments under
+remapped native controls. Current tagged None entries remain blocked because
+native serialization could replace a prior binding with an empty action.
 
 Historical production 0.4.3 added one deferred opportunity after a successful local save load, using the existing automation toggle and summon checks. One Random-mode startup on a space station is confirmed by the log and the user, without a ship exit. Production 0.4.2 previously registered in the combined 0.6.1 trial and logged an accepted station queue at 20:18:19 without separate visible-pet confirmation. The separate pyMHF tab uses the class name `CompanionAutoSummon`. The running trial retains that English panel and the native automation toggle; the new six-control candidate is not yet launched. HUD messages use the game's existing timed-message function. The 0.7.0 trial screenshot confirms OFF text rendering with an unwanted solid white disc above it. Full native acceptance, localization and a finished public launcher remain incomplete.
 

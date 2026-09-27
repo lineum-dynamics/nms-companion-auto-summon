@@ -11,6 +11,7 @@ from pathlib import Path
 import re
 import sys
 import zipfile
+from validate_locales import LOCALES, validate as validate_locales
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -24,6 +25,8 @@ PACKAGE_FILES = (
     "src/policy.py", "src/persistence.py", "src/settings.py", "src/runtime.py",
     "tests/test_policy.py", "tests/test_persistence.py", "tests/test_settings.py",
     "tests/test_runtime.py", "tests/test_launcher.py",
+    "tools/validate_locales.py", "tools/quick_menu_toggle.py", "tools/quick_menu_item.py",
+    *(f"locales/{locale}.json" for locale in LOCALES),
 )
 
 
@@ -38,6 +41,7 @@ def digest(data):
 
 def main():
     sys.dont_write_bytecode = True
+    locale_report = validate_locales(locales_dir=ROOT / "locales", source_root=ROOT)
     manifest_path = ROOT / "manifest.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     package_version = manifest["version"]
@@ -84,6 +88,7 @@ def main():
         "persistence": counts["test_persistence"], "settings": counts["test_settings"],
         "adapter_simulation": counts["test_runtime"], "host_launcher": counts["test_launcher"],
     }
+    manifest["localization_catalogs"] = locale_report
     manifest["files"] = [{"path": name, "sha256": digest(payload[name])} for name in PACKAGE_FILES]
     payload["manifest.json"] = (json.dumps(manifest, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
     archive_path = ROOT / "dist" / f"CompanionAutoSummon-{package_version}.zip"

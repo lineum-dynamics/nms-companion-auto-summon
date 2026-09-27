@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.8.3 developer trial — role icons and maintained locale drafts
+
+- Prepared a separate, unlaunched menu 0.8.3 with unchanged production 0.4.7. The previous 0.8.2 installation is immutable; this change does not deploy into the game.
+- Added six original setting icons alongside the existing parent/notice icon. Each role has a separately owned texture, with a retained native paw fallback. Validate all seven source/destination assets before staging at a later closed-game launch. No shared vanilla textures are replaced.
+- Renamed the biome row to `Random: prefer matching biome`; it still affects only Random on planets and preserves its stored value in Last selected mode.
+- Added 14 UTF-8 menu/HUD catalogs with 24 keys each. English is canonical; the other 13 are unreviewed drafts. Builds and release packaging reject missing/stale entries, mismatched placeholders and drift from current English menu/HUD source. Runtime integration, game-language detection, glyph/rendering checks and panel/launcher coverage remain unfinished.
+- Required a locale-impact review with every change and same-change updates for affected source text and translations. Recorded the request for native number shortcuts; current tagged None entries stay protected until persistence and replay are verified.
+
 ## 0.4.7 — read-only preflight and duplicate-launch protection
 
 - Combined 0.8.2 registered two Mods and 12 targets at 23:58:46 on 27 September 2026 after a verified 43-file backup. Automation is ON; 17 payloads and player files matched. DDS staging and one native resource registration were observed, while visible icon/HUD and control acceptance remain pending. Passed 294 production and 519 developer tests plus real-framework and Windows checks.

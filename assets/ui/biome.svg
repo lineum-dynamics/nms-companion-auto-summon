@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <title>Prefer matching planet biome in Random</title>
+  <desc>Original globe and leaf, white on transparent.</desc>
+  <g fill="none" stroke="#fff" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M106 69 A77 77 0 1 0 190 151"/>
+    <path d="M82 88 C110 117 82 147 112 177 L122 218 M41 149 H94"/>
+    <path d="M137 120 C118 76 159 38 220 37 C220 98 184 137 137 120Z"/>
+    <path d="M125 142 L184 79"/>
+  </g>
+</svg>

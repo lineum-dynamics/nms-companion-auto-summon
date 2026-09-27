@@ -41,7 +41,7 @@ def _first_pet(reader, snapshot):
 
 
 def append_before_pet(reader, menu, incoming, *, constructor, append, guard_capability,
-                      child_roles=(0,), permitted_icons=None, icon_handle=None):
+                      child_roles=(0,), permitted_icons=None, icon_handle=None, role_icons=None):
     """Append one parent before an eligible original pet append, or do nothing.
 
     The incoming native item must be independent of every current vector
@@ -53,6 +53,7 @@ def append_before_pet(reader, menu, incoming, *, constructor, append, guard_capa
     action = item._action(reader, incoming, 0)
     if action not in PET_ACTIONS:
         return False
+    choices = submenu._role_icons(role_icons, child_roles)
     options = {"child_roles": child_roles, "permitted_icons": permitted_icons}
     snapshot = submenu._snapshot(reader, menu, **options)
     if snapshot is None or snapshot[0].parent_index is not None:
@@ -81,7 +82,7 @@ def append_before_pet(reader, menu, incoming, *, constructor, append, guard_capa
 
     submenu._append_role(reader, menu, snapshot, submenu.ROOT_SLOT,
                          constructor, checked_append, guard_capability,
-                         icon_handle=icon_handle, **options)
+                         icon_handle=icon_handle, role_icons=choices, **options)
     if _source_copy(reader, incoming) != original:
         raise MenuItemError("Incoming native item changed during insertion; outcome is unverified")
     return True

@@ -1,6 +1,6 @@
 # Companion Auto Summon development guide
 
-Current live session is the immutable 0.8.2 folder: production0.4.7 and menu0.8.0 registered at23:58:46 on27 September2026 after a verified43-file backup. Two Mods/12 targets and automation ON are confirmed.17 payloads and player files matched at startup; DDS staged/verified.519 developer and294 production tests passed. Native rendering, controls and gameplay remain unverified. Earlier unlaunched preparation notes below retain their source-stage meaning.
+The next source candidate is **0.8.3-play-trial**, with menu **0.8.3-settings-trial** and unchanged production **0.4.7**. It adds six distinct setting icons, an explicitly Random-only biome caption and build-time catalog validation. It has not launched or deployed. The last launched folder, **0.8.2**, is immutable: its two Mods and 12 targets registered at 23:58:46 on 27 September 2026, after a verified 43-file backup. Native rendering and full controls still await player acceptance. Earlier preparation notes below retain their historical scope.
 
 This repository is the canonical development location. Keep installed test copies and prior exports as deployment artifacts, not as competing source trees. Record live observations against the exact version; neither the historical 0.4.2 rename nor the new 0.4.3 load trigger inherits earlier gameplay verification.
 
@@ -9,13 +9,14 @@ This repository is the canonical development location. Keep installed test copie
 - Write all source code, identifiers, comments, docstrings, test names, build scripts and developer diagnostics in English.
 - Put translated player-facing text in separate locale resources. English is the canonical source language. Non-English text belongs in translation data or deliberately encoded Unicode test fixtures, not explanatory source prose.
 - Update implementation, relevant tests and affected documentation in the same change. Do not leave the description of defaults, behavior, setup or support scope behind the code.
+- Review locale impact on every change. Update English and all affected translations together when text or meaning changes. Run `python -B tools/validate_locales.py`; the maintained standalone build, combined build and source packaging also run it before writing outputs. Draft completeness does not establish runtime support or language review.
 - Preserve native ownership, summon eligibility and placement checks. Do not generate or unlock companions, reduce gameplay limits, accelerate growth or alter game-save files.
 - Never edit a running installation or terminate the game or its runtime as part of routine deployment. Preserve current progress before a new live trial.
 - Keep personal saves, settings, accounts, logs, raw executable analysis and developer-machine paths out of public packages.
 
 ## Current implementation
 
-The current source is **0.4.7-experimental**, loaded in combined trial **0.8.2-play-trial**. Production behavior is unchanged from 0.4.6 apart from version metadata; the menu remains **0.8.0-settings-trial**. The previous 0.4.4 / 0.7.1 installation and prepared 0.7.2 and 0.8.0 artifacts remain unchanged. The target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The development launcher accepts Python 3.11–3.13 x64.
+The production source remains **0.4.7-experimental**, used by the last launched **0.8.2-play-trial** and upcoming **0.8.3-play-trial**. The latter carries menu **0.8.3-settings-trial**; the installed 0.8.2 retains menu 0.8.0. Earlier artifacts remain unchanged. The target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The development launcher accepts Python 3.11–3.13 x64.
 
 The PowerShell launcher's `-CheckOnly` path validates package integrity, the
 supported game and the existing runtime without creating files/directories,
@@ -42,8 +43,9 @@ and session-only captions retain their existing meaning. Legacy trials keep
 their one-child default. Full-page navigation and preference application remain
 unverified in-game; the development panel stays available.
 
-The original DDS is exclusive to the combined trial. Its launcher validates and
-stages the unique asset while the game is closed; packaging itself never deploys.
+The seven original DDS icons are exclusive to the upcoming combined trial.
+Its launcher validates the entire fixed set before staging unique assets while
+the game is closed; packaging itself never deploys.
 An exact-build natural `LoadResources` AFTER callback makes one registration
 attempt. Its owner and buffers are pinned before native resource operations;
 it retains a verified original paw as fallback and never writes the menu's paw
@@ -53,6 +55,14 @@ is installed. Ownership during native teardown and actual appearance remain
 live acceptance boundaries. Production 0.4.7 retains the optional idempotently
 bound notice provider; absent/invalid providers yield text-only HUD notices.
 The standalone ZIP does not include the custom asset or native settings page.
+
+The parent and notices use the original paw/arrow. The six children use power,
+companion selection, biome, planet, station and Anomaly icons respectively.
+An unavailable child icon falls back independently to the retained native paw.
+The biome row reads `Random: prefer matching biome`; its value remains stored
+but has no effect in Last selected mode. The source ZIP includes draft locale
+catalogs and their minimal validation sources so its `build.py` remains usable.
+Catalogs are not yet consumed by the runtime; native text remains English.
 
 Manual-favourite learning now requires a paired native companion UI action 46,
 one matching accepted local queue, and a successful original result. The pair

@@ -66,7 +66,7 @@ class FullPageTests(SettingsFixture):
         cases = (
             (0, "enabled", False, b"Automatic summoning: ON", b"Automatic summoning: OFF"),
             (1, "selection_mode", "random", b"Selection: Last selected", b"Selection: Random"),
-            (2, "prefer_same_biome", False, b"Prefer matching biome: ON", b"Prefer matching biome: OFF"),
+            (2, "prefer_same_biome", False, b"Random: prefer matching biome: ON", b"Random: prefer matching biome: OFF"),
             (3, "planets", False, b"Planets: ON", b"Planets: OFF"),
             (4, "space_stations", False, b"Space stations: ON", b"Space stations: OFF"),
             (5, "nexus", False, b"Space Anomaly: ON", b"Space Anomaly: OFF"),
@@ -210,8 +210,86 @@ class IconFixture(SettingsFixture):
         self.trial._load_texture = Mock()
         self.trial._retain_icon = Mock()
 
+    def use_role_icons(self, handles):
+        self.icons.icon_handle.side_effect = lambda reader, manager, role=-1: handles.get(role, 0)
+        def construct(owned, icon, action, disabled, background):
+            self.construct(owned, 0x12345678, action, disabled, background)
+            owned[:4] = icon.to_bytes(4, "little")
+        self.constructor.side_effect = construct
+
+    def copied_role_icons(self):
+        parent = int.from_bytes(self.reader(self.parent, 4), "little")
+        pointer, count = self.vector(2)
+        self.assertEqual(count, 6)
+        return {-1: parent, **{
+            role: int.from_bytes(self.reader(pointer + role * ITEM.ITEM_SIZE, 4), "little")
+            for role in range(6)
+        }}
+
 
 class OptionalIconTests(IconFixture):
+    def test_distinct_role_icons_reach_matching_items_and_hud_keeps_parent(self):
+        handles = {role: 0x4455 + role + 1 for role in range(-1, 6)}
+        self.use_role_icons(handles)
+        self.assertIsNone(self.trial.after_resources(self.menu))
+        self.prepare_child()
+        self.assertEqual(self.copied_role_icons(), handles)
+        self.assertEqual(self.reader(self.parent + ITEM.ITEM_SIZE, ITEM.ITEM_SIZE), self.pet_before)
+        self.assertEqual(bytes(self.regions[self.pet]), self.pet_before)
+        self.assertEqual(self.production_mod._notice_icon_handle(), handles[-1])
+        options = self.trial._menu_options()
+        self.assertEqual(set(options), {"child_roles", "permitted_icons"})
+        self.assertEqual(set(options["permitted_icons"]), set(handles.values()))
+        self.assert_no_request()
+
+    def test_one_unavailable_role_uses_native_paw_without_changing_other_icons(self):
+        handles = {role: 0x4455 + role + 1 for role in range(-1, 6)}
+        expected = {**handles, 2: 0x12345678}
+        handles[2] = 0
+        self.use_role_icons(handles)
+        self.prepare_child()
+        self.assertEqual(self.copied_role_icons(), expected)
+        self.select_role(2)
+        self.expected_label(b"Random: prefer matching biome: ON")
+        self.fresh_press()
+        self.trigger_child()
+        self.assertEqual(self.production_mod.requested_preferences, {"prefer_same_biome": False})
+        self.assertEqual(self.reader(self.parent + ITEM.ITEM_SIZE, ITEM.ITEM_SIZE), self.pet_before)
+        self.assert_no_transition()
+
+    def test_eight_known_handles_keep_existing_page_usable_when_provider_is_unavailable(self):
+        custom = {role: 0x4455 + role + 1 for role in range(-1, 6)}
+        handles = {**custom, 5: 0x12345678}  # A retained native paw during the last asset's load.
+        self.use_role_icons(handles)
+        self.prepare_child()
+        self.assertEqual(self.copied_role_icons(), handles)
+        handles[5] = custom[5]
+        fresh = self.trial._menu_options(construction=True)
+        self.assertEqual(fresh["role_icons"], custom)
+        self.assertEqual(set(fresh["permitted_icons"]), set(custom.values()) | {0x12345678})
+        handles.clear()
+        options = self.trial._menu_options()
+        self.assertEqual(set(options), {"child_roles", "permitted_icons"})
+        self.assertEqual(len(options["permitted_icons"]), 8)
+        before = self.memory_snapshot()
+        native_count = len(self.native_calls)
+        for role, caption in enumerate((
+                b"Automatic summoning: ON", b"Selection: Last selected",
+                b"Random: prefer matching biome: ON", b"Planets: ON",
+                b"Space stations: ON", b"Space Anomaly: ON")):
+            self.select_role(role)
+            self.expected_label(caption)
+        self.select_role(5)
+        self.fresh_press()
+        self.trigger_child()
+        self.assertEqual(self.production_mod.requested_preferences, {"nexus": False})
+        self.select_role(0)
+        self.assertIsNone(self.builder())
+        self.assertFalse(self.trial._stopped)
+        self.assertEqual(len(self.native_calls), native_count)
+        self.assertEqual(self.memory_snapshot(), before)
+        self.assert_no_transition()
+
     def test_resource_phase_has_independent_thread_and_binds_one_provider_without_native_calls(self):
         self.assertIsNone(self.trial._thread)
         self.module.get_native_id.return_value = 987654
@@ -375,7 +453,7 @@ class FullSettingsMetadataTests(unittest.TestCase):
         resource = next(value for value in module.test_declarations if value.offset == 0x151AD80)
         self.assertEqual(list(resource.function.__annotations__.values()), [ctypes.c_void_p, None])
         self.assertEqual(module.CompanionMenuOrderTrial.after_resources._test_hook_time, "after")
-        self.assertEqual(module.CompanionMenuOrderTrial._version, "0.8.0-settings-trial")
+        self.assertEqual(module.CompanionMenuOrderTrial._version, "0.8.3-settings-trial")
 
     def test_process_owner_pin_refuses_replacement_without_native_activity(self):
         module = load_trial(settings_enabled=True, extended_settings=True, custom_icon=True)

@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "locale": "ko",
+  "scope": "native_menu_hud",
+  "review_status": "draft_unreviewed",
+  "native_runtime_integrated": false,
+  "unchanged_keys": [
+    "menu.parent_title",
+    "format.setting",
+    "format.with_status",
+    "hud.automation_state"
+  ],
+  "messages": {
+    "menu.parent_title": {
+      "text": "Companion Auto Summon",
+      "source_sha256": "b46813343eb621b6de30d41853448c03116a48b294c87df8d4c5fe13e95a0aae"
+    },
+    "menu.automation": {
+      "text": "자동 소환",
+      "source_sha256": "b70f50db0ed6ffc8997a5988a1640dbf4e5469f7627471871e88f1a3c1951229"
+    },
+    "menu.selection": {
+      "text": "선택",
+      "source_sha256": "ca4067071fcf618543805e3d94af63144b21f4fae9eade2408f1c24f7e5214e9"
+    },
+    "menu.biome": {
+      "text": "무작위: 일치하는 생물군계 우선",
+      "source_sha256": "cb8f3cebfa9435abc37a178e3238feae5051ea047dfc73b4a1d0976323f11932"
+    },
+    "menu.planets": {
+      "text": "행성",
+      "source_sha256": "c06c7c6bbd5795686ee665d65784a9e68912bc82000751cf0f23ffec3d1773a3"
+    },
+    "menu.space_stations": {
+      "text": "우주 정거장",
+      "source_sha256": "646f70ca6ff3c432e5953f3fd9c891a70b41c84622ad46ad6242425cc4c244f9"
+    },
+    "menu.space_anomaly": {
+      "text": "스페이스 아노말리",
+      "source_sha256": "563543623eddab67e1db05c6e953dca75859998713e3d1d9b526bf3ef491bcb4"
+    },
+    "value.on": {
+      "text": "켜짐",
+      "source_sha256": "e8a01133b1351e5fa434167135400d1998d3daa8ce74e3dd9bb57582fa4d7b97"
+    },
+    "value.off": {
+      "text": "꺼짐",
+      "source_sha256": "38cca6bea010af8adaf4be7d270456fa9adef8c0252db91f2767c607d077319b"
+    },
+    "value.last_selected": {
+      "text": "마지막으로 선택한 동료",
+      "source_sha256": "79c1d310e45cea6071337dd78d78392df08f0a53ae7104dce5e8693e488adcbf"
+    },
+    "value.random": {
+      "text": "무작위",
+      "source_sha256": "67bc484430fe87babe3c35d2ba4827d029f1c7e415a92de44885a9c88536661f"
+    },
+    "status.pending": {
+      "text": "적용 대기",
+      "source_sha256": "62a2fed3d6e08c44835fce71f02210b1ddabfb066e39edf1e6c261988f824dd3"
+    },
+    "status.session_only": {
+      "text": "이번 세션만",
+      "source_sha256": "595ce36f94d6a40f6462c80818c490ac01f36a5ea840644bdc3841357bf56026"
+    },
+    "status.unavailable": {
+      "text": "사용 불가",
+      "source_sha256": "ba691ba042bcedd9a61a36f5969026bc95859dccdc7e47f24e6bce35673baf2f"
+    },
+    "status.stopped": {
+      "text": "중지됨",
+      "source_sha256": "8322e87d24582952e5c996da182de0eca66dd2bf58fba5ec56a325c656f21b38"
+    },
+    "format.setting": {
+      "text": "{label}: {value}",
+      "source_sha256": "228959acecadf2e1bbb428ff3b98a8f7549ad658fa455925a1b10356ab2b4572"
+    },
+    "format.with_status": {
+      "text": "{label} ({status})",
+      "source_sha256": "91296ce9d7f8f557e739c1b6959e7287451b134eb73e31e5b3d804c9c45240de"
+    },
+    "hud.automation_state": {
+      "text": "Companion Auto Summon: {state}{suffix}",
+      "source_sha256": "9736c6783d3a6f8a0c802663cc486ff3346149d15e0adcdfdd4243ff88f5e799"
+    },
+    "hud.settings_updated": {
+      "text": "Companion Auto Summon: 설정이 업데이트되었습니다{suffix}",
+      "source_sha256": "32091ba51b817c817456204dbe6c2f1ca126459ffdf22bad03c1284439a918d9"
+    },
+    "hud.session_suffix": {
+      "text": " (이번 세션만)",
+      "source_sha256": "d9d1e624f3f1ac77ef1402ca1884e9475fb8243cc2ce04406d2dda1b8476e1dc"
+    },
+    "hud.companion_saved": {
+      "text": "동료가 저장되었습니다.",
+      "source_sha256": "b61a541cc5133a8b5c8ac09fd2c63c209b696e5d0a12feafd58dc720bf12d9ae"
+    },
+    "hud.companion_session": {
+      "text": "동료를 선택했습니다(이번 세션만).",
+      "source_sha256": "5f9316d08ddc015227778d00fb6c1b169dd7d49bd3bfda9fb9b4ba191062eebc"
+    },
+    "hud.auto_off_suffix": {
+      "text": " 자동 소환은 꺼져 있습니다.",
+      "source_sha256": "31fa66e514096bd43215ce49d4d05129ba3eefabe04573b2fcd28bb65349b05f"
+    },
+    "hud.random_on_suffix": {
+      "text": " 무작위는 계속 켜져 있습니다.",
+      "source_sha256": "d07e99aa4f67341bcc9e51db5fd74b688c04a3ae6f48b53fbfa141872ba30f93"
+    }
+  }
+}

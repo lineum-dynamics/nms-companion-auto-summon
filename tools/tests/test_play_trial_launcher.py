@@ -52,13 +52,13 @@ class PlayTrialFixture(unittest.TestCase):
                 data = CONFIG
             (self.bundle / name).write_bytes(data)
         self.manifest = {
-            "version": "0.8.2-play-trial", "framework": "pymhf[gui]==0.2.4",
+            "version": "0.8.3-play-trial", "framework": "pymhf[gui]==0.2.4",
             "auto_summon": True, "preference_actions": True,
             "preference_keys": ["enabled", "selection_mode", "prefer_same_biome", "locations"],
             "mods": [
                 {"name": "CompanionAutoSummon", "version": "0.4.7-experimental",
                  "path": "CompanionAutoSummon.py"},
-                {"name": "CompanionMenuOrderTrial", "version": "0.8.0-settings-trial",
+                {"name": "CompanionMenuOrderTrial", "version": "0.8.3-settings-trial",
                  "path": "CompanionMenuOrderTrial.py"},
             ],
             "files": [{"path": name, "sha256": hashlib.sha256((self.bundle / name).read_bytes()).hexdigest()}
@@ -122,7 +122,7 @@ class BundleValidationTests(PlayTrialFixture):
         bundle, config = LAUNCHER.validate_bundle(str(self.bundle))
         self.assertEqual(bundle, self.bundle.resolve())
         self.assertTrue(config["gui"]["shown"])
-        self.assertEqual(len(self.manifest["files"]), 17)
+        self.assertEqual(len(self.manifest["files"]), 23)
         self.assertEqual({entry["name"] for entry in self.manifest["mods"]},
                          {"CompanionAutoSummon", "CompanionMenuOrderTrial"})
         self.assertFalse((self.bundle / "settings.json").exists())
@@ -166,7 +166,7 @@ class BundleValidationTests(PlayTrialFixture):
 
     def test_wrong_manifest_semantics_are_not_accepted_as_another_trial(self):
         pristine = copy.deepcopy(self.manifest)
-        for key, value in (("version", "0.8.0-settings-trial"), ("framework", "pymhf==0.2.4"),
+        for key, value in (("version", "0.8.3-settings-trial"), ("framework", "pymhf==0.2.4"),
                            ("auto_summon", False), ("auto_summon", 1),
                            ("preference_actions", False), ("preference_keys", []),
                            ("preference_keys", ["enabled", "locations"]), ("mods", pristine["mods"][:1]),
@@ -306,7 +306,8 @@ class HostRoutingTests(PlayTrialFixture):
         self.manifest["supported_nms_exe_sha256"] = hashlib.sha256(executable).hexdigest()
         self.save_manifest()
         (self.bundle / "quick_menu_assets.py").write_bytes((ROOT / "tools/quick_menu_assets.py").read_bytes())
-        (self.bundle / "SETTINGS.DDS").write_bytes((ROOT / "assets/ui/SETTINGS.DDS").read_bytes())
+        for name in ("SETTINGS.DDS", "AUTOMATION.DDS", "SELECTION.DDS", "BIOME.DDS", "PLANET.DDS", "STATION.DDS", "ANOMALY.DDS"):
+            (self.bundle / name).write_bytes((ROOT / "assets/ui" / name).read_bytes())
         sentinel = game / "keep.txt"
         sentinel.write_bytes(b"preserved")
         with patch.object(LAUNCHER, "_game_closed", return_value=False), self.assertRaises(LAUNCHER.BundleError):

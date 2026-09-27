@@ -40,6 +40,50 @@ class IconAssetTests(unittest.TestCase):
     def test_original_header_payload_and_hash(self):
         self.assertEqual(assets.validate_asset(ORIGINAL), assets.ASSET_SHA256)
 
+    def prepare_icon_set(self):
+        for name in assets.ASSET_HASHES:
+            data = (TOOLS.parent / "assets/ui" / name).read_bytes()
+            (self.bundle / name).write_bytes(data)
+
+    def test_all_seven_original_assets_are_distinct_and_validated_by_name(self):
+        self.assertEqual(len(set(assets.ASSET_HASHES.values())), 7)
+        for name, expected in assets.ASSET_HASHES.items():
+            data = (TOOLS.parent / "assets/ui" / name).read_bytes()
+            self.assertEqual(assets.validate_asset(data, name), expected)
+            if name != assets.ASSET_NAME:
+                with self.assertRaises(assets.AssetError):
+                    assets.validate_asset(data, assets.ASSET_NAME)
+        for name in ("../SETTINGS.DDS", "settings.dds", "OTHER.DDS", None):
+            with self.assertRaises(assets.AssetError):
+                assets.validate_asset(ORIGINAL, name)
+
+    def test_complete_set_installs_once_and_preserves_existing_main_icon(self):
+        self.prepare_icon_set()
+        self.prepare_destination()
+        result = assets.install_icons(self.bundle, self.game, self.closed)
+        self.assertEqual(len(result["files"]), 7)
+        self.assertEqual(sum(entry["installed"] for entry in result["files"]), 6)
+        self.assertEqual(self.destination.read_bytes(), ORIGINAL)
+        with patch.object(assets.os, "link", side_effect=AssertionError("unexpected mutation")):
+            self.assertTrue(assets.install_icons(self.bundle, self.game, self.closed)["reused"])
+
+    def test_missing_late_source_prevents_all_set_mutation(self):
+        self.prepare_icon_set()
+        (self.bundle / "ANOMALY.DDS").unlink()
+        with self.assertRaises(assets.AssetError):
+            assets.install_icons(self.bundle, self.game, self.closed)
+        self.assertFalse((self.game / "GAMEDATA").exists())
+
+    def test_unknown_late_destination_prevents_earlier_file_publication(self):
+        self.prepare_icon_set()
+        late = self.game / assets._destination("ANOMALY.DDS")
+        late.parent.mkdir(parents=True)
+        late.write_bytes(b"user-owned content")
+        with self.assertRaises(assets.AssetError):
+            assets.install_icons(self.bundle, self.game, self.closed)
+        self.assertEqual(list(late.parent.iterdir()), [late])
+        self.assertEqual(late.read_bytes(), b"user-owned content")
+
     def test_wrong_size_type_signature_header_and_pixels_refused(self):
         invalid = [bytearray(ORIGINAL), ORIGINAL[:-1], ORIGINAL + b"x",
                    b"BAD " + ORIGINAL[4:]]

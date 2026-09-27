@@ -44,6 +44,30 @@ class OrderFixture(SubmenuFixture):
 
 
 class OrderingTests(OrderFixture):
+    def test_role_specific_parent_icon_precedes_unchanged_native_pet(self):
+        def construct(buffer, icon, action, disabled, background):
+            self.assertEqual(icon, 101)
+            self.construct(buffer, 0x12345678, action, disabled, background)
+            buffer[:4] = icon.to_bytes(4, "little")
+        self.constructor.side_effect = construct
+        before = bytes(self.regions[self.incoming])
+        self.assertTrue(self.order(role_icons={-1: 101, 0: 102},
+                                   permitted_icons=(101, 102, 103), icon_handle=103))
+        self.append_original()
+        self.assertEqual(self.actions(), [40, 50, 0, 46])
+        parent = self.regions[self.vector_pointer(1)][2 * ITEM.ITEM_SIZE:3 * ITEM.ITEM_SIZE]
+        self.assertEqual(int.from_bytes(parent[:4], "little"), 101)
+        self.assertEqual(bytes(self.regions[self.incoming]), before)
+
+    def test_invalid_or_unpermitted_later_role_refuses_before_parent_append(self):
+        for mapping in ({-1: 101, 5: 999}, {6: 101}, {True: 101}, {0: 0}):
+            with self.subTest(mapping=mapping), self.assertRaises(ORDER.MenuItemError):
+                self.order(role_icons=mapping, child_roles=SUB.SETTINGS_CHILD_ROLES,
+                           permitted_icons=(101,))
+        self.constructor.assert_not_called()
+        self.append_callback.assert_not_called()
+        self.assertEqual(self.actions(), [40, 50])
+
     def test_general_actions_then_cas_then_unchanged_original_pet(self):
         source = bytes(self.regions[self.incoming])
         general = bytes(self.regions[self.child_data])

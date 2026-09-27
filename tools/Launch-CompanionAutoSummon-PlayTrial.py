@@ -12,7 +12,7 @@ from pathlib import Path
 import tomllib
 
 
-VERSION = "0.8.2-play-trial"
+VERSION = "0.8.3-play-trial"
 HOST_NAME = "Launch-CompanionAutoSummon-PlayTrial.py"
 BOOTSTRAP_NAME = "Launch-CompanionAutoSummon.py"
 PAYLOAD_FILES = frozenset((
@@ -21,12 +21,13 @@ PAYLOAD_FILES = frozenset((
     "quick_menu_native_guard.py", "quick_menu_guard_runtime.py",
     "quick_menu_preferences.py", "quick_menu_toggle.py",
     "quick_menu_icon.py", "quick_menu_assets.py", "SETTINGS.DDS",
+    "AUTOMATION.DDS", "SELECTION.DDS", "BIOME.DDS", "PLANET.DDS", "STATION.DDS", "ANOMALY.DDS",
     HOST_NAME, BOOTSTRAP_NAME, "Start-CompanionAutoSummon.ps1",
     "pymhf.toml", "README.md",
 ))
 EXPECTED_MODS = [
     {"name": "CompanionAutoSummon", "version": "0.4.7-experimental", "path": "CompanionAutoSummon.py"},
-    {"name": "CompanionMenuOrderTrial", "version": "0.8.0-settings-trial", "path": "CompanionMenuOrderTrial.py"},
+    {"name": "CompanionMenuOrderTrial", "version": "0.8.3-settings-trial", "path": "CompanionMenuOrderTrial.py"},
 ]
 EXPECTED_CONFIG = {
     "exe": "NMS.exe", "steam_gameid": 275850, "start_paused": False,
@@ -184,7 +185,7 @@ def _prepare_icon_asset(bundle, game_directory):
     spec = util.spec_from_file_location("_cas_play_icon_asset_installer", bundle / "quick_menu_assets.py")
     module = util.module_from_spec(spec)
     spec.loader.exec_module(module)
-    return module.install_icon(bundle, supplied, _game_closed)
+    return module.install_icons(bundle, supplied, _game_closed)
 
 
 def main(argv=None):

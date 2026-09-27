@@ -1,7 +1,7 @@
 {
   "name": "Companion Auto Summon",
   "version": "0.4.7-experimental",
-  "date": "2026-09-27",
+  "date": "2026-09-28",
   "installed_in_game_directory": false,
   "tested_inside_game": true,
   "runtime_load_verified": true,
@@ -32,7 +32,7 @@
     "host_launcher": 30
   },
   "actual_framework_import_and_gui_properties": "Passed with the real pyMHF 0.2.4 and DearPyGui: eight widgets constructed and preference callbacks exercised with temporary files, no viewport, hook registration, native game calls or game launch",
-  "launcher_validation": "294 production and519 developer tests passed, plus real Windows cross-process lease and real pyMHF checks. Earlier0.8.1 refused an unnamed protected process before launch. Corrected Toolhelp enumeration allowed0.8.2 startup; package/game/runtime preflight passed and no duplicate host was started.",
+  "launcher_validation": "294 production and 563 developer tests passed for the prepared source, plus real pyMHF source and combined 0.8.3 checks outside the game. Earlier real Windows lease checks and 0.8.2 Toolhelp launch evidence remain scoped to that prior revision; 0.8.3 has not launched.",
   "preferences_included": false,
   "manual_selection_path": "%LOCALAPPDATA%/NMS-AutoPet/state.json",
   "preferences_path": "%LOCALAPPDATA%/NMS-AutoPet/settings.json",
@@ -65,19 +65,19 @@
     },
     {
       "path": "README.md",
-      "sha256": "57781b7e0976aa716deae0c2a8a17665e57aecd99bfc834d35e10f67bd21ef78"
+      "sha256": "1bc1e0596ee12d95781489e440da5586b504ca31bf32d7688e85111b6a713ad2"
     },
     {
       "path": "README.cs.md",
-      "sha256": "0ff2489b2521bd370e0d5acfb5804607addff4274c7bb13afbc4dec94c324735"
+      "sha256": "1f9d433d9b0104323faf51224fb5d27000f3997b97c2a9b03e4b9d46d3ca8b29"
     },
     {
       "path": "TECHNICKE-OVERENI.md",
-      "sha256": "7aebe6b91992405ad94d363be70fd211cf7a10e836921d9cda79db69f8e1c94f"
+      "sha256": "40895bcc306609e148fab58c32bc666e18e7f50ffb3bd35a3cfc478af9d706a7"
     },
     {
       "path": "build.py",
-      "sha256": "7434891b4b1e2f555161dea290bc4ffd4336bc2a4d0198641e71ec991d164b4e"
+      "sha256": "10f1fd64ea389fe61ac5b7d524624e1a64aaa59ad423c2e30c3bd9c3a9c3ec60"
     },
     {
       "path": "Start-CompanionAutoSummon.ps1",
@@ -85,27 +85,27 @@
     },
     {
       "path": "DEVELOPMENT.md",
-      "sha256": "35e2c6c4ec2b216364885f20dbfa28f69d076304c2df44f62c8d050df016811f"
+      "sha256": "3649172c5608512d10ef3db58df9826616f4c876248b93b1f469d84191ac7126"
     },
     {
       "path": "LOCALIZATION.md",
-      "sha256": "3dba5557e29182088f56a71ec0a07be5bea831dc912872dfdb960c0deea164e1"
+      "sha256": "c556f39fc189ebc5a507b92506fd614efecebfbb05e183f499a0be1002bea81e"
     },
     {
       "path": "DESIGN.md",
-      "sha256": "f7a78021b372a41c0be92c78fef682a51749a10d1a1c0f6b2ecaec41f7845db9"
+      "sha256": "e706a7a7cf73a634b2a995677d91c5ecfcb01b11fe19f4630a045ba083c168b4"
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "9a810ea97a9a9160ad0f6e15f44b823d288bca1defb764f590c0b7041821b47c"
+      "sha256": "bb7354b204c69abcfe5197a3d582bcecf17180a4ed7ef6d330f9b2d0cf9639f9"
     },
     {
       "path": "ROADMAP.md",
-      "sha256": "e8b7653b0277b2d93a22e33f2d227ae72ccba237a37be68d0b511b7279ca3e35"
+      "sha256": "72be10c460559a45b921a31b25f83e2742c197d02a79429fd7131c8032b26965"
     },
     {
       "path": "QUICK-MENU.md",
-      "sha256": "6548346db8623392cc9f2b9857b735c651e9c69c77d9090b210b74a1810f6091"
+      "sha256": "e4ee347bf86c9966de4f7bf59f29cebffd1e5f06e553e3fd6e5363f21e5a2513"
     },
     {
       "path": "docs/release/PRIPRAVA-VYDANI.md",
@@ -154,6 +154,74 @@
     {
       "path": "tests/test_launcher.py",
       "sha256": "3d12e22f82051d9f0d2657ce964fc5ad27fe58c7b9e322c6a7147765836bcf0c"
+    },
+    {
+      "path": "tools/validate_locales.py",
+      "sha256": "ddc8d04ed9590b7244fe91a832a25405b9615ffc834fac389efa3437b8a0c7af"
+    },
+    {
+      "path": "tools/quick_menu_toggle.py",
+      "sha256": "1549a676a6815b64f91f969ad6fb7c3a23cec028c8bf2825ced4c74b659c902f"
+    },
+    {
+      "path": "tools/quick_menu_item.py",
+      "sha256": "144509932f1b650d6d684888c5422fa2ea15a1fd74f7dea3d1c6bb4ba4989068"
+    },
+    {
+      "path": "locales/en.json",
+      "sha256": "3513de32bd033a8ba134f7efa4a06be666d96f78b1fdd4e9cba5cd68e59330a7"
+    },
+    {
+      "path": "locales/fr.json",
+      "sha256": "656556d0335418915d73fe04bb74084d99f7843c39eceb2447d04f120d160b26"
+    },
+    {
+      "path": "locales/it.json",
+      "sha256": "35fa5435e34047f95f40bc761507fe1e6641ac07bbbef8244e00936e4c34e917"
+    },
+    {
+      "path": "locales/de.json",
+      "sha256": "e0d80b701d503858b8a20256a5bfd27fdb83697e001d3684391401e32c8b09ce"
+    },
+    {
+      "path": "locales/es-ES.json",
+      "sha256": "a98556add7a8f266c4ad31072640cc30bac76ddbecc729b098b0e027db5e54a6"
+    },
+    {
+      "path": "locales/nl.json",
+      "sha256": "76882c97260229633cdb0d808008510595c6960e651e6efefe4d5e179e3b21e7"
+    },
+    {
+      "path": "locales/ja.json",
+      "sha256": "a3cb695391ff61dcc9b41b892da0e181da2672650b51706f33659237af9b6d8e"
+    },
+    {
+      "path": "locales/ko.json",
+      "sha256": "b48627dab18c5efb91ae2b6cf4403bf337b47329e5c40f2c1c9fe721d9d1c9ec"
+    },
+    {
+      "path": "locales/pl.json",
+      "sha256": "8f5aaf5ca8109b490a868a2494eea1c0dfdd0b86c49f5fc86211affe3ea6dae8"
+    },
+    {
+      "path": "locales/pt-PT.json",
+      "sha256": "044a890565b89cf22c0a6c8559dcab5b522e35e997f253a80d171eedb5d384d0"
+    },
+    {
+      "path": "locales/pt-BR.json",
+      "sha256": "2a78290ca6906ae9b34065401e5cce8ec6ad17323e6f8485435fe75b77e5926b"
+    },
+    {
+      "path": "locales/ru.json",
+      "sha256": "acba47fe8d73d349535c2bf871d0d81882e870b268a5aed185e0ff32db3fcc72"
+    },
+    {
+      "path": "locales/zh-Hans.json",
+      "sha256": "b8541cc1dbbbbd252b8fb9d8c866addd8ceb1ef0edc779c9c65d9cc473f17f93"
+    },
+    {
+      "path": "locales/zh-Hant.json",
+      "sha256": "f1097644904a22c53ce0deb14061a4f3f598a18fc781812cb3d3e94f11599739"
     }
   ],
   "legacy_data_directory": "NMS-AutoPet is intentionally retained for settings, remembered companions and the existing development runtime; schemas and file contents are unchanged.",
@@ -196,8 +264,8 @@
     "scope": "Separately built, predicate-gated native ON/OFF candidate. Requires same-menu false then true native confirmation, one matching selected-child trigger and original false result; no tail-only activation. Existing production applies and persists the queued setting. Other preferences remain in the temporary development panel. Registered on 27 September 2026 after normal exit and a fresh verified backup: two Mods, 11 hook targets, automation ON and 14 unchanged payloads. Complete live preference validation, remapping/controllers and held input await testing."
   },
   "developer_native_menu_trial": {
-    "version": "0.8.2-play-trial",
-    "menu_version": "0.8.0-settings-trial",
+    "version": "0.8.3-play-trial",
+    "menu_version": "0.8.3-settings-trial",
     "preference_keys": [
       "enabled",
       "selection_mode",
@@ -206,23 +274,25 @@
     ],
     "production_script_byte_identical": true,
     "live_verified": false,
-    "launched": true,
-    "registration_verified": true,
+    "launched": false,
+    "registration_verified": false,
     "included_in_player_zip": false,
-    "scope": "Combined0.8.2 launched after verified backup. Registration only is confirmed; six-setting input, resource lifetime, visible icon/HUD and gameplay remain pending.",
-    "developer_tests_passed": 519,
+    "scope": "Prepared source-only candidate: seven owned role icons and explicit Random biome caption. Production 0.4.7 and prior installed 0.8.2 are unchanged. Native rendering, lifetime, input and gameplay still require live acceptance.",
+    "developer_tests_passed": 563,
     "actual_framework_discovery_verified": true,
     "temporary_all_six_preferences_verified": true,
     "optional_icon_provider_binding_verified": true,
     "callbacks": 18,
     "distinct_native_targets": 12,
-    "payload_files": 17,
-    "custom_icon_included": true,
-    "custom_icon_deployed": true,
+    "payload_files": 23,
+    "custom_icons_included": 7,
+    "custom_icon_deployed": false,
     "custom_icon_live_verified": false,
     "production_sha256": "d8cf09a808322900db9149e601248ddf18e4dedf094c44e22f7396c950871268",
-    "menu_sha256": "b372a24929a4513ce7043746e0a3df06d428ae1a9bdf19169f8bacf43e41bbb8",
-    "registered_at": "2026-09-27T23:58:46+02:00"
+    "menu_sha256": "8bd8302569aafc0a22d8c8946fccec84d798be57c42e0bd977d356f4a3205326",
+    "locale_validation_required_during_build": true,
+    "physical_hotkeys": 0,
+    "shortcut_binding_enabled": false
   },
   "post_queue_observation": {
     "passive_only": true,
@@ -252,11 +322,11 @@
     "white_disc_unresolved": true,
     "current_duration_seconds": 5.5,
     "readability_target_seconds": 5.5,
-    "fix_deployed": false,
+    "fix_deployed": true,
     "previous_live_duration_seconds": 3.0,
     "candidate_hides_icon_containers": "Only when no ready icon is available.",
     "native_hide_flag_mapping_verified": true,
-    "scope": "Optional verified ready icon provider, otherwise hide the entire icon block. Current candidate is unlaunched."
+    "scope": "Production 0.4.7 was loaded in 0.8.2 with optional owned-icon provider and text-only fallback; visible results are unconfirmed. Upcoming 0.8.3 only adds distinct child icons and remains unlaunched."
   },
   "previous_044_live_evidence": {
     "version": "0.4.4-experimental",
@@ -375,5 +445,43 @@
     "asset_staged": false,
     "reason": "psutil returned an empty name for a protected Secure System process; closed-game guard refused launch.",
     "repair": "Use a bounded complete Windows Toolhelp snapshot; still reject unknown names/errors."
+  },
+  "previous_082_developer_native_menu_trial": {
+    "version": "0.8.2-play-trial",
+    "menu_version": "0.8.0-settings-trial",
+    "preference_keys": [
+      "enabled",
+      "selection_mode",
+      "prefer_same_biome",
+      "locations"
+    ],
+    "production_script_byte_identical": true,
+    "live_verified": false,
+    "launched": true,
+    "registration_verified": true,
+    "included_in_player_zip": false,
+    "scope": "Combined0.8.2 launched after verified backup. Registration only is confirmed; six-setting input, resource lifetime, visible icon/HUD and gameplay remain pending.",
+    "developer_tests_passed": 519,
+    "actual_framework_discovery_verified": true,
+    "temporary_all_six_preferences_verified": true,
+    "optional_icon_provider_binding_verified": true,
+    "callbacks": 18,
+    "distinct_native_targets": 12,
+    "payload_files": 17,
+    "custom_icon_included": true,
+    "custom_icon_deployed": true,
+    "custom_icon_live_verified": false,
+    "production_sha256": "d8cf09a808322900db9149e601248ddf18e4dedf094c44e22f7396c950871268",
+    "menu_sha256": "b372a24929a4513ce7043746e0a3df06d428ae1a9bdf19169f8bacf43e41bbb8",
+    "registered_at": "2026-09-27T23:58:46+02:00"
+  },
+  "localization_catalogs": {
+    "locales": 14,
+    "keys_per_locale": 24,
+    "translated_drafts": 13,
+    "scope": "native_menu_hud",
+    "source_text_verified": true,
+    "native_runtime_integrated": false,
+    "language_review_verified": false
   }
 }

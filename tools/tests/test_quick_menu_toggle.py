@@ -95,7 +95,7 @@ class FullSettingsRecognitionTests(SubmenuFixture):
 
     def test_labels_cover_existing_options_and_honest_pending_session_states(self):
         state = SimpleNamespace(desired=True, pending=False, settings_ok=True, stopped=False)
-        expected = (b"Automatic summoning: ON", b"Selection: Random", b"Prefer matching biome: ON",
+        expected = (b"Automatic summoning: ON", b"Selection: Random", b"Random: prefer matching biome: ON",
                     b"Planets: ON", b"Space stations: ON", b"Space Anomaly: ON")
         for role, label in enumerate(expected):
             state.desired = "random" if role == 1 else True
@@ -112,6 +112,30 @@ class FullSettingsRecognitionTests(SubmenuFixture):
         state.stopped = True
         self.assertEqual(TOGGLE.preference_label(1, state), b"Selection: stopped")
         self.assertEqual(TOGGLE.preference_label(1, None), b"Selection: unavailable")
+
+    def test_each_role_with_distinct_allowlisted_icons_preserves_recognition(self):
+        permitted = tuple(range(101, 109))
+        self.mutate_entry(1, 2, 0, (101).to_bytes(4, "little"))
+        for role in range(6):
+            self.mutate_entry(2, role, 0, (102 + role).to_bytes(4, "little"))
+        for role in range(6):
+            _, token = self.capture_role(role, permitted_icons=permitted)
+            self.assertTrue(TOGGLE.validate_activation(self.reader, self.menu, token,
+                                                      guard_capability=self.guard,
+                                                      permitted_icons=permitted, **self.options))
+        self.mutate_entry(2, 5, 0, (109).to_bytes(4, "little"))
+        with self.assertRaises(TOGGLE.MenuItemError):
+            self.capture_role(5, permitted_icons=permitted)
+
+    def test_biome_caption_keeps_random_scope_in_all_states(self):
+        state = SimpleNamespace(desired=False, pending=True, settings_ok=True, stopped=False)
+        self.assertEqual(TOGGLE.preference_label(2, state), b"Random: prefer matching biome: OFF (pending)")
+        state.pending = False
+        state.settings_ok = False
+        self.assertEqual(TOGGLE.preference_label(2, state), b"Random: prefer matching biome: OFF (session only)")
+        state.stopped = True
+        self.assertEqual(TOGGLE.preference_label(2, state), b"Random: prefer matching biome: stopped")
+        self.assertEqual(TOGGLE.preference_label(2, None), b"Random: prefer matching biome: unavailable")
 
     def test_invalid_roles_and_preference_values_cannot_create_a_caption(self):
         for role in (-1, 6, True, "1"):

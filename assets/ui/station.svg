@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <title>Space stations</title>
+  <desc>Original angular station and docking entrance, white on transparent.</desc>
+  <g fill="none" stroke="#fff" stroke-width="17" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M128 30 L207 77 V174 L128 224 L49 174 V77Z"/>
+    <path d="M91 174 V116 L128 92 L165 116 V174 M49 77 L91 101 M207 77 L165 101"/>
+    <path d="M111 174 H145"/>
+  </g>
+</svg>

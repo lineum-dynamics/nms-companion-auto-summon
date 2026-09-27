@@ -168,13 +168,100 @@ class FullSettingsPageTests(SubmenuFixture):
         for roles in ((0, 1), (0, 0, 1, 2, 3, 4), (False,), [0]):
             with self.subTest(roles=roles), self.assertRaises(SUB.MenuItemError):
                 self.request(child_roles=roles)
-        for permitted in ((1, 1), (True,), (1, 2, 3), (-1,), (2**32,)):
+        for permitted in ((1, 1), (True,), tuple(range(9)), (-1,), (2**32,)):
             with self.subTest(permitted=permitted), self.assertRaises(SUB.MenuItemError):
                 self.request(permitted_icons=permitted)
         with self.assertRaises(SUB.MenuItemError):
             self.full_page(icon_handle=99)
         self.constructor.assert_not_called()
         self.append_callback.assert_not_called()
+
+
+class RoleIconTests(SubmenuFixture):
+    def varied_constructor(self, buffer, icon, action, disabled, background):
+        self.construct(buffer, 0x12345678, action, disabled, background)
+        buffer[:4] = icon.to_bytes(4, "little")
+
+    def prepare_icons(self, **options):
+        self.set_integer(ITEM.SELECTIONS_OFFSET + 4, 2, signed=True)
+        self.constructor.side_effect = self.varied_constructor
+        return self.request(child_roles=SUB.SETTINGS_CHILD_ROLES, **options)
+
+    def test_parent_and_six_children_use_distinct_explicit_icons_without_native_changes(self):
+        icons = {role: 100 + role for role in (-1, 0, 1, 2, 3, 4, 5)}
+        permitted = tuple(icons.values()) + (200,)
+        before_icon = self.reader(self.menu + ITEM.COMPANION_ICON_OFFSET, 4)
+        before_native = bytes(self.regions[self.child_data])
+        result = self.prepare_icons(role_icons=icons, permitted_icons=permitted)
+        self.assertTrue(result.child_ready)
+        for call, role in zip(self.append_callback.call_args_list, icons):
+            self.assertEqual(int.from_bytes(call.args[1][:4], "little"), icons[role])
+        self.assertEqual(self.reader(self.menu + ITEM.COMPANION_ICON_OFFSET, 4), before_icon)
+        self.assertEqual(bytes(self.regions[self.vector_pointer(1)][:2 * ITEM.ITEM_SIZE]), before_native)
+        before = {key: bytes(data) for key, data in self.regions.items()}
+        self.prepare_icons(role_icons=icons, permitted_icons=permitted)
+        self.assertEqual(self.append_callback.call_count, 7)
+        self.assertEqual({key: bytes(data) for key, data in self.regions.items()}, before)
+
+    def test_missing_roles_use_explicit_fallback_then_native_paw_in_legacy_mode(self):
+        self.prepare_icons(role_icons={-1: 101, 2: 102}, icon_handle=103,
+                           permitted_icons=(101, 102, 103))
+        self.assertEqual([int.from_bytes(call.args[1][:4], "little")
+                          for call in self.append_callback.call_args_list],
+                         [101, 103, 103, 102, 103, 103, 103])
+        self.setUp()
+        self.constructor.side_effect = self.varied_constructor
+        self.set_integer(ITEM.SELECTIONS_OFFSET + 4, 2, signed=True)
+        self.request(role_icons={-1: 101}, permitted_icons=(101,))
+        self.assertEqual([int.from_bytes(call.args[1][:4], "little")
+                          for call in self.append_callback.call_args_list], [101, 0x12345678])
+
+    def test_entire_role_map_is_rejected_before_any_append(self):
+        for mapping in ({6: 101}, {-2: 101}, {True: 101}, {"0": 101}, {0: True},
+                        {0: 0}, {0: -1}, {0: 2**31}, [(0, 101)], {5: 999}):
+            with self.subTest(mapping=mapping), self.assertRaises(SUB.MenuItemError):
+                self.prepare_icons(role_icons=mapping, permitted_icons=(101,))
+        with self.assertRaises(SUB.MenuItemError):
+            self.request(role_icons={1: 101}, permitted_icons=(101,))
+        self.constructor.assert_not_called()
+        self.append_callback.assert_not_called()
+
+    def test_role_choices_are_copied_before_constructor_callbacks(self):
+        choices = {role: 100 + role for role in (-1, 0, 1, 2, 3, 4, 5)}
+        original = choices.copy()
+        self.set_integer(ITEM.SELECTIONS_OFFSET + 4, 2, signed=True)
+        def mutate_mapping(*args):
+            self.varied_constructor(*args)
+            choices[5] = 999
+        self.constructor.side_effect = mutate_mapping
+        self.request(child_roles=SUB.SETTINGS_CHILD_ROLES, role_icons=choices,
+                     permitted_icons=tuple(original.values()))
+        self.assertEqual([int.from_bytes(call.args[1][:4], "little")
+                          for call in self.append_callback.call_args_list], list(original.values()))
+
+    def test_allowed_icons_do_not_admit_foreign_handles_actions_or_roles(self):
+        permitted = tuple(range(101, 109))
+        self.prepare_icons(role_icons={role: 102 + role for role in (-1, 0, 1, 2, 3, 4, 5)},
+                           permitted_icons=permitted)
+        for offset, value in ((0, 109), (ITEM.ACTION_OFFSET, 46), (ITEM.SLOT_OFFSET, 0)):
+            pointer = self.vector_pointer(2)
+            old = bytes(self.regions[pointer])
+            self.mutate_entry(2, 3, offset, value.to_bytes(4, "little"))
+            before = {key: bytes(data) for key, data in self.regions.items()}
+            with self.subTest(offset=offset), self.assertRaises(SUB.MenuItemError):
+                self.prepare_icons(permitted_icons=permitted)
+            self.assertEqual({key: bytes(data) for key, data in self.regions.items()}, before)
+            self.regions[pointer][:] = old
+
+    def test_append_readback_requires_chosen_icon_even_when_another_is_permitted(self):
+        def substituted(header, payload):
+            changed = bytearray(payload)
+            changed[:4] = (102).to_bytes(4, "little")
+            self.append(header, bytes(changed))
+        self.append_callback.side_effect = substituted
+        with self.assertRaisesRegex(SUB.MenuItemError, "requested icon"):
+            self.prepare_icons(role_icons={-1: 101}, permitted_icons=(101, 102))
+        self.append_callback.assert_called_once()
 
 
 class BuilderTests(SubmenuFixture):

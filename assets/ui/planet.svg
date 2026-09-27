@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <title>Planets</title>
+  <desc>Original planet with continents, white on transparent.</desc>
+  <circle cx="128" cy="128" r="86" fill="none" stroke="#fff" stroke-width="17"/>
+  <g fill="#fff">
+    <path d="M72 68 L107 54 L122 72 L112 97 L127 111 L114 136 L84 133 L74 110 L53 102Z"/>
+    <path d="M177 72 L199 96 L180 120 L156 113 L148 93Z"/>
+    <path d="M155 144 L185 147 L201 171 L173 200 L159 184 L140 175Z"/>
+  </g>
+</svg>

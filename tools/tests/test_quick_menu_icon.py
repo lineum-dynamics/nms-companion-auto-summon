@@ -23,26 +23,30 @@ class IconOwnerTests(unittest.TestCase):
         self.table = 0x3330000
         self.paw = 0x4440000
         self.custom = 0x5550000
+        self.customs = tuple(self.custom + index * 0x1000 for index in range(7))
         self.menu = 0x6660000
         self.regions = {
             self.slot: bytearray(8),
             self.retain_slot: bytearray(8),
             self.manager: bytearray(0x68),
-            self.table: bytearray(16),
+            self.table: bytearray(64),
             self.paw: bytearray(0x270),
-            self.custom: bytearray(0x270),
             self.menu: bytearray(0xA108),
         }
+        self.regions.update({pointer: bytearray(0x270) for pointer in self.customs})
         self.write(self.slot, self.manager, 8)
         self.write(self.retain_slot, self.manager, 8)
-        self.write(self.manager + 0x5C, 2)
+        self.write(self.manager + 0x5C, 8)
         self.write(self.manager + 0x60, self.table, 8)
         self.write(self.table, self.paw, 8)
-        self.write(self.table + 8, self.custom, 8)
+        for index, pointer in enumerate(self.customs):
+            self.write(self.table + 8 * (index + 1), pointer, 8)
+            self.resource(pointer, ICON.VIRTUAL_PATHS[index], image=88 + index)
         self.write(self.menu + ICON.COMPANION_ICON_OFFSET, 1)
         self.resource(self.paw, b"TEXTURES/UI/FRONTEND/ICONS/SUMMONPET.DDS", image=77)
-        self.resource(self.custom, ICON.VIRTUAL_PATH, image=88)
         self.events = []
+        self.loaded_records = []
+        self.loaded_paths = []
         self.reads = []
         self.pinned = []
         self.owner = ICON.IconOwner()
@@ -86,8 +90,11 @@ class IconOwnerTests(unittest.TestCase):
         raw = C.string_at(record, ICON.RECORD_SIZE)
         self.assertEqual(raw[8:], bytes(16))
         path = C.c_void_p.from_address(record).value
-        self.assertEqual(C.string_at(path), ICON.VIRTUAL_PATH)
-        C.c_uint32.from_address(record + ICON.HANDLE_OFFSET).value = 2
+        value = C.string_at(path)
+        self.assertIn(value, ICON.VIRTUAL_PATHS)
+        self.loaded_records.append(record)
+        self.loaded_paths.append(value)
+        C.c_uint32.from_address(record + ICON.HANDLE_OFFSET).value = ICON.VIRTUAL_PATHS.index(value) + 2
 
     def retain_handle(self, pointer):
         self.events.append("retain")
@@ -101,8 +108,8 @@ class IconOwnerTests(unittest.TestCase):
         kwargs.update(overrides)
         return self.owner.register_once(self.reader, self.menu, self.slot, **kwargs)
 
-    def handle(self, reader=None, slot=None):
-        return self.owner.icon_handle(reader or self.reader, self.slot if slot is None else slot)
+    def handle(self, reader=None, slot=None, role=-1):
+        return self.owner.icon_handle(reader or self.reader, self.slot if slot is None else slot, role)
 
     def test_initial_owner_neither_calls_native_nor_reads(self):
         self.assertEqual(self.owner.status, "not_observed")
@@ -114,17 +121,132 @@ class IconOwnerTests(unittest.TestCase):
     def test_registration_pins_before_both_native_calls(self):
         menu_before = bytes(self.regions[self.menu])
         self.assertTrue(self.register())
-        self.assertEqual(self.events, ["pin", "retain", "load"])
+        self.assertEqual(self.events, ["pin", "retain"] + ["load"] * 7)
         self.assertEqual(self.handle(), 2)
         self.assertEqual(self.owner.status, "custom_ready")
         self.assertEqual(bytes(self.regions[self.menu]), menu_before)
+
+    def test_seven_roles_load_distinct_paths_records_and_handles_once(self):
+        self.assertTrue(self.register())
+        expected_names = (
+            b"SETTINGS.DDS", b"AUTOMATION.DDS", b"SELECTION.DDS",
+            b"BIOME.DDS", b"PLANET.DDS", b"STATION.DDS", b"ANOMALY.DDS",
+        )
+        self.assertEqual(self.loaded_paths, [
+            b"TEXTURES/UI/FRONTEND/ICONS/COMPANIONAUTOSUMMON/" + name
+            for name in expected_names
+        ])
+        self.assertEqual(len(set(self.loaded_records)), 7)
+        path_addresses = [C.c_void_p.from_address(record).value for record in self.loaded_records]
+        self.assertEqual(len(set(path_addresses)), 7)
+        self.assertEqual([self.handle(role=role) for role in range(-1, 6)], list(range(2, 9)))
+        self.assertEqual(self.owner.icon_handle(self.reader, self.slot), 2)
+        self.pin.assert_called_once_with(self.owner)
+        self.retain.assert_called_once()
+        self.assertEqual(self.load.call_count, 7)
+
+    def test_each_missing_role_uses_paw_without_replacing_other_icons(self):
+        for missing in range(-1, 6):
+            with self.subTest(role=missing):
+                self.setUp()
+                def missing_one(record):
+                    self.load_texture(record)
+                    path = C.string_at(C.c_void_p.from_address(record).value)
+                    if path == ICON.VIRTUAL_PATHS[missing + 1]:
+                        C.c_uint32.from_address(record + ICON.HANDLE_OFFSET).value = 0
+                self.load.side_effect = missing_one
+                self.assertTrue(self.register())
+                expected = [1 if role == missing else role + 3 for role in range(-1, 6)]
+                self.assertEqual([self.handle(role=role) for role in range(-1, 6)], expected)
+                self.assertEqual(self.load.call_count, 7)
+
+    def test_unready_child_promotes_independently_without_late_load_or_retain(self):
+        child = self.customs[4]
+        self.write(child + 0x1E0, 0)
+        self.assertTrue(self.register())
+        self.assertEqual(self.handle(role=3), 1)
+        self.assertEqual(self.handle(role=-1), 2)
+        self.write(child + 0x260, 0xABC000, 8)
+        self.assertEqual(self.handle(role=3), 6)
+        self.assertEqual(self.load.call_count, 7)
+        self.retain.assert_called_once()
+
+    def test_role_cannot_borrow_different_custom_asset_as_fallback(self):
+        self.load.side_effect = lambda record: setattr(
+            C.c_uint32.from_address(record + ICON.HANDLE_OFFSET), "value", 8)
+        self.assertTrue(self.register())
+        self.assertEqual([self.handle(role=role) for role in range(-1, 6)], [1] * 6 + [8])
+
+    def test_invalid_roles_refuse_without_reads_or_disabling_valid_icons(self):
+        self.assertTrue(self.register())
+        self.reads.clear()
+        for role in (-2, 6, 999, True, False, None, "0", 0.0, [], {}):
+            with self.subTest(role=role):
+                self.assertEqual(self.handle(role=role), 0)
+                self.assertEqual(self.reads, [])
+        self.assertEqual(self.handle(role=0), 3)
+        self.assertEqual(self.load.call_count, 7)
+
+    def test_partial_load_failure_keeps_only_confirmed_icons_and_never_retries(self):
+        def partial(record):
+            self.load_texture(record)
+            if len(self.loaded_records) == 3:
+                raise RuntimeError("return path failed after handle assignment")
+        self.load.side_effect = partial
+        self.assertFalse(self.register())
+        self.assertEqual(self.load.call_count, 3)
+        self.assertEqual([self.handle(role=role) for role in range(-1, 6)], [2, 3, 1, 1, 1, 1, 1])
+        before = list(self.reads)
+        self.assertFalse(self.register())
+        self.assertEqual(self.reads, before)
+        self.assertEqual(self.load.call_count, 3)
+        self.retain.assert_called_once()
+
+    def test_pinned_owner_keeps_all_native_records_and_paths_alive(self):
+        import gc
+        import weakref
+        self.assertTrue(self.register())
+        reference = weakref.ref(self.owner)
+        del self.owner
+        gc.collect()
+        self.assertIs(reference(), self.pinned[0])
+        for index, record in enumerate(self.loaded_records):
+            self.assertEqual(record % 16, 0)
+            path = C.c_void_p.from_address(record).value
+            self.assertEqual(C.string_at(path), self.loaded_paths[index])
+            self.assertEqual(C.c_uint32.from_address(record + ICON.HANDLE_OFFSET).value, index + 2)
+
+    def test_later_manager_transition_stops_phase_and_all_roles_permanently(self):
+        def changing_loader(record):
+            self.load_texture(record)
+            if len(self.loaded_records) == 4:
+                self.write(self.retain_slot, 0, 8)
+        self.load.side_effect = changing_loader
+        self.assertFalse(self.register())
+        self.assertEqual(self.load.call_count, 4)
+        self.write(self.retain_slot, self.manager, 8)
+        self.reads.clear()
+        self.assertEqual([self.handle(role=role) for role in range(-1, 6)], [0] * 7)
+        self.assertFalse(self.register())
+        self.assertEqual(self.reads, [])
+        self.assertEqual(self.load.call_count, 4)
+
+    def test_recycled_child_disables_other_previously_confirmed_roles(self):
+        self.assertTrue(self.register())
+        self.resource(self.customs[6], b"REPLACEMENT.DDS", image=88)
+        self.assertEqual(self.handle(role=5), 0)
+        self.assertEqual(self.owner.status, "resource_identity_changed")
+        self.resource(self.customs[6], ICON.VIRTUAL_PATHS[6], image=88)
+        self.reads.clear()
+        self.assertEqual([self.handle(role=role) for role in range(-1, 6)], [0] * 7)
+        self.assertEqual(self.reads, [])
 
     def test_repeated_registration_never_calls_or_reads_again(self):
         self.assertTrue(self.register())
         before = list(self.reads)
         self.assertFalse(self.register())
         self.assertEqual(self.reads, before)
-        self.assertEqual(self.events, ["pin", "retain", "load"])
+        self.assertEqual(self.events, ["pin", "retain"] + ["load"] * 7)
 
     def test_pending_custom_uses_owned_paw_then_promotes_without_calls(self):
         self.write(self.custom + 0x1E0, 0)
@@ -133,7 +255,7 @@ class IconOwnerTests(unittest.TestCase):
         self.assertEqual(self.owner.status, "native_ready")
         self.write(self.custom + 0x260, 0x1234567800000000, 8)
         self.assertEqual(self.handle(), 2)
-        self.assertEqual(self.events, ["pin", "retain", "load"])
+        self.assertEqual(self.events, ["pin", "retain"] + ["load"] * 7)
 
     def test_no_menu_read_after_initialization(self):
         self.assertTrue(self.register())
@@ -190,7 +312,7 @@ class IconOwnerTests(unittest.TestCase):
         self.assertEqual(self.handle(), 2)
 
     def test_invalid_handles_or_resource_type_are_not_usable(self):
-        for handle in (0, 3, 0x80000000, 0xFFFFFFFF):
+        for handle in (0, 9, 0x80000000, 0xFFFFFFFF):
             with self.subTest(handle=handle):
                 self.setUp()
                 self.load.side_effect = lambda record: setattr(C.c_uint32.from_address(record + 16), "value", handle)
@@ -322,14 +444,14 @@ class IconOwnerTests(unittest.TestCase):
         self.assertTrue(self.register())
         self.regions[0x7770000] = bytearray(self.regions[self.table]) + bytearray(8)
         self.write(self.manager + 0x60, 0x7770000, 8)
-        self.write(self.manager + 0x5C, 3)
+        self.write(self.manager + 0x5C, 9)
         self.assertEqual(self.handle(), 2)
 
     def test_midread_table_or_readiness_change_fails_current_sample(self):
         self.assertTrue(self.register())
-        for field, size, value in ((self.manager + 0x5C, 4, 3), (self.custom + 0x1E0, 4, 0)):
+        for field, size, value in ((self.manager + 0x5C, 4, 9), (self.custom + 0x1E0, 4, 0)):
             with self.subTest(field=field):
-                self.write(self.manager + 0x5C, 2)
+                self.write(self.manager + 0x5C, 8)
                 self.write(self.custom + 0x1E0, 88)
                 changed = False
                 def mutating(address, amount):
@@ -347,7 +469,7 @@ class IconOwnerTests(unittest.TestCase):
             with self.subTest(bad=bad):
                 self.assertEqual(self.handle(reader=lambda *_: bad), 0)
         self.assertEqual(self.handle(reader=Mock(side_effect=OSError("unreadable"))), 0)
-        self.assertEqual(self.events, ["pin", "retain", "load"])
+        self.assertEqual(self.events, ["pin", "retain"] + ["load"] * 7)
 
     def test_registration_reentry_and_read_reentry_do_not_deadlock(self):
         original = self.load_texture
@@ -358,7 +480,7 @@ class IconOwnerTests(unittest.TestCase):
         self.load.side_effect = reentry
         self.assertTrue(self.register())
         self.assertEqual(self.handle(), 2)
-        self.assertEqual(self.events, ["pin", "retain", "load"])
+        self.assertEqual(self.events, ["pin", "retain"] + ["load"] * 7)
 
     def test_bounded_read_sizes_and_worst_case_name(self):
         self.resource(self.paw, b"P" * 255, image=4)
