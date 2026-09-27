@@ -48,7 +48,7 @@ Only the current source and new packages receive the new names. Historical test 
 - `README.cs.md`: Czech companion guide; keep behavior and status aligned with the English guide.
 - `DEVELOPMENT.md`: canonical development rules, architecture and maintenance workflow.
 - `DESIGN.md`: accepted player-experience direction, native menu/notification goals and current implementation limits.
-- `QUICK-MENU.md`: exact-build menu investigation, retained observer results, separate inert-item candidate and staged live-validation procedure; no live-verified custom settings are claimed.
+- `QUICK-MENU.md`: exact-build menu investigation, retained observers, confirmed basic inert-item navigation, separate one-child submenu candidate and staged live-validation procedure; no live-verified custom settings are claimed.
 - `ROADMAP.md`: canonical unfinished release backlog and explicitly unapproved future proposals; update status and evidence as decisions are made.
 - `LOCALIZATION.md`: localization status, target languages and implementation/verification requirements.
 - `CHANGELOG.md`: version-scoped changes; update with each user-visible behavior or distribution change.

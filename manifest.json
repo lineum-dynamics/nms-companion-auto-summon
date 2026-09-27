@@ -85,7 +85,7 @@
     },
     {
       "path": "DEVELOPMENT.md",
-      "sha256": "8333445947ec83c7f30bd4aa29e39d8f495ceb9ad55afd869f51a56685142203"
+      "sha256": "8810dc14102f7fe33b1c9545f7ca8cec36fe05ee56acb1f959da777b049d9756"
     },
     {
       "path": "LOCALIZATION.md",
@@ -93,19 +93,19 @@
     },
     {
       "path": "DESIGN.md",
-      "sha256": "61f15893a348faf1028682fff2c8663ace964bfaf9c66c0e8865a672e2286fa2"
+      "sha256": "9ebaadde9c55694fa3462ae4f74271276766438bfc4c484b22f194a42bee5deb"
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "38fc372ee8f0759bec6aac2d1e6ac33d625a9fbf1eaf5a9b9dfdc508fc73f3e6"
+      "sha256": "fc2b67f636e02a4fbc75c36fae3fe3cf913e819ef2b7a57eae88e3f081ce10bb"
     },
     {
       "path": "ROADMAP.md",
-      "sha256": "e99df7587f40c3341522d9e783ce005e5b2125bca18dff0e64144b7afec8a0d4"
+      "sha256": "e99d2736b5ac0fb88b3a52bf42ce1fc16d0ef94874f61710ca8c10f462589639"
     },
     {
       "path": "QUICK-MENU.md",
-      "sha256": "47568662539138fb90cc1d1fea0611d889fa0287040d4dd655ac7b0b8609dc52"
+      "sha256": "963b11c6f184647cddcbbc789d763cc7a0e26ca68327033c3f489306e2b7293c"
     },
     {
       "path": "docs/release/PRIPRAVA-VYDANI.md",

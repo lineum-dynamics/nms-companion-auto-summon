@@ -2,9 +2,10 @@
 
 Status: 27 September 2026. The player mod remains 0.4.2-experimental. A separate,
 disabled-by-default developer trial now implements one inert custom item and a
-native binding filter. The player has confirmed the item is visible in NMS;
-presentation differences, navigation and shortcut behavior still need work or
-verification. Preference controls are not implemented. This document separates static findings, offline verification,
+native binding filter. The player has confirmed visibility, selection, native
+Back/close/reopen and ordinary manual pet summoning in that session. A separate
+0.5.0-submenu-trial candidate now prepares one inert child; live submenu and
+shortcut behavior remain unverified. Preference controls are not implemented. This document separates static findings, offline verification,
 live observations and future work. Raw disassembly is private working evidence,
 not part of the repository or distribution.
 
@@ -477,6 +478,96 @@ were rejected for visible artifacts; the preview is not a usable game texture.
 Native texture registration and lifetime remain unverified. The existing native Utilities resource was located,
 but its pixels were not inspected and it must not be described as a verified
 gear icon. No existing shared game texture has been replaced.
+
+### Basic inert-item navigation confirmed
+
+The player subsequently confirmed selecting the mod entry, returning with
+native Back, closing/reopening the menu and manually summoning a companion all
+worked normally. All seven running payload hashes still matched the original
+0.4.0-inert-item-trial manifest. This result does not cover shortcut binding,
+replay, remapped controls, controllers or a custom subpage. The separate private
+navigation record retains this distinction; no running files were changed.
+
+## Inert submenu candidate: offline preparation
+
+`tools/quick_menu_submenu_trial.py` is a separate, disabled-by-default
+0.5.0-submenu-trial. Its entry opens a single inert **Settings preview** child.
+No preferences, summon logic or custom texture are included. Both inline tile
+names are empty; ordinary selected-item captions supply the text. The original
+0.4.0 running trial remains immutable.
+
+The exact-build dispatcher normally obtains its item pointer from the current
+vector and selected index. The paired BEFORE/AFTER callbacks preserve native
+arguments and execution for every action. They correlate transient numeric
+arguments and native thread identity; only an exact selected parent with the
+full marker, role and valid prebuilt child can request a transition. No action
+pointer is dereferenced after native execution. Nested/unmatched callbacks or
+changed context stop custom handling while retaining the binding guard.
+
+The native None action and native submenu actions both return false. Returning
+true would close/back in the inspected caller, so these callbacks always return
+None to preserve the native result. They use neither NOOP nor manual forwarding
+to the original function, and do not inspect physical keys.
+
+The builder bounds-checks the temporarily absent appended parent before reading
+it. An AFTER helper can therefore restore the parent at depth 1 and prebuild the
+single child at depth 2 before native maintenance runs, including while the
+parent is selected at depth 1. Every append uses the native allocator, checks
+the active binding guard and reads back fresh storage after possible growth.
+Nonempty unknown child pages are never cleared or adopted. Both roles retain
+action None and the exact marker protected by the existing native leaf filter.
+
+Activation requires no outstanding native deferred selection. Because the sole
+enabled child already exists, the adapter writes depth 2 and invokes the native
+bounded selection setter at `0x150FAC0` with `(menu + 0xA050, 2, 0)`, then reads
+back the selection. The native pending-selection byte at `0xA16C` is never
+written by this trial. This avoids a deferred request leaking into another page.
+Depth animation uses the separate native previous-depth path. Native Back,
+close, selection clamping and empty-page retreat remain in control.
+
+If native pet counts change, a formerly selected index can become a vanilla
+entry or become invalid. The helper uses the current complete path/roles, leaves
+native descendants intact and lets native maintenance handle invalid/empty
+pages. It does not force a remembered custom session back over a native page.
+This is bounded to an inert child; it is not validation of future preference
+actions. After a partial operation/error, insertion stops without freeing the
+guard or rolling back native allocations. A prepared child remains inert and
+native Back remains available in the inspected path.
+
+All 255 developer tests passed, including 28 submenu-policy checks, 32 adapter
+checks and 11 isolated-builder checks. The real pyMHF 0.2.4 metadata smoke
+confirmed one disabled Mod, four callbacks across three native function targets,
+no GUI/hotkeys and no hook installation. Its Python dispatcher was also exercised
+with three mock-original cases to verify argument/Boolean preservation. These
+checks do not establish live submenu behavior.
+
+```text
+python -B -m unittest discover -s tools/tests -p "test_*.py" -q
+python -B tools/submenu_trial_framework_smoke.py
+python -B tools/build_quick_menu_submenu_trial.py --enable-submenu
+```
+
+Use the prepared framework interpreter for the metadata smoke. The builder
+checks source syntax and all copied hashes, refuses existing output directories,
+and never launches/deploys. The prepared nine-file artifact passed eight payload
+hash checks and launcher syntax validation; generated main SHA256:
+`017cca120ec65fa5e442d430489758664ed5eb52a4e1e6a44d291e8ad657f5d9`.
+It has not been launched. Before a live trial, exit normally and verify a fresh
+backup. Test opening the parent, seeing/activating the inert child, native Back
+to the parent, repeated open/close, absence of duplicates and neighboring manual
+pet actions. Remapping, controllers, shortcut binding/replay and changing pet
+lists remain separate acceptance scenarios. None's classification does not
+provide every vanilla submenu-preview affordance; do not patch global action
+tables or borrow a gameplay action ID for cosmetic parity.
+
+### Custom icon follow-up
+
+A separate static audit found a current native texture-loading wrapper and its
+resource retain/release path. Historical shorter loader declarations do not
+match the current callback-object ABI. No custom loader was called, no DDS/PAK
+was created and no shared vanilla texture was replaced. Path acceptance,
+loading readiness, ownership/cleanup and a clean final asset remain unfinished;
+the submenu candidate continues to borrow the native icon.
 
 ## Historical observation-only live sequence
 

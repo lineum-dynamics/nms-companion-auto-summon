@@ -27,7 +27,9 @@ The custom entry is intended to open one flat settings page, rather than act as
 another pet or toggle every setting itself. Its children will expose automatic
 summoning, selection mode, habitat preference and the three location toggles.
 Location choices should remain on that same page within the verified depth
-limit. The current inert entry does not open this page yet.
+limit. The running inert entry does not open this page yet. A separate
+0.5.0-submenu-trial source now prepares one inert Settings preview child as the
+next navigation test; it is not connected to these preferences.
 
 The player's screenshot confirmed a redundant name inside the icon above the
 normal selected-item caption. The next source revision leaves the inline tile
@@ -40,7 +42,7 @@ artifacts and were rejected. Final transparency, small-size appearance and
 native texture loading must be validated before replacing the borrowed icon.
 Do not overwrite a shared vanilla texture or distribute copied game artwork.
 
-Native menu insertion is not a finished player capability. A separate disabled-by-default developer trial now implements one inert entry with a native binding filter, backed by offline tests and successful exact-build runtime registration. The player confirmed the entry is visible after the pets with a paw icon and moving in-icon text; presentation needs review, and full navigation/shortcut behavior remain pending. Only after its navigation, lifecycle and shortcut protection pass the controlled live scenarios should it change a preference. Retain the desktop panel for development until this route is proven.
+Native menu insertion is not a finished player capability. The running inert-item trial has a native binding filter and confirmed visibility, selection, Back/close/reopen and normal manual companion summoning. The new submenu trial passed offline checks but has not run in NMS; shortcut, remapping and controller scenarios also remain pending. Only after navigation, lifecycle and shortcut protection pass the controlled live scenarios should it change a preference. Retain the desktop panel for development until this route is proven.
 
 The initial read-only audit found a known-action dispatcher, but no verified registration API for custom entries. Existing submenu transitions in the pinned executable clamp depth to two beyond the root. Prefer a flat settings page within the verified limit; do not assume another nested location submenu is possible. A new numeric action ID alone does not create a working native action. The next investigation must establish native item construction, ownership and cleanup, then observe natural menu use before modifying it.
 
