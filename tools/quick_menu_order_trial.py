@@ -14,12 +14,13 @@
 # shown = false
 # always_on_top = false
 # ///
-"""Disabled developer trial: place an inert submenu before individual pets.
+"""Disabled developer trial: ordered submenu with an opt-in automation toggle.
 
 This is NOT an observation-only probe. An explicitly built future trial installs
 a process-lifetime native binding filter before allowing native item insertion.
-The exact-build and current-process guards must pass. No automatic summoning,
-settings changes, key-state polling or save-file access occurs here.
+The exact-build and current-process guards must pass. The separately enabled
+toggle uses the native confirmation predicate and the existing production
+preference queue. This adapter makes no summon calls or save-file accesses.
 """
 
 import ctypes as C
@@ -46,6 +47,7 @@ from pymhf.core.hooking import hook_manager, static_function_hook
 
 
 TRIAL_ENABLED = False
+SETTINGS_TOGGLE_ENABLED = False
 EXPECTED_EXE_SHA256 = "b7913f268dfc62386b6b68f524bfc8ade4a44a9f4fbad39085b7bf51be3680cb"
 BUILD_ACTIONS_RVA = 0x151ED00
 BUILD_LABEL_RVA = 0x1523220
@@ -53,8 +55,14 @@ ITEM_CONSTRUCTOR_RVA = 0x1432FC0
 ITEM_APPEND_RVA = 0x1533980
 TRIGGER_ACTION_RVA = 0x1526940
 SELECT_ITEM_RVA = 0x150FAC0
+CONFIRM_PREDICATE_RVA = 0x15311C0
 PENDING_SELECTION_OFFSET = 0xA16C
 LOGGER = logging.getLogger("CompanionMenuOrderTrial")
+
+if SETTINGS_TOGGLE_ENABLED:
+    import quick_menu_toggle as toggle
+    from quick_menu_preferences import PreferenceBridge
+    from pymhf.core.mod_loader import mod_manager
 
 
 def supported_runtime():
@@ -176,10 +184,19 @@ def cas_order_append(header: C.c_void_p, incoming: C.c_void_p) -> C.c_void_p:
     pass
 
 
+if SETTINGS_TOGGLE_ENABLED:
+    @static_function_hook(offset=CONFIRM_PREDICATE_RVA)
+    def cas_toggle_confirm(menu: C.c_void_p) -> C.c_bool:
+        pass
+else:
+    cas_toggle_confirm = None
+
+
 class CompanionMenuOrderTrial(Mod):
-    _version = "0.6.0-order-trial"
+    _version = "0.7.0-toggle-trial" if SETTINGS_TOGGLE_ENABLED else "0.6.0-order-trial"
     _author = "Companion Auto Summon contributors"
-    _description = "One inert native settings subpage before individual companions"
+    _description = ("Native automation toggle before individual companions" if SETTINGS_TOGGLE_ENABLED
+                    else "One inert native settings subpage before individual companions")
     _disabled = not supported_runtime()
 
     def __init__(self):
@@ -198,6 +215,11 @@ class CompanionMenuOrderTrial(Mod):
         self._append_original = None
         self._append_original_address = None
         self._ordered = False
+        self._confirmation_call = None
+        self._confirmation_ready = False  # Observe release before accepting a press.
+        self._confirmation_menu = None
+        self._confirmation_intent = None
+        self._preferences = None
         if self._disabled:
             return
         try:
@@ -207,6 +229,12 @@ class CompanionMenuOrderTrial(Mod):
             # This must complete before pyMHF can enable the builder callback.
             # The separately pinned filter outlives callback failure/reload.
             self._guard = ensure_guard(_internal.BASE_ADDRESS, _internal.BINARY_PATH)
+            if SETTINGS_TOGGLE_ENABLED:
+                self._preferences = PreferenceBridge(
+                    str(Path(__file__).absolute().with_name("CompanionAutoSummon.py")),
+                    get_registered=lambda: mod_manager.mods.get("CompanionAutoSummon"),
+                    get_module=lambda: sys.modules.get("CompanionAutoSummon"),
+                )
             self._stopped = False
             LOGGER.info("Ordering trial initialized; native binding filter installed. Managed append validation remains pending.")
         except GuardError as error:
@@ -218,6 +246,10 @@ class CompanionMenuOrderTrial(Mod):
         self._stopped = True
         self._pending = None
         self._building = None
+        self._confirmation_call = None
+        self._confirmation_intent = None
+        self._confirmation_ready = False
+        self._confirmation_menu = None
         if not self._notice_sent:
             self._notice_sent = True
             try:
@@ -238,6 +270,12 @@ class CompanionMenuOrderTrial(Mod):
                 self._lock.release()
                 return False
             self._thread = native_thread
+            if self._confirmation_call is not None and phase != "confirmation_after":
+                self._stop("nested_confirmation_callback")
+                self._lock.release()
+                return False
+            if phase != "trigger_before":
+                self._confirmation_intent = None
             if self._building is not None and phase not in ("append", "builder_after"):
                 self._stop("nested_build_callback")
                 self._lock.release()
@@ -422,7 +460,21 @@ class CompanionMenuOrderTrial(Mod):
         if not self._enter():
             return None
         try:
-            label = submenu.selected_label(self._reader, menu)
+            if SETTINGS_TOGGLE_ENABLED:
+                state = self._preferences.snapshot()
+                if state is None:
+                    caption = "Automatic summoning: unavailable"
+                elif state.stopped:
+                    caption = "Automatic summoning: stopped"
+                else:
+                    caption = "Automatic summoning: " + ("ON" if state.desired else "OFF")
+                    if state.pending:
+                        caption += " (pending)"
+                    elif not state.settings_ok:
+                        caption += " (session only)"
+                label = toggle.selected_label(self._reader, menu, item.encode_label(caption))
+            else:
+                label = submenu.selected_label(self._reader, menu)
             if label is not None and not self._stopped:
                 self._writer(output, label)
                 if not self._label_seen:
@@ -439,11 +491,20 @@ class CompanionMenuOrderTrial(Mod):
         if not self._enter("trigger_before"):
             return None
         try:
+            intent = self._confirmation_intent
+            self._confirmation_intent = None
             token = submenu.capture_activation(self._reader, menu, action, called_as_menu)
+            preference_token = None
+            if (SETTINGS_TOGGLE_ENABLED and token is None and intent is not None
+                    and intent[:2] == (menu, self._thread)):
+                token = toggle.capture_activation(
+                    self._reader, menu, action, called_as_menu, intent[2])
+                if token is not None:
+                    preference_token = intent[3]
             if not self._stopped:
                 # Numeric argument identities live only across this original
                 # invocation. The action pointer is never dereferenced AFTER.
-                self._pending = (menu, action, called_as_menu, self._thread, token)
+                self._pending = (menu, action, called_as_menu, self._thread, token, preference_token)
         except Exception:
             self._stop("activation_before")
         finally:
@@ -465,6 +526,19 @@ class CompanionMenuOrderTrial(Mod):
                 return None
             if _result_ is not False:
                 raise RuntimeError("Tagged None action returned an unexpected result")
+            if SETTINGS_TOGGLE_ENABLED and type(pending[4]) is toggle.ChildActivationToken:
+                if not toggle.validate_activation(
+                        self._reader, menu, pending[4], guard_capability=self):
+                    raise RuntimeError("Settings activation context changed")
+                if self._reader(menu + PENDING_SELECTION_OFFSET, 1) != b"\0":
+                    raise RuntimeError("Native deferred selection is still pending")
+                if not self.authorize_append(menu):
+                    raise RuntimeError("Settings activation no longer authorized")
+                if self._preferences.commit_toggle(pending[5], authorize=lambda: not self._stopped):
+                    LOGGER.info("Native menu queued automatic summoning toggle; local player update will apply it.")
+                else:
+                    LOGGER.info("Native menu toggle was not queued because its preference context changed or was unavailable.")
+                return None
             if not submenu.validate_activation(self._reader, menu, pending[4], guard_capability=self):
                 raise RuntimeError("Submenu activation context changed")
             if self._reader(menu + PENDING_SELECTION_OFFSET, 1) != b"\0":
@@ -482,4 +556,44 @@ class CompanionMenuOrderTrial(Mod):
             self._pending = None
             self._lock.release()
         # Native submenu transitions also return false. True closes the menu.
+        return None
+
+    @(cas_toggle_confirm.before if SETTINGS_TOGGLE_ENABLED else lambda callback: callback)
+    def before_confirmation(self, menu):
+        if not SETTINGS_TOGGLE_ENABLED or not self._enter("confirmation_before"):
+            return None
+        try:
+            item._address(menu, 0, PENDING_SELECTION_OFFSET + 1)
+            self._confirmation_call = (menu, self._thread)
+        except Exception:
+            self._stop("confirmation_before")
+        finally:
+            self._lock.release()
+        return None
+
+    @(cas_toggle_confirm.after if SETTINGS_TOGGLE_ENABLED else lambda callback: callback)
+    def after_confirmation(self, menu, _result_):
+        if not SETTINGS_TOGGLE_ENABLED or not self._enter("confirmation_after"):
+            return None
+        try:
+            if self._confirmation_call != (menu, self._thread) or type(_result_) is not bool:
+                raise RuntimeError("Unmatched native confirmation completion")
+            self._confirmation_call = None
+            fresh_press = (_result_ and self._confirmation_ready
+                           and self._confirmation_menu == menu)
+            self._confirmation_ready = not _result_
+            self._confirmation_menu = menu
+            if fresh_press:
+                state = toggle.selected_child_state(self._reader, menu)
+                if state is not None:
+                    preference = self._preferences.capture_toggle()
+                    if preference is not None and not self._stopped:
+                        self._confirmation_intent = (menu, self._thread, state, preference)
+        except Exception:
+            self._stop("confirmation_after")
+        finally:
+            self._confirmation_call = None
+            if self._stopped:
+                self._confirmation_intent = None
+            self._lock.release()
         return None

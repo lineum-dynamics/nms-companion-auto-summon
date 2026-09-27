@@ -51,12 +51,12 @@ class PlayTrialFixture(unittest.TestCase):
                 data = CONFIG
             (self.bundle / name).write_bytes(data)
         self.manifest = {
-            "version": "0.6.2-play-trial", "framework": "pymhf[gui]==0.2.4",
-            "auto_summon": True, "preference_actions": False,
+            "version": "0.7.0-play-trial", "framework": "pymhf[gui]==0.2.4",
+            "auto_summon": True, "preference_actions": True, "preference_keys": ["enabled"],
             "mods": [
                 {"name": "CompanionAutoSummon", "version": "0.4.3-experimental",
                  "path": "CompanionAutoSummon.py"},
-                {"name": "CompanionMenuOrderTrial", "version": "0.6.0-order-trial",
+                {"name": "CompanionMenuOrderTrial", "version": "0.7.0-toggle-trial",
                  "path": "CompanionMenuOrderTrial.py"},
             ],
             "files": [{"path": name, "sha256": hashlib.sha256((self.bundle / name).read_bytes()).hexdigest()}
@@ -107,7 +107,7 @@ class BundleValidationTests(PlayTrialFixture):
         bundle, config = LAUNCHER.validate_bundle(str(self.bundle))
         self.assertEqual(bundle, self.bundle.resolve())
         self.assertTrue(config["gui"]["shown"])
-        self.assertEqual(len(self.manifest["files"]), 12)
+        self.assertEqual(len(self.manifest["files"]), 14)
         self.assertEqual({entry["name"] for entry in self.manifest["mods"]},
                          {"CompanionAutoSummon", "CompanionMenuOrderTrial"})
         self.assertFalse((self.bundle / "settings.json").exists())
@@ -151,9 +151,10 @@ class BundleValidationTests(PlayTrialFixture):
 
     def test_wrong_manifest_semantics_are_not_accepted_as_another_trial(self):
         pristine = copy.deepcopy(self.manifest)
-        for key, value in (("version", "0.6.0-order-trial"), ("framework", "pymhf==0.2.4"),
+        for key, value in (("version", "0.7.0-toggle-trial"), ("framework", "pymhf==0.2.4"),
                            ("auto_summon", False), ("auto_summon", 1),
-                           ("preference_actions", True), ("mods", pristine["mods"][:1]),
+                           ("preference_actions", False), ("preference_keys", []),
+                           ("preference_keys", ["enabled", "locations"]), ("mods", pristine["mods"][:1]),
                            ("mods", pristine["mods"] * 2)):
             with self.subTest(key=key, value=value):
                 self.manifest = {**copy.deepcopy(pristine), key: value}

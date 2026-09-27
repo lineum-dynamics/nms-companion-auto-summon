@@ -65,15 +65,15 @@
     },
     {
       "path": "README.md",
-      "sha256": "8c7978c74504c652b7466edf16a75a4bbff840140cad1dfa0ffc31a3253c39d7"
+      "sha256": "08e36b1ca2ee51b2ecb59a040a2ceace6753689e245ed8e85397614b7d9f7ccd"
     },
     {
       "path": "README.cs.md",
-      "sha256": "8f71e0ca4a4408324a5436dc82cdf93219c1f49df077978af21f3cece407522e"
+      "sha256": "94363bf222e0c37e63c3e2339bfe3d8c646a9ee6c9a8506a2f00e0a22adb4a0f"
     },
     {
       "path": "TECHNICKE-OVERENI.md",
-      "sha256": "68a1dda09eae09dd8654af59806a14ae2fbf27274667d023e588c7ce7fa90e67"
+      "sha256": "7f84200de1c7a2bbd04d8819ea54924b0ca96ad5ba3a0bb2cd43cb3a5ad5a322"
     },
     {
       "path": "build.py",
@@ -85,39 +85,39 @@
     },
     {
       "path": "DEVELOPMENT.md",
-      "sha256": "d31f2d6d7348913ba8bbcb281d147aa2ab8a3175f6691cc18ba108cf905e8e46"
+      "sha256": "59ca760aef17c88e0c1d60607a2d8779a59d8ad1aba8aefdc3a7e90c05f70742"
     },
     {
       "path": "LOCALIZATION.md",
-      "sha256": "dea11fdb322001e43d25d0d29b1fdabf31be8de4b8fa8d48212a62ab02dc7e3b"
+      "sha256": "f1f1b3c162dbe80d330c13ec2a8f28f4bf11d53267a480e32b4a6601ff1dc56b"
     },
     {
       "path": "DESIGN.md",
-      "sha256": "4244460e7dfec18471752c652ddf9bbd946da03dc202b20de0b47fe547d5aa62"
+      "sha256": "15f1c30e0783aea63602a8d7922cc65c9ab593c155f28ef2540d754aa2647cb8"
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "13f6d874cae4a4d1274235ec90bc5aa0331ca84724a5f76779b8d0a8146feb79"
+      "sha256": "b9d791474e3350084c71b4dded4cdf1384267dddb17eb5e96a26de6728a1b9b9"
     },
     {
       "path": "ROADMAP.md",
-      "sha256": "bdffec2cdc1ff594aa46e14c3d473de2fe2373619e3b06cedb77c0ad5fc2a4fb"
+      "sha256": "e6e2cb02194a3e94af00eb3eee5c713520a813bc5fbd5e09d74d2e391f209eab"
     },
     {
       "path": "QUICK-MENU.md",
-      "sha256": "1922f4fedc27ea6beaeb1bd4e4c8578daec4835bcc9043167e68bdb47fdf9c16"
+      "sha256": "6cd93e1d4b79398940e0ceceb561afa3c82a66137eedc1a1bdda86053eb074e8"
     },
     {
       "path": "docs/release/PRIPRAVA-VYDANI.md",
-      "sha256": "2359f3c2859393c6c3378b1daf2257400e3e104db2e55e4c2ce88309154cbed2"
+      "sha256": "a4c90f38a81b9d727953511eb52df11725029388b72c89e7253724050631aa27"
     },
     {
       "path": "docs/release/INSTALACE-ZADANI.md",
-      "sha256": "4212ff02221be8ebb9f4fe84c9acbe8d273b809ea847e6d4ff1b340344274ec6"
+      "sha256": "b7d871cbc5a9280071046b15f0fe9bd0be2b127a9acb504017886e6f06640c5a"
     },
     {
       "path": "docs/release/NEXUS-DESCRIPTION-DRAFT.md",
-      "sha256": "ddbf04d0b4e04a7d1db8f6584001e904d6f333e0a5b0c130301478ea250a5a7b"
+      "sha256": "c4a9e0e87f127952be443af54b593d6c41e63931066e10fff152f50d56b0ee78"
     },
     {
       "path": "src/policy.py",
@@ -161,5 +161,26 @@
   "startup_summon": "One opportunity after successful local save load with automation enabled. No native summon calls during deserialization. Resolve a saved identity or Random through later local ownership updates and existing 1.5-second stability/placement checks; respect active/queued pets, preview, manual choice, ship entry, settings changes and context replacement. Never rearm merely because a pet is absent.",
   "startup_summon_verification_scope": "One Random-mode startup on a space station: save load armed at 20:42:58.578, location enum 2, request accepted at 20:43:01.261, user confirmed actual pet appearance. Nexus was explicitly not the test location.",
   "manual_dismissal_verified_in_game": true,
-  "manual_dismissal_verification_scope": "One player-reported manual dismissal without reappearance during combined 0.6.2 / production 0.4.3. The suggested check was about ten seconds on foot, but exact location, timestamp and duration were not independently measured. Travel separated this from the initial station load; no claim of a controlled immediately-after-startup dismissal test."
+  "manual_dismissal_verification_scope": "One player-reported manual dismissal without reappearance during combined 0.6.2 / production 0.4.3. The suggested check was about ten seconds on foot, but exact location, timestamp and duration were not independently measured. Travel separated this from the initial station load; no claim of a controlled immediately-after-startup dismissal test.",
+  "developer_native_menu_trial": {
+    "version": "0.7.0-play-trial",
+    "production_script_byte_identical": true,
+    "preference_keys": [
+      "enabled"
+    ],
+    "developer_tests_passed": 408,
+    "new_test_counts": {
+      "child_recognition": 18,
+      "preference_bridge": 23,
+      "toggle_adapter": 26
+    },
+    "actual_framework_discovery_verified": true,
+    "temporary_preference_queue_apply_verified": true,
+    "managed_callbacks": 15,
+    "distinct_native_targets": 11,
+    "live_verified": false,
+    "launched": false,
+    "included_in_player_zip": false,
+    "scope": "Separately built, predicate-gated native ON/OFF candidate. Requires same-menu false then true native confirmation, one matching selected-child trigger and original false result; no tail-only activation. Existing production applies and persists the queued setting. Other preferences remain in the temporary development panel. Running 0.6.2 is unchanged; remapping/controllers, held input and live preference activation await testing."
+  }
 }

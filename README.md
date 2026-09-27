@@ -4,6 +4,13 @@
 
 This Git repository is the canonical source for Companion Auto Summon. Development commands and the maintained documentation map are in [DEVELOPMENT.md](DEVELOPMENT.md). The installed test copy and exported ZIPs are built outputs.
 
+The separate developer candidate **0.7.0-play-trial** adds the first native
+setting: automatic summoning ON/OFF. It queues changes through the unchanged
+0.4.3 production runtime. It has not been verified in game. The remaining
+preferences still use the temporary pyMHF development panel, which will be
+retired from the player interface once all native controls are complete.
+This candidate is built separately; the running 0.6.2 session is unchanged.
+
 Version 0.4.3 adds one automatic-summon opportunity after a successful local save load, so loading directly on foot can use the same placement checks as a ship exit. One Random-mode summon after loading on a **space station** is now confirmed by the log and the user. It uses the existing automation toggle and selection/location preferences; no new option or stored-data format is introduced. The settings tab remains **CompanionAutoSummon** because pyMHF uses the Python class name. Current validation is recorded in `manifest.json`.
 
 The candidate passed **230 production offline tests**, the real pyMHF settings-widget check and discovery checks for the combined 0.6.2 play trial. These checks use temporary data and no game connection or native hook registration. The combined trial subsequently registered in NMS with automation ON and two Mods/ten managed hooks at 20:42:21 on 27 September 2026.

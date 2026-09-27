@@ -38,6 +38,25 @@ Accepted manual selection, ship entry, a real local ship exit, applied preferenc
 
 GUI callbacks queue preference changes under a lock. The local player callback applies them. Native game operations belong to the established game callbacks, never to an installer or asynchronous GUI thread.
 
+The separate 0.7.0 play-trial candidate enables the first native menu preference
+without changing the production script: `tools/quick_menu_toggle.py` recognizes
+the selected child, `tools/quick_menu_preferences.py` resolves the actual
+registered production instance and queues only `enabled` under its existing
+control lock. Do not import or instantiate production again to obtain that
+instance. Applied/desired/pending and session-only display state come from the
+same instance. A one-use token rejects a replaced/stopped instance, an applied
+or replaced queue, or a changed enabled request; unrelated requests survive.
+There is no preference revision counter in 0.4.3, so an identical enabled write
+within the same queue cannot be distinguished. Hot reload remains unsupported.
+
+The native confirmation predicate adds one paired hook target. Its false-to-true
+transition authorizes only the next matching selected-child trigger on the same
+menu/native thread, followed by the original false result and fresh topology,
+guard and preference checks. Tail/slot-only triggers cannot toggle. A release
+must first be observed, including when holding confirmation while entering the
+submenu. All callback arguments/results are preserved. See `QUICK-MENU.md` for
+the exact-build evidence and live acceptance boundary.
+
 ## Naming and compatibility
 
 The public name is **Companion Auto Summon**; the repository slug is `nms-companion-auto-summon`. The private GitHub repository is [TomasTriska88/nms-companion-auto-summon](https://github.com/TomasTriska88/nms-companion-auto-summon). Remote existence and privacy have been verified; a push is a separate operation and must be confirmed by reading back the remote commit.
@@ -84,7 +103,7 @@ Before a local commit, inspect `git diff` and `git status --short`. Save only th
 
 ## Validation and maintenance
 
-Run `python -B build.py` after changing source fragments. Run meaningful affected tests; the current full offline suite is `python -B -m unittest discover -s tests -v`. Version 0.4.3 passed 230 production tests: 140 runtime, 34 policy, 24 settings, 14 persistence and 18 launcher. The separate developer suite passed 341 tests. The real production GUI smoke and actual-folder discovery smoke for the prepared 0.6.2 combined artifact also passed without game access or hook registration. Source hashes and bounded validation claims are recorded in `manifest.json` and the development validation reports. The historical 0.4.2 candidate passed 212 production tests; AutoPet 0.4.1 had 211. Tests use simulated native calls and owned buffers; passing them does not verify a game's binary interface or actual spawning.
+Run `python -B build.py` after changing source fragments. Run meaningful affected tests; the current full offline suite is `python -B -m unittest discover -s tests -v`. Version 0.4.3 passed 230 production tests: 140 runtime, 34 policy, 24 settings, 14 persistence and 18 launcher. The 0.6.2 developer baseline passed 341 tests; the 0.7.0 native-toggle candidate passes 408, including 67 new child/bridge/adapter regressions. The real production GUI smoke remains valid for the unchanged source. The actual-folder 0.7.0 smoke passed with two Mods, 15 callbacks across 11 targets and a real Python preference-queue/apply check using temporary files, without game access or hook registration. Source hashes and bounded validation claims are recorded in `manifest.json` and the development validation reports. The historical 0.4.2 candidate passed 212 production tests; AutoPet 0.4.1 had 211. Tests use simulated native calls and owned buffers; passing them does not verify a game's binary interface or actual spawning.
 
 The real-framework smoke check separately verifies widget construction and callbacks without hook registration or a game connection. Record the exact source bytes tested. After gameplay changes, collect relevant live evidence for that version, including the player's visible result. Never copy a previous version's live-success flag into a new release merely because its tests pass.
 

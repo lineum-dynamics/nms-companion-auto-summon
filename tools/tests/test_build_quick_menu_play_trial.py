@@ -25,7 +25,7 @@ class PlayTrialBuildTests(unittest.TestCase):
         (self.root / "tools").mkdir()
         self.menu = self.root / "tools/quick_menu_order_trial.py"
         self.menu.write_bytes(
-            b'TRIAL_ENABLED = False\r\nraise AssertionError("menu must not execute")\r\n')
+            b'TRIAL_ENABLED = False\r\nSETTINGS_TOGGLE_ENABLED = False\r\nraise AssertionError("menu must not execute")\r\n')
         self.production = self.root / builder.PRODUCTION_FILE
         self.production.write_bytes(
             b'# preserved production\r\nraise AssertionError("production must not execute")\r\n')
@@ -70,8 +70,8 @@ class PlayTrialBuildTests(unittest.TestCase):
                      for path in self.root.rglob("*") if path.is_file()}
         result = self.build()
         output = Path(result["output"])
-        self.assertEqual(output, self.root / "build/quick-menu-play-trial-062")
-        self.assertEqual(result["files"], 13)
+        self.assertEqual(output, self.root / "build/quick-menu-play-trial-070")
+        self.assertEqual(result["files"], 15)
         self.assertFalse(result["launched"])
         self.assertFalse(result["deployed"])
         self.assertTrue(result["auto_summon"])
@@ -80,6 +80,7 @@ class PlayTrialBuildTests(unittest.TestCase):
         self.assertEqual((output / builder.GUARD_HOST_FILE).read_bytes(), self.guard_host.read_bytes())
         self.assertEqual((output / builder.PLAY_HOST_FILE).read_bytes(), self.play_host.read_bytes())
         expected_menu = self.menu.read_bytes().replace(b"TRIAL_ENABLED = False", b"TRIAL_ENABLED = True", 1)
+        expected_menu = expected_menu.replace(b"SETTINGS_TOGGLE_ENABLED = False", b"SETTINGS_TOGGLE_ENABLED = True", 1)
         self.assertEqual((output / builder.MENU_FILE).read_bytes(), expected_menu)
         self.assertEqual(result["trial_sha256"], hashlib.sha256(expected_menu).hexdigest())
         self.assertEqual(result["production_sha256"], hashlib.sha256(self.production.read_bytes()).hexdigest())
@@ -88,18 +89,20 @@ class PlayTrialBuildTests(unittest.TestCase):
         for name in builder.HELPERS:
             self.assertEqual((output / name).read_bytes(), (self.root / "tools" / name).read_bytes())
         manifest = json.loads((output / "manifest.json").read_text())
-        self.assertEqual(manifest["version"], "0.6.2-play-trial")
+        self.assertEqual(manifest["version"], "0.7.0-play-trial")
         self.assertEqual(manifest["mods"], [
             {"name": "CompanionAutoSummon", "version": "0.4.3-experimental", "path": builder.PRODUCTION_FILE},
-            {"name": "CompanionMenuOrderTrial", "version": "0.6.0-order-trial", "path": builder.MENU_FILE},
+            {"name": "CompanionMenuOrderTrial", "version": "0.7.0-toggle-trial", "path": builder.MENU_FILE},
         ])
         self.assertTrue(manifest["auto_summon"])
-        for key in ("live_verified", "preference_actions", "observation_only", "preferences_included"):
+        self.assertTrue(manifest["preference_actions"])
+        self.assertEqual(manifest["preference_keys"], ["enabled"])
+        for key in ("live_verified", "observation_only", "preferences_included"):
             self.assertFalse(manifest[key])
         self.assertEqual(manifest["steam_build"], "synthetic-build")
         self.assertEqual(manifest["supported_nms_exe_sha256"], "f" * 64)
         entries = manifest["files"]
-        self.assertEqual(len(entries), 12)
+        self.assertEqual(len(entries), 14)
         self.assertEqual({entry["path"] for entry in entries},
                          {path.name for path in output.iterdir()} - {"manifest.json"})
         for entry in entries:
@@ -152,12 +155,12 @@ class PlayTrialBuildTests(unittest.TestCase):
                         self.build()
                     self.assertFalse((self.root / "build").exists())
 
-    def test_readme_explains_real_auto_summon_and_inert_menu_without_resetting_preferences(self):
+    def test_readme_explains_native_toggle_and_preserves_other_preferences(self):
         output = Path(self.build()["output"])
         readme = (output / "README.md").read_text()
-        for phrase in ("two mods", "0.4.3-experimental", "0.6.0-order-trial", "Settings preview",
+        for phrase in ("two mods", "0.4.3-experimental", "0.7.0-toggle-trial", "Automatic summoning: ON/OFF",
                        "This revision is not yet live-verified", "not reset or forced",
-                       "visible pyMHF window", "no personal data", "absolute LOCALAPPDATA",
+                       "temporary CompanionAutoSummon development panel", "no personal data", "absolute LOCALAPPDATA",
                        "neither mod writes the game's save files", "Never hot-reload",
                        "Exit NMS normally", "fresh backup", "no custom texture",
                        "first eligible local-player update", "current selection mode",
@@ -181,7 +184,7 @@ class PlayTrialBuildTests(unittest.TestCase):
         self.assertFalse((output / "unrelated.py").exists())
 
     def test_existing_file_or_directory_is_not_reused(self):
-        output = self.root / "build/quick-menu-play-trial-062"
+        output = self.root / "build/quick-menu-play-trial-070"
         output.mkdir(parents=True)
         sentinel = output / "keep"
         sentinel.write_bytes(b"prior trial")
@@ -242,7 +245,7 @@ class PlayTrialBuildTests(unittest.TestCase):
             return original_write(path, data)
         with patch.object(Path, "write_bytes", failing_write), self.assertRaises(OSError):
             self.build()
-        output = self.root / "build/quick-menu-play-trial-062"
+        output = self.root / "build/quick-menu-play-trial-070"
         before = {path.name: path.read_bytes() for path in output.iterdir()}
         self.assertTrue(before)
         with self.assertRaises(FileExistsError):

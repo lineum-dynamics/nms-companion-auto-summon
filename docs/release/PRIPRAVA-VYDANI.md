@@ -2,6 +2,23 @@
 
 Stav k 27. 9. 2026. Pracovní plán; mód ani stránka nebyly zveřejněné. Hlavní zdrojový projekt už je v lokálním Gitu; tento soubor se udržuje v `docs/release/`. Odkazy na dokumenty ve složce `CompanionAutoSummon/` níže označují dokumenty v kořeni repozitáře a distribučního balíčku.
 
+## Připravený test nativního nastavení 0.7.0
+
+Oddělený balíček 0.7.0-play-trial obsahuje nezměněnou produkci 0.4.3 a první
+nativní přepínač automatického vyvolávání ON/OFF. Prošlo 408 vývojových testů,
+kontrola skutečného pyMHF mimo hru a zařazení/použití změny dočasného nastavení.
+Balíček má 15 souborů, dva módy a 15 callbacků pro 11 cílů. Nebyl spuštěn ve hře;
+pozorování z 0.6.2 níže novou nabídku neověřují. Běžící 0.6.2 zůstává nezměněná.
+
+Nejbližší zkouška po běžném ukončení hry a nové záloze: samotné procházení
+nesmí měnit stav; samostatné potvrzení má přepnout OFF/ON, podržení pouze jednou.
+Ověřit návrat, znovuotevření, pořadí položek, zachování ostatních voleb a ruční
+vyvolání peta. Nejde o povinné okamžité ukončení současného hraní. Aktivační
+cesty bez ověřeného nativního potvrzení nic nepřepínají; přemapování a ovladače
+je potřeba samostatně vyzkoušet. Ostatní volby zatím používají dočasný panel
+pyMHF. Ten se po dokončení a ověření celého nativního menu odstraní z hráčského
+rozhraní, se zachováním uložených preferencí a běhu frameworku na pozadí.
+
 ## Rozsah prvního vydání
 
 Windows x64, Steam NMS build 25442159 / Cosmos 7.04, přesný podporovaný otisk NMS.exe, pyMHF 0.2.4 a Python 3.11–3.13 x64. Další obchody a operační systémy nejsou podmínkou prvního vydání. První veřejné vydání označit jako beta s konkrétními hranicemi ověření.

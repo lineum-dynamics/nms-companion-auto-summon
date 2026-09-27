@@ -37,6 +37,19 @@ Expose the same underlying preferences:
 
 The native menu and any retained development panel must share one preference store and apply changes through the same established game-thread path. Translated labels must not become internal setting values. A menu appearance change must not bypass native eligibility, change a companion's attributes or write game save files.
 
+The final player release must retire the separate pyMHF settings panel once
+all native controls are implemented and verified. The panel is a temporary
+development tool, not a second required player interface. Preserve existing
+preferences during that transition. pyMHF may remain the background runtime;
+its window must not be required during normal play. Removing GUI dependencies
+is a separate packaging decision and must be checked against the framework.
+
+Implement and verify the automatic-summoning toggle first, then selection,
+habitat preference and location controls. A setting may change only after a
+deliberate native confirmation; navigation, hover, opening and rebuilding the
+page must not change it. The native trigger's called-as-menu flag alone is not
+proof of confirmation because selection paths can also dispatch an action.
+
 The custom entry is intended to open one flat settings page, rather than act as
 another pet or toggle every setting itself. Its children will expose automatic
 summoning, selection mode, habitat preference and the three location toggles.

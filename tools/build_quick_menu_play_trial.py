@@ -10,7 +10,8 @@ import tomllib
 
 ROOT = Path(__file__).resolve().parents[1]
 HELPERS = ("quick_menu_item.py", "quick_menu_submenu.py", "quick_menu_order.py",
-           "quick_menu_native_guard.py", "quick_menu_guard_runtime.py")
+           "quick_menu_native_guard.py", "quick_menu_guard_runtime.py",
+           "quick_menu_preferences.py", "quick_menu_toggle.py")
 PRODUCTION_FILE = "CompanionAutoSummon.py"
 MENU_FILE = "CompanionMenuOrderTrial.py"
 GUARD_HOST_FILE = "Launch-CompanionAutoSummon.py"
@@ -41,13 +42,21 @@ This isolated developer bundle runs two mods in one pyMHF host:
 - CompanionAutoSummon 0.4.3-experimental: automatic summoning after loading or
   ship exit, including its separate preference panel. The production source is
   copied byte-identically into this bundle.
-- CompanionMenuOrderTrial 0.6.0-order-trial: the ordered native companion
-  submenu with one inert Settings preview child and its binding filter.
+- CompanionMenuOrderTrial 0.7.0-toggle-trial: the ordered native companion
+  submenu with one automatic-summoning toggle and its binding filter.
 
-The bundle version is 0.6.2-play-trial. This revision is not yet live-verified.
-The menu cannot change a preference. Automatic summoning follows the existing
-preferences; their enabled state and selection mode are not reset or forced.
-Use the CompanionAutoSummon tab in the visible pyMHF window for real settings.
+The bundle version is 0.7.0-play-trial. This revision is not yet live-verified.
+The native child displays Automatic summoning: ON/OFF. Confirm it with the
+configured native Select action to queue a change. The local player update
+applies and saves it through the existing production preference path. Pending
+and session-only labels do not claim a successful disk save. Navigation,
+opening and rebuilding the menu must not change a preference. The native
+confirmation predicate must first report false, then true; holding Select
+must not repeatedly toggle. Uncorrelated slot/tail activations do nothing.
+
+Other settings still use the temporary CompanionAutoSummon development panel.
+The final player interface will retire that panel after all native controls
+are implemented and verified. Existing settings are not reset or forced.
 The native menu icon remains borrowed; no custom texture is loaded here.
 
 When automatic summoning is enabled, loading a save records one pending startup
@@ -72,8 +81,13 @@ still apply; no pets are granted and no gameplay limits are lowered.
 
 Open the quick menu with the configured control and enter companions. The CAS
 entry should follow general companion actions and precede individual pets or
-pet pages. Check Settings preview, native Back, close/reopen and normal manual
-pet actions. Check automatic summoning after loading at an eligible location
+pet pages. Check the automation toggle, native Back, close/reopen and normal
+manual pet actions. First browse without confirming: the setting must stay
+unchanged. Confirm OFF, close/reopen and check OFF in both interfaces; confirm
+ON and check the same. Hold Select and verify only one change. OFF cancels
+pending summons without dismissing an active pet; ON alone does not summon.
+The remaining controls must keep their values. This new native route is not
+yet verified with default/remapped keyboard, mouse or controllers. Check automatic summoning after loading at an eligible location
 and after leaving the ship, using your current preferences. Do not rebind an occupied
 shortcut during the initial test. Remapping, controller behavior, changing pet
 lists, shortcut persistence/removal and coexistence still need acceptance tests.
@@ -114,7 +128,7 @@ def _launcher(data):
     return text.encode("utf-8")
 
 
-def build(*, enable_menu=False, output_name="quick-menu-play-trial-062"):
+def build(*, enable_menu=False, output_name="quick-menu-play-trial-070"):
     """Create one fresh, checksum-complete folder without executing payloads."""
     if enable_menu is not True:
         raise ValueError("Pass --enable-menu for this combined developer trial")
@@ -128,6 +142,9 @@ def build(*, enable_menu=False, output_name="quick-menu-play-trial-062"):
     if menu.count(b"TRIAL_ENABLED = False") != 1:
         raise ValueError("Expected one disabled ordered submenu trial marker")
     menu = menu.replace(b"TRIAL_ENABLED = False", b"TRIAL_ENABLED = True", 1)
+    if menu.count(b"SETTINGS_TOGGLE_ENABLED = False") != 1:
+        raise ValueError("Expected one disabled native settings marker")
+    menu = menu.replace(b"SETTINGS_TOGGLE_ENABLED = False", b"SETTINGS_TOGGLE_ENABLED = True", 1)
     payload = {
         PRODUCTION_FILE: (ROOT / PRODUCTION_FILE).read_bytes(),
         MENU_FILE: menu,
@@ -149,14 +166,15 @@ def build(*, enable_menu=False, output_name="quick-menu-play-trial-062"):
         raise ValueError("The play-trial host requires the reviewed production and framework versions")
     manifest = {
         "name": "Companion Auto Summon combined play trial",
-        "version": "0.6.2-play-trial",
+        "version": "0.7.0-play-trial",
         "framework": current["framework"],
         "steam_build": current["steam_build"],
         "supported_nms_exe_sha256": current["supported_nms_exe_sha256"],
-        "purpose": "Automatic summoning after loading or ship exit plus the ordered inert menu in one folder-mode host",
+        "purpose": "Automatic summoning plus one predicate-gated native automation toggle in one folder-mode host",
         "observation_only": False,
         "auto_summon": True,
-        "preference_actions": False,
+        "preference_actions": True,
+        "preference_keys": ["enabled"],
         "live_verified": False,
         "preferences_included": False,
         "manual_selection_path": "%LOCALAPPDATA%/NMS-AutoPet/state.json",
@@ -164,7 +182,7 @@ def build(*, enable_menu=False, output_name="quick-menu-play-trial-062"):
         "mods": [
             {"name": "CompanionAutoSummon", "version": current["version"],
              "path": PRODUCTION_FILE},
-            {"name": "CompanionMenuOrderTrial", "version": "0.6.0-order-trial",
+            {"name": "CompanionMenuOrderTrial", "version": "0.7.0-toggle-trial",
              "path": MENU_FILE},
         ],
         "files": [{"path": name, "sha256": hashlib.sha256(data).hexdigest()}
@@ -185,7 +203,7 @@ def build(*, enable_menu=False, output_name="quick-menu-play-trial-062"):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--enable-menu", action="store_true")
-    parser.add_argument("--output-name", default="quick-menu-play-trial-062")
+    parser.add_argument("--output-name", default="quick-menu-play-trial-070")
     options = parser.parse_args()
     print(json.dumps(build(enable_menu=options.enable_menu,
                            output_name=options.output_name)))

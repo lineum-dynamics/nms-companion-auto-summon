@@ -19,13 +19,17 @@ SOURCE = Path(__file__).resolve().parents[1] / "quick_menu_order_trial.py"
 EXPECTED_HASH = "b7913f268dfc62386b6b68f524bfc8ade4a44a9f4fbad39085b7bf51be3680cb"
 
 
-def load_trial(*, enabled=False, injected=True, base=0x100000,
+def load_trial(*, enabled=False, settings_enabled=False, injected=True, base=0x100000,
                framework="0.2.4", digest=EXPECTED_HASH):
     source = SOURCE.read_text(encoding="utf-8")
     if enabled:
         if source.count("TRIAL_ENABLED = False") != 1:
             raise AssertionError("Expected one disabled trial marker")
         source = source.replace("TRIAL_ENABLED = False", "TRIAL_ENABLED = True", 1)
+    if settings_enabled:
+        if source.count("SETTINGS_TOGGLE_ENABLED = False") != 1:
+            raise AssertionError("Expected one disabled settings marker")
+        source = source.replace("SETTINGS_TOGGLE_ENABLED = False", "SETTINGS_TOGGLE_ENABLED = True", 1)
     events, declarations = [], []
 
     class FakeMod:
@@ -71,13 +75,18 @@ def load_trial(*, enabled=False, injected=True, base=0x100000,
     hooking = types.ModuleType("pymhf.core.hooking")
     hooking.static_function_hook = lambda *, offset: lambda function: FakeNative(function, offset)
     hooking.hook_manager = types.SimpleNamespace(_get_funchook=Mock(return_value=None))
+    mod_loader = types.ModuleType("pymhf.core.mod_loader")
+    mod_loader.mod_manager = types.SimpleNamespace(mods={})
     core.hooking, pymhf.core = hooking, core
     runtime = types.ModuleType("quick_menu_guard_runtime")
     runtime.GuardError = type("GuardError", (RuntimeError,), {})
     runtime.ensure_guard = Mock(side_effect=AssertionError("Import must not install native hooks"))
 
     helpers = {"quick_menu_item": ITEM}
-    for name in ("quick_menu_submenu", "quick_menu_order"):
+    helper_names = ["quick_menu_submenu", "quick_menu_order"]
+    if settings_enabled:
+        helper_names.extend(("quick_menu_toggle", "quick_menu_preferences"))
+    for name in helper_names:
         spec = importlib.util.spec_from_file_location(name + "_order_test", SOURCE.with_name(name + ".py"))
         helper = importlib.util.module_from_spec(spec)
         with patch.dict(sys.modules, {**helpers, spec.name: helper}):
@@ -100,6 +109,7 @@ def load_trial(*, enabled=False, injected=True, base=0x100000,
         **helpers, "quick_menu_guard_runtime": runtime, "pymhf": pymhf,
         "pymhf.core": core, "pymhf.core._internal": internal,
         "pymhf.core.hooking": hooking,
+        "pymhf.core.mod_loader": mod_loader,
     }), patch("importlib.metadata.version", side_effect=fake_version), patch.object(
         Path, "open", fake_open
     ), patch.object(hashlib, "file_digest", return_value=Mock(hexdigest=lambda: digest)), patch.object(
@@ -109,6 +119,7 @@ def load_trial(*, enabled=False, injected=True, base=0x100000,
     ):
         exec(compile(source, str(SOURCE), "exec"), module.__dict__)
     module.test_events, module.test_declarations = events, declarations
+    module.test_helpers = helpers
     module.LOGGER = Mock()
     module.get_native_id = Mock(return_value=271828)
     return module
@@ -173,9 +184,11 @@ class GuardAndMetadataTests(unittest.TestCase):
 
 
 class OrderFixture(SubmenuFixture):
+    settings_enabled = False
+
     def setUp(self):
         ItemFixture.setUp(self)
-        self.module = load_trial()
+        self.module = load_trial(settings_enabled=self.settings_enabled)
         self.trial = self.module.CompanionMenuOrderTrial()
         self.trial._stopped = False
         self.trial._reader = self.reader

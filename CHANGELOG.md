@@ -10,6 +10,17 @@
 
 ## Development — native quick-menu investigation
 
+- Prepared the separate 0.7.0 play-trial source: one native automation ON/OFF
+  control using the unchanged 0.4.3 production preference queue. A fresh native
+  confirmation and matching original false trigger result are required;
+  navigation/rebuild or uncorrelated tail activation cannot queue a change.
+  One-use captures refuse stale/replaced/stopped state and preserve other
+  preferences. Captions distinguish pending and session-only state. Live
+  activation, held input and remapping/controller behavior remain unverified.
+- Recorded the accepted retirement of the temporary pyMHF settings panel once
+  all native controls are implemented and verified. Existing preferences and
+  the background runtime remain; the running 0.6.2 artifact is unchanged.
+
 - Started 0.6.1 after normal game exit and a fresh verified backup of 43 profile files. The log confirms automation ON and two Mods/ten managed hooks. All twelve payloads and both existing external configuration files remained hash-identical at startup. Actual combined summoning and visible menu order await the player's check.
 - Prepared the 0.6.1 combined play trial: unchanged 0.4.2 automatic summoning plus the ordered inert menu in one verified pyMHF folder-mode host. Existing preferences and manual selection remain at their original external paths. All 341 developer tests and actual framework discovery passed; the thirteen-file artifact has not been launched and live coexistence remains pending.
 - Launched the isolated 0.6.0 ordering trial after a fresh verified backup of 43 profile files. Registration reports one Mod/four managed hooks; visible order remains pending. Recorded the requirement to retain functional automatic summoning and existing preferences during subsequent menu development sessions.

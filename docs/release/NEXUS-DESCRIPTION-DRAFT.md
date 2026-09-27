@@ -51,6 +51,22 @@ Quit NMS, then launch it normally through Steam to play without Companion Auto S
 
 ## Validation and known limits — update before upload
 
+A separate, unlaunched developer candidate, 0.7.0-play-trial, adds the first
+native setting: automatic summoning ON/OFF. It uses the unchanged 0.4.3
+production preference queue and preserves other preferences. It passed 408
+developer tests and actual pyMHF discovery/temporary-preference checks outside
+the game: two Mods, 15 callbacks across 11 targets, no hook registration or
+personal preference access. This does not establish in-game activation,
+held-input behavior, remapped controls or controller support. Tail-only or
+otherwise uncorrelated activations do not change settings. The existing 0.6.2
+session remains unchanged. This developer candidate is not the player ZIP.
+
+Remaining native controls are unfinished. The separate pyMHF panel is temporary
+and will be retired from the player interface after the complete native page
+passes validation; existing settings will be preserved. The framework may
+remain the background runtime. Do not advertise complete native settings or
+panel-free installation until that transition has actually been delivered.
+
 Status on 27 September 2026: production 0.4.3 passed 230 offline tests, including 140 runtime tests, and the developer suite passed 341 tests. The actual production GUI and the 0.6.2 combined-folder smoke checks also passed without game access or hook registration.
 
 The subsequent 0.4.3 / 0.6.2 live trial registered both mods with automatic summoning enabled. After a local save loaded at a space station, the log recorded the load-triggered request, a Random selection from five eligible owned companions and native queue acceptance about 2.69 seconds after arming. No ship-exit arming event preceded this request. The player confirmed that the companion actually appeared after loading and clarified that the location was a station, not the Nexus. This verifies one station startup summon in Random mode on the development machine; the queue timing is not a measurement of visible spawn latency.

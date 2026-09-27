@@ -6,6 +6,12 @@ Companion Auto Summon 0.4.3 has no localization catalog, language selector or au
 
 The load-trigger update reuses the existing control as **Automatically summon companion**, covering ship exits and successful local save loads. Status can show **Waiting for a suitable place** while a load opportunity still awaits ownership. The companion status describes a random choice per request or a remembered identity awaiting ownership verification; the manual-selection notice says **companion selected for automatic summoning**. Future translations must preserve this scope instead of promising a summon immediately during loading or only after a ship exit. No new preference or language selector accompanies the change. The developer menu's **Settings preview** child remains inert and English-only.
 
+In the separate 0.7.0 developer candidate that child becomes **Automatic
+summoning: ON/OFF**, with **(pending)**, **(session only)**, **unavailable** or
+**stopped** as appropriate. These are English prototype captions, not translated
+catalog entries. Pending is a queued request, not a claim that it was saved.
+The older 0.6.2 running artifact retains its inert preview.
+
 The owner requires English source code and player-facing localization covering the game's official interface languages. Translations will be separate data resources. Technical log identifiers and developer diagnostics remain English, while actionable player-facing errors must be localized.
 
 ## Target languages
@@ -45,6 +51,12 @@ Source: [official Steam store language table](https://store.steampowered.com/app
 The current HUD path uses ASCII encoding. Directly inserting accented or CJK text would fail and disable HUD notifications for that session. Determine the game's accepted text encoding and rendering behavior before replacing that path. Respect the native buffer size, do not cut a multibyte character in half, and test the actual result in the game.
 
 pyMHF GUI decorators currently capture fixed labels at class definition, and the selection widget displays Enum member names. Updating a dictionary alone will not translate existing controls. Implement and verify an appropriate label/option binding or rebuild mechanism without changing stable selection values.
+
+The accepted final interface retires this temporary development panel once
+the native settings page is complete. Prioritize native menu/HUD and launcher
+translations for the player release; do not build a second permanent settings
+interface merely to translate pyMHF's development window. Verify that the
+finished player package does not require that window during normal play.
 
 The current panel has no Companion Auto Summon font/glyph configuration for the entire target language set. Verify accent, Cyrillic, Japanese, Korean and both Chinese character coverage, font licensing and readable layouts. English-only GUI smoke tests do not establish this coverage.
 

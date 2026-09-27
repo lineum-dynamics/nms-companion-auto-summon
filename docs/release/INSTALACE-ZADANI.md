@@ -10,6 +10,22 @@ Později v téže nezměněné relaci hráč potvrdil jedno ruční odvolání b
 
 Historický běh 0.4.2 / 0.6.1 téhož dne doložil pouze registraci modulů a přijatý požadavek na stanici v logu, bez hráčova potvrzení spawnu. Tento starší záznam se nepřepisuje novým výsledkem.
 
+## Nový oddělený vývojový kandidát 0.7.0
+
+0.7.0-play-trial přidává pouze nativní zapnutí/vypnutí automatiky přes původní
+frontu nastavení produkce 0.4.3. Ostatní volby a ruční favorit se zachovávají.
+Stav čekající na použití a stav platný pouze pro relaci se zobrazují odlišně od
+uložené volby. Prošlo 408 vývojových testů a kontrola skutečného pyMHF se dvěma
+módy, 15 callbacky pro 11 cílů a dočasným nastavením mimo hru. Tato verze zatím
+nebyla spuštěna; nejde o dokončený veřejný instalátor. Příprava nepřepsala
+běžící 0.6.2. Nasazení vyžaduje běžné ukončení hry a čerstvou zálohu.
+
+Finální hráčské rozhraní nebude vyžadovat panel pyMHF. Po dokončení všech voleb
+v menu X se dočasný vývojový panel odstraní; závislosti GUI se posoudí zvlášť
+podle frameworku. Zůstane jednoduchý spouštěč a runtime na pozadí. Nejbližší
+herní zkouška ověří OFF/ON, podržení potvrzení, procházení bez změny, návrat,
+znovuotevření a běžné akce petů; současné hraní může pokračovat beze změny.
+
 ## Cílový postup hráče
 
 1. Stáhnout ZIP z Nexusu a rozbalit do vlastní zapisovatelné složky.

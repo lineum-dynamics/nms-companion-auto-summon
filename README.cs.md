@@ -6,6 +6,12 @@ Pravidla vývoje a architektura jsou v anglickém [DEVELOPMENT.md](DEVELOPMENT.m
 
 Verze 0.4.3 přidává jednu příležitost k automatickému vyvolání po úspěšném načtení lokálního savu. Po přihlášení rovnou pěšky tedy nemusíš nejprve nastoupit a vystoupit z lodi. Mód počká na povolenou lokaci, ověření vlastnictví a původní kontroly umístění. Během samotného načítání dat žádné nativní vyvolání nevolá.
 
+Oddělený vývojový kandidát **0.7.0-play-trial** přidává první skutečnou volbu
+v menu X: zapnutí nebo vypnutí automatiky. Změnu předává původnímu runtime
+0.4.3 a jeho ukládání nastavení. Herní ověření této volby teprve následuje.
+Ostatní volby zatím zůstávají v dočasném panelu pyMHF; po dokončení nativního
+menu tento panel z hráčského rozhraní odstraníme. Běžící relace 0.6.2 se nemění.
+
 **Ve společném testovacím balíčku 0.6.2 se pet po načtení pěšky na vesmírné stanici automaticky objevil v režimu Random.** Log potvrzuje spuštění načtením savu bez výstupu z lodi, výběr jednoho z pěti vhodných vlastních petů a přijetí požadavku přibližně po 2,69 sekundy. Uživatel potvrdil skutečné objevení. Nexus ani planeta nebyly místem tohoto testu; jejich načtení a režim poslední ruční volby po načtení ještě čekají na ověření. Později uživatel potvrdil i jedno ruční odvolání bez opětovného objevení. Mezitím cestoval; přesné místo a délka tohoto pozorování nebyly nezávisle změřeny. Přesný rozsah zaznamenává `manifest.json`.
 
 Aktuální kandidát prošel **230 testy módu** a **341 testy vývojových nástrojů**. Kontrola se skutečným pyMHF ověřila osm prvků panelu i načtení obou tříd v připraveném společném balíčku 0.6.2 bez připojení ke hře. Tyto kontroly nepotvrzují skutečné objevení peta po načtení.

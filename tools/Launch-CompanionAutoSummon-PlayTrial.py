@@ -12,19 +12,20 @@ from pathlib import Path
 import tomllib
 
 
-VERSION = "0.6.2-play-trial"
+VERSION = "0.7.0-play-trial"
 HOST_NAME = "Launch-CompanionAutoSummon-PlayTrial.py"
 BOOTSTRAP_NAME = "Launch-CompanionAutoSummon.py"
 PAYLOAD_FILES = frozenset((
     "CompanionAutoSummon.py", "CompanionMenuOrderTrial.py",
     "quick_menu_item.py", "quick_menu_submenu.py", "quick_menu_order.py",
     "quick_menu_native_guard.py", "quick_menu_guard_runtime.py",
+    "quick_menu_preferences.py", "quick_menu_toggle.py",
     HOST_NAME, BOOTSTRAP_NAME, "Start-CompanionAutoSummon.ps1",
     "pymhf.toml", "README.md",
 ))
 EXPECTED_MODS = [
     {"name": "CompanionAutoSummon", "version": "0.4.3-experimental", "path": "CompanionAutoSummon.py"},
-    {"name": "CompanionMenuOrderTrial", "version": "0.6.0-order-trial", "path": "CompanionMenuOrderTrial.py"},
+    {"name": "CompanionMenuOrderTrial", "version": "0.7.0-toggle-trial", "path": "CompanionMenuOrderTrial.py"},
 ]
 EXPECTED_CONFIG = {
     "exe": "NMS.exe", "steam_gameid": 275850, "start_paused": False,
@@ -57,7 +58,8 @@ def validate_bundle(folder):
     if (not isinstance(manifest, dict) or manifest.get("version") != VERSION
             or manifest.get("framework") != "pymhf[gui]==0.2.4"
             or manifest.get("auto_summon") is not True
-            or manifest.get("preference_actions") is not False
+            or manifest.get("preference_actions") is not True
+            or manifest.get("preference_keys") != ["enabled"]
             or manifest.get("mods") != EXPECTED_MODS):
         raise BundleError("The manifest does not describe the supported combined trial.")
     entries = manifest.get("files")

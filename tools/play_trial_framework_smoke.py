@@ -27,6 +27,7 @@ PRODUCTION_HOOKS = {
 MENU_HOOKS = {
     (0x151ED00, "BEFORE"), (0x151ED00, "AFTER"), (0x1523220, "AFTER"),
     (0x1526940, "BEFORE"), (0x1526940, "AFTER"), (0x1533980, "BEFORE"),
+    (0x15311C0, "BEFORE"), (0x15311C0, "AFTER"),
 }
 
 
@@ -55,9 +56,11 @@ def check(bundle_folder):
             "Combined host must match its reviewed source")
     menu_source = (ROOT / "tools/quick_menu_order_trial.py").read_text(encoding="utf-8")
     require(menu_source.count("TRIAL_ENABLED = False") == 1, "Expected one disabled menu source flag")
-    expected_menu = menu_source.replace("TRIAL_ENABLED = False", "TRIAL_ENABLED = True", 1).encode("utf-8")
+    require(menu_source.count("SETTINGS_TOGGLE_ENABLED = False") == 1, "Expected disabled toggle source")
+    expected_menu = menu_source.replace("TRIAL_ENABLED = False", "TRIAL_ENABLED = True", 1)
+    expected_menu = expected_menu.replace("SETTINGS_TOGGLE_ENABLED = False", "SETTINGS_TOGGLE_ENABLED = True", 1).encode("utf-8")
     require((bundle / "CompanionMenuOrderTrial.py").read_bytes() == expected_menu,
-            "Menu must differ only by its explicit build enable flag")
+            "Menu must differ only by its two explicit build enable flags")
     for name in host.PAYLOAD_FILES:
         if name.startswith("quick_menu_"):
             require((bundle / name).read_bytes() == (ROOT / "tools" / name).read_bytes(),
@@ -134,7 +137,7 @@ def check(bundle_folder):
             menu_hooks = {(hook._hook_offset, hook._hook_time.name) for hook in menu.hooks}
             require(len(production.hooks) == 7 and production_hooks == PRODUCTION_HOOKS,
                     "Production hook callbacks differ")
-            require(len(menu.hooks) == 6 and menu_hooks == MENU_HOOKS, "Menu hook callbacks differ")
+            require(len(menu.hooks) == 8 and menu_hooks == MENU_HOOKS, "Menu hook callbacks differ")
             production_targets = {offset for offset, _ in production_hooks}
             menu_targets = {offset for offset, _ in menu_hooks}
             require(not production_targets & menu_targets, "Production and menu targets overlap")
@@ -151,6 +154,35 @@ def check(bundle_folder):
             require(settings_path.read_bytes() == settings_bytes
                     and not settings_path.with_name("state.json").exists(),
                     "Constructors changed local preference/selection data")
+
+            # Exercise the bridge with the actual framework-created Python
+            # instance and temporary settings. This never registers a hook or
+            # calls a native function; application below is an offline method
+            # invocation, not an injected player update.
+            bridge = menu_module.PreferenceBridge(
+                str(bundle / "CompanionAutoSummon.py"),
+                get_registered=lambda: menu_module.mod_manager.mods.get("CompanionAutoSummon"),
+                get_module=lambda: sys.modules.get("CompanionAutoSummon"),
+            )
+            with patch.object(production_module.CompanionAutoSummon, "_disabled", False), \
+                    patch.dict(menu_module.mod_manager.mods, {"CompanionAutoSummon": production}):
+                state = bridge.snapshot()
+                require(state is not None and state.applied and state.desired and not state.pending,
+                        "Bridge did not resolve the actual registered production instance")
+                token = bridge.capture_toggle()
+                require(bridge.commit_toggle(token, authorize=lambda: True), "Native toggle was not queued")
+                require(not bridge.commit_toggle(token), "Native token replay queued another toggle")
+                state = bridge.snapshot()
+                require(state.applied and not state.desired and state.pending,
+                        "Queued state was confused with applied state")
+                require(settings_path.read_bytes() == settings_bytes, "Bridge persisted before player apply")
+                production._apply_control()
+                stored = json.loads(settings_path.read_text(encoding="utf-8"))
+                require(stored == {**preferences, "enabled": False}, "Toggle changed another stored setting")
+                state = bridge.snapshot()
+                require(not state.applied and not state.desired and not state.pending and state.settings_ok,
+                        "Applied bridge state differs")
+                require(not settings_path.with_name("state.json").exists(), "Bridge changed companion memory")
 
             # Exercise host validation and dispatch with the real folder and
             # configuration. Only injection and run_module itself are mocked.
@@ -174,10 +206,11 @@ def check(bundle_folder):
     result = {
         "version": host.VERSION, "framework": "0.2.4", "pymhflib_entry_points": [],
         "bundle_sha256": hashes, "production_byte_identical": True,
-        "menu_only_enable_flag_changed": True, "actual_folder_discovery": True,
+        "menu_only_two_enable_flags_changed": True, "actual_folder_discovery": True,
         "disabled_flags_lifted_for_discovery_only": True, "mods_preloaded_not_registered": 2,
-        "production_callbacks": 7, "menu_callbacks": 6, "distinct_native_targets": 10,
-        "gui_widgets": 8, "physical_hotkeys": 0, "temporary_preferences_preserved": True,
+        "production_callbacks": 7, "menu_callbacks": 8, "distinct_native_targets": 11,
+        "gui_widgets": 8, "physical_hotkeys": 0, "temporary_preferences_preserved_before_apply": True,
+        "real_preference_bridge_queue_apply_verified": True,
         "host_direct_folder_dispatch_mocked": True, "hooks_registered": False,
         "game_accessed": False, "user_preferences_accessed": False, "live_verified": False,
     }

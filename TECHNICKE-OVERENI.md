@@ -2,6 +2,30 @@
 
 Soukromé testovací záznamy uvedené níže jménem souboru jsou uchované mimo Git repozitář a distribuční ZIP. Dokument obsahuje jejich shrnutí; osobní záznamy ani zálohy se nedistribuují.
 
+## Připravený přepínač v nativním menu 0.7.0
+
+Oddělený balíček 0.7.0 obsahuje nezměněný produkční skript 0.4.3 a první
+skutečnou volbu menu: zapnutí/vypnutí automatického vyvolávání. Změna vyžaduje
+nové potvrzení vyhodnocené samotnou hrou, shodnou vybranou položku a opětovnou
+kontrolu po původním návratu nativní funkce. Podržení potvrzení, samotné
+zobrazení nebo přestavba nabídky nesmějí změnu opakovat. Nepoužívá se pevná
+fyzická klávesa. Neověřené cesty aktivace změnu neprovedou.
+
+Prošlo **408 vývojových testů** a kontrola se skutečným pyMHF mimo hru:
+dva módy, 15 callbacků pro 11 různých cílů, osm dočasných prvků panelu a žádná
+vlastní klávesová zkratka. Test se skutečnou Python instancí produkčního módu
+ověřil zařazení jedné změny, odmítnutí opakování a následné uložení jen do
+dočasného nastavení. Ostatní volby zůstaly zachované. Herní funkce ani osobní
+soubory test nepoužil. Nezměněná produkce zachovává svůj předchozí výsledek
+230 testů; změna vývojového menu jejich nové spuštění nevyžadovala.
+
+Balíček má 15 souborů, z toho 14 kontrolovaných payloadů. Zatím nebyl spuštěn
+ve hře. Běžící 0.6.2 zůstává beze změny; dřívější úspěchy níže nejsou důkazem
+funkčnosti nového přepínače. Před nasazením se hra běžně ukončí a vznikne nová
+záloha. Pak následuje zkouška OFF/ON, podržení, návratu/znovuotevření, pořadí
+položek a běžných akcí petů. Ostatní nastavení zatím zůstávají v dočasném panelu;
+z finálního hráčského rozhraní bude panel pyMHF odstraněn po dokončení menu.
+
 ## Jednorázové vyvolání po načtení ve verzi 0.4.3
 
 Úspěšné načtení lokálního savu zaznamená jednu příležitost, pokud je automatika zapnutá. Během deserializace se nevolá vyvolání ani hledání místa. Následující aktualizace lokálního vlastnictví vyhodnotí povolené místo a původní nativní kontroly. Platí stejné čekání 1,5 sekundy a stejný odstup dvojic kontrol 0,5 sekundy. Nezavádí se nový hook ani neověřená paměťová adresa.

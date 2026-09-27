@@ -1,5 +1,11 @@
 # Native quick-menu investigation
 
+Current developer candidate: **0.7.0-play-trial**, containing unchanged
+production 0.4.3 and an opt-in 0.7.0 native automation toggle. It passed 408
+developer tests and real-framework discovery/temporary-preference checks.
+It has not been launched. The player's existing 0.6.2 session is unchanged.
+The following chronological records retain their original version boundaries.
+
 Status: 27 September 2026. The source candidate is 0.4.3-experimental, adding a
 deferred summon opportunity after local save load. Its combined 0.6.2 artifact
 has passed offline checks and registered with automation ON. One Random-mode
@@ -792,6 +798,92 @@ no-repeat outcome once; it does not establish dismissal immediately after the
 initial station load or all dismissal/trigger combinations. The retained log
 is supporting session context, not a timestamped dismissal trace. Evidence:
 `menu-play-0.6.2-manual-dismissal-success.json`.
+
+## First native preference candidate: 0.7.0
+
+The ordered adapter retains its original six callback phases when the new
+`SETTINGS_TOGGLE_ENABLED` source flag is false. Both that flag and the ordinary
+trial flag must be explicitly enabled by the isolated combined builder. The
+new bundle contains 15 files, with 14 hashed payloads, two Mods, 15 callbacks
+across 11 managed native targets, eight temporary development-panel widgets
+and no physical hotkeys. The existing native binding filter is unchanged.
+Production 0.4.3 and the canonical injection bootstrap are byte-identical.
+
+### Native confirmation boundary
+
+Static inspection of the pinned executable verified a boolean `(menu*)`
+predicate at RVA `0x15311C0`. The native menu-manager calls its virtual slot
+`+0x30` at `0x1535186`; a true result immediately leads to selected-action slot
+`+0x38` at `0x1535193`, with the same menu and no intervening native call.
+For the custom None action, the predicate's alternate-input byte table at
+`0x4A23330` has value zero. Its ordinary-device branch therefore accepts only
+native input query `0x53`, through the game's input object and existing mapping;
+the alternative `0x55` query is skipped. These are internal native actions,
+not physical keyboard keys. A separate device-type-four branch still requires
+its own live coverage. No input function is called or replaced by the toggle.
+
+The tail handler's slot dispatch is not used as authority. Its slot value four
+must not be confused with a logical confirmation action. Likewise, the trigger's
+called-as-menu flag and original false result alone do not prove a confirmation.
+The pyMHF caller-address helper was not used: its shared captured stack address
+cannot establish per-invocation provenance under concurrent entry.
+
+The adapter observes all predicate results, including parent navigation. It
+requires a false result for the same menu before a fresh true result. Holding
+confirmation while opening the submenu therefore cannot arm the child. A
+fresh true result captures owned selected-child topology and a one-use
+preference token on the current native thread. Only the next matching trigger
+can consume it. Intervening labels/builds/other triggers invalidate it; nested,
+concurrent or mismatched callbacks stop custom menu processing. Tail-only or
+unmatched triggers remain inert. Native arguments and return values are never
+replaced, and the old action pointer is not dereferenced after execution.
+
+After the original false result, fresh topology, current native guard,
+deferred-selection state and preference ownership must still match. A final
+non-native authorization check runs immediately before queuing. Revocation or
+an unavailable/stopped/replaced production instance leaves preferences alone.
+This is a bounded candidate, not verified support for every input/device path.
+
+### Shared preferences and display
+
+The bridge resolves the actual registered `CompanionAutoSummon` instance from
+`mod_manager.mods`, with the existing module/class/sibling-path and reviewed
+0.4.3 contract. String indexing on the manager would return a proxy and is not
+used. No duplicate production module or instance is created. Only the existing
+`requested_preferences["enabled"]` entry is changed under `control_lock`;
+the established production player callback applies and persists it later.
+Other queued settings and the remembered companion are preserved. Stale
+enabled requests, replaced/applied queues and stopped/replaced instances refuse
+the old token. Hot reload is unsupported; 0.4.3 has no revision counter to
+distinguish identical writes within one queue.
+
+The child caption is `Automatic summoning: ON/OFF`, with pending, session-only,
+unavailable or stopped state when appropriate. The parent caption, empty inline
+names, native icon and ordered insertion remain. A queued request is not
+displayed as a confirmed disk save. OFF cancels waiting automation without
+dismissing an active pet; ON alone creates no summon. Other controls remain in
+the temporary development panel. That panel will leave the player interface
+when the complete native settings page has been implemented and verified.
+
+### Offline validation and next live check
+
+All **408 developer tests** passed: the earlier 341 plus 18 child-recognition,
+23 preference-bridge and 26 adapter regressions. The actual pyMHF smoke loaded
+both classes outside the game, checked the 15 callback/11 target set, resolved
+the real production Python instance, queued OFF once, refused token replay and
+applied it only to temporary preferences. Other preference fields and companion
+memory were preserved. No hook was registered and no game or user preference
+file was accessed. The unchanged production source retains its own 230-test
+report; those tests were not rerun just for developer-menu changes.
+
+After normal game exit and a fresh backup, use the separately prepared bundle.
+Browse and reopen the submenu without confirming: the value must not change.
+Confirm OFF and ON individually, comparing applied state in the temporary panel
+and after closing/reopening. Hold confirmation and check that it changes once.
+Check parent entry while held, native Back, manual summoning, menu order and
+ordinary automatic behavior after the next real trigger. These live checks,
+remapped controls and controller paths remain pending. The current 0.6.2
+installation is not overwritten by preparation or packaging.
 
 ## Historical observation-only live sequence
 
