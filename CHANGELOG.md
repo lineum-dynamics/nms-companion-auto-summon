@@ -4,7 +4,8 @@
 
 - A successful local save load records one deferred summon opportunity when automation is enabled. An eligible local ownership update restores the saved identity or uses Random, then follows the existing 1.5-second stability, native ownership and paced placement checks. No native calls occur during save deserialization.
 - Existing active/queued pets, manual selection/preview, entering the ship, preference changes, another local load or loss/replacement of application context cancel the opportunity. It is consumed before arming; later manual dismissal does not cause repeated respawning. Missing ownership data is retried at the existing 0.5-second interval without guessing another pet.
-- Kept the same native mappings, hook targets, gameplay limits and external preference paths. Updated the panel wording and prepared combined play trial 0.6.2 with the existing ordered inert menu. This revision still needs its own live startup test.
+- Kept the same native mappings, hook targets, gameplay limits and external preference paths. Updated the panel wording and prepared combined play trial 0.6.2 with the existing ordered inert menu. After a fresh verified backup of 43 profile files it registered at 20:42:21 on 27 September 2026 with automation ON and two Mods/ten managed hooks.
+- Confirmed one Random-mode summon after an on-foot station load in combined 0.6.2: local save load armed the request, native checks waited, and slot 1 of five eligible owned companions was queued after approximately 2.69 seconds. No ship-exit trigger preceded that startup request, and the player confirmed actual appearance. Nexus/planet startup, Last manually selected startup, dismissal behavior and broader compatibility remain unverified.
 
 ## Development — native quick-menu investigation
 

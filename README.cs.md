@@ -4,7 +4,9 @@ Tento Git repozitář je hlavní zdrojový projekt. Testovací instalace a ZIP b
 
 Pravidla vývoje a architektura jsou v anglickém [DEVELOPMENT.md](DEVELOPMENT.md). Zdrojový kód, komentáře a vývojová diagnostika jsou anglicky. Panel i herní potvrzení jsou zatím pouze anglické; systém překladů dosud neexistuje. Cílové jazyky a zbývající práce popisuje [LOCALIZATION.md](LOCALIZATION.md).
 
-Verze 0.4.3 přidává jednu příležitost k automatickému vyvolání po úspěšném načtení lokálního savu. Pokud se přihlásíš rovnou pěšky například v Nexusu, nemusíš nejprve nastoupit a vystoupit z lodi. Mód počká na povolenou lokaci, ověření vlastnictví a původní kontroly umístění. Během samotného načítání dat žádné nativní vyvolání nevolá. Nové chování zatím čeká na herní ověření; přesné offline výsledky zaznamenává `manifest.json`.
+Verze 0.4.3 přidává jednu příležitost k automatickému vyvolání po úspěšném načtení lokálního savu. Po přihlášení rovnou pěšky tedy nemusíš nejprve nastoupit a vystoupit z lodi. Mód počká na povolenou lokaci, ověření vlastnictví a původní kontroly umístění. Během samotného načítání dat žádné nativní vyvolání nevolá.
+
+**Ve společném testovacím balíčku 0.6.2 se pet po načtení pěšky na vesmírné stanici automaticky objevil v režimu Random.** Log potvrzuje spuštění načtením savu bez výstupu z lodi, výběr jednoho z pěti vhodných vlastních petů a přijetí požadavku přibližně po 2,69 sekundy. Uživatel potvrdil skutečné objevení. Nexus ani planeta nebyly místem tohoto testu; jejich načtení, režim poslední ruční volby po načtení a respektování ručního odvolání ještě čekají na ověření. Přesný rozsah zaznamenává `manifest.json`.
 
 Aktuální kandidát prošel **230 testy módu** a **341 testy vývojových nástrojů**. Kontrola se skutečným pyMHF ověřila osm prvků panelu i načtení obou tříd v připraveném společném balíčku 0.6.2 bez připojení ke hře. Tyto kontroly nepotvrzují skutečné objevení peta po načtení.
 

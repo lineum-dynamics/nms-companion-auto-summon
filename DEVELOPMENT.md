@@ -13,7 +13,7 @@ This repository is the canonical development location. Keep installed test copie
 
 ## Current implementation
 
-The current candidate is 0.4.3-experimental. It adds a deferred, one-shot opportunity after a successful local save load to the existing ship-exit behavior. The load-triggered behavior is not yet live-verified. Its intended target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The present development launcher accepts Python 3.11–3.13 x64.
+The current candidate is 0.4.3-experimental. It adds a deferred, one-shot opportunity after a successful local save load to the existing ship-exit behavior. One station startup in Random mode has been confirmed by both log and user, without a ship exit. Its intended target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The present development launcher accepts Python 3.11–3.13 x64.
 
 | Component | Responsibility |
 |---|---|
@@ -98,7 +98,9 @@ For every behavior or packaging change:
 
 ## Remaining release work
 
-The 0.4.3 load-triggered behavior remains live-unverified. Production 0.4.2 was subsequently registered in the combined 0.6.1 play trial, whose log recorded an accepted station queue at 20:18:19; no new visible-pet confirmation accompanies that observation. Earlier statements that 0.4.2 had never launched describe its original rename checkpoint, not the current evidence. The biome preference, second-PC installation, multiplayer and several placement/control scenarios still need live validation. Historical successes of 0.4.0 and earlier are described separately in the guides.
+The 0.6.2 combined trial registered production 0.4.3 and the ordered menu at 20:42:21 on 27 September 2026, with automation ON and two Mods/ten managed hooks. Its station load opportunity armed at 20:42:58.578, waited for native ownership eligibility, selected slot 1 from five eligible companions at 20:43:01.260 and queued it successfully at 20:43:01.261 (about 2.69 seconds after arming). No ship-exit arm precedes that startup request. The user confirmed the pet appeared after loading on the space station. This is one Random-mode station result, not Nexus evidence.
+
+Planet/Nexus startup, startup in Last-manual mode, manual dismissal without re-summoning, biome preference, second-PC installation, multiplayer and other placement/control scenarios remain unverified for 0.4.3. Production 0.4.2 previously registered in the 0.6.1 trial and logged an accepted station queue at 20:18:19 without separate visible-pet confirmation. Earlier statements that 0.4.2 had never launched describe its original rename checkpoint. Historical successes of 0.4.0 and earlier remain separate evidence in the guides.
 
 The proposed public installer is a portable, offline bundle with a tested private runtime and a graphical launcher. It has not been built. The existing development venv is not portable and must not be redistributed as if it were self-contained.
 

@@ -4,7 +4,9 @@ Požadavek vlastníka, stav k 27. 9. 2026. Toto je zadání veřejného balíčk
 
 Produkční 0.4.3 přidává jednu odloženou příležitost po úspěšném načtení místního savu vedle dosavadního výstupu z lodi. Vyhodnotí ji až vhodný callback místního hráče se stejným zpožděním a původními pravidly; při deserializaci se nativní vyvolání neprovádí. Dosavadní nastavení zůstává rozhodující a není nutné je měnit. Ruční odvolání nezpůsobuje opakované vyvolávání. Vývojová podstránka Settings preview preference zatím nemění.
 
-Současné ověření: 230 produkčních testů (140 runtime), 341 vývojových testů a kontroly skutečného produkčního GUI i kombinované složky mimo hru prošly. Kandidát 0.4.3 / 0.6.2 ještě ve hře spuštěn nebyl. Historický běh 0.4.2 / 0.6.1 dne 27. 9. 2026 potvrdil registraci modulů a přijatý požadavek na vyvolání na stanici v logu, nikoli hráčem potvrzené objevení peta. Výsledky se nepřenášejí na nové chování ani na budoucí veřejný instalátor.
+Současné ověření: 230 produkčních testů (140 runtime), 341 vývojových testů a kontroly skutečného produkčního GUI i kombinované složky mimo hru prošly. Následný běh 0.4.3 / 0.6.2 dne 27. 9. 2026 po čerstvé záloze zaregistroval oba moduly s automatikou zapnutou. Po načtení místního savu na stanici vybral Random jednoho z pěti způsobilých petů a nativní fronta přijala požadavek přibližně 2,69 sekundy po jeho aktivaci; nešlo o požadavek z výstupu z lodi. Hráč potvrdil skutečné objevení peta a upřesnil, že byl na stanici, nikoli v Nexusu. Ověřené je jedno vyvolání po načtení na stanici v Random, nikoli všechny lokace, ruční odvolání ani veřejný instalátor.
+
+Historický běh 0.4.2 / 0.6.1 téhož dne doložil pouze registraci modulů a přijatý požadavek na stanici v logu, bez hráčova potvrzení spawnu. Tento starší záznam se nepřepisuje novým výsledkem.
 
 ## Cílový postup hráče
 
@@ -59,4 +61,4 @@ Oficiální Python popisuje embedded distribuci jako prostředí pro přibalení
 | Načtení místního savu v 0.4.3, poté ruční odvolání | Jedna způsobilá odložená příležitost podle uložených preferencí; žádné opakované vyvolání po odvolání |
 | Druhý počítač se shodnou hrou | Instalace podle krátkého návodu bez vývojových nástrojů |
 
-Nejdříve ověřit importy a kontrolní režim mimo hru. Pro připravený vývojový kandidát následuje až po běžném ukončení hry a ověření čerstvé zálohy zkouška 0.4.3 / 0.6.2: načtení, první vhodná příležitost, následný výstup z lodi a souběh s menu. Budoucí veřejné balení musí tyto scénáře zopakovat přes vlastní launcher. Úspěch současného vývojového spouštěče se na nové balení automaticky nepřenáší.
+Nejdříve ověřit importy a kontrolní režim mimo hru. Kandidát 0.4.3 / 0.6.2 už má potvrzené jedno vyvolání v Random po načtení na stanici; pokračovat ručním odvoláním bez opakovaného vyvolání, poté načtením na planetě a v Nexusu a ostatními scénáři. Běžící soubory zůstávají při těchto zkouškách beze změny. Budoucí veřejné balení musí tyto scénáře zopakovat přes vlastní launcher. Úspěch současného vývojového spouštěče se na nové balení automaticky nepřenáší.

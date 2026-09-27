@@ -8,7 +8,7 @@ Companion Auto Summon should feel consistent with No Man's Sky: familiar control
 
 ## Current state
 
-The current player candidate is 0.4.3-experimental; the approved name is Companion Auto Summon. It adds one deferred opportunity after a successful local save load, using the existing automation toggle and summon checks. This behavior remains live-unverified. Production 0.4.2 was registered in the combined 0.6.1 trial and logged an accepted station queue at 20:18:19, without a new user confirmation of visible appearance. The separate pyMHF tab uses the class name `CompanionAutoSummon`. Settings remain in that window, in English. HUD messages use the game's existing timed-message function, but actual on-screen rendering has not yet been confirmed. The player package has no working custom quick-menu settings, localization system or finished public launcher. The separate developer trial's visible menu entry is described below.
+The current player candidate is 0.4.3-experimental; the approved name is Companion Auto Summon. It adds one deferred opportunity after a successful local save load, using the existing automation toggle and summon checks. One Random-mode startup on a space station is confirmed by the log and the user, without a ship exit. Production 0.4.2 previously registered in the combined 0.6.1 trial and logged an accepted station queue at 20:18:19 without separate visible-pet confirmation. The separate pyMHF tab uses the class name `CompanionAutoSummon`. Settings remain in that window, in English. HUD messages use the game's existing timed-message function, but actual on-screen rendering has not yet been confirmed. The player package has no working custom quick-menu settings, localization system or finished public launcher. The separate developer trial's visible menu entry is described below.
 
 Menu development sessions should retain functional automatic summoning and the
 player's existing preferences. Use a separately validated combined development
@@ -21,6 +21,8 @@ must not silently replace the working mod for a player's ongoing session.
 Loading directly on foot should offer the same automatic-companion behavior as a ship exit. Successful local load completion records one opportunity; it does not call native summoning or prove the world is ready. A later local ownership update waits for a supported enabled location, advancing time and the remembered identity or eligible Random pool. A missing favourite during initial ownership loading is retried at the existing 0.5-second pace. The normal 1.5-second stability delay, ownership rules and placement checks remain unchanged. Random can work session-only with a zero save ID; Last-manual mode never guesses an identity from another save.
 
 Use the existing **Automatically summon companion** toggle for both triggers. OFF, a settings change, accepted manual selection, an active/queued pet, companion preview/emote, ship entry or an invalidated load/application context cancels the opportunity. The load opportunity is consumed before the normal request is armed, so dismissing a summoned pet does not create a recurring respawn. Another successful local load or real ship exit supplies a new opportunity. Network-client loads must not affect the local player's intent. There is no separate startup setting, shorter delay or changed gameplay limit.
+
+The confirmed 27 September 2026 station test used production 0.4.3 in combined trial 0.6.2: the load armed at 20:42:58.578, selected one of five eligible companions and received an accepted queue about 2.69 seconds later. The user confirmed the pet appeared. Planet/Nexus startup, Last-manual startup, dismissal behavior, biome matching and multiplayer remain separate unverified scenarios.
 
 ## Intended settings integration
 
@@ -42,9 +44,10 @@ Location choices should remain on that same page within the verified depth
 limit. The first live inert entry did not open a subpage. The separate
 0.5.0-submenu-trial introduced one inert Settings preview child for navigation
 testing. The combined 0.6.1 play trial retains that child alongside production
-0.4.2; the prepared 0.6.2 bundle pairs the same inert menu with production 0.4.3
-and has passed offline folder discovery. It has not been launched. The child
-is not connected to these preferences.
+0.4.2; the 0.6.2 bundle pairs the same inert menu with production 0.4.3 and has
+passed offline folder discovery and in-game registration. One Random-mode
+station summon after loading is now confirmed. The child is not connected to
+these preferences.
 
 The first screenshot confirmed a redundant name inside the icon above the
 normal selected-item caption. The subsequent 0.5.0 submenu trial leaves inline

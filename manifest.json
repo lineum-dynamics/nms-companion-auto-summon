@@ -3,20 +3,20 @@
   "version": "0.4.3-experimental",
   "date": "2026-09-27",
   "installed_in_game_directory": false,
-  "tested_inside_game": false,
-  "runtime_load_verified": false,
+  "tested_inside_game": true,
+  "runtime_load_verified": true,
   "gameplay_verified": false,
   "multiplayer_verified": false,
-  "basic_auto_summon_verified": false,
+  "basic_auto_summon_verified": true,
   "restart_selection_verified": false,
-  "station_auto_summon_verified": false,
+  "station_auto_summon_verified": true,
   "nexus_auto_summon_verified": false,
   "deferred_summon_verified_in_game": false,
-  "random_selection_verified_in_game": false,
+  "random_selection_verified_in_game": true,
   "selection_mode_control_verified_in_game": false,
   "biome_preference_verified_in_game": false,
   "location_preferences_verified_in_game": false,
-  "gameplay_verification_scope": "0.4.3 adds a deferred one-shot automatic summon opportunity after successful local save loading, using existing native ownership, placement and timing checks. This revision has not been launched; earlier runtime and gameplay observations do not verify startup summoning.",
+  "gameplay_verification_scope": "0.4.3 in combined play trial 0.6.2 registered with automation ON and two Mods/ten managed hooks on 27 September 2026. One on-foot station load in Random armed via save load (no ship-exit trigger before that startup request), chose slot 1 from five eligible owned companions, and queued it after 2.69 seconds. The player confirmed actual appearance. This does not verify Nexus/planet startup, Last manually selected startup, manual dismissal, biome preference, multiplayer or all settings.",
   "supported_summon_locations": {
     "2": "SpaceStation",
     "3": "PlanetOnFoot",
@@ -32,7 +32,7 @@
     "host_launcher": 18
   },
   "actual_framework_import_and_gui_properties": "Passed with the real pyMHF 0.2.4 and DearPyGui: eight widgets constructed and preference callbacks exercised with temporary files, no viewport, hook registration, native game calls or game launch",
-  "launcher_validation": "Standalone launcher unchanged. 0.4.2 loaded in combined play trial 0.6.1; new 0.4.3 and combined 0.6.2 await their own live checks.",
+  "launcher_validation": "Combined 0.6.2 folder launcher loaded production 0.4.3 and the unchanged menu after normal game exit and a fresh hash-verified backup of 43 profile files. Running payloads and external preference files matched at startup. Standalone 0.4.3 launcher remains unchanged but was not separately exercised in this run.",
   "preferences_included": false,
   "manual_selection_path": "%LOCALAPPDATA%/NMS-AutoPet/state.json",
   "preferences_path": "%LOCALAPPDATA%/NMS-AutoPet/settings.json",
@@ -65,15 +65,15 @@
     },
     {
       "path": "README.md",
-      "sha256": "e9ae4d5780e2d003afa049aed0d7078b5f0adb0ebabc40c1202850b13fcdac36"
+      "sha256": "e45a209451a95d35ce35f04351ec4170369bfe573c1b179faed2c02c990315ea"
     },
     {
       "path": "README.cs.md",
-      "sha256": "f7c720df113ad34b70cd42391676c2d5b3c14f71593ffb69235b1af45db9b9c7"
+      "sha256": "212e4c14424ed7d34537781893893c0ec124486296ff4575c5b1f29195b57fc9"
     },
     {
       "path": "TECHNICKE-OVERENI.md",
-      "sha256": "18f67bf18b9bb94846f58323ba685b562aec2d5033544b5a57d96fa4729c78f4"
+      "sha256": "ac491df24b1e6c1d098108c8b47fb370f0f7fef0f8d9db4703c3f78ef00475da"
     },
     {
       "path": "build.py",
@@ -85,7 +85,7 @@
     },
     {
       "path": "DEVELOPMENT.md",
-      "sha256": "d1a2d3a0306cefa5362f6791d5cad4d2ce1c5538466a4fbf56d5499be2b27218"
+      "sha256": "2313fcf5c33e11556d8cb3119964de246296fe106f281795bd24e521f7f2b9dc"
     },
     {
       "path": "LOCALIZATION.md",
@@ -93,31 +93,31 @@
     },
     {
       "path": "DESIGN.md",
-      "sha256": "9c8586630dae93ab32bb5828c4f525b1ec92029157bef52b641489f0be1d6675"
+      "sha256": "e73089afb99428f970dabad4dc1d2a97059ea94b0201c1e595bef3e507f6550f"
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "6a254589b2cc584c75a6ea1d66e7dd90c3530b72a060345304a3375dee7547c1"
+      "sha256": "9c23608969d1e9fc6bf04b5a1ab7098357981adfd809db33d1c6dc9cc679b67d"
     },
     {
       "path": "ROADMAP.md",
-      "sha256": "0d9e35f19103210e9a61632b06f28aebbf9826147a7d763a004d23d36bb7eb65"
+      "sha256": "608ec611a41c4f00b592ab31fea42b6a4f482937b648a486a7082e23e09a082f"
     },
     {
       "path": "QUICK-MENU.md",
-      "sha256": "04a3524667b5a123fcfa1fe421804a851e4139c9986d46933a59b8dc23c07824"
+      "sha256": "3608529ad7810809afd1d1484c9e08352a162f06a93f374f72b5bfb79a1ca3ac"
     },
     {
       "path": "docs/release/PRIPRAVA-VYDANI.md",
-      "sha256": "ec75070dc2b772723ba9e0c293ed6b4c49b07106a80282de8620418f47ec570b"
+      "sha256": "22774a62f78d26b82c1f6ac54abd00d4437be06742d308e33df67b5727e5c503"
     },
     {
       "path": "docs/release/INSTALACE-ZADANI.md",
-      "sha256": "8ba5b58d3d111eb3879e8b026fe8ec783c22596f9f69cbee9a6bff950d520d0b"
+      "sha256": "21cdd8197986d0eb436b35e5c76118915e6c041f32bf92caab8c309fff12bf50"
     },
     {
       "path": "docs/release/NEXUS-DESCRIPTION-DRAFT.md",
-      "sha256": "1b4b2862cacb0f819174c074279860108fbba7b53ed85acbc31d7f1568528a84"
+      "sha256": "9c0abc278ecc9b7a174eb7c3db6aaa90c2117108cca6e394c0804fb686a1fd9e"
     },
     {
       "path": "src/policy.py",
@@ -157,6 +157,7 @@
     }
   ],
   "legacy_data_directory": "NMS-AutoPet is intentionally retained for settings, remembered companions and the existing development runtime; schemas and file contents are unchanged.",
-  "startup_summon_verified_in_game": false,
-  "startup_summon": "One opportunity after successful local save load with automation enabled. No native summon calls during deserialization. Resolve a saved identity or Random through later local ownership updates and existing 1.5-second stability/placement checks; respect active/queued pets, preview, manual choice, ship entry, settings changes and context replacement. Never rearm merely because a pet is absent."
+  "startup_summon_verified_in_game": true,
+  "startup_summon": "One opportunity after successful local save load with automation enabled. No native summon calls during deserialization. Resolve a saved identity or Random through later local ownership updates and existing 1.5-second stability/placement checks; respect active/queued pets, preview, manual choice, ship entry, settings changes and context replacement. Never rearm merely because a pet is absent.",
+  "startup_summon_verification_scope": "One Random-mode startup on a space station: save load armed at 20:42:58.578, location enum 2, request accepted at 20:43:01.261, user confirmed actual pet appearance. Nexus was explicitly not the test location."
 }

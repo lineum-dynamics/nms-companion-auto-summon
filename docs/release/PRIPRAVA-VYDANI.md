@@ -10,7 +10,7 @@ Funkce pro první vydání: automatické vyvolání vlastního peta po výstupu 
 
 Požadavek vlastníka: instalace musí být co nejjednodušší a nejspolehlivější. Cílový postup je **rozbalit ZIP a spustit jednu aplikaci**, s vlastním otestovaným prostředím bez ručního Pythonu, pip příkazů a systémových změn. Tento distribuční spouštěč ještě není vytvořený; stávající zdrojový kandidát 0.4.3 a kombinovaný testovací balíček 0.6.2 jsou vývojové varianty. Konkrétní požadavky jsou v `INSTALACE-ZADANI.md`.
 
-Pořadí práce: připravit a ověřit jednoduché přenosné balení souběžně s herními zkouškami kandidáta 0.4.3 v kombinovaném balíčku 0.6.2. Nejbližší zkouška ověří odložené vyvolání po načtení a pokračující souběh s menu. Test druhého počítače už musí používat finální balení pro hráče.
+Pořadí práce: připravit a ověřit jednoduché přenosné balení souběžně s herními zkouškami kandidáta 0.4.3 v kombinovaném balíčku 0.6.2. Jedno vyvolání v Random po načtení na stanici už je potvrzené; další zkouška ověří ruční odvolání bez opakovaného vyvolání, později načtení na planetě a v Nexusu. Test druhého počítače už musí používat finální balení pro hráče.
 
 Další potvrzené požadavky: celý zdrojový kód, komentáře a docstringy anglicky; uživatelské překlady odděleně. Lokalizační systém pro všech 14 oficiálních jazyků rozhraní zatím není implementovaný. Je potřeba ověřit i kódování herních potvrzení, zobrazení znaků a přepínání textů panelu. Autoritativní stav a zadání jsou v `CompanionAutoSummon/LOCALIZATION.md`; pravidla průběžné aktualizace dokumentace v `CompanionAutoSummon/DEVELOPMENT.md`.
 
@@ -18,16 +18,19 @@ Uživatel dále požaduje přirozené začlenění do původního rozhraní hry:
 
 ## Doložený výchozí stav
 
-- Stav k 27. 9. 2026: produkční kandidát 0.4.3 prošel 230 offline testy, z toho 140 testy runtime; vývojová sada prošla 341 testy. Kontrola skutečného produkčního GUI i kontrola kombinované složky 0.6.2 s pyMHF prošly mimo hru, bez registrace hooků. Kandidát 0.4.3 ani kombinovaný 0.6.2 zatím ve hře spuštěny nebyly. Původní cesty `NMS-AutoPet` pro osobní data a vývojové prostředí se zachovávají.
+- Stav k 27. 9. 2026: produkční kandidát 0.4.3 prošel 230 offline testy, z toho 140 testy runtime; vývojová sada prošla 341 testy. Kontrola skutečného produkčního GUI i kontrola kombinované složky 0.6.2 s pyMHF prošly mimo hru, bez registrace hooků. Původní cesty `NMS-AutoPet` pro osobní data a vývojové prostředí se zachovávají.
+- Následný herní běh 0.4.3 / 0.6.2 po nové záloze 43 souborů zaregistroval ve 20:42:21 dva moduly a deset nativních hook cílů, s automatikou zapnutou. Log ve 20:42:58.578 zaznamenal požadavek po načtení místního savu, lokaci 2 (stanice), ve 20:43:01.260 náhodný slot 1 z pěti způsobilých petů a ve 20:43:01.261 přijetí požadavku do nativní fronty. Od aktivace požadavku do přijetí uplynulo přibližně 2,69 sekundy; není to měření okamžiku viditelného spawnu. Nepředcházel požadavek z výstupu z lodi. Hráč potvrdil, že se pet po načtení opravdu objevil, a upřesnil stanici, nikoli Nexus. Doložený rozsah je jedno vyvolání po načtení na stanici v Random.
 - Dříve téhož dne se produkční 0.4.2 úspěšně zaregistrovala v kombinovaném běhu 0.6.1. Log zaznamenal přijatý požadavek na vyvolání na stanici; viditelné objevení peta hráč nepotvrdil. To dokládá registraci a požadavek, nikoli skutečný spawn ani nové chování 0.4.3.
 - Historický stav před tímto během: 0.4.2 prošla 212 offline testy a kontrolou osmi widgetů ve skutečném pyMHF 0.2.4 / Dear PyGui 2.3.1. Starší AutoPet 0.4.1 prošel 211 offline testy a kontrolou osmi widgetů; jeho preference biomu nebyla herně ověřena. Nasazení 0.4.1 je historický záznam, nikoli popis nynějšího běžícího balíčku.
 - Starší 0.4.0 ověřila jeden náhodný výběr a skutečné vyvolání na planetě. Starší 0.3.3 ověřila stanici a obnovení ruční volby po restartu. Tyto výsledky, uchované před zkouškou 0.6.1 dne 27. 9. 2026, neoznačovat za herní ověření 0.4.3.
-- Historická záloha 43 souborů profilu vznikla před nasazením 0.4.1. Není dokladem aktuální zálohy; před dalším testovacím spuštěním ověřit současný postup a zálohu při zavřené hře.
+- Historická záloha 43 souborů profilu vznikla před nasazením 0.4.1; oddělená nová záloha 43 souborů předcházela nynějšímu běhu 0.4.3 / 0.6.2. Před dalším nasazením znovu posoudit aktuálnost zálohy podle nového herního postupu.
 - Historický Git balíček 0.4.1 měl 21 souborů. Přesný seznam a kontrolní součty nového kandidáta 0.4.3 i kombinovaného 0.6.2 musí odpovídat jejich vlastním manifestům; savy, nastavení uživatele, runtime, herní binárky ani osobní logy se do vývojového ZIPu nepřibalují.
 
 ## 1. Herní test 0.4.3 v kombinovaném kandidátu 0.6.2
 
 Vést stručný záznam verze, situace, pozorování hráče a odpovídajícího logu. Přijatý požadavek v logu sám nedokládá, že se pet skutečně objevil.
+
+Potvrzeno v tomto kandidátu: jedno načtení na stanici v Random s viditelným petem. Načtení na planetě a v Nexusu, ruční odvolání bez opakování a ostatní scénáře tabulky tím ověřeny nejsou.
 
 | Pokus | Očekávaný výsledek |
 |---|---|
@@ -87,4 +90,4 @@ Mód navrhnout zdarma; Donation Points zapnout při splnění podmínek. Dobrovo
 
 Před zveřejněním musí být určen účet autora, hotový funkční soubor pro vyznačený rozsah podpory, finální popis a oprávnění. Teprve potom upload a kontrola veřejné stránky i staženého ZIPu. Současný plán ani textový návrh nepotvrzují schválení Nexusem.
 
-Další připravený krok: po běžném ukončení dosavadní hry a ověření aktuální zálohy použít oddělený kandidát 0.6.2 s produkční 0.4.3. Ověřit jednu odloženou příležitost po načtení bez změny nastavení, poté dosavadní výstup z lodi a souběh s neaktivní podstránkou menu. Tento plán není záznamem provedeného nasazení. K potvrzení samotné preference biomu je nutné znát domovské biomy dostupných petů.
+Další krok po potvrzeném vyvolání na stanici: ručně odvolat peta a ověřit, že se bez nové události znovu nevyvolá. Při vhodné příležitosti doplnit načtení na planetě a v Nexusu, dosavadní výstup z lodi a souběh s neaktivní podstránkou menu. Běžící kandidát se během zkoušek nemění. K potvrzení samotné preference biomu je nutné znát domovské biomy dostupných petů.

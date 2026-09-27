@@ -2,7 +2,9 @@
 
 Status: 27 September 2026. The source candidate is 0.4.3-experimental, adding a
 deferred summon opportunity after local save load. Its combined 0.6.2 artifact
-has passed offline checks but has not been launched. A separate,
+has passed offline checks and registered with automation ON. One Random-mode
+startup summon on a space station is confirmed by the log and player; Nexus,
+planet startup and manual dismissal remain unverified. A separate,
 disabled-by-default developer trial now implements one inert custom item and a
 native binding filter. The player has confirmed visibility, selection, native
 Back/close/reopen and ordinary manual pet summoning in that session. A separate
@@ -745,9 +747,38 @@ running 0.6.1 folder remains hash-identical. All 230 production tests and 341
 developer tests passed. Actual framework checks confirmed the production GUI
 and the combined discovery of two Mods/ten distinct native targets without
 registering hooks or accessing NMS. The new thirteen-file artifact's twelve
-payloads and PowerShell syntax passed preflight. It has not yet been launched;
-startup summoning needs the player's live check without entering/exiting a
-ship, followed by a dismissal check and an ordinary ship-exit regression.
+payloads and PowerShell syntax passed preflight. It subsequently registered
+and passed one station startup check in Random mode. Manual dismissal,
+planet/Nexus startup and an ordinary ship-exit regression remain to be checked.
+
+### Combined 0.6.2 startup
+
+After normal game exit, a fresh backup of all 43 profile files was copied and
+hash-verified. The new isolated host launched at 20:42:12 on 27 September 2026.
+At 20:42:21 the log confirmed production 0.4.3 automation ON, the menu binding
+filter initialized, and two Mods/ten managed hooks loaded. A subsequent check
+found a responding game window. The initial framework window-handle warning
+does not establish whether its cached handle refreshed. All twelve payloads
+and both external preference files remained hash-identical at startup.
+Registration alone does not confirm a visible companion, dismissal behavior,
+menu order or a completed startup summon. The running artifact stays unchanged.
+
+### Confirmed station startup summon
+
+At 20:42:58.578 the log armed one opportunity from local save load with location
+2 (SpaceStation). Native ownership eligibility initially rejected the request;
+the existing paced checks waited. At 20:43:01.260 Random selected slot 1 from
+five eligible owned companions, followed by an accepted queue request at
+20:43:01.261, approximately 2.69 seconds after arming. This is queue timing,
+not measured visible appearance latency. No ship-exit arming precedes that startup request. A later ship exit
+at 20:44:27.717 is a separate event in the retained log. The player confirmed that the companion actually appeared
+and clarified that the location was a space station, not Nexus. All twelve
+artifact payload hashes remained unchanged.
+
+This verifies one station startup in Random mode. Nexus/planet startup, Last
+manually selected startup, manual dismissal, biome preference, multiplayer and
+the remaining menu behavior are not established by this observation. The
+private evidence is retained as `menu-play-0.6.2-station-startup-success.json`.
 
 ## Historical observation-only live sequence
 
