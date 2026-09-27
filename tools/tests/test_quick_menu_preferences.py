@@ -313,5 +313,97 @@ class ToggleTests(BridgeFixture):
         self.assertFalse(list(self.data_path.rglob("*.json")))
 
 
+class ExtendedPreferenceTests(BridgeFixture):
+    def test_each_existing_setting_queues_only_its_key_without_applying(self):
+        expected = {"enabled": (True, False), "selection_mode": ("last_manual", "random"),
+                    "prefer_same_biome": (True, False), "planets": (True, False),
+                    "space_stations": (True, False), "nexus": (True, False)}
+        for key, (applied, desired) in expected.items():
+            with self.subTest(key=key):
+                self.mod.requested_preferences = {}
+                before = self.bridge.snapshot(key)
+                self.assertEqual(before.applied, applied)
+                self.assertTrue(self.bridge.commit_toggle(self.bridge.capture_toggle(key)))
+                self.assertEqual(self.mod.requested_preferences, {key: desired})
+                after = self.bridge.snapshot(key)
+                self.assertEqual((after.applied, after.desired), (applied, desired))
+        self.assertFalse(list(self.data_path.rglob("*.json")))
+
+    def test_pending_mode_is_cycled_and_unrelated_requests_survive(self):
+        self.mod.requested_preferences = {"selection_mode": "random", "nexus": False}
+        token = self.bridge.capture_toggle("selection_mode")
+        self.mod.prefer_same_biome = False
+        self.assertTrue(self.bridge.commit_toggle(token))
+        self.assertEqual(self.mod.requested_preferences,
+                         {"selection_mode": "last_manual", "nexus": False, "prefer_same_biome": False})
+
+    def test_stale_target_request_refuses_for_every_new_setting(self):
+        for key in BRIDGE.SETTING_KEYS[1:]:
+            with self.subTest(key=key):
+                self.mod.requested_preferences = {}
+                token = self.bridge.capture_toggle(key)
+                newer = "random" if key == "selection_mode" else False
+                self.mod.requested_preferences[key] = newer
+                self.assertFalse(self.bridge.commit_toggle(token))
+                self.assertEqual(self.mod.requested_preferences, {key: newer})
+
+    def test_all_locations_can_be_disabled_without_changing_automation_preference(self):
+        for key in ("planets", "space_stations", "nexus"):
+            self.assertTrue(self.bridge.commit_toggle(self.bridge.capture_toggle(key)))
+        self.mod._apply_control()
+        self.assertEqual(self.mod.allowed_locations, frozenset())
+        self.assertTrue(self.mod.auto_enabled)
+        persisted = json.loads((self.data_path / "NMS-AutoPet/settings.json").read_text())
+        self.assertEqual(persisted["locations"], [])
+        self.assertTrue(persisted["enabled"])
+
+    def test_production_applies_mode_biome_and_location_without_changing_favorite(self):
+        self.mod.policy.remember(5)
+        for key in ("selection_mode", "prefer_same_biome", "space_stations"):
+            self.assertTrue(self.bridge.commit_toggle(self.bridge.capture_toggle(key)))
+        self.mod._apply_control()
+        self.assertEqual(self.mod.selection_mode_value, "random")
+        self.assertFalse(self.mod.prefer_same_biome_value)
+        self.assertEqual(self.mod.allowed_locations, frozenset((3, 14)))
+        self.assertEqual(self.mod.policy.last_slot, 5)
+
+    def test_invalid_keys_or_values_are_not_queued(self):
+        for key in (None, [], "locations", "delay", "auto_enabled"):
+            with self.subTest(key=repr(key)):
+                self.assertIsNone(self.bridge.snapshot(key))
+                self.assertIsNone(self.bridge.capture_toggle(key))
+        for key, invalid in (("selection_mode", "fast"), ("planets", 1), ("prefer_same_biome", "yes")):
+            self.mod.requested_preferences = {key: invalid}
+            self.assertIsNone(self.bridge.snapshot(key))
+            self.assertIsNone(self.bridge.capture_toggle(key))
+            self.assertEqual(self.mod.requested_preferences, {key: invalid})
+
+    def test_icon_provider_is_bound_once_without_invocation_or_preferences(self):
+        provider = Mock(side_effect=AssertionError("Binding must not invoke the provider"))
+        self.assertTrue(self.bridge.bind_notice_icon(provider))
+        self.assertTrue(self.bridge.bind_notice_icon(provider))
+        self.assertFalse(self.bridge.bind_notice_icon(lambda: 456))
+        self.assertIs(self.mod._notice_icon_provider, provider)
+        provider.assert_not_called()
+        self.assertEqual(self.mod.requested_preferences, {})
+        self.assertFalse(list(self.data_path.rglob("*.json")))
+
+    def test_icon_binding_refuses_stopped_busy_or_replaced_instance(self):
+        provider = Mock()
+        self.assertFalse(self.bridge.bind_notice_icon(123))
+        self.mod.control_lock.acquire()
+        try:
+            self.assertFalse(self.bridge.bind_notice_icon(provider))
+        finally:
+            self.mod.control_lock.release()
+        self.mod.enabled = False
+        self.assertFalse(self.bridge.bind_notice_icon(provider))
+        self.mod.enabled = True
+        self.registry.clear()
+        self.assertFalse(self.bridge.bind_notice_icon(provider))
+        self.assertIsNone(self.mod._notice_icon_provider)
+        provider.assert_not_called()
+
+
 if __name__ == "__main__":
     unittest.main()

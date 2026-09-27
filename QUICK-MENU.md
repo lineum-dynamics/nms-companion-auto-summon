@@ -1,6 +1,46 @@
 # Native quick-menu investigation
 
-Prepared successor: **0.7.2-play-trial**, with production **0.4.5**, has not
+## Current candidate: 0.8.0 settings and icon trial
+
+Prepared **0.8.0-play-trial** pairs production **0.4.6** with a flat page for
+all six existing preferences: automatic summoning, Last selected/Random,
+matching-biome preference, planets, space stations and the Space Anomaly. It
+has not launched. The running 0.4.4 / 0.7.1 and unlaunched 0.7.2 are unchanged.
+The desktop development panel remains until the native controls pass acceptance.
+
+Each child is a uniquely marked None action with an explicit role. Full-page
+validation requires exactly the six expected children; foreign/native content
+and incomplete prior appends are never cleared or adopted. Native construction
+and the original append trampoline remain in use. A deliberate, correlated
+native confirmation queues only the selected preference through the existing
+production instance/lock. Unrelated requests and the manual favourite survive;
+pending and session-only captions do not promise a disk save. Mode cycles existing
+values, the other five controls toggle, and all three locations may be OFF.
+Biome preference remains effective only for Random on planets. Legacy source
+defaults retain the one-child trial; the new bundle explicitly enables six rows.
+
+The bundle includes the original DDS. Its launcher stages the unique asset only
+before a game-closed launch, verifies exact bytes and refuses unexpected existing
+files. A new AFTER callback at the statically verified natural `LoadResources`
+phase attempts one registration. The owner is process-pinned before loading or
+retaining references; it retains a validated native paw for fallback and never
+writes the menu's original paw field. Fresh bounded manager/resource checks
+prefer the ready custom handle, then the retained paw. There is no retry,
+late-load or release path. A production notice provider uses the same owned
+resource; missing/invalid handles select the verified text-only HUD path.
+The standalone production ZIP has neither custom asset nor native settings.
+
+Offline helper checks cover six-role topology, stale preference captures,
+unrelated queued writes, explicit icon allowlists and fallback ownership.
+Current aggregate validation is recorded in the manifest. Native resource
+mounting/decoding, lifetime, small-size rendering and all six controls remain
+unverified in-game. Test browsing without changes, each confirmed row, held
+input, Back/reopen/rebuild, ordinary pets, saved values and remapped/controller
+inputs. The optional icon must not become a prerequisite for automatic summoning.
+
+## Retained unlaunched predecessor: 0.7.2
+
+The **0.7.2-play-trial** predecessor, with production **0.4.5**, has not
 launched. It preserves native-menu preferences and the binding guard, while
 restricting manual-favourite learning to a matched successful native companion
 UI action. An unknown accepted queue cancels pending automatic intent but cannot
@@ -23,7 +63,7 @@ GUI metadata/widgets and final two-Mod bundle/preference-bridge checks. The
 PowerShell launcher parsed successfully. No native hook binding or game access
 occurred. The running 0.4.4 / 0.7.1 folder remains unchanged.
 
-### Prepared HUD correction
+### Prepared 0.7.2 HUD correction
 
 Explicit notices request 5.5 seconds and distinguish saved from session-only
 choices. Automatic summoning, repeated choices and game restoration stay quiet.
@@ -33,7 +73,9 @@ message `+0x2DB`; the lower-message path passes it to renderer `0x6C1C30`.
 True sets `IsHidden` on both `LARGE_ICON` and `ICON` containers, independently of
 the already assigned `TITLE`. The zero-resource path can show background/glow
 children, explaining why an empty icon handle alone did not remove the disc.
-The candidate now sets this verified final flag. This is static evidence;
+That candidate sets this verified final flag. The new 0.8.0 provider supplies
+an owned ready icon when available and otherwise keeps this flag set.
+This is static evidence;
 readability and the actual disappearance of the white disc need a live check.
 
 ### Historical and current running trial: 0.7.1

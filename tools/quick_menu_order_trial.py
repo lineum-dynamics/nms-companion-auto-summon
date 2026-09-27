@@ -30,6 +30,7 @@ import logging
 from pathlib import Path
 import sys
 from threading import Lock, get_native_id
+from types import ModuleType
 
 # The isolated build copies these reviewed helper sources beside this script.
 # Keep the loader independent of the user's current directory.
@@ -48,6 +49,8 @@ from pymhf.core.hooking import hook_manager, static_function_hook
 
 TRIAL_ENABLED = False
 SETTINGS_TOGGLE_ENABLED = False
+EXTENDED_SETTINGS_ENABLED = False
+CUSTOM_ICON_ENABLED = False
 EXPECTED_EXE_SHA256 = "b7913f268dfc62386b6b68f524bfc8ade4a44a9f4fbad39085b7bf51be3680cb"
 BUILD_ACTIONS_RVA = 0x151ED00
 BUILD_LABEL_RVA = 0x1523220
@@ -56,13 +59,18 @@ ITEM_APPEND_RVA = 0x1533980
 TRIGGER_ACTION_RVA = 0x1526940
 SELECT_ITEM_RVA = 0x150FAC0
 CONFIRM_PREDICATE_RVA = 0x15311C0
+LOAD_RESOURCES_RVA = 0x151AD80
 PENDING_SELECTION_OFFSET = 0xA16C
 LOGGER = logging.getLogger("CompanionMenuOrderTrial")
+ICON_REGISTRY_NAME = "_companion_auto_summon_icon_owner_v1"
 
 if SETTINGS_TOGGLE_ENABLED:
     import quick_menu_toggle as toggle
     from quick_menu_preferences import PreferenceBridge
     from pymhf.core.mod_loader import mod_manager
+
+if CUSTOM_ICON_ENABLED:
+    import quick_menu_icon as icons
 
 
 def supported_runtime():
@@ -90,7 +98,7 @@ def current_process_io():
     kernel.WriteProcessMemory.restype = C.c_int
 
     def read(address, size):
-        if size not in (1, 4, 16):
+        if size not in (1, 4, 8, 16):
             raise ValueError("Unexpected item-trial read size")
         item._address(address, 0, size)
         buffer = C.create_string_buffer(size)
@@ -164,6 +172,23 @@ def native_adapters(base, resolve_append_original):
     return construct, append_item, select_first
 
 
+def icon_adapters(base):
+    """Bind only the two audited pointer-only resource operations."""
+    load = C.WINFUNCTYPE(None, C.c_void_p)(base + icons.TEXTURE_LOAD_RVA)
+    retain = C.WINFUNCTYPE(None, C.c_void_p)(base + icons.HANDLE_RETAIN_RVA)
+    return load, retain
+
+
+def pin_icon_owner(owner):
+    """Retain acquired references through process shutdown, including reloads."""
+    proposed = ModuleType(ICON_REGISTRY_NAME)
+    proposed.schema = "cas-icon-owner-1"
+    proposed.owner = owner
+    registry = sys.modules.setdefault(ICON_REGISTRY_NAME, proposed)
+    return (type(registry) is ModuleType and getattr(registry, "schema", None) == proposed.schema
+            and getattr(registry, "owner", None) is owner)
+
+
 @static_function_hook(offset=BUILD_ACTIONS_RVA)
 def cas_item_builder(menu: C.c_void_p, render: C.c_void_p) -> None:
     pass
@@ -191,9 +216,17 @@ if SETTINGS_TOGGLE_ENABLED:
 else:
     cas_toggle_confirm = None
 
+if CUSTOM_ICON_ENABLED:
+    @static_function_hook(offset=LOAD_RESOURCES_RVA)
+    def cas_icon_resources(menu: C.c_void_p) -> None:
+        pass
+else:
+    cas_icon_resources = None
+
 
 class CompanionMenuOrderTrial(Mod):
-    _version = "0.7.0-toggle-trial" if SETTINGS_TOGGLE_ENABLED else "0.6.0-order-trial"
+    _version = ("0.8.0-settings-trial" if EXTENDED_SETTINGS_ENABLED or CUSTOM_ICON_ENABLED
+                else "0.7.0-toggle-trial" if SETTINGS_TOGGLE_ENABLED else "0.6.0-order-trial")
     _author = "Companion Auto Summon contributors"
     _description = ("Native automation toggle before individual companions" if SETTINGS_TOGGLE_ENABLED
                     else "One inert native settings subpage before individual companions")
@@ -220,6 +253,12 @@ class CompanionMenuOrderTrial(Mod):
         self._confirmation_menu = None
         self._confirmation_intent = None
         self._preferences = None
+        self._icons = None
+        self._icon_provider = self._notification_icon
+        self._icon_phase_lock = Lock()
+        self._icon_phase_seen = False
+        self._known_icon_handles = set()
+        self._icon_status_seen = set()
         if self._disabled:
             return
         try:
@@ -235,6 +274,16 @@ class CompanionMenuOrderTrial(Mod):
                     get_registered=lambda: mod_manager.mods.get("CompanionAutoSummon"),
                     get_module=lambda: sys.modules.get("CompanionAutoSummon"),
                 )
+            if CUSTOM_ICON_ENABLED:
+                try:
+                    self._icons = icons.IconOwner()
+                    self._load_texture, self._retain_icon = icon_adapters(_internal.BASE_ADDRESS)
+                except Exception:
+                    self._icons = None
+                    try:
+                        LOGGER.warning("Optional companion icon bindings unavailable; native menu remains active.")
+                    except Exception:
+                        pass
             self._stopped = False
             LOGGER.info("Ordering trial initialized; native binding filter installed. Managed append validation remains pending.")
         except GuardError as error:
@@ -334,6 +383,70 @@ class CompanionMenuOrderTrial(Mod):
                 and self._guard is not None and self._guard.authorize_append(menu) is True
                 and not self._stopped)
 
+    def _notification_icon(self):
+        if self._icons is None:
+            return 0
+        try:
+            handle = self._icons.icon_handle(self._reader, _internal.BASE_ADDRESS + icons.MANAGER_PTR_RVA)
+            status = self._icons.status
+            if type(status) is str and status not in self._icon_status_seen and len(self._icon_status_seen) < 6:
+                self._icon_status_seen.add(status)
+                try:
+                    LOGGER.info("Companion icon state: %s; visual confirmation remains a player check.", status)
+                except Exception:
+                    pass
+            return handle if type(handle) is int and 0 < handle <= 0x7FFFFFFF else 0
+        except Exception:
+            return 0
+
+    @(cas_icon_resources.after if CUSTOM_ICON_ENABLED else lambda callback: callback)
+    def after_resources(self, menu):
+        # Initialization can use a different native thread than menu updates.
+        # It must not establish or alter the ordinary callback thread baseline.
+        if self._icons is None or self._icon_phase_seen:
+            return None
+        if not self._icon_phase_lock.acquire(blocking=False):
+            return None
+        try:
+            if self._icon_phase_seen:
+                return None
+            self._icon_phase_seen = True
+            self._icons.register_once(
+                self._reader, menu, _internal.BASE_ADDRESS + icons.MANAGER_PTR_RVA,
+                load_texture=self._load_texture, retain_handle=self._retain_icon,
+                pin_owner=pin_icon_owner,
+            )
+            if self._preferences is not None:
+                self._preferences.bind_notice_icon(self._icon_provider)
+            LOGGER.info("Companion icon resource phase reached: %s; visible rendering remains unverified.",
+                        self._icons.status)
+        except Exception:
+            try:
+                LOGGER.warning("Companion icon preparation unavailable; ordinary menu and automation continue.")
+            except Exception:
+                pass
+        finally:
+            self._icon_phase_lock.release()
+        return None
+
+    def _menu_options(self, *, construction=False):
+        options = {"child_roles": toggle.CHILD_ROLES} if EXTENDED_SETTINGS_ENABLED else {}
+        handle = self._notification_icon()
+        if handle and handle not in self._known_icon_handles:
+            if len(self._known_icon_handles) < 2:
+                self._known_icon_handles.add(handle)
+            else:
+                handle = 0
+        # Recognition of already copied items survives a temporarily pending
+        # provider. Only a freshly vetted handle may be used for new items.
+        if self._known_icon_handles:
+            options["permitted_icons"] = tuple(sorted(self._known_icon_handles))
+        if handle and construction:
+            options["icon_handle"] = handle
+        if self._preferences is not None and self._icons is not None:
+            self._preferences.bind_notice_icon(self._icon_provider)
+        return options
+
     def _write_checked(self, menu, offset, value):
         if not self.authorize_append(menu):
             raise RuntimeError("Submenu field write no longer authorized")
@@ -398,6 +511,7 @@ class CompanionMenuOrderTrial(Mod):
             added = order.append_before_pet(
                 self._reader, menu, incoming, constructor=self._constructor,
                 append=guarded_append, guard_capability=self,
+                **self._menu_options(construction=True),
             )
             if added and not self._stopped:
                 self._appended = True
@@ -421,7 +535,8 @@ class CompanionMenuOrderTrial(Mod):
         try:
             if self._building != (menu, render, get_native_id()):
                 raise RuntimeError("Unmatched native build completion")
-            snapshot = submenu._snapshot(self._reader, menu)
+            options = self._menu_options()
+            snapshot = submenu._snapshot(self._reader, menu, **options)
             if snapshot is not None and snapshot[0].parent_index is None:
                 # The fallback is only for builds with no individual pets.
                 # A missed native append must not place CAS after those pets.
@@ -433,7 +548,7 @@ class CompanionMenuOrderTrial(Mod):
                 if header not in allowed_headers:
                     raise RuntimeError("Submenu append header differs")
                 if header == allowed_headers[0]:
-                    current = submenu._snapshot(self._reader, menu)
+                    current = submenu._snapshot(self._reader, menu, **options)
                     if current is None:
                         raise RuntimeError("Fallback companion context disappeared")
                     order._first_pet(self._reader, current)
@@ -444,6 +559,7 @@ class CompanionMenuOrderTrial(Mod):
             result = submenu.complete_builder(
                 self._reader, menu, constructor=self._constructor,
                 append=guarded_append, guard_capability=self,
+                **self._menu_options(construction=True),
             )
             if result.root_added and not self._appended:
                 self._appended = True
@@ -461,7 +577,11 @@ class CompanionMenuOrderTrial(Mod):
             return None
         try:
             if SETTINGS_TOGGLE_ENABLED:
-                state = self._preferences.snapshot()
+                options = self._menu_options()
+                selected = toggle.selected_child_state(self._reader, menu, **options)
+                role = selected.child_selected if selected is not None else 0
+                setting = toggle.setting_key(role) if EXTENDED_SETTINGS_ENABLED else "enabled"
+                state = self._preferences.snapshot(setting)
                 if state is None:
                     caption = "Automatic summoning: unavailable"
                 elif state.stopped:
@@ -472,7 +592,9 @@ class CompanionMenuOrderTrial(Mod):
                         caption += " (pending)"
                     elif not state.settings_ok:
                         caption += " (session only)"
-                label = toggle.selected_label(self._reader, menu, item.encode_label(caption))
+                encoded = (toggle.preference_label(role, state) if EXTENDED_SETTINGS_ENABLED
+                           else item.encode_label(caption))
+                label = toggle.selected_label(self._reader, menu, encoded, **options)
             else:
                 label = submenu.selected_label(self._reader, menu)
             if label is not None and not self._stopped:
@@ -493,12 +615,13 @@ class CompanionMenuOrderTrial(Mod):
         try:
             intent = self._confirmation_intent
             self._confirmation_intent = None
-            token = submenu.capture_activation(self._reader, menu, action, called_as_menu)
+            options = self._menu_options()
+            token = submenu.capture_activation(self._reader, menu, action, called_as_menu, **options)
             preference_token = None
             if (SETTINGS_TOGGLE_ENABLED and token is None and intent is not None
                     and intent[:2] == (menu, self._thread)):
                 token = toggle.capture_activation(
-                    self._reader, menu, action, called_as_menu, intent[2])
+                    self._reader, menu, action, called_as_menu, intent[2], **options)
                 if token is not None:
                     preference_token = intent[3]
             if not self._stopped:
@@ -528,18 +651,19 @@ class CompanionMenuOrderTrial(Mod):
                 raise RuntimeError("Tagged None action returned an unexpected result")
             if SETTINGS_TOGGLE_ENABLED and type(pending[4]) is toggle.ChildActivationToken:
                 if not toggle.validate_activation(
-                        self._reader, menu, pending[4], guard_capability=self):
+                        self._reader, menu, pending[4], guard_capability=self, **self._menu_options()):
                     raise RuntimeError("Settings activation context changed")
                 if self._reader(menu + PENDING_SELECTION_OFFSET, 1) != b"\0":
                     raise RuntimeError("Native deferred selection is still pending")
                 if not self.authorize_append(menu):
                     raise RuntimeError("Settings activation no longer authorized")
                 if self._preferences.commit_toggle(pending[5], authorize=lambda: not self._stopped):
-                    LOGGER.info("Native menu queued automatic summoning toggle; local player update will apply it.")
+                    LOGGER.info("Native menu queued a setting change; local player update will apply it.")
                 else:
                     LOGGER.info("Native menu toggle was not queued because its preference context changed or was unavailable.")
                 return None
-            if not submenu.validate_activation(self._reader, menu, pending[4], guard_capability=self):
+            if not submenu.validate_activation(self._reader, menu, pending[4], guard_capability=self,
+                                               **self._menu_options()):
                 raise RuntimeError("Submenu activation context changed")
             if self._reader(menu + PENDING_SELECTION_OFFSET, 1) != b"\0":
                 raise RuntimeError("Native deferred selection is still pending")
@@ -584,9 +708,10 @@ class CompanionMenuOrderTrial(Mod):
             self._confirmation_ready = not _result_
             self._confirmation_menu = menu
             if fresh_press:
-                state = toggle.selected_child_state(self._reader, menu)
+                state = toggle.selected_child_state(self._reader, menu, **self._menu_options())
                 if state is not None:
-                    preference = self._preferences.capture_toggle()
+                    setting = toggle.setting_key(state.child_selected) if EXTENDED_SETTINGS_ENABLED else "enabled"
+                    preference = self._preferences.capture_toggle(setting)
                     if preference is not None and not self._stopped:
                         self._confirmation_intent = (menu, self._thread, state, preference)
         except Exception:

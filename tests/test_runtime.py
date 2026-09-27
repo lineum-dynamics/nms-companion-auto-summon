@@ -2497,6 +2497,40 @@ class RuntimeControlTests(RuntimeFixture):
         self.update(3)
         self.assertEqual([notice["message"] for notice in self.notice_calls], ["latest"])
 
+    def test_ready_icon_provider_is_used_without_changing_notice_timing(self):
+        provider = Mock(return_value=73)
+        self.assertTrue(self.mod.set_notice_icon_provider(provider))
+        self.assertTrue(self.mod.set_notice_icon_provider(provider))
+        self.assertFalse(self.mod.set_notice_icon_provider(Mock(return_value=99)))
+        self.mod.pending_notice = "Companion saved."
+        self.update(0)
+        provider.assert_called_once_with()
+        self.assertEqual(self.notice_calls[0]["icon"], 73)
+        self.assertEqual(self.notice_calls[0]["tail"], (False, 0.0, False, False, False))
+        self.assertEqual(self.notice_calls[0]["duration"], 5.5)
+        self.assertEqual(self.notice_calls[0]["message"], "Companion saved.")
+
+    def test_invalid_or_unavailable_icon_keeps_text_without_circle(self):
+        for result in (0, None, False, -1, 0x100000000, "73"):
+            with self.subTest(result=result):
+                self.mod._notice_icon_provider = Mock(return_value=result)
+                self.mod.pending_notice = "Visible text"
+                self.update(0)
+                self.assertEqual(self.notice_calls[-1]["icon"], 0)
+                self.assertTrue(self.notice_calls[-1]["tail"][-1])
+                self.assertTrue(self.mod.notifications_ok)
+                self.assertTrue(self.mod.enabled)
+
+    def test_provider_failure_cannot_disable_notices_or_automation(self):
+        self.assertFalse(self.mod.set_notice_icon_provider(73))
+        self.mod.set_notice_icon_provider(Mock(side_effect=RuntimeError("icon unavailable")))
+        self.mod.pending_notice = "Still visible"
+        self.update(0)
+        self.assertEqual(self.notice_calls[-1]["message"], "Still visible")
+        self.assertTrue(self.notice_calls[-1]["tail"][-1])
+        self.assertTrue(self.mod.notifications_ok)
+        self.assertTrue(self.mod.enabled)
+
     def test_notification_failure_disables_hud_only_and_does_not_retry(self):
         self.module.cas_add_timed_message.side_effect = RuntimeError("test HUD failure")
         self.select(5)

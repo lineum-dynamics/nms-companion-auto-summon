@@ -3,6 +3,7 @@
 from dataclasses import FrozenInstanceError, fields, replace
 from pathlib import Path
 import sys
+from types import SimpleNamespace
 import unittest
 from unittest.mock import Mock
 
@@ -39,6 +40,87 @@ class ToggleFixture(SubmenuFixture):
         return TOGGLE.validate_activation(
             overrides.get("reader", self.reader), self.menu, token,
             guard_capability=overrides.get("guard", self.guard))
+
+
+class FullSettingsRecognitionTests(SubmenuFixture):
+    def setUp(self):
+        super().setUp()
+        self.set_integer(ITEM.SELECTIONS_OFFSET + 4, 2)
+        self.request(child_roles=TOGGLE.CHILD_ROLES)
+        self.set_integer(ITEM.DEPTH_OFFSET, 2)
+        self.options = {"child_roles": TOGGLE.CHILD_ROLES}
+
+    def capture_role(self, role, **options):
+        self.set_integer(ITEM.SELECTIONS_OFFSET + 8, role)
+        arguments = dict(self.options, **options)
+        state = TOGGLE.selected_child_state(self.reader, self.menu, **arguments)
+        address = self.vector_pointer(2) + role * ITEM.ITEM_SIZE
+        token = TOGGLE.capture_activation(self.reader, self.menu, address, True, state, **arguments)
+        return state, token
+
+    def test_all_six_selected_roles_capture_the_exact_item_and_setting(self):
+        original = {key: bytes(data) for key, data in self.regions.items()}
+        for role, key in enumerate(("enabled", "selection_mode", "prefer_same_biome", "planets",
+                                    "space_stations", "nexus")):
+            with self.subTest(role=role):
+                state, token = self.capture_role(role)
+                self.assertEqual(TOGGLE.setting_key(token.state.child_selected), key)
+                self.assertTrue(TOGGLE.validate_activation(self.reader, self.menu, token,
+                                                         guard_capability=self.guard, **self.options))
+                foreign = self.vector_pointer(2) + ((role + 1) % 6) * ITEM.ITEM_SIZE
+                self.assertIsNone(TOGGLE.capture_activation(self.reader, self.menu, foreign, True,
+                                                           state, **self.options))
+        for pointer in (self.vector_pointer(1), self.vector_pointer(2)):
+            self.assertEqual(bytes(self.regions[pointer]), original[pointer])
+
+    def test_navigation_after_capture_and_default_mode_refuse_full_page_token(self):
+        state, token = self.capture_role(4)
+        self.assertFalse(TOGGLE.validate_activation(self.reader, self.menu, token, guard_capability=self.guard))
+        self.set_integer(ITEM.SELECTIONS_OFFSET + 8, 5)
+        self.assertFalse(TOGGLE.validate_activation(self.reader, self.menu, token,
+                                                  guard_capability=self.guard, **self.options))
+        self.assertEqual(state.child_selected, 4)
+
+    def test_custom_icon_must_be_permitted_for_capture_and_validation(self):
+        custom = 0x23456789
+        self.mutate_entry(2, 2, 0, custom.to_bytes(4, "little"))
+        with self.assertRaises(TOGGLE.MenuItemError):
+            self.capture_role(2)
+        _, token = self.capture_role(2, permitted_icons=(custom,))
+        self.assertTrue(TOGGLE.validate_activation(self.reader, self.menu, token,
+                                                  guard_capability=self.guard, permitted_icons=(custom,),
+                                                  **self.options))
+        with self.assertRaises(TOGGLE.MenuItemError):
+            TOGGLE.validate_activation(self.reader, self.menu, token, guard_capability=self.guard, **self.options)
+
+    def test_labels_cover_existing_options_and_honest_pending_session_states(self):
+        state = SimpleNamespace(desired=True, pending=False, settings_ok=True, stopped=False)
+        expected = (b"Automatic summoning: ON", b"Selection: Random", b"Prefer matching biome: ON",
+                    b"Planets: ON", b"Space stations: ON", b"Space Anomaly: ON")
+        for role, label in enumerate(expected):
+            state.desired = "random" if role == 1 else True
+            self.assertEqual(TOGGLE.preference_label(role, state), label)
+            _, token = self.capture_role(role)
+            self.assertEqual(TOGGLE.selected_label(self.reader, self.menu, label, **self.options), label)
+        state.desired = "last_manual"
+        self.assertEqual(TOGGLE.preference_label(1, state), b"Selection: Last selected")
+        state.pending = True
+        self.assertEqual(TOGGLE.preference_label(1, state), b"Selection: Last selected (pending)")
+        state.pending = False
+        state.settings_ok = False
+        self.assertEqual(TOGGLE.preference_label(1, state), b"Selection: Last selected (session only)")
+        state.stopped = True
+        self.assertEqual(TOGGLE.preference_label(1, state), b"Selection: stopped")
+        self.assertEqual(TOGGLE.preference_label(1, None), b"Selection: unavailable")
+
+    def test_invalid_roles_and_preference_values_cannot_create_a_caption(self):
+        for role in (-1, 6, True, "1"):
+            with self.subTest(role=role), self.assertRaises(TOGGLE.MenuItemError):
+                TOGGLE.preference_label(role, None)
+        for role, value in ((0, 1), (1, "unknown"), (2, "true")):
+            state = SimpleNamespace(desired=value, stopped=False, pending=False, settings_ok=True)
+            with self.assertRaises(TOGGLE.MenuItemError):
+                TOGGLE.preference_label(role, state)
 
 
 class ToggleRecognitionTests(ToggleFixture):

@@ -1,6 +1,6 @@
 # Companion Auto Summon roadmap
 
-This is the canonical backlog for unfinished release work and future ideas. It is not a feature list for the current package or a promise of release dates. Status checked against the 0.4.3-experimental source on 27 September 2026. New proposals below have been recorded for discussion; they are not approved for implementation.
+This is the canonical backlog for unfinished release work and future ideas. It is not a feature list for the current package or a promise of release dates. Status checked against the unlaunched 0.4.6 / 0.8.0 candidate on 27 September 2026. New proposals below have been recorded for discussion; they are not approved for implementation.
 
 Use [DESIGN.md](DESIGN.md) for accepted product behavior, [LOCALIZATION.md](LOCALIZATION.md) for language requirements and [the release plan](docs/release/PRIPRAVA-VYDANI.md) for publication checks. Update this backlog when a proposal is accepted, deferred, rejected or implemented. Record the version and verification evidence when a task is completed.
 
@@ -8,30 +8,30 @@ Use [DESIGN.md](DESIGN.md) for accepted product behavior, [LOCALIZATION.md](LOCA
 
 These requirements were accepted before this backlog was created. Finish them before adding optional features that would complicate the first release.
 
-Priority defect from the 0.7.1 arena report: the queue hook can misattribute a
-game-driven restore as a manual selection and overwrite the stored favourite.
-Persist/announce a manual favourite only after positive native UI provenance;
-retain ordinary manual and shortcut behavior, and leave unrelated native queues
-untouched. The event's actual caller was not logged. A later read-only snapshot
-showed no active/pending pet. Shorter notices and about 5.5 seconds of display
-are the readability target; the white disc still needs a verified rendering fix.
+The 0.4.6 candidate includes the manual-origin repair prepared in unlaunched
+0.4.5 / 0.7.2: only a matched successful native UI summon can replace or announce
+a favourite. The 0.7.1 arena event's actual caller remains unknown; existing
+stored choices are preserved. Shorter 5.5-second notices and the verified
+icon-hide fallback need a live visual check. The new combined 0.8.0 candidate
+also implements six native settings and original-icon loading/fallback, all
+pending live acceptance. The running 0.7.1 and retained 0.7.2 are unchanged.
 
 Prepared 0.4.4 / 0.7.1 adds bounded passive post-queue observation; one Anomaly startup now has player and native-active
 confirmation, with no automatic retry. Repeatability remains unverified. Validate it against the failed Anomaly case before
 deciding on a behavioral fix. The 0.7.1 trial now runs after a fresh backup; the earlier 0.7.0 folder remains intact.
 
-Latest 0.7.0 live findings: basic ON/OFF application has partial player and log
+Historical 0.7.0 live findings: basic ON/OFF application has partial player and log
 confirmation. Anomaly startup accepted a queue without a visible pet, and the
-HUD shows an unwanted white disc. The next diagnostic should observe the
+HUD shows an unwanted white disc. The 0.4.4 diagnostic now observes the
 accepted queue's lifecycle without retrying or changing summon timing. Any
 future retry must distinguish failed materialization from manual dismissal.
-Icon suppression needs verified native rendering semantics. Held confirmation,
+Icon suppression now has static evidence but still needs visual acceptance. Held confirmation,
 remapping and controllers remain untested; rapid toggles were repeated presses.
 
 | Work | Current boundary | Completion evidence |
 |---|---|---|
 | Simple, reliable installation | The development launcher still requires an external Python installation and prepares dependencies. A portable offline runtime and graphical launcher are not implemented. | Extract-and-launch on a clean second Windows account/PC; relocated and non-ASCII paths; no external Python dependency; exact-build checks; no duplicate host or unexpected game termination. Follow [installer requirements](docs/release/INSTALACE-ZADANI.md). |
-| Native quick-menu settings | The pyMHF panel exists. The separate 0.5.0 trial has confirmed inert-child navigation, clean captions, Back/close/reopen and normal manual pet summoning. The 0.6.0 candidate puts settings before individual pets in offline checks and has registered in-game. A combined play bundle must keep automatic summoning available during menu development. Visible ordering, shortcut/remapping/controller scenarios and custom texture loading remain pending. A transparent original icon asset is prepared. The separate 0.7.0 candidate implements one predicate-gated automation toggle with 408 developer tests and real-framework checks; live activation is pending. Other preference actions are unimplemented. The temporary pyMHF panel must leave the final player interface once all native controls pass. See [QUICK-MENU.md](QUICK-MENU.md). | Verified native item construction, action dispatch, hotkey handling and cleanup; one harmless entry before preference controls; default/remapped keyboard and controller actions, including in-session binding changes; shared preference store; no displaced vanilla action or shortcut. |
+| Native quick-menu settings | The unlaunched 0.8.0 candidate implements all six existing preferences on one flat page using the same production queue. It stages the original DDS before launch and attempts one natural-phase load with a retained paw fallback. Neither the full page nor resource lifetime/rendering is live-verified. Earlier inert navigation and basic ON/OFF have bounded player evidence. Keep automatic summoning and the desktop development panel during acceptance; retire that panel only after all native controls pass. See [QUICK-MENU.md](QUICK-MENU.md). | All six controls apply/persist without changing unrelated values; native navigation/rebuilds and ordinary pet actions; default/remapped keyboard and controllers; shortcut preservation; custom icon, retained fallback and text-only behavior; no changed gameplay limits or shared vanilla textures. |
 | Localization and natural feedback | UI/HUD text is English-only; encoding and glyph coverage are unresolved. Some visible messages still need live verification. | Catalogs for all 14 official interface languages, verified language selection, placeholder checks, translation review and in-game rendering checks. Quiet ordinary summons, honest save/session-only messages and a restrained first-activation notice. |
 | Live behavior and compatibility | In combined trial 0.6.2, production 0.4.3 summoned one Random companion after an on-foot station load without a ship-exit trigger; the log and player confirm the result. The player later confirmed one manual dismissal without reappearance after traveling in the same unchanged session. Earlier visible results belong to their original versions. | Broaden dismissal regression; test planet/Nexus and Last manually selected startup, then normal ship-exit regression; existing preferences; biome preference/fallback; location controls; restart/save switching; rejected placement followed by a suitable location; cancellation and unsupported locations. Record actual appearance separately from an accepted queue request. |
 | Multiplayer and release preparation | Second-PC installation and multiplayer remain unverified; Nexus material is still a draft. | Controlled tests with one and then, where available, two mod users; no duplicate or foreign-pet changes; accurate support limits; owner-approved attribution/reuse terms and distribution contents; current platform/publisher policy review. |

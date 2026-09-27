@@ -40,7 +40,8 @@ def _first_pet(reader, snapshot):
         raise MenuItemError("Native pet entries already precede the missing parent")
 
 
-def append_before_pet(reader, menu, incoming, *, constructor, append, guard_capability):
+def append_before_pet(reader, menu, incoming, *, constructor, append, guard_capability,
+                      child_roles=(0,), permitted_icons=None, icon_handle=None):
     """Append one parent before an eligible original pet append, or do nothing.
 
     The incoming native item must be independent of every current vector
@@ -52,7 +53,8 @@ def append_before_pet(reader, menu, incoming, *, constructor, append, guard_capa
     action = item._action(reader, incoming, 0)
     if action not in PET_ACTIONS:
         return False
-    snapshot = submenu._snapshot(reader, menu)
+    options = {"child_roles": child_roles, "permitted_icons": permitted_icons}
+    snapshot = submenu._snapshot(reader, menu, **options)
     if snapshot is None or snapshot[0].parent_index is not None:
         return False
     _independent_source(incoming, snapshot)
@@ -60,25 +62,26 @@ def append_before_pet(reader, menu, incoming, *, constructor, append, guard_capa
     original = _source_copy(reader, incoming)
     if int.from_bytes(original[item.ACTION_OFFSET:item.ACTION_OFFSET + 4], "little") != action:
         raise MenuItemError("Incoming native action changed during inspection")
-    submenu._same_snapshot(reader, menu, snapshot)
+    submenu._same_snapshot(reader, menu, snapshot, **options)
 
     def checked_append(header, data):
         expected_header = menu + item.VECTORS_OFFSET + item.VECTOR_SIZE
         if header != expected_header:
             raise MenuItemError("Ordering may append only to the companion vector")
-        current = submenu._same_snapshot(reader, menu, snapshot)
+        current = submenu._same_snapshot(reader, menu, snapshot, **options)
         _independent_source(incoming, current)
         _first_pet(reader, current)
         if _source_copy(reader, incoming) != original:
             raise MenuItemError("Incoming native item changed before insertion")
         # Source-copy callbacks can fail, revoke authorization, or expose a
         # changed vector. Recheck after those reads and authorize last.
-        submenu._same_snapshot(reader, menu, snapshot)
+        submenu._same_snapshot(reader, menu, snapshot, **options)
         item._authorize(guard_capability, menu)
         append(header, data)
 
     submenu._append_role(reader, menu, snapshot, submenu.ROOT_SLOT,
-                         constructor, checked_append, guard_capability)
+                         constructor, checked_append, guard_capability,
+                         icon_handle=icon_handle, **options)
     if _source_copy(reader, incoming) != original:
         raise MenuItemError("Incoming native item changed during insertion; outcome is unverified")
     return True

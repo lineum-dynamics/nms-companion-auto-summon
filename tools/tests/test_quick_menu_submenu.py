@@ -64,6 +64,119 @@ class SubmenuFixture(ItemFixture):
         return SUB.validate_activation(self.reader, self.menu, token, guard_capability=self.guard)
 
 
+class FullSettingsPageTests(SubmenuFixture):
+    def full_page(self, **overrides):
+        self.set_integer(ITEM.SELECTIONS_OFFSET + 4, 2, signed=True)
+        return self.request(child_roles=SUB.SETTINGS_CHILD_ROLES, **overrides)
+
+    def test_six_roles_are_appended_in_order_without_changing_native_scalars(self):
+        self.set_integer(ITEM.SELECTIONS_OFFSET + 4, 2, signed=True)
+        original = bytes(self.regions[self.menu])
+        result = self.full_page()
+        self.assertTrue(result.child_ready)
+        self.assertEqual(self.append_callback.call_count, 7)
+        children = self.regions[self.vector_pointer(2)]
+        for role in range(6):
+            entry = children[role * ITEM.ITEM_SIZE:(role + 1) * ITEM.ITEM_SIZE]
+            self.assertEqual(int.from_bytes(entry[ITEM.SLOT_OFFSET:ITEM.SLOT_OFFSET + 4], "little"), role)
+            self.assertEqual(entry[ITEM.ACTION_OFFSET:ITEM.ACTION_OFFSET + 4], bytes(4))
+            self.assertEqual(entry[ITEM.MARKER_OFFSET:ITEM.MARKER_OFFSET + 16], ITEM.CUSTOM_ACTION_MARKER)
+        for offset, size in ((ITEM.DEPTH_OFFSET, 4), (ITEM.SELECTIONS_OFFSET, 12), (0xA16C, 1)):
+            self.assertEqual(self.regions[self.menu][offset:offset + size], original[offset:offset + size])
+        self.full_page()
+        self.assertEqual(self.append_callback.call_count, 7)
+
+    def test_default_cannot_adopt_full_page_and_full_mode_cannot_adopt_one_child(self):
+        self.select_parent_and_prepare()
+        before = {key: bytes(data) for key, data in self.regions.items()}
+        with self.assertRaises(SUB.MenuItemError):
+            self.request(child_roles=SUB.SETTINGS_CHILD_ROLES)
+        self.assertEqual(before, {key: bytes(data) for key, data in self.regions.items()})
+        self.set_vector(2, self.vector_pointer(2), [], selected=-1)
+        self.full_page()
+        with self.assertRaises(SUB.MenuItemError):
+            self.request()
+
+    def test_partial_append_failure_is_not_repaired_by_adopting_unknown_prefix(self):
+        calls = 0
+
+        def interrupted(header, payload):
+            nonlocal calls
+            calls += 1
+            if calls == 4:
+                raise RuntimeError("Native append failed")
+            self.append(header, payload)
+
+        with self.assertRaises(SUB.MenuItemError):
+            self.full_page(append=interrupted)
+        before = {key: bytes(data) for key, data in self.regions.items()}
+        self.constructor.reset_mock()
+        with self.assertRaises(SUB.MenuItemError):
+            self.full_page()
+        self.constructor.assert_not_called()
+        self.assertEqual(before, {key: bytes(data) for key, data in self.regions.items()})
+
+    def test_duplicate_or_foreign_child_role_is_preserved_and_refused(self):
+        self.full_page()
+        self.mutate_entry(2, 3, ITEM.SLOT_OFFSET, (0).to_bytes(4, "little"))
+        before = {key: bytes(data) for key, data in self.regions.items()}
+        count = self.append_callback.call_count
+        with self.assertRaises(SUB.MenuItemError):
+            self.full_page()
+        self.assertEqual(count, self.append_callback.call_count)
+        self.assertEqual(before, {key: bytes(data) for key, data in self.regions.items()})
+
+    def test_parent_activation_requires_complete_six_children(self):
+        self.full_page()
+        parent = self.vector_pointer(1) + 2 * ITEM.ITEM_SIZE
+        token = SUB.capture_activation(self.reader, self.menu, parent, True, child_roles=SUB.SETTINGS_CHILD_ROLES)
+        self.assertIsNotNone(token)
+        self.assertTrue(SUB.validate_activation(self.reader, self.menu, token, guard_capability=self.guard,
+                                                child_roles=SUB.SETTINGS_CHILD_ROLES))
+        self.set_integer(ITEM.VECTORS_OFFSET + 2 * 16 + 4, 5)
+        with self.assertRaises(SUB.MenuItemError):
+            SUB.validate_activation(self.reader, self.menu, token, guard_capability=self.guard,
+                                    child_roles=SUB.SETTINGS_CHILD_ROLES)
+
+    def test_custom_icon_is_explicit_and_does_not_write_native_icon_field(self):
+        custom = 0x10203040
+        def construct(buffer, icon, action, disabled, background):
+            self.assertEqual(icon, custom)
+            self.construct(buffer, 0x12345678, action, disabled, background)
+            buffer[:4] = icon.to_bytes(4, "little")
+        self.constructor.side_effect = construct
+        old_icon = bytes(self.regions[self.menu][ITEM.COMPANION_ICON_OFFSET:ITEM.COMPANION_ICON_OFFSET + 4])
+        self.full_page(icon_handle=custom, permitted_icons=(custom,))
+        for call in self.append_callback.call_args_list:
+            self.assertEqual(int.from_bytes(call.args[1][:4], "little"), custom)
+        self.assertEqual(self.regions[self.menu][ITEM.COMPANION_ICON_OFFSET:ITEM.COMPANION_ICON_OFFSET + 4], old_icon)
+        with self.assertRaises(SUB.MenuItemError):
+            SUB._snapshot(self.reader, self.menu, child_roles=SUB.SETTINGS_CHILD_ROLES)
+        self.assertTrue(SUB._snapshot(self.reader, self.menu, child_roles=SUB.SETTINGS_CHILD_ROLES,
+                                      permitted_icons=(custom,))[0].child_ready)
+
+    def test_mixed_native_and_pinned_icons_are_reusable_without_rewriting_items(self):
+        self.full_page()
+        custom = 0x87654321
+        self.mutate_entry(2, 4, 0, custom.to_bytes(4, "little"))
+        before = {key: bytes(data) for key, data in self.regions.items()}
+        self.full_page(permitted_icons=(custom,), icon_handle=custom)
+        self.assertEqual(before, {key: bytes(data) for key, data in self.regions.items()})
+        self.assertEqual(self.append_callback.call_count, 7)
+
+    def test_invalid_roles_and_unpermitted_icon_refuse_before_construction(self):
+        for roles in ((0, 1), (0, 0, 1, 2, 3, 4), (False,), [0]):
+            with self.subTest(roles=roles), self.assertRaises(SUB.MenuItemError):
+                self.request(child_roles=roles)
+        for permitted in ((1, 1), (True,), (1, 2, 3), (-1,), (2**32,)):
+            with self.subTest(permitted=permitted), self.assertRaises(SUB.MenuItemError):
+                self.request(permitted_icons=permitted)
+        with self.assertRaises(SUB.MenuItemError):
+            self.full_page(icon_handle=99)
+        self.constructor.assert_not_called()
+        self.append_callback.assert_not_called()
+
+
 class BuilderTests(SubmenuFixture):
     def test_outside_context_does_not_construct_or_append(self):
         for depth, root_selected in ((0, 0), (1, 1), (2, 1)):

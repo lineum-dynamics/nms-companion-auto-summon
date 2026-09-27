@@ -31,6 +31,7 @@ MENU_HOOKS = {
     (0x151ED00, "BEFORE"), (0x151ED00, "AFTER"), (0x1523220, "AFTER"),
     (0x1526940, "BEFORE"), (0x1526940, "AFTER"), (0x1533980, "BEFORE"),
     (0x15311C0, "BEFORE"), (0x15311C0, "AFTER"),
+    (0x151AD80, "AFTER"),
 }
 
 
@@ -90,7 +91,7 @@ def check_shared_dispatch(production, menu, hooking):
                         callback = instrument(callback, owner)
                         shared_callbacks.append(callback)
                     registry.register_hook(callback)
-        require(len(registry.hooks) == 11 and not registry.failed_hooks,
+        require(len(registry.hooks) == 12 and not registry.failed_hooks,
                 "Python registry did not merge exactly the shared target")
         targets = [hook for key, hook in registry.hooks.items() if key.offset == 0x1526940]
         require(len(targets) == 1, "Shared TriggerAction created multiple function hooks")
@@ -157,9 +158,14 @@ def check(bundle_folder):
     require(menu_source.count("TRIAL_ENABLED = False") == 1, "Expected one disabled menu source flag")
     require(menu_source.count("SETTINGS_TOGGLE_ENABLED = False") == 1, "Expected disabled toggle source")
     expected_menu = menu_source.replace("TRIAL_ENABLED = False", "TRIAL_ENABLED = True", 1)
-    expected_menu = expected_menu.replace("SETTINGS_TOGGLE_ENABLED = False", "SETTINGS_TOGGLE_ENABLED = True", 1).encode("utf-8")
+    for flag in ("SETTINGS_TOGGLE_ENABLED", "EXTENDED_SETTINGS_ENABLED", "CUSTOM_ICON_ENABLED"):
+        require(menu_source.count(flag + " = False") == 1, "Expected one disabled feature flag")
+        expected_menu = expected_menu.replace(flag + " = False", flag + " = True", 1)
+    expected_menu = expected_menu.encode("utf-8")
     require((bundle / "CompanionMenuOrderTrial.py").read_bytes() == expected_menu,
-            "Menu must differ only by its two explicit build enable flags")
+            "Menu must differ only by its four explicit build enable flags")
+    require((bundle / "SETTINGS.DDS").read_bytes() == (ROOT / "assets/ui/SETTINGS.DDS").read_bytes(),
+            "Packaged original icon differs from its source")
     for name in host.PAYLOAD_FILES:
         if name.startswith("quick_menu_"):
             require((bundle / name).read_bytes() == (ROOT / "tools" / name).read_bytes(),
@@ -237,7 +243,7 @@ def check(bundle_folder):
             menu_hooks = {(hook._hook_offset, hook._hook_time.name) for hook in menu.hooks}
             require(len(production.hooks) == 9 and production_hooks == PRODUCTION_HOOKS,
                     "Production hook callbacks differ")
-            require(len(menu.hooks) == 8 and menu_hooks == MENU_HOOKS, "Menu hook callbacks differ")
+            require(len(menu.hooks) == 9 and menu_hooks == MENU_HOOKS, "Menu hook callbacks differ")
             production_targets = {offset for offset, _ in production_hooks}
             menu_targets = {offset for offset, _ in menu_hooks}
             require(production_targets & menu_targets == {0x1526940},
@@ -284,6 +290,42 @@ def check(bundle_folder):
                 state = bridge.snapshot()
                 require(not state.applied and not state.desired and not state.pending and state.settings_ok,
                         "Applied bridge state differs")
+                # Exercise every additional row against the real Mod instance
+                # and the existing production persistence path. Each result
+                # must change exactly one preference and preserve the others.
+                for key in ("selection_mode", "prefer_same_biome", "planets", "space_stations", "nexus"):
+                    before = bridge.snapshot(key)
+                    token = bridge.capture_toggle(key)
+                    require(before is not None and token is not None,
+                            f"Bridge cannot capture {key}")
+                    require(bridge.commit_toggle(token, authorize=lambda: True),
+                            f"Bridge cannot queue {key}")
+                    require(not bridge.commit_toggle(token), f"Replayed {key} was accepted")
+                    pending = bridge.snapshot(key)
+                    require(pending.pending and pending.applied == before.applied,
+                            f"{key} applied before player update")
+                    require(json.loads(settings_path.read_text(encoding="utf-8")) == stored,
+                            f"{key} persisted before player update")
+                    expected = dict(stored)
+                    if key in ("selection_mode", "prefer_same_biome"):
+                        expected[key] = pending.desired
+                    else:
+                        location = {"planets": 3, "space_stations": 2, "nexus": 14}[key]
+                        locations = set(stored["locations"])
+                        locations.add(location) if pending.desired else locations.discard(location)
+                        expected["locations"] = sorted(locations)
+                    production._apply_control()
+                    stored = json.loads(settings_path.read_text(encoding="utf-8"))
+                    require(stored == expected, f"{key} changed another stored preference")
+                    applied = bridge.snapshot(key)
+                    require(applied.applied == pending.desired and not applied.pending and applied.settings_ok,
+                            f"{key} did not apply through production")
+                provider = Mock(return_value=0)
+                require(bridge.bind_notice_icon(provider), "Icon provider could not bind")
+                require(bridge.bind_notice_icon(provider), "Same icon provider could not rebind")
+                provider.assert_not_called()
+                require(production._notice_icon_handle() == 0, "Text fallback changed")
+                provider.assert_called_once_with()
                 require(not settings_path.with_name("state.json").exists(), "Bridge changed companion memory")
 
             # Exercise host validation and dispatch with the real folder and
@@ -295,12 +337,16 @@ def check(bundle_folder):
             guard = Mock(side_effect=lambda: order.append("guard"))
             launch = Mock(side_effect=lambda *args: order.append("folder") or "mocked")
             argv_before = sys.argv
+            asset_setup = Mock(side_effect=lambda *args: order.append("asset"))
             with patch.object(host, "_load_bootstrap", return_value=SimpleNamespace(install_injection_guard=guard)), \
+                    patch.object(host, "_prepare_icon_asset", asset_setup), \
+                    patch.object(host, "_game_closed", return_value=True), \
                     patch.object(framework_main, "run_module", launch):
-                require(host.main([str(bundle)]) == "mocked", "Host dispatch result changed")
+                require(host.main([str(bundle), "--game-directory", str(Path(temporary) / "game")]) == "mocked",
+                        "Host dispatch result changed")
             guard.assert_called_once_with()
             launch.assert_called_once_with(str(bundle), config)
-            require(order == ["guard", "folder"] and sys.argv is argv_before,
+            require(order == ["guard", "asset", "folder"] and sys.argv is argv_before,
                     "Host dispatch order or argument lifetime differs")
 
     require(all(hashlib.sha256(path.read_bytes()).hexdigest() == hashes[path.name] for path in paths),
@@ -308,14 +354,16 @@ def check(bundle_folder):
     result = {
         "version": host.VERSION, "framework": "0.2.4", "pymhflib_entry_points": [],
         "bundle_sha256": hashes, "production_byte_identical": True,
-        "menu_only_two_enable_flags_changed": True, "actual_folder_discovery": True,
+        "menu_only_four_enable_flags_changed": True, "actual_folder_discovery": True,
         "disabled_flags_lifted_for_discovery_only": True, "mods_preloaded_not_registered": 2,
-        "production_callbacks": 9, "menu_callbacks": 8, "distinct_native_targets": 11,
+        "production_callbacks": 9, "menu_callbacks": 9, "distinct_native_targets": 12,
         "shared_target": "0x1526940", "shared_python_registry_and_dispatch": shared_dispatch,
         "shared_dispatch_owned_none_item_menu_disabled": True,
         "native_hook_binding_performed": False,
         "gui_widgets": 8, "physical_hotkeys": 0, "temporary_preferences_preserved_before_apply": True,
         "real_preference_bridge_queue_apply_verified": True,
+        "real_preference_bridge_all_six_settings_verified": True,
+        "real_optional_icon_provider_binding_verified": True,
         "host_direct_folder_dispatch_mocked": True, "hooks_registered": False,
         "game_accessed": False, "user_preferences_accessed": False, "live_verified": False,
     }

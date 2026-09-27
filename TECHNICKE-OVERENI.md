@@ -2,7 +2,44 @@
 
 Soukromé testovací záznamy uvedené níže jménem souboru jsou uchované mimo Git repozitář a distribuční ZIP. Dokument obsahuje jejich shrnutí; osobní záznamy ani zálohy se nedistribuují.
 
-## Připravený kandidát 0.4.5 / 0.7.2 — zatím nespouštěný
+## Připravený kandidát 0.4.6 / 0.8.0 — společný test před jedním restartem
+
+Rozšiřuje nativní stránku o všech šest dosavadních nastavení: automatiku,
+poslední ruční nebo náhodný výběr, přednost shodného biomu a tři lokace.
+Každý řádek používá původní frontu nastavení a ukládání produkčního runtime.
+Otevření a navigace nic nemění. Potvrzení vyžaduje původní nativní akci,
+stejnou položku a novou hranu stisku; opakované držení nemá opakovaně přepínat.
+Zdrojové testy pokrývají celou stránku, ale skutečné ovládání ještě ověřené není.
+
+Vlastní bílá tlapka s kruhovou šipkou je původní DDS o rozměru 256 × 256.
+Budoucí spouštěč ji připraví pouze při zavřené hře na unikátní cestě v MODS;
+ověří její hash, přesnou hru a odmítne neznámý existující soubor. Sestavení
+balíčku nic neinstaluje. Nativní registrace se zkusí jednou při přirozeném
+načítání prostředků menu. Vlastníkem držené reference zůstávají po dobu procesu.
+Oba pozorované globální ukazatele správce prostředků musejí souhlasit; změna
+nebo neshoda poskytovatele trvale vypne. Pozdější čtení nepoužívá starý ukazatel
+menu. Pořadí je připravená vlastní textura, ověřená držená herní tlapka a nakonec
+čistý text hlášky. Statická analýza a simulace nedokazují nativní životnost ani
+skutečné načtení a vykreslení DDS.
+
+Kandidát zachovává opravu původu ruční volby z 0.4.5 a potvrzení dlouhé 5,5 s.
+Nemění pravidla vyvolávání, herní limity ani savy. Panel pyMHF zůstává dočasně
+pro porovnání hodnot během společného testu. Běžící 0.7.1 a připravený 0.7.2
+nebyly přepsány. Samostatný ZIP 0.4.6 obsahuje jen produkční část bez menu a DDS.
+
+Prošlo **282 produkčních testů**: 192 runtime, 34 policy, 14 persistence,
+24 settings a 18 launcher. Prošlo také **504 vývojových testů**, včetně
+ověření selhání načtení ikony, původních herních návratových hodnot a instalace
+assetu na dočasných cestách. Žádný test nečetl osobní nastavení ani herní savy.
+Kontrola skutečného pyMHF ověřila osm widgetů, načtení obou módů a všech šest
+voleb přes dočasné soubory původního runtime. Osmnáct callbacků sdílí 12 cílů;
+společný cíl prošel oběma pořadími registrace a čtyřmi kombinacemi návratů
+simulovaného originálu. Nativní hooky se neinstalovaly. Prošla také syntaxe
+PowerShell spouštěče a vazba poskytovatele ikony.
+Verze **0.4.6 / 0.8.0 ještě nebyla spuštěna ve hře**; žádný starší herní
+výsledek se na ni nepřenáší.
+
+## Starší připravený kandidát 0.4.5 / 0.7.2 — zatím nespouštěný
 
 Nová ruční volba vyžaduje odpovídající nativní akci ovládání petů, přijetí
 shodného požadavku a úspěšný návrat původní funkce. Identita, lokální hráč,

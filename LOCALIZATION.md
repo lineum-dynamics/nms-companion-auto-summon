@@ -2,16 +2,18 @@
 
 ## Status
 
-Prepared 0.4.5 / 0.7.2 uses shorter English confirmations lasting 5.5 seconds.
+Prepared 0.4.6 / 0.8.0 retains shorter English confirmations lasting 5.5 seconds.
 `Companion saved.` is used only after successful persistence; otherwise the
 message is `Companion selected (session only).` Relevant suffixes are
 `Auto summoning OFF.` and `Random stays ON.` Only a changed, matched successful
 native UI choice announces a favourite; automatic summoning and game restoration
-stay quiet. The verified final timed-message flag hides icon containers without
-changing text encoding. Wording and icon hiding await a live visual check.
-The running 0.4.4 / 0.7.1 artifact remains unchanged.
+stay quiet. The optional combined-trial provider supplies a ready owned icon;
+otherwise the verified final flag hides icon containers without changing text
+encoding. Wording, custom/native fallback icons and text-only fallback await a
+live visual check. The running 0.4.4 / 0.7.1 and unlaunched 0.7.2 artifacts remain
+unchanged.
 
-Companion Auto Summon 0.4.5 has no localization catalog, language selector or automatic game-language detection. Its settings labels, selection options, statuses, HUD messages and launcher errors are hardcoded in English. English and Czech README files are documentation translations, not a localization system.
+Companion Auto Summon 0.4.6 has no localization catalog, language selector or automatic game-language detection. Its settings labels, selection options, statuses, HUD messages and launcher errors are hardcoded in English. English and Czech README files are documentation translations, not a localization system.
 
 The load-trigger update reuses **Automatically summon companion**, covering ship exits and successful local save loads. Status can show **Waiting for a suitable place** while a load opportunity still awaits ownership. The companion status describes a random choice per request or a remembered identity awaiting ownership verification. Future translations must preserve this scope instead of promising a summon immediately during loading or only after a ship exit. No new preference or language selector accompanies the change. Older developer artifacts retain an inert English **Settings preview** child.
 
@@ -20,8 +22,14 @@ summoning: ON/OFF**, with **(pending)**, **(session only)**, **unavailable** or
 **stopped** as appropriate. These are English prototype captions, not translated
 catalog entries. Pending is a queued request, not a claim that it was saved.
 The older 0.6.2 artifact retains its inert preview; the active developer trial
-is 0.7.1, with unchanged captions and live validation in progress. Prepared 0.7.2
-retains those captions; its new confirmations are not yet live-tested.
+is 0.7.1, with unchanged captions and live validation in progress. Unlaunched
+0.7.2 retains those captions. The prepared 0.8.0 page adds **Selection: Last
+selected / Random**, **Prefer matching biome: ON/OFF**, **Planets: ON/OFF**,
+**Space stations: ON/OFF** and **Space Anomaly: ON/OFF**. All six rows share
+pending/session-only/unavailable/stopped wording. The biome option only affects
+Random on planets; translated text must not imply another gameplay effect.
+These bounded ASCII captions have no catalog or verified non-English glyph path.
+The new controls and confirmations are not yet live-tested.
 
 The owner requires English source code and player-facing localization covering the game's official interface languages. Translations will be separate data resources. Technical log identifiers and developer diagnostics remain English, while actionable player-facing errors must be localized.
 

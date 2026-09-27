@@ -13,7 +13,29 @@ This repository is the canonical development location. Keep installed test copie
 
 ## Current implementation
 
-The current source candidate is **0.4.5-experimental**, prepared with combined trial **0.7.2** and not launched. The running 0.4.4 / 0.7.1 installation remains unchanged. The target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The development launcher accepts Python 3.11–3.13 x64.
+The current source candidate is **0.4.6-experimental**, prepared with combined trial **0.8.0** and not launched. The running 0.4.4 / 0.7.1 installation and unlaunched 0.7.2 artifact remain unchanged. The target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The development launcher accepts Python 3.11–3.13 x64.
+
+The 0.8.0 menu opts into six tagged None children on one flat page: `enabled`,
+`selection_mode`, `prefer_same_biome`, `planets`, `space_stations` and `nexus`.
+The bridge resolves the existing production instance, captures one selected
+preference and queues only that key under its existing lock. Other queued keys
+and the manual favourite are preserved. Mode cycles between existing values;
+the other controls flip Booleans. All three locations may be disabled. Pending
+and session-only captions retain their existing meaning. Legacy trials keep
+their one-child default. Full-page navigation and preference application remain
+unverified in-game; the development panel stays available.
+
+The original DDS is exclusive to the combined trial. Its launcher validates and
+stages the unique asset while the game is closed; packaging itself never deploys.
+An exact-build natural `LoadResources` AFTER callback makes one registration
+attempt. Its owner and buffers are pinned before native resource operations;
+it retains a verified original paw as fallback and never writes the menu's paw
+field. Fresh bounded manager/resource identity and readiness checks choose a
+usable handle without new native calls. No destructor, retry or late-load path
+is installed. Ownership during native teardown and actual appearance remain
+live acceptance boundaries. Production 0.4.6 accepts an optional idempotently
+bound notice provider; absent/invalid providers yield text-only HUD notices.
+The standalone ZIP does not include the custom asset or native settings page.
 
 Manual-favourite learning now requires a paired native companion UI action 46,
 one matching accepted local queue, and a successful original result. The pair
@@ -26,7 +48,7 @@ choices are preserved. Attribution failures stop learning, not automation.
 
 Production adds BEFORE/AFTER callbacks to the same `TriggerAction` target already
 used by the menu, RVA `0x1526940`, with unchanged `bool(pointer, pointer, bool)`
-ABI and `None` callback returns. The bundle has nine production and eight menu
+ABI and `None` callback returns. The preceding 0.7.2 bundle has nine production and eight menu
 callbacks over eleven distinct managed targets. This is shared framework
 dispatch, not a second native detour at that address; the native binding guard
 is unchanged. Both callback orders passed the real Python registry/compound
@@ -37,8 +59,9 @@ Explicit confirmations request 5.5 seconds. A changed manual identity says
 `Companion selected (session only).`; OFF/Random context is appended as needed.
 Repeated choices, automatic requests and game restoration remain quiet. The
 existing eleven-argument timed-message ABI, owned text/colour/empty-icon buffers
-and silent audio are preserved. Its statically verified final Boolean now hides
-both icon containers while retaining the title; visual verification is pending.
+and silent audio are preserved. The statically verified final Boolean hides
+both icon containers when the optional provider returns no usable handle;
+otherwise the validated owned icon is supplied. Visual verification is pending.
 
 After a matching native queue acceptance, policy intent is still consumed.
 A separate observer samples only the existing verified fields through the
@@ -51,12 +74,12 @@ trigger, preferences, manual selection/preview/emote and invalid state end it.
 Observer failures do not disable working automation. It adds no native calls,
 hooks, offsets, preference fields or game-save writes.
 
-The separate 0.7.2 bundle retains the native menu and pins its preference bridge
-to the reviewed 0.4.5 initializer. It keeps the production control lock, queue,
-application callback and two-Mod discovery contract. Old artifacts are retained;
-the active 0.7.1 folder is immutable while running.
+The separate 0.8.0 bundle pins its preference bridge to the reviewed 0.4.6
+initializer. It keeps the production control lock, queue, application callback
+and two-Mod discovery contract. The additional resource callback belongs to
+the menu Mod. Old artifacts are retained; the active 0.7.1 folder is immutable.
 
-Offline validation passed **279 production tests** (189 runtime, 34 policy,
+Historical 0.4.5 / 0.7.2 offline validation passed **279 production tests** (189 runtime, 34 policy,
 14 persistence, 24 settings, 18 launcher) and **408 developer tests**. Actual
 pyMHF 0.2.4 / Dear PyGui checks passed with nine production callbacks, eight
 widgets and zero hotkeys. The generated 0.7.2 folder passed two-Mod discovery,
@@ -66,7 +89,7 @@ dispatch used a disabled menu and a mocked native original. No game access or
 native hook binding occurred. Historical 0.4.4 / 0.7.1 had 253 production and
 408 developer tests and registered in-game at 22:22:35 on 27 September 2026.
 
-Earlier production 0.4.3 added a deferred, one-shot opportunity after a successful local save load to the existing ship-exit behavior. One station startup in Random mode was confirmed by both log and user, without a ship exit. Those results are historical evidence for that version, not live validation of 0.4.5.
+Earlier production 0.4.3 added a deferred, one-shot opportunity after a successful local save load to the existing ship-exit behavior. One station startup in Random mode was confirmed by both log and user, without a ship exit. Those results are historical evidence for that version, not live validation of 0.4.6. Current validation is recorded in the manifest; prior test counts do not include the new settings/icon work.
 
 | Component | Responsibility |
 |---|---|
@@ -141,7 +164,7 @@ Only the current source and new packages receive the new names. Historical test 
 - `README.cs.md`: Czech companion guide; keep behavior and status aligned with the English guide.
 - `DEVELOPMENT.md`: canonical development rules, architecture and maintenance workflow.
 - `DESIGN.md`: accepted player-experience direction, native menu/notification goals and current implementation limits.
-- `QUICK-MENU.md`: exact-build menu investigation, retained observers, confirmed basic inert-item navigation, separate one-child submenu candidate and staged live-validation procedure; no live-verified custom settings are claimed.
+- `QUICK-MENU.md`: exact-build menu investigation, retained observers, bounded live results and the unlaunched six-setting/custom-icon candidate, with staged acceptance checks.
 - `ROADMAP.md`: canonical unfinished release backlog and explicitly unapproved future proposals; update status and evidence as decisions are made.
 - `LOCALIZATION.md`: localization status, target languages and implementation/verification requirements.
 - `CHANGELOG.md`: version-scoped changes; update with each user-visible behavior or distribution change.
@@ -171,7 +194,7 @@ Before a local commit, inspect `git diff` and `git status --short`. Save only th
 
 ## Validation and maintenance
 
-Run `python -B build.py` after changing source fragments. Run meaningful affected tests; the current full offline suite is `python -B -m unittest discover -s tests -v`. Version 0.4.3 passed 230 production tests: 140 runtime, 34 policy, 24 settings, 14 persistence and 18 launcher. The 0.6.2 developer baseline passed 341 tests; the 0.7.0 native-toggle candidate passes 408, including 67 new child/bridge/adapter regressions. The real production GUI smoke remains valid for the unchanged source. The actual-folder 0.7.0 smoke passed with two Mods, 15 callbacks across 11 targets and a real Python preference-queue/apply check using temporary files, without game access or hook registration. Source hashes and bounded validation claims are recorded in `manifest.json` and the development validation reports. The historical 0.4.2 candidate passed 212 production tests; AutoPet 0.4.1 had 211. Tests use simulated native calls and owned buffers; passing them does not verify a game's binary interface or actual spawning.
+Run `python -B build.py` after changing source fragments. Run meaningful affected tests; the current full offline suite is `python -B -m unittest discover -s tests -v`. Historical version 0.4.3 passed 230 production tests: 140 runtime, 34 policy, 24 settings, 14 persistence and 18 launcher. The 0.6.2 developer baseline passed 341 tests; the 0.7.0 native-toggle candidate passed 408, including 67 new child/bridge/adapter regressions. Its real production GUI and actual-folder smoke passed with two Mods, 15 callbacks across 11 targets and a real Python preference-queue/apply check using temporary files, without game access or hook registration. Those checks do not validate later source changes. Current hashes and bounded validation claims are recorded in `manifest.json` and the development validation reports. The historical 0.4.2 candidate passed 212 production tests; AutoPet 0.4.1 had 211. Tests use simulated native calls and owned buffers; passing them does not verify a game's binary interface or actual spawning.
 
 The real-framework smoke check separately verifies widget construction and callbacks without hook registration or a game connection. Record the exact source bytes tested. After gameplay changes, collect relevant live evidence for that version, including the player's visible result. Never copy a previous version's live-success flag into a new release merely because its tests pass.
 

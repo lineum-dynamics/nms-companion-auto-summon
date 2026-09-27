@@ -1,10 +1,25 @@
-# Companion Auto Summon 0.4.5 — experimental
+# Companion Auto Summon 0.4.6 — experimental
 
 [Český návod](README.cs.md)
 
 This Git repository is the canonical source for Companion Auto Summon. Development commands and the maintained documentation map are in [DEVELOPMENT.md](DEVELOPMENT.md). The installed test copy and exported ZIPs are built outputs.
 
-The prepared **0.4.5** source candidate, paired with **0.7.2-play-trial**, learns
+The prepared **0.4.6 / 0.8.0-play-trial** candidate adds all six existing
+preferences to one native companion settings page: automatic summoning,
+Last selected/Random, matching-biome preference, planets, space stations and
+the Space Anomaly. It shares the production preference queue and stored values;
+the temporary desktop panel remains available during development. The new page
+and original paw/arrow icon have not been tested in-game.
+
+The combined launcher's next launch stages the original DDS at a unique mod
+path after verifying that NMS is closed. It never replaces a vanilla texture.
+One natural resource-loading callback attempts registration; a ready custom
+icon is preferred, with a retained native paw fallback. Notifications use text
+alone if neither owned icon is usable. The standalone production ZIP has no
+custom asset or menu and uses text-only notices unless a validated provider is
+installed. Resource lifetime and visual results still need live validation.
+
+This candidate includes the prepared **0.4.5 / 0.7.2** repair, which learns
 a manual favourite only from a matched successful native companion UI action.
 An accepted queue alone, including an unattributed game restoration, cannot
 replace the favourite or announce a manual choice. Existing stored choices are
@@ -12,13 +27,21 @@ preserved; the earlier arena report's live caller is unknown, so no favourite
 is rolled back automatically.
 
 Explicit confirmations now request **5.5 seconds** and use shorter, truthful
-wording. A statically verified native flag hides the icon containers while
-retaining text, addressing the reported white disc. These changes have not
-been launched or visually verified. The running **0.4.4 / 0.7.1** installation
-remains unchanged. The candidate passed **279 production tests** and **408
+wording. A statically verified native flag hides icon containers when no usable
+icon exists, retaining text. These changes have not been launched or visually
+verified. The running **0.4.4 / 0.7.1** installation and unlaunched **0.7.2**
+artifact remain unchanged. The earlier 0.4.5 candidate passed **279 production tests** and **408
 developer tests**, plus real-framework widget and combined-bundle checks without
 game access. Its 17 callbacks share 11 native targets; this is offline evidence.
 Earlier counts below belong to their named versions.
+
+Current **0.4.6 / 0.8.0** passed **282 production tests** and **504 developer
+tests**, plus real pyMHF widget/folder checks. Python-only registration and
+mocked-original dispatch covered 18 callbacks across 12 targets. Every native
+preference row applied through the real production instance using temporary
+files, and the optional icon provider bound correctly. These checks installed
+no native hooks and do not confirm texture rendering, gameplay or input.
+
 
 Historical 0.4.4 / 0.7.1 passed 253 production and 408 developer tests and
 registered on 27 September 2026 at 22:22:35 after a fresh verified backup.
@@ -30,7 +53,7 @@ The earlier developer trial **0.7.0-play-trial** added the first native
 setting: automatic summoning ON/OFF. It queues changes through the unchanged
 0.4.3 production runtime. Basic ON/OFF behavior now has partial player and log
 confirmation; complete input/navigation testing remains pending. The remaining
-preferences still use the temporary pyMHF development panel, which will be
+preferences in that version still use the temporary pyMHF development panel, which will be
 retired from the player interface once all native controls are complete.
 This separately built candidate registered in-game on 27 September 2026 after
 a fresh verified backup; two Mods and 11 hook targets loaded with automation ON.
@@ -69,7 +92,17 @@ Windows x64, Steam NMS **build 25442159 / Cosmos 7.04**, Python **3.11–3.13 x6
 
 This package contains no personal saves, account credentials, preselected pet or machine-specific installation paths. Each player has their own settings. Unsupported executables are rejected before using unverified addresses.
 
-## Settings panel
+## Settings
+
+The separate **0.8.0 combined developer trial** offers a flat settings page
+under Companion Auto Summon in the native companion menu. Confirm a row using
+the game's configured Select action: selection mode cycles between Last
+selected and Random; the other five rows toggle ON/OFF. Matching-biome preference
+only affects Random on planets. All three locations may be OFF. Labels distinguish
+queued changes from applied state and session-only persistence. Browsing or
+rebuilding the page must not change a setting. All six native controls and the
+custom icon remain pending in-game acceptance; retain the panel below as the
+development fallback.
 
 Launch through Companion Auto Summon, then **Alt+Tab to the separate pyMHF window** and open its **CompanionAutoSummon** tab. This is a desktop settings window, not an entry inside the native NMS menu. No Companion Auto Summon keyboard shortcut is registered.
 
@@ -82,7 +115,7 @@ Launch through Companion Auto Summon, then **Alt+Tab to the separate pyMHF windo
 
 Return to the game to apply and save a change on the next local-player update before quitting. Changing settings cancels any pending automatic request, including a load opportunity still awaiting ownership, and leaves an already active companion alone. Turning on or changing mode waits for the next ship exit or successful local save load; it never immediately summons a pet. Manual selections are still remembered while automation is off.
 
-In Last manually selected mode, new players start with no selected companion. A successful native UI summon chooses an owned companion. A changed choice requests one silent, 5.5-second confirmation: **Companion saved.** If persistence is unavailable, it says **Companion selected (session only).** Random or automation-OFF status is included when relevant. Repeating the same choice, automatic summoning and game-driven restoration remain quiet. The candidate's icon hiding and new wording still need an in-game visual check. The panel and messages remain English-only.
+In Last manually selected mode, new players start with no selected companion. A successful native UI summon chooses an owned companion. A changed choice requests one silent, 5.5-second confirmation: **Companion saved.** If persistence is unavailable, it says **Companion selected (session only).** Random or automation-OFF status is included when relevant. Repeating the same choice, automatic summoning and game-driven restoration remain quiet. The candidate's icon fallback and new wording still need an in-game visual check. The panel and messages remain English-only.
 
 Explicitly selecting Random does not require a previous manual choice, but the player must own an eligible companion. Companion Auto Summon never creates or unlocks one. Random selection does not replace the remembered manual companion. The same pet may be drawn on consecutive requests.
 
@@ -134,7 +167,7 @@ To disable the whole mod: quit NMS and launch normally through Steam. To forget 
 
 ## Source
 
-Development rules and architecture are maintained in [DEVELOPMENT.md](DEVELOPMENT.md). Source code, comments and developer diagnostics are English. The settings panel and HUD are currently English-only; the planned language coverage and remaining work are recorded in [LOCALIZATION.md](LOCALIZATION.md). [DESIGN.md](DESIGN.md) records the native-menu and notification goals. The combined developer trial exposes the automation ON/OFF control; older artifacts retain an inert **Settings preview** child. Version-scoped changes are in [CHANGELOG.md](CHANGELOG.md).
+Development rules and architecture are maintained in [DEVELOPMENT.md](DEVELOPMENT.md). Source code, comments and developer diagnostics are English. The settings panel and HUD are currently English-only; the planned language coverage and remaining work are recorded in [LOCALIZATION.md](LOCALIZATION.md). [DESIGN.md](DESIGN.md) records the native-menu and notification goals. The prepared 0.8.0 combined trial exposes all six preferences; the running 0.7.1 has the native automation toggle, and older artifacts retain an inert **Settings preview** child. Version-scoped changes are in [CHANGELOG.md](CHANGELOG.md).
 
 `src/` contains policy, pet persistence, settings and runtime code. `build.py` rebuilds and syntax-checks CompanionAutoSummon.py without installing or launching it. Run offline tests with `python -B -m unittest discover -s tests -v`. `manifest.json` records checksums and validation status. `TECHNICKE-OVERENI.md` contains technical evidence in Czech. The panel uses the framework's documented [GUI properties](https://github.com/monkeyman192/pyMHF/blob/0c8ebc1c29074c5bc35207e0aff36d4035e20bac/docs/docs/gui/gui.rst).
 

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.4.6 — optional notification icon and complete settings trial
+
+- Prepared production 0.4.6 with combined 0.8.0; neither has launched. Running 0.4.4 / 0.7.1 and unlaunched 0.7.2 remain unchanged. The manual-origin repair and 5.5-second notices from 0.4.5 are retained without new summon rules or timing.
+- Added an optional notice-icon provider to the real production instance. A ready owned custom icon or retained native paw can be supplied by the combined trial; absent/invalid providers preserve text-only notices. The standalone ZIP includes no custom texture or native menu.
+- Expanded the opt-in native page to all six existing preferences: automation, Last selected/Random, matching biome and three locations. One-use per-setting tokens preserve unrelated queued changes and the manual favourite, with pending/session-only captions. The temporary development panel remains until live acceptance passes.
+- Added automatic staging of the original DDS at a unique mod path before a future game-closed launch. One verified natural resource phase attempts registration; buffers/references stay process-pinned, with fresh readiness checks and no shared texture replacement, retry or late load. Actual resource lifetime, rendering and all six controls remain unverified in-game.
+
 ## 0.4.5 — manual-selection attribution and readable confirmations
 
 - Prepared production 0.4.5 and combined play trial 0.7.2; neither has launched. Running 0.4.4 / 0.7.1 remains unchanged.

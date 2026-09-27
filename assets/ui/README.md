@@ -15,8 +15,18 @@ also visually inspected. Smaller in-game rendering remains unverified.
 
 The candidate virtual texture path is
 `TEXTURES/UI/FRONTEND/ICONS/COMPANIONAUTOSUMMON/SETTINGS.DDS`.
-This is a source asset only: it has not been installed into the game, loaded
-through its resource manager or included in the player ZIP. The current menu
-trials still use the native paw. Native path acceptance, resource readiness,
-ownership/lifetime and appearance must pass before integration. Do not replace
-a shared vanilla texture as a shortcut.
+The prepared combined **0.8.0** trial includes this DDS and stages it at
+`GAMEDATA/MODS/CompanionAutoSummon/TEXTURES/UI/FRONTEND/ICONS/COMPANIONAUTOSUMMON/SETTINGS.DDS`
+only before a future launch with NMS verified closed. Exact existing bytes are
+reused; unexpected files and redirected paths are refused. Packaging does not
+deploy. The running 0.7.1 and unlaunched 0.7.2 artifacts remain unchanged, and
+the standalone production ZIP still excludes this asset.
+
+The exact-build menu resource callback attempts one load of the original DDS.
+Its owner is process-pinned before resource calls and retains a verified native
+paw for fallback. Fresh bounded resource checks prefer the ready custom handle,
+then the retained paw; HUD notices remain text-only when neither is usable.
+No vanilla resource field or shared texture is replaced, and there is no late
+load, retry or release path. Native mounting/decoding, resource lifetime and
+small-size appearance have not been verified in-game. Offline pixel equality
+and source tests do not establish any of those live results.

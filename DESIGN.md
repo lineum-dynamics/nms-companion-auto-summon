@@ -8,17 +8,22 @@ Companion Auto Summon should feel consistent with No Man's Sky: familiar control
 
 ## Current state
 
-The prepared 0.4.5 candidate and combined 0.7.2 trial restrict favourite learning
-to a matched successful native UI action and add short 5.5-second confirmations.
-The verified native icon-hide flag is enabled; its visual result still needs a
-live check. They passed 279 production and 408 developer tests plus actual
-framework checks, but have not launched. The current live session remains
+The prepared 0.4.6 candidate and combined 0.8.0 trial include the manual-origin
+repair and short 5.5-second confirmations from unlaunched 0.4.5 / 0.7.2. The new
+combined trial adds all six existing preferences to the flat native page and
+one original paw/arrow texture. It attempts resource registration once in the
+verified natural loading phase, uses a retained native paw fallback, and keeps
+notifications text-only when no owned icon is usable. The standalone production
+ZIP remains text-only without an optional provider and has no native menu.
+The six controls, resource lifetime and visual results are not live-verified.
+Keep the desktop development panel until native acceptance passes. The earlier
+0.7.2 artifact remains unlaunched and unchanged. The current live session remains
 0.4.4 in the immutable 0.7.1 folder, registered at 22:22:35 on 27 September 2026.
 Its one confirmed Anomaly startup does not resolve the earlier intermittent
 failure. Native activation must be distinguished from visible appearance;
 absence alone must never trigger a retry after a possible manual dismissal.
 
-Historical production 0.4.3 added one deferred opportunity after a successful local save load, using the existing automation toggle and summon checks. One Random-mode startup on a space station is confirmed by the log and the user, without a ship exit. Production 0.4.2 previously registered in the combined 0.6.1 trial and logged an accepted station queue at 20:18:19 without separate visible-pet confirmation. The separate pyMHF tab uses the class name `CompanionAutoSummon`. Settings remain in that window, in English; the combined developer trial also exposes automation ON/OFF in the native menu. HUD messages use the game's existing timed-message function. The 0.7.0 trial screenshot confirms OFF text rendering with an unwanted solid white disc above it. Full native settings, localization and a finished public launcher remain incomplete.
+Historical production 0.4.3 added one deferred opportunity after a successful local save load, using the existing automation toggle and summon checks. One Random-mode startup on a space station is confirmed by the log and the user, without a ship exit. Production 0.4.2 previously registered in the combined 0.6.1 trial and logged an accepted station queue at 20:18:19 without separate visible-pet confirmation. The separate pyMHF tab uses the class name `CompanionAutoSummon`. The running trial retains that English panel and the native automation toggle; the new six-control candidate is not yet launched. HUD messages use the game's existing timed-message function. The 0.7.0 trial screenshot confirms OFF text rendering with an unwanted solid white disc above it. Full native acceptance, localization and a finished public launcher remain incomplete.
 
 Menu development sessions should retain functional automatic summoning and the
 player's existing preferences. Use a separately validated combined development
@@ -43,12 +48,19 @@ from acceptance or add retries that could override a manual dismissal.
 
 Prefer one dedicated CompanionAutoSummon/automatic-companion entry in the companion section of the native quick menu, before individual pets and after general companion actions. The separate 0.6.0 trial implements this order in offline checks; its live result remains pending. Its final label must fit the existing layout and terminology. Do not replace a vanilla action or reuse its ID for a different purpose without a verified, non-conflicting implementation.
 
-Expose the same underlying preferences:
+The prepared 0.8.0 flat page exposes the same underlying preferences:
 
 - Automatic summoning on/off.
 - Last manually selected or Random selection mode.
 - Prefer matching native habitat in Random mode, relevant only on planets.
-- Per-location controls for planets, space stations and the Nexus, if the menu safely supports a compact subpage.
+- Per-location controls for planets, space stations and the Space Anomaly (Nexus).
+
+The six rows use the existing queue and storage. Selection displays **Last
+selected** or **Random**; other rows display ON/OFF. Matching-biome preference
+only affects Random on planets. All three locations may be OFF without changing
+the main enabled flag or manual favourite. Queued and session-only states are
+explicit. Full-page rebuild, navigation and deliberate confirmation still need
+live acceptance; this is implemented source, not a verified release interface.
 
 The native menu and any retained development panel must share one preference store and apply changes through the same established game-thread path. Translated labels must not become internal setting values. A menu appearance change must not bypass native eligibility, change a companion's attributes or write game save files.
 
@@ -59,15 +71,15 @@ preferences during that transition. pyMHF may remain the background runtime;
 its window must not be required during normal play. Removing GUI dependencies
 is a separate packaging decision and must be checked against the framework.
 
-Implement and verify the automatic-summoning toggle first, then selection,
+The first automation toggle has bounded live evidence; now verify selection,
 habitat preference and location controls. A setting may change only after a
 deliberate native confirmation; navigation, hover, opening and rebuilding the
 page must not change it. The native trigger's called-as-menu flag alone is not
 proof of confirmation because selection paths can also dispatch an action.
 
-The custom entry is intended to open one flat settings page, rather than act as
-another pet or toggle every setting itself. Its children will expose automatic
-summoning, selection mode, habitat preference and the three location toggles.
+The custom entry opens one flat settings page, rather than acting as another
+pet or toggling every setting itself. The new candidate's children expose
+automatic summoning, selection mode, habitat preference and three locations.
 Location choices should remain on that same page within the verified depth
 limit. The first live inert entry did not open a subpage. The separate
 0.5.0-submenu-trial introduced one inert Settings preview child for navigation
@@ -87,8 +99,12 @@ been saved as an opaque preview under `assets/concepts/` in the source repositor
 (excluded from the player ZIP). The transparent generation attempts had visible
 artifacts and were rejected. A clean original vector glyph and its transparent
 256-pixel PNG/RGBA32 DDS now exist under `assets/ui/`, with equal decoded pixels.
-Native texture loading, resource lifetime and in-game small-size appearance
-must be validated before replacing the borrowed icon.
+The 0.8.0 launcher stages that unique DDS only before a future launch with NMS
+closed; it refuses unexpected existing bytes. The resource owner attempts one
+native load in the verified phase and retains the original paw as fallback.
+It uses fresh resource identity/readiness checks without writing the native paw
+field. Loading, retained lifetime and small-size appearance remain unverified
+in-game; source readiness is not proof of successful native rendering.
 Do not overwrite a shared vanilla texture or distribute copied game artwork.
 
 Native menu insertion is not a finished player capability. The prior inert-item trial has a native binding filter and confirmed visibility, selection, Back/close/reopen and normal manual companion summoning. The 0.5.0 submenu trial now also has the player's confirmation of its inert child, native Back/close/reopen and ordinary pet actions, with screenshots confirming both captions and empty inline names. Shortcut, changing-pet-list, remapping and controller scenarios remain pending. Only after the relevant lifecycle and shortcut protection checks pass should it change a preference. Retain the desktop panel for development until this route is proven.
@@ -117,7 +133,7 @@ reopening after an in-session binding change, controller navigation and any
 supported controller remapping. Verify both the mod item and neighboring native
 items, including binding attempts and retained existing shortcuts. These are
 accepted requirements and test scenarios; remapping support for a custom menu
-has not yet been implemented or verified.
+has not yet been verified across those scenarios.
 
 ## Notifications
 
@@ -126,7 +142,7 @@ reach the same hook. The 0.7.1 arena report changed the stored favourite, while 
 later read-only snapshot showed no active or pending pet; the live caller was
 not captured. No previous favourite is rolled back on that uncertain evidence.
 
-Prepared 0.4.5 requires a matched native companion selection/shortcut, accepted
+Prepared 0.4.6 retains the 0.4.5 requirement for a matched native companion selection/shortcut, accepted
 queue and successful original UI result, with fresh identity/context checks.
 Unclassified queues cannot replace the favourite or announce a manual choice.
 They retain native behavior and cancel pending automatic intent. Ordinary,
@@ -135,9 +151,11 @@ remapped and shortcut routes still need live checks before claiming coverage.
 Explicit confirmations request 5.5 seconds. `Companion saved.` means persistence
 succeeded; otherwise use `Companion selected (session only).` OFF or Random
 context is appended where relevant. Repeating the same choice, automatic
-summoning and game restoration stay quiet. The verified final timed-message
-flag hides both icon containers independently of the text; a new visual check
-must establish the actual white-disc outcome.
+summoning and game restoration stay quiet. The combined candidate supplies a
+ready original icon or retained native paw through an optional provider. Without
+a usable owned handle, the verified final timed-message flag hides both icon
+containers independently of the text. A new visual check must establish the
+actual icon and white-disc outcomes; the ordinary standalone ZIP is text-only.
 
 Use the game's existing visual presentation and a short localized sentence. Avoid a startup banner on every load, repeated waiting errors, sounds on every summon, or messages that obscure ordinary game information.
 

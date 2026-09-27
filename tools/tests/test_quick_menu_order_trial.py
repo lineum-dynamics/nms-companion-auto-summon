@@ -19,7 +19,8 @@ SOURCE = Path(__file__).resolve().parents[1] / "quick_menu_order_trial.py"
 EXPECTED_HASH = "b7913f268dfc62386b6b68f524bfc8ade4a44a9f4fbad39085b7bf51be3680cb"
 
 
-def load_trial(*, enabled=False, settings_enabled=False, injected=True, base=0x100000,
+def load_trial(*, enabled=False, settings_enabled=False, extended_settings=False, custom_icon=False,
+               injected=True, base=0x100000,
                framework="0.2.4", digest=EXPECTED_HASH):
     source = SOURCE.read_text(encoding="utf-8")
     if enabled:
@@ -30,6 +31,10 @@ def load_trial(*, enabled=False, settings_enabled=False, injected=True, base=0x1
         if source.count("SETTINGS_TOGGLE_ENABLED = False") != 1:
             raise AssertionError("Expected one disabled settings marker")
         source = source.replace("SETTINGS_TOGGLE_ENABLED = False", "SETTINGS_TOGGLE_ENABLED = True", 1)
+    if extended_settings:
+        source = source.replace("EXTENDED_SETTINGS_ENABLED = False", "EXTENDED_SETTINGS_ENABLED = True", 1)
+    if custom_icon:
+        source = source.replace("CUSTOM_ICON_ENABLED = False", "CUSTOM_ICON_ENABLED = True", 1)
     events, declarations = [], []
 
     class FakeMod:
@@ -86,6 +91,8 @@ def load_trial(*, enabled=False, settings_enabled=False, injected=True, base=0x1
     helper_names = ["quick_menu_submenu", "quick_menu_order"]
     if settings_enabled:
         helper_names.extend(("quick_menu_toggle", "quick_menu_preferences"))
+    if custom_icon:
+        helper_names.append("quick_menu_icon")
     for name in helper_names:
         spec = importlib.util.spec_from_file_location(name + "_order_test", SOURCE.with_name(name + ".py"))
         helper = importlib.util.module_from_spec(spec)
@@ -188,7 +195,9 @@ class OrderFixture(SubmenuFixture):
 
     def setUp(self):
         ItemFixture.setUp(self)
-        self.module = load_trial(settings_enabled=self.settings_enabled)
+        self.module = load_trial(settings_enabled=self.settings_enabled,
+                                 extended_settings=getattr(self, "extended_settings", False),
+                                 custom_icon=getattr(self, "custom_icon", False))
         self.trial = self.module.CompanionMenuOrderTrial()
         self.trial._stopped = False
         self.trial._reader = self.reader

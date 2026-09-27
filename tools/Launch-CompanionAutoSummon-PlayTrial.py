@@ -12,7 +12,7 @@ from pathlib import Path
 import tomllib
 
 
-VERSION = "0.7.2-play-trial"
+VERSION = "0.8.0-play-trial"
 HOST_NAME = "Launch-CompanionAutoSummon-PlayTrial.py"
 BOOTSTRAP_NAME = "Launch-CompanionAutoSummon.py"
 PAYLOAD_FILES = frozenset((
@@ -20,12 +20,13 @@ PAYLOAD_FILES = frozenset((
     "quick_menu_item.py", "quick_menu_submenu.py", "quick_menu_order.py",
     "quick_menu_native_guard.py", "quick_menu_guard_runtime.py",
     "quick_menu_preferences.py", "quick_menu_toggle.py",
+    "quick_menu_icon.py", "quick_menu_assets.py", "SETTINGS.DDS",
     HOST_NAME, BOOTSTRAP_NAME, "Start-CompanionAutoSummon.ps1",
     "pymhf.toml", "README.md",
 ))
 EXPECTED_MODS = [
-    {"name": "CompanionAutoSummon", "version": "0.4.5-experimental", "path": "CompanionAutoSummon.py"},
-    {"name": "CompanionMenuOrderTrial", "version": "0.7.0-toggle-trial", "path": "CompanionMenuOrderTrial.py"},
+    {"name": "CompanionAutoSummon", "version": "0.4.6-experimental", "path": "CompanionAutoSummon.py"},
+    {"name": "CompanionMenuOrderTrial", "version": "0.8.0-settings-trial", "path": "CompanionMenuOrderTrial.py"},
 ]
 EXPECTED_CONFIG = {
     "exe": "NMS.exe", "steam_gameid": 275850, "start_paused": False,
@@ -59,7 +60,7 @@ def validate_bundle(folder):
             or manifest.get("framework") != "pymhf[gui]==0.2.4"
             or manifest.get("auto_summon") is not True
             or manifest.get("preference_actions") is not True
-            or manifest.get("preference_keys") != ["enabled"]
+            or manifest.get("preference_keys") != ["enabled", "selection_mode", "prefer_same_biome", "locations"]
             or manifest.get("mods") != EXPECTED_MODS):
         raise BundleError("The manifest does not describe the supported combined trial.")
     entries = manifest.get("files")
@@ -109,9 +110,45 @@ def _load_bootstrap(bundle):
     return module
 
 
+def _game_closed():
+    """Refuse setup if process enumeration is unavailable or NMS is running."""
+    try:
+        import psutil
+        for process in psutil.process_iter(["name"]):
+            name = process.info.get("name")
+            if type(name) is not str or not name or name.casefold() == "nms.exe":
+                return False
+        return True
+    except Exception:
+        return False
+
+
+def _prepare_icon_asset(bundle, game_directory):
+    """Stage only the checked original asset in the explicitly validated game."""
+    import json
+    supplied = Path(game_directory)
+    if not supplied.is_absolute():
+        raise BundleError("Supply the absolute verified game directory.")
+    game = supplied.resolve(strict=True)
+    binary = game / "Binaries/NMS.exe"
+    expected = json.loads((bundle / "manifest.json").read_text(encoding="utf-8")).get("supported_nms_exe_sha256")
+    if not isinstance(expected, str) or len(expected) != 64:
+        raise BundleError("A supported executable checksum is required before asset setup.")
+    if not _game_closed():
+        raise BundleError("Close NMS normally before preparing its icon asset.")
+    with binary.open("rb") as stream:
+        if hashlib.file_digest(stream, "sha256").hexdigest() != expected:
+            raise BundleError("The explicit game directory has an unsupported executable.")
+    spec = util.spec_from_file_location("_cas_play_icon_asset_installer", bundle / "quick_menu_assets.py")
+    module = util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module.install_icon(bundle, supplied, _game_closed)
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("bundle_folder", help="Absolute folder containing this isolated play trial")
+    parser.add_argument("--game-directory", required=True, help="Absolute verified Steam game directory")
     args = parser.parse_args(argv)
     bundle, config = validate_bundle(args.bundle_folder)
     if metadata.version("pymhf") != "0.2.4":
@@ -119,6 +156,9 @@ def main(argv=None):
     if tuple(metadata.entry_points().select(group="pymhflib")):
         raise BundleError("The play-trial runtime must not load additional pyMHF libraries.")
     _load_bootstrap(bundle).install_injection_guard()
+    _prepare_icon_asset(bundle, args.game_directory)
+    if not _game_closed():
+        raise BundleError("NMS started during setup; close it before starting this trial.")
     # Omitting plugin_name explicitly selects MOD_FOLDER. The 0.2.4 CLI's
     # folder path instead enters library/user-configuration handling.
     from pymhf.main import run_module

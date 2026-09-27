@@ -51,12 +51,13 @@ class PlayTrialFixture(unittest.TestCase):
                 data = CONFIG
             (self.bundle / name).write_bytes(data)
         self.manifest = {
-            "version": "0.7.2-play-trial", "framework": "pymhf[gui]==0.2.4",
-            "auto_summon": True, "preference_actions": True, "preference_keys": ["enabled"],
+            "version": "0.8.0-play-trial", "framework": "pymhf[gui]==0.2.4",
+            "auto_summon": True, "preference_actions": True,
+            "preference_keys": ["enabled", "selection_mode", "prefer_same_biome", "locations"],
             "mods": [
-                {"name": "CompanionAutoSummon", "version": "0.4.5-experimental",
+                {"name": "CompanionAutoSummon", "version": "0.4.6-experimental",
                  "path": "CompanionAutoSummon.py"},
-                {"name": "CompanionMenuOrderTrial", "version": "0.7.0-toggle-trial",
+                {"name": "CompanionMenuOrderTrial", "version": "0.8.0-settings-trial",
                  "path": "CompanionMenuOrderTrial.py"},
             ],
             "files": [{"path": name, "sha256": hashlib.sha256((self.bundle / name).read_bytes()).hexdigest()}
@@ -67,6 +68,7 @@ class PlayTrialFixture(unittest.TestCase):
         self.host_patch.start()
         self.addCleanup(self.host_patch.stop)
         self.events = []
+        self.asset_setup = Mock(side_effect=lambda *args: self.events.append("asset"))
         self.bootstrap = types.SimpleNamespace(
             install_injection_guard=Mock(side_effect=lambda: self.events.append("guard")))
         self.runtime = types.ModuleType("pymhf.main")
@@ -96,8 +98,11 @@ class PlayTrialFixture(unittest.TestCase):
             LAUNCHER.metadata, "version", return_value=runtime_version
         ), patch.object(LAUNCHER.metadata, "entry_points", return_value=self.entrypoints), patch.dict(
             sys.modules, {"pymhf": self.package, "pymhf.main": self.runtime}
-        ):
-            result = LAUNCHER.main([str(self.bundle)] if argv is None else argv)
+        ), patch.object(LAUNCHER, "_prepare_icon_asset", self.asset_setup), \
+                patch.object(LAUNCHER, "_game_closed", return_value=True):
+            arguments = [str(self.bundle)] if argv is None else list(argv)
+            arguments += ["--game-directory", str(self.root / "game")]
+            result = LAUNCHER.main(arguments)
             loader.assert_called_once_with(self.bundle.resolve())
             return result
 
@@ -107,7 +112,7 @@ class BundleValidationTests(PlayTrialFixture):
         bundle, config = LAUNCHER.validate_bundle(str(self.bundle))
         self.assertEqual(bundle, self.bundle.resolve())
         self.assertTrue(config["gui"]["shown"])
-        self.assertEqual(len(self.manifest["files"]), 14)
+        self.assertEqual(len(self.manifest["files"]), 17)
         self.assertEqual({entry["name"] for entry in self.manifest["mods"]},
                          {"CompanionAutoSummon", "CompanionMenuOrderTrial"})
         self.assertFalse((self.bundle / "settings.json").exists())
@@ -151,7 +156,7 @@ class BundleValidationTests(PlayTrialFixture):
 
     def test_wrong_manifest_semantics_are_not_accepted_as_another_trial(self):
         pristine = copy.deepcopy(self.manifest)
-        for key, value in (("version", "0.7.0-toggle-trial"), ("framework", "pymhf==0.2.4"),
+        for key, value in (("version", "0.8.0-settings-trial"), ("framework", "pymhf==0.2.4"),
                            ("auto_summon", False), ("auto_summon", 1),
                            ("preference_actions", False), ("preference_keys", []),
                            ("preference_keys", ["enabled", "locations"]), ("mods", pristine["mods"][:1]),
@@ -220,6 +225,47 @@ class BundleValidationTests(PlayTrialFixture):
 
 
 class HostRoutingTests(PlayTrialFixture):
+    def test_asset_setup_failure_prevents_framework_start(self):
+        self.asset_setup.side_effect = RuntimeError("owned asset setup failure")
+        with self.assertRaisesRegex(RuntimeError, "owned asset setup failure"):
+            self.main()
+        self.bootstrap.install_injection_guard.assert_called_once()
+        self.runtime.run_module.assert_not_called()
+
+    def test_closed_probe_refuses_unknown_names_or_enumeration_failure(self):
+        process_api = types.ModuleType("psutil")
+        process_api.process_iter = Mock()
+        with patch.dict(sys.modules, {"psutil": process_api}):
+            for name, expected in (("NMS.exe", False), (None, False), ("", False), ("other.exe", True)):
+                with self.subTest(name=name):
+                    process_api.process_iter.return_value = [types.SimpleNamespace(info={"name": name})]
+                    self.assertIs(LAUNCHER._game_closed(), expected)
+            process_api.process_iter.side_effect = RuntimeError("enumeration unavailable")
+            self.assertFalse(LAUNCHER._game_closed())
+
+    def test_icon_setup_requires_matching_explicit_game_and_preserves_other_files(self):
+        game = self.root / "game"
+        (game / "Binaries").mkdir(parents=True)
+        executable = b"Owned fake executable; never run"
+        (game / "Binaries/NMS.exe").write_bytes(executable)
+        self.manifest["supported_nms_exe_sha256"] = hashlib.sha256(executable).hexdigest()
+        self.save_manifest()
+        (self.bundle / "quick_menu_assets.py").write_bytes((ROOT / "tools/quick_menu_assets.py").read_bytes())
+        (self.bundle / "SETTINGS.DDS").write_bytes((ROOT / "assets/ui/SETTINGS.DDS").read_bytes())
+        sentinel = game / "keep.txt"
+        sentinel.write_bytes(b"preserved")
+        with patch.object(LAUNCHER, "_game_closed", return_value=False), self.assertRaises(LAUNCHER.BundleError):
+            LAUNCHER._prepare_icon_asset(self.bundle, str(game))
+        self.assertFalse((game / "GAMEDATA").exists())
+        with patch.object(LAUNCHER, "_game_closed", return_value=True):
+            result = LAUNCHER._prepare_icon_asset(self.bundle, str(game))
+            self.assertTrue(result["installed"])
+            self.assertTrue(LAUNCHER._prepare_icon_asset(self.bundle, str(game))["reused"])
+            (game / "Binaries/NMS.exe").write_bytes(b"unsupported")
+            with self.assertRaises(LAUNCHER.BundleError):
+                LAUNCHER._prepare_icon_asset(self.bundle, str(game))
+        self.assertEqual(sentinel.read_bytes(), b"preserved")
+
     def test_import_does_not_import_framework_or_access_processes(self):
         original_import = builtins.__import__
         def checked_import(name, *args, **kwargs):
@@ -236,7 +282,7 @@ class HostRoutingTests(PlayTrialFixture):
         previous = sys.argv
         original = list(previous)
         self.assertEqual(self.main(), 42)
-        self.assertEqual(self.events, ["guard", "run"])
+        self.assertEqual(self.events, ["guard", "asset", "run"])
         self.runtime.run_module.assert_called_once_with(str(self.bundle.resolve()), LAUNCHER.EXPECTED_CONFIG)
         self.assertIs(sys.argv, previous)
         self.assertEqual(sys.argv, original)
