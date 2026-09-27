@@ -10,7 +10,7 @@ Funkce pro první vydání: automatické vyvolání vlastního peta po výstupu 
 
 Požadavek vlastníka: instalace musí být co nejjednodušší a nejspolehlivější. Cílový postup je **rozbalit ZIP a spustit jednu aplikaci**, s vlastním otestovaným prostředím bez ručního Pythonu, pip příkazů a systémových změn. Tento distribuční spouštěč ještě není vytvořený; stávající zdrojový kandidát 0.4.3 a kombinovaný testovací balíček 0.6.2 jsou vývojové varianty. Konkrétní požadavky jsou v `INSTALACE-ZADANI.md`.
 
-Pořadí práce: připravit a ověřit jednoduché přenosné balení souběžně s herními zkouškami kandidáta 0.4.3 v kombinovaném balíčku 0.6.2. Jedno vyvolání v Random po načtení na stanici už je potvrzené; další zkouška ověří ruční odvolání bez opakovaného vyvolání, později načtení na planetě a v Nexusu. Test druhého počítače už musí používat finální balení pro hráče.
+Pořadí práce: připravit a ověřit jednoduché přenosné balení souběžně s herními zkouškami kandidáta 0.4.3 v kombinovaném balíčku 0.6.2. Potvrzené je jedno vyvolání v Random po načtení na stanici a samostatně jedno ruční odvolání bez návratu peta během pozorování. Při vhodné příležitosti doplnit načtení na planetě, v Nexusu a v režimu Last manually selected; není kvůli tomu nutné ihned ukončovat hru. Test druhého počítače už musí používat finální balení pro hráče.
 
 Další potvrzené požadavky: celý zdrojový kód, komentáře a docstringy anglicky; uživatelské překlady odděleně. Lokalizační systém pro všech 14 oficiálních jazyků rozhraní zatím není implementovaný. Je potřeba ověřit i kódování herních potvrzení, zobrazení znaků a přepínání textů panelu. Autoritativní stav a zadání jsou v `CompanionAutoSummon/LOCALIZATION.md`; pravidla průběžné aktualizace dokumentace v `CompanionAutoSummon/DEVELOPMENT.md`.
 
@@ -20,6 +20,7 @@ Uživatel dále požaduje přirozené začlenění do původního rozhraní hry:
 
 - Stav k 27. 9. 2026: produkční kandidát 0.4.3 prošel 230 offline testy, z toho 140 testy runtime; vývojová sada prošla 341 testy. Kontrola skutečného produkčního GUI i kontrola kombinované složky 0.6.2 s pyMHF prošly mimo hru, bez registrace hooků. Původní cesty `NMS-AutoPet` pro osobní data a vývojové prostředí se zachovávají.
 - Následný herní běh 0.4.3 / 0.6.2 po nové záloze 43 souborů zaregistroval ve 20:42:21 dva moduly a deset nativních hook cílů, s automatikou zapnutou. Log ve 20:42:58.578 zaznamenal požadavek po načtení místního savu, lokaci 2 (stanice), ve 20:43:01.260 náhodný slot 1 z pěti způsobilých petů a ve 20:43:01.261 přijetí požadavku do nativní fronty. Od aktivace požadavku do přijetí uplynulo přibližně 2,69 sekundy; není to měření okamžiku viditelného spawnu. Nepředcházel požadavek z výstupu z lodi. Hráč potvrdil, že se pet po načtení opravdu objevil, a upřesnil stanici, nikoli Nexus. Doložený rozsah je jedno vyvolání po načtení na stanici v Random.
+- Později v téže nezměněné relaci 0.4.3 / 0.6.2 hráč potvrdil jedno ruční odvolání a to, že se pet během pozorování znovu neobjevil. Přesná lokace, čas odvolání a délka pozorování nebyly nezávisle doloženy; nelze ani spojit odvolaného peta s dřívějším vyvoláním při načtení. Jde o samostatné potvrzení hráče, nikoli o test odvolání na stanici nebo bezprostředně po načtení.
 - Dříve téhož dne se produkční 0.4.2 úspěšně zaregistrovala v kombinovaném běhu 0.6.1. Log zaznamenal přijatý požadavek na vyvolání na stanici; viditelné objevení peta hráč nepotvrdil. To dokládá registraci a požadavek, nikoli skutečný spawn ani nové chování 0.4.3.
 - Historický stav před tímto během: 0.4.2 prošla 212 offline testy a kontrolou osmi widgetů ve skutečném pyMHF 0.2.4 / Dear PyGui 2.3.1. Starší AutoPet 0.4.1 prošel 211 offline testy a kontrolou osmi widgetů; jeho preference biomu nebyla herně ověřena. Nasazení 0.4.1 je historický záznam, nikoli popis nynějšího běžícího balíčku.
 - Starší 0.4.0 ověřila jeden náhodný výběr a skutečné vyvolání na planetě. Starší 0.3.3 ověřila stanici a obnovení ruční volby po restartu. Tyto výsledky, uchované před zkouškou 0.6.1 dne 27. 9. 2026, neoznačovat za herní ověření 0.4.3.
@@ -30,7 +31,7 @@ Uživatel dále požaduje přirozené začlenění do původního rozhraní hry:
 
 Vést stručný záznam verze, situace, pozorování hráče a odpovídajícího logu. Přijatý požadavek v logu sám nedokládá, že se pet skutečně objevil.
 
-Potvrzeno v tomto kandidátu: jedno načtení na stanici v Random s viditelným petem. Načtení na planetě a v Nexusu, ruční odvolání bez opakování a ostatní scénáře tabulky tím ověřeny nejsou.
+Potvrzeno v tomto kandidátu: jedno načtení na stanici v Random s viditelným petem a samostatně jedno ruční odvolání bez návratu peta během hráčova pozorování. Načtení na planetě a v Nexusu, načtení v Last manually selected, širší regrese odvolání a ostatní scénáře tabulky tím ověřeny nejsou.
 
 | Pokus | Očekávaný výsledek |
 |---|---|
@@ -90,4 +91,4 @@ Mód navrhnout zdarma; Donation Points zapnout při splnění podmínek. Dobrovo
 
 Před zveřejněním musí být určen účet autora, hotový funkční soubor pro vyznačený rozsah podpory, finální popis a oprávnění. Teprve potom upload a kontrola veřejné stránky i staženého ZIPu. Současný plán ani textový návrh nepotvrzují schválení Nexusem.
 
-Další krok po potvrzeném vyvolání na stanici: ručně odvolat peta a ověřit, že se bez nové události znovu nevyvolá. Při vhodné příležitosti doplnit načtení na planetě a v Nexusu, dosavadní výstup z lodi a souběh s neaktivní podstránkou menu. Běžící kandidát se během zkoušek nemění. K potvrzení samotné preference biomu je nutné znát domovské biomy dostupných petů.
+Další zkoušky lze doplnit při vhodné příležitosti: načtení na planetě a v Nexusu, načtení v Last manually selected, dosavadní výstup z lodi a souběh s neaktivní podstránkou menu. Bezprostřední ukončení hry není podmínkou pokračování práce; běžící kandidát se nemění. K potvrzení samotné preference biomu je nutné znát domovské biomy dostupných petů. Jedno potvrzené odvolání nenahrazuje širší regresní zkoušky.

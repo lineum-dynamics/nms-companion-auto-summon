@@ -3,8 +3,9 @@
 Status: 27 September 2026. The source candidate is 0.4.3-experimental, adding a
 deferred summon opportunity after local save load. Its combined 0.6.2 artifact
 has passed offline checks and registered with automation ON. One Random-mode
-startup summon on a space station is confirmed by the log and player; Nexus,
-planet startup and manual dismissal remain unverified. A separate,
+startup summon on a space station is confirmed by the log and player; Nexus and
+planet startup remain unverified. The player also confirmed one later manual
+dismissal without reappearance. A separate,
 disabled-by-default developer trial now implements one inert custom item and a
 native binding filter. The player has confirmed visibility, selection, native
 Back/close/reopen and ordinary manual pet summoning in that session. A separate
@@ -748,8 +749,9 @@ developer tests passed. Actual framework checks confirmed the production GUI
 and the combined discovery of two Mods/ten distinct native targets without
 registering hooks or accessing NMS. The new thirteen-file artifact's twelve
 payloads and PowerShell syntax passed preflight. It subsequently registered
-and passed one station startup check in Random mode. Manual dismissal,
-planet/Nexus startup and an ordinary ship-exit regression remain to be checked.
+and passed one station startup check in Random mode and a later player-reported
+manual dismissal without reappearance. Planet/Nexus startup and broader
+regression remain to be checked.
 
 ### Combined 0.6.2 startup
 
@@ -779,6 +781,17 @@ This verifies one station startup in Random mode. Nexus/planet startup, Last
 manually selected startup, manual dismissal, biome preference, multiplayer and
 the remaining menu behavior are not established by this observation. The
 private evidence is retained as `menu-play-0.6.2-station-startup-success.json`.
+
+### Player-confirmed manual dismissal
+
+Later in the unchanged 0.6.2 session, after traveling, the player reported that
+the companion was dismissed and did not reappear. The suggested check was to
+remain on foot for about ten seconds. Exact location, dismissal timestamp and
+duration were not independently established. This confirms the reported
+no-repeat outcome once; it does not establish dismissal immediately after the
+initial station load or all dismissal/trigger combinations. The retained log
+is supporting session context, not a timestamped dismissal trace. Evidence:
+`menu-play-0.6.2-manual-dismissal-success.json`.
 
 ## Historical observation-only live sequence
 

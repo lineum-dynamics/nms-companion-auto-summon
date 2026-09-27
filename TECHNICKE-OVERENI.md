@@ -12,7 +12,9 @@ Nová 0.4.3 se v odděleném kombinovaném balíčku 0.6.2 načetla 27. září 
 
 **Jedno automatické vyvolání po načtení pěšky na vesmírné stanici v režimu Random je potvrzené.** V 20:42:58.578 log zaznamenal příležitost po načtení savu a lokaci 2. Po čekání na nativní způsobilost vybral v 20:43:01.260 slot 1 z pěti vhodných vlastních petů a v 20:43:01.261 hra přijala požadavek. Uvedených 2,69 sekundy měří dobu do přijetí požadavku, nikoli přesnou dobu do viditelného objevení. Tomuto požadavku nepředchází aktivace výstupem z lodi; pozdější výstup v 20:44:27.717 je samostatnou událostí. Uživatel potvrdil skutečné objevení a upřesnil, že byl na stanici, nikoli v Nexusu. Všech dvanáct souborů běžícího balíčku zůstalo shodných. Důkaz je uchován v `menu-play-0.6.2-station-startup-success.json`.
 
-Načtení na planetě nebo v Nexusu, režim poslední ruční volby po načtení, respektování ručního odvolání, preference biomu a multiplayer tím ověřeny nejsou.
+Později ve stejné nezměněné relaci uživatel potvrdil jedno ruční odvolání bez opětovného objevení. Doporučený postup byl asi deset sekund zůstat pěšky; přesné místo, okamžik a délka pozorování nebyly nezávisle změřeny. Uživatel mezitím cestoval, takže nejde o kontrolovaný test odvolání bezprostředně po původním načtení na stanici. Soukromý záznam: `menu-play-0.6.2-manual-dismissal-success.json`.
+
+Načtení na planetě nebo v Nexusu, režim poslední ruční volby po načtení, širší regrese ručního odvolání, preference biomu a multiplayer tím ověřeny nejsou.
 
 Prošlo **230/230 testů módu**: 140 runtime, 34 policy, 24 settings, 14 persistence a 18 launcher. Dále prošlo 341 testů vývojových nástrojů, skutečné vytvoření osmi prvků panelu a kontrola společného načítání dvou tříd v pyMHF se 13 callbacky pro 10 různých cílů. Při těchto kontrolách se žádný hook neinstaloval do hry. SHA256 samostatného skriptu 0.4.3 je `87c4b8e44ec85605e5483542344c6addafd8d6ecb171cf0a7a365752419ad8dc`.
 

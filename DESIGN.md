@@ -22,7 +22,7 @@ Loading directly on foot should offer the same automatic-companion behavior as a
 
 Use the existing **Automatically summon companion** toggle for both triggers. OFF, a settings change, accepted manual selection, an active/queued pet, companion preview/emote, ship entry or an invalidated load/application context cancels the opportunity. The load opportunity is consumed before the normal request is armed, so dismissing a summoned pet does not create a recurring respawn. Another successful local load or real ship exit supplies a new opportunity. Network-client loads must not affect the local player's intent. There is no separate startup setting, shorter delay or changed gameplay limit.
 
-The confirmed 27 September 2026 station test used production 0.4.3 in combined trial 0.6.2: the load armed at 20:42:58.578, selected one of five eligible companions and received an accepted queue about 2.69 seconds later. The user confirmed the pet appeared. Planet/Nexus startup, Last-manual startup, dismissal behavior, biome matching and multiplayer remain separate unverified scenarios.
+The confirmed 27 September 2026 station test used production 0.4.3 in combined trial 0.6.2: the load armed at 20:42:58.578, selected one of five eligible companions and received an accepted queue about 2.69 seconds later. The user confirmed the pet appeared. The player later confirmed one manual dismissal without reappearance after traveling in the same unchanged session; its exact location and duration were not independently measured. Planet/Nexus startup, Last-manual startup, broader dismissal regression, biome matching and multiplayer remain separate unverified scenarios.
 
 ## Intended settings integration
 

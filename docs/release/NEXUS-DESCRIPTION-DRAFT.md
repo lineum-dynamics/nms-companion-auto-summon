@@ -55,9 +55,11 @@ Status on 27 September 2026: production 0.4.3 passed 230 offline tests, includin
 
 The subsequent 0.4.3 / 0.6.2 live trial registered both mods with automatic summoning enabled. After a local save loaded at a space station, the log recorded the load-triggered request, a Random selection from five eligible owned companions and native queue acceptance about 2.69 seconds after arming. No ship-exit arming event preceded this request. The player confirmed that the companion actually appeared after loading and clarified that the location was a station, not the Nexus. This verifies one station startup summon in Random mode on the development machine; the queue timing is not a measurement of visible spawn latency.
 
+Later in the same unchanged 0.4.3 / 0.6.2 session, the player confirmed one manual dismissal with no reappearance during the observed interval. The exact location, dismissal time and interval length were not independently established, nor was the dismissed pet linked to the earlier startup summon. This is a separate player-confirmed dismissal observation, not a station-specific or immediately-after-load test.
+
 Earlier on the same date, production 0.4.2 registered in the combined 0.6.1 trial. Its log recorded an accepted station summon request, but there was no player confirmation that the companion appeared. This establishes registration and the logged request only. The earlier 0.4.2 offline baseline passed 212 tests. Historical AutoPet 0.4.1 passed 211 offline tests and widget checks; its habitat preference was not tested in-game. Earlier versions demonstrated a basic planetary Random summon, station summoning and restoring a manual selection after restart on the development machine. These historical results do not validate the new 0.4.3 behavior.
 
-Manual dismissal without repeated spawning, startup on a planet or in the Nexus, multiplayer, a second-PC installation, unsuitable-placement recovery and the remaining live scenarios are still pending. The station result does not verify those cases. No blanket compatibility claim is made for other mods.
+Startup on a planet or in the Nexus, startup in Last manually selected mode, broader dismissal regression, multiplayer, a second-PC installation, unsuitable-placement recovery and the remaining live scenarios are still pending. The two bounded observations do not verify those cases. No blanket compatibility claim is made for other mods.
 
 ## Credits and permissions — complete before upload
 

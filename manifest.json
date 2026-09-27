@@ -16,7 +16,7 @@
   "selection_mode_control_verified_in_game": false,
   "biome_preference_verified_in_game": false,
   "location_preferences_verified_in_game": false,
-  "gameplay_verification_scope": "0.4.3 in combined play trial 0.6.2 registered with automation ON and two Mods/ten managed hooks on 27 September 2026. One on-foot station load in Random armed via save load (no ship-exit trigger before that startup request), chose slot 1 from five eligible owned companions, and queued it after 2.69 seconds. The player confirmed actual appearance. This does not verify Nexus/planet startup, Last manually selected startup, manual dismissal, biome preference, multiplayer or all settings.",
+  "gameplay_verification_scope": "0.4.3 in combined play trial 0.6.2 registered with automation ON and two Mods/ten managed hooks on 27 September 2026. One on-foot station load in Random armed via save load (no ship-exit trigger before that startup request), chose slot 1 from five eligible owned companions, and queued it after 2.69 seconds. The player confirmed actual appearance. The player later confirmed one manual dismissal without reappearance after traveling in the unchanged session; exact dismissal location and duration were not independently measured. This does not verify Nexus/planet startup, Last manually selected startup, broader dismissal regression, biome preference, multiplayer or all settings.",
   "supported_summon_locations": {
     "2": "SpaceStation",
     "3": "PlanetOnFoot",
@@ -65,15 +65,15 @@
     },
     {
       "path": "README.md",
-      "sha256": "e45a209451a95d35ce35f04351ec4170369bfe573c1b179faed2c02c990315ea"
+      "sha256": "8c7978c74504c652b7466edf16a75a4bbff840140cad1dfa0ffc31a3253c39d7"
     },
     {
       "path": "README.cs.md",
-      "sha256": "212e4c14424ed7d34537781893893c0ec124486296ff4575c5b1f29195b57fc9"
+      "sha256": "8f71e0ca4a4408324a5436dc82cdf93219c1f49df077978af21f3cece407522e"
     },
     {
       "path": "TECHNICKE-OVERENI.md",
-      "sha256": "ac491df24b1e6c1d098108c8b47fb370f0f7fef0f8d9db4703c3f78ef00475da"
+      "sha256": "68a1dda09eae09dd8654af59806a14ae2fbf27274667d023e588c7ce7fa90e67"
     },
     {
       "path": "build.py",
@@ -85,7 +85,7 @@
     },
     {
       "path": "DEVELOPMENT.md",
-      "sha256": "2313fcf5c33e11556d8cb3119964de246296fe106f281795bd24e521f7f2b9dc"
+      "sha256": "d31f2d6d7348913ba8bbcb281d147aa2ab8a3175f6691cc18ba108cf905e8e46"
     },
     {
       "path": "LOCALIZATION.md",
@@ -93,31 +93,31 @@
     },
     {
       "path": "DESIGN.md",
-      "sha256": "e73089afb99428f970dabad4dc1d2a97059ea94b0201c1e595bef3e507f6550f"
+      "sha256": "4244460e7dfec18471752c652ddf9bbd946da03dc202b20de0b47fe547d5aa62"
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "9c23608969d1e9fc6bf04b5a1ab7098357981adfd809db33d1c6dc9cc679b67d"
+      "sha256": "13f6d874cae4a4d1274235ec90bc5aa0331ca84724a5f76779b8d0a8146feb79"
     },
     {
       "path": "ROADMAP.md",
-      "sha256": "608ec611a41c4f00b592ab31fea42b6a4f482937b648a486a7082e23e09a082f"
+      "sha256": "bdffec2cdc1ff594aa46e14c3d473de2fe2373619e3b06cedb77c0ad5fc2a4fb"
     },
     {
       "path": "QUICK-MENU.md",
-      "sha256": "3608529ad7810809afd1d1484c9e08352a162f06a93f374f72b5bfb79a1ca3ac"
+      "sha256": "1922f4fedc27ea6beaeb1bd4e4c8578daec4835bcc9043167e68bdb47fdf9c16"
     },
     {
       "path": "docs/release/PRIPRAVA-VYDANI.md",
-      "sha256": "22774a62f78d26b82c1f6ac54abd00d4437be06742d308e33df67b5727e5c503"
+      "sha256": "2359f3c2859393c6c3378b1daf2257400e3e104db2e55e4c2ce88309154cbed2"
     },
     {
       "path": "docs/release/INSTALACE-ZADANI.md",
-      "sha256": "21cdd8197986d0eb436b35e5c76118915e6c041f32bf92caab8c309fff12bf50"
+      "sha256": "4212ff02221be8ebb9f4fe84c9acbe8d273b809ea847e6d4ff1b340344274ec6"
     },
     {
       "path": "docs/release/NEXUS-DESCRIPTION-DRAFT.md",
-      "sha256": "9c0abc278ecc9b7a174eb7c3db6aaa90c2117108cca6e394c0804fb686a1fd9e"
+      "sha256": "ddbf04d0b4e04a7d1db8f6584001e904d6f333e0a5b0c130301478ea250a5a7b"
     },
     {
       "path": "src/policy.py",
@@ -159,5 +159,7 @@
   "legacy_data_directory": "NMS-AutoPet is intentionally retained for settings, remembered companions and the existing development runtime; schemas and file contents are unchanged.",
   "startup_summon_verified_in_game": true,
   "startup_summon": "One opportunity after successful local save load with automation enabled. No native summon calls during deserialization. Resolve a saved identity or Random through later local ownership updates and existing 1.5-second stability/placement checks; respect active/queued pets, preview, manual choice, ship entry, settings changes and context replacement. Never rearm merely because a pet is absent.",
-  "startup_summon_verification_scope": "One Random-mode startup on a space station: save load armed at 20:42:58.578, location enum 2, request accepted at 20:43:01.261, user confirmed actual pet appearance. Nexus was explicitly not the test location."
+  "startup_summon_verification_scope": "One Random-mode startup on a space station: save load armed at 20:42:58.578, location enum 2, request accepted at 20:43:01.261, user confirmed actual pet appearance. Nexus was explicitly not the test location.",
+  "manual_dismissal_verified_in_game": true,
+  "manual_dismissal_verification_scope": "One player-reported manual dismissal without reappearance during combined 0.6.2 / production 0.4.3. The suggested check was about ten seconds on foot, but exact location, timestamp and duration were not independently measured. Travel separated this from the initial station load; no claim of a controlled immediately-after-startup dismissal test."
 }
