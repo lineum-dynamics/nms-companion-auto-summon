@@ -1,0 +1,295 @@
+"""Combined play-trial host checks; no framework execution or process access."""
+
+import builtins
+import copy
+import hashlib
+import importlib.util
+import json
+import os
+from pathlib import Path
+import sys
+import tempfile
+import types
+import unittest
+from unittest.mock import Mock, patch
+
+
+ROOT = Path(__file__).resolve().parents[2]
+SOURCE = ROOT / "tools" / "Launch-CompanionAutoSummon-PlayTrial.py"
+SPEC = importlib.util.spec_from_file_location("play_trial_launcher_under_test", SOURCE)
+LAUNCHER = importlib.util.module_from_spec(SPEC)
+SPEC.loader.exec_module(LAUNCHER)
+CONFIG = b'''[pymhf]
+exe = "NMS.exe"
+steam_gameid = 275850
+start_paused = false
+interactive_console = false
+[pymhf.logging]
+shown = false
+log_dir = "{CURR_DIR}"
+log_level = "info"
+[pymhf.gui]
+shown = true
+always_on_top = false
+'''
+
+
+class PlayTrialFixture(unittest.TestCase):
+    def setUp(self):
+        temporary = tempfile.TemporaryDirectory(prefix="cas-play-host-test-")
+        self.addCleanup(temporary.cleanup)
+        self.root = Path(temporary.name)
+        self.bundle = self.root / "bundle"
+        self.bundle.mkdir()
+        for name in LAUNCHER.PAYLOAD_FILES:
+            data = b"# Owned fixture; not a loaded mod.\n"
+            if name == LAUNCHER.HOST_NAME:
+                data = SOURCE.read_bytes()
+            elif name == LAUNCHER.BOOTSTRAP_NAME:
+                data = (ROOT / name).read_bytes()
+            elif name == "pymhf.toml":
+                data = CONFIG
+            (self.bundle / name).write_bytes(data)
+        self.manifest = {
+            "version": "0.6.1-play-trial", "framework": "pymhf[gui]==0.2.4",
+            "auto_summon": True, "preference_actions": False,
+            "mods": [
+                {"name": "CompanionAutoSummon", "version": "0.4.2-experimental",
+                 "path": "CompanionAutoSummon.py"},
+                {"name": "CompanionMenuOrderTrial", "version": "0.6.0-order-trial",
+                 "path": "CompanionMenuOrderTrial.py"},
+            ],
+            "files": [{"path": name, "sha256": hashlib.sha256((self.bundle / name).read_bytes()).hexdigest()}
+                      for name in sorted(LAUNCHER.PAYLOAD_FILES)],
+        }
+        self.save_manifest()
+        self.host_patch = patch.object(LAUNCHER, "__file__", str(self.bundle / LAUNCHER.HOST_NAME))
+        self.host_patch.start()
+        self.addCleanup(self.host_patch.stop)
+        self.events = []
+        self.bootstrap = types.SimpleNamespace(
+            install_injection_guard=Mock(side_effect=lambda: self.events.append("guard")))
+        self.runtime = types.ModuleType("pymhf.main")
+        self.runtime.run_module = Mock(side_effect=self.run_module)
+        self.package = types.ModuleType("pymhf")
+        self.package.__path__ = []
+        self.entrypoints = Mock()
+        self.entrypoints.select.return_value = ()
+
+    def save_manifest(self):
+        (self.bundle / "manifest.json").write_text(json.dumps(self.manifest), encoding="utf-8")
+
+    def rehash(self, name):
+        for entry in self.manifest["files"]:
+            if entry["path"] == name:
+                entry["sha256"] = hashlib.sha256((self.bundle / name).read_bytes()).hexdigest()
+        self.save_manifest()
+
+    def run_module(self, folder, config):
+        self.events.append("run")
+        self.assertEqual(folder, str(self.bundle.resolve()))
+        self.assertEqual(config, LAUNCHER.EXPECTED_CONFIG)
+        return 42
+
+    def main(self, argv=None, *, runtime_version="0.2.4"):
+        with patch.object(LAUNCHER, "_load_bootstrap", return_value=self.bootstrap) as loader, patch.object(
+            LAUNCHER.metadata, "version", return_value=runtime_version
+        ), patch.object(LAUNCHER.metadata, "entry_points", return_value=self.entrypoints), patch.dict(
+            sys.modules, {"pymhf": self.package, "pymhf.main": self.runtime}
+        ):
+            result = LAUNCHER.main([str(self.bundle)] if argv is None else argv)
+            loader.assert_called_once_with(self.bundle.resolve())
+            return result
+
+
+class BundleValidationTests(PlayTrialFixture):
+    def test_valid_bundle_preserves_two_mod_identities_and_global_settings_routes(self):
+        bundle, config = LAUNCHER.validate_bundle(str(self.bundle))
+        self.assertEqual(bundle, self.bundle.resolve())
+        self.assertTrue(config["gui"]["shown"])
+        self.assertEqual(len(self.manifest["files"]), 12)
+        self.assertEqual({entry["name"] for entry in self.manifest["mods"]},
+                         {"CompanionAutoSummon", "CompanionMenuOrderTrial"})
+        self.assertFalse((self.bundle / "settings.json").exists())
+        self.assertFalse((self.bundle / "state.json").exists())
+
+    def test_relative_foreign_missing_or_file_argument_is_rejected_before_guard(self):
+        other = self.root / "other"
+        other.mkdir()
+        for value in ("bundle", str(other), str(self.root / "absent"),
+                      str(self.bundle / "CompanionAutoSummon.py")):
+            with self.subTest(value=value), self.assertRaises((LAUNCHER.BundleError, OSError)):
+                self.main([value])
+        self.bootstrap.install_injection_guard.assert_not_called()
+        self.runtime.run_module.assert_not_called()
+
+    def test_path_alias_to_own_folder_is_resolved_before_framework_call(self):
+        self.assertEqual(self.main([str(self.bundle / ".." / "bundle")]), 42)
+        self.runtime.run_module.assert_called_once_with(str(self.bundle.resolve()), LAUNCHER.EXPECTED_CONFIG)
+
+    def test_argument_count_errors_never_install_guard(self):
+        for arguments in ([], [str(self.bundle), "unexpected"]):
+            with self.subTest(arguments=arguments), patch("sys.stderr"), self.assertRaises(SystemExit):
+                self.main(arguments)
+        self.bootstrap.install_injection_guard.assert_not_called()
+
+    def test_tampered_or_missing_payload_is_refused_before_bootstrap(self):
+        for name in ("CompanionAutoSummon.py", "CompanionMenuOrderTrial.py", "quick_menu_order.py",
+                     LAUNCHER.BOOTSTRAP_NAME, LAUNCHER.HOST_NAME, "pymhf.toml"):
+            with self.subTest(name=name):
+                path = self.bundle / name
+                old = path.read_bytes()
+                path.write_bytes(old + b"# changed\n")
+                with self.assertRaises(LAUNCHER.BundleError):
+                    self.main()
+                path.write_bytes(old)
+        (self.bundle / "quick_menu_item.py").unlink()
+        with self.assertRaises(LAUNCHER.BundleError):
+            self.main()
+        self.bootstrap.install_injection_guard.assert_not_called()
+        self.runtime.run_module.assert_not_called()
+
+    def test_wrong_manifest_semantics_are_not_accepted_as_another_trial(self):
+        pristine = copy.deepcopy(self.manifest)
+        for key, value in (("version", "0.6.0-order-trial"), ("framework", "pymhf==0.2.4"),
+                           ("auto_summon", False), ("auto_summon", 1),
+                           ("preference_actions", True), ("mods", pristine["mods"][:1]),
+                           ("mods", pristine["mods"] * 2)):
+            with self.subTest(key=key, value=value):
+                self.manifest = {**copy.deepcopy(pristine), key: value}
+                self.save_manifest()
+                with self.assertRaises(LAUNCHER.BundleError):
+                    self.main()
+        self.bootstrap.install_injection_guard.assert_not_called()
+
+    def test_missing_duplicate_traversal_and_bad_checksum_entries_are_rejected(self):
+        original = copy.deepcopy(self.manifest["files"])
+        for mutation in ("missing", "duplicate", "traversal", "uppercase", "not_entry"):
+            with self.subTest(mutation=mutation):
+                entries = copy.deepcopy(original)
+                if mutation == "missing":
+                    entries.pop()
+                elif mutation == "duplicate":
+                    entries[-1] = entries[0]
+                elif mutation == "traversal":
+                    entries[0]["path"] = "../CompanionAutoSummon.py"
+                elif mutation == "uppercase":
+                    entries[0]["sha256"] = entries[0]["sha256"].upper()
+                else:
+                    entries[0] = "invalid"
+                self.manifest["files"] = entries
+                self.save_manifest()
+                with self.assertRaises(LAUNCHER.BundleError):
+                    self.main()
+        self.bootstrap.install_injection_guard.assert_not_called()
+
+    def test_extra_root_or_child_python_and_competing_project_are_rejected(self):
+        for name in ("Other.py", "nested/Other.py", "pyproject.toml"):
+            with self.subTest(name=name):
+                path = self.bundle / name
+                path.parent.mkdir(exist_ok=True)
+                path.write_bytes(b"# An unlisted discovery input")
+                with self.assertRaises(LAUNCHER.BundleError):
+                    self.main()
+                path.unlink()
+        self.bootstrap.install_injection_guard.assert_not_called()
+
+    def test_duplicate_python_alias_does_not_evade_exact_discovery(self):
+        alias = self.bundle / "Extra.py"
+        alias.write_bytes(b"# Simulated filesystem alias")
+        actual_resolve = Path.resolve
+        def resolve(path, *args, **kwargs):
+            if path == alias:
+                return actual_resolve(self.bundle / "CompanionAutoSummon.py", *args, **kwargs)
+            return actual_resolve(path, *args, **kwargs)
+        with patch.object(Path, "resolve", resolve), self.assertRaises(LAUNCHER.BundleError):
+            self.main()
+        self.bootstrap.install_injection_guard.assert_not_called()
+
+    def test_config_changes_are_rejected_even_with_matching_checksum(self):
+        for content in (CONFIG.replace(b'shown = true', b'shown = false'),
+                        CONFIG.replace(b'interactive_console = false', b'interactive_console = true'),
+                        CONFIG + b'\n[extra]\nvalue = "unexpected"\n'):
+            with self.subTest(content=content):
+                (self.bundle / "pymhf.toml").write_bytes(content)
+                self.rehash("pymhf.toml")
+                with self.assertRaises(LAUNCHER.BundleError):
+                    self.main()
+        self.bootstrap.install_injection_guard.assert_not_called()
+
+
+class HostRoutingTests(PlayTrialFixture):
+    def test_import_does_not_import_framework_or_access_processes(self):
+        original_import = builtins.__import__
+        def checked_import(name, *args, **kwargs):
+            if name.startswith(("pymem", "pymhf", "pyrun_injected")):
+                self.fail("Unexpected process/framework import: " + name)
+            return original_import(name, *args, **kwargs)
+        source = SOURCE.read_text(encoding="utf-8")
+        with patch.object(builtins, "__import__", side_effect=checked_import), patch.object(
+            Path, "open", side_effect=AssertionError("Import must not read bundle files")
+        ):
+            exec(compile(source, str(SOURCE), "exec"), {"__name__": "offline_import", "__file__": str(SOURCE)})
+
+    def test_guard_precedes_mod_folder_entry_and_argv_is_unchanged(self):
+        previous = sys.argv
+        original = list(previous)
+        self.assertEqual(self.main(), 42)
+        self.assertEqual(self.events, ["guard", "run"])
+        self.runtime.run_module.assert_called_once_with(str(self.bundle.resolve()), LAUNCHER.EXPECTED_CONFIG)
+        self.assertIs(sys.argv, previous)
+        self.assertEqual(sys.argv, original)
+        self.entrypoints.select.assert_called_once_with(group="pymhflib")
+
+    def test_framework_error_propagates_without_argv_changes_or_retry(self):
+        previous = sys.argv
+        original = list(previous)
+        self.runtime.run_module.side_effect = RuntimeError("owned test framework error")
+        with self.assertRaisesRegex(RuntimeError, "owned test framework error"):
+            self.main()
+        self.bootstrap.install_injection_guard.assert_called_once()
+        self.runtime.run_module.assert_called_once()
+        self.assertIs(sys.argv, previous)
+        self.assertEqual(sys.argv, original)
+
+    def test_wrong_framework_or_additional_library_stops_before_guard(self):
+        with self.assertRaises(LAUNCHER.BundleError):
+            self.main(runtime_version="0.2.3")
+        self.entrypoints.select.return_value = (object(),)
+        with self.assertRaises(LAUNCHER.BundleError):
+            self.main()
+        self.bootstrap.install_injection_guard.assert_not_called()
+        self.runtime.run_module.assert_not_called()
+
+    def test_injection_guard_error_prevents_framework_call(self):
+        self.bootstrap.install_injection_guard.side_effect = RuntimeError("owned guard failure")
+        with self.assertRaisesRegex(RuntimeError, "owned guard failure"):
+            self.main()
+        self.runtime.run_module.assert_not_called()
+
+    def test_sibling_bootstrap_retains_verified_remote_dll_guard(self):
+        bootstrap = LAUNCHER._load_bootstrap(self.bundle)
+        dll = self.root / "owned-placeholder.pyd"
+        dll.write_bytes(b"Never loaded; only filename validation is exercised")
+        canonical = os.path.normcase(os.path.realpath(str(dll)))
+        remote_base, local_base = 0x7FFDA1200000, 0x7FFC55000000
+        api = types.SimpleNamespace(
+            inject_dll_from_path=Mock(return_value=local_base),
+            enum_process_module=Mock(return_value=[types.SimpleNamespace(
+                filename=str(dll), lpBaseOfDll=remote_base)]))
+        original = api.inject_dll_from_path
+        guarded = bootstrap.install_injection_guard(api)
+        self.assertEqual(guarded(123, str(dll)), remote_base)
+        original.assert_called_once_with(123, canonical)
+        api.enum_process_module.return_value = []
+        with self.assertRaises(bootstrap.InjectionGuardError):
+            guarded(123, str(dll))
+
+    def test_bootstrap_without_guard_function_is_rejected(self):
+        (self.bundle / LAUNCHER.BOOTSTRAP_NAME).write_bytes(b"# Owned empty module\n")
+        with self.assertRaises(LAUNCHER.BundleError):
+            LAUNCHER._load_bootstrap(self.bundle)
+
+
+if __name__ == "__main__":
+    unittest.main()

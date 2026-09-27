@@ -6,7 +6,9 @@ native binding filter. The player has confirmed visibility, selection, native
 Back/close/reopen and ordinary manual pet summoning in that session. A separate
 0.5.0-submenu-trial has confirmed inert-child navigation and clean captions.
 The separate 0.6.0-order-trial inserts the parent before individual pets in
-offline checks; its live ordering remains unverified. Shortcut scenarios and
+offline checks and has registered in-game; its visible ordering remains
+unverified. A combined play trial is prepared so automatic summoning
+continues during menu development. Shortcut scenarios and
 preference controls remain unfinished. This document separates static findings, offline verification,
 live observations and future work. Raw disassembly is private working evidence,
 not part of the repository or distribution.
@@ -644,12 +646,70 @@ These checks do not install hooks in NMS or prove live behavior.
 `tools/build_quick_menu_order_trial.py --enable-order` creates a new isolated
 ten-file artifact with nine hashed payloads and refuses an existing output.
 The prepared artifact is `build/quick-menu-order-trial`; it has not been
-launched. The builder does not launch, deploy or alter the running 0.5.0 trial. The regular player
+launched by its builder. The builder does not launch, deploy or alter the prior
+0.5.0 trial. The regular player
 mod remains 0.4.2; this trial has no automatic summoning, preference actions or
 custom texture loader. Start only after normal game exit and a fresh verified
 backup. Check the new position, submenu entry/Back/reopen, neighboring pet and
 page actions and duplicate prevention. Hotkey replay/binding, changing pet
 counts, remapped controls, controllers and callback cost remain separate checks.
+
+### Ordering trial startup
+
+After the player confirmed normal game exit, a fresh backup of 43 profile files
+was copied and hash-verified. The isolated 0.6.0 launcher started at 20:05:49 on
+27 September 2026. At 20:05:58 the log reported its binding filter initialized
+and one Mod/four managed hooks loaded. The later process check found a
+responding game window; an earlier framework window-handle warning does not
+establish whether its cached handle was refreshed. All nine payload hashes
+remained unchanged. Visual ordering/navigation is still a player check.
+
+This session is menu-only. The player subsequently requested that automatic
+summoning remain available during menu development. The next candidate must
+combine the unchanged working runtime and existing external preferences with
+the isolated menu trial, using the framework's supported mod-folder route.
+Do not concatenate the scripts or assume imported Mod aliases are discovered.
+
+## Combined play trial (0.6.1)
+
+The isolated play bundle uses the framework's mod-folder loader to keep
+`CompanionAutoSummon` 0.4.2-experimental and `CompanionMenuOrderTrial`
+0.6.0-order-trial in separate modules within one host. The production file and
+original injection-guard bootstrap are copied byte-for-byte. Only the menu
+source's explicit enable flag changes in its generated copy. The regular
+installation and previous trial artifacts are not overwritten.
+
+Production has seven callbacks across six native targets; ordering has six
+callbacks across four other targets. The binding filter is a separate pinned
+native hook. There is one automatic-summoning instance and preference writer.
+The menu still opens only Settings preview; actual controls remain in the
+visible CompanionAutoSummon development panel.
+
+The new host validates every declared payload, the exact folder configuration
+and the Python discovery set before loading the unchanged injection guard.
+It calls the installed framework's public `run_module(folder, config)` with
+no plugin name; this selects MOD_FOLDER. The 0.2.4 CLI folder route enters a
+different library/configuration flow, so it is not used. Extra registered
+framework libraries are rejected for this bounded trial.
+
+Both preference paths remain absolute under `%LOCALAPPDATA%/NMS-AutoPet`,
+independent of the bundle folder. Neither building nor launching copies,
+resets or migrates those files. Production retains its normal preference and
+manual-selection persistence during play. No private preferences, selection
+identities or game saves are included in the bundle or repository. Native
+ownership, eligibility and placement rules remain unchanged.
+
+The new thirteen-file artifact `build/quick-menu-play-trial` has twelve hashed
+payloads. All 341 developer tests passed, including 15 combined-builder and 17
+folder-host tests. The real pyMHF 0.2.4 smoke validated actual folder discovery
+of exactly two Mods, thirteen callbacks/ten distinct targets, eight production
+GUI widgets and zero physical hotkeys. Discovery-only disabled flags were
+restored before construction; no native hook was registered. Temporary
+preferences were preserved. The real user's two external configuration files
+also remained hash-identical through packaging. The generated PowerShell
+launcher parsed successfully, and every payload matched its manifest and
+framework report. Live coexistence is still pending a normal restart, fresh
+backup, registration and the player's automatic-summon/menu checks.
 
 ## Historical observation-only live sequence
 

@@ -1,0 +1,184 @@
+"""Package auto-summoning with the opt-in menu trial; never deploy or launch NMS."""
+
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import re
+import tomllib
+
+
+ROOT = Path(__file__).resolve().parents[1]
+HELPERS = ("quick_menu_item.py", "quick_menu_submenu.py", "quick_menu_order.py",
+           "quick_menu_native_guard.py", "quick_menu_guard_runtime.py")
+PRODUCTION_FILE = "CompanionAutoSummon.py"
+MENU_FILE = "CompanionMenuOrderTrial.py"
+GUARD_HOST_FILE = "Launch-CompanionAutoSummon.py"
+PLAY_HOST_FILE = "Launch-CompanionAutoSummon-PlayTrial.py"
+LAUNCHER_FILE = "Start-CompanionAutoSummon.ps1"
+CONFIG_FILE = "pymhf.toml"
+CHECKED_FILES = (PRODUCTION_FILE, MENU_FILE, GUARD_HOST_FILE, PLAY_HOST_FILE,
+                 *HELPERS, CONFIG_FILE, LAUNCHER_FILE)
+CONFIG = b"""[pymhf]
+exe = "NMS.exe"
+steam_gameid = 275850
+start_paused = false
+interactive_console = false
+
+[pymhf.logging]
+shown = false
+log_dir = "{CURR_DIR}"
+log_level = "info"
+
+[pymhf.gui]
+shown = true
+always_on_top = false
+"""
+README = b"""# Companion Auto Summon combined play trial
+
+This isolated developer bundle runs two mods in one pyMHF host:
+
+- CompanionAutoSummon 0.4.2-experimental: the unchanged automatic-summoning
+  implementation, including its separate preference panel.
+- CompanionMenuOrderTrial 0.6.0-order-trial: the ordered native companion
+  submenu with one inert Settings preview child and its binding filter.
+
+The bundle version is 0.6.1-play-trial. Coexistence is not yet live-verified.
+The menu cannot change a preference. Automatic summoning follows the existing
+preferences; their enabled state and selection mode are not reset or forced.
+Use the CompanionAutoSummon tab in the visible pyMHF window for real settings.
+The native menu icon remains borrowed; no custom texture is loaded here.
+
+Close NMS normally, preserve progress and verify a fresh backup before starting
+this separate trial. Extract the entire folder and use its
+Start-CompanionAutoSummon.ps1. It verifies the executable and package before
+launching both mods through the folder-mode host. Never run a second mod host
+alongside it or copy this trial over an installed/running version.
+
+The package includes no personal data. Existing preferences and manual companion
+identity remain at the absolute LOCALAPPDATA/NMS-AutoPet/settings.json and
+LOCALAPPDATA/NMS-AutoPet/state.json paths. Packaging does not read, edit, reset
+or copy either file, and neither mod writes the game's save files. During play,
+the unchanged production mod can persist its normal local preferences and
+manual companion identity. Native ownership, eligibility and placement rules
+still apply; no pets are granted and no gameplay limits are lowered.
+
+Open the quick menu with the configured control and enter companions. The CAS
+entry should follow general companion actions and precede individual pets or
+pet pages. Check Settings preview, native Back, close/reopen and normal manual
+pet actions. Then check automatic summoning after leaving the ship at an
+eligible location, using your current preferences. Do not rebind an occupied
+shortcut during the initial test. Remapping, controller behavior, changing pet
+lists, shortcut persistence/removal and coexistence still need acceptance tests.
+
+Never hot-reload either mod or disable/remove the native binding filter while
+this host is active. The filter remains pinned for the game process lifetime.
+Exit NMS normally before closing its pyMHF host. A later ordinary session can
+use the unchanged regular installation and its own launcher.
+"""
+
+
+def _replace_once(text, marker, replacement, description):
+    if text.count(marker) != 1:
+        raise ValueError(f"Expected one known launcher {description}")
+    return text.replace(marker, replacement, 1)
+
+
+def _launcher(data):
+    """Preserve the reviewed launcher except for four exact folder-mode edits."""
+    text = data.decode("utf-8")
+    text = _replace_once(
+        text, "$modPath = Join-Path $PSScriptRoot 'CompanionAutoSummon.py'",
+        "$modPath = $PSScriptRoot", "mod-path assignment")
+    text = _replace_once(
+        text, "$bootstrapPath = Join-Path $PSScriptRoot 'Launch-CompanionAutoSummon.py'",
+        f"$bootstrapPath = Join-Path $PSScriptRoot '{PLAY_HOST_FILE}'",
+        "host-path assignment")
+    text = _replace_once(
+        text, "@('CompanionAutoSummon.py', 'Launch-CompanionAutoSummon.py')",
+        "@(" + ", ".join("'" + name + "'" for name in CHECKED_FILES) + ")",
+        "checksum list")
+    # The original package check must accept the folder argument, while still
+    # requiring the host and manifest to be files. Do not relax other checks.
+    text = _replace_once(
+        text, "(Test-Path -LiteralPath $modPath -PathType Leaf)",
+        "(Test-Path -LiteralPath $modPath -PathType Container)",
+        "mod-path existence check")
+    return text.encode("utf-8")
+
+
+def build(*, enable_menu=False, output_name="quick-menu-play-trial"):
+    """Create one fresh, checksum-complete folder without executing payloads."""
+    if enable_menu is not True:
+        raise ValueError("Pass --enable-menu for this combined developer trial")
+    if not isinstance(output_name, str) or not re.fullmatch(r"quick-menu-[a-z0-9-]{1,64}", output_name):
+        raise ValueError("Output must be a simple quick-menu- prefixed directory name")
+    output = ROOT / "build" / output_name
+    if output.exists() or output.is_symlink():
+        raise FileExistsError("Trial output already exists; choose a new output name")
+
+    menu = (ROOT / "tools/quick_menu_order_trial.py").read_bytes()
+    if menu.count(b"TRIAL_ENABLED = False") != 1:
+        raise ValueError("Expected one disabled ordered submenu trial marker")
+    menu = menu.replace(b"TRIAL_ENABLED = False", b"TRIAL_ENABLED = True", 1)
+    payload = {
+        PRODUCTION_FILE: (ROOT / PRODUCTION_FILE).read_bytes(),
+        MENU_FILE: menu,
+        GUARD_HOST_FILE: (ROOT / GUARD_HOST_FILE).read_bytes(),
+        PLAY_HOST_FILE: (ROOT / "tools" / PLAY_HOST_FILE).read_bytes(),
+    }
+    for name in HELPERS:
+        payload[name] = (ROOT / "tools" / name).read_bytes()
+    for name, data in payload.items():
+        compile(data, name, "exec")
+    tomllib.loads(CONFIG.decode("utf-8"))
+    payload[CONFIG_FILE] = CONFIG
+    payload[LAUNCHER_FILE] = _launcher((ROOT / LAUNCHER_FILE).read_bytes())
+    payload["README.md"] = README
+
+    current = json.loads((ROOT / "manifest.json").read_text(encoding="utf-8"))
+    if (current["version"] != "0.4.2-experimental"
+            or current["framework"] != "pymhf[gui]==0.2.4"):
+        raise ValueError("The play-trial host requires the reviewed production and framework versions")
+    manifest = {
+        "name": "Companion Auto Summon combined play trial",
+        "version": "0.6.1-play-trial",
+        "framework": current["framework"],
+        "steam_build": current["steam_build"],
+        "supported_nms_exe_sha256": current["supported_nms_exe_sha256"],
+        "purpose": "Unchanged automatic summoning plus the ordered inert menu in one folder-mode host",
+        "observation_only": False,
+        "auto_summon": True,
+        "preference_actions": False,
+        "live_verified": False,
+        "preferences_included": False,
+        "manual_selection_path": "%LOCALAPPDATA%/NMS-AutoPet/state.json",
+        "preferences_path": "%LOCALAPPDATA%/NMS-AutoPet/settings.json",
+        "mods": [
+            {"name": "CompanionAutoSummon", "version": current["version"],
+             "path": PRODUCTION_FILE},
+            {"name": "CompanionMenuOrderTrial", "version": "0.6.0-order-trial",
+             "path": MENU_FILE},
+        ],
+        "files": [{"path": name, "sha256": hashlib.sha256(data).hexdigest()}
+                  for name, data in payload.items()],
+    }
+    payload["manifest.json"] = (json.dumps(manifest, indent=2) + "\n").encode("utf-8")
+    output.mkdir(parents=True, exist_ok=False)
+    for name, data in payload.items():
+        (output / name).write_bytes(data)
+    if any((output / name).read_bytes() != data for name, data in payload.items()):
+        raise RuntimeError("Combined play trial readback failed")
+    return {"output": str(output), "files": len(payload), "launched": False,
+            "deployed": False, "observation_only": False, "auto_summon": True,
+            "production_sha256": hashlib.sha256(payload[PRODUCTION_FILE]).hexdigest(),
+            "trial_sha256": hashlib.sha256(payload[MENU_FILE]).hexdigest()}
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--enable-menu", action="store_true")
+    parser.add_argument("--output-name", default="quick-menu-play-trial")
+    options = parser.parse_args()
+    print(json.dumps(build(enable_menu=options.enable_menu,
+                           output_name=options.output_name)))

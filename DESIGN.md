@@ -10,6 +10,12 @@ Companion Auto Summon should feel consistent with No Man's Sky: familiar control
 
 The current player candidate is 0.4.2-experimental; the approved name is Companion Auto Summon. The separate pyMHF tab uses the class name `CompanionAutoSummon`. Settings are in the separate pyMHF window, in English. HUD messages use the game's existing timed-message function, but actual on-screen rendering has not yet been confirmed. The player package has no custom quick-menu settings, localization system or finished public launcher. The separate developer trial's first visible menu entry is described below.
 
+Menu development sessions should retain functional automatic summoning and the
+player's existing preferences. Use a separately validated combined development
+bundle for normal play while menu presentation is tested. A deliberately
+menu-only diagnostic is an exception and must be identified explicitly; it
+must not silently replace the working mod for a player's ongoing session.
+
 ## Intended settings integration
 
 Prefer one dedicated CompanionAutoSummon/automatic-companion entry in the companion section of the native quick menu, before individual pets and after general companion actions. The separate 0.6.0 trial implements this order in offline checks; its live result remains pending. Its final label must fit the existing layout and terminology. Do not replace a vanilla action or reuse its ID for a different purpose without a verified, non-conflicting implementation.
