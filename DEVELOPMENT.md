@@ -13,7 +13,22 @@ This repository is the canonical development location. Keep installed test copie
 
 ## Current implementation
 
-The current source candidate is **0.4.6-experimental**, prepared with combined trial **0.8.0** and not launched. The running 0.4.4 / 0.7.1 installation and unlaunched 0.7.2 artifact remain unchanged. The target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The development launcher accepts Python 3.11–3.13 x64.
+The next source candidate is **0.4.7-experimental**, with combined trial **0.8.1-play-trial**, and has not launched. Production behavior is unchanged from 0.4.6 apart from version metadata; the menu remains **0.8.0-settings-trial**. The running 0.4.4 / 0.7.1 installation and prepared 0.7.2 and 0.8.0 artifacts remain unchanged. The target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The development launcher accepts Python 3.11–3.13 x64.
+
+The PowerShell launcher's `-CheckOnly` path validates package integrity, the
+supported game and the existing runtime without creating files/directories,
+installing dependencies, staging assets or starting a host/game. It is usable
+while NMS runs. Missing prerequisites are reported rather than repaired; a
+successful preflight is not evidence of in-game behavior.
+
+Normal setup and the host hold separate fixed Windows session mutex leases,
+`Setup.v1` and `Host.v1`, independent of the package directory. Their ownership
+is the lifetime of the OS handles, not a lock file or a remembered PID. The
+lease ends when its last handle closes, including after a crash. Duplicate
+launches are refused across folders. An error enumerating processes prevents
+normal setup rather than being treated as evidence that the game is closed.
+The portable public installer, final GUI retirement and localization remain
+unfinished; this revision does not change native hooks, summon rules or input.
 
 The 0.8.0 menu opts into six tagged None children on one flat page: `enabled`,
 `selection_mode`, `prefer_same_biome`, `planets`, `space_stations` and `nexus`.
@@ -33,7 +48,7 @@ it retains a verified original paw as fallback and never writes the menu's paw
 field. Fresh bounded manager/resource identity and readiness checks choose a
 usable handle without new native calls. No destructor, retry or late-load path
 is installed. Ownership during native teardown and actual appearance remain
-live acceptance boundaries. Production 0.4.6 accepts an optional idempotently
+live acceptance boundaries. Production 0.4.7 retains the optional idempotently
 bound notice provider; absent/invalid providers yield text-only HUD notices.
 The standalone ZIP does not include the custom asset or native settings page.
 
@@ -74,7 +89,7 @@ trigger, preferences, manual selection/preview/emote and invalid state end it.
 Observer failures do not disable working automation. It adds no native calls,
 hooks, offsets, preference fields or game-save writes.
 
-The separate 0.8.0 bundle pins its preference bridge to the reviewed 0.4.6
+The separate 0.8.1 bundle pins its preference bridge to the versioned 0.4.7
 initializer. It keeps the production control lock, queue, application callback
 and two-Mod discovery contract. The additional resource callback belongs to
 the menu Mod. Old artifacts are retained; the active 0.7.1 folder is immutable.
@@ -89,7 +104,7 @@ dispatch used a disabled menu and a mocked native original. No game access or
 native hook binding occurred. Historical 0.4.4 / 0.7.1 had 253 production and
 408 developer tests and registered in-game at 22:22:35 on 27 September 2026.
 
-Earlier production 0.4.3 added a deferred, one-shot opportunity after a successful local save load to the existing ship-exit behavior. One station startup in Random mode was confirmed by both log and user, without a ship exit. Those results are historical evidence for that version, not live validation of 0.4.6. Current validation is recorded in the manifest; prior test counts do not include the new settings/icon work.
+Earlier production 0.4.3 added a deferred, one-shot opportunity after a successful local save load to the existing ship-exit behavior. One station startup in Random mode was confirmed by both log and user, without a ship exit. Those results are historical evidence for that version, not live validation of 0.4.7. Current validation is recorded in the manifest; prior test counts do not validate the new launcher work.
 
 | Component | Responsibility |
 |---|---|
@@ -99,7 +114,7 @@ Earlier production 0.4.3 added a deferred, one-shot opportunity after a successf
 | `src/runtime.py` | Exact-build guards, native callbacks, placement checks, settings panel and HUD |
 | `build.py` | Concatenates these components into the standalone `CompanionAutoSummon.py` |
 | `Launch-CompanionAutoSummon.py` | Host-side DLL address/path validation before invoking pyMHF |
-| `Start-CompanionAutoSummon.ps1` | Current development setup, package/game checks and launch |
+| `Start-CompanionAutoSummon.ps1` | Read-only preflight or guarded development setup and launch |
 | `tests/` | Offline decision, storage, adapter and launcher checks |
 
 Function addresses are relative to the loaded game module. Runtime objects and save identities are obtained from the running game. An exact executable hash guard disables Companion Auto Summon before hook registration on unsupported binaries. This supports portability of the addressing scheme for the same binary; it does not prove second-PC, multiplayer or cross-platform compatibility.

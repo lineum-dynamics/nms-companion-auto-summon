@@ -40,14 +40,21 @@ README = b"""# Companion Auto Summon combined play trial
 
 This isolated developer bundle runs two mods in one pyMHF host:
 
-- CompanionAutoSummon 0.4.6-experimental: automatic summoning after loading or
+- CompanionAutoSummon 0.4.7-experimental: automatic summoning after loading or
   ship exit, including its separate preference panel. The production source is
   copied byte-identically into this bundle.
 - CompanionMenuOrderTrial 0.8.0-settings-trial: the ordered native companion
   submenu with all six settings, its binding filter and an optional custom icon.
 
-The bundle version is 0.8.0-play-trial. This revision is not yet live-verified.
-Production 0.4.6 requires matching native UI pet selection before it can
+The bundle version is 0.8.1-play-trial. This revision is not yet live-verified.
+This launcher revision adds a fixed setup lease and a separate host lease to
+refuse duplicate launches before Steam has created NMS. Each lease lasts until
+its process closes the handle. Normal setup refuses unavailable process checks.
+Use Start-CompanionAutoSummon.ps1 -CheckOnly to check the package, exact game
+and existing runtime while playing. It installs nothing and launches no game
+or mod host; a missing runtime is reported, never prepared in check-only mode.
+Previous launchers without these leases are not covered; never run them together.
+Production 0.4.7 requires matching native UI pet selection before it can
 remember a manual favorite. An unrelated accepted queue, including native
 battle restoration, cannot overwrite that choice or announce it as saved.
 Passive observation remains; no new retries or summon delays are added.
@@ -153,7 +160,7 @@ def _launcher(data):
     return text.encode("utf-8")
 
 
-def build(*, enable_menu=False, output_name="quick-menu-play-trial-080"):
+def build(*, enable_menu=False, output_name="quick-menu-play-trial-081"):
     """Create one fresh, checksum-complete folder without executing payloads."""
     if enable_menu is not True:
         raise ValueError("Pass --enable-menu for this combined developer trial")
@@ -193,12 +200,12 @@ def build(*, enable_menu=False, output_name="quick-menu-play-trial-080"):
     payload["README.md"] = README
 
     current = json.loads((ROOT / "manifest.json").read_text(encoding="utf-8"))
-    if (current["version"] != "0.4.6-experimental"
+    if (current["version"] != "0.4.7-experimental"
             or current["framework"] != "pymhf[gui]==0.2.4"):
         raise ValueError("The play-trial host requires the reviewed production and framework versions")
     manifest = {
         "name": "Companion Auto Summon combined play trial",
-        "version": "0.8.0-play-trial",
+        "version": "0.8.1-play-trial",
         "framework": current["framework"],
         "steam_build": current["steam_build"],
         "supported_nms_exe_sha256": current["supported_nms_exe_sha256"],
@@ -235,7 +242,7 @@ def build(*, enable_menu=False, output_name="quick-menu-play-trial-080"):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--enable-menu", action="store_true")
-    parser.add_argument("--output-name", default="quick-menu-play-trial-080")
+    parser.add_argument("--output-name", default="quick-menu-play-trial-081")
     options = parser.parse_args()
     print(json.dumps(build(enable_menu=options.enable_menu,
                            output_name=options.output_name)))

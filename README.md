@@ -1,10 +1,24 @@
-# Companion Auto Summon 0.4.6 — experimental
+# Companion Auto Summon 0.4.7 — experimental
 
 [Český návod](README.cs.md)
 
 This Git repository is the canonical source for Companion Auto Summon. Development commands and the maintained documentation map are in [DEVELOPMENT.md](DEVELOPMENT.md). The installed test copy and exported ZIPs are built outputs.
 
-The prepared **0.4.6 / 0.8.0-play-trial** candidate adds all six existing
+The next **0.4.7 / 0.8.1-play-trial** candidate improves the development
+launcher. `-CheckOnly` checks the package, supported game and existing runtime
+while NMS can remain running; it creates, installs and starts nothing. Normal
+setup and the running host use separate Windows session leases, `Setup.v1` and
+`Host.v1`, to reject duplicate launches even from different package folders.
+These leases end when their last operating-system handle closes, including
+after a crash. If process enumeration fails, normal setup refuses to continue.
+
+Production 0.4.7 changes only version metadata from 0.4.6. The menu remains
+**0.8.0-settings-trial**, with the same six controls and icon behavior. Running
+0.7.1 and the prepared 0.7.2 and 0.8.0 artifacts remain unchanged. The portable
+public installer and localization are still unfinished; a successful check-only
+run is not an in-game test.
+
+The combined candidate retains all six existing
 preferences to one native companion settings page: automatic summoning,
 Last selected/Random, matching-biome preference, planets, space stations and
 the Space Anomaly. It shares the production preference queue and stored values;
@@ -35,7 +49,7 @@ developer tests**, plus real-framework widget and combined-bundle checks without
 game access. Its 17 callbacks share 11 native targets; this is offline evidence.
 Earlier counts below belong to their named versions.
 
-Current **0.4.6 / 0.8.0** passed **282 production tests** and **504 developer
+The preceding **0.4.6 / 0.8.0** passed **282 production tests** and **504 developer
 tests**, plus real pyMHF widget/folder checks. Python-only registration and
 mocked-original dispatch covered 18 callbacks across 12 targets. Every native
 preference row applied through the real production instance using temporary
@@ -94,7 +108,7 @@ This package contains no personal saves, account credentials, preselected pet or
 
 ## Settings
 
-The separate **0.8.0 combined developer trial** offers a flat settings page
+The separate **0.8.1 combined developer trial** retains a flat settings page
 under Companion Auto Summon in the native companion menu. Confirm a row using
 the game's configured Select action: selection mode cycles between Last
 selected and Random; the other five rows toggle ON/OFF. Matching-biome preference
@@ -151,9 +165,16 @@ If `settings.json` cannot be read, automation starts off. The panel can explicit
 
 ## Launching / first test
 
-Close NMS and back up the current save profile before the first test. Extract the package and install a supported x64 Python version if necessary. Run `Start-CompanionAutoSummon.ps1` from PowerShell.
+To check an extracted candidate without starting anything, run
+`./Start-CompanionAutoSummon.ps1 -CheckOnly` from PowerShell. NMS may remain
+running. This mode validates available package/game/runtime prerequisites and
+reports missing requirements without creating an environment, installing
+dependencies, staging assets or launching the host/game. It does not validate
+in-game behavior or replace the backup required before a new live trial.
 
-The launcher refuses to proceed while NMS is running, detects Steam libraries, checks the game and packaged script, and creates a private environment under `%LOCALAPPDATA%\NMS-AutoPet\runtime-0.2.4`. It installs `pymhf[gui]==0.2.4`, including GUI dependencies, when needed, requiring internet on first setup, then launches Companion Auto Summon. This development runtime keeps its legacy path to reuse existing dependencies.
+For normal setup and the first live test, close NMS and back up the current save profile. Extract the package and install a supported x64 Python version if necessary. Run `Start-CompanionAutoSummon.ps1` from PowerShell.
+
+Normal setup refuses to proceed while NMS is running or process enumeration is unavailable, detects Steam libraries, checks the game and packaged script, and creates a private environment under `%LOCALAPPDATA%\NMS-AutoPet\runtime-0.2.4`. It installs `pymhf[gui]==0.2.4`, including GUI dependencies, when needed, requiring internet on first setup, then launches Companion Auto Summon. This development runtime keeps its legacy path to reuse existing dependencies. Fixed session-wide setup and host leases reject a second launch across package folders; they do not use stale lock files or require manual cleanup after a process exits.
 
 An optional `-GameDirectory` argument selects a game folder for preflight checks. It must match the installation used by the active Steam client: pyMHF still launches Steam app 275850.
 
@@ -167,7 +188,7 @@ To disable the whole mod: quit NMS and launch normally through Steam. To forget 
 
 ## Source
 
-Development rules and architecture are maintained in [DEVELOPMENT.md](DEVELOPMENT.md). Source code, comments and developer diagnostics are English. The settings panel and HUD are currently English-only; the planned language coverage and remaining work are recorded in [LOCALIZATION.md](LOCALIZATION.md). [DESIGN.md](DESIGN.md) records the native-menu and notification goals. The prepared 0.8.0 combined trial exposes all six preferences; the running 0.7.1 has the native automation toggle, and older artifacts retain an inert **Settings preview** child. Version-scoped changes are in [CHANGELOG.md](CHANGELOG.md).
+Development rules and architecture are maintained in [DEVELOPMENT.md](DEVELOPMENT.md). Source code, comments and developer diagnostics are English. The settings panel and HUD are currently English-only; the planned language coverage and remaining work are recorded in [LOCALIZATION.md](LOCALIZATION.md). [DESIGN.md](DESIGN.md) records the native-menu and notification goals. The 0.8.1 combined candidate retains all six preferences from 0.8.0; the running 0.7.1 has the native automation toggle, and older artifacts retain an inert **Settings preview** child. Version-scoped changes are in [CHANGELOG.md](CHANGELOG.md).
 
 `src/` contains policy, pet persistence, settings and runtime code. `build.py` rebuilds and syntax-checks CompanionAutoSummon.py without installing or launching it. Run offline tests with `python -B -m unittest discover -s tests -v`. `manifest.json` records checksums and validation status. `TECHNICKE-OVERENI.md` contains technical evidence in Czech. The panel uses the framework's documented [GUI properties](https://github.com/monkeyman192/pyMHF/blob/0c8ebc1c29074c5bc35207e0aff36d4035e20bac/docs/docs/gui/gui.rst).
 

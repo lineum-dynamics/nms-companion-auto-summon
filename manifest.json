@@ -1,6 +1,6 @@
 {
   "name": "Companion Auto Summon",
-  "version": "0.4.6-experimental",
+  "version": "0.4.7-experimental",
   "date": "2026-09-27",
   "installed_in_game_directory": false,
   "tested_inside_game": false,
@@ -16,7 +16,7 @@
   "selection_mode_control_verified_in_game": false,
   "biome_preference_verified_in_game": false,
   "location_preferences_verified_in_game": false,
-  "gameplay_verification_scope": "Unlaunched 0.4.6 / 0.8.0 candidate batches manual-origin repair, optional ready notification icon and six native settings. No earlier live result is inherited.",
+  "gameplay_verification_scope": "Unlaunched 0.4.7 / 0.8.1 retains 0.4.6 gameplay/menu/icon behavior and adds launcher leases plus read-only validation. No earlier live result is inherited.",
   "supported_summon_locations": {
     "2": "SpaceStation",
     "3": "PlanetOnFoot",
@@ -24,15 +24,15 @@
   },
   "previous_live_result": "0.4.0 applied Random and successfully summoned slot 3 from three eligible owned pets on a planet, confirmed by the user; manual favorite slot 1 stayed in runtime. 0.3.3 verified station summoning and restart restoration, 0.3.2 planetary summoning. These observations do not validate the new 0.4.1 biome preference. In combined play trial 0.6.1, 0.4.2 registered with automation ON and the log recorded an accepted station queue after ship exit at 20:18:19 on 27 September 2026; actual appearance was not separately confirmed.",
   "offline_tests": {
-    "passed": 282,
+    "passed": 294,
     "policy": 34,
     "persistence": 14,
     "settings": 24,
     "adapter_simulation": 192,
-    "host_launcher": 18
+    "host_launcher": 30
   },
   "actual_framework_import_and_gui_properties": "Passed with the real pyMHF 0.2.4 and DearPyGui: eight widgets constructed and preference callbacks exercised with temporary files, no viewport, hook registration, native game calls or game launch",
-  "launcher_validation": "504 developer tests, unchanged-source production validation, real pyMHF folder/dispatch/all-six-preference bridge checks and PowerShell parser passed. Asset staging tested only in temporary directories; 0.8.0 has not been launched.",
+  "launcher_validation": "517 developer tests passed. Separate real Windows test verified cross-process host refusal and release after normal return or abrupt test-process exit. CheckOnly and setup lease verified using temporary fixtures; no game launched.",
   "preferences_included": false,
   "manual_selection_path": "%LOCALAPPDATA%/NMS-AutoPet/state.json",
   "preferences_path": "%LOCALAPPDATA%/NMS-AutoPet/settings.json",
@@ -57,35 +57,35 @@
   "files": [
     {
       "path": "CompanionAutoSummon.py",
-      "sha256": "454e9baba7f350513fd3eadb005638b5cba0b1292477a7b0ac68bcbe0ae9f92a"
+      "sha256": "d8cf09a808322900db9149e601248ddf18e4dedf094c44e22f7396c950871268"
     },
     {
       "path": "Launch-CompanionAutoSummon.py",
-      "sha256": "c0d2d2a68eb072641a37d092d2753155f469f9d80c28b8af0a959bc5a5245eb8"
+      "sha256": "b0a3333ca80e15191c30b94dc408d9e808a3252e81d9cf251c02b3c9a9bcb98c"
     },
     {
       "path": "README.md",
-      "sha256": "95e9aa615ccf0f9af529f263b87bb0b1d2746d872eba3c5c1d47e08d2cbfb267"
+      "sha256": "55132bbd072810453585302e184a0631f1164ff3ee66ed6571a7875165ea8a9d"
     },
     {
       "path": "README.cs.md",
-      "sha256": "d04f76fc6a9cd7aab45645e38ef64b1a206a30d99bf44ba7225f01b6653e404d"
+      "sha256": "3e11278615f529b4981a2dc6a0e473f2a79478c36ac0cbdd39543224dff4f00f"
     },
     {
       "path": "TECHNICKE-OVERENI.md",
-      "sha256": "42f6914d036aabb3b1353e4e9609fcee74b7ef31b01775d2f9aa6d98156da188"
+      "sha256": "66045a3cfce8fec04ef0dbcf4bcb903e8621ba93421ce3d799b56a5607014a93"
     },
     {
       "path": "build.py",
-      "sha256": "8191c8bc981afbf66f6a212c637faf91a1fc070e63b3b67376cb80e733c32514"
+      "sha256": "7434891b4b1e2f555161dea290bc4ffd4336bc2a4d0198641e71ec991d164b4e"
     },
     {
       "path": "Start-CompanionAutoSummon.ps1",
-      "sha256": "635ceda00303e2434e8f61d9f68b6659014305f9a15ab20203802421f918fd5c"
+      "sha256": "3e5981eb9f74f473c8699bde6f1afe2ed98a75ff594c61ff3428c8383d78db06"
     },
     {
       "path": "DEVELOPMENT.md",
-      "sha256": "78e90ca184570e9ec79a0e18a9d8347d9eddf7f470960f9e8a4a8acbdfd3a5c9"
+      "sha256": "b86809e71d6d5342628c6a734e81fe09e0fe57382849f0c77acd2b7357099cbf"
     },
     {
       "path": "LOCALIZATION.md",
@@ -97,11 +97,11 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "3147ce29fc2bc87a4fe5e015b805848ca87eafc6deed8380f2d607e0123159ae"
+      "sha256": "e0b10f2632b256670ebdd8423c05ee84b220a1363538e82af33b82b2ca86908d"
     },
     {
       "path": "ROADMAP.md",
-      "sha256": "1f6d4e8f655f9aaf61ad9ee49d5ee7054d5ee115c18ca1dfc55e56d5f813652c"
+      "sha256": "f610d3a979912d243728e22efe475c4c7a1b341e2baa587c98a7d4611284b1ce"
     },
     {
       "path": "QUICK-MENU.md",
@@ -113,7 +113,7 @@
     },
     {
       "path": "docs/release/INSTALACE-ZADANI.md",
-      "sha256": "52ed841748f1542e0fd5e0c51ece1993d4d6a59672bd82e3ec9591c3b19ad965"
+      "sha256": "b31390593f2b5a94447f7d406ee9980e645d4b52485a8fe460052bd0b3ff5fbe"
     },
     {
       "path": "docs/release/NEXUS-DESCRIPTION-DRAFT.md",
@@ -133,7 +133,7 @@
     },
     {
       "path": "src/runtime.py",
-      "sha256": "3b14569dd8e06a6cf1b595456d01cfc996cd16ff723a8ddb122f46965e07ff1c"
+      "sha256": "e61949424cdd7d4310575c876f7e760b90f8fdd06d7fa6d60b61dee626d643a9"
     },
     {
       "path": "tests/test_policy.py",
@@ -153,7 +153,7 @@
     },
     {
       "path": "tests/test_launcher.py",
-      "sha256": "53aaeb57afc7f5b2311c4ef62faf2205dd37d0ff3870f90d863af82d38c92ae7"
+      "sha256": "3d12e22f82051d9f0d2657ce964fc5ad27fe58c7b9e322c6a7147765836bcf0c"
     }
   ],
   "legacy_data_directory": "NMS-AutoPet is intentionally retained for settings, remembered companions and the existing development runtime; schemas and file contents are unchanged.",
@@ -196,21 +196,21 @@
     "scope": "Separately built, predicate-gated native ON/OFF candidate. Requires same-menu false then true native confirmation, one matching selected-child trigger and original false result; no tail-only activation. Existing production applies and persists the queued setting. Other preferences remain in the temporary development panel. Registered on 27 September 2026 after normal exit and a fresh verified backup: two Mods, 11 hook targets, automation ON and 14 unchanged payloads. Complete live preference validation, remapping/controllers and held input await testing."
   },
   "developer_native_menu_trial": {
-    "version": "0.8.0-play-trial",
+    "version": "0.8.1-play-trial",
     "menu_version": "0.8.0-settings-trial",
-    "production_script_byte_identical": true,
     "preference_keys": [
       "enabled",
       "selection_mode",
       "prefer_same_biome",
       "locations"
     ],
+    "production_script_byte_identical": true,
     "live_verified": false,
     "launched": false,
     "registration_verified": false,
     "included_in_player_zip": false,
-    "scope": "Unlaunched 0.8.0 batches all six existing native settings and an original menu/HUD icon with production0.4.6. Offline checks cover per-key persistence, unchanged native results, one resource-phase attempt, pinned ready resources and closed-game staging in temporary directories. Real pyMHF Python-only checks passed18 callbacks/12 targets, both shared-target registration orders, four mocked-original Boolean cases, all six temporary preferences and provider binding. No native hooks or game access occurred. Running0.7.1 and retained0.7.2 artifacts remain unchanged.",
-    "developer_tests_passed": 504,
+    "scope": "Unlaunched 0.8.1 adds setup/host leases and read-only PowerShell validation to the 0.8.0 six-setting/icon candidate. Real pyMHF Python-only checks cover 18 callbacks/12 targets, both shared-target registration orders, all six temporary preferences, icon provider and lease/guard/assets/run/release dispatch order. Game behavior and texture rendering remain unverified. Prior 0.7.1, 0.7.2 and 0.8.0 artifacts are unchanged.",
+    "developer_tests_passed": 517,
     "actual_framework_discovery_verified": true,
     "temporary_all_six_preferences_verified": true,
     "optional_icon_provider_binding_verified": true,
@@ -220,7 +220,7 @@
     "custom_icon_included": true,
     "custom_icon_deployed": false,
     "custom_icon_live_verified": false,
-    "production_sha256": "454e9baba7f350513fd3eadb005638b5cba0b1292477a7b0ac68bcbe0ae9f92a",
+    "production_sha256": "d8cf09a808322900db9149e601248ddf18e4dedf094c44e22f7396c950871268",
     "menu_sha256": "b372a24929a4513ce7043746e0a3df06d428ae1a9bdf19169f8bacf43e41bbb8"
   },
   "post_queue_observation": {
@@ -234,7 +234,7 @@
     "active_slot_is_not_visible_spawn_confirmation": true,
     "live_verified": false,
     "expected_active_path_verified_in_game": false,
-    "live_scope": "No0.4.6 live result; previous0.4.4 observation retained separately."
+    "live_scope": "No 0.4.7 live result; previous 0.4.4 observation retained separately."
   },
   "known_manual_attribution_issue": {
     "confirmed_code_gap": true,
@@ -242,9 +242,9 @@
     "later_native_snapshot": "Location14, active=-1 and pending=-1 in two stable external read-only samples at2026-09-27T22:40:26+02:00. Earlier appearance cannot be inferred.",
     "favorite_write_requires_verified_manual_origin": true,
     "fixed": false,
-    "candidate_version": "0.4.6-experimental",
+    "candidate_version": "0.4.7-experimental",
     "candidate_fix_validated": true,
-    "validation_scope": "Offline regression and exact-build call-path review only; no0.4.5 or0.4.6 live result yet.",
+    "validation_scope": "Offline regression and exact-build call-path review only; no later candidate has a live result yet.",
     "fixed_in_source": true
   },
   "known_hud_issue": {
@@ -329,5 +329,44 @@
     "managed_callbacks": 17,
     "distinct_native_targets": 11,
     "native_hook_binding_performed_during_validation": false
+  },
+  "previous_unlaunched_046_candidate": {
+    "version": "0.4.6-experimental",
+    "offline_tests": {
+      "passed": 282,
+      "policy": 34,
+      "persistence": 14,
+      "settings": 24,
+      "adapter_simulation": 192,
+      "host_launcher": 18
+    },
+    "developer_native_menu_trial": {
+      "version": "0.8.0-play-trial",
+      "menu_version": "0.8.0-settings-trial",
+      "production_script_byte_identical": true,
+      "preference_keys": [
+        "enabled",
+        "selection_mode",
+        "prefer_same_biome",
+        "locations"
+      ],
+      "live_verified": false,
+      "launched": false,
+      "registration_verified": false,
+      "included_in_player_zip": false,
+      "scope": "Unlaunched 0.8.0 batches all six existing native settings and an original menu/HUD icon with production0.4.6. Offline checks cover per-key persistence, unchanged native results, one resource-phase attempt, pinned ready resources and closed-game staging in temporary directories. Real pyMHF Python-only checks passed18 callbacks/12 targets, both shared-target registration orders, four mocked-original Boolean cases, all six temporary preferences and provider binding. No native hooks or game access occurred. Running0.7.1 and retained0.7.2 artifacts remain unchanged.",
+      "developer_tests_passed": 504,
+      "actual_framework_discovery_verified": true,
+      "temporary_all_six_preferences_verified": true,
+      "optional_icon_provider_binding_verified": true,
+      "callbacks": 18,
+      "distinct_native_targets": 12,
+      "payload_files": 17,
+      "custom_icon_included": true,
+      "custom_icon_deployed": false,
+      "custom_icon_live_verified": false,
+      "production_sha256": "454e9baba7f350513fd3eadb005638b5cba0b1292477a7b0ac68bcbe0ae9f92a",
+      "menu_sha256": "b372a24929a4513ce7043746e0a3df06d428ae1a9bdf19169f8bacf43e41bbb8"
+    }
   }
 }

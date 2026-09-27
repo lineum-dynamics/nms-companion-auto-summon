@@ -1,6 +1,6 @@
 # Companion Auto Summon roadmap
 
-This is the canonical backlog for unfinished release work and future ideas. It is not a feature list for the current package or a promise of release dates. Status checked against the unlaunched 0.4.6 / 0.8.0 candidate on 27 September 2026. New proposals below have been recorded for discussion; they are not approved for implementation.
+This is the canonical backlog for unfinished release work and future ideas. It is not a feature list for the current package or a promise of release dates. Status checked against the next, unlaunched 0.4.7 / 0.8.1 candidate on 27 September 2026. New proposals below have been recorded for discussion; they are not approved for implementation.
 
 Use [DESIGN.md](DESIGN.md) for accepted product behavior, [LOCALIZATION.md](LOCALIZATION.md) for language requirements and [the release plan](docs/release/PRIPRAVA-VYDANI.md) for publication checks. Update this backlog when a proposal is accepted, deferred, rejected or implemented. Record the version and verification evidence when a task is completed.
 
@@ -8,13 +8,18 @@ Use [DESIGN.md](DESIGN.md) for accepted product behavior, [LOCALIZATION.md](LOCA
 
 These requirements were accepted before this backlog was created. Finish them before adding optional features that would complicate the first release.
 
-The 0.4.6 candidate includes the manual-origin repair prepared in unlaunched
+The 0.4.7 candidate retains the manual-origin repair prepared in unlaunched
 0.4.5 / 0.7.2: only a matched successful native UI summon can replace or announce
 a favourite. The 0.7.1 arena event's actual caller remains unknown; existing
 stored choices are preserved. Shorter 5.5-second notices and the verified
-icon-hide fallback need a live visual check. The new combined 0.8.0 candidate
-also implements six native settings and original-icon loading/fallback, all
-pending live acceptance. The running 0.7.1 and retained 0.7.2 are unchanged.
+icon-hide fallback need a live visual check. Combined 0.8.1 retains the six
+native settings and original-icon loading/fallback from menu 0.8.0-settings-trial,
+all pending live acceptance. Production 0.4.7 changes only version metadata from
+0.4.6. Launcher changes add read-only `-CheckOnly`, usable while NMS runs, and
+separate fixed setup/host session leases that reject duplicate launches across
+package folders. Their OS handle lifetime handles process exits and crashes;
+normal setup refuses an unknown process state. Preflight is not gameplay
+validation. The running 0.7.1 and retained 0.7.2 / 0.8.0 remain unchanged.
 
 Prepared 0.4.4 / 0.7.1 adds bounded passive post-queue observation; one Anomaly startup now has player and native-active
 confirmation, with no automatic retry. Repeatability remains unverified. Validate it against the failed Anomaly case before
@@ -30,8 +35,8 @@ remapping and controllers remain untested; rapid toggles were repeated presses.
 
 | Work | Current boundary | Completion evidence |
 |---|---|---|
-| Simple, reliable installation | The development launcher still requires an external Python installation and prepares dependencies. A portable offline runtime and graphical launcher are not implemented. | Extract-and-launch on a clean second Windows account/PC; relocated and non-ASCII paths; no external Python dependency; exact-build checks; no duplicate host or unexpected game termination. Follow [installer requirements](docs/release/INSTALACE-ZADANI.md). |
-| Native quick-menu settings | The unlaunched 0.8.0 candidate implements all six existing preferences on one flat page using the same production queue. It stages the original DDS before launch and attempts one natural-phase load with a retained paw fallback. Neither the full page nor resource lifetime/rendering is live-verified. Earlier inert navigation and basic ON/OFF have bounded player evidence. Keep automatic summoning and the desktop development panel during acceptance; retire that panel only after all native controls pass. See [QUICK-MENU.md](QUICK-MENU.md). | All six controls apply/persist without changing unrelated values; native navigation/rebuilds and ordinary pet actions; default/remapped keyboard and controllers; shortcut preservation; custom icon, retained fallback and text-only behavior; no changed gameplay limits or shared vanilla textures. |
+| Simple, reliable installation | The 0.4.7 / 0.8.1 launcher adds read-only preflight and distinct setup/host leases across package folders. Normal setup still requires external Python and prepares dependencies. A portable offline runtime and graphical launcher are not implemented. | Validate check-only without writes or startup, duplicate launches across folders, normal/crash lease release and refusal on failed process enumeration; then extract-and-launch on a clean second Windows account/PC, relocated/non-ASCII paths, no external Python dependency, exact-build checks and no unexpected game termination. Follow [installer requirements](docs/release/INSTALACE-ZADANI.md). |
+| Native quick-menu settings | Unlaunched 0.8.1 retains all six preferences from 0.8.0 on one flat page using the same production queue. Normal launch stages the original DDS while NMS is closed and attempts one natural-phase load with a retained paw fallback. Neither the full page nor resource lifetime/rendering is live-verified. Earlier inert navigation and basic ON/OFF have bounded player evidence. Keep automatic summoning and the desktop development panel during acceptance; retire that panel only after all native controls pass. See [QUICK-MENU.md](QUICK-MENU.md). | All six controls apply/persist without changing unrelated values; native navigation/rebuilds and ordinary pet actions; default/remapped keyboard and controllers; shortcut preservation; custom icon, retained fallback and text-only behavior; no changed gameplay limits or shared vanilla textures. |
 | Localization and natural feedback | UI/HUD text is English-only; encoding and glyph coverage are unresolved. Some visible messages still need live verification. | Catalogs for all 14 official interface languages, verified language selection, placeholder checks, translation review and in-game rendering checks. Quiet ordinary summons, honest save/session-only messages and a restrained first-activation notice. |
 | Live behavior and compatibility | In combined trial 0.6.2, production 0.4.3 summoned one Random companion after an on-foot station load without a ship-exit trigger; the log and player confirm the result. The player later confirmed one manual dismissal without reappearance after traveling in the same unchanged session. Earlier visible results belong to their original versions. | Broaden dismissal regression; test planet/Nexus and Last manually selected startup, then normal ship-exit regression; existing preferences; biome preference/fallback; location controls; restart/save switching; rejected placement followed by a suitable location; cancellation and unsupported locations. Record actual appearance separately from an accepted queue request. |
 | Multiplayer and release preparation | Second-PC installation and multiplayer remain unverified; Nexus material is still a draft. | Controlled tests with one and then, where available, two mod users; no duplicate or foreign-pet changes; accurate support limits; owner-approved attribution/reuse terms and distribution contents; current platform/publisher policy review. |

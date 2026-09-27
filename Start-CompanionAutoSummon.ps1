@@ -3,17 +3,27 @@
 Starts the packaged experimental Companion Auto Summon mod for the supported Windows Steam build.
 Run only after closing No Man's Sky. Dependencies stay in a separate user runtime.
 Example: .\Start-CompanionAutoSummon.ps1 -GameDirectory 'D:\SteamLibrary\steamapps\common\No Man''s Sky'
+Use -CheckOnly to validate an existing installation without setup or launch, even while the game is running.
 #>
 [CmdletBinding()]
-param([string]$GameDirectory)
+param([string]$GameDirectory, [switch]$CheckOnly)
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 $runtimeVersion = '0.2.4'
 $runtimeRequirement = "pymhf[gui]==$runtimeVersion"
 
+function Get-GameRunning {
+    try {
+        $processes = @(Get-Process -ErrorAction Stop)
+        return @($processes | Where-Object { $_.ProcessName -ieq 'NMS' }).Count -gt 0
+    } catch {
+        throw 'Could not verify whether No Man''s Sky is running. No setup or launch is permitted until process enumeration succeeds.'
+    }
+}
+
 function Assert-GameClosed {
-    if (Get-Process -Name NMS -ErrorAction SilentlyContinue) {
+    if (Get-GameRunning) {
         throw 'No Man''s Sky is running. Close it before starting Companion Auto Summon; this launcher will not attach to an existing game.'
     }
 }
@@ -22,7 +32,7 @@ function Get-PythonInfo {
     param([string]$Executable, [string[]]$Arguments = @())
     $probe = 'import sys,os,struct,json,importlib.util as u,importlib.metadata as m; versions={d.metadata.get("Name","").lower():d.version for d in m.distributions()}; print(json.dumps({"exe":os.path.realpath(sys.executable),"major":sys.version_info.major,"minor":sys.version_info.minor,"bits":struct.calcsize("P")*8,"pymhf":versions.get("pymhf"),"dearpygui":versions.get("dearpygui") if u.find_spec("dearpygui") else None}))'
     try {
-        $lines = @(& $Executable @Arguments -c $probe 2>$null)
+        $lines = @(& $Executable @Arguments -B -c $probe 2>$null)
         if ($LASTEXITCODE -ne 0 -or $lines.Count -ne 1) { return $null }
         $info = $lines[0] | ConvertFrom-Json
         if ($info.major -eq 3 -and $info.minor -ge 11 -and $info.minor -le 13 -and $info.bits -eq 64) {
@@ -100,9 +110,16 @@ function Find-SteamGameDirectories {
     }
 }
 
+$setupLease = $null
 try {
     # This must precede runtime creation, dependency installation, and launch.
-    Assert-GameClosed
+    if (-not $CheckOnly) {
+        # Handle lifetime is the lease: never acquire ownership or wait.
+        $createdNew = $false
+        $setupLease = [System.Threading.Mutex]::new($false, 'Local\CompanionAutoSummon.Setup.v1', [ref]$createdNew)
+        if (-not $createdNew) { throw 'Another Companion Auto Summon setup or launcher is active. Use its existing window or wait for it to exit.' }
+        Assert-GameClosed
+    }
     if (-not $env:LOCALAPPDATA) { throw 'LOCALAPPDATA is unavailable. Run this launcher from your normal Windows account.' }
     $manifestPath = Join-Path $PSScriptRoot 'manifest.json'
     $modPath = Join-Path $PSScriptRoot 'CompanionAutoSummon.py'
@@ -139,13 +156,14 @@ try {
     if ($matchingGames.Count -eq 0) { throw "The game executable is unsupported. This package requires the exact Steam build $($manifest.steam_build) listed in manifest.json. No mod was launched." }
     if ($matchingGames.Count -ne 1) { throw 'Multiple supported installations were found. Select the active Steam installation with -GameDirectory.' }
     Write-Host "Validated game: $($matchingGames[0])"
-    Write-Host 'Companion Auto Summon is experimental. Start Steam with the account that owns this installation.'
+    if (-not $CheckOnly) { Write-Host 'Companion Auto Summon is experimental. Start Steam with the account that owns this installation.' }
 
-    Assert-GameClosed
+    if (-not $CheckOnly) { Assert-GameClosed }
     # Reuse the legacy runtime location; virtual environments are not moved.
     $runtimeDirectory = Join-Path $env:LOCALAPPDATA "NMS-AutoPet\runtime-$runtimeVersion"
     $runtimePython = Join-Path $runtimeDirectory 'Scripts\python.exe'
     if (-not (Test-Path -LiteralPath $runtimePython -PathType Leaf)) {
+        if ($CheckOnly) { throw 'The existing Companion Auto Summon runtime is missing. Close NMS, then run this launcher without -CheckOnly to create it.' }
         $basePython = Find-Python
         Assert-GameClosed
         Write-Host "Creating isolated Python runtime: $runtimeDirectory"
@@ -153,17 +171,26 @@ try {
         if ($LASTEXITCODE -ne 0) { throw 'Could not create the Companion Auto Summon Python environment.' }
     }
     $runtimeInfo = Get-PythonInfo -Executable $runtimePython
-    if (-not $runtimeInfo) { throw "The isolated runtime is damaged or uses an unsupported Python version: $runtimeDirectory. Rename that folder and try again." }
+    if (-not $runtimeInfo) { throw "The isolated runtime is damaged or uses an unsupported Python version: $runtimeDirectory. Close NMS before repairing or recreating it; CheckOnly never repairs files." }
     # Resolve Windows package/file virtualization before handing paths to NMS,
     # which is launched by Steam outside this launcher's filesystem context.
     $runtimePython = $runtimeInfo.exe
     if ($runtimeInfo.pymhf -ne $runtimeVersion -or -not $runtimeInfo.dearpygui) {
+        if ($CheckOnly) { throw 'The existing runtime requires pyMHF 0.2.4 and Dear PyGui. Close NMS, then run this launcher without -CheckOnly to repair dependencies.' }
         Assert-GameClosed
         Write-Host "Installing pyMHF $runtimeVersion and its GUI dependencies into the isolated runtime..."
         & $runtimePython -m pip --disable-pip-version-check install $runtimeRequirement
         if ($LASTEXITCODE -ne 0) { throw 'Dependency installation failed. Check the pip error above and your internet connection.' }
         $runtimeInfo = Get-PythonInfo -Executable $runtimePython
         if (-not $runtimeInfo -or $runtimeInfo.pymhf -ne $runtimeVersion -or -not $runtimeInfo.dearpygui) { throw 'The installed pyMHF version and Dear PyGui dependency could not be verified.' }
+    }
+    if ($CheckOnly) {
+        $gameRunning = Get-GameRunning
+        Write-Host "Validated exact game build: $($manifest.steam_build)"
+        Write-Host "Validated existing runtime: Python $($runtimeInfo.major).$($runtimeInfo.minor) x$($runtimeInfo.bits), pyMHF $($runtimeInfo.pymhf), Dear PyGui $($runtimeInfo.dearpygui)"
+        Write-Host "No Man's Sky running: $gameRunning"
+        Write-Host 'CheckOnly completed. No setup, asset staging, game start or hook registration was performed. This does not verify in-game behavior.'
+        return
     }
     Assert-GameClosed
     # Steam may have updated the executable while dependencies were installing.
@@ -181,4 +208,6 @@ try {
 } catch {
     Write-Error -Message $_.Exception.Message -ErrorAction Continue
     exit 1
+} finally {
+    if ($null -ne $setupLease) { $setupLease.Dispose() }
 }

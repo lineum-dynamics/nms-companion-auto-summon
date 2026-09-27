@@ -223,7 +223,7 @@ class CompanionAutoSummon(Mod):
             self.auto_enabled = False
             self.settings_ok = False
             LOGGER.exception("Companion Auto Summon settings unavailable; automation starts OFF. The settings panel can enable it for this session.")
-        LOGGER.info("Companion Auto Summon 0.4.6 experimental: automation %s; use the CompanionAutoSummon settings panel.",
+        LOGGER.info("Companion Auto Summon 0.4.7 experimental: automation %s; use the CompanionAutoSummon settings panel.",
                     "ON" if self.auto_enabled else "OFF")
 
     @property

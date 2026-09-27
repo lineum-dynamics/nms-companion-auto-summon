@@ -2,7 +2,33 @@
 
 Soukromé testovací záznamy uvedené níže jménem souboru jsou uchované mimo Git repozitář a distribuční ZIP. Dokument obsahuje jejich shrnutí; osobní záznamy ani zálohy se nedistribuují.
 
-## Připravený kandidát 0.4.6 / 0.8.0 — společný test před jedním restartem
+## Připravený kandidát 0.4.7 / 0.8.1 — doplněný spouštěč
+
+Před společným herním testem doplňuje spouštěč dvě oddělené ochrany proti
+souběžnému startu. První drží PowerShell během přípravy prostředí a čekání
+na hostitele, druhou používají obě varianty Python hostitele. Pojmenované
+objekty Windows sdílejí i kopie v jiných složkách; existující objekt nový start
+odmítne. Uvolnění se řídí životností handle, takže nezůstává soubor se starým PID.
+Starší spouštěče tuto ochranu nemají a nesmějí běžet současně s novými.
+
+Přepínač `-CheckOnly` kontroluje integritu balíčku, přesnou hru a již připravený
+runtime i během hraní. Nic neinstaluje, nevytváří prostředí, nepřipravuje DDS
+a nespouští hru ani hostitele. Chybějící runtime pouze ohlásí. Normální spuštění
+při chybě zjišťování procesů skončí před přípravou prostředí.
+
+Herní chování, nativní menu 0.8.0 a ikona se proti předchozímu kandidátu
+nemění. Vše zůstává připravené pro jeden společný test. Běžící 0.7.1 i
+nespuštěné 0.7.2 a 0.8.0 zůstávají zachované.
+
+Prošlo **294 produkčních testů** a **517 vývojových testů**.
+Samostatný test se skutečnými procesy Windows v izolovaném testovacím jmenném
+prostoru ověřil odmítnutí druhého hostitele a uvolnění po řádném i náhlém
+ukončení testovacího procesu. Nepoužil produkční zámek ani hru. Skutečné pyMHF
+znovu prošlo kontrolou widgetů, obou módů, všech šesti nastavení i pořadí
+zámek–kontrola–asset–spuštění–uvolnění se simulovaným startem. Nová verze se
+zatím ve hře nespouštěla; nejde o herní ověření.
+
+## Starší připravený kandidát 0.4.6 / 0.8.0 — společný test
 
 Rozšiřuje nativní stránku o všech šest dosavadních nastavení: automatiku,
 poslední ruční nebo náhodný výběr, přednost shodného biomu a tři lokace.

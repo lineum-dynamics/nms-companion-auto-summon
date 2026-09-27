@@ -1,6 +1,23 @@
 # Companion Auto Summon — jednoduchá a spolehlivá instalace
 
-Nový kandidát 0.4.4 / kombinovaný balíček 0.7.1 přidává pouze pasivní
+Aktuální připravovaný kandidát **0.4.7 / 0.8.1-play-trial** doplňuje vývojový
+spouštěč. Režim PowerShell `-CheckOnly` ověří balíček, podporovanou hru a
+existující runtime i za běhu NMS. Nic nevytváří, neinstaluje, nekopíruje do hry
+ani nespouští. Chybějící předpoklady ohlásí; jejich náprava vyžaduje samostatné
+běžné spuštění při zavřené hře. Úspěšná kontrola není herní ověření.
+
+Běžnou přípravu a hostitele chrání dva pevné, odlišné zámky relace Windows
+`Setup.v1` a `Host.v1`. Platí napříč složkami balíčků a žijí po dobu otevřených
+systémových handlů; zavření posledního je uvolní i po pádu procesu. Nejde o
+zámkové soubory vyžadující ruční odstranění. Pokud zjišťování běžících procesů
+selže, běžná příprava se odmítne.
+
+Produkce 0.4.7 mění proti 0.4.6 pouze údaj o verzi. Menu zůstává
+**0.8.0-settings-trial**, se stejnými šesti volbami a ikonou. Běžící 0.7.1 a
+připravené 0.7.2 / 0.8.0 zůstávají nedotčené. Veřejný přenosný instalátor ani
+lokalizace nejsou hotové; níže je jejich zadání a oddělená historická evidence.
+
+Historická produkce 0.4.4 / kombinovaný balíček 0.7.1 přidaly pasivní
 diagnostiku po přijetí požadavku na peta. Způsob instalace, dvě instance módů,
 původní cesty preferencí a kontrola přesné verze hry zůstávají zachované.
 Balíček 0.7.1 se po nové záloze spustil 27. 9. 2026 v 22:22:35;
@@ -9,17 +26,17 @@ Anomálie ani o dokončený veřejný instalátor. Jedno skutečné vyvolání p
 v Anomálii je potvrzené hráčem i novým pozorováním aktivního peta; opakovatelnost
 a příčina dřívějšího selhání zůstávají otevřené. Původní 0.7.0 je zachované.
 
-Požadavek vlastníka, stav k 27. 9. 2026. Toto je zadání veřejného balíčku, nikoli popis již hotového installeru. Zdrojový kandidát 0.4.3 používá Start-CompanionAutoSummon.ps1; oddělený kombinovaný kandidát 0.6.2 spouští produkční automatiku a experimentální menu modul 0.6.0 společně v jednom hostiteli. Ani jedna varianta není hotovým veřejným přenosným instalátorem.
+Požadavek vlastníka, stav k 27. 9. 2026. Toto je zadání veřejného balíčku, nikoli popis již hotového instalátoru. Historická produkce 0.4.3 používala Start-CompanionAutoSummon.ps1; kombinovaný balíček 0.6.2 spouštěl produkční automatiku a experimentální menu modul 0.6.0 společně v jednom hostiteli. Ani jedna varianta nebyla hotovým veřejným přenosným instalátorem.
 
 Produkční 0.4.3 přidává jednu odloženou příležitost po úspěšném načtení místního savu vedle dosavadního výstupu z lodi. Vyhodnotí ji až vhodný callback místního hráče se stejným zpožděním a původními pravidly; při deserializaci se nativní vyvolání neprovádí. Dosavadní nastavení zůstává rozhodující a není nutné je měnit. Ruční odvolání nezpůsobuje opakované vyvolávání. Vývojová podstránka Settings preview preference zatím nemění.
 
-Současné ověření: 230 produkčních testů (140 runtime), 341 vývojových testů a kontroly skutečného produkčního GUI i kombinované složky mimo hru prošly. Následný běh 0.4.3 / 0.6.2 dne 27. 9. 2026 po čerstvé záloze zaregistroval oba moduly s automatikou zapnutou. Po načtení místního savu na stanici vybral Random jednoho z pěti způsobilých petů a nativní fronta přijala požadavek přibližně 2,69 sekundy po jeho aktivaci; nešlo o požadavek z výstupu z lodi. Hráč potvrdil skutečné objevení peta a upřesnil, že byl na stanici, nikoli v Nexusu. Ověřené je jedno vyvolání po načtení na stanici v Random, nikoli všechny lokace ani veřejný instalátor.
+Historické ověření 0.4.3 / 0.6.2: 230 produkčních testů (140 runtime), 341 vývojových testů a kontroly skutečného produkčního GUI i kombinované složky mimo hru prošly. Následný běh 0.4.3 / 0.6.2 dne 27. 9. 2026 po čerstvé záloze zaregistroval oba moduly s automatikou zapnutou. Po načtení místního savu na stanici vybral Random jednoho z pěti způsobilých petů a nativní fronta přijala požadavek přibližně 2,69 sekundy po jeho aktivaci; nešlo o požadavek z výstupu z lodi. Hráč potvrdil skutečné objevení peta a upřesnil, že byl na stanici, nikoli v Nexusu. Ověřené je jedno vyvolání po načtení na stanici v Random, nikoli všechny lokace ani veřejný instalátor.
 
 Později v téže nezměněné relaci hráč potvrdil jedno ruční odvolání bez opětovného objevení peta během pozorování. Přesná lokace, čas odvolání, délka pozorování ani souvislost s dřívějším petem vyvolaným při načtení nejsou nezávisle doložené. Tento výsledek proto není označený jako odvolání na stanici nebo bezprostředně po načtení. Načtení na planetě, v Nexusu, v Last manually selected a širší regresní zkoušky zůstávají otevřené.
 
 Historický běh 0.4.2 / 0.6.1 téhož dne doložil pouze registraci modulů a přijatý požadavek na stanici v logu, bez hráčova potvrzení spawnu. Tento starší záznam se nepřepisuje novým výsledkem.
 
-## Nový oddělený vývojový kandidát 0.7.0
+## Historický oddělený vývojový kandidát 0.7.0
 
 0.7.0-play-trial přidává pouze nativní zapnutí/vypnutí automatiky přes původní
 frontu nastavení produkce 0.4.3. Ostatní volby a ruční favorit se zachovávají.

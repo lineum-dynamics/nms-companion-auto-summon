@@ -12,7 +12,7 @@ from pathlib import Path
 import tomllib
 
 
-VERSION = "0.8.0-play-trial"
+VERSION = "0.8.1-play-trial"
 HOST_NAME = "Launch-CompanionAutoSummon-PlayTrial.py"
 BOOTSTRAP_NAME = "Launch-CompanionAutoSummon.py"
 PAYLOAD_FILES = frozenset((
@@ -25,7 +25,7 @@ PAYLOAD_FILES = frozenset((
     "pymhf.toml", "README.md",
 ))
 EXPECTED_MODS = [
-    {"name": "CompanionAutoSummon", "version": "0.4.6-experimental", "path": "CompanionAutoSummon.py"},
+    {"name": "CompanionAutoSummon", "version": "0.4.7-experimental", "path": "CompanionAutoSummon.py"},
     {"name": "CompanionMenuOrderTrial", "version": "0.8.0-settings-trial", "path": "CompanionMenuOrderTrial.py"},
 ]
 EXPECTED_CONFIG = {
@@ -105,8 +105,9 @@ def _load_bootstrap(bundle):
         raise BundleError("The canonical injection guard could not be imported.")
     module = util.module_from_spec(spec)
     spec.loader.exec_module(module)
-    if not callable(getattr(module, "install_injection_guard", None)):
-        raise BundleError("The canonical injection guard is unavailable.")
+    if (not callable(getattr(module, "install_injection_guard", None))
+            or not callable(getattr(module, "launcher_session", None))):
+        raise BundleError("The canonical injection guard or host lease is unavailable.")
     return module
 
 
@@ -155,14 +156,16 @@ def main(argv=None):
         raise BundleError("The play trial requires pyMHF 0.2.4.")
     if tuple(metadata.entry_points().select(group="pymhflib")):
         raise BundleError("The play-trial runtime must not load additional pyMHF libraries.")
-    _load_bootstrap(bundle).install_injection_guard()
-    _prepare_icon_asset(bundle, args.game_directory)
-    if not _game_closed():
-        raise BundleError("NMS started during setup; close it before starting this trial.")
-    # Omitting plugin_name explicitly selects MOD_FOLDER. The 0.2.4 CLI's
-    # folder path instead enters library/user-configuration handling.
-    from pymhf.main import run_module
-    return run_module(str(bundle), config)
+    bootstrap = _load_bootstrap(bundle)
+    with bootstrap.launcher_session():
+        bootstrap.install_injection_guard()
+        _prepare_icon_asset(bundle, args.game_directory)
+        if not _game_closed():
+            raise BundleError("NMS started during setup; close it before starting this trial.")
+        # Omitting plugin_name explicitly selects MOD_FOLDER. The 0.2.4 CLI's
+        # folder path instead enters library/user-configuration handling.
+        from pymhf.main import run_module
+        return run_module(str(bundle), config)
 
 
 if __name__ == "__main__":

@@ -1,6 +1,7 @@
 """Combined play-trial host checks; no framework execution or process access."""
 
 import builtins
+from contextlib import contextmanager
 import copy
 import hashlib
 import importlib.util
@@ -51,11 +52,11 @@ class PlayTrialFixture(unittest.TestCase):
                 data = CONFIG
             (self.bundle / name).write_bytes(data)
         self.manifest = {
-            "version": "0.8.0-play-trial", "framework": "pymhf[gui]==0.2.4",
+            "version": "0.8.1-play-trial", "framework": "pymhf[gui]==0.2.4",
             "auto_summon": True, "preference_actions": True,
             "preference_keys": ["enabled", "selection_mode", "prefer_same_biome", "locations"],
             "mods": [
-                {"name": "CompanionAutoSummon", "version": "0.4.6-experimental",
+                {"name": "CompanionAutoSummon", "version": "0.4.7-experimental",
                  "path": "CompanionAutoSummon.py"},
                 {"name": "CompanionMenuOrderTrial", "version": "0.8.0-settings-trial",
                  "path": "CompanionMenuOrderTrial.py"},
@@ -70,7 +71,8 @@ class PlayTrialFixture(unittest.TestCase):
         self.events = []
         self.asset_setup = Mock(side_effect=lambda *args: self.events.append("asset"))
         self.bootstrap = types.SimpleNamespace(
-            install_injection_guard=Mock(side_effect=lambda: self.events.append("guard")))
+            install_injection_guard=Mock(side_effect=lambda: self.events.append("guard")),
+            launcher_session=Mock(side_effect=self.host_lease))
         self.runtime = types.ModuleType("pymhf.main")
         self.runtime.run_module = Mock(side_effect=self.run_module)
         self.package = types.ModuleType("pymhf")
@@ -92,6 +94,14 @@ class PlayTrialFixture(unittest.TestCase):
         self.assertEqual(folder, str(self.bundle.resolve()))
         self.assertEqual(config, LAUNCHER.EXPECTED_CONFIG)
         return 42
+
+    @contextmanager
+    def host_lease(self):
+        self.events.append("lease")
+        try:
+            yield
+        finally:
+            self.events.append("release")
 
     def main(self, argv=None, *, runtime_version="0.2.4"):
         with patch.object(LAUNCHER, "_load_bootstrap", return_value=self.bootstrap) as loader, patch.object(
@@ -231,6 +241,22 @@ class HostRoutingTests(PlayTrialFixture):
             self.main()
         self.bootstrap.install_injection_guard.assert_called_once()
         self.runtime.run_module.assert_not_called()
+        self.assertEqual(self.events, ["lease", "guard", "release"])
+
+    def test_existing_host_lease_stops_before_guard_assets_or_game(self):
+        self.bootstrap.launcher_session.side_effect = RuntimeError("owned duplicate host")
+        with self.assertRaisesRegex(RuntimeError, "owned duplicate host"):
+            self.main()
+        self.bootstrap.install_injection_guard.assert_not_called()
+        self.asset_setup.assert_not_called()
+        self.runtime.run_module.assert_not_called()
+        self.assertEqual(self.events, [])
+
+    def test_framework_failure_releases_host_lease(self):
+        self.runtime.run_module.side_effect = RuntimeError("owned framework failure")
+        with self.assertRaisesRegex(RuntimeError, "owned framework failure"):
+            self.main()
+        self.assertEqual(self.events, ["lease", "guard", "asset", "release"])
 
     def test_closed_probe_refuses_unknown_names_or_enumeration_failure(self):
         process_api = types.ModuleType("psutil")
@@ -282,7 +308,7 @@ class HostRoutingTests(PlayTrialFixture):
         previous = sys.argv
         original = list(previous)
         self.assertEqual(self.main(), 42)
-        self.assertEqual(self.events, ["guard", "asset", "run"])
+        self.assertEqual(self.events, ["lease", "guard", "asset", "run", "release"])
         self.runtime.run_module.assert_called_once_with(str(self.bundle.resolve()), LAUNCHER.EXPECTED_CONFIG)
         self.assertIs(sys.argv, previous)
         self.assertEqual(sys.argv, original)
@@ -313,6 +339,7 @@ class HostRoutingTests(PlayTrialFixture):
         with self.assertRaisesRegex(RuntimeError, "owned guard failure"):
             self.main()
         self.runtime.run_module.assert_not_called()
+        self.assertEqual(self.events, ["lease", "release"])
 
     def test_sibling_bootstrap_retains_verified_remote_dll_guard(self):
         bootstrap = LAUNCHER._load_bootstrap(self.bundle)

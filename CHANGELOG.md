@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.4.7 — read-only preflight and duplicate-launch protection
+
+- Prepared the next production 0.4.7 / combined 0.8.1-play-trial candidate. Production behavior is unchanged from 0.4.6 apart from version metadata. The native menu remains 0.8.0-settings-trial, with the same six settings and icon path. Running 0.7.1 and prepared 0.7.2 / 0.8.0 artifacts remain unchanged.
+- Added PowerShell `-CheckOnly` to validate package/game/existing-runtime prerequisites while NMS may remain running. It creates, installs, stages and starts nothing; missing prerequisites are reported. This check does not validate gameplay.
+- Added distinct fixed `Setup.v1` and `Host.v1` Windows session mutex leases, shared across package folders. Leases remain for their OS handle lifetime and disappear when the last handle closes, including after a crash; no stale lock-file cleanup is needed.
+- Normal setup refuses to continue when process enumeration fails. The portable public installer and localization remain unfinished. Live validation is pending; test evidence will be recorded separately for this revision.
+
 ## 0.4.6 — optional notification icon and complete settings trial
 
 - Prepared production 0.4.6 with combined 0.8.0; neither has launched. Running 0.4.4 / 0.7.1 and unlaunched 0.7.2 remain unchanged. The manual-origin repair and 5.5-second notices from 0.4.5 are retained without new summon rules or timing.

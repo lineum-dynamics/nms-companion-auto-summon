@@ -1,8 +1,20 @@
-# Companion Auto Summon 0.4.6 — testovací verze
+# Companion Auto Summon 0.4.7 — testovací verze
 
 Tento Git repozitář je hlavní zdrojový projekt. Testovací instalace a ZIP balíčky jsou jeho výstupy; další úpravy vznikají v repozitáři. Postup sestavení a ověření je v [DEVELOPMENT.md](DEVELOPMENT.md).
 
-Připravený zdrojový kandidát **0.4.6** a společný balíček **0.8.0-play-trial**
+Nový kandidát **0.4.7 / 0.8.1-play-trial** doplňuje spouštěč. Parametr
+`-CheckOnly` ověří balíček, podporovanou hru a existující runtime i za běhu NMS;
+nic nevytváří, neinstaluje ani nespouští. Běžnou přípravu a hostitele chrání
+oddělené zámky relace Windows `Setup.v1` a `Host.v1`, společné i pro balíčky
+v různých složkách. Jejich platnost končí zavřením posledního systémového
+handlu, také při pádu procesu. Pokud nelze zjistit běžící procesy, běžná příprava
+se odmítne. Nejde o dokončený přenosný instalátor ani o herní ověření.
+
+Produkce 0.4.7 se proti 0.4.6 liší pouze údajem o verzi. Modul menu zůstává
+**0.8.0-settings-trial**, se stejnými šesti volbami a ikonou. Překlady jsou stále
+nedokončené. Běžící 0.7.1 i připravené balíčky 0.7.2 a 0.8.0 zůstávají nedotčené.
+
+Zdrojový kandidát **0.4.7** a společný balíček **0.8.1-play-trial**
 ukládají ručního favorita pouze po odpovídající úspěšné akci nativního ovládání
 petů. Samotné přijetí požadavku do fronty, například při obnovení řízeném hrou,
 favorita nezmění a nevytvoří potvrzení ruční volby. Původ konkrétního volání
@@ -22,7 +34,7 @@ se nepřepisuje. Dočasný panel zůstává k porovnání při tomto společném
 
 Kandidát ještě nebyl spuštěn. Běžící instalace **0.4.4 / 0.7.1** a připravený
 starší balíček **0.4.5 / 0.7.2** zůstávají beze změny. Samostatný produkční ZIP
-obsahuje 0.4.6 bez pokusného menu a DDS; bez poskytovatele ikony používá čistý
+obsahuje 0.4.7 bez pokusného menu a DDS; bez poskytovatele ikony používá čistý
 text. Přesný rozsah kontrol aktuálního kandidáta uvádí
 [technický záznam](TECHNICKE-OVERENI.md). Starší počty níže patří uvedeným verzím.
 
@@ -77,7 +89,7 @@ První automatické vyvolání ve verzi 0.3.1 selhalo vypršením čekání. Ver
 ## Ovládání
 
 Samostatný produkční balíček používá okno **pyMHF**: přes **Alt+Tab** otevři
-záložku **CompanionAutoSummon**. Společný vývojový kandidát **0.8.0** navíc
+záložku **CompanionAutoSummon**. Společný vývojový kandidát **0.8.1** navíc
 nabízí všech šest voleb v rychlém menu hry, v položce **Companion Auto Summon**
 před konkrétními pety. Nabídku otevři svým nastaveným herním ovládáním.
 Dočasný panel zůstává během ověření k dispozici.
@@ -127,7 +139,13 @@ Pokud nelze přečíst `settings.json`, automatika začne vypnutá. V panelu ji 
 
 Balíček nemá pevnou osobní cestu, účet ani tvůj save. Podporovaný cíl: Windows x64, Steam build 25442159 / Cosmos 7.04, Python 3.11–3.13 x64, pyMHF 0.2.4. Jiný herní EXE se odmítne podle kontrolního součtu; nové verze hry vyžadují novou kontrolu kompatibility.
 
-`Start-CompanionAutoSummon.ps1` vyhledá Steam a připraví vlastní Python prostředí v profilu uživatele. Při prvním nastavení stáhne `pymhf[gui]==0.2.4` včetně GUI závislostí. Při běžící hře odmítne pokračovat. Volitelný parametr `-GameDirectory` musí ukazovat na instalaci používanou aktivním Steamem. Podrobnosti jsou v [anglickém návodu](README.md).
+Pro kontrolu rozbaleného kandidáta spusť v PowerShellu
+`./Start-CompanionAutoSummon.ps1 -CheckOnly`. Hra může zůstat zapnutá.
+Kontrola ověří dostupné soubory balíčku, hry a runtime; chybějící požadavky
+ohlásí, ale nic nevytvoří, nestáhne, nezkopíruje do hry ani nespustí.
+Úspěšná kontrola neověřuje herní funkce a nenahrazuje zálohu před novým testem.
+
+Při běžném spuštění `Start-CompanionAutoSummon.ps1` vyhledá Steam a připraví vlastní Python prostředí v profilu uživatele. Při prvním nastavení stáhne `pymhf[gui]==0.2.4` včetně GUI závislostí. Při běžící hře nebo chybě zjišťování procesů odmítne pokračovat. Ochrana proti dvojímu spuštění platí i mezi různými složkami balíčků a po skončení procesu nezanechává zámkový soubor. Volitelný parametr `-GameDirectory` musí ukazovat na instalaci používanou aktivním Steamem. Podrobnosti jsou v [anglickém návodu](README.md).
 
 Pro diagnostiku se zapisují logy do podsložky `logs` u CompanionAutoSummon.py. Interaktivní Python konzole a samostatné logovací okno jsou vypnuté; panel nastavení zůstává dostupný.
 

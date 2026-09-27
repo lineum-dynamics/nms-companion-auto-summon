@@ -5,9 +5,77 @@ The PowerShell launcher remains responsible for package/game/runtime checks.
 """
 
 import argparse
+from contextlib import contextmanager
 from functools import wraps
 import os
 import sys
+from types import SimpleNamespace
+
+
+LAUNCHER_MUTEX_NAME = r"Local\CompanionAutoSummon.Host.v1"
+_ERROR_ALREADY_EXISTS = 183
+
+
+class LauncherSessionError(RuntimeError):
+    """A host session could not obtain or release its exclusive launch lease."""
+
+
+def _launcher_mutex_api():
+    """Bind Windows APIs lazily, only when a host actually starts."""
+    if os.name != "nt":
+        raise LauncherSessionError("Companion Auto Summon requires Windows.")
+    import ctypes as C
+    kernel = C.WinDLL("kernel32", use_last_error=True)
+    create = kernel.CreateMutexW
+    create.argtypes = [C.c_void_p, C.c_int, C.c_wchar_p]
+    create.restype = C.c_void_p
+    close = kernel.CloseHandle
+    close.argtypes = [C.c_void_p]
+    close.restype = C.c_int
+    return SimpleNamespace(CreateMutexW=create, CloseHandle=close,
+                           set_last_error=C.set_last_error, get_last_error=C.get_last_error)
+
+
+@contextmanager
+def launcher_session(api=None):
+    """Hold one per-Windows-session host lease across all package locations.
+
+    The named mutex is an existence lease, not a thread-owned mutex: no Wait or
+    ReleaseMutex is used. A second open is refused immediately. Closing the
+    last handle, including process termination, removes the kernel object; no
+    stale lock file or abandoned thread ownership needs repair. The PowerShell
+    setup lease uses a different name so its child can acquire this host lease.
+    Optional api permits entirely fake offline checks without calling Windows.
+    """
+    handle = None
+    try:
+        try:
+            if api is None:
+                api = _launcher_mutex_api()
+            api.set_last_error(0)
+            candidate = api.CreateMutexW(None, False, LAUNCHER_MUTEX_NAME)
+            if type(candidate) is not int or not 0 < candidate < (1 << 64):
+                raise LauncherSessionError("Could not obtain the Companion Auto Summon host lease.")
+            handle = candidate
+            error = api.get_last_error()
+            if error == _ERROR_ALREADY_EXISTS:
+                raise LauncherSessionError("Companion Auto Summon is already starting or running. Use its existing host window.")
+            if type(error) is not int or error != 0:
+                raise LauncherSessionError("Could not verify the Companion Auto Summon host lease.")
+        except LauncherSessionError:
+            raise
+        except Exception:
+            raise LauncherSessionError("The Windows host-lease check failed; no mod was started.") from None
+        yield
+    finally:
+        if handle is not None:
+            try:
+                if not api.CloseHandle(handle):
+                    raise LauncherSessionError("Could not release the Companion Auto Summon host lease.")
+            except LauncherSessionError:
+                raise
+            except Exception:
+                raise LauncherSessionError("The Windows host-lease cleanup failed.") from None
 
 
 class InjectionGuardError(RuntimeError):
@@ -94,16 +162,17 @@ def main(argv=None):
     if os.path.basename(mod_path) != "CompanionAutoSummon.py" or not os.path.isfile(mod_path):
         parser.error("Expected an existing CompanionAutoSummon.py file.")
 
-    install_injection_guard()
-    # Import after installing the guard, then use pyMHF's public console entry
-    # point. Running the canonical venv Python avoids stale .exe entrypoint paths.
-    import pymhf
-    previous_argv = sys.argv
-    try:
-        sys.argv = ["pymhf", "run", mod_path]
-        return pymhf.run()
-    finally:
-        sys.argv = previous_argv
+    with launcher_session():
+        install_injection_guard()
+        # Import after installing the guard, then use pyMHF's public console
+        # entry point. Keep the lease until the entire host call completes.
+        import pymhf
+        previous_argv = sys.argv
+        try:
+            sys.argv = ["pymhf", "run", mod_path]
+            return pymhf.run()
+        finally:
+            sys.argv = previous_argv
 
 
 if __name__ == "__main__":

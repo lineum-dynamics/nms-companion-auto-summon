@@ -7,6 +7,7 @@ outside the game with flags restored and preferences under a temporary path.
 
 import argparse
 import ctypes as C
+from contextlib import contextmanager
 from functools import wraps
 import hashlib
 from importlib import metadata, util
@@ -338,7 +339,15 @@ def check(bundle_folder):
             launch = Mock(side_effect=lambda *args: order.append("folder") or "mocked")
             argv_before = sys.argv
             asset_setup = Mock(side_effect=lambda *args: order.append("asset"))
-            with patch.object(host, "_load_bootstrap", return_value=SimpleNamespace(install_injection_guard=guard)), \
+            @contextmanager
+            def owned_lease():
+                order.append("lease")
+                try:
+                    yield
+                finally:
+                    order.append("release")
+            with patch.object(host, "_load_bootstrap", return_value=SimpleNamespace(
+                    install_injection_guard=guard, launcher_session=owned_lease)), \
                     patch.object(host, "_prepare_icon_asset", asset_setup), \
                     patch.object(host, "_game_closed", return_value=True), \
                     patch.object(framework_main, "run_module", launch):
@@ -346,7 +355,7 @@ def check(bundle_folder):
                         "Host dispatch result changed")
             guard.assert_called_once_with()
             launch.assert_called_once_with(str(bundle), config)
-            require(order == ["guard", "asset", "folder"] and sys.argv is argv_before,
+            require(order == ["lease", "guard", "asset", "folder", "release"] and sys.argv is argv_before,
                     "Host dispatch order or argument lifetime differs")
 
     require(all(hashlib.sha256(path.read_bytes()).hexdigest() == hashes[path.name] for path in paths),
