@@ -3,7 +3,9 @@
 Current developer candidate: **0.7.0-play-trial**, containing unchanged
 production 0.4.3 and an opt-in 0.7.0 native automation toggle. It passed 408
 developer tests and real-framework discovery/temporary-preference checks.
-It has not been launched. The player's existing 0.6.2 session is unchanged.
+It registered in-game at 21:48:38 on 27 September 2026 after normal exit and
+a fresh verified backup of 43 profile files. Two Mods and 11 hook targets
+loaded with automation ON. The complete live preference check is pending.
 The following chronological records retain their original version boundaries.
 
 Status: 27 September 2026. The source candidate is 0.4.3-experimental, adding a

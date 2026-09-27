@@ -2,6 +2,7 @@
 
 ## 0.4.3 — summon opportunity after loading
 
+- Launched separate play trial 0.7.0 after normal game exit and a fresh hash-verified backup of 43 profile files. At 21:48:38 on 27 September 2026 both Mods and 11 hook targets registered with automation ON. All 14 payloads remained unchanged; existing settings and companion memory matched their pre-launch hashes in the initial startup check. Complete live toggle validation remains pending.
 - A successful local save load records one deferred summon opportunity when automation is enabled. An eligible local ownership update restores the saved identity or uses Random, then follows the existing 1.5-second stability, native ownership and paced placement checks. No native calls occur during save deserialization.
 - Existing active/queued pets, manual selection/preview, entering the ship, preference changes, another local load or loss/replacement of application context cancel the opportunity. It is consumed before arming; later manual dismissal does not cause repeated respawning. Missing ownership data is retried at the existing 0.5-second interval without guessing another pet.
 - Kept the same native mappings, hook targets, gameplay limits and external preference paths. Updated the panel wording and prepared combined play trial 0.6.2 with the existing ordered inert menu. After a fresh verified backup of 43 profile files it registered at 20:42:21 on 27 September 2026 with automation ON and two Mods/ten managed hooks.

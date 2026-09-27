@@ -57,6 +57,13 @@ must first be observed, including when holding confirmation while entering the
 submenu. All callback arguments/results are preserved. See `QUICK-MENU.md` for
 the exact-build evidence and live acceptance boundary.
 
+Play trial 0.7.0 registered at 21:48:38 on 27 September 2026 after normal
+game exit and a fresh hash-verified backup of 43 profile files. Both Mods and
+11 hook targets loaded with automation ON. All 14 payloads remained unchanged;
+the initial startup check found existing settings and companion memory unchanged.
+The game window was subsequently responding despite an initial missing-window
+warning. This confirms startup, not the complete native preference test.
+
 ## Naming and compatibility
 
 The public name is **Companion Auto Summon**; the repository slug is `nms-companion-auto-summon`. The private GitHub repository is [TomasTriska88/nms-companion-auto-summon](https://github.com/TomasTriska88/nms-companion-auto-summon). Remote existence and privacy have been verified; a push is a separate operation and must be confirmed by reading back the remote commit.

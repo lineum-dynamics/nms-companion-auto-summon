@@ -51,15 +51,17 @@ Quit NMS, then launch it normally through Steam to play without Companion Auto S
 
 ## Validation and known limits — update before upload
 
-A separate, unlaunched developer candidate, 0.7.0-play-trial, adds the first
+A separate developer candidate, 0.7.0-play-trial, adds the first
 native setting: automatic summoning ON/OFF. It uses the unchanged 0.4.3
 production preference queue and preserves other preferences. It passed 408
 developer tests and actual pyMHF discovery/temporary-preference checks outside
 the game: two Mods, 15 callbacks across 11 targets, no hook registration or
 personal preference access. This does not establish in-game activation,
 held-input behavior, remapped controls or controller support. Tail-only or
-otherwise uncorrelated activations do not change settings. The existing 0.6.2
-session remains unchanged. This developer candidate is not the player ZIP.
+otherwise uncorrelated activations do not change settings. On 27 September
+2026, after normal exit and a fresh verified backup, the 0.7.0 trial registered
+both Mods and 11 hook targets with automation ON. Complete live preference
+validation remains pending. This developer candidate is not the player ZIP.
 
 Remaining native controls are unfinished. The separate pyMHF panel is temporary
 and will be retired from the player interface after the complete native page

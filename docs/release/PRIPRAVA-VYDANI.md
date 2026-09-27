@@ -7,13 +7,15 @@ Stav k 27. 9. 2026. Pracovní plán; mód ani stránka nebyly zveřejněné. Hla
 Oddělený balíček 0.7.0-play-trial obsahuje nezměněnou produkci 0.4.3 a první
 nativní přepínač automatického vyvolávání ON/OFF. Prošlo 408 vývojových testů,
 kontrola skutečného pyMHF mimo hru a zařazení/použití změny dočasného nastavení.
-Balíček má 15 souborů, dva módy a 15 callbacků pro 11 cílů. Nebyl spuštěn ve hře;
-pozorování z 0.6.2 níže novou nabídku neověřují. Běžící 0.6.2 zůstává nezměněná.
+Balíček má 15 souborů, dva módy a 15 callbacků pro 11 cílů. Po ukončení hry
+a nové ověřené záloze 43 souborů se 27. 9. 2026 v 21:48:38 zaregistrovaly
+oba módy a 11 hook cílů s automatikou ON. Úplné herní ověření přepínače čeká;
+pozorování z 0.6.2 níže novou nabídku neověřují.
 
-Nejbližší zkouška po běžném ukončení hry a nové záloze: samotné procházení
+Nejbližší zkouška v nyní běžící hře: samotné procházení
 nesmí měnit stav; samostatné potvrzení má přepnout OFF/ON, podržení pouze jednou.
 Ověřit návrat, znovuotevření, pořadí položek, zachování ostatních voleb a ruční
-vyvolání peta. Nejde o povinné okamžité ukončení současného hraní. Aktivační
+vyvolání peta. Další restart není pro tuto zkoušku potřeba. Aktivační
 cesty bez ověřeného nativního potvrzení nic nepřepínají; přemapování a ovladače
 je potřeba samostatně vyzkoušet. Ostatní volby zatím používají dočasný panel
 pyMHF. Ten se po dokončení a ověření celého nativního menu odstraní z hráčského

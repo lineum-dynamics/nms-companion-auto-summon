@@ -19,10 +19,12 @@ dočasného nastavení. Ostatní volby zůstaly zachované. Herní funkce ani os
 soubory test nepoužil. Nezměněná produkce zachovává svůj předchozí výsledek
 230 testů; změna vývojového menu jejich nové spuštění nevyžadovala.
 
-Balíček má 15 souborů, z toho 14 kontrolovaných payloadů. Zatím nebyl spuštěn
-ve hře. Běžící 0.6.2 zůstává beze změny; dřívější úspěchy níže nejsou důkazem
-funkčnosti nového přepínače. Před nasazením se hra běžně ukončí a vznikne nová
-záloha. Pak následuje zkouška OFF/ON, podržení, návratu/znovuotevření, pořadí
+Balíček má 15 souborů, z toho 14 kontrolovaných payloadů. Po běžném ukončení
+hry a nové hashově ověřené záloze 43 souborů byl spuštěn 27. 9. 2026.
+V 21:48:38 se načetly oba módy a 11 hook cílů s automatikou ON. Všech 14
+payloadů zůstalo shodných; počáteční kontrola potvrdila nezměněné nastavení
+i paměť ruční volby. Registrace není ověřením funkčnosti přepínače.
+Následuje zkouška OFF/ON, podržení, návratu/znovuotevření, pořadí
 položek a běžných akcí petů. Ostatní nastavení zatím zůstávají v dočasném panelu;
 z finálního hráčského rozhraní bude panel pyMHF odstraněn po dokončení menu.
 

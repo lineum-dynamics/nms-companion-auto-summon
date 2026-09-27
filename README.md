@@ -9,7 +9,8 @@ setting: automatic summoning ON/OFF. It queues changes through the unchanged
 0.4.3 production runtime. It has not been verified in game. The remaining
 preferences still use the temporary pyMHF development panel, which will be
 retired from the player interface once all native controls are complete.
-This candidate is built separately; the running 0.6.2 session is unchanged.
+This separately built candidate registered in-game on 27 September 2026 after
+a fresh verified backup; two Mods and 11 hook targets loaded with automation ON.
 
 Version 0.4.3 adds one automatic-summon opportunity after a successful local save load, so loading directly on foot can use the same placement checks as a ship exit. One Random-mode summon after loading on a **space station** is now confirmed by the log and the user. It uses the existing automation toggle and selection/location preferences; no new option or stored-data format is introduced. The settings tab remains **CompanionAutoSummon** because pyMHF uses the Python class name. Current validation is recorded in `manifest.json`.
 

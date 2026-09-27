@@ -10,7 +10,9 @@ Oddělený vývojový kandidát **0.7.0-play-trial** přidává první skutečno
 v menu X: zapnutí nebo vypnutí automatiky. Změnu předává původnímu runtime
 0.4.3 a jeho ukládání nastavení. Herní ověření této volby teprve následuje.
 Ostatní volby zatím zůstávají v dočasném panelu pyMHF; po dokončení nativního
-menu tento panel z hráčského rozhraní odstraníme. Běžící relace 0.6.2 se nemění.
+menu tento panel z hráčského rozhraní odstraníme. Po nové ověřené záloze byl
+27. 9. 2026 spuštěn oddělený balíček 0.7.0: načetly se oba módy a 11 hook cílů
+s automatikou zapnutou. Úplná herní zkouška přepínače zatím není potvrzená.
 
 **Ve společném testovacím balíčku 0.6.2 se pet po načtení pěšky na vesmírné stanici automaticky objevil v režimu Random.** Log potvrzuje spuštění načtením savu bez výstupu z lodi, výběr jednoho z pěti vhodných vlastních petů a přijetí požadavku přibližně po 2,69 sekundy. Uživatel potvrdil skutečné objevení. Nexus ani planeta nebyly místem tohoto testu; jejich načtení a režim poslední ruční volby po načtení ještě čekají na ověření. Později uživatel potvrdil i jedno ruční odvolání bez opětovného objevení. Mezitím cestoval; přesné místo a délka tohoto pozorování nebyly nezávisle změřeny. Přesný rozsah zaznamenává `manifest.json`.
 

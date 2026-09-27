@@ -16,9 +16,10 @@ Historický běh 0.4.2 / 0.6.1 téhož dne doložil pouze registraci modulů a p
 frontu nastavení produkce 0.4.3. Ostatní volby a ruční favorit se zachovávají.
 Stav čekající na použití a stav platný pouze pro relaci se zobrazují odlišně od
 uložené volby. Prošlo 408 vývojových testů a kontrola skutečného pyMHF se dvěma
-módy, 15 callbacky pro 11 cílů a dočasným nastavením mimo hru. Tato verze zatím
-nebyla spuštěna; nejde o dokončený veřejný instalátor. Příprava nepřepsala
-běžící 0.6.2. Nasazení vyžaduje běžné ukončení hry a čerstvou zálohu.
+módy, 15 callbacky pro 11 cílů a dočasným nastavením mimo hru. Po běžném
+ukončení hry a nové ověřené záloze 43 souborů se 27. 9. 2026 v 21:48:38
+načetly oba módy a 11 hook cílů s automatikou ON. Úplná herní zkouška přepínače
+zatím není potvrzená; nejde o dokončený veřejný instalátor.
 
 Finální hráčské rozhraní nebude vyžadovat panel pyMHF. Po dokončení všech voleb
 v menu X se dočasný vývojový panel odstraní; závislosti GUI se posoudí zvlášť

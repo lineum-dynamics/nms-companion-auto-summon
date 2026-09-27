@@ -65,15 +65,15 @@
     },
     {
       "path": "README.md",
-      "sha256": "08e36b1ca2ee51b2ecb59a040a2ceace6753689e245ed8e85397614b7d9f7ccd"
+      "sha256": "3eacd90577026fce2cba731d454663763e187afe7523caad2ed75ab5d4979ecd"
     },
     {
       "path": "README.cs.md",
-      "sha256": "94363bf222e0c37e63c3e2339bfe3d8c646a9ee6c9a8506a2f00e0a22adb4a0f"
+      "sha256": "16147487b10d982a1887f29eb06e3ea882e15b31084e1458b60891cc9b588282"
     },
     {
       "path": "TECHNICKE-OVERENI.md",
-      "sha256": "7f84200de1c7a2bbd04d8819ea54924b0ca96ad5ba3a0bb2cd43cb3a5ad5a322"
+      "sha256": "2573b44512caccc5022891467ed665bb9153c2bcfe0a547971ed2e11c46832f2"
     },
     {
       "path": "build.py",
@@ -85,11 +85,11 @@
     },
     {
       "path": "DEVELOPMENT.md",
-      "sha256": "59ca760aef17c88e0c1d60607a2d8779a59d8ad1aba8aefdc3a7e90c05f70742"
+      "sha256": "ae658748390ae5f653c06b6e0debf398cb283fbe38646f9f6f1774df236b2b8e"
     },
     {
       "path": "LOCALIZATION.md",
-      "sha256": "f1f1b3c162dbe80d330c13ec2a8f28f4bf11d53267a480e32b4a6601ff1dc56b"
+      "sha256": "6f9ab3cb312c933fced2e792464b135cc067b373b1bed55160b6c9f207a2092d"
     },
     {
       "path": "DESIGN.md",
@@ -97,7 +97,7 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "b9d791474e3350084c71b4dded4cdf1384267dddb17eb5e96a26de6728a1b9b9"
+      "sha256": "6a460bdc863f9b7b7a53342636662d420e47ee82bb3c6c9297d8ad1f42bb1a7d"
     },
     {
       "path": "ROADMAP.md",
@@ -105,19 +105,19 @@
     },
     {
       "path": "QUICK-MENU.md",
-      "sha256": "6cd93e1d4b79398940e0ceceb561afa3c82a66137eedc1a1bdda86053eb074e8"
+      "sha256": "4cbb03ff781baf139c0d8e02896bb7abc32b9b5a8ac95a1d32dcb812b26dd41c"
     },
     {
       "path": "docs/release/PRIPRAVA-VYDANI.md",
-      "sha256": "a4c90f38a81b9d727953511eb52df11725029388b72c89e7253724050631aa27"
+      "sha256": "6c530f17f58eb2d4f109a14a11bb0ca6eeb77c4ea4712fa0b1c083368aea4049"
     },
     {
       "path": "docs/release/INSTALACE-ZADANI.md",
-      "sha256": "b7d871cbc5a9280071046b15f0fe9bd0be2b127a9acb504017886e6f06640c5a"
+      "sha256": "15ed3c43198ad56e0005d85969456bdd705ac29cdbbfceff48e13edbd17c4e94"
     },
     {
       "path": "docs/release/NEXUS-DESCRIPTION-DRAFT.md",
-      "sha256": "c4a9e0e87f127952be443af54b593d6c41e63931066e10fff152f50d56b0ee78"
+      "sha256": "8a8eae49216da1050da1ae2b448a6d3a5ad51fe4ba40c627992ba6df204ccb55"
     },
     {
       "path": "src/policy.py",
@@ -179,8 +179,10 @@
     "managed_callbacks": 15,
     "distinct_native_targets": 11,
     "live_verified": false,
-    "launched": false,
+    "launched": true,
+    "registration_verified": true,
+    "registered_at": "2026-09-27T21:48:38+02:00",
     "included_in_player_zip": false,
-    "scope": "Separately built, predicate-gated native ON/OFF candidate. Requires same-menu false then true native confirmation, one matching selected-child trigger and original false result; no tail-only activation. Existing production applies and persists the queued setting. Other preferences remain in the temporary development panel. Running 0.6.2 is unchanged; remapping/controllers, held input and live preference activation await testing."
+    "scope": "Separately built, predicate-gated native ON/OFF candidate. Requires same-menu false then true native confirmation, one matching selected-child trigger and original false result; no tail-only activation. Existing production applies and persists the queued setting. Other preferences remain in the temporary development panel. Registered on 27 September 2026 after normal exit and a fresh verified backup: two Mods, 11 hook targets, automation ON and 14 unchanged payloads. Complete live preference validation, remapping/controllers and held input await testing."
   }
 }
