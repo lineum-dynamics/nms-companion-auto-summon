@@ -29,7 +29,10 @@ release; we have not renamed or repeatedly rebuilt files to alter scan results.
 File 49197 was also quarantined. Its exact linked archive report shows 1/58,
 Bkav Pro W32.Malware.2D7F7A26, analysis time 28 September 2026 at 16:10:11 CEST:
 https://www.virustotal.com/gui/file/d87f868c618aec200cf276aae1faf81748eeaf7be26bd1e21a8594590627e383/detection
-The current EXE report lacks per-engine results; we do not call it clean.
+The completed EXE report now shows 3/71: Bkav Pro W32.Malware.2D7F7A26,
+McAfee Scanner Ti!0DF7E0930C40 and SecureAge Malicious. Its analysis time is
+28 September 2026 at 16:12:09 CEST. We do not claim a confirmed false positive.
+https://www.virustotal.com/gui/file/0df7e0930c407ecdb64eba6c79ff7bae535606d9d71932e8342926e6b6120172/detection
 
 0.9.3-test ZIP SHA256:
 d87f868c618aec200cf276aae1faf81748eeaf7be26bd1e21a8594590627e383

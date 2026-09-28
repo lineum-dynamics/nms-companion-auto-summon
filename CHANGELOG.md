@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.9.3 scan follow-up and independent distribution research
+
+- Record the completed exact launcher report: 3/71 (Bkav Pro, McAfee Scanner,
+  SecureAge). Bkav's label matches the ZIP; no sole-cause or false-positive
+  conclusion is established. Keep the original 0.9.3 artifact unchanged.
+- Record public Nexus staff statements, a comparable NMS native migration,
+  verified vendor-file provenance and a bounded native-loader feasibility plan.
+  No native implementation, release clearance, external contact or new scan.
+- No gameplay, runtime or player-facing wording changes; all fourteen language
+  catalogs remain unchanged. See `docs/research/NEXUS-SELF-SERVICE-INVESTIGATION.md`.
+
 ## 0.9.3-test archive-layout and launcher provenance repair
 
 - Extract the original 649 Python standard-library files unchanged and record their inner-archive provenance. Refuse nested distribution archives before packaging; retain vendor native files and licenses.

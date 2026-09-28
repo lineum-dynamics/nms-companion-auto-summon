@@ -34,6 +34,7 @@ PACKAGE_FILES = (
     "docs/research/PORTABLE-RUNTIME-AUDIT.md",
     "docs/research/PORTABLE-SCAN-092.md", "docs/research/LIVE-092.md",
     "docs/research/PORTABLE-SCAN-093.md", "docs/research/WINDOWS-DISTRIBUTION-TRUST.md",
+    "docs/research/NEXUS-SELF-SERVICE-INVESTIGATION.md",
     "docs/research/LAUNCHER-IL-AUDIT-092.md", "docs/research/LAUNCHER-IL-AUDIT-093.md",
     "docs/research/LAUNCHER-SOURCE-REVIEW-092.md",
     "docs/research/MENU-THREAD-LIFECYCLE.md",

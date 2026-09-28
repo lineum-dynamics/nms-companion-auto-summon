@@ -27,8 +27,9 @@ false positive. See [the exact repair and scan boundary](../research/PORTABLE-SC
 The 0.9.3 version, full description and file row were saved and read back on
 28 September 2026. The file is Miscellaneous with mod-manager downloads OFF;
 49196 and 49195 remain present. The linked scan hash matches the exact local ZIP. Nexus now reports automated
-quarantine; the ordinary owner-download route is blocked. The EXE report did
-not show per-engine results, so no new executable clean-scan claim is made.
+quarantine; the ordinary owner-download route is blocked. The completed EXE
+report now shows 3/71: Bkav Pro, McAfee Scanner and SecureAge. Bkav's label is
+the same as the archive's; no false-positive or sole-cause claim is made.
 The prepared [review request](NEXUS-QUARANTINE-REVIEW-DRAFT.md) remains unsent.
 
 The frozen ZIP's `Multiplayer test.txt` retains the scenario plan's 0.9.2

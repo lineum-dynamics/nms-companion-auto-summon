@@ -109,7 +109,7 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "6147ebe9ab125966c9c9666ea7756b0a62d2f029c0e12366bf5dd57beb858f8d"
+      "sha256": "34cf45547962e4f5e902b178de31eaa6f3714db30067ba637d2dd9242a0eda52"
     },
     {
       "path": "ROADMAP.md",
@@ -145,7 +145,7 @@
     },
     {
       "path": "docs/release/TESTER-HANDOFF.md",
-      "sha256": "d7085240f05fc488bb2f7bc97dafa039498162b51e26cf74ebf9c47657878e71"
+      "sha256": "10ef178f62f59a664c13c254d34d0229611f6e66e75a01d82081567f0d90969c"
     },
     {
       "path": "docs/research/TECHNOLOGY-PROTOTYPE.md",
@@ -193,11 +193,15 @@
     },
     {
       "path": "docs/research/PORTABLE-SCAN-093.md",
-      "sha256": "094bfbaf3edbea3b5d1a3de69a064199fad1317ee96def799d26bc367e597602"
+      "sha256": "8f56542d00c4e7cc9699a7442322620e929d92fefd573cfe1626ebf89efa3de6"
     },
     {
       "path": "docs/research/WINDOWS-DISTRIBUTION-TRUST.md",
       "sha256": "a316537ff5573009043a46808a6617beeb40be645e5bc88a1f6369a2c208197e"
+    },
+    {
+      "path": "docs/research/NEXUS-SELF-SERVICE-INVESTIGATION.md",
+      "sha256": "2383f82aee2cbdbc08fcdc4cabf4635e8ebc8da7ccd90eda583ddc3bd4dc468a"
     },
     {
       "path": "docs/research/LAUNCHER-IL-AUDIT-092.md",
@@ -1345,11 +1349,19 @@
         "vendor": "Bkav Pro",
         "label": "W32.Malware.2D7F7A26"
       },
-      "entrypoint_virustotal": "No completed per-engine result available; not established clean",
+      "entrypoint_virustotal": "3/71",
       "specific_quarantine_cause_established": false,
       "false_positive_established": false,
       "review_request_prepared": true,
-      "source_repository_public": false
+      "source_repository_public": false,
+      "entrypoint_detections": {
+        "Bkav Pro": "W32.Malware.2D7F7A26",
+        "McAfee Scanner": "Ti!0DF7E0930C40",
+        "SecureAge": "Malicious"
+      },
+      "entrypoint_analysis_time": "2026-09-28T16:12:09+02:00",
+      "contact_authorized": false,
+      "self_service_investigation": "docs/research/NEXUS-SELF-SERVICE-INVESTIGATION.md"
     },
     "independent_shipped_recipe_matches": true
   }

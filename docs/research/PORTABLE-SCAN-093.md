@@ -109,11 +109,24 @@ matches the exact local ZIP SHA256 above. Its report at 16:10:11 local time is
 not process the file. The report's `whl` classification tag is recorded without
 inferring Nexus causality. [Exact archive report](https://www.virustotal.com/gui/file/d87f868c618aec200cf276aae1faf81748eeaf7be26bd1e21a8594590627e383/detection).
 
-The exact EXE report existed but displayed no per-engine results/denominator,
-so its generic no-detections banner is **not** treated as a completed clean
-scan. A bounded Relations read of the archive showed individual prior results
-for a subset of bundled files, not complete fresh component coverage. Neither
-observation explains Bkav's archive detection or identifies a new faulty module.
+The first EXE read displayed no per-engine results/denominator, so its generic
+no-detections banner was not treated as a clean scan. A later read on the same
+day returned the completed **3/71** report, analysis time **16:12:09 CEST**:
+Bkav Pro `W32.Malware.2D7F7A26`, McAfee Scanner `Ti!0DF7E0930C40`, and SecureAge
+`Malicious`. The exact launcher therefore independently receives the same Bkav
+label as the ZIP. This narrows investigation to an identified component; it
+does not prove the sole Nexus quarantine cause or identify a defective method.
+[Exact executable report](https://www.virustotal.com/gui/file/0df7e0930c407ecdb64eba6c79ff7bae535606d9d71932e8342926e6b6120172/detection).
+
+The visible Behavior report showed no detections, dropped files or network
+communications, and a file/directory-discovery capability. Some sandboxes were
+still analysing. An isolated EXE cannot pass the package integrity gate, so
+this is not evidence covering a full mod start. A bounded Relations read of the
+archive likewise covered only a subset of dependencies, not a complete scan.
+
+See the [self-service investigation](NEXUS-SELF-SERVICE-INVESTIGATION.md) for
+published staff statements, a comparable NMS project and architecture options.
+No new sample was submitted and no rescan was requested to obtain this report.
 
 Removing the nested stdlib archive resolved a concrete packaging mismatch but
 did **not** resolve Nexus availability. No successful owner download, 0.9.3 game
@@ -131,3 +144,6 @@ signing/metadata would necessarily clear the residual detection.
 The originating task retains `outputs/nexus-093-quarantine.png` and browser
 text snapshots under `work/nexus-093-file-state-final.txt`,
 `work/virustotal-093-archive-state.txt` and `work/virustotal-093-relations.txt`.
+The follow-up retains `work/virustotal-093-launcher-completed.txt`,
+`work/virustotal-093-launcher-behavior.txt` and
+`outputs/virustotal-093-launcher.png` in the originating workspace.
