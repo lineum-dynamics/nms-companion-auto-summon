@@ -22,6 +22,7 @@ public:
     [[nodiscard]] std::optional<int> last_slot() const noexcept;
     [[nodiscard]] bool pending() const noexcept;
     [[nodiscard]] std::optional<int> pending_slot() const noexcept;
+    [[nodiscard]] std::optional<double> last_observed_time() const noexcept { return last_time_; }
 
     // Rejection allows the same choice to be retried; acceptance finishes it.
     bool resolve(bool accepted) noexcept;

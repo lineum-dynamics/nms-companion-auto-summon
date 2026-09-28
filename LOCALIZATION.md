@@ -1,5 +1,11 @@
 # Companion Auto Summon localization
 
+The **0.10.0-native-test** source has **64 keys in each of fourteen catalogs**.
+The new `native.activation_failed` warning explains that NMS may continue with
+the mod disabled. Windows-language startup warnings are compiled into the native
+module; in-game menu/HUD remain English. Existing draft-review metadata is
+preserved. Historical catalog counts below belong to their retained versions.
+
 Packaging **0.9.3-test** retains all **63 keys across fourteen catalogs**.
 No UI wording or meaning changes. Windows product/company identity and version
 are invariant branding/build metadata. The English/Czech quick starts both

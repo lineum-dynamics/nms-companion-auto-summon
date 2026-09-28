@@ -1,9 +1,78 @@
-# 0.9.3-test private tester handoff
+# 0.10.0-native-test private tester handoff
+
+The native candidate is packaged, offline-validated and installed for the first
+local test. Its first Steam session logged successful native activation and two
+accepted summon queues. The player confirmed a visible pet after ship exit.
+**Post-load appearance is uncertain:** the initial report of no pet was
+immediately qualified with the possibility that it was overlooked. No startup
+failure is established. Menu/UI acceptance, normal restart, second-PC use,
+multiplayer and Nexus clearance are not yet established. Keep mod 4579
+Unpublished; older files remain separate history.
+
+| Field | Current native candidate |
+| --- | --- |
+| ZIP | `CompanionAutoSummon-0.10.0-native-test.zip` |
+| Files / bytes | 30 / 3,725,420 |
+| ZIP SHA-256 | `e00a8818230dba24066fcdc4d75a01d696c9e2573d2538aa6a9b05c5dd14bebb` |
+| Module SHA-256 | `3840c8f8e0dd1405b05c35dcc859f766fd36fcb7c1bade3e07ab2e7ddc5d8373` |
+| Build | `build/native-runtime-0100-r3` |
+| Distribution | Native ASI module, exact official UAL 9.7.4 x64 loader, eight original icons; no Python or separate launcher |
+| Game | Windows 10/11 x64, Steam Cosmos 7.04 / build 25442159; exact executable hash required |
+| Offline validation | Policy 31,216 commands; selection 25,733 commands; storage 721 operations; runtime 59 cases; backup 16 checks; six owned-host module runs; ten authored hook/ABI checks |
+| Installation evidence | Fresh verified closed-game backup; module/loader created; eight existing icons matched |
+| First native session | Actual executable verified, private pre-activation snapshot verified, twelve hooks plus guard active, local load observed, two queues accepted |
+| Player appearance report | Visible pet after ship exit confirmed; post-load appearance uncertain, not an established failure |
+| Remaining player/distribution acceptance | Controlled startup repeat, menu, restart, second PC, multiplayer and Nexus still pending; Python scan results do not apply to this ZIP |
+
+The ZIP is retained in the originating task's deliverables; publish only the
+filename and hash, never a developer-machine path. Packaging receipts retain
+their pre-deployment false flags; the later controlled installation and live
+log evidence are documented separately in
+[NATIVE-0100-VALIDATION](../research/NATIVE-0100-VALIDATION.md).
+
+## Native tester procedure
+
+1. Use the exact ZIP above and read its English or Czech README. Close the game
+   and retain a separate closed-game save backup for the first installation.
+2. Open Steam's **Manage → Browse local files** for No Man's Sky. Extract the
+   ZIP and merge its `Binaries` and `GAMEDATA` folders into this game root.
+   Do not overwrite a different existing `Binaries/winmm.dll`; the guide gives
+   the exact reusable loader hash. No administrator or Python setup is needed.
+3. Start normally through Steam. Do not launch the older Python/pyMHF version
+   concurrently. Unknown game builds refuse this mod's gameplay hooks and show
+   an available localized startup warning.
+4. Open the native **Quick Menu → Companions → Companion Auto Summon**. X is
+   only the default PC Quick Menu key; use the game's configured binding or
+   controller prompts. In-game mod text is English. Existing settings remain
+   preserved; only fresh settings default to By habitat and Shuffle ON.
+5. Repeat the uncertain load-appearance check and the confirmed ship-exit
+   behavior under controlled observation, manually dismiss the companion and
+   check that it remains dismissed, then confirm menu order/icons and OFF/ON
+   behavior. Record actual observations separately from log queue acceptance.
+6. After normal game closure, test Steam restart and saved settings. Once both
+   PCs pass solo checks, use the same unchanged ZIP and exact supported game
+   build for multiplayer, observing both screens. Do not exchange saves or
+   private backups. No second-PC or multiplayer result is recorded yet.
+
+Native initialization also verifies a private backup before enabling gameplay
+hooks, but **the game is already running then**. This is not the earlier
+closed-game backup or a pre-launch backup. Original save files are never edited
+or restored by the mod. Preferences, favorites, backups and logs remain under
+the established `%LOCALAPPDATA%/NMS-AutoPet` directory.
+
+Uninstall with NMS closed by removing this mod's `.asi` and its icon directory.
+Keep the loader if another mod needs it. Returning to the previous Python
+test requires removing this native module first. Follow the packaged selective
+removal instructions; never delete shared game or mod folders.
+
+## Retained 0.9.3-test private tester handoff
 
 Local packaging candidate built and offline-verified. **Nexus file 49197 is
 uploaded and quarantined. Exact ZIP VirusTotal: 1/58 (Bkav Pro). No clearance
 or successful owner download.** Keep mod 4579
-Unpublished and preserve older files. Do not replace the running 0.9.2 session.
+Unpublished and preserve older files. At that checkpoint the existing 0.9.2
+session was retained; this paragraph describes the older Python candidate,
+not the current native installation.
 
 | Field | Value |
 | --- | --- |

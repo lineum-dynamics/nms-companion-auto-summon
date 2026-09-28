@@ -1,6 +1,50 @@
-# Native feasibility milestone 1
+# Native runtime test candidate 0.10.0
 
-This directory contains an **offline experiment**, not an installable replacement
+`0.10.0-native-test` implements the existing automation path in C++: local-save
+startup and ship-exit opportunities, deferred native placement, Last selected /
+Random / By habitat selection, session rotation, persisted preferences and
+manual favorites, the seven-control quick-menu page and DDS icons. Normal
+startup uses pinned Ultimate ASI Loader through Steam; no Python host or
+external settings panel is used.
+
+The actual current process executable must match `compatibility.json` before
+game integration. Each native target is compared against the locked verified
+image before hook creation. Unsupported images are refused. Startup errors use
+the maintained Windows-language catalogs; in-game menu/HUD remain English.
+Thirteen translation catalogs remain drafts, not verified language support.
+
+Initialization creates a private verified snapshot **before native hooks**.
+The game process is already running: this is not a closed-game/pre-launch
+backup. The first controlled deployment additionally uses a closed-game backup.
+Snapshots contain saves and external preferences, hold read-only handles denying
+concurrent writes/deletion, verify source/copy/source bytes and file inventory,
+and retain `INCOMPLETE` on failure. An existing writer refuses activation.
+Snapshots use a protected current-user/SYSTEM ACL. No save is edited or restored.
+
+One shared TriggerAction detour serves menu activation and manual attribution;
+original arguments/results are forwarded. Callbacks and the binding filter stay
+pinned through process exit. Concurrent automation callbacks stop automation;
+the retained menu thread guard still stops custom handling after an unexpected
+callback thread. The C++ conversion does not establish a fix for that limitation.
+
+Offline checks cover 31,216 policy comparisons, 25,733 selector comparisons,
+333 storage cases / 721 operations, 59 owned-memory runtime cases, 22 menu
+scenarios, 16 backup checks and six unsupported-host DLL runs. Comparison steps
+are not independent tests. Native gameplay, rendered icons, second-PC use,
+multiplayer and scanner acceptance require separate evidence.
+
+```powershell
+python -B tools/build_native_runtime.py --toolchain <compiler-directory> --output build/native-runtime-local
+python -B tools/validate_native_bundle.py --build build/native-runtime-local
+```
+
+The separately allowlisted player archive is built by
+`tools/package_native_runtime.py`. Build/package tools do not deploy or launch
+NMS. Never ship fixture executables or private build receipts and user data.
+
+## Retained milestone 1
+
+The following retained evidence describes an **offline experiment**, not an installable replacement
 for the working Python mod. It is kept on `feat/native-runtime-feasibility`.
 Do not put these outputs or an upstream proxy DLL into a game directory.
 

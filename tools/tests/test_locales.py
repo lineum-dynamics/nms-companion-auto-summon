@@ -45,7 +45,7 @@ class LocaleTests(unittest.TestCase):
                   for path in self.root.rglob("*") if path.is_file()}
         report = self.validate()
         self.assertEqual(report["locales"], 14)
-        self.assertEqual(report["keys_per_locale"], 63)
+        self.assertEqual(report["keys_per_locale"], 64)
         self.assertEqual(report["scope"], "native_menu_hud_technology_launcher_panel")
         self.assertEqual(report["translated_drafts"], 13)
         self.assertTrue(report["source_text_verified"])

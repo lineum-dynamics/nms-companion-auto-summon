@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.10.0-native-test — 28 September 2026
+
+- Implement native automation, exact policy/selector parity, settings/favorite
+  migrations, native quick-menu controls and icons without a Python runtime.
+- Add guarded direct-Steam initialization, per-target executable checks and
+  process-lifetime hooks with partial-activation gating and bounded rollback.
+- Create verified private snapshots before hooks; explicitly distinguish these
+  running-process snapshots from the retained closed-game launcher backups.
+- Retain Last selected, Random, By habitat, weighted groups, rotation, manual
+  dismissal, placement retries and native gameplay eligibility.
+- Keep optional notification failures from disabling working automation;
+  revalidate intent/context around native calls and concurrent callbacks.
+- Add a maintained activation-failure warning across all fourteen catalogs.
+  In-game language selection remains unimplemented; English menu/HUD retained.
+- Package only native payload, original icons, player instructions and required
+  notices. No Python, EXE launcher, fixtures, user data or nested archives.
+- Offline checks are recorded separately from native live gameplay, multiplayer
+  and Nexus scanner acceptance; this is an unpublished test candidate.
+
 ## Native feasibility milestone 1 — 28 September 2026
 
 - Add an inert Windows x64 probe with the documented InitializeASI export,

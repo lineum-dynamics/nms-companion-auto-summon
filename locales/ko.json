@@ -264,6 +264,10 @@
     "portable.start_failed": {
       "text": "모드와 함께 게임을 시작할 수 없습니다. 열린 게임을 모두 종료한 후 다시 시도하세요. 문제가 반복되면 실행 프로그램 로그를 보관하세요.",
       "source_sha256": "596509fe4c0bdf8e67edd080518c8fddcd08125824777910fcb1761065f1087a"
+    },
+    "native.activation_failed": {
+      "text": "Companion Auto Summon을 안전하게 활성화할 수 없습니다. 모드 없이 게임을 계속할 수 있습니다. 다시 시도하기 전에 게임을 재시작하고 모드 로그를 확인하세요.",
+      "source_sha256": "2580182fa1bbe9d555e0da648769f06a06e8968587a30ad30d9523fa8753ab2a"
     }
   }
 }

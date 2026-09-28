@@ -262,6 +262,10 @@
     "portable.start_failed": {
       "text": "無法啟動含有模組的遊戲。請關閉已開啟的遊戲，然後重試。如果問題再次發生，請保留啟動器記錄。",
       "source_sha256": "596509fe4c0bdf8e67edd080518c8fddcd08125824777910fcb1761065f1087a"
+    },
+    "native.activation_failed": {
+      "text": "無法安全啟用 Companion Auto Summon。你可以在不使用此模組的情況下繼續遊戲。再次嘗試前，請重新啟動遊戲並檢查模組日誌。",
+      "source_sha256": "2580182fa1bbe9d555e0da648769f06a06e8968587a30ad30d9523fa8753ab2a"
     }
   }
 }

@@ -1,5 +1,12 @@
 # Companion Auto Summon roadmap
 
+Native **0.10.0-native-test** now implements direct-Steam loading, automation,
+selection, storage and the native settings menu in C++. Remaining acceptance
+work includes actual game startup, visibility, restart, second-PC/multiplayer
+and Nexus scan/download verification. Full in-game localization, the earned
+technology design and donation integration remain separate unfinished features;
+they are not implicitly delivered by converting the runtime to C++.
+
 Current distribution candidate: **0.9.2-test**, containing production
 **0.5.1-experimental**, combined **0.9.2-play-trial** and menu
 **0.9.1-diagnostics**. The tester ZIP provides **Companion Auto Summon.exe** and

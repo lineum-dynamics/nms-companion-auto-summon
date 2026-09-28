@@ -1,61 +1,23 @@
 # Companion Auto Summon for No Man's Sky - by Lineum Dynamics
 
-**UNPUBLISHED NEXUS DRAFT — page created; not publicly released or ready for publication.**
+**UNPUBLISHED NEXUS DRAFT. Current prepared copy: 0.10.0-native-test.**
 
-Preparation status, 28 September 2026: account
-[`LineumDynamics`](https://www.nexusmods.com/profile/LineumDynamics) owns the
-created No Man's Sky draft, category **Creatures**, mod ID **4579**. Its status
-is visibly **Unpublished**: [draft page](https://www.nexusmods.com/nomanssky/mods/4579)
-and [general editor](https://www.nexusmods.com/games/nomanssky/mods/4579/edit/general).
-The exact Nexus page title is **Companion Auto Summon for No Man's Sky - by
-Lineum Dynamics**, with author field **Lineum Dynamics**. The last verified General section
-was saved and marked **Section complete**: version `0.9.1-play-trial`, language
-**English**, and tags **AI-Generated Content**, **AI Media** and **Quality of
-Life**. The authentic company avatar was previously uploaded and visually
-checked. The **1600 × 900** gallery cover and company avatar remain unchanged.
-The corrected **1300 × 372** [header](https://staticdelivery.nexusmods.com/mods/1634/images/headers/4579_1790592385.jpg)
-is uploaded and visually verified on the actual mod page: a dark decorative
-background without embedded text, a company mark or white elements, with a
-subdued paw on the right. Nexus supplies the full approved title, which is
-legible in the checked screenshot. Media is **Section complete**; the page
-still shows **Unpublished**. Files is now **Section complete**.
-The Mod Name field requires
-the ASCII hyphen above; the gallery title accepts a typographic dash. No code
-ZIP was uploaded during initial draft creation; the first test upload is recorded below. Release permissions remain pending. The earlier disabled upload dialog and
-`Something went wrong. Please try again.` error are historical; draft creation
-has now succeeded. Keep this status outside the public description. Publication
-remains blocked by unfinished release readiness, not draft creation.
+This file is the prepared description, not evidence that Nexus has saved it or
+accepted the new archive. Mod **4579** remains the existing unpublished page
+owned by **LineumDynamics**. The exact title above and author field **Lineum
+Dynamics** are unchanged. Preserve the existing approved media and disclosure
+tags. Update this preparation status only after actual page/file readback.
 
-Historical readback: the previous body and summary were saved to Nexus on
-28 September 2026 with version **0.9.1-play-trial** (production 0.5.1, menu
-0.9.0-selection). The revised 0.9.2 body below was subsequently saved and read back.
-The file **Companion Auto Summon - 0.9.1 development trial**, file ID **49195**,
-is saved under **Miscellaneous**, with mod-manager downloads disabled. Its ZIP
-is 187,533 bytes; SHA-256:
-`7025712f8f9eb89a238f37e3871e817aefee99da9bf177d2163507d23b1a1b43`.
-The file description and changelog distinguish offline checks from pending live
-acceptance, and state the menu-thread and absent travel-trigger limitations.
-This is an unpublished test upload, not a public or stable release.
-
-Scan readback on the same date: Nexus displayed **Some suspicious files**, while
-its linked [VirusTotal report](https://www.virustotal.com/gui/file/7025712f8f9eb89a238f37e3871e817aefee99da9bf177d2163507d23b1a1b43)
-showed **0/65** detections for the exact ZIP hash. The discrepancy is unresolved;
-neither a false-positive cause nor a clean Nexus status has been established.
-
-Current uploaded copy: **0.9.2-test**, production 0.5.1, combined 0.9.2-play-trial,
-menu 0.9.1-diagnostics, Nexus file **49196**. Full title/byline, version, summary
-and portable description were saved and read back; the page stays Unpublished.
-The exact ZIP is quarantined by automated checks and cannot be routinely
-downloaded. Its linked VirusTotal result is 3/60; the exact compiled entry point
-reports 8/70. The specific cause and false-positive status are unresolved.
-See [TESTER-HANDOFF](TESTER-HANDOFF.md) and [the scan record](../research/PORTABLE-SCAN-092.md).
-No support message was sent; external contact remains unauthorized.
-
-Revision **0.9.3-test** removes the nested Python ZIP, adds accurate Windows
-identity and reproducible launcher inputs, and fixes unrelated-process access
-errors during Steam discovery. The version/body and file **49197** were saved
-and read back. Nexus quarantined file 49197; the linked exact ZIP reports 1/58 (Bkav Pro).
-No clearance or successful owner download is claimed. Earlier files remain present and the page stays Unpublished.
+One native r3 startup through Steam is now recorded: the log confirms exact
+executable acceptance, a completed pre-activation backup, all twelve hooks and
+the binding guard enabled, a successful local save load, and two accepted
+summon queue requests. Subsequent player feedback confirms a visible pet after
+ship exit. **Visible appearance after loading the save is uncertain**, so the
+accepted startup queue does not establish successful visible startup summoning.
+The menu, restart repeatability, second-PC installation, multiplayer and scanner
+clearance remain unverified.
+Keep the page unpublished. The final section contains internal records and
+must not be copied into the player description.
 
 ## Short summary
 
@@ -63,20 +25,19 @@ Automatically bring along an owned companion after loading your save or leaving 
 
 ## Description
 
+**0.10.0-native-test is a private test candidate, not a stable release. A player confirmed a visible pet after ship exit. Visible appearance after loading the save is not confirmed despite an accepted request in the log. Startup reliability, menu operation, restart repeatability and multiplayer still need testing.**
+
 Keep a companion beside you without opening the companion menu after every landing. When you leave your starship or load your local save, the mod checks your settings and asks the game to summon one of your eligible owned companions.
 
 Choose a familiar favourite, let Random vary your company, or use By habitat to favour companions suited to the planet under the explicit rules below. The mod does not give you pets, unlock slots, accelerate growth, improve combat values or bypass placement restrictions. You still need to own a companion that the game permits you to summon.
 
-If your landing platform or surrounding terrain is unsuitable, the request can wait while you walk somewhere suitable. A selected random pet stays fixed during that wait. Entering your ship, choosing a pet manually or changing a mod setting cancels the pending request.
+If your landing platform or surrounding terrain is unsuitable, the request can wait while you walk somewhere suitable. A selected pet stays fixed during that wait. Entering your ship, choosing a pet manually or changing a mod setting cancels the pending request.
 
-The 0.9.3 test updates packaging and launch reliability only; companion rules
-are unchanged. Its standard library is extracted for Nexus file inspection,
-and launcher source/build inputs are included. A quarantined test file is not
-cleared for distribution; offline tests are separate from scanner clearance.
+This version runs as a native module loaded during normal Steam startup. It needs no Python installation, separate mod launcher or external settings panel. The package's two game folders are merged into your Steam game installation while the game is closed.
 
-## Settings in the 0.9.3-test portable candidate
+## Settings in 0.10.0-native-test
 
-In the portable test candidate, open **Quick Menu → Companions → Companion Auto Summon** to reach the mod's settings. On PC, the default Quick Menu key is **X**. If you have changed your controls, use your assigned Quick Menu key instead.
+Open **Quick Menu → Companions → Companion Auto Summon**. On PC, the default Quick Menu key is **X**. If you have changed your controls, use your assigned Quick Menu key or the game's controller prompt. The mod uses native menu actions. Its settings entry appears before individual pets.
 
 That page has seven controls:
 
@@ -90,38 +51,47 @@ That page has seven controls:
 
 Fresh-install defaults are **By habitat**, **Shuffle companions ON**, automation ON, all three locations ON, and the Random biome preference ON. Existing preferences are preserved; migration from older schemas starts the new shuffle option OFF.
 
-Applied changes report the actual value, such as **Selection: By habitat**, **Shuffle companions: ON** or **Space stations: OFF**. If several settings change together, the confirmation lists them together. A failed save adds **(session only)**; an unchanged value produces no new confirmation. The portable candidate and its presentation still require live acceptance.
+Applied changes report the actual value, such as **Selection: By habitat**, **Shuffle companions: ON** or **Space stations: OFF**. If several settings change together, the confirmation lists them together. A failed save adds **(session only)**; an unchanged value produces no new confirmation. The native menu and its presentation still require live acceptance.
 
 ## Compatibility
 
-The supported target is **Windows 10/11 x64, Steam build 25442159 / Cosmos 7.04**, with the exact executable fingerprint listed in the package manifest. Other builds, stores and operating systems are not supported. A game update requires renewed compatibility checks; the launcher refuses an unknown executable.
+The supported target is **Windows 10/11 x64, Steam build 25442159 / Cosmos 7.04**. The exact executable SHA-256 is:
 
-The **0.9.3-test** ZIP includes **Companion Auto Summon.exe**, Python 3.11.9
-and its pinned mod runtime. You do not install Python or run pip. Windows .NET
-Framework 4 and Microsoft Visual C++ v14 x64 are prerequisites. A missing VC++
-runtime is explained by the launcher; use Microsoft's official runtime
-instructions linked in the packaged README. Nothing is downloaded automatically.
-This is not a PAK to drop into GAMEDATA/MODS. Portable live launch, second-PC
-installation, multiplayer and compatibility with other mods remain unverified.
+`b7913f268dfc62386b6b68f524bfc8ade4a44a9f4fbad39085b7bf51be3680cb`
 
-## Start the portable test
+The module checks the actual running executable before enabling its gameplay hooks and refuses an unknown build. A game update requires renewed compatibility checks. Consoles, GOG, Game Pass, macOS and Linux/Proton are not supported by this candidate. This exact-build target is not proof of compatibility with every other mod.
 
-1. Quit NMS normally, then extract the complete ZIP into a new folder.
-2. Double-click **Companion Auto Summon.exe** and select **Check installation**.
-   Use **Choose game folder** if your Steam installation is not found.
-3. Open Steam, sign in and select **Start game**. The launcher makes and verifies
-   a private backup before every normal start; a failed backup prevents launch.
-4. Keep the launcher open for the first live check. Closing its window is
-   designed to leave the host/game running, but that remains unverified in game.
+In-game menu and HUD text currently use **English**. Fourteen maintained language catalogs exist; English is canonical and the other thirteen remain unreviewed translation drafts. Startup warnings use the available Windows language with English fallback. This is not full translated in-game support.
 
-Backups, logs and working sessions stay under `%LOCALAPPDATA%\NMS-AutoPet\`.
-Existing settings and manual choices are preserved; verified private session
-copies keep runtime writes out of the extracted distribution. Do not terminate
-the background host while playing. To play without the mod, quit normally and
-start NMS through Steam. Follow **README.txt**, **README.cs.txt** and
-**Multiplayer test.txt** in the supplied archive.
+The package contains the native **CompanionAutoSummon.asi**, the pinned **Ultimate ASI Loader 9.7.4 x64**, eight original DDS icons and the required third-party notices. There is no bundled Python host or Python settings window. Native files remain subject to antivirus and Nexus checks; a smaller package does not guarantee clearance.
 
-## FAQ
+## Install and start
+
+1. Close No Man's Sky normally. Exit any previous Companion Auto Summon launcher or pyMHF session. Retain a separate backup made while the game is closed before this first native test.
+2. In Steam, select **No Man's Sky → Manage → Browse local files**. The game folder contains **Binaries** and **GAMEDATA**.
+3. Extract the complete ZIP to a temporary folder and read **README.md** or **README.cs.md**. If the game already has **Binaries/winmm.dll**, do not overwrite a different file: another mod may use it. Reuse it only if its SHA-256 matches the loader hash in this package's README and manifest.
+4. Copy the extracted **Binaries** and **GAMEDATA** folders into the game folder, merging them. When updating this mod, close the game first and replace only this mod's own module and icon files. Keep the matching package README, manifest and notices for reference.
+5. Start No Man's Sky normally through **Steam**. Do not start the old Python launcher as well. No administrator command or separate mod settings panel is required.
+
+The files added to the game are:
+
+- **Binaries/winmm.dll** — the included loader.
+- **Binaries/scripts/CompanionAutoSummon.asi** — this mod.
+- Eight icons under **GAMEDATA/MODS/CompanionAutoSummon/TEXTURES/UI/FRONTEND/ICONS/COMPANIONAUTOSUMMON/**.
+
+Do not run the old Python and new native versions together. This is a native module with companion icon assets, not a standalone PAK installed only into GAMEDATA/MODS.
+
+## Settings, backups and disabling the mod
+
+Preferences, per-save manual favourites, logs and backups stay under **%LOCALAPPDATA%/NMS-AutoPet/**. Existing settings and favourites are retained. Invalid settings files are preserved; automation starts OFF and settings changes can be session-only.
+
+Before enabling its gameplay hooks, the module makes and verifies a private snapshot of saves and external preferences. **The game process is already running at this point. This is a pre-activation snapshot, not a closed-game or pre-launch backup.** Failed verification refuses activation. Retain the separate closed-game backup for this first test. The mod does not directly edit, restore or overwrite the original NMS save files.
+
+To disable or uninstall the native mod, close the game and remove **Binaries/scripts/CompanionAutoSummon.asi**. Its icon folder **GAMEDATA/MODS/CompanionAutoSummon/** can also be removed. Keep the shared **winmm.dll** loader if another ASI mod needs it. Remove that loader only if no other mod uses it and it still matches the packaged loader. Never remove the game's Binaries, scripts or GAMEDATA folders wholesale. Preferences and backups are deliberately retained.
+
+**Starting through Steam alone does not disable an installed native mod.** To return to the old Python test, remove the native module first, then use the old launcher after normal game closure.
+
+## FAQ and current limitations
 
 **Do I need to select a companion first?**
 
@@ -131,28 +101,24 @@ For Last selected, manually summon an owned companion once. Random and By habita
 
 Dismissal does not create another automatic opportunity. Another successful local save load or ship exit can do so. An already active or queued companion also prevents a duplicate request.
 
-**Does it change my save?**
+**Does it summon after teleporting or deleting a base?**
 
-The mod does not directly edit NMS save files. Its settings and remembered manual choices live separately in `%LOCALAPPDATA%\NMS-AutoPet`. The portable launcher requires a new private verified backup before each normal start. To play without the mod, close the game normally and restart through Steam.
+Teleport arrival and base removal do not create a new summon opportunity. A reported missing pet after teleport and disappearance after base removal do not establish why the game removed it. The mod does not automatically respawn pets simply because they disappear, which preserves manual dismissal.
 
 **How much has been tested?**
 
-The 0.9.0 trial has one player-confirmed visible Random companion after loading in the Space Anomaly. The player reports that settings appear to save; persistence across a restart has not been checked. This does not verify By habitat, shuffle outcomes or every native control. Neither the retained 0.9.1 nor the 0.9.2 portable candidate has live acceptance. Earlier 0.8.7 load/exit and OFF/ON observations remain version-specific; an intermittent startup failure is still unexplained. Repeatability, placement, HUD/icons, remapped/controller input and multiplayer remain acceptance work. Native menu and HUD text remain English; the other thirteen language catalogs are unreviewed drafts.
+The native candidate has offline policy and selection comparisons, temporary-file persistence and backup tests, owned-memory runtime/menu scenarios and unsupported-host checks. A separate MinHook fixture checks forwarding and reentry using only functions authored in the test executable.
 
-**Known current-trial limitation:** the custom settings menu can stop after a
-native callback thread change. This happened in the retained 0.9.0 session; its
-cause and relation to the player's actions are not established. Menu 0.9.1-diagnostics in the portable candidate records more detail but does
-not resolve it. The guard stops the custom menu while
-retaining its native binding protection; production summoning is separate.
+In one subsequent native r3 startup through Steam, the log confirms that the exact game executable passed its check, the private pre-activation backup completed, all twelve game hooks and the binding guard enabled, and a local save loaded successfully. The log then recorded two accepted summon queue requests. The player subsequently confirmed **a visible pet after ship exit**. **Visible appearance after loading the save remains uncertain:** the accepted startup queue establishes neither a visible success nor a visible failure. Startup reliability, the native menu, restart repeatability, all seven controls, rendered icons, remapped/controller input, placement, second-PC installation and multiplayer remain acceptance work. Historical player reports for the Python versions do not validate this native port.
 
-Teleport arrival and base removal do not create a new summon opportunity.
-A reported missing pet after teleport and disappearance after base removal do
-not establish why the game removed it. The mod does not automatically respawn
-pets simply because they disappear, which preserves manual dismissal.
+**Why can the custom settings stop responding?**
+
+The retained menu safety guard stops custom menu handling after an unexpected callback thread or overlapping callback, while keeping native quick-binding protection installed. The underlying thread-change limitation is **not fixed by the C++ port**. Automatic summoning has a separate safety latch. Check the native log and restart normally after a safety stop; a stopped menu must not be described as reliable live operation.
 
 ## Selection and shuffle rules
 
-**Implemented in the development candidate; full live acceptance and public release are pending.** These selection rules remain unchanged from 0.9.0 through the 0.9.3-test candidate. The later work improves settings feedback, diagnostic evidence and distribution; it does not change the selection balance below.
+
+**Implemented in 0.10.0-native-test; live acceptance and public release are pending.** The native port retains the existing selection balance and explicit rules below. Offline comparisons against the previous implementation do not prove visible in-game outcomes.
 
 ### Choose how your companion is selected
 
@@ -209,21 +175,26 @@ Adopting or abandoning companions updates the cycle. Renaming or reordering slot
 
 ### New-install defaults and upgrades
 
-A fresh 0.9.3-test configuration uses **By habitat + Shuffle companions ON**, automation ON and all three supported locations ON. The Random biome preference is also ON but only applies if you select Random. Existing 0.8.x preferences retain their previous mode, location and ON/OFF choices; the new shuffle option starts OFF for those upgrades. Existing 0.9.0 settings, including the shuffle choice, remain unchanged. Changing a setting does not immediately summon or dismiss a pet: the next ship exit or successful local save load supplies a new opportunity.
+A fresh 0.10.0-native-test configuration uses **By habitat + Shuffle companions ON**, automation ON and all three supported locations ON. The Random biome preference is also ON but only applies if you select Random. Existing 0.8.x preferences retain their previous mode, location and ON/OFF choices; the new shuffle option starts OFF for those upgrades. Existing 0.9.0 settings, including the shuffle choice, remain unchanged. Changing a setting does not immediately summon or dismiss a pet: the next ship exit or successful local save load supplies a new opportunity.
 
 ## Credits and disclosure
 
-Framework: [pyMHF](https://github.com/monkeyman192/pyMHF). Native research reference: [NMS.py](https://github.com/monkeyman192/NMS.py), both by monkeyman192. Generative AI was used extensively for code, interface work, translations and this description. This is an unofficial mod, not an official Hello Games product.
+- [Ultimate ASI Loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader), **9.7.4 x64**, by ThirteenAG. The package includes the unmodified pinned loader and its notices.
+- [MinHook](https://github.com/TsudaKageyu/minhook), **1.3.4**, by Tsuda Kageyu and contributors, including HDE notices.
+- [JSON for Modern C++](https://github.com/nlohmann/json), **3.12.0**, by Niels Lohmann and contributors.
+- [pyMHF](https://github.com/monkeyman192/pyMHF) and [NMS.py](https://github.com/monkeyman192/NMS.py), by monkeyman192, provided the original Python runtime and native research references. Python/pyMHF are not dependencies of this native player package.
+
+The archive includes component and statically linked runtime licence notices. Generative AI was used extensively for code, interface work, translations and this description. This is an unofficial mod, not an official Hello Games product.
 
 ---
 
 ## Internal readiness and metadata — do not publish this section
 
-- Current portable candidate: 0.9.3-test, production 0.5.1, combined 0.9.2-play-trial, menu 0.9.1-diagnostics. 786 developer tests and final package checks passed; file 49197 and this page were read back. File 49197 is quarantined; its linked exact ZIP reports 1/58 (Bkav Pro). Owner downloading is blocked. File 49196 is the retained quarantined 0.9.2. The retained 090-r2 files remain unchanged after normal closure; its [bounded live record](../research/LIVE-090.md) does not validate portable launch or multiplayer.
-- The owner will download the exact validated test archive from the unpublished page and pass it unchanged to the second Windows/Steam tester. The upload is complete; downloading and handoff are blocked by the new quarantine. Do not claim either has happened.
-- The portable executable and bundled runtime implement the intended simpler player flow, with explicit VC++ x64 prerequisite and automatic private backups. Quiet launch, detached lifetime, target initialization and clean-second-PC behavior still need final live acceptance. Standalone developer scripts remain separate and retain their panel.
-- Source: [private canonical repository](https://github.com/lineum-dynamics/nms-companion-auto-summon). Do not advertise it as a publicly accessible source link.
-- Complete third-party provenance, credits, licences and reuse permissions before uploading release files. Retain the saved **AI-Generated Content** and **AI Media** disclosure tags under the reviewed submission rules; do not substitute AI Assisted.
-- Donation Points eligibility and payment destinations still need checks. No donation URL, account or revenue promise is configured here.
-- Investigate the observed callback-thread/menu lifecycle before claiming reliable access to every setting. Do not assign a despawn cause or add teleport/base-removal triggers from the current observation alone.
-- Weighted habitat selection and shuffle are implemented in production 0.5.1 and unchanged in 0.9.3-test; their live acceptance is pending. The seven-control rules above describe that candidate, not the historical six-control 0.8.7 trial. Rechargeable technology and native translations remain unfinished. No publication is authorized until readiness is complete.
+- Current prepared candidate and description: **0.10.0-native-test**. Copy only the Short summary into Nexus's summary field and the Description through Credits into its description field. This document does not establish that the live form has been saved, a file uploaded, a scan cleared or the owner download verified. Record those only after actual readback.
+- Keep mod **4579 Unpublished**, the exact approved full title/byline, author **Lineum Dynamics**, category **Creatures**, existing approved media and **AI-Generated Content** / **AI Media** disclosure tags. Do not replace the saved tags with AI Assisted. Publication remains unauthorized.
+- Installation is the two-folder native overlay described above. The native r3 log records one normal Steam startup, exact-executable acceptance, completed pre-activation backup, twelve hooks plus binding guard enabled, local save load and two accepted queue requests. The player confirms visible appearance after ship exit; startup appearance remains uncertain, not an established failure. The menu remains unconfirmed. Retain the exact package identity, verify startup appearance, and complete restart, controls, placement, second-PC and multiplayer acceptance. Native compiled files are not exempt from Nexus or antivirus review.
+- Earlier upload records are retained, not clearance for the native package: **49195** (0.9.1 development trial) had a 0/65 ZIP report despite the Nexus suspicious-file state; **49196** (0.9.2-test) was quarantined with ZIP 3/60 and launcher 8/70; **49197** (0.9.3-test) was quarantined with ZIP 1/58 and later launcher 3/71. Their exact hashes and bounded evidence remain in the scan records and [TESTER-HANDOFF](TESTER-HANDOFF.md). Do not delete or rewrite those uploads or infer a false-positive cause.
+- Intended private handoff: the owner downloads the exact cleared test archive from the unpublished page and passes it unchanged to the second Windows/Steam tester. Downloadability, exact downloaded hash and the handoff itself require confirmation; uploading alone is insufficient.
+- Source: [private canonical repository](https://github.com/lineum-dynamics/nms-companion-auto-summon). Do not present it as a publicly accessible source link or change its visibility. Packaging includes licensed third-party notices; it does not assert an open-source licence for the original mod.
+- Donation Points eligibility and payment destinations still need checks. No verified company payment URL or in-game donation notice is configured. Do not invent a service, link, revenue promise or request to support staff. Existing external-contact restrictions remain in force.
+- Preserve the known menu thread/lifecycle limit; no teleport/base-removal trigger or automatic respawn is implemented. Rechargeable technology and complete native in-game localization remain future work. This native port does not change the approved **13:5:1** habitat balance.

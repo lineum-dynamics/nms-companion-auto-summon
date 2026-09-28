@@ -1,5 +1,13 @@
 # Companion Auto Summon for No Man's Sky — player experience
 
+The **0.10.0-native-test** branch implements the existing controls and summon
+rules in a native plugin. Its two-folder overlay supports normal Steam startup,
+without Python or an external settings panel. Its private backup runs before
+native hooks, with NMS already running; it is not a pre-launch backup. Retained
+Python versions and observations below are unchanged. Offline parity does not
+establish native gameplay, language rendering or scanner clearance. See the
+[native implementation and bounds](native/README.md).
+
 Current packaging candidate: **0.9.3-test**. It extracts the original Python
 standard library to remove the nested ZIP prohibited by Nexus, supplies accurate
 Windows product/company/version metadata and the actual launcher build inputs,

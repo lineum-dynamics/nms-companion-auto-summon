@@ -2,7 +2,30 @@
 
 by **Lineum Dynamics**
 
-Current packaging candidate: **0.9.3-test**. It extracts the original Python
+Current candidate: **0.10.0-native-test**, a native module loaded during normal
+Steam startup, with no bundled Python or separate player launcher. Its 30-file
+ZIP is built and fully readback-verified. The r3 offline checks passed, including
+59 runtime integration cases, policy/selection parity, persistent storage and
+verified backup fixtures. Existing preferences and per-save favorites remain
+at their established mod-owned paths.
+
+After a verified closed-game backup and controlled installation, the first
+native session logged successful executable verification, a separate verified
+pre-activation snapshot, twelve active hooks plus the binding guard, a local
+save load and two accepted summon requests. The player confirmed a visible pet
+after leaving the ship. **Appearance immediately after load remains uncertain:**
+the player initially reported no pet, then clarified that it may have been
+overlooked. No startup appearance failure is established. Correct menu
+rendering/controls, normal restart, second-PC use, multiplayer and Nexus
+clearance remain unverified. Queue acceptance alone is not visible appearance.
+In-game text remains English; fourteen catalogs do not yet establish full
+in-game localization. See the [native validation checkpoint](docs/research/NATIVE-0100-VALIDATION.md)
+and [current tester handoff](docs/release/TESTER-HANDOFF.md). Use the packaged
+English/Czech native player READMEs for the new installation flow.
+
+## Retained Python candidates and earlier evidence
+
+Retained packaging candidate: **0.9.3-test**. It extracts the original Python
 standard library to remove the nested ZIP prohibited by Nexus, supplies accurate
 Windows product/company/version metadata and the actual launcher build inputs,
 and fixes Steam discovery failing on an unrelated inaccessible process. Gameplay

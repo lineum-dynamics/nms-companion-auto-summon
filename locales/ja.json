@@ -262,6 +262,10 @@
     "portable.start_failed": {
       "text": "MOD付きでゲームを起動できませんでした。開いたゲームを閉じてから、もう一度お試しください。再発した場合はランチャーのログを保管してください。",
       "source_sha256": "596509fe4c0bdf8e67edd080518c8fddcd08125824777910fcb1761065f1087a"
+    },
+    "native.activation_failed": {
+      "text": "Companion Auto Summon を安全に有効化できませんでした。MOD なしでゲームを続行できます。再試行する前にゲームを再起動し、MOD のログを確認してください。",
+      "source_sha256": "2580182fa1bbe9d555e0da648769f06a06e8968587a30ad30d9523fa8753ab2a"
     }
   }
 }

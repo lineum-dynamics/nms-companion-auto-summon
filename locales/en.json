@@ -257,6 +257,10 @@
     "portable.start_failed": {
       "text": "The game could not be started with the mod. Close any game that opened, then try again. Keep the launcher log if it happens again.",
       "source_sha256": "596509fe4c0bdf8e67edd080518c8fddcd08125824777910fcb1761065f1087a"
+    },
+    "native.activation_failed": {
+      "text": "Companion Auto Summon could not activate safely. The game can continue without the mod. Restart the game before trying again and check the mod log.",
+      "source_sha256": "2580182fa1bbe9d555e0da648769f06a06e8968587a30ad30d9523fa8753ab2a"
     }
   }
 }

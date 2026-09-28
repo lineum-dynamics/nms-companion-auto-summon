@@ -26,6 +26,7 @@ LAUNCHER_KEYS = ("launcher.blocked_title", "launcher.unsupported_game", "launche
                 "launcher.game_required", "launcher.invalid_package", "launcher.wrong_framework",
                 "launcher.game_changed", "launcher.game_running", "launcher.preflight_passed")
 PRODUCT_KEYS = ("product.full_name", "product.author_credit")
+NATIVE_KEYS = ("native.activation_failed",)
 PORTABLE_KEYS = ("portable.start", "portable.check", "portable.choose_game", "portable.ready",
                  "portable.checking", "portable.starting", "portable.started", "portable.close",
                  "portable.backup_failed", "portable.runtime_invalid", "portable.game_choice_required",
@@ -39,7 +40,7 @@ KEYS = frozenset(("menu.parent_title", *MENU_KEYS, "value.on", "value.off",
                   "hud.setting_separator", "hud.session_suffix", "hud.companion_saved",
                   "hud.companion_session", "hud.auto_off_suffix", "hud.random_on_suffix", "hud.habitat_on_suffix",
                   "hud.no_suitable_habitat", "panel.habitat_status",
-                  *TECHNOLOGY_KEYS, *LAUNCHER_KEYS, *PRODUCT_KEYS, *PORTABLE_KEYS))
+                  *TECHNOLOGY_KEYS, *LAUNCHER_KEYS, *PRODUCT_KEYS, *PORTABLE_KEYS, *NATIVE_KEYS))
 UNCHANGED_ALLOWED = frozenset(("menu.parent_title", "format.setting", "format.with_status",
                                "hud.settings_applied", "hud.setting_separator", "product.full_name"))
 TOP_KEYS = frozenset(("schema_version", "locale", "scope", "review_status",

@@ -1,5 +1,19 @@
 # Companion Auto Summon for No Man's Sky - by Lineum Dynamics
 
+## Native candidate: 0.10.0-native-test
+
+The feature branch now implements native automation/menu/persistence and a
+two-folder game overlay for normal Steam startup. It uses the pinned official
+ASI loader and includes full third-party notices. No bundled Python or launcher
+EXE is needed. The existing Python archives below remain retained unchanged.
+
+The current native build is offline-validated, with no native live gameplay,
+multiplayer or Nexus acceptance claim. Keep test uploads Unpublished. The first
+controlled live test requires a fresh verified closed-game backup; native future
+starts additionally take verified pre-hook snapshots while NMS already runs.
+These are different guarantees, not interchangeable names. Exact release
+artifact and remote readback belong in TESTER-HANDOFF.md after completion.
+
 ## Current portable candidate: 0.9.3-test
 
 The simple player flow and game requirements below are unchanged. The new

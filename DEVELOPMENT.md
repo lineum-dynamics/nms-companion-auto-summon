@@ -1,5 +1,13 @@
 # Companion Auto Summon development guide
 
+Current native branch: **0.10.0-native-test** implements automation, selection,
+settings/favorites, native quick menu/icons and guarded direct-Steam startup in
+C++. The Python distribution below is preserved. See [native runtime](native/README.md)
+for exact offline checks and pre-hook versus closed-game backup guarantees.
+Live native gameplay and Nexus acceptance remain separate gates. The native
+activation-error message is maintained across all fourteen catalogs (64 keys);
+menu/HUD remain English.
+
 Native feasibility milestone 1 is now on `feat/native-runtime-feasibility`:
 an inert x64 DLL and a separate pure C++ policy with 31,216 Python-oracle
 comparisons across 88 traces. Six owned-host runs verified unsupported-image

@@ -9,7 +9,9 @@
 #include "compatibility_profile.hpp"
 
 namespace {
+#ifndef CAS_NATIVE_RUNTIME
 volatile LONG initialization_status = CAS_NOT_INITIALIZED;
+#endif
 
 class FileHandle final {
 public:
@@ -126,6 +128,7 @@ extern "C" uint32_t CasInspectHost(CasHostReport* report, uint32_t report_size) 
     return report->status;
 }
 
+#ifndef CAS_NATIVE_RUNTIME
 extern "C" uint32_t CasInitializationStatus() {
     return static_cast<uint32_t>(InterlockedCompareExchange(&initialization_status, 0, 0));
 }
@@ -141,3 +144,4 @@ extern "C" void InitializeASI() {
 
 // Loader-lock restrictions also apply to static constructors: none perform work.
 BOOL WINAPI DllMain(HINSTANCE, DWORD, LPVOID) { return TRUE; }
+#endif

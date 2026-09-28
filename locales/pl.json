@@ -264,6 +264,10 @@
     "portable.start_failed": {
       "text": "Nie udało się uruchomić gry z modem. Zamknij każdą grę, która się otworzyła, i spróbuj ponownie. Jeśli problem się powtórzy, zachowaj dziennik programu uruchamiającego.",
       "source_sha256": "596509fe4c0bdf8e67edd080518c8fddcd08125824777910fcb1761065f1087a"
+    },
+    "native.activation_failed": {
+      "text": "Nie udało się bezpiecznie aktywować Companion Auto Summon. Możesz kontynuować grę bez moda. Przed ponowną próbą uruchom grę ponownie i sprawdź dziennik moda.",
+      "source_sha256": "2580182fa1bbe9d555e0da648769f06a06e8968587a30ad30d9523fa8753ab2a"
     }
   }
 }

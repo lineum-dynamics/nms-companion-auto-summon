@@ -264,6 +264,10 @@
     "portable.start_failed": {
       "text": "Não foi possível iniciar o jogo com o mod. Fecha qualquer jogo que tenha aberto e tenta novamente. Guarda o registo do iniciador se o problema voltar a ocorrer.",
       "source_sha256": "596509fe4c0bdf8e67edd080518c8fddcd08125824777910fcb1761065f1087a"
+    },
+    "native.activation_failed": {
+      "text": "Não foi possível ativar o Companion Auto Summon em segurança. O jogo pode continuar sem o mod. Reinicia o jogo antes de tentares novamente e consulta o registo do mod.",
+      "source_sha256": "2580182fa1bbe9d555e0da648769f06a06e8968587a30ad30d9523fa8753ab2a"
     }
   }
 }
