@@ -4,16 +4,25 @@ by **Lineum Dynamics**
 
 Stav k 28. 9. 2026. Pracovní plán; mód ani stránka nebyly veřejně zveřejněné. Hlavní zdrojový projekt je v soukromém GitHub repozitáři; tento soubor se udržuje v `docs/release/`. Odkazy na dokumenty ve složce `CompanionAutoSummon/` níže označují dokumenty v kořeni repozitáře a distribučního balíčku.
 
-Aktuální zdroj je **0.4.9-experimental / 0.8.7-play-trial** s menu
-**0.8.5-branding**, zatím nespuštěný. Běží neměnná **0.4.7 / 0.8.4**.
+Aktuálně běží neměnný **0.4.9-experimental / 0.8.7-play-trial** s menu
+**0.8.5-branding**, z finálního adresáře `087-r1`.
 Připravená **0.8.6-r1** zůstává nedotčená a nespuštěná. Plný název a autorství
 se používají v prezentaci mimo hru; krátký herní název zůstává Companion Auto Summon.
-Snímky potvrzují šest odlišných ikon nastavení. Načtení v Anomálii jednou selhalo
-vizuálně, pozdější výstup z lodi vyvolal jiného náhodného peta úspěšně. Příčinu
-neznáme. Kandidát zachovává prodloužené pasivní sledování v původních limitech
-a čtení jazyka pro diagnostiku při otevření našeho menu;
-podrobnosti uvádí [záznam 0.8.4](../research/LIVE-084.md). Úplné ověření menu,
+Po běžném ukončení předchozí hry a nové ověřené záloze 46 souborů se
+28. 9. 2026 v 11:07:26 (Europe/Prague) načetly oba módy a dvanáct cílů.
+Hráč potvrdil viditelného náhodného peta v Nexusu po načtení i výstupu z lodi.
+Později po požadovaném ručním odvolání uvedl, že se pet zřejmě znovu neobjevil;
+přesná délka čekání nebyla nezávisle změřena. Po startu se shodovalo všech
+40 položek balíčku i nastavení a zapamatovaný stav. Šlo o různé pety, takže
+výsledek neprokazuje příčinu ani opravu [selhání 0.8.4](../research/LIVE-084.md).
+Omezené čtení jazyka zaznamenalo angličtinu; překlady ani bezpečnost přepnutí
+jazyka neověřuje. Podrobnosti uvádí [záznam 0.8.7](../research/LIVE-087.md).
+Úplné ověření menu,
 hlášek, přemapování, lokalizace a veřejného přenosného spouštěče stále čeká.
+Hráč navíc potvrdil jednu zkoušku nativního OFF/ON: výstup s OFF peta nevyvolal,
+samotné ON nic nevyvolalo a další výstup peta vyvolal. Log tomu odpovídá a ostatní
+preference zůstaly stejné. Ostatních pět voleb, podržení, přemapování a ovladače
+tím ověřené nejsou.
 Monetizaci shrnuje [aktuální přehled pravidel](MONETIZATION.md).
 
 Všech 14 katalogů má 41 klíčů. Dva nové klíče zachovávají plný název jako
@@ -31,10 +40,10 @@ hotová. Podrobnosti: [lokalizace](../research/NATIVE-LOCALIZATION-AUDIT.md) a
 
 ## Nejbližší společný test 0.8.7
 
-Prioritou je zachytit občasné selhání po načtení v Anomálii. Běžící 0.8.4 se
-nemění a její host se neukončuje. Oddělenou 0.8.7 nasadit při příštím běžném
-ukončení hry, po ověření nové zálohy a shody připraveného balíčku. Diagnostika
-nemění pravidla vyvolávání a sama o sobě závadu neopravuje.
+První načtení a výstup v 0.8.7 mají potvrzený viditelný výsledek, širší
+opakovatelnost a režim Last selected nikoli. Pokračovat v chybějících kontrolách
+v běžící relaci; její soubory ani host neměnit. Diagnostika nemění pravidla
+vyvolávání a sama o sobě dřívější závadu neopravuje.
 
 Finální adresář je `build/quick-menu-play-trial-087-r1`, se 41 soubory
 (40 položek a manifest). Původní výstup `087` zůstává uchovaný, nespuštěný a
@@ -62,8 +71,10 @@ lokalizačních testů, kontrola frameworku a obě předstartovní kontroly fin�
    tato verze ještě překlady nezapíná. Čtení se při chybě samo zastaví bez
    vypnutí menu nebo automatiky.
 
-Další herní ověření vyžaduje běžné ukončení a nové spuštění hry. Přenosný
-instalátor lze dál připravovat mimo běžící prostředí. Odstranění panelu pyMHF následuje po přijetí
+Základní pozorování výše už proběhla; zbývající ovládání a vzhled lze ověřovat
+v současné relaci. Nové nasazení nebo řízené opakování startu vyžaduje běžné
+ukončení a nové spuštění hry. Přenosný instalátor lze dál připravovat mimo
+běžící prostředí. Odstranění panelu pyMHF následuje po přijetí
 všech nativních ovládacích prvků. Žádný z těchto kroků nepotvrzuje veřejnou
 připravenost, multiplayer ani správnost dosud neotestovaných překladů.
 

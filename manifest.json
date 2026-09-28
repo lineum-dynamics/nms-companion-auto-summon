@@ -3,20 +3,20 @@
   "version": "0.4.9-experimental",
   "date": "2026-09-28",
   "installed_in_game_directory": false,
-  "tested_inside_game": false,
-  "runtime_load_verified": false,
+  "tested_inside_game": true,
+  "runtime_load_verified": true,
   "gameplay_verified": false,
   "multiplayer_verified": false,
-  "basic_auto_summon_verified": false,
+  "basic_auto_summon_verified": true,
   "restart_selection_verified": false,
   "station_auto_summon_verified": false,
-  "nexus_auto_summon_verified": false,
+  "nexus_auto_summon_verified": true,
   "deferred_summon_verified_in_game": false,
-  "random_selection_verified_in_game": false,
+  "random_selection_verified_in_game": true,
   "selection_mode_control_verified_in_game": false,
   "biome_preference_verified_in_game": false,
   "location_preferences_verified_in_game": false,
-  "gameplay_verification_scope": "Source 0.4.9 / combined 0.8.7 branding candidate is unlaunched. Summon behavior is unchanged from 0.4.8. Live 0.8.4 and prepared 0.8.6-r1 remain immutable; no live verification is inherited.",
+  "gameplay_verification_scope": "Final combined 0.8.7-r1 launched on 28 September 2026 with production 0.4.9. Player confirmed visible Random summons after save load and ship exit in the Space Anomaly; logs confirm native location 14, accepted queues and expected active indices for different pets. One later manual-dismissal check had no apparent reappearance per player; duration not independently timed. No fix or repeatability is established for the earlier intermittent 0.8.4 failure. Full gameplay, controls, icons/HUD, other locations/modes and multiplayer remain unverified. See docs/research/LIVE-087.md.",
   "supported_summon_locations": {
     "2": "SpaceStation",
     "3": "PlanetOnFoot",
@@ -33,7 +33,7 @@
     "compatibility": 24
   },
   "actual_framework_import_and_gui_properties": "Passed with the real pyMHF 0.2.4 and DearPyGui: eight widgets constructed and preference callbacks exercised with temporary files, no viewport, hook registration, native game calls or game launch",
-  "launcher_validation": "0.8.7 passed 333 production and 675 developer tests, real-framework checks without native hook binding/game access and Python/Windows PowerShell 5.1 read-only preflights. It is unlaunched. Live 0.8.4 and retained 0.8.6-r1 remain immutable.",
+  "launcher_validation": "0.8.7 passed 333 production and 675 developer tests, real-framework offline checks and Python/Windows PowerShell 5.1 read-only preflights. Final r1 launched through the guarded PowerShell persistent PTY after normal game closure and a fresh verified 46-file backup; two Mods and twelve targets registered. This does not establish portable installer acceptance.",
   "preferences_included": false,
   "manual_selection_path": "%LOCALAPPDATA%/NMS-AutoPet/state.json",
   "preferences_path": "%LOCALAPPDATA%/NMS-AutoPet/settings.json",
@@ -66,11 +66,11 @@
     },
     {
       "path": "README.md",
-      "sha256": "bcedf30280a4effcabd4bee53431dde4189d02ff1cea9e0d54498d7e995c05c9"
+      "sha256": "94506da2ba4ee087488c03f0c72bb61606216e4b6275541474ce2d9c0901e48b"
     },
     {
       "path": "README.cs.md",
-      "sha256": "d67c6c86123e5af82907c7b304c8e30b20f205b61bf760173e3a9855de4f16ff"
+      "sha256": "b7cbcc618d21ef27c6a20bf773ff3c5c2f7145aca4d42bf247c5649259ca1475"
     },
     {
       "path": "cas_compatibility.py",
@@ -82,7 +82,7 @@
     },
     {
       "path": "TECHNICKE-OVERENI.md",
-      "sha256": "317921b7d5985be363304c5abd5f8e13347d88ce1c3ab1504fa662ba560235bb"
+      "sha256": "4ee5641ab93b7417b392f9c162f64b39a009b0fac680d56fbcae8eb4391cdf8e"
     },
     {
       "path": "build.py",
@@ -94,39 +94,39 @@
     },
     {
       "path": "DEVELOPMENT.md",
-      "sha256": "d2aa42604ff9754f442676d991557b6b0b35dfb2bb9d9ded356805fb09f780c5"
+      "sha256": "69b4bf590675ff2431860bee023d1c2c8704f77b54c7fc8fdfd1f590db480c32"
     },
     {
       "path": "LOCALIZATION.md",
-      "sha256": "1bcb897430ac1cfb7933b30f474597a7cd24a6dc32c9d503f3e05c9650d6345a"
+      "sha256": "d46ccb866f93615132243918ee4c5f80834de1db4b8c19d21e8a7ce5ba4e69c3"
     },
     {
       "path": "DESIGN.md",
-      "sha256": "cb8ebc8f9191804e8e90e71a478eb28cff5ba1609c29fe484870a87bd9026f52"
+      "sha256": "bed810cb867fb2dd2901b0b18fe06b2ef6dbf73953325d1a8972f0dcce75a4c8"
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "0659c85f084d719d1dfa3ca9696a110f660350f4a0f6a6c53d2b7d27d98a91d3"
+      "sha256": "49101018eacd65af250f7f393cc821ba1e5848763f8657f6ce6738ffe38998fd"
     },
     {
       "path": "ROADMAP.md",
-      "sha256": "8cfd0cee4cc373dd60b8280d8aa394ed11e6bc92883ff0f00ae1f47bc4c51fcf"
+      "sha256": "1e177035d0fda123e766e09749324f8a5d17c87ec13a7640b43ee57f1a8e4dac"
     },
     {
       "path": "QUICK-MENU.md",
-      "sha256": "5c7a064230564d3683b372753a626dd12ef24e887f07f63fbeb85fc0a037fe99"
+      "sha256": "11a44be8300d75fe7ad379d549a8869366656b732a5a68fe7374c94276c85ceb"
     },
     {
       "path": "docs/release/PRIPRAVA-VYDANI.md",
-      "sha256": "e0099a5562abc27180cad8cee7c37e548cb18d9d9ea4f91cbfaf0997bb115f00"
+      "sha256": "fb3d19a79df916abe570cb1a7937ebb9e2ab5301bbc33abcb5fa8ee4dff2f147"
     },
     {
       "path": "docs/release/INSTALACE-ZADANI.md",
-      "sha256": "42e0b89de6e51cfc8ecd44d66c152cb342c521cf8404270279d1650b015f4663"
+      "sha256": "f79703c5d524a1f45fee3ba3e378b50ee8ea9e2b1b8e9fd16073d8d362cbe407"
     },
     {
       "path": "docs/release/NEXUS-DESCRIPTION-DRAFT.md",
-      "sha256": "c6b11ef576a62b058531caad217b16d844861fdaf5a4923ded3783e82a4d0f41"
+      "sha256": "d9bbc03028d67c2ffdf3a74917e101073031cb9d847c69e646c212b7ddaa4b92"
     },
     {
       "path": "docs/research/TECHNOLOGY-PROTOTYPE.md",
@@ -145,12 +145,16 @@
       "sha256": "6f380500624826659a955edbdcae57fc4aec440db52e9bd146b69f7e2f7e618d"
     },
     {
+      "path": "docs/research/LIVE-087.md",
+      "sha256": "2b4a16050871bd9572ac7bd8b6e05efbf41f7b0a22923925c3101dd823a3922a"
+    },
+    {
       "path": "docs/release/MONETIZATION.md",
       "sha256": "c9e73d95bd3b2085fb462bb8b61e0c217cea3a59b1c724a9e57faef094be1790"
     },
     {
       "path": "docs/research/NATIVE-LOCALIZATION-AUDIT.md",
-      "sha256": "a7b8e69a2201af02c0caa9d460d5ab3fb360fd1d13244073609fd9d79bafffa1"
+      "sha256": "7d2ebf597334f30812473d32a0b033fe5f87bd678378173be8bb058f99dc5e1e"
     },
     {
       "path": "docs/research/PORTABLE-RUNTIME-AUDIT.md",
@@ -319,10 +323,10 @@
     ],
     "production_script_byte_identical": false,
     "live_verified": false,
-    "launched": false,
-    "registration_verified": false,
+    "launched": true,
+    "registration_verified": true,
     "included_in_player_zip": false,
-    "scope": "Unlaunched branding candidate with production 0.4.9 and menu 0.8.5-branding. Runtime behavior is AST-identical to 0.4.8 after excluding only new product/author/version metadata and the diagnostic version marker. Passed 333 production and 675 developer tests, real-framework offline discovery/shared dispatch/all six temporary preferences, and Python plus Windows PowerShell 5.1 read-only preflights. Native captions, preferences and summon behavior are unchanged; no new habitat mode is implemented. Final r1 includes a Korean grammatical correction after renaming; the 24 focused locale tests and combined framework/preflights were rerun successfully. Initial 087 is superseded and unlaunched.",
+    "scope": "Launched final r1 branding candidate with production 0.4.9 and menu 0.8.5-branding. Runtime behavior is AST-identical to 0.4.8 after excluding only new product/author/version metadata and the diagnostic version marker. Passed 333 production and 675 developer tests, real-framework offline discovery/shared dispatch/all six temporary preferences, and Python plus Windows PowerShell 5.1 read-only preflights. Native captions, preferences and summon behavior are unchanged; no new habitat mode is implemented. Final r1 includes a Korean grammatical correction after renaming; the 24 focused locale tests and combined framework/preflights were rerun successfully. Initial 087 is superseded and unlaunched.",
     "actual_framework_discovery_verified": true,
     "temporary_all_six_preferences_verified": true,
     "optional_icon_provider_binding_verified": true,
@@ -330,7 +334,7 @@
     "distinct_native_targets": 12,
     "payload_files": 40,
     "custom_icons_included": 7,
-    "custom_icon_deployed": false,
+    "custom_icon_deployed": true,
     "custom_icon_live_verified": false,
     "locale_validation_required_during_build": true,
     "physical_hotkeys": 0,
@@ -346,7 +350,12 @@
     "developer_tests_passed": 675,
     "production_sha256": "1b8359ffea6b11591bfbb7e6c8ac0bc0d3a3df008f3a379505afe861e0399bbf",
     "menu_sha256": "c32a2fbce95bdde117e1bd3f096e6a0bc97f95ee526ffea752ced29f0e45ce6a",
-    "candidate_manifest_sha256": "c909f0bccbb49f9749e55bf8a95bf7c9292ef99a901b40e694ea56a207313386"
+    "candidate_manifest_sha256": "c909f0bccbb49f9749e55bf8a95bf7c9292ef99a901b40e694ea56a207313386",
+    "live_record": "docs/research/LIVE-087.md",
+    "live_scope": "28 September 2026: two Mods/twelve targets registered; automatic Random spawn after Nexus save load and ship exit confirmed by player and logs. Full native settings, HUD/icon rendering, resource teardown and input acceptance remain incomplete. No running payload or preference was overwritten.",
+    "language_observation_scope": "One bounded observation reported native region 0 ENGLISH with prior initialization/load seen. Text unchanged; no reload safety, automatic catalog choice or translated rendering claim.",
+    "native_automation_toggle_verified_in_game": true,
+    "native_automation_toggle_scope": "Player confirmed OFF prevented a ship-exit summon, ON alone did not summon and the next ship exit summoned. Logs: OFF 11:13:04.257, ON 11:13:39.076, next exit armed 11:13:56.061, slot 4 accepted 11:13:57.638 with expected active index 3. Other logged preferences unchanged; automation left ON. Other controls, restart persistence and alternate input unverified."
   },
   "post_queue_observation": {
     "passive_only": true,
@@ -358,8 +367,8 @@
     "automatic_retry": false,
     "active_slot_is_not_visible_spawn_confirmation": true,
     "live_verified": false,
-    "expected_active_path_verified_in_game": false,
-    "live_scope": "0.4.8 unlaunched; prior 0.4.7 stopped at first active and missed any later removal. No rendering proof or retry added.",
+    "expected_active_path_verified_in_game": true,
+    "live_scope": "Combined 0.8.7-r1: expected-active observations after Nexus load and exit; observer continued until native preview/emote at 13.89 s for load and time limit at 15.02 s for exit. Player separately confirmed both visible pets. No failed-spawn/removal diagnosis or retry.",
     "continues_after_expected_active": true
   },
   "known_manual_attribution_issue": {
@@ -602,7 +611,7 @@
       "developer": 633
     },
     "live_candidate_launch_verified": true,
-    "live_candidate_launch_scope": "Guarded launch verified for combined 0.8.4 only; new 0.8.5 remains unlaunched."
+    "live_candidate_launch_scope": "Guarded persistent-PTY PowerShell launch observed for 0.8.4 and final 0.8.7-r1; two Mods/twelve targets registered for 0.8.7. Clean-PC portable installation remains unverified."
   },
   "previous_unlaunched_083_developer_native_menu_trial": {
     "version": "0.8.3-play-trial",

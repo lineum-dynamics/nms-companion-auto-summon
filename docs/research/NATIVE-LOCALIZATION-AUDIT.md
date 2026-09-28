@@ -5,11 +5,15 @@ SHA256 `b7913f268dfc62386b6b68f524bfc8ade4a44a9f4fbad39085b7bf51be3680cb`.
 This combines offline authored-text checks, bounded static analysis and the
 unlaunched **0.8.6-r1** observation candidate. That candidate retains production
 0.4.8 and adds menu **0.8.4-language-observation**. It records native language
-state without selecting a catalog or changing rendered text. Live language
-observations, glyph coverage and localization acceptance remain unverified.
-The running 0.8.4, prepared 0.8.5 and initial 0.8.6 artifacts are unchanged.
+state without selecting a catalog or changing rendered text. At that checkpoint,
+live language observations, glyph coverage and localization acceptance were
+unverified. The former 0.8.4, prepared 0.8.5 and initial 0.8.6 artifacts remain unchanged.
 
 Subsequent branding candidate 0.8.7 retains this observation-only implementation.
+Its final r1 launched on 28 September: one bounded menu observation reported
+native region 0, ENGLISH, with prior initialization/load seen. It did not select
+a catalog or establish reload safety/rendered language support; see [the live
+record](LIVE-087.md).
 Its catalogs add two external product/credit keys (41 per language) and expand
 three launcher names. The 546-value decoder check below describes the earlier
 39-key snapshot; it is not relabelled as a check of those later text values.

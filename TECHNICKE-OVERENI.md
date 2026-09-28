@@ -11,8 +11,15 @@ Prošlo 333 produkčních a 675 vývojových testů bez chyb a vynechání, kont
 skutečného frameworku mimo hru a obě nezapisující předstartovní kontroly.
 Po drobné gramatické opravě korejského názvu znovu prošlo 24 lokalizačních testů
 a framework i obě kontroly finálního balíčku `build/quick-menu-play-trial-087-r1`.
-Ten obsahuje 40 datových souborů a manifest a zatím není spuštěný. Původní
-výstup `087` je překonaný. Běžící 0.8.4 a dříve připravená 0.8.6-r1 se neměnily.
+Ten obsahuje 40 datových souborů a manifest. Dne 28. 9. byl spuštěný po běžném
+ukončení hry a ověřené záloze 46 souborů. V 11:07:26 se načetly oba módy a
+dvanáct cílů; při první kontrole se nezměnily soubory balíčku ani předvolby a
+paměť ručního výběru. Uživatel potvrdil viditelné vyvolání v Anomálii po
+načtení i po výstupu z lodi; log potvrzuje dva přijaté požadavky a aktivní sloty.
+Šlo o různé náhodné pety, takže to není důkaz opravy předchozího občasného
+selhání. Pozorování jazyka uvedlo ENGLISH, bez zapnutí překladů. Podrobnosti
+a neověřené oblasti zachovává [záznam 0.8.7](docs/research/LIVE-087.md).
+Původní výstup `087` je překonaný. Dřívější 0.8.4 a připravená 0.8.6-r1 zůstávají neměnné.
 Vážený výběr podle prostředí a shuffle jsou samostatný návrh, ne součást tohoto kandidáta.
 
 ## Historický výsledek 0.8.4 a příprava 0.8.5

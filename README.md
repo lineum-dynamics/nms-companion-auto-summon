@@ -6,7 +6,7 @@ The branding candidate **0.8.7-play-trial** pairs production
 **0.4.9-experimental** with menu **0.8.5-branding**. Source validation passed
 **333 production and 675 developer tests**, without failures or skips. Real-framework
 checks covered both Mods and all six temporary preference paths; Python and
-Windows PowerShell 5.1 read-only preflights passed. It has not launched.
+Windows PowerShell 5.1 read-only preflights passed.
 The separate final folder is `build/quick-menu-play-trial-087-r1`, with 41 files;
 its focused locale, framework and both preflight checks also passed after a
 Korean translation correction.
@@ -19,11 +19,20 @@ language observation. It does not select a translation or fix the intermittent
 Nexus startup issue. The previously prepared **0.8.6-r1** remains unchanged;
 its test and preflight results belong to that artifact, not to this new candidate.
 
-The running **0.8.4** bundle remains unchanged. Both Mods and twelve native
-targets registered; screenshots confirm six distinct setting icons. One Nexus
-startup failed visibly despite a temporary active index; a later ship exit
-successfully summoned a different Random pet. Full menu, HUD and gameplay
-acceptance remain incomplete. See [live evidence](docs/research/LIVE-084.md).
+The final **0.8.7 / 087-r1** launched on 28 September 2026 after normal game
+closure and a fresh verified 46-file backup. Both Mods and twelve targets
+registered at 11:07:26 (Europe/Prague). The player confirmed visible Random
+companions in the Nexus **after both loading and leaving the ship**. After a
+requested manual dismissal, the player reported no apparent reappearance; the
+wait was not independently timed. These were different pets; the two summons
+do not explain or prove a fix for the
+[earlier 0.8.4 failure](docs/research/LIVE-084.md). Initial post-start checks
+found all 40 payloads and existing settings/state unchanged. The language
+observer recorded native English, without enabling translations or proving
+reload readiness. The player also confirmed one native OFF/ON sequence: OFF
+prevented a ship-exit summon, ON alone summoned nothing, and the next exit
+summoned a pet. Other controls, remapping, HUD/icons, repeatability, Last selected and
+multiplayer remain unverified. See [the bounded 0.8.7 record](docs/research/LIVE-087.md).
 
 Fourteen catalogs now contain 41 keys, including the full product name and author
 credit. Three launcher messages use the expanded title. Only the nine launcher compatibility
@@ -219,7 +228,8 @@ framework configuration and foreign `pymhflib` entry points. An unsupported,
 changed or unreadable executable refuses mod activation with an outside-game
 warning; it does not reset preferences or use an unverified native HUD.
 Refusal boundaries are tested offline; a supported guarded launch also succeeded
-in 0.8.4. The new 0.8.7 branding candidate is not launched.
+in 0.8.4 and 0.8.7. The 0.8.7 live scope is the two Nexus Random summons
+documented above, not complete gameplay or installer acceptance.
 
 Compatibility warnings use the Windows UI locale with an optional `-Language`
 override, for example `-Language fr`. This is not game-language detection.

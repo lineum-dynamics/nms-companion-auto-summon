@@ -2,11 +2,11 @@
 
 by **Lineum Dynamics**
 
-Připravovaný kandidát **0.8.7-play-trial** spojuje produkci
+Aktuální testovací balíček **0.8.7-play-trial** spojuje produkci
 **0.4.9-experimental** a menu **0.8.5-branding**. Zdroj prošel **333 produkčními
 a 675 vývojovými testy** bez chyb a vynechání, kontrolou skutečného frameworku
 s oběma módy a šesti dočasnými preferencemi i nezapisujícími kontrolami Python
-a Windows PowerShell 5.1. Ve hře nebyl spuštěn. Oddělený finální adresář
+a Windows PowerShell 5.1. Oddělený finální adresář
 `build/quick-menu-play-trial-087-r1` má 41 souborů; po opravě korejského překladu
 u něj znovu prošly dotčené kontroly lokalizace, frameworku a obě předstartovní
 kontroly. Plný název patří do prezentace mimo hru, zatímco
@@ -18,11 +18,20 @@ jazyka hry. Nezapíná překlady a neopravuje občasné selhání při načtení
 Dříve připravený balíček **0.8.6-r1** zůstává nedotčený; jeho testy a vstupní
 kontroly nejsou výsledky ověření tohoto nového kandidáta.
 
-Běžící balíček **0.8.4** zůstává nedotčený. Načetly se oba módy a dvanáct
-nativních cílů, snímky potvrzují šest různých ikon nastavení. Při jednom načtení
-v Anomálii se pet neobjevil, přestože ho hra krátce vedla jako aktivního.
-Pozdější výstup z lodi vyvolal jiného náhodného peta úspěšně. Úplné ověření menu,
-hlášek a hraní zůstává otevřené. Podrobnosti jsou v [záznamu testu](docs/research/LIVE-084.md).
+Finální **0.8.7 / 087-r1** se spustil 28. 9. 2026 po běžném ukončení hry a nové
+ověřené záloze 46 souborů. V 11:07:26 (Europe/Prague) se načetly oba módy
+a dvanáct nativních cílů. Hráč potvrdil viditelného náhodného peta v Nexusu
+**po načtení i po výstupu z lodi**. Po požadovaném ručním odvolání pak uvedl,
+že se pet zřejmě znovu neobjevil; dobu čekání nemáme nezávisle změřenou.
+Šlo o různé pety; dvě úspěšná vyvolání
+nevysvětlují ani neprokazují opravu [staršího selhání 0.8.4](docs/research/LIVE-084.md).
+První kontrola po startu potvrdila shodu všech 40 položek balíčku i nastavení
+a zapamatovaného stavu. Pozorování jazyka zaznamenalo angličtinu, ale překlady
+nezapíná a neověřuje bezpečnost přepnutí jazyka. Hráč potvrdil i jednu zkoušku
+nativního OFF/ON: po výstupu s OFF se pet nevyvolal, samotné ON nic nevyvolalo
+a až další výstup peta vyvolal. Ostatní volby, přemapování, hlášky a ikony,
+opakovatelnost, režim Last selected a multiplayer stále čekají na ověření.
+Podrobnosti jsou v [záznamu 0.8.7](docs/research/LIVE-087.md).
 
 Všech 14 katalogů obsahuje 41 položek, včetně plného názvu a autorského kreditu.
 Tři zprávy spouštěče mají rozšířený název. Při spuštění se z katalogů nyní používá pouze

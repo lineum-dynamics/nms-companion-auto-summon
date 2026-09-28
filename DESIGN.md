@@ -19,8 +19,8 @@ remain unchanged by this presentation update.
 
 ## Current state
 
-The running combined **0.8.4** has production **0.4.7**, menu **0.8.3**, all six
-existing preferences and 5.5-second confirmations. Screenshots confirm distinct
+The running combined **0.8.7** has production **0.4.9**, menu **0.8.5-branding**, all six
+existing preferences and 5.5-second confirmations. Earlier 0.8.4 screenshots confirm distinct
 icons for the six setting roles. Each icon represents its function and stays
 the same when its value changes; ON/OFF or the selected mode is in the caption.
 White/gray is native selection styling, not the enabled state. English labels
@@ -28,13 +28,16 @@ use sentence case, with proper names such as **Space Anomaly** capitalized;
 **Space stations** is a generic label and ON/OFF are uppercase state tokens.
 This records the current English design, not a verified game-wide style guide.
 
-The player reported no visible companion on one Nexus startup despite a brief
+In the earlier 0.8.4 session, the player reported no visible companion on one Nexus startup despite a brief
 logical active index. A later ship exit successfully summoned another Random
 pet. The source branding candidate **0.4.9 / 0.8.7**, with menu
 **0.8.5-branding**, retains extended passive diagnostics within their existing
-bounds and read-only language observation in the CAS menu. Validation is pending;
-it is unlaunched and is not a spawn fix. The prepared **0.8.6-r1** remains
-unchanged. See [live evidence](docs/research/LIVE-084.md).
+bounds and read-only language observation in the CAS menu. The final 0.8.7-r1
+launched after a verified 46-file backup. The player confirmed visible Random
+summons after both Nexus save load and ship exit; different pets were chosen.
+This does not establish an intermittent-failure fix or repeatability. The
+prepared **0.8.6-r1** remains unchanged. See [current evidence](docs/research/LIVE-087.md)
+and [the earlier failure](docs/research/LIVE-084.md).
 Full control, HUD, teardown and remapping acceptance remains incomplete.
 Retain the development panel until native acceptance passes. The standalone
 production ZIP has no native page or custom textures. Absence alone must never

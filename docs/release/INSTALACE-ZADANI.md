@@ -12,8 +12,17 @@ a šesti voleb s dočasnými preferencemi, bez nativních hooků a přístupu ke
 Python `--check-only` i Windows PowerShell 5.1 `-CheckOnly` prošly proti instalované
 hře a runtime, bez spuštění, nasazení nebo instalace závislostí. Herní ověření
 zůstává nedokončené. Po jazykové opravě znovu prošlo 24 lokalizačních testů,
-kontrola frameworku a obě předstartovní kontroly finálního r1. Připravený nespuštěný 0.8.6-r1 a běžící 0.8.4
-zůstávají nedotčené; ani nový 0.8.7 nebyl spuštěný. Režim PowerShell `-CheckOnly` ověří balíček, podporovanou hru a
+kontrola frameworku a obě předstartovní kontroly finálního r1. Připravený nespuštěný
+0.8.6-r1 a uchovaný 0.8.4 zůstávají nedotčené. Finální 0.8.7 / 087-r1 se po
+běžném ukončení hry a nové ověřené záloze 46 souborů spustil 28. 9. 2026;
+v 11:07:26 (Europe/Prague) se načetly oba módy a dvanáct nativních cílů.
+První kontrola po startu potvrdila shodu všech 40 položek balíčku i nastavení
+a zapamatovaného stavu. Hráč potvrdil viditelné vyvolání v Nexusu po načtení
+i výstupu z lodi, pokaždé jiného náhodného peta. Potvrdil také jednu zkoušku
+nativního OFF/ON: OFF potlačilo vyvolání po výstupu, ON samo nic nevyvolalo
+a další výstup už ano. Ostatní preference zůstaly stejné. Jde o dílčí herní ověření,
+nikoli důkaz opravy staršího selhání nebo hotového instalátoru; viz
+[LIVE-087](../research/LIVE-087.md). Režim PowerShell `-CheckOnly` ověří balíček, podporovanou hru a
 existující runtime i za běhu NMS. Nic nevytváří, neinstaluje, nekopíruje do hry
 ani nespouští. Chybějící předpoklady ohlásí; jejich náprava vyžaduje samostatné
 běžné spuštění při zavřené hře. Úspěšná kontrola není herní ověření.
@@ -41,7 +50,7 @@ Herní krátký název, popisky nastavení a hlášky zůstávají stejné.
 
 Produkce 0.4.9 zachovává pasivní diagnostiku po prvním logickém aktivním stavu;
 menu 0.8.5-branding ponechává šest voleb, sedm ikon rolí a pozorování jazyka bez
-zapnutí překladů. Běžící 0.8.4 nadále obsahuje produkci 0.4.7 a menu 0.8.3.
+zapnutí překladů. Běžící 0.8.7 / 087-r1 se během testování nemění.
 Veřejný přenosný
 instalátor, úplné překlady a bezpečnost budoucí uložené technologie nejsou
 hotové; níže je jejich zadání a oddělená historická evidence.

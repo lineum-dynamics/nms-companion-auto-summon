@@ -1,6 +1,6 @@
 # Companion Auto Summon development guide
 
-Current candidate validation: **333 production tests and 675 developer tests passed** without failures or skips. The separate 41-file `quick-menu-play-trial-087-r1` folder (40 payloads and its manifest) passed real-framework discovery, shared Python dispatch, all six temporary preference paths and both Python and Windows PowerShell 5.1 read-only preflights. The framework checks used nine callbacks per Mod across twelve targets, without native binding or game access. The running 0.8.4 and prepared, unlaunched `086-r1` payloads remain unchanged.
+Current candidate validation: **333 production tests and 675 developer tests passed** without failures or skips. The separate 41-file `quick-menu-play-trial-087-r1` folder (40 payloads and its manifest) passed real-framework discovery, shared Python dispatch, all six temporary preference paths and both Python and Windows PowerShell 5.1 read-only preflights. The framework checks used nine callbacks per Mod across twelve targets, without native binding or game access. The now-running `087-r1`, retained 0.8.4 and prepared, unlaunched `086-r1` payloads remain immutable.
 
 The current source candidate is **0.8.7-play-trial**, with production **0.4.9-experimental**
 and menu **0.8.5-branding**. Its external title is **Companion Auto Summon for No Man's Sky**,
@@ -8,13 +8,31 @@ with the byline **by Lineum Dynamics**; the in-game short title stays unchanged.
 It retains the passive observation
 window after the first logical active index, without adding retries or changing
 summon behavior. The menu retains bounded read-only language diagnostics when a
-CAS caption is selected; it does not enable translated rendering. The final
-`087-r1` bundle is not launched. The running **0.8.4** bundle is immutable.
-Its registration and six distinct setting icons are confirmed, but the player
-reported a failed visible Nexus startup. A later ship exit in the same session
-summoned a different Random companion successfully. See
-[the bounded live record](docs/research/LIVE-084.md); these two runs do not
-establish the cause or an intermittent-failure fix.
+CAS caption is selected; it does not enable translated rendering.
+
+Final `087-r1` launched after normal closure and a verified 46-file backup.
+On 28 September 2026 at 11:07:26 (Europe/Prague), both Mods and twelve native
+targets registered with Random, automation, all locations and biome preference
+ON. The player confirmed visible pets after Nexus loading and ship exit. The
+load queue was accepted at 11:08:39.575, with logical active index 4 at
+11:08:39.592; its observation ended on native preview/emote after 13.89 seconds,
+last active 4. The exit queue was accepted at 11:09:02.922, with active index 5
+at 11:09:02.938; observation reached its 15.02-second deadline, last active 5.
+Different Random pets prevent a controlled load/exit comparison. Initial
+post-start hashes matched all 40 payloads and existing settings/state. A native
+English observation at 11:08:53.254 confirms one bounded read, not language
+reload readiness or translated rendering. See [LIVE-087](docs/research/LIVE-087.md).
+After a requested manual dismissal, the player reported no apparent return;
+the requested wait was at least 20 seconds without ship entry or settings
+changes, but its actual duration was not independently measured. This is one
+bounded report, not broad dismissal verification.
+The player also confirmed one native OFF/ON sequence: OFF prevented the requested
+ship-exit summon, ON alone created no request, and the next exit summoned a pet.
+Logs record OFF at 11:13:04.257, ON at 11:13:39.076, then an exit at 11:13:56.061
+and accepted queue at 11:13:57.638. Other preferences remained unchanged; this
+does not verify the other five controls, held/remapped input or controllers.
+The [earlier 0.8.4 startup failure](docs/research/LIVE-084.md) remains unexplained;
+repeatability, Last selected, full controls/HUD/icons and multiplayer remain open.
 
 This repository is the canonical development location. Keep installed test copies and prior exports as deployment artifacts, not as competing source trees. Record live observations against the exact version; neither the historical 0.4.2 rename nor the new 0.4.3 load trigger inherits earlier gameplay verification.
 
@@ -99,7 +117,7 @@ Python probe regression covers legacy PowerShell argument quoting; target-path
 tests count UTF-16 units, including non-BMP characters. No new live behavior
 has been verified by these checks.
 
-The production source is **0.4.9-experimental**, paired with menu **0.8.5-branding** in **0.8.7-play-trial**. Last-launched **0.8.4-play-trial** retains production **0.4.7** and menu **0.8.3-settings-trial**. Earlier artifacts remain unchanged. The target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The development launcher accepts Python 3.11–3.13 x64.
+The production source is **0.4.9-experimental**, paired with menu **0.8.5-branding** in the running **0.8.7-play-trial**. Retained **0.8.4-play-trial** has production **0.4.7** and menu **0.8.3-settings-trial**. Earlier artifacts remain unchanged. The target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The development launcher accepts Python 3.11–3.13 x64.
 
 The PowerShell launcher's `-CheckOnly` path validates package integrity, the
 supported game and the existing runtime without creating files/directories,
@@ -187,11 +205,11 @@ trigger, preferences, manual selection/preview/emote and invalid state end it.
 Observer failures do not disable working automation. It adds no native calls,
 hooks, offsets, preference fields or game-save writes.
 
-The prepared 0.8.7 bundle pins its preference bridge to the versioned 0.4.9
+The running 0.8.7 bundle pins its preference bridge to the versioned 0.4.9
 initializer; immutable 0.8.6-r1 and 0.8.4 retain their 0.4.8 and 0.4.7 bridges.
 It keeps the production control lock, queue, application callback
 and two-Mod discovery contract. The additional resource callback belongs to
-the menu Mod. Old artifacts are retained; the active 0.8.4 folder is immutable.
+the menu Mod. Old artifacts are retained; the active 0.8.7-r1 folder is immutable.
 
 Historical 0.4.5 / 0.7.2 offline validation passed **279 production tests** (189 runtime, 34 policy,
 14 persistence, 24 settings, 18 launcher) and **408 developer tests**. Actual

@@ -2,124 +2,68 @@
 
 by **Lineum Dynamics**
 
-**LOCAL DRAFT — not uploaded. Update the validation status, final installer instructions, third-party credits and permissions before publishing.**
+**LOCAL DRAFT — no Nexus page has been uploaded. Not ready for publication.**
 
-Current branding candidate: **0.4.9-experimental**, with combined developer
-trial **0.8.7-play-trial** and menu **0.8.5-branding**. Validation passed 333
-production and 675 developer tests. The final 41-file `087-r1` bundle passed
-actual-framework checks, all six temporary preference paths and both Python
-and Windows PowerShell 5.1 read-only preflights; focused checks were repeated
-after its Korean translation correction. This candidate has not launched.
-The running 0.8.4 and prepared 0.8.6-r1 remain
-unchanged. The in-game short title is **Companion Auto Summon**; stable filenames
-and player-data paths are retained. The canonical source is the currently
-private [Lineum Dynamics repository](https://github.com/lineum-dynamics/nms-companion-auto-summon).
+## Short summary
 
-The current candidate retains six native settings, passive summon diagnostics
-and read-only language observation. It does not enable translated rendering or
-fix intermittent startup placement. In 0.8.4 the player reported one invisible
-Nexus startup and later confirmed a different Random pet after a ship exit.
-Do not publish blanket startup, native-menu or multiplayer verification claims.
-Earlier results below retain their explicit version boundaries.
+Automatically bring along an owned companion after loading your save or leaving your starship. Use your last manually selected pet or choose a random eligible companion, with an optional planet-habitat preference. The game's summoning and placement rules still apply.
 
-One historical Random-mode Anomaly startup was confirmed for 0.4.4 / 0.7.1. On 27 September 2026, load arming at 22:23:39.698 led to native queue acceptance at 22:23:42.250 (logged 2.56 seconds). That observer recorded the expected active companion at 22:23:42.266, on its first update, then stopped. The player confirmed visible appearance. No ship exit or automatic retry preceded this result. This is one successful run, not a fix for the earlier intermittent failure; only passive diagnostics changed.
+## Description
 
-## Short description
+Keep a companion beside you without opening the companion menu after every landing. When you leave your starship or load your local save, the mod checks your settings and asks the game to summon one of your eligible owned companions.
 
-Automatically summon an owned companion after loading a save or leaving your starship. Remember your manual favourite or choose a random eligible pet, optionally preferring the current planet's habitat. Native summoning and placement rules still apply.
+Choose a familiar favourite or let Random vary your company. The mod does not give you pets, unlock slots, accelerate growth, improve combat values or bypass placement restrictions. You still need to own a companion that the game permits you to summon.
 
-## What Companion Auto Summon does
-
-Companion Auto Summon requests a companion after you leave your starship or successfully load your local save, when the game allows summoning. Choose your last manually selected companion, or use Random to select from your eligible owned companions.
-
-The 0.4.3 candidate adds one deferred opportunity after loading, using your existing settings, the same delay and the same native checks as the ship-exit path. Loading itself does not directly summon a pet; the request is handled later by the established local-player callback. This is not a continuous respawn rule: dismissing a pet does not repeatedly summon it again.
-
-Random mode can prefer companions whose native habitat matches the current planet. If no eligible companion matches, or the habitat is unknown, it uses the ordinary eligible random pool. This preference is on by default and has no effect on Last manually selected mode, space stations or the Nexus.
-
-When placement is temporarily unsuitable, the mod keeps the request pending until a suitable place is available or you cancel it. Entering the starship, making a manual companion choice or changing a Companion Auto Summon setting cancels that pending request. A chosen random companion stays fixed throughout the same pending request.
-
-The mod does not unlock or create pets, alter their growth, trust, eggs or combat values, increase companion capacity, or override native summon and placement restrictions.
+If your landing platform or surrounding terrain is unsuitable, the request can wait while you walk somewhere suitable. A selected random pet stays fixed during that wait. Entering your ship, choosing a pet manually or changing a mod setting cancels the pending request.
 
 ## Settings
 
-- Automatic summoning: on by default.
-- Locations: planets, space stations and the Nexus, individually configurable and on by default. The game's own permission checks still apply.
-- Companion selection: Last manually selected by default, or Random.
-- Prefer same biome in Random mode: on by default.
-- Status and companion displays.
+The combined development trial has six controls in its native companion settings page:
 
-The combined developer trial has a native companion settings page for the six
-preferences above; status/companion displays also remain in the temporary pyMHF
-desktop panel. Both use the same production preference queue. Return to the game
-after changing a preference so it can be applied and saved. The native page has
-partial live evidence, including distinct setting icons in 0.8.4; complete
-input, navigation and controller acceptance remains pending. The standalone
-production package still uses the separate panel and has no native page.
+- **Automatic summoning:** ON/OFF. OFF cancels waiting automatic requests without dismissing your current companion. Turning ON waits for your next ship exit or successful local save load.
+- **Selection:** Last selected or Random. Last selected remembers a successful manual choice for that save; Random does not replace your remembered favourite.
+- **Random: prefer matching biome:** favour eligible companions whose stored native habitat exactly matches the planet. If the habitat is unknown or no eligible match exists, use the ordinary eligible random pool. This does not affect Last selected, stations or the Space Anomaly.
+- **Planets:** allow automatic summoning on planets.
+- **Space stations:** allow automatic summoning on stations.
+- **Space Anomaly:** allow automatic summoning in the Nexus.
 
-In the default mode, summon an owned companion manually once to choose your favourite. Random mode does not need a previous manual choice, but you must own an eligible pet. Random selections do not replace your remembered manual favourite.
+Defaults are automation ON, all three locations ON, Last selected, and biome preference ON. Native controls have partial live validation; the temporary pyMHF desktop panel remains available during development. The standalone production script uses that panel and does not include the native page.
 
-## Requirements and support scope
+## Compatibility
 
-- Windows x64 and the Steam edition of No Man's Sky.
-- Exact supported executable: Steam build 25442159 / Cosmos 7.04. The SHA256 is supplied in the package manifest; a different executable is refused.
-- The development candidate uses Python 3.11–3.13 x64 and pyMHF 0.2.4 with GUI dependencies. The planned public package will bundle a tested runtime so players do not need a separate Python installation; this packaging has not yet been implemented or validated.
-- Start the game with the supplied Companion Auto Summon launcher. This is a Python/pyMHF mod, not a PAK to place in GAMEDATA/MODS.
+The supported target is **Windows x64, Steam build 25442159 / Cosmos 7.04**, with the exact executable fingerprint listed in the package manifest. Other builds, stores and operating systems are not supported. A game update requires renewed compatibility checks; the launcher refuses an unknown executable.
 
-Other game builds, stores and operating systems are not supported by this package. Updates to NMS require a new compatibility check.
+The current development setup requires **Python 3.11–3.13 x64 and pyMHF 0.2.4**. Start it through its supplied launcher. This is a Python/pyMHF mod, not a PAK to drop into GAMEDATA/MODS. The planned portable player installer is unfinished. Multiplayer, second-PC installation and compatibility with other mods are not yet verified.
 
-## Installation — draft pending final packaging
+## FAQ
 
-The development launcher creates a private Python environment and downloads
-missing pyMHF dependencies. The combined trial runs production auto-summoning
-and native settings together in one host, with exact-build compatibility
-checks. Neither is the planned public installer. The public experience is to
-extract the ZIP and double-click a launcher with a bundled offline runtime;
-that packaging remains unverified. Replace this paragraph with the final
-verified setup procedure before publishing.
+**Do I need to select a companion first?**
 
-## Removing or disabling Companion Auto Summon
+For Last selected, manually summon an owned companion once. Random needs no previous choice, but still requires an eligible owned pet. A new installation never supplies a companion of its own.
 
-Quit NMS, then launch it normally through Steam to play without Companion Auto Summon. Manual preferences are stored outside the save files in `%LOCALAPPDATA%\NMS-AutoPet`. This legacy directory is intentionally retained so the rename preserves existing choices. `settings.json` stores settings; `state.json` stores manual companion choices per save. Close the game before removing either file if you want to reset those preferences.
+**Will it keep summoning a pet I dismiss?**
 
-## Validation and known limits — update before upload
+Dismissal does not create another automatic opportunity. Another successful local save load or ship exit can do so. An already active or queued companion also prevents a duplicate request.
 
-A separate developer candidate, 0.7.0-play-trial, adds the first
-native setting: automatic summoning ON/OFF. It uses the unchanged 0.4.3
-production preference queue and preserves other preferences. It passed 408
-developer tests and actual pyMHF discovery/temporary-preference checks outside
-the game: two Mods, 15 callbacks across 11 targets, no hook registration or
-personal preference access. This does not establish in-game activation,
-held-input behavior, remapped controls or controller support. Tail-only or
-otherwise uncorrelated activations do not change settings. On 27 September
-2026, after normal exit and a fresh verified backup, the 0.7.0 trial registered
-both Mods and 11 hook targets with automation ON. Complete live preference
-validation remains pending. This developer candidate is not the player ZIP.
+**Does it change my save?**
 
-All six existing preferences now have native controls in the combined trial;
-their full acceptance remains unfinished. The separate pyMHF panel is temporary
-and will be retired from the player interface after the complete native page
-passes validation; existing settings will be preserved. The framework may
-remain the background runtime. Do not advertise fully verified native settings
-or panel-free installation until that transition has actually been delivered.
+The mod does not directly edit NMS save files. Its settings and remembered manual choices live separately in `%LOCALAPPDATA%\NMS-AutoPet`. Back up your progress before testing an experimental build. To play without the mod, close the game normally and restart through Steam.
 
-Status on 27 September 2026: production 0.4.3 passed 230 offline tests, including 140 runtime tests, and the developer suite passed 341 tests. The actual production GUI and the 0.6.2 combined-folder smoke checks also passed without game access or hook registration.
+**How much has been tested?**
 
-The subsequent 0.4.3 / 0.6.2 live trial registered both mods with automatic summoning enabled. After a local save loaded at a space station, the log recorded the load-triggered request, a Random selection from five eligible owned companions and native queue acceptance about 2.69 seconds after arming. No ship-exit arming event preceded this request. The player confirmed that the companion actually appeared after loading and clarified that the location was a station, not the Nexus. This verifies one station startup summon in Random mode on the development machine; the queue timing is not a measurement of visible spawn latency.
+In one 0.8.7 session, the player confirmed visible Random companions after Nexus loading and ship exit, no apparent return after manual dismissal, and the expected OFF/ON sequence. The dismissal wait was not independently timed. Different pets were selected, and an earlier intermittent startup failure remains unexplained. Repeatability, Last selected startup, the other five controls, HUD/icons and remapped/controller input still need testing. Native menu and HUD text remain English.
 
-Later in the same unchanged 0.4.3 / 0.6.2 session, the player confirmed one manual dismissal with no reappearance during the observed interval. The exact location, dismissal time and interval length were not independently established, nor was the dismissed pet linked to the earlier startup summon. This is a separate player-confirmed dismissal observation, not a station-specific or immediately-after-load test.
+## Credits and disclosure
 
-Earlier on the same date, production 0.4.2 registered in the combined 0.6.1 trial. Its log recorded an accepted station summon request, but there was no player confirmation that the companion appeared. This establishes registration and the logged request only. The earlier 0.4.2 offline baseline passed 212 tests. Historical AutoPet 0.4.1 passed 211 offline tests and widget checks; its habitat preference was not tested in-game. Earlier versions demonstrated a basic planetary Random summon, station summoning and restoring a manual selection after restart on the development machine. These historical results do not validate the new 0.4.3 behavior.
+Framework: [pyMHF](https://github.com/monkeyman192/pyMHF). Native research reference: [NMS.py](https://github.com/monkeyman192/NMS.py), both by monkeyman192. Generative AI was used extensively for code, interface work, translations and this description. This is an unofficial mod, not an official Hello Games product.
 
-Startup on a planet or in the Nexus, startup in Last manually selected mode, broader dismissal regression, multiplayer, a second-PC installation, unsuitable-placement recovery and the remaining live scenarios are still pending. The two bounded observations do not verify those cases. No blanket compatibility claim is made for other mods.
+---
 
-## Credits and permissions — complete before upload
+## Internal readiness and metadata — do not publish this section
 
-Framework: [pyMHF by monkeyman192](https://github.com/monkeyman192/pyMHF). Native-function research reference: [NMS.py](https://github.com/monkeyman192/NMS.py). Confirm attribution and any incorporated third-party material in the final package.
-
-Project attribution: **Companion Auto Summon for No Man's Sky — by Lineum
-Dynamics**. Licence and reuse permissions remain undecided; this attribution
-does not assign them. The mod's code was developed with generative AI assistance,
-including substantial code generation. Recheck the Nexus **AI-Generated Content**
-and **AI Media** tagging requirements before uploading this AI-written page.
-
-The intended release is free. No donation account or paid access is configured in this draft.
+- Candidate: production 0.4.9, combined 0.8.7 / `087-r1`, menu 0.8.5-branding. Retain the bounded [live record](../research/LIVE-087.md); do not turn one session into a general guarantee.
+- **Installation placeholder:** replace with the verified player-package procedure only after portable packaging and clean-machine acceptance. No final installation instructions are approved yet.
+- Source: [private canonical repository](https://github.com/lineum-dynamics/nms-companion-auto-summon). Do not advertise it as a publicly accessible source link.
+- Complete third-party provenance, credits, licences and reuse permissions before upload. Apply **AI-Generated Content** and **AI Media** disclosure under the reviewed submission rules; do not substitute AI Assisted.
+- Donation Points eligibility and payment destinations still need checks. No donation URL, account or revenue promise is configured here.
+- Weighted habitat selection, shuffle, rechargeable technology and native translations are roadmap work, not current features. No publication is authorized until readiness is complete.

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.8.7 live observations — 28 September 2026
+
+- Launched the unchanged final `087-r1` bundle after normal game closure and a fresh hash-verified backup of 46 profile files. Both Mods and twelve targets registered; all 40 payloads and external preference/state hashes matched at the initial post-start check.
+- The player confirmed visible automatic summons after both save load and ship exit in the Space Anomaly. Logs recorded accepted Random requests for different pets (displayed slots 5 and 6), with expected logical active indices. This single session does not explain or establish a fix for the intermittent 0.8.4 startup failure.
+- In the subsequent manual-dismissal check, the player reported no apparent reappearance; the requested wait was at least 20 seconds, but its duration was not independently measured.
+- The player confirmed the native automation toggle: OFF prevented a ship-exit summon; ON alone did not summon; the next ship exit did. Logs agree, with other logged preferences unchanged and automation left ON. Other controls and restart persistence remain unverified for this version.
+- The bounded language observer reported native ENGLISH without changing text. Resource readiness and menu insertion were logged; full visual/control, dismissal, localization and multiplayer acceptance remain incomplete. See [the bounded record](docs/research/LIVE-087.md). No runtime, setting, catalog or running-artifact changes.
+
 ## 0.4.9 / 0.8.7 developer candidate — product identity and Lineum Dynamics
 
 - Use **Companion Auto Summon for No Man's Sky**, with **by Lineum Dynamics**, for the external product identity. Preserve the short native title, code/class/file identifiers, repository slug, mutexes and legacy player-data paths.

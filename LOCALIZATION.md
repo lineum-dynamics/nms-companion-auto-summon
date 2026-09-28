@@ -7,23 +7,27 @@
 the original 24 cover the native parent title, six settings labels,
 values/statuses, caption formats and current HUD notices; six keys cover the
 proposed rechargeable technologies, nine cover launcher compatibility
-messages and two cover product identity. In the unlaunched 0.4.9 / 0.8.7 branding
+messages and two cover product identity. In the 0.4.9 / 0.8.7 branding
 candidate, `product.full_name` is the invariant proper name **Companion Auto Summon
 for No Man's Sky**; `product.author_credit` translates **by Lineum Dynamics**.
 The full title also replaces the short name in `launcher.blocked_title`,
 `launcher.unsupported_game` and `launcher.game_running`, with all affected
 translations and fingerprints updated. Native menu/HUD wording is unchanged,
 including **Random: prefer matching biome**, effective only for Random on planets.
-The running 0.8.4 and prepared, unlaunched 0.8.6-r1 artifacts remain unchanged.
+The final 0.8.7-r1 trial is running; former 0.8.4 and prepared, unlaunched
+0.8.6-r1 artifacts remain unchanged.
 
 The catalogs are **not integrated into the game runtime**. Native text still
-uses the existing English ASCII path. The unlaunched 0.8.7 menu retains observation
+uses the existing English ASCII path. The running 0.8.7 menu retains observation
 of copied game-language scalars for developer diagnostics only. There is no language
 selector, automatic catalog choice, verified non-English rendering or native-language
 terminology review. English and Czech README files remain documentation
 translations. The development panel, other launcher/setup messages and older
 inert-preview captions are outside the current 41-key catalog; this is not
-whole-application coverage.
+whole-application coverage. At 11:08:53 on 28 September 2026, the bounded observer
+reported native region 0 (ENGLISH) with prior initialization/load seen. This is
+one live scalar observation, not reload safety or translated-rendering evidence;
+see [the current record](docs/research/LIVE-087.md).
 
 The prepared launcher compatibility warnings are the first catalog consumer
 in the launch path. Their scope is a blocked-start title, unsupported or

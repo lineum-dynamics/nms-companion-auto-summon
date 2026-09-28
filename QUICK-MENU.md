@@ -1,13 +1,26 @@
 # Native quick-menu investigation
 
-## Current status: running 0.8.4, source 0.8.7 unlaunched
+## Current status: running 0.8.7, bounded live confirmation
 
-The immutable running **0.8.4-play-trial** contains production **0.4.7** and menu
-**0.8.3-settings-trial**. Two Mods and twelve native targets registered after a
-verified backup. The player's screenshots confirm six distinct setting icons,
-including station and Anomaly captions. Runtime logs show deliberate changes
-to five control roles; complete navigation, all six controls, remapping,
-controller and HUD icon acceptance remain incomplete.
+The immutable running **0.8.7-play-trial / 087-r1** contains production **0.4.9**
+and menu **0.8.5-branding**. On 28 September 2026 at 11:07:26 (Europe/Prague),
+two Mods and twelve native targets registered after normal closure and a fresh
+verified 46-file backup. The player confirmed visible Random pets in the Nexus
+after both load and ship exit. At 11:08:53.254 the language observer read native
+0 / ENGLISH; this is one observation, not catalog selection or reload readiness.
+Initial post-start hashes matched all 40 payloads and existing settings/state.
+See [the bounded live record](docs/research/LIVE-087.md).
+
+The player confirmed one native automation-toggle sequence: OFF prevented a
+ship-exit summon, ON alone summoned nothing, and the next exit summoned a pet.
+The log records the corresponding OFF/ON transitions and subsequent queue;
+Random, all locations and biome preference stayed unchanged. The other five
+controls, held/remapped input and controllers remain pending.
+
+The retained 0.8.4 screenshots confirm six distinct setting icons, including
+station and Anomaly captions; its logs show changes to five control roles.
+Complete controls, navigation, remapping, controller and HUD/icon acceptance
+remain incomplete for the current trial.
 
 The six existing preferences remain on a flat page: automatic summoning,
 Last selected/Random, matching-biome preference, planets, space stations and
@@ -24,13 +37,13 @@ It records bounded language observations only on owned CAS captions, using the
 existing guarded reader and hook. It does not select a catalog or change text,
 icons, settings, timing or summon behavior. The separate
 `build/quick-menu-play-trial-087-r1` bundle has 41 files (40 payloads and a manifest)
-and is not launched. It passed 333 production and 675 developer tests, actual
+and is now running. It passed 333 production and 675 developer tests, actual
 framework checks with nine callbacks per Mod across twelve targets and all six
 temporary preference paths, plus Python and Windows PowerShell 5.1 read-only
 preflights. The prepared `086-r1` remains immutable and unlaunched. These checks
 do not establish gameplay or visual acceptance. The developer panel remains until native controls
-pass acceptance. [The live record](docs/research/LIVE-084.md) distinguishes the
-failed Nexus startup from a later successful ship exit with another Random pet.
+pass acceptance. The different pets in both the earlier and current Random
+runs do not establish a cause or fix for the [0.8.4 Nexus failure](docs/research/LIVE-084.md).
 
 Each child is a uniquely marked None action with an explicit role. Full-page
 validation requires exactly the six expected children; foreign/native content
