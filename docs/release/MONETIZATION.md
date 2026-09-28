@@ -6,6 +6,12 @@ release model. It is not approval from Nexus Mods or Hello Games. No permission
 request has been sent, account configured, payment destination chosen or
 financial UI implemented as part of this review.
 
+The owner's objective is **maximum revenue within the applicable rules**.
+Do not substitute an assistant preference for minimal visibility or a single
+optional link. First-run, update and recurring notices are candidates to assess,
+not features excluded by a settled product decision. Unknown policy limits
+remain unknown rather than being converted into invented prohibitions or permissions.
+
 ## Published rules and their limits
 
 | Source and published date | Relevant finding |
@@ -21,19 +27,37 @@ Replacing a popup with a launcher link does not itself resolve that distinction.
 Third-party dependencies and any future bundled runtime require their own rights
 review before opting the final package into DP.
 
-## Maximum defensible release plan
+## Established boundaries and missing limits
 
-1. Release the complete functional mod free, with the same features, updates
-   and assistance available regardless of payment.
-2. Use Nexus's built-in donation option and a restrained page-level link for
-   voluntary one-off or recurring thanks. Do not offer rewards, priority
-   support, access privileges or funding targets that promise future mod work.
-3. Consider DP only after checking the final package's provenance, licenses and
-   eligibility. Disclose AI accurately; do not infer approval from the absence
-   of a blanket AI exclusion.
-4. Seek a specific answer before implementing the optional local Support/About
-   proposal below. No startup ads, unsolicited reminders, automatic browser
-   opening or promotion to other multiplayer users is included in the proposal.
+| Mechanism | Published boundary |
+|---|---|
+| DP, PayPal and external donation links together | Nexus presents these as additive options, including links on mod, profile and collection pages. DP admission remains conditional. |
+| Recurring donations without mod content/services in return | Consistent with the expressly allowed Patreon option; that is an interpretation, not approval of a particular tier. |
+| Donation banner prominence, number and position | No numeric maximum published. Excessive promotion and active solicitation remain restricted. |
+| First-run, update or recurring local notices | No published permitted frequency or format. Neither once per installation nor once monthly is an established safe allowance. |
+| Sponsor and affiliate advertising in package/page | The general ban on advertising other websites/services applies; donation-link permission is not an advertising exception. Seek a specific ruling. |
+| Paid content route | Standard paid-mod restrictions apply. Publisher-endorsed programs are a separate exception, not established for this NMS mod. |
+
+The 100-pixel/footer/sticky limits in the donation article apply specifically
+to links to publisher-authorized **paid** content. They are not a general
+numeric limit for voluntary donation banners.
+
+The [File Submission Guidelines](https://help.nexusmods.com/article/28-file-submission-guidelines)
+also prohibit active donation solicitation while allowing tactful discussion.
+This makes exact wording relevant even when nothing is sold. Nonessential
+network access and adware are separately restricted; an ordinary donor link
+does not authorize a remote advertising or tracking system.
+
+The [Dwon410 moderation record](https://forums.nexusmods.com/topic/10770388-dwon410-banned/)
+listed in-game solicitation among several reasons on 27 November 2021. Staff
+reversed the ban on 30 November and restored the mods to moderation for changes
+to comply. This shows scrutiny, not a standalone rule banning every local link
+or a published frequency threshold. Do not omit the reversal when citing it.
+
+Hello Games' commercial restrictions require separate interpretation for the
+specific local interface. Its ban on uploaded promotional content directly
+affects multiplayer advertising; a local-only HUD is not thereby conclusively
+classified. No published permission was found for the proposed maximum scope.
 
 The [DP FAQ](https://help.nexusmods.com/article/112-donation-points-faq), checked
 28 September 2026, states 1,000 DP equals USD 1 and describes NET90 distribution.
@@ -47,30 +71,40 @@ truthful images and meaningful maintenance. These are supported by Nexus's
 
 ## Unsent request to Nexus Mods
 
-> Subject: Companion Auto Summon — optional Support/About link and DP eligibility
+> Subject: Companion Auto Summon — exact permitted monetization and promotion limits
 >
 > We are preparing Companion Auto Summon, a free Windows mod for No Man's Sky.
 > It contains substantial AI-generated code, UI content and translations, which
 > we intend to disclose using your current tags. We are reviewing all bundled
 > dependencies and asset permissions before publication.
 >
-> Does that disclosed AI use itself affect DP eligibility beyond your published
-> originality and permission requirements? What evidence should we provide?
+> We want to use the full permitted monetization scope. Please answer allowed,
+> prohibited, or allowed under stated conditions for each point:
 >
-> Separately, would you permit one optional Support/About entry, opened only by
-> the player's explicit action, containing one link to a voluntary thank-you
-> donation page? Please distinguish a launcher panel from a local-only in-game
-> settings page. The browser would open only on a further explicit link click.
-> There would be no startup popup, reminders, automatic network requests,
-> multiplayer messages or payment-dependent features, access or assistance.
-> One-off and recurring donations would provide no rewards or future-work promise.
+> 1. Combining DP, PayPal and recurring Patreon/Ko-fi thank-you donations, with
+> no paid files, updates, services, access or future-work promises. Does the
+> disclosed AI use itself affect eligibility, and what evidence is required?
+> 2. Donation-link/banner number, dimensions and placement on mod, profile and
+> collection pages, including a pinned notice. What is the maximum acceptable
+> scope? Are the 100px limits exclusive to publisher-authorized paid-content links?
+> 3. A persistent Support entry, a dismissible first-activation notice, a notice
+> after updates, and recurring notices. Please rule separately for the launcher
+> and local in-game UI, including maximum frequency, duration, wording, position
+> and required dismissal/disable controls. Browser navigation would require a click.
+> 4. Sponsor acknowledgements, sponsor banners and affiliate links in the page,
+> package or launcher. Are any expressly permitted, and under which limits?
+> Are donor credits or badges considered prohibited consideration for payment?
+> 5. Would individual publisher permission suffice for a paid offering, or is
+> membership in a formal publisher-endorsed program required for Nexus links?
 >
-> We have not implemented this financial interface. Please identify any required
-> wording, placement or restrictions. Publisher permission is a separate inquiry.
+> No financial interface is implemented. These are alternative proposals, not
+> claims of permission. Please distinguish mandatory limits from recommendations
+> and identify the wording that separates donation information from solicitation.
+> Publisher permission is a separate inquiry.
 
 ## Unsent request to Hello Games
 
-> Subject: No Man's Sky free mod — donations and optional local Support/About
+> Subject: No Man's Sky mod — commercial permission and exact local promotion limits
 >
 > We are developing Companion Auto Summon, a third-party Windows mod that
 > automatically summons the player's owned companion while retaining native
@@ -81,15 +115,24 @@ truthful images and meaningful maintenance. These are supported by Nexus's
 > one-off or recurring thank-you donations on the mod's external page, without
 > rewards or promises of future work?
 >
-> Would you additionally permit a local Support/About entry that the player
-> voluntarily opens, with one donation-page link opened only by explicit click?
-> Please distinguish an external launcher panel from an in-game settings page.
-> There would be no startup advertising, unsolicited prompts, multiplayer
-> promotion or implication of Hello Games endorsement.
+> Please separately classify these additional alternatives as allowed,
+> prohibited, or allowed under stated conditions, for local in-game UI and an
+> external launcher: a persistent Support entry; a dismissible first-activation
+> notice; notices after updates; recurring donation notices; sponsor
+> acknowledgements/banners; affiliate links. What maximum frequency, duration,
+> prominence and wording are allowed, and what opt-out controls are required?
+> Browser navigation would require a click; nothing would be sent to other
+> players or presented as Hello Games-endorsed.
+>
+> Is commercial licensing or a publisher-endorsed route available for a paid
+> version if we separately chose that model? We are asking about permission,
+> not announcing a paid product or assuming that free distribution permits ads.
 >
 > We would appreciate clarification of EULA sections 4.2.4, 5.2 and 6.2 for these
-> specific proposals. The financial interface has not been implemented, and we
-> do not assume that Nexus permissions establish your approval.
+> specific proposals, and whether any affirmative answer grants the required
+> commercial permission. Please distinguish binding limits from recommendations.
+> The financial interface has not been implemented, and we do not assume that
+> Nexus permissions establish your approval.
 
 These are drafts for owner review, not messages sent on the owner's behalf.
 Any response should be retained with its exact scope and date; silence is not

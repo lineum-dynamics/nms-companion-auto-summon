@@ -128,9 +128,9 @@ Pravidla Nexusu pro zveřejnění a monetizaci, ověřená 28. 9. 2026:
 
 Zdroj: [File Submission Guidelines](https://help.nexusmods.com/article/28-file-submission-guidelines), aktualizováno 4. 9. 2026.
 
-Nejvyšší doložený rámec podle Nexusu: kompletní mód zdarma, podmíněné Donation Points a dobrovolné jednorázové či pravidelné poděkování přes stránku módu/profilu, bez placených funkcí, přístupu nebo výhod podpory. Aktuální [DP pravidla](https://help.nexusmods.com/article/68-donation-points-system-terms-of-service) neobsahují plošné vyloučení AI; způsobilost závisí na právech k obsahu a rozhodnutí Nexusu. Neslibovat výdělek.
+Cílem vlastníka je maximální příjem v mezích pravidel, nikoli předem omezená nenápadná propagace. Nexus umožňuje kombinovat podmíněné Donation Points, PayPal a externí dárcovské odkazy. Aktuální [DP pravidla](https://help.nexusmods.com/article/68-donation-points-system-terms-of-service) neobsahují plošné vyloučení AI; způsobilost závisí na právech k obsahu a rozhodnutí Nexusu. Neslibovat výdělek.
 
-[Donation Options & Guidelines](https://help.nexusmods.com/article/77-donation-options-guidelines) povolují odkazy na stránkách Nexusu; tím není schválen finanční prvek ve hře ani launcheru. Použití [EULA Hello Games](https://www.nomanssky.com/end-user-licence-agreement/) na konkrétní lokální Support/About zůstává nevyjasněné. Podrobný [monetizační přehled](MONETIZATION.md) obsahuje anglické neodeslané dotazy na dobrovolně otevřenou stránku s jedním odkazem. Nikdo nebyl kontaktován, účet ani platební cíl se nenastavoval a finanční UI se nepřidávalo.
+[Donation Options & Guidelines](https://help.nexusmods.com/article/77-donation-options-guidelines) povolují odkazy na stránkách Nexusu; tím není schválen finanční prvek ve hře ani launcheru. Přesná frekvence připomínek nebo rozměr dárcovského banneru není určena. Limit 100 px se týká odkazů na zvlášť schválený placený obsah, ne obecně darů. Výklad [EULA Hello Games](https://www.nomanssky.com/end-user-licence-agreement/) pro lokální finanční UI zůstává nevyjasněný. [Přehled](MONETIZATION.md) obsahuje rozšířené neodeslané dotazy také na první spuštění, aktualizace, opakované výzvy, sponzory, affiliate a případnou komerční licenci. Nikdo nebyl kontaktován a finanční UI se nepřidávalo.
 
 ## 5. Zveřejnění
 

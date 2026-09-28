@@ -110,7 +110,7 @@
     },
     {
       "path": "ROADMAP.md",
-      "sha256": "e8a935dac99b5055505b82827f101fc259007e58213febdd094f83cbf2775d4c"
+      "sha256": "a2574a4b65a8c85b0d5969f84eb17713cbd1668d7353457c4c640e8209e32733"
     },
     {
       "path": "QUICK-MENU.md",
@@ -118,7 +118,7 @@
     },
     {
       "path": "docs/release/PRIPRAVA-VYDANI.md",
-      "sha256": "8e49f1aafc51f5f80b71e846d6fe29681bc222074fdbe9c273468c188a9550e2"
+      "sha256": "aa425e518081b1bfc465cdf2b79698fbae2ccb209c01bdd554e56045289266ee"
     },
     {
       "path": "docs/release/INSTALACE-ZADANI.md",
@@ -146,7 +146,7 @@
     },
     {
       "path": "docs/release/MONETIZATION.md",
-      "sha256": "382158079fcf6dcbcedc5ab55fd375137cca5736857ed53f7f6d1e64cfbc3cd8"
+      "sha256": "ca8ddd56ba95aa5de64df8e7cbc8285d9ba4d3d669b3f4ef4b89dd1231ba5326"
     },
     {
       "path": "src/policy.py",
