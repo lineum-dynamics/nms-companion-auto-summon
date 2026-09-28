@@ -19,8 +19,9 @@ This records the current English design, not a verified game-wide style guide.
 
 The player reported no visible companion on one Nexus startup despite a brief
 logical active index. A later ship exit successfully summoned another Random
-pet. The source **0.4.8 / 0.8.5** extends passive diagnostics within their existing
-bounds; it is unlaunched and is not a spawn fix. See [live evidence](docs/research/LIVE-084.md).
+pet. The source **0.4.8 / 0.8.6** retains extended passive diagnostics within their
+existing bounds and adds read-only language observation in the CAS menu. It is
+unlaunched and is not a spawn fix. See [live evidence](docs/research/LIVE-084.md).
 Full control, HUD, teardown and remapping acceptance remains incomplete.
 Retain the development panel until native acceptance passes. The standalone
 production ZIP has no native page or custom textures. Absence alone must never
@@ -28,8 +29,9 @@ trigger a retry after a possible manual dismissal.
 
 Fourteen menu/HUD catalogs are now maintained and validated during builds.
 The thirteen non-English catalogs are drafts, not verified language support.
-Native runtime text remains English until language detection and glyph paths
-are verified. Every change must review locale impact; changed text or meaning
+Native runtime text remains English. The candidate records language scalars
+without choosing a catalog; reload safety and glyph coverage require further
+verification. Every change must review locale impact; changed text or meaning
 requires the corresponding English and translation updates in the same change.
 
 Native number shortcuts are requested. Their acceptance requires safe storage,

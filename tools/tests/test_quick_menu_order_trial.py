@@ -20,6 +20,7 @@ EXPECTED_HASH = "b7913f268dfc62386b6b68f524bfc8ade4a44a9f4fbad39085b7bf51be3680c
 
 
 def load_trial(*, enabled=False, settings_enabled=False, extended_settings=False, custom_icon=False,
+               language_observation=False,
                injected=True, base=0x100000,
                framework="0.2.4", digest=EXPECTED_HASH):
     source = SOURCE.read_text(encoding="utf-8")
@@ -35,6 +36,8 @@ def load_trial(*, enabled=False, settings_enabled=False, extended_settings=False
         source = source.replace("EXTENDED_SETTINGS_ENABLED = False", "EXTENDED_SETTINGS_ENABLED = True", 1)
     if custom_icon:
         source = source.replace("CUSTOM_ICON_ENABLED = False", "CUSTOM_ICON_ENABLED = True", 1)
+    if language_observation:
+        source = source.replace("LANGUAGE_OBSERVATION_ENABLED = False", "LANGUAGE_OBSERVATION_ENABLED = True", 1)
     events, declarations = [], []
 
     class FakeMod:
@@ -93,6 +96,8 @@ def load_trial(*, enabled=False, settings_enabled=False, extended_settings=False
         helper_names.extend(("quick_menu_toggle", "quick_menu_preferences"))
     if custom_icon:
         helper_names.append("quick_menu_icon")
+    if language_observation:
+        helper_names.append("game_language")
     for name in helper_names:
         spec = importlib.util.spec_from_file_location(name + "_order_test", SOURCE.with_name(name + ".py"))
         helper = importlib.util.module_from_spec(spec)

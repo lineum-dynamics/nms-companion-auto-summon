@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.8.6 developer candidate — observation-only game language
+
+- Retain byte-identical production 0.4.8, including bounded post-queue diagnostics, and all six existing menu controls. Add menu 0.8.4-language-observation with no new native hook, getter, setter or save access.
+- Observe only copied language scalars while an owned CAS caption is selected. Require matching double reads, a completed constructor guard, the expected vtable, a valid native enum and prior table-load completion. Limit sampling and reports; isolate read, logging and construction failures from the menu and automatic summoning.
+- Record that native language reload does not clear the completed-load byte. Observations cannot establish current rendering readiness and do not select a catalog. Verify the exact-build UTF-8 measurement and drawing decoders through static analysis and offline emulation; live fonts, glyphs and layout remain unverified.
+- Pass 675 developer tests, including twenty new observer/integration cases. The final separate `quick-menu-play-trial-086-r1` has 40 payloads plus its manifest; real-framework discovery, shared Python dispatch, all six temporary preferences and Python/Windows PowerShell 5.1 read-only preflights passed. The earlier `086` output is superseded and must not be launched.
+- Production retains its unchanged 333-test evidence. No live trial or deployment occurred. Running 0.8.4 and prepared 0.8.5 remain immutable. Locale impact: no player-facing text or meaning changes; all 39 keys in all fourteen catalogs stay unchanged and validated.
+
 ## Unreleased research — native text and portable host preparation
 
 - Add an offline native menu/HUD text renderer using an immutable validated catalog snapshot. Preserve current preference/notice semantics, reject invalid data and use a complete English message with an explicit reason when a translation exceeds byte bounds. No truncation, native calls, automatic language detection or runtime integration.

@@ -12,7 +12,8 @@ PROFILE_FIELDS = frozenset(("schema_version", "steam_build", "game_release", "ex
 CONSTANTS = {"steam_build": "STEAM_BUILD", "game_release": "GAME_RELEASE",
              "exe_sha256": "SUPPORTED_GAME_SHA256", "framework_version": "FRAMEWORK_VERSION"}
 DEVELOPER_SOURCES = ("tools/quick_menu_order_trial.py", "tools/quick_menu_guard_runtime.py",
-                     "tools/quick_menu_item_trial.py", "tools/build_companion_technology.py")
+                     "tools/quick_menu_item_trial.py", "tools/build_companion_technology.py",
+                     "tools/game_language.py")
 
 
 class CompatibilityProfileError(ValueError):

@@ -2,10 +2,11 @@
 
 Stav k 28. 9. 2026. Pracovní plán; mód ani stránka nebyly veřejně zveřejněné. Hlavní zdrojový projekt je v soukromém GitHub repozitáři; tento soubor se udržuje v `docs/release/`. Odkazy na dokumenty ve složce `CompanionAutoSummon/` níže označují dokumenty v kořeni repozitáře a distribučního balíčku.
 
-Aktuální zdroj je **0.4.8 / 0.8.5**, zatím nespuštěný. Běží neměnná **0.4.7 / 0.8.4**.
+Aktuální zdroj je **0.4.8 / 0.8.6**, zatím nespuštěný. Běží neměnná **0.4.7 / 0.8.4**.
 Snímky potvrzují šest odlišných ikon nastavení. Načtení v Anomálii jednou selhalo
 vizuálně, pozdější výstup z lodi vyvolal jiného náhodného peta úspěšně. Příčinu
-neznáme. Nový kandidát pouze prodlužuje pasivní sledování v původních limitech;
+neznáme. Kandidát zachovává prodloužené pasivní sledování v původních limitech
+a přidává pouze čtení jazyka pro diagnostiku při otevření našeho menu;
 podrobnosti uvádí [záznam 0.8.4](../research/LIVE-084.md). Úplné ověření menu,
 hlášek, přemapování, lokalizace a veřejného přenosného spouštěče stále čeká.
 Monetizaci shrnuje [aktuální přehled pravidel](MONETIZATION.md).
@@ -18,12 +19,17 @@ prototypem. Současný spouštěč ho zatím nepoužívá; přenosná instalace 
 hotová. Podrobnosti: [lokalizace](../research/NATIVE-LOCALIZATION-AUDIT.md) a
 [přenosný runtime](../research/PORTABLE-RUNTIME-AUDIT.md).
 
-## Nejbližší společný test 0.8.5
+## Nejbližší společný test 0.8.6
 
 Prioritou je zachytit občasné selhání po načtení v Anomálii. Běžící 0.8.4 se
-nemění a její host se neukončuje. Oddělenou 0.8.5 nasadit při příštím běžném
+nemění a její host se neukončuje. Oddělenou 0.8.6 nasadit při příštím běžném
 ukončení hry, po ověření nové zálohy a shody připraveného balíčku. Diagnostika
 nemění pravidla vyvolávání a sama o sobě závadu neopravuje.
+
+Připravený finální adresář je `build/quick-menu-play-trial-086-r1`; starší
+výstup `086` je překonaný a nesmí se spouštět. Prošlo 675 vývojových testů,
+kontrola skutečného frameworku mimo hru a obě nezapisující předstartovní kontroly.
+Produkce 0.4.8 zůstává totožná s dříve ověřeným kandidátem (333 testů).
 
 1. Po načtení na povoleném místě vyčkat přibližně 20 sekund bez změn nastavení,
    otevření náhledu petů nebo ručního vyvolání. Zaznamenat skutečně viditelného
@@ -37,9 +43,13 @@ nemění pravidla vyvolávání a sama o sobě závadu neopravuje.
    menu, běžného ručního vyvolání a odvolání s kontrolou čitelnosti hlášek a
    jejich ikon. Ověřit zachování ostatních voleb; na konci vrátit uživatelovy
    preference. Přemapování a ovladač označit za ověřené pouze po skutečném testu.
+4. Výběr položky Companion Auto Summon zároveň pořídí omezené diagnostické
+   čtení jazyka. Při první zkoušce jazyk hry neměnit. Texty zůstávají anglické;
+   tato verze ještě překlady nezapíná. Čtení se při chybě samo zastaví bez
+   vypnutí menu nebo automatiky.
 
-Není nutné nyní přerušovat hraní. Mezitím lze připravovat lokalizaci a přenosný
-instalátor mimo běžící prostředí. Odstranění panelu pyMHF následuje po přijetí
+Další herní ověření vyžaduje běžné ukončení a nové spuštění hry. Přenosný
+instalátor lze dál připravovat mimo běžící prostředí. Odstranění panelu pyMHF následuje po přijetí
 všech nativních ovládacích prvků. Žádný z těchto kroků nepotvrzuje veřejnou
 připravenost, multiplayer ani správnost dosud neotestovaných překladů.
 

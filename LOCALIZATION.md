@@ -13,8 +13,9 @@ the running 0.8.4 artifact remains unchanged. The 0.4.8 diagnostic-only change
 changes no player-facing strings or meaning; all 39 keys remain unchanged.
 
 The catalogs are **not integrated into the game runtime**. Native text still
-uses the existing English ASCII path. There is no language selector, automatic
-game-language detection, verified non-English rendering or native-language
+uses the existing English ASCII path. The unlaunched 0.8.6 menu observes copied
+game-language scalars for developer diagnostics only. There is no language
+selector, automatic catalog choice, verified non-English rendering or native-language
 terminology review. English and Czech README files remain documentation
 translations. The development panel, other launcher/setup messages and older
 inert-preview captions are outside the current 39-key catalog; this is not
@@ -150,19 +151,23 @@ within the current byte limits, with explicit whole-message English fallback
 for overflow or unsupported locale IDs. All 1,666 current menu/HUD combinations
 fit without fallback. This is not imported by the native mod or play-trial
 bundle. See [the preparation and static evidence](docs/research/NATIVE-LOCALIZATION-AUDIT.md).
-The static language field is identified, but initialization/readiness and actual
-UTF-8 rendering remain unverified; no automatic game-language reader was added.
+The 0.8.6 candidate includes a guarded read-only language observer, with stable
+double copies, constructor/vtable/range checks, two samples per second and a
+bounded transition log. The completed-load flag remains set during a known
+reload, so it is not a rendering-readiness lock. The 17 native enum values are
+not yet mapped to the 14 catalogs. Static UTF-8 decoding is confirmed in both
+measurement and drawing; actual fonts, glyph coverage and layout remain unverified.
 
 - Retain the canonical English catalog with stable English keys and named placeholders.
 - Bind the separate UTF-8 locale values to display paths after verifying native encoding. Do not put translated prose into runtime conditionals or use translated labels as persistence values.
 - Keep stable stored settings such as `last_manual` and `random` independent of translated display text.
-- Provide a language override and English fallback. An automatic game-language choice must use a verified read-only source; no such reader is currently implemented.
+- Provide a language override and English fallback. The observation-only reader does not yet select a catalog; verify live observations, native variant mapping and reload behavior before enabling automatic choice.
 - Before game startup, a launcher may use a verified configured choice or a system-language fallback. That is not proof of the game's language.
 - Cover all player-facing panel labels, options, status messages, HUD notices, launch/setup errors and recovery instructions. Messages controlled by third-party framework UI need a separate coverage decision; do not claim the entire framework is translated by translating Companion Auto Summon alone.
 
 ## Technical work required
 
-The current HUD path uses ASCII encoding. Directly inserting accented or CJK text would fail and disable HUD notifications for that session. Determine the game's accepted text encoding and rendering behavior before replacing that path. Respect the native buffer size, do not cut a multibyte character in half, and test the actual result in the game.
+The current HUD path uses ASCII encoding. Directly inserting accented or CJK text would fail and disable HUD notifications for that session. Exact-build static analysis now confirms UTF-8 decoding in native measurement and drawing; font coverage and visible acceptance still require a bounded in-game test before replacing the current path. Respect the native buffer size, preserve whole messages and test the actual result in the game.
 
 pyMHF GUI decorators currently capture fixed labels at class definition, and the selection widget displays Enum member names. Updating a dictionary alone will not translate existing controls. Implement and verify an appropriate label/option binding or rebuild mechanism without changing stable selection values.
 

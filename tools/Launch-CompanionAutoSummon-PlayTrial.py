@@ -21,7 +21,7 @@ if str(_support_directory) not in sys.path:
 import cas_compatibility as compatibility
 
 
-VERSION = "0.8.5-play-trial"
+VERSION = "0.8.6-play-trial"
 HOST_NAME = "Launch-CompanionAutoSummon-PlayTrial.py"
 BOOTSTRAP_NAME = "Launch-CompanionAutoSummon.py"
 PAYLOAD_FILES = frozenset((
@@ -29,6 +29,7 @@ PAYLOAD_FILES = frozenset((
     "quick_menu_item.py", "quick_menu_submenu.py", "quick_menu_order.py",
     "quick_menu_native_guard.py", "quick_menu_guard_runtime.py",
     "quick_menu_preferences.py", "quick_menu_toggle.py",
+    "game_language.py",
     "quick_menu_icon.py", "quick_menu_assets.py", "SETTINGS.DDS",
     "AUTOMATION.DDS", "SELECTION.DDS", "BIOME.DDS", "PLANET.DDS", "STATION.DDS", "ANOMALY.DDS",
     HOST_NAME, BOOTSTRAP_NAME, "Start-CompanionAutoSummon.ps1",
@@ -39,7 +40,7 @@ PAYLOAD_FILES = frozenset((
 ))
 EXPECTED_MODS = [
     {"name": "CompanionAutoSummon", "version": "0.4.8-experimental", "path": "CompanionAutoSummon.py"},
-    {"name": "CompanionMenuOrderTrial", "version": "0.8.3-settings-trial", "path": "CompanionMenuOrderTrial.py"},
+    {"name": "CompanionMenuOrderTrial", "version": "0.8.4-language-observation", "path": "CompanionMenuOrderTrial.py"},
 ]
 EXPECTED_CONFIG = {
     "exe": "NMS.exe", "steam_gameid": 275850, "start_paused": False,

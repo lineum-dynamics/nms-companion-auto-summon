@@ -160,17 +160,18 @@ def check(bundle_folder):
     require(menu_source.count("TRIAL_ENABLED = False") == 1, "Expected one disabled menu source flag")
     require(menu_source.count("SETTINGS_TOGGLE_ENABLED = False") == 1, "Expected disabled toggle source")
     expected_menu = menu_source.replace("TRIAL_ENABLED = False", "TRIAL_ENABLED = True", 1)
-    for flag in ("SETTINGS_TOGGLE_ENABLED", "EXTENDED_SETTINGS_ENABLED", "CUSTOM_ICON_ENABLED"):
+    for flag in ("SETTINGS_TOGGLE_ENABLED", "EXTENDED_SETTINGS_ENABLED", "CUSTOM_ICON_ENABLED",
+                 "LANGUAGE_OBSERVATION_ENABLED"):
         require(menu_source.count(flag + " = False") == 1, "Expected one disabled feature flag")
         expected_menu = expected_menu.replace(flag + " = False", flag + " = True", 1)
     expected_menu = expected_menu.encode("utf-8")
     require((bundle / "CompanionMenuOrderTrial.py").read_bytes() == expected_menu,
-            "Menu must differ only by its four explicit build enable flags")
+            "Menu must differ only by its five explicit build enable flags")
     for name in host.PAYLOAD_FILES:
         if name.endswith(".DDS"):
             require((bundle / name).read_bytes() == (ROOT / "assets/ui" / name).read_bytes(),
                     "Packaged role icon differs from its source")
-        if name.startswith("quick_menu_"):
+        if name.startswith("quick_menu_") or name == "game_language.py":
             require((bundle / name).read_bytes() == (ROOT / "tools" / name).read_bytes(),
                     "Menu helper differs from reviewed source")
 
@@ -374,7 +375,7 @@ def check(bundle_folder):
     result = {
         "version": host.VERSION, "framework": "0.2.4", "pymhflib_entry_points": [],
         "bundle_sha256": hashes, "production_byte_identical": True,
-        "menu_only_four_enable_flags_changed": True, "actual_folder_discovery": True,
+        "menu_only_five_enable_flags_changed": True, "actual_folder_discovery": True,
         "disabled_flags_lifted_for_discovery_only": True, "mods_preloaded_not_registered": 2,
         "production_callbacks": 9, "menu_callbacks": 9, "distinct_native_targets": 12,
         "shared_target": "0x1526940", "shared_python_registry_and_dispatch": shared_dispatch,

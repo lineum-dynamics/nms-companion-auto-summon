@@ -16,7 +16,7 @@
   "selection_mode_control_verified_in_game": false,
   "biome_preference_verified_in_game": false,
   "location_preferences_verified_in_game": false,
-  "gameplay_verification_scope": "Source 0.4.8 / combined 0.8.5 is unlaunched. It changes passive diagnostics only. The live 0.4.7 / 0.8.4 Nexus startup visibly failed; bounded evidence is retained in previous_047_live_evidence.",
+  "gameplay_verification_scope": "Source 0.4.8 / combined 0.8.6 is unlaunched. It retains passive spawn diagnostics and adds observation-only language reads. The live 0.4.7 / 0.8.4 Nexus startup visibly failed; bounded evidence is retained in previous_047_live_evidence.",
   "supported_summon_locations": {
     "2": "SpaceStation",
     "3": "PlanetOnFoot",
@@ -33,7 +33,7 @@
     "compatibility": 24
   },
   "actual_framework_import_and_gui_properties": "Passed with the real pyMHF 0.2.4 and DearPyGui: eight widgets constructed and preference callbacks exercised with temporary files, no viewport, hook registration, native game calls or game launch",
-  "launcher_validation": "0.8.4 launched the guarded host and registered two Mods/12 targets. The new 0.8.5 source is not yet launched; prior live artifacts stay immutable. New 0.8.5 offline validation passed 333 production/633 developer tests, including 19 real PowerShell integration cases; real-framework checks passed without native hook binding or game access.",
+  "launcher_validation": "0.8.4 launched the guarded host and registered two Mods/12 targets. Final 0.8.6-r1 is not launched; prior artifacts stay immutable. It passed 675 developer tests, actual-framework offline checks without native hook binding/game access, and both Python and Windows PowerShell 5.1 read-only preflights. Unchanged production 0.4.8 retains 333-test evidence.",
   "preferences_included": false,
   "manual_selection_path": "%LOCALAPPDATA%/NMS-AutoPet/state.json",
   "preferences_path": "%LOCALAPPDATA%/NMS-AutoPet/settings.json",
@@ -94,31 +94,31 @@
     },
     {
       "path": "DEVELOPMENT.md",
-      "sha256": "a5566733dd5d3ab8a5c9f0d889f2a5201845b38590a3b283803d069fab1b9026"
+      "sha256": "29fb8eaf5e3ea3bc25e5e34922fe9d0d42aef2464f281a11d38559e64d85e4e6"
     },
     {
       "path": "LOCALIZATION.md",
-      "sha256": "8c92451a99615fc67a2e9bc1689ac38f14fa06b41b9a0186aaafac39a6d72946"
+      "sha256": "68e63a248207cb71ce61f7d68f38077c5b18676dd19d71624962740519e1f90f"
     },
     {
       "path": "DESIGN.md",
-      "sha256": "39a838c425f204c0621bfb0e8bff9e077807ee5480c37a05c0c0615a032c12f8"
+      "sha256": "ad3353a5bf97c6f534f84b3b5b8c3fde34304cfce8fd9c6ed897091f7ff606c5"
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "180d2fe60573eda1475489fa1f1949326ebe3cf6e29f9f2864065fe3fe707597"
+      "sha256": "e3f46d88abeef75ba966c1b7381913860b7465e14511e5fceeea82bc78a11ce1"
     },
     {
       "path": "ROADMAP.md",
-      "sha256": "e521ee009855edeee50cc126294b7165171fd6f5314330f2fb1434a7eeac4806"
+      "sha256": "71f65eea80c360cd92c1f56ca761dc8466e6e90a8c398836bfe54607d9a61e75"
     },
     {
       "path": "QUICK-MENU.md",
-      "sha256": "eda6ac95e0a95e0c6b9f1fa3682cf93116dd0a40f85a1833e7321e9fee034c7b"
+      "sha256": "ae85c1466bcb510c703b03631051e27ecaf93d3d74fbd84a813cbb8624f54d29"
     },
     {
       "path": "docs/release/PRIPRAVA-VYDANI.md",
-      "sha256": "6f43b7af447a16b942ed002fcc2a80cb09f7bfdc655e86e4409984cdefb0bf92"
+      "sha256": "b0c8071c9e719e0e5cfda27f567c8660afeda02b7fda1803f011e128ebfebf8b"
     },
     {
       "path": "docs/release/INSTALACE-ZADANI.md",
@@ -150,7 +150,7 @@
     },
     {
       "path": "docs/research/NATIVE-LOCALIZATION-AUDIT.md",
-      "sha256": "1b0a408128922e97796a0c8860d6d5880ad56d73251b877ffaa3ea238baf4df6"
+      "sha256": "667462a38e46b33b40172328ec8e784880b06633890322a49e6f03d2cc1cfd33"
     },
     {
       "path": "docs/research/PORTABLE-RUNTIME-AUDIT.md",
@@ -210,7 +210,7 @@
     },
     {
       "path": "tools/validate_compatibility.py",
-      "sha256": "b94700605fc0babb3d76c50b0dcba46c10e9042c98113f8490dccea28ba76c07"
+      "sha256": "85cc14df2260842f55bb0cf7339bcd1b1f09e3ba800c67c8b2e323cc8b7362f2"
     },
     {
       "path": "locales/en.json",
@@ -309,38 +309,44 @@
     "scope": "Separately built, predicate-gated native ON/OFF candidate. Requires same-menu false then true native confirmation, one matching selected-child trigger and original false result; no tail-only activation. Existing production applies and persists the queued setting. Other preferences remain in the temporary development panel. Registered on 27 September 2026 after normal exit and a fresh verified backup: two Mods, 11 hook targets, automation ON and 14 unchanged payloads. Complete live preference validation, remapping/controllers and held input await testing."
   },
   "developer_native_menu_trial": {
-    "version": "0.8.5-play-trial",
-    "menu_version": "0.8.3-settings-trial",
+    "version": "0.8.6-play-trial",
+    "menu_version": "0.8.4-language-observation",
     "preference_keys": [
       "enabled",
       "selection_mode",
       "prefer_same_biome",
       "locations"
     ],
-    "production_script_byte_identical": false,
+    "production_script_byte_identical": true,
     "live_verified": false,
     "launched": false,
     "registration_verified": false,
     "included_in_player_zip": false,
-    "scope": "Unlaunched candidate with production 0.4.8 passive diagnostics retained after first logical active state. Existing 15-second/callback/log limits, native paths, menu, settings and localization are unchanged. No spawn fix is claimed. Passed 333 production and 633 developer tests with unchanged sources and no skips; real-framework offline folder discovery, dispatch and temporary six-control bridge checks passed.",
-    "developer_tests_passed": 633,
+    "scope": "Unlaunched 0.8.6-r1 retains byte-identical production 0.4.8 passive post-queue diagnostics and adds bounded read-only language observations on owned CAS menu captions. Existing summon behavior, settings, icons and player text remain unchanged. No new native hook/call, catalog choice, translated rendering or spawn fix. Passed 675 developer tests, real-framework offline discovery/shared dispatch/all six temporary preferences, and Python plus Windows PowerShell 5.1 read-only preflights. Production retains unchanged 333-test evidence.",
+    "developer_tests_passed": 675,
     "actual_framework_discovery_verified": true,
     "temporary_all_six_preferences_verified": true,
     "optional_icon_provider_binding_verified": true,
     "callbacks": 18,
     "distinct_native_targets": 12,
-    "payload_files": 39,
+    "payload_files": 40,
     "custom_icons_included": 7,
     "custom_icon_deployed": false,
     "custom_icon_live_verified": false,
-    "menu_sha256": "8bd8302569aafc0a22d8c8946fccec84d798be57c42e0bd977d356f4a3205326",
+    "menu_sha256": "5d2361d9c06a795b58129ff21c30c78297bf7d59ae4858bdc0a45deb61a90f03",
     "locale_validation_required_during_build": true,
     "physical_hotkeys": 0,
     "shortcut_binding_enabled": false,
     "host_compatibility_guard_included": true,
     "localized_launcher_messages": 9,
     "compatibility_profile_validation_required": true,
-    "production_sha256": "7ed86ad7d14b95a4b0e7eeb322bb8d006a8bf7338b238b690a2988079a2f20a5"
+    "production_sha256": "7ed86ad7d14b95a4b0e7eeb322bb8d006a8bf7338b238b690a2988079a2f20a5",
+    "production_byte_identity_reference": "Unchanged production 0.4.8 from retained 0.8.5",
+    "language_observation_only": true,
+    "native_translation_rendering": false,
+    "final_candidate_directory": "build/quick-menu-play-trial-086-r1",
+    "language_observer_sha256": "6f3915086730274e363c54766c4734d5cc740add099141fee6759143bd5c47f0",
+    "candidate_manifest_sha256": "b6fd827f2125bded54df26c0150791541444ad4200e49df051d29fe5934b80e4"
   },
   "post_queue_observation": {
     "passive_only": true,
@@ -632,7 +638,7 @@
   "compatibility_profile_validation": {
     "steam_build": "25442159",
     "game_release": "Cosmos 7.04",
-    "native_sources_checked": 6,
+    "native_sources_checked": 7,
     "generated_source_checked": true,
     "developer_sources_checked": true,
     "all_declarations_match": true
@@ -755,5 +761,39 @@
       "matching_active_observed_until_end": true,
       "visibility_established_by_sampler": false
     }
+  },
+  "previous_085_developer_native_menu_trial": {
+    "version": "0.8.5-play-trial",
+    "menu_version": "0.8.3-settings-trial",
+    "preference_keys": [
+      "enabled",
+      "selection_mode",
+      "prefer_same_biome",
+      "locations"
+    ],
+    "production_script_byte_identical": false,
+    "live_verified": false,
+    "launched": false,
+    "registration_verified": false,
+    "included_in_player_zip": false,
+    "scope": "Unlaunched candidate with production 0.4.8 passive diagnostics retained after first logical active state. Existing 15-second/callback/log limits, native paths, menu, settings and localization are unchanged. No spawn fix is claimed. Passed 333 production and 633 developer tests with unchanged sources and no skips; real-framework offline folder discovery, dispatch and temporary six-control bridge checks passed.",
+    "developer_tests_passed": 633,
+    "actual_framework_discovery_verified": true,
+    "temporary_all_six_preferences_verified": true,
+    "optional_icon_provider_binding_verified": true,
+    "callbacks": 18,
+    "distinct_native_targets": 12,
+    "payload_files": 39,
+    "custom_icons_included": 7,
+    "custom_icon_deployed": false,
+    "custom_icon_live_verified": false,
+    "menu_sha256": "8bd8302569aafc0a22d8c8946fccec84d798be57c42e0bd977d356f4a3205326",
+    "locale_validation_required_during_build": true,
+    "physical_hotkeys": 0,
+    "shortcut_binding_enabled": false,
+    "host_compatibility_guard_included": true,
+    "localized_launcher_messages": 9,
+    "compatibility_profile_validation_required": true,
+    "production_sha256": "7ed86ad7d14b95a4b0e7eeb322bb8d006a8bf7338b238b690a2988079a2f20a5"
   }
 }

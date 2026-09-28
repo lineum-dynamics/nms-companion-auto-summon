@@ -30,6 +30,7 @@ import logging
 from pathlib import Path
 import sys
 from threading import Lock, get_native_id
+from time import monotonic
 from types import ModuleType
 
 # The isolated build copies these reviewed helper sources beside this script.
@@ -51,6 +52,7 @@ TRIAL_ENABLED = False
 SETTINGS_TOGGLE_ENABLED = False
 EXTENDED_SETTINGS_ENABLED = False
 CUSTOM_ICON_ENABLED = False
+LANGUAGE_OBSERVATION_ENABLED = False
 EXPECTED_EXE_SHA256 = "b7913f268dfc62386b6b68f524bfc8ade4a44a9f4fbad39085b7bf51be3680cb"
 BUILD_ACTIONS_RVA = 0x151ED00
 BUILD_LABEL_RVA = 0x1523220
@@ -71,6 +73,9 @@ if SETTINGS_TOGGLE_ENABLED:
 
 if CUSTOM_ICON_ENABLED:
     import quick_menu_icon as icons
+
+if LANGUAGE_OBSERVATION_ENABLED:
+    from game_language import LanguageObserver
 
 
 def supported_runtime():
@@ -225,7 +230,8 @@ else:
 
 
 class CompanionMenuOrderTrial(Mod):
-    _version = ("0.8.3-settings-trial" if EXTENDED_SETTINGS_ENABLED or CUSTOM_ICON_ENABLED
+    _version = ("0.8.4-language-observation" if LANGUAGE_OBSERVATION_ENABLED
+                else "0.8.3-settings-trial" if EXTENDED_SETTINGS_ENABLED or CUSTOM_ICON_ENABLED
                 else "0.7.0-toggle-trial" if SETTINGS_TOGGLE_ENABLED else "0.6.0-order-trial")
     _author = "Companion Auto Summon contributors"
     _description = ("Native automation toggle before individual companions" if SETTINGS_TOGGLE_ENABLED
@@ -259,6 +265,7 @@ class CompanionMenuOrderTrial(Mod):
         self._icon_phase_seen = False
         self._known_icon_handles = set()
         self._icon_status_seen = set()
+        self._language = None
         if self._disabled:
             return
         try:
@@ -268,6 +275,11 @@ class CompanionMenuOrderTrial(Mod):
             # This must complete before pyMHF can enable the builder callback.
             # The separately pinned filter outlives callback failure/reload.
             self._guard = ensure_guard(_internal.BASE_ADDRESS, _internal.BINARY_PATH)
+            if LANGUAGE_OBSERVATION_ENABLED:
+                try:
+                    self._language = LanguageObserver(self._reader, _internal.BASE_ADDRESS, self._report_language)
+                except Exception:
+                    self._language = None
             if SETTINGS_TOGGLE_ENABLED:
                 self._preferences = PreferenceBridge(
                     str(Path(__file__).absolute().with_name("CompanionAutoSummon.py")),
@@ -579,6 +591,20 @@ class CompanionMenuOrderTrial(Mod):
             self._lock.release()
         return None
 
+    @staticmethod
+    def _report_language(observation):
+        LOGGER.info("Language observation: %s; native region=%s name=%s; text unchanged, reload safety unverified.",
+                    observation.status, observation.region, observation.native_language)
+
+    def _observe_language(self):
+        if self._language is None:
+            return
+        try:
+            self._language.sample(monotonic())
+        except Exception:
+            # Optional diagnostics must never disable the working menu.
+            self._language = None
+
     @cas_item_label.after
     def after_label(self, menu, output):
         if not self._enter():
@@ -606,6 +632,9 @@ class CompanionMenuOrderTrial(Mod):
             else:
                 label = submenu.selected_label(self._reader, menu)
             if label is not None and not self._stopped:
+                self._observe_language()
+                if self._stopped:
+                    return None
                 self._writer(output, label)
                 if not self._label_seen:
                     self._label_seen = True

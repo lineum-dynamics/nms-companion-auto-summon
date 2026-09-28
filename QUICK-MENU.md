@@ -1,6 +1,6 @@
 # Native quick-menu investigation
 
-## Current status: running 0.8.4, source 0.8.5 unlaunched
+## Current status: running 0.8.4, source 0.8.6 unlaunched
 
 The immutable running **0.8.4-play-trial** contains production **0.4.7** and menu
 **0.8.3-settings-trial**. Two Mods and twelve native targets registered after a
@@ -16,9 +16,12 @@ value changes. The caption carries the value; native white/gray highlights
 indicate selection. English captions use sentence case and retain proper-name
 capitalization (Space Anomaly) and ON/OFF tokens. No UI strings changed here.
 
-Source **0.8.5** pairs the unchanged menu with production **0.4.8** and retains
-the 0.8.4 host compatibility checks. It changes passive diagnostic retention
-only and is not launched. The developer panel remains until native controls
+Source **0.8.6** pairs menu **0.8.4-language-observation** with byte-identical
+production **0.4.8** from 0.8.5 and retains the host compatibility checks.
+It records bounded language observations only on owned CAS captions, using the
+existing guarded reader and hook. It does not select a catalog or change text,
+icons, settings, timing or summon behavior. The final `086-r1` bundle is not
+launched. The developer panel remains until native controls
 pass acceptance. [The live record](docs/research/LIVE-084.md) distinguishes the
 failed Nexus startup from a later successful ship exit with another Random pet.
 
@@ -70,10 +73,14 @@ previous binding. Keep the protective native binding guard until a verified
 design covers binding, replay, removal, persistence and remapped native input.
 Physical key hooks or parallel hotkeys are not the requested solution.
 
-Draft source catalogs and an offline validator are being prepared separately.
-The runtime remains English; neither a reliable game-language reader nor the
-required non-English glyph path has been confirmed. Catalog presence alone is
-not translated in-game behavior. See [LOCALIZATION.md](LOCALIZATION.md).
+Fourteen draft/source catalogs and an offline text renderer are maintained.
+The new language reader copies fixed scalars, double-checks stability and
+reports initialization/load history without following native table pointers.
+Its optional failures cannot disable the menu or automation. A known native
+reload leaves the load-history flag set, so observations do not enable rendering.
+UTF-8 decoding is verified statically for measurement and drawing; live glyph
+coverage and catalog selection are not. Native text remains English. See
+[LOCALIZATION.md](LOCALIZATION.md).
 
 ## Retained unlaunched predecessor: 0.7.2
 

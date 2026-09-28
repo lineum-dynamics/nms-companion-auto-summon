@@ -1,11 +1,13 @@
 # Companion Auto Summon development guide
 
-Current candidate validation: **333 production and 633 developer tests passed** without failures, skips or source changes. The separate 40-file 0.8.5 folder passed real-framework discovery, shared Python dispatch and all six temporary preference paths; no native binding or game access occurred. The retained 0.8.4 payloads remain unchanged.
+Current candidate validation: **675 developer tests passed** without failures or skips. Production 0.4.8 is byte-identical to the retained 333-test candidate. The separate 41-file `quick-menu-play-trial-086-r1` folder passed real-framework discovery, shared Python dispatch, all six temporary preference paths and both Python and Windows PowerShell 5.1 read-only preflights; no native binding or game access occurred in the framework checks. The retained 0.8.4 and 0.8.5 payloads remain unchanged.
 
-The current source candidate is **0.8.5-play-trial**, with production **0.4.8**
-and unchanged menu **0.8.3-settings-trial**. It retains the passive observation
+The current source candidate is **0.8.6-play-trial**, with production **0.4.8**
+and menu **0.8.4-language-observation**. It retains the passive observation
 window after the first logical active index, without adding retries or changing
-summon behavior. It is not launched. The running **0.8.4** bundle is immutable.
+summon behavior. The menu adds bounded read-only language diagnostics when a
+CAS caption is selected; it does not enable translated rendering. The final
+`086-r1` bundle is not launched. The running **0.8.4** bundle is immutable.
 Its registration and six distinct setting icons are confirmed, but the player
 reported a failed visible Nexus startup. A later ship exit in the same session
 summoned a different Random companion successfully. See
@@ -29,9 +31,11 @@ This repository is the canonical development location. Keep installed test copie
 Repository-only native text preparation now renders the existing catalogs from
 an immutable validated snapshot, preserving whole-message state within the
 127-byte menu / 511-byte HUD payload limits. Fifteen focused tests and the
-1,666-case language/state matrix passed. No catalog meaning, production import
-or prepared play-trial payload changed. The exact-build static language field
-is identified; readiness and actual UTF-8/glyph behavior are not verified.
+1,666-case language/state matrix passed. No catalog meaning or production import
+changed. The exact-build UTF-8 measurement and drawing
+decoders are now verified statically. The new combined trial observes copied
+language scalars only: completed-load history is not a reload lock. Font coverage,
+rendered glyphs, language switching and automatic catalog selection remain unverified.
 See [native localization preparation](docs/research/NATIVE-LOCALIZATION-AUDIT.md).
 
 The repository-only noninteractive host import prototype passed seven focused
@@ -39,9 +43,10 @@ tests and a real console-free pyMHF import comparison, including its negative
 control. Existing hosts do not import it. Target-side initialization, host/game
 lifecycle and a portable dependency bundle remain unverified. See
 [portable runtime preparation](docs/research/PORTABLE-RUNTIME-AUDIT.md).
-The full repository developer suite passed 655 tests with no failures or skips,
-including these 22 new preparation tests. The original 633-test evidence above
-still belongs to the unchanged 0.8.5 bundle, not to newly integrated features.
+The earlier repository preparation passed 655 tests, including 22 native-text
+and host-import tests. Twenty language-observer and isolation regressions bring
+the current passing suite to 675. The original 633-test evidence still belongs
+to the unchanged 0.8.5 bundle, not to newly integrated features.
 
 The earned-technology work is an **offline prototype**, separate from both
 production and the prepared combined trial. Its pure model, pinned native-data
@@ -74,6 +79,10 @@ manifest, production mapping and framework pin without importing runtime code.
 The combined build and packaging also check generated production, menu/filter
 and technology-prototype targets. Drift stops output creation. Build the separate
 candidate with `python -B tools/build_quick_menu_play_trial.py --enable-menu`.
+Use a fresh explicit output directory if that version's default already exists;
+the builder refuses to overwrite an earlier trial. The final current artifact
+is `build/quick-menu-play-trial-086-r1`; the earlier `086` folder is superseded
+and must not be launched.
 
 The final 0.8.4 candidate passed 329 production and 633 developer tests, with
 unchanged sources and no skips. Its 39 payloads plus manifest passed real pyMHF
@@ -84,7 +93,7 @@ Python probe regression covers legacy PowerShell argument quoting; target-path
 tests count UTF-16 units, including non-BMP characters. No new live behavior
 has been verified by these checks.
 
-The production source is **0.4.8-experimental**, prepared for **0.8.5-play-trial**. Last-launched **0.8.4-play-trial** retains production **0.4.7** and menu **0.8.3-settings-trial**. Earlier artifacts remain unchanged. The target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The development launcher accepts Python 3.11–3.13 x64.
+The production source is **0.4.8-experimental**, retained unchanged in **0.8.6-play-trial**. Last-launched **0.8.4-play-trial** retains production **0.4.7** and menu **0.8.3-settings-trial**. Earlier artifacts remain unchanged. The target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The development launcher accepts Python 3.11–3.13 x64.
 
 The PowerShell launcher's `-CheckOnly` path validates package integrity, the
 supported game and the existing runtime without creating files/directories,
@@ -172,7 +181,7 @@ trigger, preferences, manual selection/preview/emote and invalid state end it.
 Observer failures do not disable working automation. It adds no native calls,
 hooks, offsets, preference fields or game-save writes.
 
-The prepared 0.8.5 bundle pins its preference bridge to the versioned 0.4.8
+The prepared 0.8.6 bundle pins its preference bridge to the versioned 0.4.8
 initializer; immutable 0.8.4 retains its 0.4.7 bridge. It keeps the production control lock, queue, application callback
 and two-Mod discovery contract. The additional resource callback belongs to
 the menu Mod. Old artifacts are retained; the active 0.7.1 folder is immutable.

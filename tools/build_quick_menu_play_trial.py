@@ -25,7 +25,8 @@ validate_compatibility = _profile_module.validate
 ROOT = Path(__file__).resolve().parents[1]
 HELPERS = ("quick_menu_item.py", "quick_menu_submenu.py", "quick_menu_order.py",
            "quick_menu_native_guard.py", "quick_menu_guard_runtime.py",
-           "quick_menu_preferences.py", "quick_menu_toggle.py", "quick_menu_icon.py", "quick_menu_assets.py")
+           "quick_menu_preferences.py", "quick_menu_toggle.py", "quick_menu_icon.py", "quick_menu_assets.py",
+           "game_language.py")
 ASSET_FILE = "SETTINGS.DDS"
 PRODUCTION_FILE = "CompanionAutoSummon.py"
 MENU_FILE = "CompanionMenuOrderTrial.py"
@@ -58,10 +59,18 @@ This isolated developer bundle runs two mods in one pyMHF host:
 - CompanionAutoSummon 0.4.8-experimental: automatic summoning after loading or
   ship exit, including its separate preference panel. The production source is
   copied byte-identically into this bundle.
-- CompanionMenuOrderTrial 0.8.3-settings-trial: the ordered native companion
+- CompanionMenuOrderTrial 0.8.4-language-observation: the ordered native companion
   submenu with all six settings, its binding filter and distinct setting icons.
 
-The bundle version is 0.8.5-play-trial. This revision is not yet live-verified.
+The bundle version is 0.8.6-play-trial. This revision is not yet live-verified.
+It adds optional, bounded language observations while a CAS menu caption is
+selected. Two matching copies must confirm construction, the exact derived
+vtable, a known native region and a prior completed-load marker. The marker is
+not a reload lock. Diagnostics never change language, captions or HUD text,
+follow pointers, call a language getter or add a native hook. A diagnostic
+failure leaves the menu and automatic summoning active. Production remains
+byte-identical to the prepared 0.8.5 candidate, including its extended passive
+post-queue observation; this is not a spawn fix.
 It adds exact-build checks before host startup and before each DLL injection
 into the actual selected game process. Compatibility failures use translated
 outside-game notices; --language/-Language selects a launcher language, otherwise
@@ -186,7 +195,7 @@ def _launcher(data):
     return text.encode("utf-8")
 
 
-def build(*, enable_menu=False, output_name="quick-menu-play-trial-085"):
+def build(*, enable_menu=False, output_name="quick-menu-play-trial-086"):
     """Create one fresh, checksum-complete folder without executing payloads."""
     if enable_menu is not True:
         raise ValueError("Pass --enable-menu for this combined developer trial")
@@ -205,7 +214,7 @@ def build(*, enable_menu=False, output_name="quick-menu-play-trial-085"):
     if menu.count(b"SETTINGS_TOGGLE_ENABLED = False") != 1:
         raise ValueError("Expected one disabled native settings marker")
     menu = menu.replace(b"SETTINGS_TOGGLE_ENABLED = False", b"SETTINGS_TOGGLE_ENABLED = True", 1)
-    for flag in (b"EXTENDED_SETTINGS_ENABLED", b"CUSTOM_ICON_ENABLED"):
+    for flag in (b"EXTENDED_SETTINGS_ENABLED", b"CUSTOM_ICON_ENABLED", b"LANGUAGE_OBSERVATION_ENABLED"):
         if menu.count(flag + b" = False") != 1:
             raise ValueError("Expected one disabled extended-menu feature marker")
         menu = menu.replace(flag + b" = False", flag + b" = True", 1)
@@ -237,11 +246,11 @@ def build(*, enable_menu=False, output_name="quick-menu-play-trial-085"):
         raise ValueError("The play-trial host requires the reviewed production and framework versions")
     manifest = {
         "name": "Companion Auto Summon combined play trial",
-        "version": "0.8.5-play-trial",
+        "version": "0.8.6-play-trial",
         "framework": current["framework"],
         "steam_build": current["steam_build"],
         "supported_nms_exe_sha256": current["supported_nms_exe_sha256"],
-        "purpose": "Automatic summoning, six predicate-gated native settings and seven owned role icons in one folder-mode host",
+        "purpose": "Automatic summoning, six native settings, role icons and bounded scalar language observations",
         "observation_only": False,
         "auto_summon": True,
         "preference_actions": True,
@@ -253,7 +262,7 @@ def build(*, enable_menu=False, output_name="quick-menu-play-trial-085"):
         "mods": [
             {"name": "CompanionAutoSummon", "version": current["version"],
              "path": PRODUCTION_FILE},
-            {"name": "CompanionMenuOrderTrial", "version": "0.8.3-settings-trial",
+            {"name": "CompanionMenuOrderTrial", "version": "0.8.4-language-observation",
              "path": MENU_FILE},
         ],
         "files": [{"path": name, "sha256": hashlib.sha256(data).hexdigest()}
@@ -275,7 +284,7 @@ def build(*, enable_menu=False, output_name="quick-menu-play-trial-085"):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--enable-menu", action="store_true")
-    parser.add_argument("--output-name", default="quick-menu-play-trial-085")
+    parser.add_argument("--output-name", default="quick-menu-play-trial-086")
     options = parser.parse_args()
     print(json.dumps(build(enable_menu=options.enable_menu,
                            output_name=options.output_name)))
