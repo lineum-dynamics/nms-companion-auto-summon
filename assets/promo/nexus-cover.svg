@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="cover-title cover-description">
   <title id="cover-title">Companion Auto Summon for No Man's Sky — by Lineum Dynamics</title>
-  <desc id="cover-description">A dark navy and teal project cover, with the original white paw and clockwise arrow glyph beside the title. Abstract orbital lines decorate the background.</desc>
+  <desc id="cover-description">A dark navy and teal project cover, with the original white paw and clockwise arrow glyph beside the title. Abstract orbital lines decorate the background. The authentic Lineum Dynamics mark appears beside the author credit.</desc>
   <defs>
     <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#071421"/>
@@ -25,6 +25,31 @@
         <path d="M128 132 C117 132 111 143 103 152 C94 162 89 168 92 178 C95 189 108 187 119 184 C125 182 131 182 137 184 C148 187 161 189 164 178 C167 168 162 162 153 152 C145 143 139 132 128 132Z"/>
       </g>
     </symbol>
+    <symbol id="lineum-dynamics-brand" viewBox="0 0 100 100">
+      <!-- Background for safe tab contrast -->
+      <rect width="100" height="100" rx="22" fill="#050505" />
+
+      <!-- Strong stroke weight for 16x16 rendering -->
+      <!-- Outer Diamond Hexagon Frame -->
+      <polygon points="50,5 95,28 95,72 50,95 5,72 5,28" fill="none" stroke="#00ffff" stroke-width="4" stroke-opacity="0.3" />
+
+      <!-- Inner Hexagon -->
+      <polygon points="50,15 85,33 85,67 50,85 15,67 15,33" fill="none" stroke="#00ffff" stroke-width="2" stroke-opacity="0.6" />
+
+      <!-- Faint background path -->
+      <path d="M 50 50 C 30 20, 10 20, 10 50 C 10 80, 30 80, 50 50 C 70 20, 90 20, 90 50 C 90 80, 70 80, 50 50 Z"
+      fill="none" stroke="#00ffff" stroke-width="2" stroke-opacity="0.4" />
+
+      <!-- Infinity Wave Loop (Almost drawn static gap) -->
+      <!-- Increased to 6px to remain visible at favicon size -->
+      <path d="M 50 50 C 30 20, 10 20, 10 50 C 10 80, 30 80, 50 50 C 70 20, 90 20, 90 50 C 90 80, 70 80, 50 50 Z"
+      fill="none" stroke="#00ffff" stroke-width="6"
+      stroke-linecap="round" stroke-dasharray="250" stroke-dashoffset="10" />
+
+      <!-- Pulsing Central Excitations -->
+      <circle cx="50" cy="50" r="3" fill="#ffffff" />
+      <circle cx="50" cy="50" r="6" fill="none" stroke="#00ffff" stroke-opacity="0.9" stroke-width="2" />
+    </symbol>
   </defs>
 
   <rect width="1600" height="900" fill="url(#background)"/>
@@ -45,9 +70,10 @@
     <text x="112" y="333" fill="#f3f7f8" font-size="86" font-weight="400" letter-spacing="-2">Companion</text>
     <text x="108" y="455" fill="#f3f7f8" font-size="112" font-weight="650" letter-spacing="-3">Auto Summon</text>
     <text x="116" y="523" fill="#97c2c8" font-size="34" font-weight="400" letter-spacing="0.5">for No Man's Sky</text>
-    <text x="116" y="756" fill="#9bb5bf" font-size="24" font-weight="400">by <tspan fill="#d4e4e8" font-weight="600">Lineum Dynamics</tspan></text>
+    <text x="190" y="756" fill="#9bb5bf" font-size="24" font-weight="400">by <tspan fill="#d4e4e8" font-weight="600">Lineum Dynamics</tspan></text>
   </g>
 
+  <use href="#lineum-dynamics-brand" x="116" y="716" width="56" height="56"/>
   <use href="#companion-glyph" x="1042" y="230" width="376" height="376"/>
   <rect x="116" y="789" width="720" height="1" fill="url(#rule)"/>
 </svg>

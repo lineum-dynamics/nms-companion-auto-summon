@@ -4,6 +4,15 @@ by **Lineum Dynamics**
 
 **LOCAL DRAFT — no Nexus page has been uploaded. Not ready for publication.**
 
+Preparation status, 28 September 2026: the owner-created account is
+[`LineumDynamics`](https://www.nexusmods.com/profile/LineumDynamics), and its
+authentic company avatar has been uploaded and visually checked. Creating the
+mod draft is currently blocked by the Nexus upload dialog: `Upload mod` stays
+disabled and reports `Something went wrong. Please try again.` This occurred
+both in the No Man's Sky section and from the profile. No mod page, mod archive,
+cover or description has been uploaded. Keep this status outside the public
+description; retry the normal draft workflow when it is available.
+
 ## Short summary
 
 Automatically bring along an owned companion after loading your save or leaving your starship. Use your last manually selected pet or choose a random eligible companion, with an optional planet-habitat preference. The game's summoning and placement rules still apply.

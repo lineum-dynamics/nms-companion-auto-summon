@@ -1,5 +1,16 @@
 # Changelog
 
+## Documentation language consistency — 28 September 2026
+
+- Translate the complete technical verification record, installation requirements and release plan into English, with English filenames. Preserve version-scoped evidence and historical limitations.
+- Update documentation links and the source package file list. Require English for canonical and internal documentation as well as executable source. Keep the explicitly labelled Czech user-guide translation and the game language catalogs separate.
+- No gameplay, player-facing UI, locale meaning, preferences or running installation changes.
+
+## Nexus profile and presentation preparation — 28 September 2026
+
+- Reuse the authentic, proprietary Lineum Dynamics mark from the owner-designated company repository for the Nexus avatar and a modest cover byline; preserve the mod's own glyph.
+- Verify the saved avatar on the owner-created `LineumDynamics` profile. Keep the description and cover local: Nexus's upload dialog currently reports an error with mod upload disabled, so no mod draft or archive has been uploaded and nothing has been released.
+
 ## 0.8.7 live observations — 28 September 2026
 
 - Launched the unchanged final `087-r1` bundle after normal game closure and a fresh hash-verified backup of 46 profile files. Both Mods and twelve targets registered; all 40 payloads and external preference/state hashes matched at the initial post-start check.
@@ -195,4 +206,4 @@
 - Added native placement refresh without requiring the quick-menu companion preview.
 - A basic planetary summon and remembered selection were confirmed in a controlled session.
 
-Earlier prototypes and detailed version-scoped analysis are described in `TECHNICKE-OVERENI.md`. Do not interpret a historical test as validation of every later version.
+Earlier prototypes and detailed version-scoped analysis are described in `TECHNICAL-VERIFICATION.md`. Do not interpret a historical test as validation of every later version.

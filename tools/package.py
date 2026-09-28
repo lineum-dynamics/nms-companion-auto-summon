@@ -20,9 +20,9 @@ REPORT_DIRECTORY = ROOT / "build" / "validation"
 PACKAGE_FILES = (
     "CompanionAutoSummon.py", "Launch-CompanionAutoSummon.py", "README.md", "README.cs.md",
     "cas_compatibility.py", "compatibility.json",
-    "TECHNICKE-OVERENI.md", "build.py", "Start-CompanionAutoSummon.ps1", "DEVELOPMENT.md",
+    "TECHNICAL-VERIFICATION.md", "build.py", "Start-CompanionAutoSummon.ps1", "DEVELOPMENT.md",
     "LOCALIZATION.md", "DESIGN.md", "CHANGELOG.md", "ROADMAP.md", "QUICK-MENU.md",
-    "docs/release/PRIPRAVA-VYDANI.md", "docs/release/INSTALACE-ZADANI.md",
+    "docs/release/RELEASE-PREPARATION.md", "docs/release/INSTALLATION-REQUIREMENTS.md",
     "docs/release/NEXUS-DESCRIPTION-DRAFT.md",
     "docs/research/TECHNOLOGY-PROTOTYPE.md", "docs/research/TECHNOLOGY-RUNTIME-AUDIT.md",
     "docs/research/COMPATIBILITY-GUARD-AUDIT.md",

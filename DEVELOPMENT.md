@@ -38,7 +38,7 @@ This repository is the canonical development location. Keep installed test copie
 
 ## Project rules
 
-- Write all source code, identifiers, comments, docstrings, test names, build scripts and developer diagnostics in English.
+- Write all source code, identifiers, comments, docstrings, test names, build scripts, developer diagnostics, canonical documentation and document filenames in English. Internal evidence and release planning follow the same rule; only explicitly labelled translations and locale resources use their target language.
 - Put translated player-facing text in separate locale resources. English is the canonical source language. Non-English text belongs in translation data or deliberately encoded Unicode test fixtures, not explanatory source prose.
 - Update implementation, relevant tests and affected documentation in the same change. Do not leave the description of defaults, behavior, setup or support scope behind the code.
 - Review locale impact on every change. Update English and all affected translations together when text or meaning changes. Run `python -B tools/validate_locales.py`; the maintained standalone build, combined build and source packaging also run it before writing outputs. Draft completeness does not establish runtime support or language review.
@@ -302,10 +302,10 @@ Only the current source and new packages receive the new names. Historical test 
 - `ROADMAP.md`: canonical unfinished release backlog and explicitly unapproved future proposals; update status and evidence as decisions are made.
 - `LOCALIZATION.md`: localization status, target languages and implementation/verification requirements.
 - `CHANGELOG.md`: version-scoped changes; update with each user-visible behavior or distribution change.
-- `TECHNICKE-OVERENI.md`: existing Czech technical evidence and version-scoped history. Retained private evidence is named as an external record; it is not distributed or linked through nonexistent repository paths.
+- `TECHNICAL-VERIFICATION.md`: canonical English technical evidence and version-scoped history. Retained private evidence is named as an external record; it is not distributed or linked through nonexistent repository paths.
 - `manifest.json`: exact package hashes and bounded validation claims; generated during packaging.
 
-The release-preparation documents in `docs/release/` contain the publication plan (`PRIPRAVA-VYDANI.md`), installer acceptance criteria (`INSTALACE-ZADANI.md`) and English draft Nexus page (`NEXUS-DESCRIPTION-DRAFT.md`). Private test evidence is retained outside this repository and the public package. Do not copy that evidence directory wholesale into a release to repair documentation links.
+The release-preparation documents in `docs/release/` contain the publication plan (`RELEASE-PREPARATION.md`), installer acceptance criteria (`INSTALLATION-REQUIREMENTS.md`) and English draft Nexus page (`NEXUS-DESCRIPTION-DRAFT.md`). Private test evidence is retained outside this repository and the public package. Do not copy that evidence directory wholesale into a release to repair documentation links.
 
 ## Repository commands
 

@@ -42,7 +42,7 @@ portable public installer are unfinished. See [LOCALIZATION.md](LOCALIZATION.md)
 
 0.8.2 startup registered both Mods and 12 native targets at 23:58:46 on 27 September 2026 after a verified 43-file backup. Automation is ON; all 17 payloads and the existing player files matched. The original DDS was staged and hash-verified. Visible icon/HUD, all six controls and gameplay still need the player's check. Validation: 294 production and 519 developer tests, plus real Windows lease and pyMHF checks.
 
-[Český návod](README.cs.md)
+[Czech user-guide translation](README.cs.md)
 
 The canonical source is [lineum-dynamics/nms-companion-auto-summon](https://github.com/lineum-dynamics/nms-companion-auto-summon), currently a private repository. Development commands and the maintained documentation map are in [DEVELOPMENT.md](DEVELOPMENT.md). The installed test copy and exported ZIPs are built outputs.
 
@@ -141,7 +141,7 @@ After the random summon, a read-only runtime snapshot confirmed that manual favo
 
 The preceding version, **0.3.2**, verified basic planetary auto-summoning and selection restoration after restart through the log and user confirmation. These are bounded successes in two tested scenarios. The package remains experimental: the Nexus, multiplayer, excluded locations, unsuitable terrain, the controls/HUD and longer-term stability still need live validation.
 
-The first automatic summon test in 0.3.1 expired without spawning. Version 0.3.2 adds native placement refresh while the quick menu is closed and bounded diagnostics; its corrected basic path passed the test above. Offline tests cover decisions, persistence and a simulated adapter. See `TECHNICKE-OVERENI.md` for the evidence and remaining scope.
+The first automatic summon test in 0.3.1 expired without spawning. Version 0.3.2 adds native placement refresh while the quick menu is closed and bounded diagnostics; its corrected basic path passed the test above. Offline tests cover decisions, persistence and a simulated adapter. See `TECHNICAL-VERIFICATION.md` for the evidence and remaining scope.
 
 ## Supported target
 
@@ -249,7 +249,7 @@ To disable the whole mod: quit NMS and launch normally through Steam. To forget 
 
 Development rules and architecture are maintained in [DEVELOPMENT.md](DEVELOPMENT.md). Source code, comments and developer diagnostics are English. The settings panel and HUD are currently English-only; the planned language coverage and remaining work are recorded in [LOCALIZATION.md](LOCALIZATION.md). [DESIGN.md](DESIGN.md) records the native-menu and notification goals. The 0.8.2 combined candidate retains all six preferences from 0.8.0; the historical 0.7.1 had the native automation toggle, and older artifacts retain an inert **Settings preview** child. Version-scoped changes are in [CHANGELOG.md](CHANGELOG.md).
 
-`src/` contains policy, pet persistence, settings and runtime code. `build.py` rebuilds and syntax-checks CompanionAutoSummon.py without installing or launching it. Run offline tests with `python -B -m unittest discover -s tests -v`. `manifest.json` records checksums and validation status. `TECHNICKE-OVERENI.md` contains technical evidence in Czech. The panel uses the framework's documented [GUI properties](https://github.com/monkeyman192/pyMHF/blob/0c8ebc1c29074c5bc35207e0aff36d4035e20bac/docs/docs/gui/gui.rst).
+`src/` contains policy, pet persistence, settings and runtime code. `build.py` rebuilds and syntax-checks CompanionAutoSummon.py without installing or launching it. Run offline tests with `python -B -m unittest discover -s tests -v`. `manifest.json` records checksums and validation status. `TECHNICAL-VERIFICATION.md` contains version-scoped technical evidence in English. The panel uses the framework's documented [GUI properties](https://github.com/monkeyman192/pyMHF/blob/0c8ebc1c29074c5bc35207e0aff36d4035e20bac/docs/docs/gui/gui.rst).
 
 The maintained release backlog and proposed future features are in [ROADMAP.md](ROADMAP.md).
 

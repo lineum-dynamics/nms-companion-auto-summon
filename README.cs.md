@@ -1,5 +1,7 @@
 # Companion Auto Summon for No Man's Sky
 
+Český překlad uživatelského návodu. Autoritativní anglická verze: [README.md](README.md).
+
 by **Lineum Dynamics**
 
 Aktuální testovací balíček **0.8.7-play-trial** spojuje produkci
@@ -78,7 +80,7 @@ Kandidát 0.8.2 byl spuštěn. Předchozí instalace **0.4.4 / 0.7.1** a připra
 starší balíček **0.4.5 / 0.7.2** zůstávají beze změny. Samostatný produkční ZIP
 se připravuje s verzí 0.4.9 bez pokusného menu a DDS; bez poskytovatele ikony používá čistý
 text. Přesný rozsah kontrol aktuálního kandidáta uvádí
-[technický záznam](TECHNICKE-OVERENI.md). Starší počty níže patří uvedeným verzím.
+[technický záznam](TECHNICAL-VERIFICATION.md). Starší počty níže patří uvedeným verzím.
 
 Historická 0.4.4 / 0.7.1 prošla 253 produkčními a 408 vývojovými testy a po
 nové ověřené záloze se spustila 27. 9. 2026 v 22:22:35. Diagnostika i hráč
@@ -126,7 +128,7 @@ Verze 0.4.0 přidává samostatné volby planet, vesmírných stanic a Nexusu, r
 
 Předchozí **verze 0.3.2** ověřila základní automatické vyvolání na planetě i obnovení výběru po restartu pomocí logu a uživatelského potvrzení. Jde o dílčí úspěchy ve dvou vyzkoušených scénářích. Verze zůstává experimentální: Nexus, multiplayer, vyloučené lokace, nevhodný terén, ovládání/HUD a dlouhodobá stabilita ještě vyžadují herní ověření.
 
-První automatické vyvolání ve verzi 0.3.1 selhalo vypršením čekání. Verze 0.3.2 doplnila nativní přepočet umístění při zavřeném menu a omezenou diagnostiku; opravený základní průchod už uvedeným testem prošel. Podklady a hranice ověření jsou v [technickém záznamu](TECHNICKE-OVERENI.md).
+První automatické vyvolání ve verzi 0.3.1 selhalo vypršením čekání. Verze 0.3.2 doplnila nativní přepočet umístění při zavřeném menu a omezenou diagnostiku; opravený základní průchod už uvedeným testem prošel. Podklady a hranice ověření jsou v [technickém záznamu](TECHNICAL-VERIFICATION.md).
 
 ## Ovládání
 

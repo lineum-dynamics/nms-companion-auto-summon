@@ -66,11 +66,11 @@
     },
     {
       "path": "README.md",
-      "sha256": "94506da2ba4ee087488c03f0c72bb61606216e4b6275541474ce2d9c0901e48b"
+      "sha256": "a1b5ffca7abfb20c7a5d7eafce65fc6dfb3d68a6dbe811b54a5cbe812e37a053"
     },
     {
       "path": "README.cs.md",
-      "sha256": "b7cbcc618d21ef27c6a20bf773ff3c5c2f7145aca4d42bf247c5649259ca1475"
+      "sha256": "e4f2a8513743f2d9ef1e30e66d4adc01bd666d686504041a46631c4df4a25f79"
     },
     {
       "path": "cas_compatibility.py",
@@ -81,8 +81,8 @@
       "sha256": "cdfcb9e9cc8fc13e37713ca100b23137c420430509143fdbf37af5fe08a4330d"
     },
     {
-      "path": "TECHNICKE-OVERENI.md",
-      "sha256": "4ee5641ab93b7417b392f9c162f64b39a009b0fac680d56fbcae8eb4391cdf8e"
+      "path": "TECHNICAL-VERIFICATION.md",
+      "sha256": "10c8faacc43404f3eb1a82053b1ed11e47b08aff6f13c2b640251bb6bb929702"
     },
     {
       "path": "build.py",
@@ -94,7 +94,7 @@
     },
     {
       "path": "DEVELOPMENT.md",
-      "sha256": "69b4bf590675ff2431860bee023d1c2c8704f77b54c7fc8fdfd1f590db480c32"
+      "sha256": "ebf2d72ca5a5019f58994e10b1dc6a9bf19d416d171f81077a987dc4db6ba340"
     },
     {
       "path": "LOCALIZATION.md",
@@ -106,27 +106,27 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "49101018eacd65af250f7f393cc821ba1e5848763f8657f6ce6738ffe38998fd"
+      "sha256": "8b690c62e5ee6d6461bd22ea415d984402775126ebc249493316c298c1ee1b7a"
     },
     {
       "path": "ROADMAP.md",
-      "sha256": "1e177035d0fda123e766e09749324f8a5d17c87ec13a7640b43ee57f1a8e4dac"
+      "sha256": "8efa13a4f9683069c4c0ab955c8ce3a1674710c0ae1e5176d97cc7e75ca09294"
     },
     {
       "path": "QUICK-MENU.md",
       "sha256": "11a44be8300d75fe7ad379d549a8869366656b732a5a68fe7374c94276c85ceb"
     },
     {
-      "path": "docs/release/PRIPRAVA-VYDANI.md",
-      "sha256": "fb3d19a79df916abe570cb1a7937ebb9e2ab5301bbc33abcb5fa8ee4dff2f147"
+      "path": "docs/release/RELEASE-PREPARATION.md",
+      "sha256": "3561b7efed7c65397cdac28797590d0ae839297b9f13cb0a074881cb4cb4e111"
     },
     {
-      "path": "docs/release/INSTALACE-ZADANI.md",
-      "sha256": "f79703c5d524a1f45fee3ba3e378b50ee8ea9e2b1b8e9fd16073d8d362cbe407"
+      "path": "docs/release/INSTALLATION-REQUIREMENTS.md",
+      "sha256": "c39a8a404cae5b527afecf0bc1269a93ea20c36a8a87b79041afac64632c854f"
     },
     {
       "path": "docs/release/NEXUS-DESCRIPTION-DRAFT.md",
-      "sha256": "d9bbc03028d67c2ffdf3a74917e101073031cb9d847c69e646c212b7ddaa4b92"
+      "sha256": "c7c13a14bd8aa0e46595fa7f9681b62e934dc7cbcb594dda234f2c7da9d6f5a9"
     },
     {
       "path": "docs/research/TECHNOLOGY-PROTOTYPE.md",
