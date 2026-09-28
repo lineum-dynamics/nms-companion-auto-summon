@@ -35,7 +35,7 @@
     "selection_adapter": 20
   },
   "actual_framework_import_and_gui_properties": "Passed pyMHF 0.2.4 / Dear PyGui 2.3.1 offline discovery, all nine widget constructors/callbacks, nine production callbacks, zero hotkeys; disabled outside the supported game.",
-  "launcher_validation": "Separate 0.9.0-play-trial / 090-r1 passed Python and Windows PowerShell 5.1 CheckOnly against the exact supported installation and existing runtime. No setup, asset staging, game launch or hooks. Real-framework combined discovery, shared Python dispatch and all seven temporary preference paths passed.",
+  "launcher_validation": "Separate 0.9.0-play-trial / 090-r2 passed Python and Windows PowerShell 5.1 CheckOnly against the exact supported installation and existing runtime. No setup, asset staging, game launch or hooks. Real-framework combined discovery, shared Python dispatch and all seven temporary preference paths passed.",
   "preferences_included": false,
   "manual_selection_path": "%LOCALAPPDATA%/NMS-AutoPet/state.json",
   "preferences_path": "%LOCALAPPDATA%/NMS-AutoPet/settings.json",
@@ -61,7 +61,7 @@
   "files": [
     {
       "path": "CompanionAutoSummon.py",
-      "sha256": "eab0741bc45a4f4f4f064ad5b98c521abb99d54a7b990adac134b03f53c72055"
+      "sha256": "067083f7097a9f5737bfa15639a6e0e6bd78fa71aded18e69277c3a478646e18"
     },
     {
       "path": "Launch-CompanionAutoSummon.py",
@@ -69,11 +69,11 @@
     },
     {
       "path": "README.md",
-      "sha256": "ba036a598224c4cd7779e0f44619ba7f4ad15d178e2a3cc6d4e1957195b7b03a"
+      "sha256": "1b533538d9d2ff71a2b86d13405e964e2aa03bd158e2f0138d30fbf66f1bb66b"
     },
     {
       "path": "README.cs.md",
-      "sha256": "d1a500a3599aad3b89a8add2471c4ca527ded1dd0f5c10a45d57944f72ec759f"
+      "sha256": "7c61ba7f6a38d9b4403744e38d51e03d050a8b2d37bec56880242bbc58348be7"
     },
     {
       "path": "cas_compatibility.py",
@@ -97,31 +97,31 @@
     },
     {
       "path": "DEVELOPMENT.md",
-      "sha256": "66778c5ccea39179033da121fc1c98c06d8e6bacf4e0e1c92f00afa0fea46446"
+      "sha256": "b196a54a98c083bcc965de7d6b25f5c08cb67c16643ea901683bb3f1f190fe1c"
     },
     {
       "path": "LOCALIZATION.md",
-      "sha256": "77d3a0942c04e9ad985292b0712e52b8bab795bb5d97f6cd762c7270b4338333"
+      "sha256": "2cf80f72af63b3188fdb12aba4e965dae0de42461975a3fc576725477e87926d"
     },
     {
       "path": "DESIGN.md",
-      "sha256": "81b13fa7c2541991cfdbbbac86555d623e6e1f509e8e6b2283c8c5924384ad36"
+      "sha256": "cc086787841508d8460bbbc9d475fed722ce7003fe1d0251572deeaf1db96c04"
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "11e3b3400647c009e217d29de269124ec3bc4ffcfc5460cb78177a5548a1f961"
+      "sha256": "54175eec259b0e4c33c3e2a5155c856d1d0588f9bf1a4161133f50d899bbbcd3"
     },
     {
       "path": "ROADMAP.md",
-      "sha256": "0120816eb0b64b19fb9d83022096de843b3c5c64d7182c159bf0869ca9ebed84"
+      "sha256": "fd52927e9f457c3d83a817481910c8dfb7cb3a32d415ee1f5b3b9e8efdc35faa"
     },
     {
       "path": "QUICK-MENU.md",
-      "sha256": "362d99dbb8d3178af449ba31ab20b70c25af09d11f92afa53640a953e56c4f53"
+      "sha256": "9343c57ad033bf9cf06ac51e50fed0e5551a97c6cc3eba76a2eb6d8a55c35790"
     },
     {
       "path": "docs/release/RELEASE-PREPARATION.md",
-      "sha256": "f2a132f52eeecd669f30c7b9c255662a85f3c8ad3a8325c20c60b87d09440a74"
+      "sha256": "3b0f3e46b225d894f6a3a4809ec0945325f8a97030d9b794930e68ebd1d49e1a"
     },
     {
       "path": "docs/release/INSTALLATION-REQUIREMENTS.md",
@@ -129,7 +129,7 @@
     },
     {
       "path": "docs/release/NEXUS-DESCRIPTION-DRAFT.md",
-      "sha256": "6e8c530eb0e33238a56812787b33e49b0891e24688ade97e7ae839ec5182059c"
+      "sha256": "df49f42fa1c04cbbef3f02efa5ef57f54d318e1ab2afb2b397c2aed4b80ab841"
     },
     {
       "path": "docs/research/TECHNOLOGY-PROTOTYPE.md",
@@ -165,7 +165,7 @@
     },
     {
       "path": "docs/research/HABITAT-SELECTION.md",
-      "sha256": "2d1dc28fd38c326da8b55949ec7be303b04607d40f7dbfaaaf0fce23f21bcf75"
+      "sha256": "2a70252cd8777757e5e02f0f308a94134229b7633ea99a79c6808b5f9dc7ec0b"
     },
     {
       "path": "src/policy.py",
@@ -185,7 +185,7 @@
     },
     {
       "path": "src/runtime.py",
-      "sha256": "ed861fb16f2614595018171bb0b8e05ea11fec24b5f3178f72bed5005bbe03b8"
+      "sha256": "0bba502f1313a0724fb561424f6b833ae4ae7b73491e95ae2cdef19bd2256a40"
     },
     {
       "path": "tests/test_policy.py",
@@ -225,7 +225,7 @@
     },
     {
       "path": "tools/quick_menu_toggle.py",
-      "sha256": "e01a13d82092f94637578adb06fb2f79c6ade820e599d84f29614f3fb6bc9646"
+      "sha256": "2cf0e284bccdbec43728e0a2072527cb945b690dbd96307f9c99f188110fa86d"
     },
     {
       "path": "tools/quick_menu_item.py",
@@ -237,59 +237,59 @@
     },
     {
       "path": "locales/en.json",
-      "sha256": "055e094aabec253ddaade21bcaa8e1be306232c6919009d81d6f73dab6b385b4"
+      "sha256": "803535ecdb1d55ee874d2b720ebb2232c34a2f464b0db631cfdd021ca8605252"
     },
     {
       "path": "locales/fr.json",
-      "sha256": "a93481a987be0949fa823d304401a626468695e5aab41456173e5bdc8db82698"
+      "sha256": "f96fa4279eb85920d9985b448ba897eb999619cd20e70bf669f0c2e4678434bf"
     },
     {
       "path": "locales/it.json",
-      "sha256": "7a9ebac7d91c8695078e5b1bf45408a161f4993ab6967f289d565f12edcd8170"
+      "sha256": "cc68eb5bfc67fc1fec9b4655e3902db5db31b25aed032fa135aa0ef5fa017512"
     },
     {
       "path": "locales/de.json",
-      "sha256": "6d9370add3867dd649d31ead64bea0502980527577ba9aef06eea1cc3113bd0f"
+      "sha256": "48e5452743d64cdc44bae06c9f9a9a59b1558f43c8e3c0a8b8f890c514d9a8fb"
     },
     {
       "path": "locales/es-ES.json",
-      "sha256": "01945092d4449a1937c2cd096a72df0898b18922a072b972181bd342b1f86491"
+      "sha256": "46d3991bacedb539facb280b1b11d08e3813842c6b8409ca89ebd7cacb664e27"
     },
     {
       "path": "locales/nl.json",
-      "sha256": "1d7fa0a850a80615488ab04145309701b7089302d2ce8792650c91e9716d79b0"
+      "sha256": "c61bc0998a7791985eae9c2b54db0a7b63648eaf88357420814f0c39c46f10dd"
     },
     {
       "path": "locales/ja.json",
-      "sha256": "0f795bbe3eb23555f8d8932cbf1e12fd59921c6b216ef381307bbe2a7bbeb9c9"
+      "sha256": "535824075b88576c73d2a34c8ff86da5b639b9059025b62577badefd8dd5a692"
     },
     {
       "path": "locales/ko.json",
-      "sha256": "bd62914a6c21ada685c562736e3144b5b00e27e108256818ce91dc819acc47c0"
+      "sha256": "4476ac6550e7bcbc063d981e9b9eedfe58fe379767f4db99ad59dcc6be703cd5"
     },
     {
       "path": "locales/pl.json",
-      "sha256": "95d0cadc2007a3fdad6bc015e393c29f9bf5456296ef2900989acc7131044ea5"
+      "sha256": "17322af1305d525cc7be7605c1c8c69c4e4105d80f1c662233a0b50f588c1405"
     },
     {
       "path": "locales/pt-PT.json",
-      "sha256": "3e213a18fd3cd133da1f02f22f3ca62a1d894fb69ebbd24f212deb8a202a1ce1"
+      "sha256": "96f946b85beca0494b0f2b0ddbc6d8041b77a931283e9e9101597a060642007f"
     },
     {
       "path": "locales/pt-BR.json",
-      "sha256": "4b0782859a34e035f0cf807bb681c1b657a8265d3a5f6a7eaa7dd0e288d79d63"
+      "sha256": "e0894bf0782c73fa8770f6b7e005651fb4159f932debb22864bea2c5f98007b2"
     },
     {
       "path": "locales/ru.json",
-      "sha256": "730daf7df4d7970f1025f68fe004eeb9ff8a978148d8cf552e0952c66dc3d6d5"
+      "sha256": "7d8e9cd3efabf759156eab21f7062e837dd9ce8d066ac20284dddeb2b6533f62"
     },
     {
       "path": "locales/zh-Hans.json",
-      "sha256": "b7b7528c865d45e23f95eb042484f23fcb9b5f1263a36a75b17d71820dbd7e89"
+      "sha256": "9a238f64a26751bde228400590bc7ac480991bd293578e231df6e35f74f823bf"
     },
     {
       "path": "locales/zh-Hant.json",
-      "sha256": "5ddc897ec5ae4540941378b46b03cc62e032d5d50b7780304d384b129d6dae53"
+      "sha256": "355abcab583409398ba258e29d32f09bf29c5634051d94a3881f381b82b43653"
     }
   ],
   "legacy_data_directory": "NMS-AutoPet is intentionally retained for settings, remembered companions and the existing development runtime; schemas and file contents are unchanged.",
@@ -347,7 +347,7 @@
     "launched": false,
     "registration_verified": false,
     "included_in_player_zip": false,
-    "scope": "Weighted 13:5:1 habitat selection, identity-based rotation, seven native rows and eight original icons. Existing native rules and mappings retained. Fresh defaults By habitat/rotation ON; legacy choices preserved with rotation OFF. Offline evidence only; no gameplay, input or multiplayer acceptance inherited.",
+    "scope": "Weighted 13:5:1 habitat selection, identity-based rotation, seven native rows and eight original icons. Existing native rules and mappings retained. Fresh defaults By habitat/rotation ON; legacy choices preserved with rotation OFF. Offline evidence only; no gameplay, input or multiplayer acceptance inherited. Revision r2 changes the visible rotation caption to Shuffle companions across all catalogs; behavior, stable keys and defaults are unchanged.",
     "developer_tests_passed": 683,
     "actual_framework_discovery_verified": true,
     "temporary_all_seven_preferences_verified": true,
@@ -366,10 +366,12 @@
     "compatibility_profile_validation_required": true,
     "language_observation_only": true,
     "native_translation_rendering": false,
-    "final_candidate_directory": "build/quick-menu-play-trial-090-r1",
-    "production_sha256": "eab0741bc45a4f4f4f064ad5b98c521abb99d54a7b990adac134b03f53c72055",
+    "final_candidate_directory": "build/quick-menu-play-trial-090-r2",
+    "production_sha256": "067083f7097a9f5737bfa15639a6e0e6bd78fa71aded18e69277c3a478646e18",
     "menu_sha256": "832505a99ba831e6d092ed8057ed9b377e3787e42187b11a2aa0c676e3e0db9e",
-    "candidate_manifest_sha256": "4c54a7897e45ce87f42e5b07fd6efab78b5f00f49b92e324d2ba7b57d6f4ef43"
+    "candidate_manifest_sha256": "c05e7aeb861884c14ca0a94bae1fc9427fc91f512cf2540bf17de632c159e134",
+    "revision": "r2",
+    "visible_shuffle_label": "Shuffle companions"
   },
   "post_queue_observation": {
     "passive_only": true,
@@ -909,5 +911,45 @@
     "language_observation_scope": "One bounded observation reported native region 0 ENGLISH with prior initialization/load seen. Text unchanged; no reload safety, automatic catalog choice or translated rendering claim.",
     "native_automation_toggle_verified_in_game": true,
     "native_automation_toggle_scope": "Player confirmed OFF prevented a ship-exit summon, ON alone did not summon and the next ship exit summoned. Logs: OFF 11:13:04.257, ON 11:13:39.076, next exit armed 11:13:56.061, slot 4 accepted 11:13:57.638 with expected active index 3. Other logged preferences unchanged; automation left ON. Other controls, restart persistence and alternate input unverified."
+  },
+  "previous_090_r1_developer_native_menu_trial": {
+    "version": "0.9.0-play-trial",
+    "menu_version": "0.9.0-selection",
+    "preference_keys": [
+      "enabled",
+      "selection_mode",
+      "prefer_same_biome",
+      "locations",
+      "rotate_companions"
+    ],
+    "production_script_byte_identical": true,
+    "production_byte_identity_reference": "Generated production 0.5.0 in the source package",
+    "live_verified": false,
+    "launched": false,
+    "registration_verified": false,
+    "included_in_player_zip": false,
+    "scope": "Weighted 13:5:1 habitat selection, identity-based rotation, seven native rows and eight original icons. Existing native rules and mappings retained. Fresh defaults By habitat/rotation ON; legacy choices preserved with rotation OFF. Offline evidence only; no gameplay, input or multiplayer acceptance inherited.",
+    "developer_tests_passed": 683,
+    "actual_framework_discovery_verified": true,
+    "temporary_all_seven_preferences_verified": true,
+    "optional_icon_provider_binding_verified": true,
+    "callbacks": 18,
+    "distinct_native_targets": 12,
+    "payload_files": 41,
+    "custom_icons_included": 8,
+    "custom_icon_deployed": false,
+    "custom_icon_live_verified": false,
+    "locale_validation_required_during_build": true,
+    "physical_hotkeys": 0,
+    "shortcut_binding_enabled": false,
+    "host_compatibility_guard_included": true,
+    "localized_launcher_messages": 9,
+    "compatibility_profile_validation_required": true,
+    "language_observation_only": true,
+    "native_translation_rendering": false,
+    "final_candidate_directory": "build/quick-menu-play-trial-090-r1",
+    "production_sha256": "eab0741bc45a4f4f4f064ad5b98c521abb99d54a7b990adac134b03f53c72055",
+    "menu_sha256": "832505a99ba831e6d092ed8057ed9b377e3787e42187b11a2aa0c676e3e0db9e",
+    "candidate_manifest_sha256": "4c54a7897e45ce87f42e5b07fd6efab78b5f00f49b92e324d2ba7b57d6f4ef43"
   }
 }

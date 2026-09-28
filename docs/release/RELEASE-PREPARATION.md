@@ -1,7 +1,7 @@
 # Companion Auto Summon for No Man's Sky - by Lineum Dynamics
 
 New source candidate **0.5.0-experimental / 0.9.0-play-trial**, menu
-**0.9.0-selection**, implements By habitat and Rotate companions. Offline validation passed 396 production and 683 developer tests; no new live acceptance or deployment is
+**0.9.0-selection**, implements By habitat and Shuffle companions. Offline validation passed 396 production and 683 developer tests; no new live acceptance or deployment is
 claimed. The unchanged running 0.8.7-r1 and its unpublished Nexus page below
 retain their own evidence and metadata. Do not publish the new features as a
 tested player release based on the older session.
@@ -15,7 +15,7 @@ planet data waits; no approved owned group skips with one notice; temporary
 ineligibility or placement waits. Native mappings, eligibility, limits, saves
 and the existing no-respawn-after-dismissal rule remain unchanged.
 
-The separate `090-r1` candidate passed aggregate tests, real-framework checks
+The separate `090-r2` candidate passed aggregate tests, real-framework checks
 of all seven shared preference paths, and Python plus Windows PowerShell 5.1
 read-only preflights. It contains eight original icons and has not deployed or
 launched. The next combined live test must check visible habitat
@@ -86,10 +86,10 @@ does not yet use it; portable installation is not thereby complete. Details:
 
 ## Next combined test 0.9.0
 
-Use the separate `build/quick-menu-play-trial-090-r1`, after normal game closure
+Use the separate `build/quick-menu-play-trial-090-r2`, after normal game closure
 and a fresh verified backup. Preserve the old package and existing settings.
 Legacy settings intentionally retain Random/Last selected with rotation OFF;
-enable By habitat and Rotate companions explicitly for their tests.
+enable By habitat and Shuffle companions explicitly for their tests.
 
 1. Load the save in an enabled supported location. Check one visible summon,
    dismiss it, and verify no return until a new load or ship-exit opportunity.

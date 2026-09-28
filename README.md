@@ -3,7 +3,7 @@
 by **Lineum Dynamics**
 
 Source candidate **0.5.0-experimental / 0.9.0-play-trial**, with menu
-**0.9.0-selection**, implements **By habitat** and **Rotate companions**.
+**0.9.0-selection**, implements **By habitat** and **Shuffle companions**.
 Offline validation passed 396 production and 683 developer tests; this candidate has not launched.
 The previously tested **0.8.7 / 087-r1** remains unchanged. By habitat uses explicit
 13/5/1 weighted habitat groups on planets and an unweighted eligible pool on
@@ -177,7 +177,7 @@ Launch through Companion Auto Summon, then **Alt+Tab to the separate pyMHF windo
 - Three location checkboxes enable planets, space stations and the Nexus separately. All default on. Turning all three off prevents automatic summoning everywhere.
 - **Companion selection** offers **Last manually selected**, **Random** and **By habitat**. By habitat is the fresh-install default; existing choices are preserved. Every mode retains native ownership, eligibility and placement checks.
 - **Prefer same biome in Random mode** (default ON): prefers the matching native habitat within that eligible pool on planets. Turn it OFF for ordinary random selection. Unknown/no matching habitat falls back automatically; no pet is excluded from ordinary native eligibility by this option.
-- **Rotate companions**: cycles eligible pets in Random, or within the weighted group chosen by By habitat. ON for fresh installs; migrated preferences start OFF. Last selected is unaffected.
+- **Shuffle companions**: cycles eligible pets in Random, or within the weighted group chosen by By habitat. ON for fresh installs; migrated preferences start OFF. Last selected is unaffected.
 - **Status**: current state, including **Waiting for a suitable place**, pending changes, session-only persistence, or a runtime error.
 - **Companion**: selected slot, a remembered choice awaiting ownership verification, or the active selection mode. In Last manually selected mode, an empty choice prompts you to summon your first companion manually.
 

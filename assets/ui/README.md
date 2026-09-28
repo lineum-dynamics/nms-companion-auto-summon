@@ -2,7 +2,7 @@
 
 ## Current status
 
-The source set now adds a distinct **Rotate companions** icon to the existing
+The source set now adds a distinct **Shuffle companions** icon to the existing
 parent and six setting icons. The running **0.8.7-r1** package remains immutable
 and does not contain this addition. Earlier 0.8.4 screenshots confirmed the six
 setting icons; the new rotation icon has only offline validation. Resource
@@ -20,7 +20,7 @@ All eight textures use the unique virtual directory
 | Planets (3) | `PLANET.DDS` |
 | Space stations (4) | `STATION.DDS` |
 | Space Anomaly (5) | `ANOMALY.DDS` |
-| Rotate companions (6) | `ROTATE.DDS` |
+| Shuffle companions (6) | `ROTATE.DDS` |
 
 ## Artwork and asset generation
 

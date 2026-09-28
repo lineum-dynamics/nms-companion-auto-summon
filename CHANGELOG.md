@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.9.0-r2 terminology revision — Shuffle companions
+
+- Rename the visible Rotate companions control to Shuffle companions in the native menu, temporary panel, all fourteen catalogs, current documentation, icon preview and unpublished Nexus rules. Keep Random as a separate selection mode. Preserve internal preference/catalog keys, asset paths, defaults and gameplay behavior.
+- Retain immutable 090-r1 and prepare the separate 090-r2 bundle. All 396 production and 683 developer tests pass, as do actual-framework standalone/combined checks and Python/Windows PowerShell 5.1 read-only preflights. All seven temporary preferences work; no native hooks, game start or deployment occurred. The exact supported game is installed and NMS was closed during preflight.
+- The original eight DDS payloads remain byte-identical; only the preview caption and SVG title changed. Translations remain unreviewed drafts and native rendering remains English. The next live trial must use 090-r2. Existing player preferences have not been changed; fresh defaults remain By habitat and shuffle ON, while older configurations retain their mode and shuffle OFF.
+- Clarify the official Worlds Part II basis for Waterworld and Gas Giant categories. Existing exact-match-only rules remain unchanged; no live adoption or summoning support is inferred from a category's existence.
+
 ## 0.5.0 / 0.9.0 developer candidate — habitat selection and rotation
 
 - Add By habitat alongside Last selected and Random. On planets, draw native-eligible exact/related/acceptable groups at integer weights 13:5:1, independent of group size. Use the explicit directed habitat table, including Scorched/Lava as related; exclude unlisted pairs rather than drawing an unrestricted fallback. Neutral stations/Nexus use the ordinary eligible pool. Unknown habitat and temporary eligibility/placement wait; a known owned roster without an approved group skips one opportunity with one notice.

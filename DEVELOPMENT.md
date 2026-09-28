@@ -1,8 +1,8 @@
 # Companion Auto Summon development guide
 
 Source **0.5.0-experimental / 0.9.0-play-trial**, with menu
-**0.9.0-selection**, now implements By habitat and Rotate companions. Offline validation passed 396 production and 683 developer tests; the candidate is unlaunched. Retained 0.8.7
-and earlier earlier artifacts remain immutable. The seven-row interface,
+**0.9.0-selection**, now implements By habitat and Shuffle companions. Offline validation passed 396 production and 683 developer tests; the candidate is unlaunched. Retained 0.8.7
+and earlier artifacts remain immutable. The seven-row interface,
 new selection behavior and rotation icon have no new live acceptance.
 
 By habitat uses explicit directed 13/5/1 exact/related/acceptable groups on
@@ -120,7 +120,7 @@ and technology-prototype targets. Drift stops output creation. Build the separat
 candidate with `python -B tools/build_quick_menu_play_trial.py --enable-menu`.
 Use a fresh explicit output directory if that version's default already exists;
 the builder refuses to overwrite an earlier trial. The final current artifact
-is `build/quick-menu-play-trial-090-r1`, with 41 payloads plus its manifest;
+is `build/quick-menu-play-trial-090-r2`, with 41 payloads plus its manifest;
 the previously tested `087-r1` and prepared `086-r1` folders remain
 immutable and unlaunched.
 

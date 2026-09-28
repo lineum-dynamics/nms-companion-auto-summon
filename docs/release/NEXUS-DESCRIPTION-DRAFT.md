@@ -124,9 +124,9 @@ Unknown planet habitat waits for usable information. If the known owned roster h
 
 Once selected, a pet stays fixed while placement is retried. Ship entry, manual pet preview/selection, a settings change, an active/queued pet or a local save change can end the wait. Losing the selected pet, moving it to a different slot during a pending request or an ambiguous identity cancels that request without drawing a replacement. By habitat also cancels if its supported planet/neutral context changes; Random keeps its selection across temporary location changes. An accepted request finishes that opportunity: it does not repeatedly respawn a dismissed pet or replace your active companion when you move.
 
-### Rotate companions: optional shuffle
+### Shuffle companions: how it works
 
-The seventh setting, **Rotate companions**, affects Random and By habitat. Random keeps a shuffled eligible cycle; By habitat first draws its weighted group and then uses a separate cycle for that planet habitat and group. Stations and the Anomaly share the ordinary Random cycle. Rotation does not force a full-roster tour or override the habitat weights.
+The seventh setting, **Shuffle companions**, affects Random and By habitat. Random keeps a shuffled eligible cycle; By habitat first draws its weighted group and then uses a separate cycle for that planet habitat and group. Stations and the Anomaly share the ordinary Random cycle. Shuffle does not force a full-roster tour or override the habitat weights.
 
 Only a request accepted by the game's summon queue consumes a turn. Rejected placement, retries and cancellation do not. When the currently eligible remainder is exhausted, that eligible pool starts another round; temporarily unavailable pets retain their history. With another eligible pet in the chosen group, the next round avoids immediately repeating that group's last accepted choice. A sole eligible pet can repeat.
 
@@ -134,7 +134,7 @@ Adopting or abandoning companions updates the cycle. Renaming or reordering slot
 
 ### New-install defaults and upgrades
 
-A fresh 0.9.0 configuration uses **By habitat + Rotate companions ON**, automation ON and all three supported locations ON. The Random biome preference is also ON but only applies if you select Random. Existing 0.8.x preferences retain their previous mode, location and ON/OFF choices; the new rotation option starts OFF for those upgrades. Changing a setting does not immediately summon or dismiss a pet: the next ship exit or successful local save load supplies a new opportunity.
+A fresh 0.9.0 configuration uses **By habitat + Shuffle companions ON**, automation ON and all three supported locations ON. The Random biome preference is also ON but only applies if you select Random. Existing 0.8.x preferences retain their previous mode, location and ON/OFF choices; the new shuffle option starts OFF for those upgrades. Changing a setting does not immediately summon or dismiss a pet: the next ship exit or successful local save load supplies a new opportunity.
 
 ## Credits and disclosure
 
@@ -144,7 +144,7 @@ Framework: [pyMHF](https://github.com/monkeyman192/pyMHF). Native research refer
 
 ## Internal readiness and metadata — do not publish this section
 
-- Retained live trial: production 0.4.9, combined 0.8.7 / `087-r1`, menu 0.8.5-branding. Separate offline candidate: production 0.5.0, combined 0.9.0 / `090-r1`, menu 0.9.0-selection. The detailed upcoming rules were saved and read back on the unpublished Nexus page on 28 September 2026; version metadata stays 0.8.7 until a deliberate update. Retain the bounded [live record](../research/LIVE-087.md); do not turn one session into a general guarantee.
+- Retained live trial: production 0.4.9, combined 0.8.7 / `087-r1`, menu 0.8.5-branding. Separate offline candidate: production 0.5.0, combined 0.9.0 / `090-r2`, menu 0.9.0-selection. The detailed upcoming rules were saved and read back on the unpublished Nexus page on 28 September 2026; version metadata stays 0.8.7 until a deliberate update. Retain the bounded [live record](../research/LIVE-087.md); do not turn one session into a general guarantee.
 - **Installation placeholder:** replace with the verified player-package procedure only after portable packaging and clean-machine acceptance. No final installation instructions are approved yet.
 - The temporary pyMHF desktop panel and standalone script are development implementation details, not the intended player settings interface. The combined trial still retains the panel, and the standalone script lacks the native page. Keep those facts in internal readiness records; removing the panel from the player package and verifying native controls remain release work. The pyMHF runtime dependency is separate from its desktop panel.
 - Source: [private canonical repository](https://github.com/lineum-dynamics/nms-companion-auto-summon). Do not advertise it as a publicly accessible source link.

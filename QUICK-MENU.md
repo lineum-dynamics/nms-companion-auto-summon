@@ -3,8 +3,8 @@
 ## Current source: 0.9.0 selection trial, offline validation passed
 
 Source **0.5.0-experimental / 0.9.0-play-trial**, with menu
-**0.9.0-selection**, now implements By habitat and Rotate companions. Offline validation passed 396 production and 683 developer tests; the candidate is unlaunched. Retained 0.8.7
-and earlier earlier artifacts remain immutable. The seven-row interface,
+**0.9.0-selection**, now implements By habitat and Shuffle companions. Offline validation passed 396 production and 683 developer tests; the candidate is unlaunched. Retained 0.8.7
+and earlier artifacts remain immutable. The seven-row interface,
 new selection behavior and rotation icon have no new live acceptance.
 
 By habitat uses explicit directed 13/5/1 exact/related/acceptable groups on
@@ -17,7 +17,7 @@ Schema 4 defaults fresh installs to By habitat and rotation ON; legacy schemas
 1/2/3 preserve their choices with rotation OFF. Details and the complete heuristic
 table are in [HABITAT-SELECTION](docs/research/HABITAT-SELECTION.md).
 
-The parent/roles 0–5 keep their existing IDs; role 6 adds Rotate companions.
+The parent/roles 0–5 keep their existing IDs; role 6 adds Shuffle companions.
 The source bridge resolves the exact 0.5.0 production instance and uses its
 existing lock/queue. Selection cycles through all three modes; no browsing,
 hover or rebuild may change a preference. Full topology requires exactly seven

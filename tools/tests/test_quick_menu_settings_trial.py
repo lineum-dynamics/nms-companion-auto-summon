@@ -70,7 +70,7 @@ class FullPageTests(SettingsFixture):
             (3, "planets", False, b"Planets: ON", b"Planets: OFF"),
             (4, "space_stations", False, b"Space stations: ON", b"Space stations: OFF"),
             (5, "nexus", False, b"Space Anomaly: ON", b"Space Anomaly: OFF"),
-            (6, "rotate_companions", False, b"Rotate companions: ON", b"Rotate companions: OFF"),
+            (6, "rotate_companions", False, b"Shuffle companions: ON", b"Shuffle companions: OFF"),
         )
         for role, key, desired, applied_label, desired_label in cases:
             with self.subTest(role=role):
@@ -281,7 +281,7 @@ class OptionalIconTests(IconFixture):
         for role, caption in enumerate((
                 b"Automatic summoning: ON", b"Selection: By habitat",
                 b"Random: prefer matching biome: ON", b"Planets: ON",
-                b"Space stations: ON", b"Space Anomaly: ON", b"Rotate companions: ON")):
+                b"Space stations: ON", b"Space Anomaly: ON", b"Shuffle companions: ON")):
             self.select_role(role)
             self.expected_label(caption)
         self.select_role(6)
@@ -331,7 +331,7 @@ class OptionalIconTests(IconFixture):
         self.assertEqual(set(options["permitted_icons"]), expected)
         self.assertEqual(self.trial._known_icon_handles, expected)
         self.select_role(6)
-        self.expected_label(b"Rotate companions: ON")
+        self.expected_label(b"Shuffle companions: ON")
         self.assert_no_request()
 
     def test_preparation_exception_does_not_disable_settings_or_retry(self):

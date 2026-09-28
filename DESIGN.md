@@ -20,8 +20,8 @@ remain unchanged by this presentation update.
 ## Current state
 
 Source **0.5.0-experimental / 0.9.0-play-trial**, with menu
-**0.9.0-selection**, now implements By habitat and Rotate companions. Offline validation passed 396 production and 683 developer tests; the candidate is unlaunched. Retained 0.8.7
-and earlier earlier artifacts remain immutable. The seven-row interface,
+**0.9.0-selection**, now implements By habitat and Shuffle companions. Offline validation passed 396 production and 683 developer tests; the candidate is unlaunched. Retained 0.8.7
+and earlier artifacts remain immutable. The seven-row interface,
 new selection behavior and rotation icon have no new live acceptance.
 
 By habitat uses explicit directed 13/5/1 exact/related/acceptable groups on
@@ -132,7 +132,7 @@ The 0.9.0 source page exposes the same shared preference store with seven rows:
 - Last selected, Random or By habitat selection mode.
 - Prefer matching native habitat in Random mode, relevant only on planets.
 - Per-location controls for planets, space stations and the Space Anomaly (Nexus).
-- Rotate companions in Random and By habitat; no effect on Last selected.
+- Shuffle companions in Random and By habitat; no effect on Last selected.
 
 The seven rows use the existing queue and storage. Selection cycles **Last
 selected → Random → By habitat**; other rows display ON/OFF. Matching-biome preference

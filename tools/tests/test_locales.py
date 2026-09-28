@@ -91,9 +91,9 @@ class LocaleTests(unittest.TestCase):
     def test_new_mode_rotation_panel_and_hud_wording_cannot_drift(self):
         cases = (
             ("tools/quick_menu_toggle.py", '"By habitat"', '"Smart"'),
-            ("tools/quick_menu_toggle.py", '"Rotate companions"', '"Shuffle pets"'),
+            ("tools/quick_menu_toggle.py", '"Shuffle companions"', '"Shuffle pets"'),
             ("src/runtime.py", '"By habitat"', '"Smart"'),
-            ("src/runtime.py", '@BOOLEAN("Rotate companions")', '@BOOLEAN("Shuffle pets")'),
+            ("src/runtime.py", '@BOOLEAN("Shuffle companions")', '@BOOLEAN("Shuffle pets")'),
             ("src/runtime.py", 'Habitat-aware owned companion per request;', 'Habitat-matched companion;'),
             ("src/runtime.py", ' Habitat selection stays ON.', ' Habitat mode remains on.'),
             ("src/runtime.py", 'No suitable companion for this habitat.', 'No companions.'),

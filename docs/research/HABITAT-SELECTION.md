@@ -51,6 +51,14 @@ no additional group members; reverse relationships are not inferred.
 | 14 Waterworld | — | — |
 | 15 Gas giant | — | — |
 
+Hello Games explicitly introduced waterworlds and gas giants in
+[Worlds Part II](https://www.nomanssky.com/worlds-part-ii-update/). The same
+release distinguishes non-waterworld planets with deep oceans and non-gas
+giant planets: water coverage or size alone must not determine the category.
+The selector recognizes both categories and currently permits exact habitat
+matches only. This is selection-rule coverage, not live verification of pet
+adoption, underwater summoning, native eligibility or placement there.
+
 Weird variants 8, 9 and 10 normalize to category 7. Category 11 and unknown
 values do not become Lush or a general fallback. Existing native adoption
 normalization maps swamp/lava planet subtypes before comparison. Scorched and
@@ -104,7 +112,7 @@ retains Last selected; schema 2/3 retains existing Last selected/Random and
 biome/location/automation choices. All legacy schemas migrate with rotation
 OFF, in memory only until an explicit settings save. A stored OFF remains OFF.
 
-Native roles 0–5 are unchanged; role 6 adds **Rotate companions**. Selection
+Native roles 0–5 are unchanged; role 6 adds **Shuffle companions**. Selection
 cycles Last selected → Random → By habitat. Pending/session-only wording and
 the shared production preference queue remain. The seventh icon is included
 and verified offline, with all seven preference paths checked through the real

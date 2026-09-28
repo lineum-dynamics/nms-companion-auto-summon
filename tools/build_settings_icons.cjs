@@ -8,7 +8,7 @@ async function main() {
   const directory = path.resolve(__dirname, '../assets/ui');
   const names = ['automation', 'selection', 'biome', 'planet', 'station', 'anomaly', 'rotate'];
   const labels = ['Automatic summoning', 'Companion selection', 'Random: prefer matching biome',
-    'Planets', 'Space stations', 'Space Anomaly', 'Rotate companions'];
+    'Planets', 'Space stations', 'Space Anomaly', 'Shuffle companions'];
   const outputs = {};
   const tiles = [];
   for (const [index, name] of names.entries()) {

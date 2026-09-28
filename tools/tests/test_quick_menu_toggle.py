@@ -96,7 +96,7 @@ class FullSettingsRecognitionTests(SubmenuFixture):
     def test_labels_cover_existing_options_and_honest_pending_session_states(self):
         state = SimpleNamespace(desired=True, pending=False, settings_ok=True, stopped=False)
         expected = (b"Automatic summoning: ON", b"Selection: Random", b"Random: prefer matching biome: ON",
-                    b"Planets: ON", b"Space stations: ON", b"Space Anomaly: ON", b"Rotate companions: ON")
+                    b"Planets: ON", b"Space stations: ON", b"Space Anomaly: ON", b"Shuffle companions: ON")
         for role, label in enumerate(expected):
             state.desired = "random" if role == 1 else True
             self.assertEqual(TOGGLE.preference_label(role, state), label)
@@ -143,8 +143,8 @@ class FullSettingsRecognitionTests(SubmenuFixture):
         state.pending = False
         self.assertEqual(TOGGLE.preference_label(1, state), b"Selection: By habitat (session only)")
         state.desired = False
-        self.assertEqual(TOGGLE.preference_label(6, state), b"Rotate companions: OFF (session only)")
-        self.assertEqual(TOGGLE.preference_label(6, None), b"Rotate companions: unavailable")
+        self.assertEqual(TOGGLE.preference_label(6, state), b"Shuffle companions: OFF (session only)")
+        self.assertEqual(TOGGLE.preference_label(6, None), b"Shuffle companions: unavailable")
         self.assertEqual(TOGGLE.SETTING_KEYS[:6], ("enabled", "selection_mode", "prefer_same_biome",
                                                 "planets", "space_stations", "nexus"))
 

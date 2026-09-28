@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
-  <title>Rotate companions</title>
+  <title>Shuffle companions</title>
   <desc>Original crossing arrows for companion rotation, white on transparent.</desc>
   <g fill="none" stroke="#fff" stroke-width="18" stroke-linecap="round" stroke-linejoin="round">
     <path d="M33 72 H62 C92 72 104 104 128 128 S164 184 194 184 H219"/>

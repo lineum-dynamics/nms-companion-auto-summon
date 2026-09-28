@@ -101,7 +101,7 @@ Passive observation remains; no new retries or summon delays are added.
 Shorter notices last 5.5 seconds. In-game validation is still required.
 The native page contains Automatic summoning: ON/OFF, companion selection
 (Last selected/Random/By habitat), Random: prefer matching biome, three separate
-location switches (planets, space stations and Space Anomaly) and Rotate companions.
+location switches (planets, space stations and Space Anomaly) and Shuffle companions.
 Confirm a row with the
 configured native Select action to queue its change. The local player update
 applies and saves it through the existing production preference path. Pending

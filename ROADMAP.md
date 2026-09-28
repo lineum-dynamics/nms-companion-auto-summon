@@ -1,7 +1,7 @@
 # Companion Auto Summon roadmap
 
 Current source **0.5.0-experimental / 0.9.0-play-trial**, with menu
-**0.9.0-selection**, implements the accepted By habitat and Rotate companions
+**0.9.0-selection**, implements the accepted By habitat and Shuffle companions
 work. Offline validation passed 396 production and 683 developer tests; the new candidate is
 unlaunched. The running 0.8.7 package below remains unchanged, and its live
 results do not validate the new selector. Source now has seven native settings
@@ -107,10 +107,10 @@ temporary eligibility and stable choices during placement waits.
 
 Treat inclusion and exclusion as two possible interfaces for one filter, not two independent settings systems. Use stable companion identity instead of slot numbers so rearranging slots does not silently select another pet. Build the pool from native-eligible owned companions, apply the player's filter and then apply the existing biome preference within that filtered pool. If the filtered pool is empty, do not summon and provide an unobtrusive status; never silently reintroduce an excluded companion. A draw stays fixed through deferred placement retries.
 
-### 2. Rotate companions across automatic opportunities
+### 2. Shuffle companions across automatic opportunities
 
 **Status: implemented in 0.5.0 source; offline validation passed, unlaunched.**
-Rotate companions is the seventh native row. Random uses an eligible session
+Shuffle companions is the seventh native row. Random uses an eligible session
 cycle; By habitat draws its group first, then uses that habitat/group's cycle.
 Last selected is unaffected. A single eligible member may repeat; no cross-group
 cycle changes the weights. No setting change dismisses or replaces an active pet

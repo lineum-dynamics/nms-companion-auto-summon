@@ -2,6 +2,11 @@
 
 ## Status
 
+The 090-r2 visible caption is **Shuffle companions** in English; every locale
+now names shuffled selection rather than a fixed rotation. The stable
+`menu.rotate_companions` key and stored `rotate_companions` preference remain
+unchanged. All thirteen translations retain draft status.
+
 `locales/en.json` is canonical English alongside thirteen translated
 **unreviewed draft** catalogs. Source candidate 0.5.0 / 0.9.0 has the same 46 keys in each:
 the original 24 cover the native parent title, six settings labels,
@@ -14,7 +19,7 @@ candidate, `product.full_name` is the invariant proper name **Companion Auto Sum
 for No Man's Sky**; `product.author_credit` translates **by Lineum Dynamics**.
 The full title also replaces the short name in `launcher.blocked_title`,
 `launcher.unsupported_game` and `launcher.game_running`, with all affected
-translations and fingerprints updated. New source labels are **Rotate companions**
+translations and fingerprints updated. New source labels are **Shuffle companions**
 and **By habitat**; **Random: prefer matching biome** keeps its existing
 planet-only Random meaning. Native menu/HUD rendering remains English.
 The final 0.8.7-r1 trial is running; former 0.8.4 and prepared, unlaunched

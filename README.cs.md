@@ -5,7 +5,7 @@
 by **Lineum Dynamics**
 
 Zdrojový kandidát **0.5.0-experimental / 0.9.0-play-trial** s menu
-**0.9.0-selection** implementuje **By habitat** (podle prostředí) a **Rotate
+**0.9.0-selection** implementuje **By habitat** (podle prostředí) a **Shuffle
 companions** (střídání společníků). Prošlo 396 produkčních a 683 vývojových
 testů mimo hru; kandidát ještě nebyl spuštěn. Dříve testovaný **0.8.7 / 087-r1**
 zůstává beze změny.
@@ -154,7 +154,7 @@ Dočasný panel zůstává během ověření k dispozici.
 - Tři samostatná zaškrtávátka dovolují automatiku na planetách, vesmírných stanicích a v Nexusu. Výchozí stav všech je zapnuto. Vypnutí všech míst znamená, že se nikde automaticky nevyvolává.
 - **Companion selection** nabízí **Last manually selected**, **Random** a **By habitat**. Nová instalace používá By habitat; původní nastavení zůstává zachované. Každý režim respektuje vlastnictví, způsobilost a umístění podle hry.
 - **Prefer same biome in Random mode**: výchozí zapnuto. V náhodném režimu na planetě upřednostní shodné domovské prostředí mezi již vhodnými pety. Vypnutí vrátí běžný náhodný výběr; stejný výběr se použije i při neznámém biomu nebo bez shody. Preference nemění herní způsobilost petů.
-- **Rotate companions**: střídá vhodné pety v Random nebo uvnitř skupiny vybrané režimem By habitat. U nové instalace je zapnuto, po migraci vypnuto; Last selected neovlivňuje.
+- **Shuffle companions**: střídá vhodné pety v Random nebo uvnitř skupiny vybrané režimem By habitat. U nové instalace je zapnuto, po migraci vypnuto; Last selected neovlivňuje.
 - **Status**: aktuální stav včetně **Waiting for a suitable place** (čekání na vhodné místo), případně informace, že změna čeká na návrat do hry nebo platí jen pro tuto relaci.
 - **Companion**: vybraný slot, uložená volba čekající na ověření vlastnictví nebo zapnutý náhodný režim. V režimu poslední ruční volby se při prázdném výběru zobrazí výzva k prvnímu ručnímu vyvolání.
 

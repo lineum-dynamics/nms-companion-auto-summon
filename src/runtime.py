@@ -305,7 +305,7 @@ class CompanionAutoSummon(Mod):
                 self.requested_preferences[key] = value
 
     @property
-    @BOOLEAN("Rotate companions")
+    @BOOLEAN("Shuffle companions")
     def rotate_companions(self):
         return self._visible_preferences()["rotate_companions"]
 

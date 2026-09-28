@@ -16,7 +16,7 @@ MenuItemError = item.MenuItemError
 CHILD_ROLES = submenu.SETTINGS_CHILD_ROLES
 SETTING_KEYS = ("enabled", "selection_mode", "prefer_same_biome", "planets", "space_stations", "nexus", "rotate_companions")
 SETTING_LABELS = ("Automatic summoning", "Selection", "Random: prefer matching biome",
-                  "Planets", "Space stations", "Space Anomaly", "Rotate companions")
+                  "Planets", "Space stations", "Space Anomaly", "Shuffle companions")
 
 
 def setting_key(role):
