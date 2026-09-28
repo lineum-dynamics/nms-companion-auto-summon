@@ -3,7 +3,7 @@
 Status: prepared for owner review only. Do not send without explicit authority.
 The owner previously declined external contact; a general request to fix
 packaging does not authorize emailing a provider or making the private repository
-public. Refresh the exact file's scan result before using this draft.
+public. The recorded exact-file results below were read on 28 September 2026.
 
 Recipient: support@nexusmods.com
 
@@ -26,6 +26,11 @@ It also adds accurate product/company/version metadata and actual build inputs,
 and fixes an unrelated Steam-discovery access error. We made one corrected
 release; we have not renamed or repeatedly rebuilt files to alter scan results.
 
+File 49197 was also quarantined. Its exact linked archive report shows 1/58,
+Bkav Pro W32.Malware.2D7F7A26, analysis time 28 September 2026 at 16:10:11 CEST:
+https://www.virustotal.com/gui/file/d87f868c618aec200cf276aae1faf81748eeaf7be26bd1e21a8594590627e383/detection
+The current EXE report lacks per-engine results; we do not call it clean.
+
 0.9.3-test ZIP SHA256:
 d87f868c618aec200cf276aae1faf81748eeaf7be26bd1e21a8594590627e383
 
@@ -47,7 +52,7 @@ This is provenance evidence, not a claim of a false positive.
 
 The canonical source repository is
 https://github.com/lineum-dynamics/nms-companion-auto-summon
-It is currently private. No repository access has been granted by this draft;
+The correction is on branch fix/nexus-portable-packaging. It is currently private. No repository access has been granted by this draft;
 the supplied compiled-source inputs are also present in the uploaded ZIP.
 
 Please review these retained files and identify any remaining file or policy

@@ -11,8 +11,8 @@ Opravené je hledání Steamu při nepřístupném nesouvisejícím procesu. Her
 zůstává beze změny: produkce **0.5.1**, společný mód **0.9.2-play-trial** a menu
 **0.9.1-diagnostics**. Prošlo **786 vývojových testů** i kontroly přenosnosti,
 runtime a integrity. Verze 0.9.3 ještě nebyla spuštěna ve hře ani schválena
-skenery. Soubor **49197** je nahraný na Nexusu a skenování ještě probíhá;
-původní soubor 0.9.2 zůstává v karanténě. Podrobnosti: [ověření balíčku](docs/research/PORTABLE-SCAN-093.md).
+skenery. Také soubor **49197** skončil v karanténě. Přesný ZIP má ve
+VirusTotal **1/58** (Bkav Pro); je nutná kontrola moderátorem. Žádost nebyla odeslána. Podrobnosti: [ověření balíčku](docs/research/PORTABLE-SCAN-093.md).
 
 Zachovaný distribuční kandidát **0.9.2-test**: produkce **0.5.1-experimental**,
 společný mód **0.9.2-play-trial** a menu **0.9.1-diagnostics**. ZIP obsahuje

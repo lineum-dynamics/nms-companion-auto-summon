@@ -69,11 +69,11 @@
     },
     {
       "path": "README.md",
-      "sha256": "a1e62ad87432012e036186fb99b231b9efc18d4c0a1605dc6c7466938124524c"
+      "sha256": "dfa3d49b1710ef7a5b1c4367fa5e705b82cd097d661f15dd7dd1e1c42839ba7d"
     },
     {
       "path": "README.cs.md",
-      "sha256": "41d4f48af8689f657db84ae94763595516d2a665e2917be7fb135913debe3e03"
+      "sha256": "49b21e1e41de5ef849120453b3c20c711fde3cb30b9320e17b62fa6dc5489ae4"
     },
     {
       "path": "cas_compatibility.py",
@@ -97,7 +97,7 @@
     },
     {
       "path": "DEVELOPMENT.md",
-      "sha256": "df81feb9f985a41577ec3cc61be8e0aceff8369a8f6a6b3496df9fa6365e5ccb"
+      "sha256": "34341bbffc0e6e4785746af7fe1b959e5682afba20879b23cfaf966945e11bb6"
     },
     {
       "path": "LOCALIZATION.md",
@@ -105,11 +105,11 @@
     },
     {
       "path": "DESIGN.md",
-      "sha256": "482a83c47c27a20bd5ced70ce36f5e1e52184b1abfc7e3b1e8f7babae1973f0f"
+      "sha256": "a1b41726760fbf71665084e5024281d2c841adf1642f66a10518b430f3993e83"
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "9784ec6a012ab5391e8a14b79a664fee0971614535e4fcb1ab56a5553da36426"
+      "sha256": "6147ebe9ab125966c9c9666ea7756b0a62d2f029c0e12366bf5dd57beb858f8d"
     },
     {
       "path": "ROADMAP.md",
@@ -121,15 +121,15 @@
     },
     {
       "path": "docs/release/RELEASE-PREPARATION.md",
-      "sha256": "da5b885842d35bdb654ddda225feedebae1673ddd00a69a6951d3103ddfde4ed"
+      "sha256": "25a7b98d16236c8481d12a891e5cb5d2a1071be343d0a7734630c07776fc1cdf"
     },
     {
       "path": "docs/release/INSTALLATION-REQUIREMENTS.md",
-      "sha256": "6a5b2b53f5456e7804c4f815f324d862616e04909629d63827648d60bee4311e"
+      "sha256": "8c1d06282bf9ff5df17b18aaee94a058c23048f4e98c365e06dedd53ff765e74"
     },
     {
       "path": "docs/release/NEXUS-DESCRIPTION-DRAFT.md",
-      "sha256": "16f8d02376516e20cf4469f74ad4204fe77c70823521f97460b7d5ca669dfa5b"
+      "sha256": "d83f1569fc083c4bb53a0964a3fe74e8747bf6c8d0325665733e5de175d7f2f7"
     },
     {
       "path": "docs/release/PORTABLE-QUICKSTART.md",
@@ -145,7 +145,7 @@
     },
     {
       "path": "docs/release/TESTER-HANDOFF.md",
-      "sha256": "23cd9c1b5843936116265c0fb6b6a13a50686a8799a6e3500a429e3a82fdec98"
+      "sha256": "d7085240f05fc488bb2f7bc97dafa039498162b51e26cf74ebf9c47657878e71"
     },
     {
       "path": "docs/research/TECHNOLOGY-PROTOTYPE.md",
@@ -193,7 +193,7 @@
     },
     {
       "path": "docs/research/PORTABLE-SCAN-093.md",
-      "sha256": "4f74fce2701220dbb50562a9cd6fd4f171617d1c0dedce737bd1a498ec2d9bda"
+      "sha256": "094bfbaf3edbea3b5d1a3de69a064199fad1317ee96def799d26bc367e597602"
     },
     {
       "path": "docs/research/WINDOWS-DISTRIBUTION-TRUST.md",
@@ -1330,7 +1330,7 @@
       "mod_id": 4579,
       "file_id": 49197,
       "upload_verified": true,
-      "status": "Virus scanning in progress",
+      "status": "Quarantined by automated safety checks",
       "scan_clearance": false,
       "owner_download_verified": false,
       "contact_sent": false,
@@ -1339,7 +1339,17 @@
       "category": "Miscellaneous",
       "page_status": "Unpublished",
       "mod_manager_download_enabled": false,
-      "archive_sha_matched_linked_scan": false
+      "archive_sha_matched_linked_scan": true,
+      "archive_virustotal": "1/58",
+      "archive_detection": {
+        "vendor": "Bkav Pro",
+        "label": "W32.Malware.2D7F7A26"
+      },
+      "entrypoint_virustotal": "No completed per-engine result available; not established clean",
+      "specific_quarantine_cause_established": false,
+      "false_positive_established": false,
+      "review_request_prepared": true,
+      "source_repository_public": false
     },
     "independent_shipped_recipe_matches": true
   }

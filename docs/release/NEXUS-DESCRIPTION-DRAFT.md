@@ -54,8 +54,8 @@ No support message was sent; external contact remains unauthorized.
 Revision **0.9.3-test** removes the nested Python ZIP, adds accurate Windows
 identity and reproducible launcher inputs, and fixes unrelated-process access
 errors during Steam discovery. The version/body and file **49197** were saved
-and read back. Virus scanning is in progress; no clearance or successful
-owner download is claimed. Earlier files remain present and the page stays Unpublished.
+and read back. Nexus quarantined file 49197; the linked exact ZIP reports 1/58 (Bkav Pro).
+No clearance or successful owner download is claimed. Earlier files remain present and the page stays Unpublished.
 
 ## Short summary
 
@@ -219,8 +219,8 @@ Framework: [pyMHF](https://github.com/monkeyman192/pyMHF). Native research refer
 
 ## Internal readiness and metadata — do not publish this section
 
-- Current portable candidate: 0.9.3-test, production 0.5.1, combined 0.9.2-play-trial, menu 0.9.1-diagnostics. 786 developer tests and final package checks passed; file 49197 and this page were read back. Virus scanning is in progress, so downloading is not yet available. File 49196 is the retained quarantined 0.9.2. The retained 090-r2 files remain unchanged after normal closure; its [bounded live record](../research/LIVE-090.md) does not validate portable launch or multiplayer.
-- The owner will download the exact validated test archive from the unpublished page and pass it unchanged to the second Windows/Steam tester. The upload is complete; downloading and handoff wait for the new scan result. Do not claim either has happened.
+- Current portable candidate: 0.9.3-test, production 0.5.1, combined 0.9.2-play-trial, menu 0.9.1-diagnostics. 786 developer tests and final package checks passed; file 49197 and this page were read back. File 49197 is quarantined; its linked exact ZIP reports 1/58 (Bkav Pro). Owner downloading is blocked. File 49196 is the retained quarantined 0.9.2. The retained 090-r2 files remain unchanged after normal closure; its [bounded live record](../research/LIVE-090.md) does not validate portable launch or multiplayer.
+- The owner will download the exact validated test archive from the unpublished page and pass it unchanged to the second Windows/Steam tester. The upload is complete; downloading and handoff are blocked by the new quarantine. Do not claim either has happened.
 - The portable executable and bundled runtime implement the intended simpler player flow, with explicit VC++ x64 prerequisite and automatic private backups. Quiet launch, detached lifetime, target initialization and clean-second-PC behavior still need final live acceptance. Standalone developer scripts remain separate and retain their panel.
 - Source: [private canonical repository](https://github.com/lineum-dynamics/nms-companion-auto-summon). Do not advertise it as a publicly accessible source link.
 - Complete third-party provenance, credits, licences and reuse permissions before uploading release files. Retain the saved **AI-Generated Content** and **AI Media** disclosure tags under the reviewed submission rules; do not substitute AI Assisted.

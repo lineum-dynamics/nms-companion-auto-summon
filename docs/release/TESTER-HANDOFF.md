@@ -1,7 +1,8 @@
 # 0.9.3-test private tester handoff
 
 Local packaging candidate built and offline-verified. **Nexus file 49197 is
-uploaded; virus scanning is in progress. No clearance or successful owner download yet.** Keep mod 4579
+uploaded and quarantined. Exact ZIP VirusTotal: 1/58 (Bkav Pro). No clearance
+or successful owner download.** Keep mod 4579
 Unpublished and preserve older files. Do not replace the running 0.9.2 session.
 
 | Field | Value |
@@ -15,7 +16,7 @@ Unpublished and preserve older files. Do not replace the running 0.9.2 session.
 | Offline developer tests | 786 passed, zero failures/errors/skips |
 | Host/native runtime + relocated package | Passed; no payload mutation, game start, attachment or backup creation |
 | Live / second PC / multiplayer | NOT VERIFIED for 0.9.3 |
-| Nexus file / scan / owner download | 49197 / scanning in progress / not yet available |
+| Nexus file / scan / owner download | 49197 / quarantined, linked exact ZIP 1/58 / blocked |
 
 Installation remains: extract the whole ZIP, double-click **Companion Auto
 Summon.exe**, check installation, then start after normally closing the game.
@@ -25,8 +26,10 @@ false positive. See [the exact repair and scan boundary](../research/PORTABLE-SC
 
 The 0.9.3 version, full description and file row were saved and read back on
 28 September 2026. The file is Miscellaneous with mod-manager downloads OFF;
-49196 and 49195 remain present. Exact scan hash/download verification waits
-until Nexus exposes the completed result. This is not a clearance assertion.
+49196 and 49195 remain present. The linked scan hash matches the exact local ZIP. Nexus now reports automated
+quarantine; the ordinary owner-download route is blocked. The EXE report did
+not show per-engine results, so no new executable clean-scan claim is made.
+The prepared [review request](NEXUS-QUARANTINE-REVIEW-DRAFT.md) remains unsent.
 
 The frozen ZIP's `Multiplayer test.txt` retains the scenario plan's 0.9.2
 heading. Its steps also apply to the unchanged 0.9.3 gameplay; use the 0.9.3

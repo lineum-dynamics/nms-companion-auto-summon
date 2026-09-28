@@ -97,12 +97,37 @@ all compiled bytes match except the independently identified timestamp/MVID.
 All 28 methods, metadata and resources agree; no compiled input is missing.
 That review copy was neither executed nor submitted to a scanner.
 
-After the owner renewed login, Nexus file **49197** and the updated version/
-body were saved and read back under Unpublished, Miscellaneous, with mod-manager
-downloads OFF. The new file reports **virus scanning in progress** and is not
-yet available to download. No completed scan result, successful owner download,
-live 0.9.3 test or multiplayer compatibility is claimed. File 49196 remains
-quarantined and preserved. The page remains unpublished. Existing quarantine
-requires moderator review under the published policy; no contact or sample
-submission to vendors was authorized or performed. Do not disable protection,
-sign with an invented publisher, or repeatedly rebuild to alter detection.
+## Final Nexus and scan readback
+
+After the owner renewed login, file **49197**, version **0.9.3-test**, and the
+updated full description were saved and read back. The page is **Unpublished**;
+the file is Miscellaneous with mod-manager downloads OFF. Older files remain.
+
+The new upload finished in **automated quarantine**. The file's VirusTotal link
+matches the exact local ZIP SHA256 above. Its report at 16:10:11 local time is
+**1/58**, Bkav Pro `W32.Malware.2D7F7A26`; several engines timed out or could
+not process the file. The report's `whl` classification tag is recorded without
+inferring Nexus causality. [Exact archive report](https://www.virustotal.com/gui/file/d87f868c618aec200cf276aae1faf81748eeaf7be26bd1e21a8594590627e383/detection).
+
+The exact EXE report existed but displayed no per-engine results/denominator,
+so its generic no-detections banner is **not** treated as a completed clean
+scan. A bounded Relations read of the archive showed individual prior results
+for a subset of bundled files, not complete fresh component coverage. Neither
+observation explains Bkav's archive detection or identifies a new faulty module.
+
+Removing the nested stdlib archive resolved a concrete packaging mismatch but
+did **not** resolve Nexus availability. No successful owner download, 0.9.3 game
+test, second-PC or multiplayer success is claimed. The actual quarantine reason
+and false-positive status remain unknown. The original 0.9.2 runtime/EXE were
+not changed; both original and new EXE hashes were rechecked after the work.
+
+Nexus's published process requires moderator review for quarantine removal.
+An [unsent, concrete request](../release/NEXUS-QUARANTINE-REVIEW-DRAFT.md) includes
+file IDs, exact hashes, source/build inputs and bounded evidence. No person or
+vendor was contacted, no repository visibility was changed and no security
+control was disabled. Do not create further scan-only variants or assert that
+signing/metadata would necessarily clear the residual detection.
+
+The originating task retains `outputs/nexus-093-quarantine.png` and browser
+text snapshots under `work/nexus-093-file-state-final.txt`,
+`work/virustotal-093-archive-state.txt` and `work/virustotal-093-relations.txt`.

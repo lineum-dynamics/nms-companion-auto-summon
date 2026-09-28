@@ -8,7 +8,7 @@ The simple player flow and game requirements below are unchanged. The new
 candidate repairs nested-archive layout, supplies identifiable/reproducible
 launcher inputs and tolerates unrelated inaccessible processes during Steam
 discovery. Its 786 developer tests and offline runtime/relocation checks pass.
-Nexus file 49197 is uploaded and scanning; live 0.9.3, second-PC and multiplayer
+Nexus file 49197 is quarantined (exact ZIP VirusTotal 1/58); live 0.9.3, second-PC and multiplayer
 acceptance remain pending. Follow [the current handoff](TESTER-HANDOFF.md).
 
 ## Retained portable candidate: 0.9.2-test

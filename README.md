@@ -9,8 +9,8 @@ and fixes Steam discovery failing on an unrelated inaccessible process. Gameplay
 still uses production **0.5.1**, combined **0.9.2-play-trial** and menu
 **0.9.1-diagnostics**, unchanged. All **786 developer tests** and offline runtime,
 relocation and executable integrity checks pass. No 0.9.3 live test or scanner
-clearance is claimed. Nexus file **49197** is uploaded and scanning; the retained
-0.9.2 file remains quarantined. See [packaging evidence](docs/research/PORTABLE-SCAN-093.md)
+clearance is claimed. Nexus file **49197** is also quarantined; its exact ZIP reports **1/58**
+(Bkav Pro) in VirusTotal. Moderator review remains necessary; no contact sent. See [packaging evidence](docs/research/PORTABLE-SCAN-093.md)
 and [tester handoff](docs/release/TESTER-HANDOFF.md).
 
 Retained distribution candidate: **0.9.2-test**, containing production
