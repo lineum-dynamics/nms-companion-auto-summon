@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1300" height="372" viewBox="0 0 1300 372" role="img" aria-labelledby="header-title header-description">
+  <title id="header-title">Companion Auto Summon for No Man's Sky — by Lineum Dynamics</title>
+  <desc id="header-description">A text-free dark navy and teal website background. The left area remains clear for the Nexus title, statistics and buttons. Faint dark teal orbital lines and a subdued companion paw occupy the far right.</desc>
+  <metadata>The Nexus page supplies the full visible title and author credit. This background contains no visible text, white artwork or company mark. The separate gallery cover and avatar retain the owner-authorized proprietary Lineum Dynamics brand asset.</metadata>
+  <!-- Nexus supplies the complete title overlay. Keep the left 75% clear. -->
+  <!-- The paw geometry is unchanged; dark teal replaces white for this background only. -->
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071421"/>
+      <stop offset="1" stop-color="#0b2630"/>
+    </linearGradient>
+    <radialGradient id="teal-light">
+      <stop offset="0" stop-color="#12333b" stop-opacity="0.30"/>
+      <stop offset="1" stop-color="#12333b" stop-opacity="0"/>
+    </radialGradient>
+    <symbol id="companion-glyph" viewBox="0 0 256 256">
+      <g fill="#173c43">
+        <path d="M215 147 A89 89 0 1 1 203 80" fill="none" stroke="#173c43" stroke-width="17" stroke-linecap="round"/>
+        <path d="M198 59 Q196 57 196 62 L190 95 Q190 98 193 99 L224 106 Q229 107 227 102 L202 61 Q200 58 198 59Z"/>
+        <ellipse cx="83" cy="125" rx="13" ry="20" transform="rotate(-28 83 125)"/>
+        <ellipse cx="110" cy="97" rx="14" ry="22" transform="rotate(-12 110 97)"/>
+        <ellipse cx="147" cy="97" rx="14" ry="22" transform="rotate(12 147 97)"/>
+        <ellipse cx="174" cy="125" rx="13" ry="20" transform="rotate(28 174 125)"/>
+        <path d="M128 132 C117 132 111 143 103 152 C94 162 89 168 92 178 C95 189 108 187 119 184 C125 182 131 182 137 184 C148 187 161 189 164 178 C167 168 162 162 153 152 C145 143 139 132 128 132Z"/>
+      </g>
+    </symbol>
+  </defs>
+  <rect width="1300" height="372" fill="url(#background)"/>
+  <ellipse cx="1230" cy="186" rx="220" ry="180" fill="url(#teal-light)"/>
+  <g fill="none" stroke="#183c45">
+    <circle cx="1190" cy="185" r="99" stroke-opacity="0.55"/>
+    <circle cx="1190" cy="185" r="116" stroke-opacity="0.35"/>
+    <circle cx="1190" cy="185" r="133" stroke-opacity="0.20"/>
+  </g>
+  <use href="#companion-glyph" x="1108" y="103" width="164" height="164"/>
+</svg>

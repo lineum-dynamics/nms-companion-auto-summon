@@ -9,7 +9,11 @@
 ## Nexus profile and presentation preparation — 28 September 2026
 
 - Reuse the authentic, proprietary Lineum Dynamics mark from the owner-designated company repository for the Nexus avatar and a modest cover byline; preserve the mod's own glyph.
-- Verify the saved avatar on the owner-created `LineumDynamics` profile. Keep the description and cover local: Nexus's upload dialog currently reports an error with mod upload disabled, so no mod draft or archive has been uploaded and nothing has been released.
+- Verify the saved avatar on the owner-created `LineumDynamics` profile. The initial Nexus upload error was resolved on a later attempt, allowing unpublished draft 4579 to be created; no mod archive has been uploaded and nothing has been released.
+- Use the complete Nexus page title `Companion Auto Summon for No Man's Sky - by Lineum Dynamics`, including the author credit in the name field. Prepare a dark, subdued 1300 × 372 header background without embedded text or white elements, because Nexus overlays the heading and controls. Keep the full branding on the separate gallery cover and preserve the short in-game title.
+- Upload the corrected header after owner confirmation and verify the full title and controls on the actual unpublished page. Keep the gallery cover and avatar unchanged. No runtime or localization meaning changes.
+- Explain the planned weighted By habitat mode and optional shuffle separately from the current Last selected/Random controls in the Nexus draft. Do not imply those roadmap features are implemented.
+- Add the native settings route and default PC Quick Menu key X, with an explicit note to use the player's assigned key when controls are remapped.
 
 ## 0.8.7 live observations — 28 September 2026
 

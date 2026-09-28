@@ -1,16 +1,28 @@
-# Companion Auto Summon for No Man's Sky — first Nexus Mods release preparation
-
-by **Lineum Dynamics**
+# Companion Auto Summon for No Man's Sky - by Lineum Dynamics
 
 Status as of 28 September 2026. Working plan; neither the mod nor its page has been publicly published. The canonical source project is in a private GitHub repository; this file is maintained in `docs/release/`. References below to documents under `CompanionAutoSummon/` mean documents at the root of the repository and distribution package.
 
 The owner-created Nexus account is `LineumDynamics`; its authentic company
-avatar is saved and visually checked. The page description and branded cover
-are prepared locally. Nexus currently blocks draft creation with a disabled
-`Upload mod` button and `Something went wrong. Please try again.` in the
-normal upload dialog. No mod page or archive has been uploaded. Resume the
-unpublished draft workflow once the site permits it; public release remains
-pending the acceptance work below and the owner's release decision.
+avatar is saved and visually checked. A real No Man's Sky draft now exists in
+category **Creatures**, mod ID **4579**, with visible status **Unpublished**:
+[draft page](https://www.nexusmods.com/nomanssky/mods/4579) and
+[general editor](https://www.nexusmods.com/games/nomanssky/mods/4579/edit/general).
+The exact Nexus page title is **Companion Auto Summon for No Man's Sky - by
+Lineum Dynamics**, with author field **Lineum Dynamics**. The General section
+is saved and marked **Section complete**: version `0.8.7-play-trial`, language
+**English**, and tags **AI-Generated Content**, **AI Media** and **Quality of
+Life**. The **1600 × 900** gallery cover and company avatar remain unchanged.
+The corrected **1300 × 372** [header](https://staticdelivery.nexusmods.com/mods/1634/images/headers/4579_1790592385.jpg)
+is uploaded and visually verified on the actual mod page: a dark decorative
+background without embedded text, a company mark or white elements, with a
+subdued paw on the right. Nexus supplies the full approved title, which is
+legible in the checked screenshot. Media is **Section complete**; the page
+still shows **Unpublished** and a **Files missing** banner.
+No code ZIP has been uploaded,
+and files and permissions remain pending. The earlier disabled `Upload mod` button and
+`Something went wrong. Please try again.` error are historical; creation is no
+longer blocked. Public release still requires the acceptance work below and
+the owner's release decision.
 
 The immutable **0.4.9-experimental / 0.8.7-play-trial**, with menu
 **0.8.5-branding**, is currently running from the final `087-r1` directory.
@@ -203,7 +215,7 @@ If no tester is available, a limited public beta clearly marking multiplayer unv
 
 ## 4. Nexus page
 
-Approved external title: **Companion Auto Summon for No Man's Sky**, with **by Lineum Dynamics**. The short in-game name remains **Companion Auto Summon**. Repository slug: `nms-companion-auto-summon`. The English draft is in the adjacent `NEXUS-DESCRIPTION-DRAFT.md`. Before publication, adapt the installation section to the final package and update the testing status.
+Approved external title: **Companion Auto Summon for No Man's Sky**, with **by Lineum Dynamics**. For the Nexus Mod Name field, use the complete combined title **Companion Auto Summon for No Man's Sky - by Lineum Dynamics**; retain **Lineum Dynamics** in the author field. The site rejects a typographic dash in Mod Name, so that field uses an ASCII hyphen; gallery titles and graphics may retain a typographic dash or separate credit. The short in-game name remains **Companion Auto Summon**. Repository slug: `nms-companion-auto-summon`. The English draft is in the adjacent `NEXUS-DESCRIPTION-DRAFT.md`. Before publication, adapt the installation section to the final package and update the testing status.
 
 Add a real settings screenshot and a demonstration of leaving the ship / the pet arriving. Images must not imply features that do not exist. Prepare requirements, supported build, limitations and concise release notes.
 
@@ -228,6 +240,6 @@ English entry and every affected translation in the same change.
 
 ## 5. Publication
 
-Before publication, the author account must be identified and the working file for the stated support scope, final description and permissions must be complete. Only then upload and inspect the public page and downloaded ZIP. Neither the current plan nor the draft text establishes Nexus approval.
+The author account is identified as `LineumDynamics`, and unpublished draft 4579 exists. Before publication, the working file for the stated support scope, final description and permissions must be complete. Only then publish and inspect the public page and downloaded ZIP. Neither draft creation nor the current plan establishes Nexus approval of the final package.
 
 Further checks can be added when opportunities arise: planet and Nexus loading, Last manually selected startup, the existing ship-exit path and coexistence with the inert menu subpage. Immediate game closure is not required to continue work; the running candidate stays unchanged. Verifying biome preference itself requires knowing the available pets' home biomes. One confirmed dismissal does not replace broader regression checks.

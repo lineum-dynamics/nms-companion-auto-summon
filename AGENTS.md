@@ -1,6 +1,7 @@
 # Companion Auto Summon development instructions
 
 - The approved external title is Companion Auto Summon for No Man's Sky, with the byline "by Lineum Dynamics". Keep the in-game short title Companion Auto Summon and repository slug `nms-companion-auto-summon`. Code/class identifiers, filenames and legacy `NMS-AutoPet` data and development-runtime paths remain stable; do not silently reset or migrate player data for branding.
+- Use the complete Nexus page title `Companion Auto Summon for No Man's Sky - by Lineum Dynamics` in the site's Mod Name field; its validation requires the ASCII hyphen. Promotional covers must visibly include the title, game qualifier and author credit, even when split across lines. Nexus renders its own heading over the header image: keep that background dark and subdued, without embedded text or white elements, to preserve text contrast.
 - Use one modest author credit in the main presentation or an appropriate About surface; keep native setting captions focused on their function. Do not claim an in-game credit is implemented until it exists and is verified. A future player-facing credit requires the same catalog updates as other UI text.
 - The canonical source is https://github.com/lineum-dynamics/nms-companion-auto-summon, currently private. Installed game-test copies and old exported packages are outputs, not parallel development roots.
 - Read `DEVELOPMENT.md`, `DESIGN.md`, `LOCALIZATION.md` and the current manifest before changing behavior or compatibility claims.
