@@ -6,6 +6,11 @@ release model. It is not approval from Nexus Mods or Hello Games. No permission
 request has been sent, account configured, payment destination chosen or
 financial UI implemented as part of this review.
 
+**Owner instruction, 28 September 2026: do not contact Nexus Mods or Hello
+Games about these questions.** Continue from published rules only. The drafts
+below are retained as unsent research notes, not a pending sending workflow.
+Do not request sending approval again unless the owner reopens external contact.
+
 The owner's objective is **maximum revenue within the applicable rules**.
 Do not substitute an assistant preference for minimal visibility or a single
 optional link. First-run, update and recurring notices are candidates to assess,
@@ -134,6 +139,6 @@ truthful images and meaningful maintenance. These are supported by Nexus's
 > The financial interface has not been implemented, and we do not assume that
 > Nexus permissions establish your approval.
 
-These are drafts for owner review, not messages sent on the owner's behalf.
+These are retained research drafts; the owner has declined external contact.
 Any response should be retained with its exact scope and date; silence is not
 permission. Recheck the published rules before release or changing the model.

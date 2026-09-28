@@ -110,7 +110,7 @@
     },
     {
       "path": "ROADMAP.md",
-      "sha256": "a2574a4b65a8c85b0d5969f84eb17713cbd1668d7353457c4c640e8209e32733"
+      "sha256": "43a6c3ca6e732452d4c81071fffec930a75b40bb016e7a0f360188e8432f958c"
     },
     {
       "path": "QUICK-MENU.md",
@@ -146,7 +146,7 @@
     },
     {
       "path": "docs/release/MONETIZATION.md",
-      "sha256": "ca8ddd56ba95aa5de64df8e7cbc8285d9ba4d3d669b3f4ef4b89dd1231ba5326"
+      "sha256": "d5d8e67b2741d2f7e65ca4c3619579800ab279cd1e1fc1eeadc2527ade3f5c3e"
     },
     {
       "path": "src/policy.py",

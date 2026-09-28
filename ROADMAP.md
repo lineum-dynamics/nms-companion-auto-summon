@@ -142,3 +142,7 @@ The current [Donation Points rules](https://help.nexusmods.com/article/68-donati
 Evaluate persistent Support entries, first-activation/update/recurring notices, banner placement, sponsor and affiliate options against the [donation guidelines](https://help.nexusmods.com/article/77-donation-options-guidelines), file rules and [Hello Games EULA](https://www.nomanssky.com/end-user-licence-agreement/). Request actual limits and any relevant exceptions rather than inventing a frequency or excluding a format on taste alone. Published prohibitions still apply; unclassified proposals are not authorization to implement them. Multiplayer promotion has an explicit uploaded-content restriction. The normal paid-mod ban and publisher-endorsed exception must not be conflated.
 
 See [Monetization review](docs/release/MONETIZATION.md) for exact source dates, limits and unsent permission-request drafts. No account, donation destination or earnings forecast is assumed. Recheck the rules and final package rights before enrollment or publication.
+
+The owner explicitly declined contacting either organization on 28 September
+2026. Research must use published rules; the retained drafts are not an active
+outreach task. Unpublished limits stay unresolved rather than being invented.
