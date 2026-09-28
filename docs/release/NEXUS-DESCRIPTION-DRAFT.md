@@ -111,10 +111,12 @@ Every recognized habitat exactly matches itself. The following list is read as *
 - **Weird / anomalous:** exact match only; recognized Weird variants share this category.
 - **Swamp:** related Lush, Toxic; acceptable Radioactive, Barren.
 - **Lava / volcanic:** related Scorched; acceptable Barren, Dead.
-- **Waterworld:** exact match only.
-- **Gas giant:** exact match only, if the game provides an eligible owned companion in that category.
+- **Waterworld:** exact match only. Adoptable Water-bound companions exist, including helmet/hermit crabs; this mod does not enable underwater summoning.
+- **Gas giant:** a native adoptable companion pool has not been established by the primary evidence reviewed. This candidate accepts an already-owned exact habitat match only. Without an owned match, By habitat skips the opportunity rather than choosing an unrelated pet.
 
 These are the mod's selection preferences, not official creature survival rules. Stored habitat determines a pet's category; its name, colour or fiery appearance does not. Scorched and Lava are separate game categories: a Scorched companion is a related choice on Lava, while an anomalous companion is excluded there. Recognizing a category does not guarantee that the game permits adoption or summoning there.
+
+Aquatic does not automatically mean Waterworld: a crab adopted underwater on a Frozen planet is classified by its stored native habitat. Adoption and summoning are different: [a Water-bound crab owner's report](https://steamcommunity.com/app/275850/discussions/0/814724377262342410/) confirms that owning such a pet does not let the player summon it underwater. Fish caught as inventory items and creatures from gas giant moons are not evidence of adoptable Gas Giant fauna. These findings explain the selection rules; our 0.9.0 candidate has not yet been tested on either planet type.
 
 ### Stations, waiting and no suitable companion
 

@@ -59,6 +59,67 @@ The selector recognizes both categories and currently permits exact habitat
 matches only. This is selection-rule coverage, not live verification of pet
 adoption, underwater summoning, native eligibility or placement there.
 
+### Fauna, adoption and summoning evidence
+
+Reviewed on 28 September 2026. A biome enum or a fishing catch is not evidence
+of an adoptable companion. Aquatic creatures can occur on other planet types;
+their appearance or being underwater does not establish Waterworld habitat.
+
+- **Waterworld adoption has direct player evidence.** In
+  [Companion Eggs on Waterworlds](https://steamcommunity.com/app/275850/discussions/0/814724377262342410/),
+  dated 14–15 February 2026, the owner describes an adopted helmet crab from a
+  Waterworld with native climate **Water-bound**, and reports being unable to
+  summon it underwater. The replies disagree about successful placement on
+  an Exo-Skiff, so skiff support must not be promised. This is firsthand gameplay
+  evidence, not a test of our mod or proof that every aquatic species is adoptable.
+- A second [Waterworld discovery report](https://www.reddit.com/r/NoMansSkyTheGame/comments/1t0z9b3/so_i_said_i_would_show_off_my_waterworld_it_is/)
+  describes an adopted walking crab that can be summoned elsewhere and used in
+  the arena, but not summoned underwater at home. The original author incorrectly
+  called the planet a giant; another visitor identifies it as an ordinary
+  Waterworld. Do not repeat the giant or five-moons claim.
+- **Underwater adoption is distinct from underwater summoning.** The owner of
+  this project independently reported adopting a crab underwater on a Frozen
+  planet and being unable to summon it underwater. We have not read that pet's
+  stored habitat for this observation; do not assign it to Waterworld from the
+  report. The mod must continue to use the stored habitat and native placement
+  checks, without adding underwater summons.
+- **Gas Giant native companions remain unestablished by the reviewed primary
+  gameplay evidence.** A [Gas Giant discovery record](https://www.reddit.com/r/NMSCoordinateExchange/comments/1rojggl/eissentam_gas_giant_planet_with_crystallised/)
+  dated 8 March 2026 identifies Ilwor in Eissentam and reports no fauna. This
+  establishes that example, not a universal no-fauna rule. Adoption reports
+  from a gas giant's moons concern separate planets and cannot fill this gap.
+- The official [Worlds Part II release](https://www.nomanssky.com/worlds-part-ii-update/)
+  describes aquatic fauna and, separately, fishing catches on Waterworlds and
+  Gas Giants. Fishing inventory items are not adoptable fauna. Neither the
+  enum nor those catches justify inventing a Gas Giant companion pool.
+
+Targeted offline reads of eleven vanilla assets from installed Steam build
+25442159 support the Waterworld report. `CREATUREGENERATIONDATA` selects the
+Waterworld water archetypes; `CREATUREGENERATIONARCHETYPES` links `WATERWORLD`
+to `UNDERWATERTABLEWATERWORLDBASE`, which includes an enabled-probability
+`HERMITCRAB` entry on underwater tiles. The corresponding named entity has
+Pet/Creature interactions and a one-pellet feeding cost. The scene-to-entity
+attachment and dynamic native adoption conditions were not independently
+traced. These are creature ecosystem assets, not fishing products; they do
+not establish that all Waterworld fauna can be adopted.
+
+The same bounded data check did not establish a Gas Giant no-fauna rule.
+Its empty biome-specific generation overrides are inconclusive because
+populated ordinary biomes also have empty overrides. Zero sandworm chance
+does not describe all fauna, and the standard biome asset's flora field is
+not an animal-life field. Extracted copyrighted assets and their private
+evidence report remain outside the repository and release packages. No game
+launch, process access, save read or game/runtime modification occurred.
+
+The candidate's exact-only rules are unchanged by this research. Waterworld
+matching has a concrete use for owned Water-bound companions, but native
+placement still decides whether they can appear. Gas Giant recognition does
+not claim a normally obtainable native pet: without an owned exact match,
+By habitat skips that opportunity with the existing unsuitable-habitat notice.
+No unrelated fallback, new spawn restriction or gameplay capability is inferred
+from this evidence. Gas Giant fauna-generation evidence remains a separate
+research question; native summon support is not established by a lack of fauna.
+
 Weird variants 8, 9 and 10 normalize to category 7. Category 11 and unknown
 values do not become Lush or a general fallback. Existing native adoption
 normalization maps swamp/lava planet subtypes before comparison. Scorched and

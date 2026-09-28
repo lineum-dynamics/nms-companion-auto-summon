@@ -1,5 +1,11 @@
 # Changelog
 
+## Habitat fauna evidence — 28 September 2026
+
+- Establish Waterworld adoption from a firsthand Water-bound helmet-crab report; distinguish aquatic creatures on other planet types, underwater adoption and native summon placement. Do not promise underwater or Exo-Skiff summoning.
+- Record the limits of Gas Giant evidence: a no-fauna discovery example, fishing catches and separate moons do not establish an adoptable native pool. Explain the existing exact-only candidate behavior without presenting category recognition as adoption support.
+- Update the research record and unpublished Nexus wording. No runtime, selection table, preferences, in-game wording or translation meaning changes; existing trial bundles remain immutable. This documentation check is not new live acceptance.
+
 ## 0.9.0-r2 terminology revision — Shuffle companions
 
 - Rename the visible Rotate companions control to Shuffle companions in the native menu, temporary panel, all fourteen catalogs, current documentation, icon preview and unpublished Nexus rules. Keep Random as a separate selection mode. Preserve internal preference/catalog keys, asset paths, defaults and gameplay behavior.
