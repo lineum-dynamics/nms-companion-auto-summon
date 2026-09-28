@@ -63,11 +63,15 @@ This isolated developer bundle runs two mods in one pyMHF host:
 - CompanionAutoSummon 0.5.1-experimental: automatic summoning after loading or
   ship exit, controlled through the native settings page. The production source is
   copied byte-identically into this bundle.
-- CompanionMenuOrderTrial 0.9.0-selection: the ordered native companion
+- CompanionMenuOrderTrial 0.9.1-diagnostics: the ordered native companion
   submenu with all seven settings, its binding filter and distinct setting icons.
 
-The bundle version is 0.9.1-play-trial. This revision is not yet live-verified.
-It adds By habitat selection with explicit 13:5:1 group weights and optional
+The bundle version is 0.9.2-play-trial. This revision is not yet live-verified.
+It adds bounded diagnostics for the known callback-thread/menu stop. It does
+not loosen thread checks or claim to fix the stop. Teleport arrival and base
+removal are not summon triggers. The separate portable test distribution
+wraps this payload with its private runtime and double-click entry point.
+The existing By habitat selection uses explicit 13:5:1 group weights and optional
 identity-based companion rotation. Fresh installations use By habitat and
 rotation ON; legacy preferences keep their selection mode with rotation OFF.
 Native queue acceptance consumes a shuffle entry; rejection retains it.
@@ -212,7 +216,7 @@ def _launcher(data):
     return text.encode("utf-8")
 
 
-def build(*, enable_menu=False, output_name="quick-menu-play-trial-091"):
+def build(*, enable_menu=False, output_name="quick-menu-play-trial-092"):
     """Create one fresh, checksum-complete folder without executing payloads."""
     if enable_menu is not True:
         raise ValueError("Pass --enable-menu for this combined developer trial")
@@ -265,7 +269,7 @@ def build(*, enable_menu=False, output_name="quick-menu-play-trial-091"):
         "name": "Companion Auto Summon for No Man's Sky",
         "author": "Lineum Dynamics",
         "repository": "https://github.com/lineum-dynamics/nms-companion-auto-summon",
-        "version": "0.9.1-play-trial",
+        "version": "0.9.2-play-trial",
         "framework": current["framework"],
         "steam_build": current["steam_build"],
         "supported_nms_exe_sha256": current["supported_nms_exe_sha256"],
@@ -281,7 +285,7 @@ def build(*, enable_menu=False, output_name="quick-menu-play-trial-091"):
         "mods": [
             {"name": "CompanionAutoSummon", "version": current["version"],
              "path": PRODUCTION_FILE},
-            {"name": "CompanionMenuOrderTrial", "version": "0.9.0-selection",
+            {"name": "CompanionMenuOrderTrial", "version": "0.9.1-diagnostics",
              "path": MENU_FILE},
         ],
         "files": [{"path": name, "sha256": hashlib.sha256(data).hexdigest()}
@@ -303,7 +307,7 @@ def build(*, enable_menu=False, output_name="quick-menu-play-trial-091"):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--enable-menu", action="store_true")
-    parser.add_argument("--output-name", default="quick-menu-play-trial-091")
+    parser.add_argument("--output-name", default="quick-menu-play-trial-092")
     options = parser.parse_args()
     print(json.dumps(build(enable_menu=options.enable_menu,
                            output_name=options.output_name)))

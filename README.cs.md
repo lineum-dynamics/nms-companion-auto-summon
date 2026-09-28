@@ -4,16 +4,40 @@
 
 by **Lineum Dynamics**
 
-Aktuální zdroj **0.5.1-experimental / 0.9.1-play-trial** s menu
+Aktuální distribuční kandidát je **0.9.2-test**: produkce **0.5.1-experimental**,
+společný mód **0.9.2-play-trial** a menu **0.9.1-diagnostics**. ZIP obsahuje
+**Companion Auto Summon.exe** a Python 3.11.9; hráč Python neinstaluje ani nepoužívá
+pip. Podporovaný cíl je Windows 10/11 x64, Steam **Cosmos 7.04 / build 25442159**,
+.NET Framework 4 a Microsoft Visual C++ v14 x64. Text ve hře zůstává anglický.
+
+Spouštěč před běžným startem vytváří ověřenou soukromou zálohu a používá vlastní
+pracovní kopii, aby zachoval rozbalený balíček a dosavadní nastavení. Dne
+28. září přibalený proces na pozadí dokončil ověřenou zálohu 49 souborů a ve
+hře načetl oba módy i dvanáct hooků. Grafické okno spouštěče nebylo otevřené
+ani vyzkoušené klikáním. Objevení peta, ukončení a restart, zavření okna,
+druhý počítač a multiplayer **nejsou ověřené**. Podrobnosti uvádí
+[LIVE-092](docs/research/LIVE-092.md).
+Diagnostika známou chybu zastavení menu `unexpected_thread` neopravuje.
+ZIP je sestavený a finálních **770 vývojových testů prošlo**. Kontrola
+přemístěného balíčku i spouštěče prošla bez spuštění hry. Verze 0.9.2 je
+na Nexusu uložená jako soubor **49196**, ale stažení blokuje automatická
+karanténa. Podrobnosti eviduje [předávací záznam](docs/release/TESTER-HANDOFF.md).
+
+Postup je v [českém rychlém návodu](docs/release/PORTABLE-QUICKSTART.cs.md).
+Autor stáhne ověřený ZIP z neveřejné stránky Nexusu a předá stejný nezměněný
+soubor druhému testerovi. Nejde o veřejné vydání.
+
+Zachovaný nespouštěný kandidát **0.5.1-experimental / 0.9.1-play-trial** s menu
 **0.9.0-selection** potvrzuje konkrétní změněné volby a jejich výsledné hodnoty.
 Společný testovací balíček díky `gui.shown = false` neotevírá ovládací okno pyMHF;
 nastavení je v herním rychlém menu. Samostatný vývojový mód si panel ponechává.
 Prošlo 403 produkčních a 689 vývojových testů, kontroly skutečného frameworku
 i obě kontroly před spuštěním. Společný archiv má 42 ověřených souborů.
-Tento kandidát nebyl spuštěn; právě běžící **090-r2** se nemění. Text ve hře
+Tento kandidát nebyl spuštěn; soubory předchozí **090-r2** zůstaly po jejím
+běžném ukončení před startem 0.9.2 nezměněné. Text ve hře
 zůstává anglický.
 
-V běžící 090-r2 se v 14:30:17 objevilo `Inert menu ordering stopped
+V předchozí 090-r2 se v 14:30:17 objevilo `Inert menu ordering stopped
 (unexpected_thread)`: ochrana po změně vlákna callbacku zastavila naše menu,
 ale ponechala filtr číselných vazeb. Produkční automatika je oddělená. Příčina
 změny vlákna a souvislost s hráčovou akcí nejsou potvrzené; stejné menu v 0.9.1
@@ -72,12 +96,13 @@ a až další výstup peta vyvolal. Ostatní volby, přemapování, hlášky a i
 opakovatelnost, režim Last selected a multiplayer stále čekají na ověření.
 Podrobnosti jsou v [záznamu 0.8.7](docs/research/LIVE-087.md).
 
-Všech 14 katalogů nyní obsahuje 46 položek, včetně nových voleb výběru/střídání,
-hlášek prostředí a jednoho stavového textu vývojového panelu. Plný název a autorský kredit zůstávají pokryté.
-Tři zprávy spouštěče mají rozšířený název. Při spuštění se z katalogů nyní používá pouze
-devět kompatibilitních zpráv; 13 překladů jsou návrhy bez jazykové revize. Menu
-a herní hlášky zůstávají anglické. Úplný překlad spouštěče ani veřejný přenosný
-instalátor nejsou hotové. Rozsah uvádí [LOCALIZATION.md](LOCALIZATION.md).
+Všech 14 katalogů nyní obsahuje 63 položek: původních 46 textů menu, hlášek,
+autorských údajů a kompatibility plus sedmnáct textů přenosného spouštěče.
+Katalogy používá devět zpráv kompatibility i přenosný spouštěč mimo hru.
+Třináct překladů zatím není jazykově zkontrolovaných; herní menu a hlášky
+zůstávají anglické. Přenosný balíček je sestavený a prošel kontrolami bez
+spuštění hry; hraní a úplné jazykové ověření zbývá. Rozsah uvádí
+[LOCALIZATION.md](LOCALIZATION.md).
 
 Balíček 0.8.2 po ověřené záloze 43 souborů načetl 27. 9. 2026 v 23:58:46 oba módy a 12 nativních cílů s automatikou ON. Všech 17 souborů balíčku i osobní nastavení zůstalo shodných. Vlastní DDS je připravené a jeho hash ověřený. Viditelnou ikonu, hlášky, všech šest voleb a hraní teprve ověří hráč. Prošlo 294 produkčních a 519 vývojových testů i kontroly Windows a pyMHF.
 
@@ -170,7 +195,7 @@ První automatické vyvolání ve verzi 0.3.1 selhalo vypršením čekání. Ver
 
 ## Ovládání
 
-Společný kandidát **0.9.1** nabízí sedm voleb přes **Quick Menu → Companions →
+Kandidát **0.9.2-test** nabízí sedm voleb přes **Quick Menu → Companions →
 Companion Auto Summon**, před konkrétními pety. Na PC je výchozí klávesa **X**;
 pokud sis ji změnil, použij své nastavené ovládání. V tomto balíčku se externí
 panel neotevírá. Jen samostatný vývojový skript bez nativního menu ponechává
@@ -228,43 +253,29 @@ Základní hra a expedice uvnitř jednoho savu sdílejí jednu volbu; obnoví se
 
 Pokud nelze přečíst `settings.json`, automatika začne vypnutá. V nastavení módu ji lze výslovně zapnout pro aktuální relaci. Runtime chyba je samostatná pojistka; přepínač ji neobejde.
 
-## Použití ostatními hráči
+## Spuštění a použití ostatními hráči
 
-Balíček nemá pevnou osobní cestu, účet ani tvůj save. Podporovaný cíl: Windows x64, Steam build 25442159 / Cosmos 7.04, Python 3.11–3.13 x64, pyMHF 0.2.4. Jiný herní EXE se odmítne podle kontrolního součtu; nové verze hry vyžadují novou kontrolu kompatibility.
+1. Běžně ukonči NMS, rozbal celý ZIP **0.9.2-test** do nové složky a spusť
+   **Companion Auto Summon.exe** dvojklikem.
+2. Zvol **Check installation**. Pokud se hra nenašla, vyber instalaci Steamu
+   přes **Choose game folder** a kontrolu zopakuj. Jiný herní soubor se odmítne.
+3. Zvol **Start game**. Před každým běžným startem musí projít soukromá záloha
+   a její ověření; chyba spuštění zastaví. Python ani pip neinstaluješ.
+4. Při prvním testu nech spouštěč otevřený a neukončuj jeho procesy na pozadí.
+   Zavření okna má ponechat hraní v chodu, ale ještě to není herně ověřené.
 
-Profil `compatibility.json` se při sestavování porovnává s deklaracemi hostitele,
-nativního kódu a manifestu. Hostitelé 0.8.4 ověří vybraný EXE před importem
-frameworku a před každým vložením DLL znovu ověří skutečný proces podle jeho
-handlu. Odmítnou také neodpovídající konfiguraci frameworku a cizí rozšíření
-`pymhflib`. Neznámý, změněný nebo nečitelný EXE zabrání aktivaci módu; chyba se
-zobrazí mimo hru a preference se neresetují. Tyto kontroly prošly testy mimo
-hru; podporované spuštění přes kontrolovaný host prošlo také v relaci 0.8.4.
-Starší 0.8.7 má výše vymezené potvrzení; kandidát 0.9.0 / 090-r2 už prošel
-spuštěním a inicializací, herní přijetí nových funkcí zatím není ověřené.
+[Český rychlý návod](docs/release/PORTABLE-QUICKSTART.cs.md) obsahuje také
+jednorázový požadavek Microsoft Visual C++ x64, první zkoušky a řešení chyb.
+Zálohy, logy a pracovní relace jsou pod `%LOCALAPPDATA%\NMS-AutoPet\`; původní
+`settings.json` a `state.json` zůstávají zachované. Kopie zálohy se porovnává
+se zdrojem před kopírováním i po něm. Aktivní relaci během hraní nemaž a osobní
+data ani savy neposílej druhému testerovi.
 
-Kompatibilitní zprávy vybírají jazyk podle prostředí Windows; parametr
-`-Language`, například `-Language fr`, jej může změnit. Nejde o zjištění jazyka
-hry. `-NoDialog` ponechá chybu v konzoli bez dialogu; dialogy nezobrazuje ani
-`-CheckOnly`. Při poškozeném překladu se použije stručná anglická chyba balíčku.
-Ostatní zprávy přípravy zatím zůstávají anglické.
+Pro hraní bez módu běžně ukonči NMS a potom jej spusť přes Steam. Odstranění
+`settings.json` obnoví výchozí hodnoty; při běžné aktualizaci se nemaže. Až oba
+ověříte samostatné hraní, pokračujte podle [multiplayerového plánu](docs/release/MULTIPLAYER-TEST.md).
+Viditelného peta potvrzuje každý na svém počítači; samotný požadavek v logu nestačí.
 
-Pro kontrolu rozbaleného kandidáta spusť v PowerShellu
-`./Start-CompanionAutoSummon.ps1 -CheckOnly`. Hra může zůstat zapnutá.
-Kontrola ověří dostupné soubory balíčku, hry a runtime; chybějící požadavky
-ohlásí, ale nic nevytvoří, nestáhne, nezkopíruje do hry ani nespustí.
-Úspěšná kontrola neověřuje herní funkce a nenahrazuje zálohu před novým testem.
-
-Při běžném spuštění `Start-CompanionAutoSummon.ps1` vyhledá Steam a připraví vlastní Python prostředí v profilu uživatele. Při prvním nastavení stáhne `pymhf[gui]==0.2.4` včetně GUI závislostí. Při běžící hře nebo chybě zjišťování procesů odmítne pokračovat. Ochrana proti dvojímu spuštění platí i mezi různými složkami balíčků a po skončení procesu nezanechává zámkový soubor. Volitelný parametr `-GameDirectory` musí ukazovat na instalaci používanou aktivním Steamem. Podrobnosti jsou v [anglickém návodu](README.md).
-
-Pro diagnostiku se zapisují logy do podsložky `logs` u CompanionAutoSummon.py.
-Interaktivní Python konzole a samostatné logovací okno jsou vypnuté; společný
-balíček 0.9.1 navíc neotevírá ovládací okno pyMHF. Samostatný vývojový skript si
-panel ponechává. Nejde ještě o hotový přenosný instalátor ani bezkonzolové spuštění.
-
-Používej `Start-CompanionAutoSummon.ps1` z běžného terminálu PowerShell. Volá pomocný `Launch-CompanionAutoSummon.py`, který ověřuje skutečně načtené knihovny ještě před spuštěním Python kódu uvnitř hry. Žádné soubory nainstalovaného frameworku tím neupravuje.
-
-Před prvním herním testem ukončit současné hraní a vytvořit novou zálohu aktuálního profilu. Ve společném balíčku ověřit sedm nativních voleb, nepřítomnost externího panelu,
-přesné hodnoty v hláškách a uložení po restartu. Samostatný vývojový panel má
-devět ovládacích/stavových prvků. Dále ověřit přepínač OFF/ON, jednotlivé lokace, náhodný režim, preferenci biomu a potvrzení výběru. U biomu zkusit shodného vhodného peta, žádnou shodu, vypnutí, nepoužití na stanici/Nexusu a zachování ruční volby. Na platformě archivu nebo nevhodném terénu zůstat déle než 12 sekund a potom dojít na vhodné místo: pet má přijít jednou bez dalšího výstupu z lodi. Dále ověřit běžnou planetu a peta, stanici, rychlý návrat do lodi, ruční změnu, jiný save a restart. Multiplayer až po základním ověření.
-
-Úplné vypnutí módu: hru ukončit a příště spustit běžně přes Steam. Volby lze zapomenout odstraněním pouze souboru `state.json` při vypnuté hře; odstranění `settings.json` obnoví všechny výchozí hodnoty: automatiku zapnutou, všechny tři lokace zapnuté, By habitat, zapnuté střídání a zapnutou preferenci biomu pro náhodný režim. Samotné vložení skriptu mezi EXML módy ho nezapne.
+Starší postup přes PowerShell a vlastní Python zůstává vývojovou cestou,
+ne postupem pro hráče přenosného balíčku. Podrobnosti jsou v
+[anglickém vývojovém návodu](DEVELOPMENT.md).

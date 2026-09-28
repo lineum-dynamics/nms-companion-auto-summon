@@ -615,5 +615,181 @@ class NavigationRegressionTests(OrderFixture):
                 self.assert_no_transition()
 
 
+class CallbackDiagnosticsTests(OrderFixture):
+    def warning(self):
+        arguments = self.module.LOGGER.warning.call_args.args
+        return arguments[0] % arguments[1:]
+
+    def test_first_label_pins_origin_and_later_builder_thread_is_refused_before_reads(self):
+        self.assertIsNone(self.label())
+        self.assertFalse(self.trial._stopped)
+        self.assertEqual(self.trial._thread_origin, "label_after")
+        original_thread = self.trial._thread
+        self.module.get_native_id.return_value += 1
+        self.reads.clear()
+        self.assertIsNone(self.begin())
+        self.assertTrue(self.trial._stopped)
+        self.assertEqual(self.trial._thread, original_thread)
+        self.assertEqual(self.reads, [])
+        self.assertEqual(self.native_calls, [])
+        message = self.warning()
+        for detail in ("unexpected_thread", "callback=builder_before",
+                       "observed_thread=271829", "pinned_thread=271828", "pinned_by=label_after"):
+            self.assertIn(detail, message)
+        self.assert_guard_retained()
+
+    def test_builder_completion_failure_captures_in_flight_state_before_clearing(self):
+        self.begin()
+        self.module.get_native_id.return_value += 1
+        self.reads.clear()
+        self.finish()
+        message = self.warning()
+        self.assertIn("callback=builder_after", message)
+        self.assertIn("pinned_by=builder_before", message)
+        self.assertIn("=(True, False, False, False, False, False, False)", message)
+        self.assertEqual(self.trial._callback_history[-1][1:4], ("builder_after", 271829, True))
+        self.assertIsNone(self.trial._building)
+        self.assertEqual(self.reads, [])
+        self.assertEqual(self.native_calls, [])
+        for native_value in (self.menu, self.render):
+            self.assertNotIn(str(native_value), message)
+            self.assertNotIn(hex(native_value), message)
+        self.assert_guard_retained()
+
+    def test_rejected_append_reports_its_phase_without_reading_untrusted_item(self):
+        self.begin()
+        self.module.get_native_id.return_value += 1
+        self.reads.clear()
+        self.trial.before_append(self.menu + ITEM.VECTORS_OFFSET + ITEM.VECTOR_SIZE, 2)
+        self.assertIn("append_unexpected_thread", self.warning())
+        self.assertIn("callback=append observed_thread=271829", self.warning())
+        self.assertEqual(self.trial._callback_history[-1][1:4], ("append", 271829, True))
+        self.assertEqual(self.reads, [])
+        self.assertEqual(self.native_calls, [])
+        self.assert_guard_retained()
+
+    def test_trigger_failure_records_pending_activation_and_does_not_change_native_result(self):
+        self.prepare_parent()
+        self.before()
+        self.module.get_native_id.return_value += 1
+        self.reads.clear()
+        self.assertIsNone(self.after(False))
+        self.assertIn("callback=trigger_after", self.warning())
+        self.assertIn("=(False, True, False, False, False, True, False)", self.warning())
+        self.assertIsNone(self.trial._pending)
+        self.assertEqual(self.reads, [])
+        self.assert_no_transition()
+        self.assert_guard_retained()
+
+    def test_trace_and_phase_logs_stay_bounded_while_normal_caption_work_continues(self):
+        self.prepare_parent()
+        for _ in range(80):
+            self.label()
+        self.assertFalse(self.trial._stopped)
+        self.assertEqual(len(self.trial._callback_history), self.module.CALLBACK_HISTORY_LIMIT)
+        self.assertEqual(self.trial._callback_counts["label_after"], 80)
+        self.assertEqual(self.trial._writer.call_count, 80)
+        first_observations = [call for call in self.module.LOGGER.info.call_args_list
+                              if call.args[0].startswith("Menu callback first observed:")]
+        self.assertEqual([call.args[1] for call in first_observations],
+                         ["builder_before", "append", "builder_after", "label_after"])
+        self.trial._callback_counts["label_after"] = self.module.CALLBACK_COUNT_LIMIT - 1
+        self.trial._callback_sequence = self.module.CALLBACK_COUNT_LIMIT - 1
+        self.label()
+        self.label()
+        self.assertEqual(self.trial._callback_counts["label_after"], self.module.CALLBACK_COUNT_LIMIT)
+        self.assertEqual(self.trial._callback_sequence, self.module.CALLBACK_COUNT_LIMIT)
+        self.module.get_native_id.return_value += 1
+        self.label()
+        warnings = self.module.LOGGER.warning.call_count
+        reads = len(self.reads)
+        self.label()
+        self.begin()
+        self.assertEqual(self.module.LOGGER.warning.call_count, warnings)
+        self.assertEqual(len(self.reads), reads)
+        self.assertLess(len(self.warning()), 2500)
+        self.assert_guard_retained()
+
+    def test_logging_failure_cannot_disable_normal_work_or_authorize_a_new_thread(self):
+        self.module.LOGGER.info.side_effect = RuntimeError("private diagnostic failure")
+        self.assertIsNone(self.label())
+        self.assertFalse(self.trial._stopped)
+        self.module.LOGGER.warning.side_effect = RuntimeError("private warning failure")
+        self.module.get_native_id.return_value += 1
+        self.reads.clear()
+        self.assertIsNone(self.begin())
+        self.assertTrue(self.trial._stopped)
+        self.assertEqual(self.reads, [])
+        self.assertEqual(self.native_calls, [])
+        self.assert_guard_retained()
+
+    def test_busy_diagnostic_lock_never_blocks_menu_or_weakens_thread_refusal(self):
+        self.prepare_parent()
+        self.trial._diagnostic_lock.acquire()
+        try:
+            self.label()
+            self.assertFalse(self.trial._stopped)
+            self.trial._writer.assert_called_once_with(self.output, b"Companion Auto Summon")
+            self.module.get_native_id.return_value += 1
+            self.reads.clear()
+            self.label()
+            self.assertTrue(self.trial._stopped)
+            self.assertEqual(self.reads, [])
+            self.assertIn("unexpected_thread", self.warning())
+            self.assertIn("=unavailable counts=unavailable", self.warning())
+        finally:
+            self.trial._diagnostic_lock.release()
+        self.assert_guard_retained()
+
+    def test_overlapping_callback_keeps_safety_lock_owned_and_reports_attempted_phase(self):
+        self.begin()
+        self.trial._lock.acquire()
+        try:
+            self.module.get_native_id.return_value += 1
+            self.reads.clear()
+            self.label()
+            self.assertTrue(self.trial._lock.locked())
+            self.assertTrue(self.trial._stopped)
+            self.assertEqual(self.reads, [])
+            self.assertIn("overlapping_callback", self.warning())
+            self.assertIn("callback=label_after observed_thread=271829", self.warning())
+            self.assertIn("=(True, False, False, False, False, False, False)", self.warning())
+        finally:
+            self.trial._lock.release()
+        self.assert_guard_retained()
+
+    def test_failed_thread_lookup_cancels_safely_without_logging_exception_content(self):
+        self.begin()
+        self.module.get_native_id.side_effect = RuntimeError("private thread detail")
+        self.reads.clear()
+        self.assertIsNone(self.finish())
+        self.assertIn("thread_lookup", self.warning())
+        self.assertIn("callback=builder_after observed_thread=None", self.warning())
+        self.assertNotIn("private thread detail", self.warning())
+        self.assertEqual(self.reads, [])
+        self.assertEqual(self.native_calls, [])
+        self.assert_guard_retained()
+
+
+class ConfirmationDiagnosticsTests(OrderFixture):
+    settings_enabled = True
+
+    def test_confirmation_completion_reports_pending_pair_before_cancelling(self):
+        self.trial.before_confirmation(self.menu)
+        self.module.get_native_id.return_value += 1
+        self.reads.clear()
+        self.assertIsNone(self.trial.after_confirmation(self.menu, False))
+        arguments = self.module.LOGGER.warning.call_args.args
+        message = arguments[0] % arguments[1:]
+        self.assertIn("callback=confirmation_after observed_thread=271829", message)
+        self.assertIn("pinned_by=confirmation_before", message)
+        self.assertIn("=(False, False, True, False, False, False, False)", message)
+        self.assertIsNone(self.trial._confirmation_call)
+        self.assertIsNone(self.trial._confirmation_intent)
+        self.assertEqual(self.reads, [])
+        self.assert_no_transition()
+        self.assert_guard_retained()
+
+
 if __name__ == "__main__":
     unittest.main()

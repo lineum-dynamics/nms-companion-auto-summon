@@ -4,7 +4,7 @@
   "date": "2026-09-28",
   "installed_in_game_directory": false,
   "tested_inside_game": false,
-  "runtime_load_verified": false,
+  "runtime_load_verified": true,
   "gameplay_verified": false,
   "multiplayer_verified": false,
   "basic_auto_summon_verified": false,
@@ -16,7 +16,7 @@
   "selection_mode_control_verified_in_game": false,
   "biome_preference_verified_in_game": false,
   "location_preferences_verified_in_game": false,
-  "gameplay_verification_scope": "0.5.1 / combined 0.9.1 has not launched. Specific setting confirmations and combined GUI-free startup await live acceptance. Retained 090-r2 is the running trial; its bounded results are in docs/research/LIVE-090.md.",
+  "gameplay_verification_scope": "0.5.1 registered through the 0.9.2 portable background host on 28 September 2026 after a verified 49-file backup. Player-visible acceptance remains pending. Interactive EXE dispatch, normal exit/restart and multiplayer are not verified.",
   "supported_summon_locations": {
     "2": "SpaceStation",
     "3": "PlanetOnFoot",
@@ -35,7 +35,7 @@
     "selection_adapter": 20
   },
   "actual_framework_import_and_gui_properties": "Passed pyMHF 0.2.4 / Dear PyGui 2.3.1 offline discovery, all nine widget constructors/callbacks, nine production callbacks, zero hotkeys; disabled outside the supported game.",
-  "launcher_validation": "0.9.1 combined candidate passed direct Python check-only and Windows PowerShell 5.1 CheckOnly against the supported game and existing runtime while NMS was running; neither performed setup, asset staging, game start or native hook registration. The actual-framework offline check instantiated both mods with no GUI and applied all seven temporary preferences. Standalone retains its development panel. Combined no-window and native-control behavior still await live acceptance.",
+  "launcher_validation": "0.9.2 bundled runtime, native child initialization, full EXE integrity and Unicode-relocated check-only passed. First packaged background host registered two mods/twelve targets; post-start distribution integrity passed. The C# interactive controls were not exercised. See docs/research/LIVE-092.md.",
   "preferences_included": false,
   "manual_selection_path": "%LOCALAPPDATA%/NMS-AutoPet/state.json",
   "preferences_path": "%LOCALAPPDATA%/NMS-AutoPet/settings.json",
@@ -69,11 +69,11 @@
     },
     {
       "path": "README.md",
-      "sha256": "0da77f227622d648b57405003298253f72082dd7a4f6ea926c8179f9551aa3dd"
+      "sha256": "a531140be313437beb57f3f7b61104d4978f680b0c02ec1f1458f3dc0f6a4dae"
     },
     {
       "path": "README.cs.md",
-      "sha256": "7d5f04eea3e609626ac5de04cac7f9eeed350af72b7a54dbe644b114a415b554"
+      "sha256": "fb631aaf06801db4a846ec70d971f9ec40dbf4c54ae0f5c58e74abda7b560e95"
     },
     {
       "path": "cas_compatibility.py",
@@ -85,7 +85,7 @@
     },
     {
       "path": "TECHNICAL-VERIFICATION.md",
-      "sha256": "e7dbac0cfed750fdc769e494b064a2a2f4b7606c61f53f8b4d257284723c97a8"
+      "sha256": "2c53a51e6ea450d1cc8efefa07c084531124544623dd1e67d0ca2097ac38a0d0"
     },
     {
       "path": "build.py",
@@ -97,39 +97,55 @@
     },
     {
       "path": "DEVELOPMENT.md",
-      "sha256": "fe90bc176d4ecc66103f41e5d79b37aea06c7c15ec2734ecc7179519880071cc"
+      "sha256": "958d2a95dc328a7b2b8e75fe40e08be06ed58d23a18f47c5c17c1f1142b38437"
     },
     {
       "path": "LOCALIZATION.md",
-      "sha256": "8a97e99ee3a99ce996c309aff67b9114d324c356a8c1f7f6d57495b0e6923728"
+      "sha256": "2bf90bb12bf83be80e039a71857484f2870c60005a3f911f5e3829e0b0431994"
     },
     {
       "path": "DESIGN.md",
-      "sha256": "d61ceb30fba35984ef5172605aacca20eba2f78d3b6acfc3debf66a6ffd40e2b"
+      "sha256": "e1a3208bfd39ac0f7ed8f7f5293aaa58cd8db6064cdf880ae2c662308d020131"
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "a50996b7bd20d5acf55bc4ea36d0b66a47b632eec04e90233641b531feb66a66"
+      "sha256": "459cf82c834df6e141d2c66d3073b35bd0929e4d18ebb71fe3ac559aec0f5a6f"
     },
     {
       "path": "ROADMAP.md",
-      "sha256": "e777bf61ff5514955ce63ae3167f6e9b4421ccd5273396aae9a9d7f38e271fcb"
+      "sha256": "bc8d63bdeb6213402337fc79fe7db40bb95d05cc5a46d38abaa1b483228cd9e9"
     },
     {
       "path": "QUICK-MENU.md",
-      "sha256": "65ebeec667300ab028dde541df9360f6ab56d429471b8578a24520df83a524b8"
+      "sha256": "4e91a2846b5e49bb23d2a4f82d2e2d94754ded37fbc560b8d14ad89bbd9bc6a9"
     },
     {
       "path": "docs/release/RELEASE-PREPARATION.md",
-      "sha256": "46a56042864a541590078d507ecaeb1a08d0cde9c2472911ffc3a5c128360d34"
+      "sha256": "3e0ed86a58de6a9dc7a08c2787522abaedd3414895164833fd2f5d21421adc91"
     },
     {
       "path": "docs/release/INSTALLATION-REQUIREMENTS.md",
-      "sha256": "5ea123a251f28eb4e7c1be2accb724f0dd25d8f1c0cf9d90e3638369da4fd68b"
+      "sha256": "a24e0855049c8c39d31de6f7de098fc443e331f6e297be61bb9f37da96b2adf3"
     },
     {
       "path": "docs/release/NEXUS-DESCRIPTION-DRAFT.md",
-      "sha256": "47a9c254daf16ef0db06854d273ff13b1a8c867b3699fb744d8acd544c861b4b"
+      "sha256": "9d82d8c12ae0986418006fbb1b296e256a75350c0ebcdac7c92d5e464393374c"
+    },
+    {
+      "path": "docs/release/PORTABLE-QUICKSTART.md",
+      "sha256": "7c8556ad9abf39ff7fcb7c3e540230038f19f3297e111216fbe815904c738065"
+    },
+    {
+      "path": "docs/release/PORTABLE-QUICKSTART.cs.md",
+      "sha256": "9413ceeaca6b6ae2e1c57d8f3837d1ba3a9f5b9af3070498439ba98bba24d709"
+    },
+    {
+      "path": "docs/release/MULTIPLAYER-TEST.md",
+      "sha256": "bbddb737120270348ee3346dc68f85d3e23e8024e64ee8162667a00bf95a1a34"
+    },
+    {
+      "path": "docs/release/TESTER-HANDOFF.md",
+      "sha256": "e4ed91bfe98c8d3ae8a7b5c6c815bf69bcd327b18c5234c7434571928389d6ab"
     },
     {
       "path": "docs/research/TECHNOLOGY-PROTOTYPE.md",
@@ -153,7 +169,7 @@
     },
     {
       "path": "docs/research/LIVE-090.md",
-      "sha256": "00b47e47dccc005d2567b03ffbaac456a61ce4ac20d628eeb2ed98df98974469"
+      "sha256": "03cf9a42af0e824566d99f8c4a2d857e2383f3cb675967c52a552b17737ef7b9"
     },
     {
       "path": "docs/release/MONETIZATION.md",
@@ -165,7 +181,19 @@
     },
     {
       "path": "docs/research/PORTABLE-RUNTIME-AUDIT.md",
-      "sha256": "9823baa184b454b826260428563e1aa6e5dd885651936b34182168af1fb90b3c"
+      "sha256": "4a7d0179903b320154950549eda5a365bf34e4d0e906e4cb651437e92debf971"
+    },
+    {
+      "path": "docs/research/PORTABLE-SCAN-092.md",
+      "sha256": "d792c287602538bd62b9f8d90adf089e2e82f2be13b632c281ae8c52ec852186"
+    },
+    {
+      "path": "docs/research/LIVE-092.md",
+      "sha256": "88f97bed0fd2608b347505daaf2d728ca094c3d429d3f912721dd44eaf81d451"
+    },
+    {
+      "path": "docs/research/MENU-THREAD-LIFECYCLE.md",
+      "sha256": "814ddcae4f1d6bb3dca718b2a8d67a176b60f0929b05540af2a8e207d3fba3ef"
     },
     {
       "path": "docs/research/HABITAT-SELECTION.md",
@@ -225,7 +253,7 @@
     },
     {
       "path": "tools/validate_locales.py",
-      "sha256": "d735f56f0ff05dcfc950431ba21dac64d02c41f9bbaea731a1e2b68609ffe165"
+      "sha256": "f6ce521119366b4910fe6c0db652379e7937da6611ba64cd56c2798dc6fec62a"
     },
     {
       "path": "tools/quick_menu_toggle.py",
@@ -241,59 +269,59 @@
     },
     {
       "path": "locales/en.json",
-      "sha256": "731f9f51bbda477e336819745a01e8e50b7ac9ae22c6a3cdd8ba820fd6006a4d"
+      "sha256": "0e876efa877a2f5b6263f530aed200a68cd6f8f96bd3f3e4ef614712aca9c7f4"
     },
     {
       "path": "locales/fr.json",
-      "sha256": "bc27411228faefc38cd229247a6bf468e0968706035dbf6164f7c94e49bcfc00"
+      "sha256": "ebbee87c7c30baa17bcf8c4e5c1fc05c365ec4a0e92cb5fcce834d2627030daf"
     },
     {
       "path": "locales/it.json",
-      "sha256": "f85eadf03c325c37848cdb960260ae8ce9a245d95e17ff77cbcdfb2535b998db"
+      "sha256": "27931ed0fc84262698367bc2687e5ef50d08a7ed4a8a63cec9fdad4dad747ced"
     },
     {
       "path": "locales/de.json",
-      "sha256": "189ec47830649fcfc9b9771065481e306d3834cc950cc167515334a8d5700f30"
+      "sha256": "78a0dfefb6928eff4a9ceccc7d1b584e4a33ef8a99568b61da1e93d3f167b0ad"
     },
     {
       "path": "locales/es-ES.json",
-      "sha256": "d6d241f7ae35cfa2509db85d90a66b5b94f52cea477c9cc5e290f6df17b5283f"
+      "sha256": "7241a95cf58c2db9c6b49b17833b471cde38e6d9eefc996b7ad02a53189dc44b"
     },
     {
       "path": "locales/nl.json",
-      "sha256": "42a6c77679d4fd4d652331703fb97a4d241ddfb0338f8d684d7958e7e88176f4"
+      "sha256": "745fe59603b23e94afa46edd1b319c5f1bef6a06e071e5ea97b41137ea1ada1f"
     },
     {
       "path": "locales/ja.json",
-      "sha256": "952fbefdaa23fbd22f2154c75d71408bfc7b65651f39d9ae207d63a0aa6e15e8"
+      "sha256": "c74c3a3c81d4a1726a5d1f845b1be068957c5a18eb5197151d18b110f0a7a41f"
     },
     {
       "path": "locales/ko.json",
-      "sha256": "67da40031d3a41ffcfbafad26acf23b14a84cbd50f890ec0fb8c1eb6fc02ccfc"
+      "sha256": "95cbe22cce7e7e8bb6f86ac1def92aba156c718f9e3026a23ff838ae662f3c77"
     },
     {
       "path": "locales/pl.json",
-      "sha256": "9dbb67a0dcef3b2b7733d5dcb6c396a4a83b9851870d86d80c1e0357643f929c"
+      "sha256": "ce0eeda9462af7dcc3942c71796b42857ec934bbf8af9bd59bc29eec05f4df61"
     },
     {
       "path": "locales/pt-PT.json",
-      "sha256": "fc3a7d960c0655efaaa9579a66c275e9570923c329e0d450a272fb8198c47a92"
+      "sha256": "5a2f8b427a0eef1516706f79484ecf2e748a94cd7023f02f1abe6e9279a185d0"
     },
     {
       "path": "locales/pt-BR.json",
-      "sha256": "bad73366aedc7474fe2f104dd8e6c2a6563ac00e45f9c10161cde7e3a65a64f7"
+      "sha256": "cd8528325a1508d28d7f840ed6372ef5a447f1d60ec5b94ab4a4d4be8867120e"
     },
     {
       "path": "locales/ru.json",
-      "sha256": "318c5295a488c3292e1ca55de2607cf04345a8b09d0e962a76554763956ee545"
+      "sha256": "adf28edc0580a6b0679cd70151990d176c8d9256dd992053c8e967491b5ab6a2"
     },
     {
       "path": "locales/zh-Hans.json",
-      "sha256": "e967205940b3545ea8e3a72b5a2da9a5587c8f0864f4887c79e4788c6ac37bf6"
+      "sha256": "b4a8b92fe80cae5b3ced09e878f059bcd7b18f3878e18eb0f393e98076509ff1"
     },
     {
       "path": "locales/zh-Hant.json",
-      "sha256": "b236bb5e563f22173c9dceabb90a06fc58788be429a928e75d75d5501d0d39cd"
+      "sha256": "a5be6b6490fd4871e6dd23fe6be6a9f9eb0ab1ab4b5046cd99633eb76de81f20"
     }
   ],
   "legacy_data_directory": "NMS-AutoPet is intentionally retained for settings, remembered companions and the existing development runtime; schemas and file contents are unchanged.",
@@ -336,8 +364,8 @@
     "scope": "Separately built, predicate-gated native ON/OFF candidate. Requires same-menu false then true native confirmation, one matching selected-child trigger and original false result; no tail-only activation. Existing production applies and persists the queued setting. Other preferences remain in the temporary development panel. Registered on 27 September 2026 after normal exit and a fresh verified backup: two Mods, 11 hook targets, automation ON and 14 unchanged payloads. Complete live preference validation, remapping/controllers and held input await testing."
   },
   "developer_native_menu_trial": {
-    "version": "0.9.1-play-trial",
-    "menu_version": "0.9.0-selection",
+    "version": "0.9.2-play-trial",
+    "menu_version": "0.9.1-diagnostics",
     "preference_keys": [
       "enabled",
       "selection_mode",
@@ -348,10 +376,10 @@
     "production_script_byte_identical": true,
     "production_byte_identity_reference": "Generated production 0.5.1 in the source package",
     "live_verified": false,
-    "launched": false,
-    "registration_verified": false,
-    "included_in_player_zip": false,
-    "scope": "Specific applied-setting HUD labels and values, including batches and session-only failures; combined launch skips pyMHF GUI construction. Standalone development panel retained. Gameplay, ownership, habitat groups, shuffle, persistence and exact native mappings remain unchanged. No live acceptance inherited.",
+    "launched": true,
+    "registration_verified": true,
+    "included_in_player_zip": true,
+    "scope": "Portable background-host startup registered after verified backup; native menu adds bounded callback diagnostics, not a lifecycle fix. EXE controls, visible appearance, exit/restart and multiplayer remain pending.",
     "actual_framework_discovery_verified": true,
     "temporary_all_seven_preferences_verified": true,
     "optional_icon_provider_binding_verified": true,
@@ -369,44 +397,50 @@
     "compatibility_profile_validation_required": true,
     "language_observation_only": true,
     "native_translation_rendering": false,
-    "final_candidate_directory": "build/quick-menu-play-trial-091-r1",
+    "final_candidate_directory": "build/quick-menu-play-trial-092-r1",
     "revision": "r1",
     "visible_shuffle_label": "Shuffle companions",
     "combined_gui_shown": false,
-    "developer_tests_passed": 689,
-    "developer_test_report": "build/validation/developer-091.log",
-    "developer_test_report_sha256": "8269068d9f8a3db607959699e9a4a9ce38f5d521c07fbe0b2e6b5f6cd38958f1",
+    "developer_tests_passed": 770,
+    "developer_test_report": "build/validation/developer-092-final.txt",
+    "developer_test_report_sha256": "dc7efa126e9fb0a171188bc12dc138b6f55ac17b25b4ed4e56afce8d57d11dd6",
     "production_sha256": "d12cb9a2c7c87d5ea07752057b3ed74670d3215fa794d59c8cc2e55c9bab1098",
-    "menu_sha256": "832505a99ba831e6d092ed8057ed9b377e3787e42187b11a2aa0c676e3e0db9e",
-    "candidate_manifest_sha256": "dc68edbf7038e294c6a97ab3546f036f371eb245b2951ff01611d2adde09a77f",
-    "framework_report": "build/validation/menu-play-0.9.1-play-trial-framework.json",
-    "framework_report_sha256": "d12dd48b0f290fd92d4fbc42bf1a95582ed6f80af7fe84da830c26ef76a8284b",
+    "menu_sha256": "646af4f1a69c9cd57a4000e7864e9ef51fa0705458726a35455b19c9186de6fb",
+    "candidate_manifest_sha256": "ee13fd66721279fd5f0d438950c66f8741e4d62ba175c6cb87ca808ae1449426",
+    "framework_report": "build/validation/menu-play-0.9.2-play-trial-framework.json",
+    "framework_report_sha256": "ba0c3898743292ae30791f26fbd0fa64a6a49e4079a92173586894aee2eeb83c",
     "mods_instantiated_in_owned_framework_registry": 2,
     "gui_instances_created_offline": 0,
     "preference_bridge_without_gui_verified": true,
     "framework_native_binding_performed": false,
     "python_check_only_verified": true,
-    "windows_powershell_5_1_check_only_verified": true,
-    "check_only_scope": "Passed against the installed exact Steam build and existing Python 3.11 x64 / pyMHF 0.2.4 / Dear PyGui 2.3.1 while NMS was running. No setup, asset staging, game start or hook registration. PowerShell used a process-local execution-policy argument; no persistent policy changed.",
-    "test_archive": "CompanionAutoSummon-0.9.1-play-trial.zip",
-    "test_archive_sha256": "7025712f8f9eb89a238f37e3871e817aefee99da9bf177d2163507d23b1a1b43",
-    "test_archive_bytes": 187533,
-    "test_archive_files": 42,
+    "windows_powershell_5_1_check_only_verified": false,
+    "check_only_scope": "Final bundled Python and compiled EXE integrity checks passed after Unicode relocation with external Python disabled. No game or backups accessed by check-only; normal startup is separately recorded.",
+    "test_archive": "CompanionAutoSummon-0.9.2-test.zip",
+    "test_archive_sha256": "1507a92c86b4126e0bfb9131ec2df228fbac2d95d3e88529db0499bd3f3349fe",
+    "test_archive_bytes": 23419195,
+    "test_archive_files": 1245,
     "test_archive_entry_set_and_hashes_verified": true,
     "nexus_test_upload": {
-      "date": "2026-09-28",
       "mod_id": 4579,
-      "file_id": 49195,
+      "file_id": 49196,
+      "version": "0.9.2-test",
       "page_status": "Unpublished",
       "category": "Miscellaneous",
       "mod_manager_download_enabled": false,
       "archive_uploaded_and_row_verified": true,
+      "archive_sha_matched_linked_scan": true,
       "version_summary_description_saved_and_read_back": true,
-      "nexus_scan_status": "Some suspicious files",
-      "linked_virustotal_detections": "0/65",
-      "scan_discrepancy_resolved": false,
+      "file_status": "Quarantined by automated safety checks",
+      "owner_download_verified": false,
+      "archive_virustotal": "3/60",
+      "entrypoint_virustotal": "8/70",
+      "specific_quarantine_cause_established": false,
+      "false_positive_established": false,
+      "contact_sent": false,
       "publication_authorized": false
-    }
+    },
+    "registered_at": "2026-09-28T15:34:12.721+02:00"
   },
   "post_queue_observation": {
     "passive_only": true,
@@ -592,7 +626,7 @@
   },
   "localization_catalogs": {
     "locales": 14,
-    "keys_per_locale": 46,
+    "keys_per_locale": 63,
     "translated_drafts": 13,
     "scope": "native_menu_hud_technology_launcher_panel",
     "source_text_verified": true,
@@ -1030,5 +1064,181 @@
     "visible_shuffle_label": "Shuffle companions",
     "live_record": "docs/research/LIVE-090.md",
     "live_scope": "28 September 2026: player confirmed one visible Random startup companion in the Space Anomaly and reported preferences appearing to save; native diagnostics agree. Native menu changes logged shuffle and mode changes. No restart-persistence, By habitat outcome, shuffle-cycle, broad input or multiplayer acceptance."
+  },
+  "previous_091_developer_native_menu_trial": {
+    "version": "0.9.1-play-trial",
+    "menu_version": "0.9.0-selection",
+    "preference_keys": [
+      "enabled",
+      "selection_mode",
+      "prefer_same_biome",
+      "locations",
+      "rotate_companions"
+    ],
+    "production_script_byte_identical": true,
+    "production_byte_identity_reference": "Generated production 0.5.1 in the source package",
+    "live_verified": false,
+    "launched": false,
+    "registration_verified": false,
+    "included_in_player_zip": false,
+    "scope": "Specific applied-setting HUD labels and values, including batches and session-only failures; combined launch skips pyMHF GUI construction. Standalone development panel retained. Gameplay, ownership, habitat groups, shuffle, persistence and exact native mappings remain unchanged. No live acceptance inherited.",
+    "actual_framework_discovery_verified": true,
+    "temporary_all_seven_preferences_verified": true,
+    "optional_icon_provider_binding_verified": true,
+    "callbacks": 18,
+    "distinct_native_targets": 12,
+    "payload_files": 41,
+    "custom_icons_included": 8,
+    "custom_icon_deployed": false,
+    "custom_icon_live_verified": false,
+    "locale_validation_required_during_build": true,
+    "physical_hotkeys": 0,
+    "shortcut_binding_enabled": false,
+    "host_compatibility_guard_included": true,
+    "localized_launcher_messages": 9,
+    "compatibility_profile_validation_required": true,
+    "language_observation_only": true,
+    "native_translation_rendering": false,
+    "final_candidate_directory": "build/quick-menu-play-trial-091-r1",
+    "revision": "r1",
+    "visible_shuffle_label": "Shuffle companions",
+    "combined_gui_shown": false,
+    "developer_tests_passed": 689,
+    "developer_test_report": "build/validation/developer-091.log",
+    "developer_test_report_sha256": "8269068d9f8a3db607959699e9a4a9ce38f5d521c07fbe0b2e6b5f6cd38958f1",
+    "production_sha256": "d12cb9a2c7c87d5ea07752057b3ed74670d3215fa794d59c8cc2e55c9bab1098",
+    "menu_sha256": "832505a99ba831e6d092ed8057ed9b377e3787e42187b11a2aa0c676e3e0db9e",
+    "candidate_manifest_sha256": "dc68edbf7038e294c6a97ab3546f036f371eb245b2951ff01611d2adde09a77f",
+    "framework_report": "build/validation/menu-play-0.9.1-play-trial-framework.json",
+    "framework_report_sha256": "d12dd48b0f290fd92d4fbc42bf1a95582ed6f80af7fe84da830c26ef76a8284b",
+    "mods_instantiated_in_owned_framework_registry": 2,
+    "gui_instances_created_offline": 0,
+    "preference_bridge_without_gui_verified": true,
+    "framework_native_binding_performed": false,
+    "python_check_only_verified": true,
+    "windows_powershell_5_1_check_only_verified": true,
+    "check_only_scope": "Passed against the installed exact Steam build and existing Python 3.11 x64 / pyMHF 0.2.4 / Dear PyGui 2.3.1 while NMS was running. No setup, asset staging, game start or hook registration. PowerShell used a process-local execution-policy argument; no persistent policy changed.",
+    "test_archive": "CompanionAutoSummon-0.9.1-play-trial.zip",
+    "test_archive_sha256": "7025712f8f9eb89a238f37e3871e817aefee99da9bf177d2163507d23b1a1b43",
+    "test_archive_bytes": 187533,
+    "test_archive_files": 42,
+    "test_archive_entry_set_and_hashes_verified": true,
+    "nexus_test_upload": {
+      "date": "2026-09-28",
+      "mod_id": 4579,
+      "file_id": 49195,
+      "page_status": "Unpublished",
+      "category": "Miscellaneous",
+      "mod_manager_download_enabled": false,
+      "archive_uploaded_and_row_verified": true,
+      "version_summary_description_saved_and_read_back": true,
+      "nexus_scan_status": "Some suspicious files",
+      "linked_virustotal_detections": "0/65",
+      "scan_discrepancy_resolved": false,
+      "publication_authorized": false
+    }
+  },
+  "portable_test_distribution": {
+    "version": "0.9.2-test",
+    "archive": {
+      "version": "0.9.2-test",
+      "directory": "build/portable-092-r1",
+      "archive": "CompanionAutoSummon-0.9.2-test.zip",
+      "files": 1245,
+      "bytes": 23419195,
+      "sha256": "1507a92c86b4126e0bfb9131ec2df228fbac2d95d3e88529db0499bd3f3349fe",
+      "entrypoint": {
+        "manifest_sha256": "c896680df14ac8aa40060526dd21f1fd25940e2603b9a5efbee2b466b2949891",
+        "exe_sha256": "a661a4eafbaa38c9c4951adc555f5bab9f39be2f638e860655ee66603c27f5c4",
+        "bytes": 93696
+      },
+      "archive_verified": true,
+      "final_runtime_check_passed": true,
+      "entrypoint_integrity_gate_passed": true,
+      "launched": false,
+      "deployed": false,
+      "live_verified": false,
+      "multiplayer_verified": false
+    },
+    "relocated": {
+      "passed": true,
+      "archive_sha256": "1507a92c86b4126e0bfb9131ec2df228fbac2d95d3e88529db0499bd3f3349fe",
+      "files": 1245,
+      "unicode_relocation": true,
+      "external_python_poisoned": true,
+      "system_only_path": true,
+      "payload_unchanged": true,
+      "checks": [
+        {
+          "entry": "Companion Auto Summon.exe",
+          "returncode": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "entry": "python.exe",
+          "returncode": 0,
+          "stdout": "Package and game checks passed. No game or mod was started.\n",
+          "stderr": ""
+        }
+      ],
+      "game_started": false,
+      "game_attached": false,
+      "backups_created": false,
+      "live_verified": false,
+      "multiplayer_verified": false
+    },
+    "initial_developer_run": {
+      "tests": 770,
+      "errors": 6,
+      "reason": "The test run imported a fixture before its compatibility-profile addition was frozen."
+    },
+    "final_developer_run": {
+      "tests": 770,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "seconds": 126.079,
+      "report": "build/validation/developer-092-final.txt",
+      "sha256": "dc7efa126e9fb0a171188bc12dc138b6f55ac17b25b4ed4e56afce8d57d11dd6"
+    },
+    "first_start": {
+      "date": "2026-09-28",
+      "host_pid": 58736,
+      "nms_pid": 29456,
+      "host_started_local": "15:33:51",
+      "nms_started_local": "15:34:07",
+      "mods": 2,
+      "native_targets": 12,
+      "registration_local": "15:34:12.721",
+      "backup_files": 49,
+      "backup_hashes_rechecked": true,
+      "post_start_distribution_integrity": true,
+      "entry": "Exact packaged pythonw child command used by the GUI; interactive EXE controls not exercised",
+      "visible_pet_confirmed": false,
+      "menu_acceptance": false,
+      "normal_exit_verified": false,
+      "multiplayer_verified": false,
+      "owner_report": "The owner reports that everything appears to work, and notes the absence of a donation notice. This is a general positive report, not isolated per-feature or interactive-executable validation."
+    },
+    "nexus": {
+      "mod_id": 4579,
+      "file_id": 49196,
+      "version": "0.9.2-test",
+      "page_status": "Unpublished",
+      "category": "Miscellaneous",
+      "mod_manager_download_enabled": false,
+      "archive_uploaded_and_row_verified": true,
+      "archive_sha_matched_linked_scan": true,
+      "version_summary_description_saved_and_read_back": true,
+      "file_status": "Quarantined by automated safety checks",
+      "owner_download_verified": false,
+      "archive_virustotal": "3/60",
+      "entrypoint_virustotal": "8/70",
+      "specific_quarantine_cause_established": false,
+      "false_positive_established": false,
+      "contact_sent": false,
+      "publication_authorized": false
+    }
   }
 }

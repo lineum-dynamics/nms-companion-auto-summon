@@ -1,13 +1,36 @@
 # Companion Auto Summon for No Man's Sky - by Lineum Dynamics
 
-The current follow-up candidate is **0.5.1-experimental / 0.9.1-play-trial**,
+## Current portable candidate: 0.9.2-test
+
+The player distribution uses a root **Companion Auto Summon.exe**, bundled
+Python 3.11.9 and pinned dependencies. It contains production **0.5.1**,
+combined **0.9.2-play-trial** and menu **0.9.1-diagnostics**. There are no player
+Python/pip setup steps. Windows 10/11 x64, Windows .NET Framework 4, Microsoft
+Visual C++ v14 x64 and Steam **Cosmos 7.04 / build 25442159** are required.
+
+Normal start requires Steam open/signed in, exact package/game checks and a
+private verified backup. Private session copies preserve the distribution and
+existing external preferences. Closing the launcher is designed to leave its
+host/game running. The packaged background child completed a verified 49-file
+backup and registered both Mods and twelve hooks in NMS. The interactive C#
+launcher was not opened or clicked. Visible pets, exit/restart, launcher-window
+closure, second-PC and multiplayer acceptance remain unverified; see
+[LIVE-092](../research/LIVE-092.md). The known menu thread stop has additional
+bounded diagnostics, not a fix. The built archive passed 770 developer tests,
+final native/executable/framework checks and relocated package checking without
+a game launch. Its identity and Nexus file 49196 were read back. Automated quarantine blocks owner downloading; see [TESTER-HANDOFF](TESTER-HANDOFF.md) and [the scan record](../research/PORTABLE-SCAN-092.md).
+Use [the player quick start](PORTABLE-QUICKSTART.md) for the simple workflow.
+
+## Retained 0.9.1 preparation
+
+The retained follow-up candidate is **0.5.1-experimental / 0.9.1-play-trial**,
 with unchanged menu **0.9.0-selection**. It prepares confirmations naming the
 changed setting and applied value, and disables the external pyMHF panel in
 the combined package. The separate `091-r1` bundle is built on
 `feat/settings-feedback-no-gui`; validation passed 403 production and 689
 developer tests, actual-framework checks and both Python and Windows PowerShell
 5.1 read-only preflights. It has not launched and still needs live acceptance.
-The running **0.5.0 / 0.9.0 / 090-r2** remains untouched. These checks do not
+The retained **0.5.0 / 0.9.0 / 090-r2** files remain untouched after normal closure. These checks do not
 complete the portable installer or transfer older gameplay evidence. Its
 `unexpected_thread` menu stop is documented in [LIVE-090](../research/LIVE-090.md)
 and remains unresolved in the unchanged 091 menu.
@@ -36,8 +59,9 @@ Status as of 28 September 2026. Working plan; neither the mod nor its page has b
 
 The 0.9.1 test archive and updated description have now been saved and verified
 on Nexus, with the page still **Unpublished**. The antivirus status reads
-**Some suspicious files** and is under investigation; do not treat the upload
-as a clean scan or public-release readiness. The earlier page readback below
+**Some suspicious files**. The linked VirusTotal report for the exact 0.9.1
+ZIP showed **0/65** detections; the discrepancy is unresolved. Do not transfer
+either result to 0.9.2 or claim a clean Nexus status or release readiness. The earlier page readback below
 is retained as history and predates that archive upload. The owner-created Nexus account is `LineumDynamics`; its authentic company
 avatar is saved and visually checked. A real No Man's Sky draft now exists in
 category **Creatures**, mod ID **4579**, with visible status **Unpublished**:
@@ -95,12 +119,13 @@ The new multi-setting confirmations separately cover every changed-control
 subset and use complete English fallback for overlong translated batches.
 Actual rendering and automatic language selection are not yet verified.
 A real console-free pyMHF import check also passed, including reproduction of
-the original failure and its resolution by a prototype. The current launcher
-does not yet use it; portable installation is not thereby complete. Details:
+the original failure and its resolution by a prototype. The earlier launcher
+did not use it. The 0.9.2 portable source integrates host preparation, but
+portable live initialization and lifecycle acceptance remain unverified. Details:
 [localization](../research/NATIVE-LOCALIZATION-AUDIT.md) and
 [portable runtime](../research/PORTABLE-RUNTIME-AUDIT.md).
 
-## Current combined test and 0.9.1 follow-up
+## Current portable acceptance and retained combined test
 
 Keep `build/quick-menu-play-trial-090-r2` unchanged. Its production automation
 can still be observed, but its custom menu stopped on `unexpected_thread`.
@@ -241,22 +266,23 @@ preservation remain mandatory. The final package must pass the existing clean
 Windows account/second-PC, relocation, offline dependency and normal lifecycle
 checks in [INSTALLATION-REQUIREMENTS](INSTALLATION-REQUIREMENTS.md).
 
-Current 0.9.1 is a development PowerShell package: it still uses an external
+Retained 0.9.1 is a development PowerShell package: it still uses an external
 Python installation to create its isolated environment and installs dependencies
 when needed. Disabling `gui.shown` omits the control window; it neither packages
 a portable runtime nor proves console-free host/injected initialization and
 safe launcher/game lifetimes. Those are unfinished parts of the first-public
 installation gate, not reasons to advertise the present archive as portable.
 
-Work order: finish the 0.9.1 package checks and its next live acceptance while
-preparing the vetted portable runtime and single launcher separately. Historical
-confirmation of station startup and a separate manual dismissal belongs to
-0.4.3 / 0.6.2; it does not replace validation of the new candidate. Second-PC
-testing must use the final player package.
+Work order: retain the completed 0.9.2-test artifact checks in
+[TESTER-HANDOFF](TESTER-HANDOFF.md), then upload and read back that exact ZIP on
+the unpublished page. The owner downloads it and passes the unchanged archive
+to the second Windows/Steam tester. First verify portable solo launch/recovery,
+then the [two-player plan](MULTIPLAYER-TEST.md). No stage is complete until its
+own evidence is recorded; do not reuse historical summon or package results.
 
 Other confirmed requirements: all source code, comments and docstrings in English; user translations separate. Fourteen catalogs and nine translated launcher compatibility messages are maintained; exact current coverage is recorded in `CompanionAutoSummon/LOCALIZATION.md`. The native menu and HUD do not yet use translations; static UTF-8 evidence does not validate actual fonts, rendering or safe language switching. Ongoing documentation rules are in `CompanionAutoSummon/DEVELOPMENT.md`.
 
-The user also requires natural integration with the original game interface: unobtrusive in-game confirmations and X-menu settings. The direction is recorded in `CompanionAutoSummon/DESIGN.md`. The combined source contains seven settings on one native subpage; the first six role IDs remain stable, and the rotation icon is included and checked offline. The 0.9.1 combined package disables the temporary pyMHF panel; standalone development launches retain it because they have no native menu. Lifetime, shortcuts, remapping, controllers and complete visual behavior still require validation against the final package.
+The user also requires natural integration with the original game interface: unobtrusive in-game confirmations and X-menu settings. The direction is recorded in `CompanionAutoSummon/DESIGN.md`. The combined source contains seven settings on one native subpage; the first six role IDs remain stable, and the rotation icon is included and checked offline. The 0.9.1 and 0.9.2 combined packages disable the temporary pyMHF panel; standalone development launches retain it because they have no native menu. Lifetime, shortcuts, remapping, controllers and complete visual behavior still require validation against the final package.
 
 ## Feature branches and unpublished Nexus test archives
 
@@ -330,7 +356,7 @@ If no tester is available, a limited public beta clearly marking multiplayer unv
 - Implement the localization system, complete translations and verify their meaning and rendering according to `LOCALIZATION.md`. Translated files alone do not establish correct translation or rendering.
 - Verify the persistence-failure notice in the final UI. The source now distinguishes `Companion saved.` from `Companion selected (session only).`, addressing the old `manual favorite saved` wording defect. The failure-path rendering still needs live validation; do not reintroduce a success claim when persistence fails.
 - Fix any defects and rerun affected checks. Any native-address or gameplay change requires an appropriate new in-game test; do not transfer successful results automatically to new code.
-- Prepare a public launcher with a bundled standalone Python environment and pinned dependency versions. The goal is ZIP extraction and one click without downloading dependencies at use time. This is not a copy of the development venv; portability, DLL loading and licences for all bundled components need validation. Nexus approval of such packaging cannot be assumed. Manual Python installation is only the current development workflow, not the target player installation.
+- Validate the 0.9.2-test executable and bundled Python 3.11.9 environment, pinned dependencies, DLL loading, licences, relocation and offline launch. The player extracts a ZIP and double-clicks the executable without Python/pip setup. Windows Visual C++ x64 remains an explicit prerequisite. Nexus approval and live portability cannot be inferred from building the archive.
 - Use the approved full title and **by Lineum Dynamics** credit. Complete dependency credits and the owner's licence / modification and redistribution permissions decision; branding alone does not determine a licence or legal ownership. A separate LICENSE file is a suitable way to express this, not described here as a universally mandatory Nexus format. Dependencies have their own licences; do not automatically apply ours to them.
 - Shorten the player guide. During the move to Git, broken links into the private test directory were already replaced with names of externally retained records; [TECHNICAL-VERIFICATION.md](../../TECHNICAL-VERIFICATION.md) preserves result summaries. Do not package private backups or logs.
 - Update the version, manifest and only results actually supported by evidence; extract the ZIP again and compare it with the manifest.

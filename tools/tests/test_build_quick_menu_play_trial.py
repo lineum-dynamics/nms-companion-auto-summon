@@ -101,7 +101,7 @@ class PlayTrialBuildTests(unittest.TestCase):
                      for path in self.root.rglob("*") if path.is_file()}
         result = self.build()
         output = Path(result["output"])
-        self.assertEqual(output, self.root / "build/quick-menu-play-trial-091")
+        self.assertEqual(output, self.root / "build/quick-menu-play-trial-092")
         self.assertEqual(result["files"], 42)
         self.assertFalse(result["launched"])
         self.assertFalse(result["deployed"])
@@ -123,10 +123,10 @@ class PlayTrialBuildTests(unittest.TestCase):
         for name in builder.HELPERS:
             self.assertEqual((output / name).read_bytes(), (self.root / "tools" / name).read_bytes())
         manifest = json.loads((output / "manifest.json").read_text())
-        self.assertEqual(manifest["version"], "0.9.1-play-trial")
+        self.assertEqual(manifest["version"], "0.9.2-play-trial")
         self.assertEqual(manifest["mods"], [
             {"name": "CompanionAutoSummon", "version": "0.5.1-experimental", "path": builder.PRODUCTION_FILE},
-            {"name": "CompanionMenuOrderTrial", "version": "0.9.0-selection", "path": builder.MENU_FILE},
+            {"name": "CompanionMenuOrderTrial", "version": "0.9.1-diagnostics", "path": builder.MENU_FILE},
         ])
         self.assertTrue(manifest["auto_summon"])
         self.assertTrue(manifest["preference_actions"])
@@ -192,7 +192,7 @@ class PlayTrialBuildTests(unittest.TestCase):
     def test_readme_explains_native_toggle_and_preserves_other_preferences(self):
         output = Path(self.build()["output"])
         readme = (output / "README.md").read_text()
-        for phrase in ("two mods", "0.5.1-experimental", "0.9.0-selection", "Automatic summoning: ON/OFF",
+        for phrase in ("two mods", "0.5.1-experimental", "0.9.1-diagnostics", "Automatic summoning: ON/OFF",
                        "This revision is not yet live-verified", "not reset or forced",
                        "disables the external pyMHF development panel", "no personal data", "absolute LOCALAPPDATA",
                        "gui.shown = false", "console-capable", "standalone production package retains",
@@ -219,7 +219,7 @@ class PlayTrialBuildTests(unittest.TestCase):
         self.assertFalse((output / "unrelated.py").exists())
 
     def test_existing_file_or_directory_is_not_reused(self):
-        output = self.root / "build/quick-menu-play-trial-091"
+        output = self.root / "build/quick-menu-play-trial-092"
         output.mkdir(parents=True)
         sentinel = output / "keep"
         sentinel.write_bytes(b"prior trial")
@@ -280,7 +280,7 @@ class PlayTrialBuildTests(unittest.TestCase):
             return original_write(path, data)
         with patch.object(Path, "write_bytes", failing_write), self.assertRaises(OSError):
             self.build()
-        output = self.root / "build/quick-menu-play-trial-091"
+        output = self.root / "build/quick-menu-play-trial-092"
         before = {path.name: path.read_bytes() for path in output.iterdir()}
         self.assertTrue(before)
         with self.assertRaises(FileExistsError):

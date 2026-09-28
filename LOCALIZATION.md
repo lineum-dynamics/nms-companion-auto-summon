@@ -1,8 +1,26 @@
 # Companion Auto Summon localization
 
+Current **0.9.2-test** source has **63 keys in each of fourteen catalogs**:
+the previous 46 plus seventeen `portable.*` entries for the graphical launcher,
+status and failures, including missing Visual C++ runtime and Steam. The English
+catalog is canonical; thirteen translations remain unreviewed drafts. The
+portable launcher's local Windows-language selection is separate from the
+English-only native menu/HUD. The final 0.9.2 developer suite passed 770 tests; package and relocated checks
+also passed without a game launch. The later packaged background start registered
+both Mods and twelve hooks; it did not exercise the interactive launcher or
+verify native text rendering. See [LIVE-092](docs/research/LIVE-092.md).
+Nexus readback and language acceptance remain separate in
+[TESTER-HANDOFF](docs/release/TESTER-HANDOFF.md).
+
+Menu 0.9.1-diagnostics changes only developer logs and needs no player-text
+rewrite. The new launcher labels and messages are updated across all fourteen
+catalogs in the same change. `PORTABLE_KEYS` identifies their maintained scope;
+the UI must consume catalog values rather than adding untranslated copies.
+No native language-rendering or complete linguistic-review claim follows.
+
 ## Status
 
-Source **0.5.1 / 0.9.1** implements setting-specific HUD confirmations using
+Retained source **0.5.1 / 0.9.1** implemented setting-specific HUD confirmations using
 the maintained setting labels and values. All fourteen catalogs replace the
 old generic/automation formats with `hud.settings_applied` (`{changes}{suffix}`)
 and `hud.setting_separator` (`; `), keeping 46 keys. The separator and wrapper
@@ -24,7 +42,7 @@ now names shuffled selection rather than a fixed rotation. The stable
 unchanged. All thirteen translations retain draft status.
 
 `locales/en.json` is canonical English alongside thirteen translated
-**unreviewed draft** catalogs. Source candidate 0.5.1 / 0.9.1 has 46 keys in each:
+**unreviewed draft** catalogs. The retained 0.5.1 / 0.9.1 catalog had 46 keys in each:
 the original 24 cover the native parent title, six settings labels,
 values/statuses, caption formats and current HUD notices; six keys cover the
 proposed rechargeable technologies, nine cover launcher compatibility
@@ -52,7 +70,7 @@ terminology review. English and Czech README files remain documentation
 translations. Only the new rotation caption, By habitat enum value and
 `panel.habitat_status` are now checked for the development panel; its other text,
 other launcher/setup messages and older inert-preview captions remain outside
-the 46-key catalog; this is not
+the current 63-key catalog; this is not
 whole-application coverage. At 11:08:53 on 28 September 2026, the bounded observer
 reported native region 0 (ENGLISH) with prior initialization/load seen. This is
 one live scalar observation, not reload safety or translated-rendering evidence;
@@ -86,7 +104,7 @@ habitat suffixes preserve that distinction. `hud.habitat_on_suffix` says
 no approved habitat group. Temporary ineligibility/placement remains quiet.
 `panel.habitat_status` reads `Habitat-aware owned companion per request; manual
 favorite is preserved.` All five additions have synchronized English fingerprints
-and thirteen draft translations. Current 0.5.1 validation passed
+and thirteen draft translations. Retained 0.9.1 validation passed
 403 production and 689 developer tests. The 091-r1 bundle is built and passed
 actual-framework checks plus Python and Windows PowerShell 5.1 read-only
 preflights; it has not launched. The new HUD work
@@ -133,7 +151,7 @@ Updating a fingerprint must follow an actual meaning/translation review, not
 serve as a way to hide an unchanged stale translation. A matching fingerprint
 proves synchronization only, not translation quality.
 
-`tools/validate_locales.py` requires exactly all fourteen files and all 46 keys,
+`tools/validate_locales.py` requires exactly all fourteen files and all 63 keys,
 rejects duplicate JSON keys, invalid/empty/oversized/control-character text and
 stale hashes, and compares named placeholder names and multiplicities. Placeholders
 are simple text names such as `{label}`, `{value}`, `{status}`, `{state}` and
@@ -189,7 +207,7 @@ Run `python -B tools/validate_locales.py` and
 The importable API is `validate(locales_dir=None, source_root=None)`: it returns
 a bounded report or raises `CatalogError`. CLI alternatives are `--locales-dir`
 and `--source-root`. Dependencies are the standard library, catalogs and the
-five inspected files: `src/runtime.py`, `tools/quick_menu_toggle.py`,
+legacy inspected files: `src/runtime.py`, `tools/quick_menu_toggle.py`,
 `tools/quick_menu_item.py`, `cas_compatibility.py` and
 `Start-CompanionAutoSummon.ps1`. The check must run before build/package output is
 created. It never accesses the game, personal settings or saves.
@@ -231,7 +249,7 @@ The current HUD path uses ASCII encoding. Directly inserting accented or CJK tex
 
 pyMHF GUI decorators currently capture fixed labels at class definition, and the selection widget displays Enum member names. Updating a dictionary alone will not translate existing controls. Implement and verify an appropriate label/option binding or rebuild mechanism without changing stable selection values.
 
-The 0.9.1 combined candidate suppresses this temporary development panel using
+The 0.9.1 and current 0.9.2 combined candidates suppress this temporary development panel using
 `gui.shown = false`; the standalone developer script retains it. Complete
 in-game acceptance of the native settings workflow is still required. Prioritize native menu/HUD and launcher
 translations for the player release; do not build a second permanent settings

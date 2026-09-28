@@ -2,16 +2,43 @@
 
 by **Lineum Dynamics**
 
-Current source **0.5.1-experimental / 0.9.1-play-trial**, with menu
+Current distribution candidate: **0.9.2-test**, containing production
+**0.5.1-experimental**, combined **0.9.2-play-trial** and menu
+**0.9.1-diagnostics**. The tester ZIP provides **Companion Auto Summon.exe** and
+bundled Python 3.11.9; players do not install Python or use pip. It targets
+Windows 10/11 x64, Steam **Cosmos 7.04 / build 25442159**, Windows .NET Framework
+4 and Microsoft Visual C++ v14 x64. Native menu/HUD text remains English.
+
+The launcher prepares verified private backups before normal starts and uses
+private session copies, preserving the extracted distribution and existing
+preferences. On 28 September, the packaged background child completed a
+49-file verified backup and registered both Mods and twelve hooks in NMS.
+The interactive C# launcher was not opened or clicked. Visible pet behavior,
+normal exit/restart, launcher-window closure, second-PC use and multiplayer
+remain **unverified**; see [LIVE-092](docs/research/LIVE-092.md).
+The menu adds bounded diagnostics for the known
+`unexpected_thread` stop; it does not fix it. The 0.9.2 archive is built; the final developer suite passed **770 tests**.
+Relocated executable verification and package checks passed without starting
+the game. Nexus file **49196** and the 0.9.2 page were saved and read back,
+but automated quarantine blocks downloading. See the scan evidence and
+[the tester handoff](docs/release/TESTER-HANDOFF.md). Earlier results do not
+validate this new package.
+
+For the short player procedure, use [Portable quick start](docs/release/PORTABLE-QUICKSTART.md).
+The owner will download the validated ZIP from the unpublished Nexus page and
+pass that unchanged ZIP to the other tester; no public release is implied.
+
+Retained unlaunched 0.9.1 source **0.5.1-experimental / 0.9.1-play-trial**, with menu
 **0.9.0-selection**, reports each changed setting and its applied value. A batch
 keeps every effective change; failed persistence adds one session-only suffix.
 The combined trial sets `gui.shown = false`, leaving settings in the native
-Quick Menu. The standalone developer mod keeps its panel. Production validation
+Quick Menu. The standalone developer mod keeps its panel. Validation
 passed 403 production and 689 developer tests. Actual-framework checks and both
-read-only launch preflights passed; the combined archive has 42 verified files. This candidate
-has not launched; the running **090-r2** remains unchanged. Native text is English.
+read-only launch preflights passed; the combined archive has 42 verified files. That candidate
+has not launched; the retained **090-r2** files remain unchanged after normal
+closure before 0.9.2. Native text is English.
 
-The running 090-r2 log later reports `Inert menu ordering stopped
+The retained 090-r2 log reports `Inert menu ordering stopped
 (unexpected_thread)` at 14:30:17. The menu guard retains the native binding
 filter but stops custom menu handling after a callback thread change; the
 production automation is separate. The reason for the thread change and its
@@ -22,7 +49,7 @@ disappearing after base removal; the cause of that disappearance is unproven.
 Next work is a bounded menu-lifecycle investigation, not an assumed new trigger
 or automatic respawn after disappearance.
 
-Retained live trial **0.5.0-experimental / 0.9.0-play-trial**, with menu
+Prior live trial **0.5.0-experimental / 0.9.0-play-trial**, with menu
 **0.9.0-selection**, implements **By habitat** and **Shuffle companions**.
 Offline validation passed 396 production and 683 developer tests. The final
 `090-r2` candidate launched on 28 September 2026 after a verified backup of
@@ -72,12 +99,12 @@ prevented a ship-exit summon, ON alone summoned nothing, and the next exit
 summoned a pet. Other controls, remapping, HUD/icons, repeatability, Last selected and
 multiplayer remain unverified. See [the bounded 0.8.7 record](docs/research/LIVE-087.md).
 
-Fourteen catalogs now contain 46 keys, including the new selection/rotation labels,
-habitat notices and one scoped development-panel status. Product name and author
-credit remain covered. Three launcher messages use the expanded title. Only the nine launcher compatibility
-messages use them during launch; the thirteen translations remain unreviewed
-drafts. Native menu/HUD text remains English. Full launcher translation and the
-portable public installer are unfinished. See [LOCALIZATION.md](LOCALIZATION.md).
+Fourteen catalogs now contain 63 keys: the retained 46 menu/HUD, branding and
+compatibility entries plus seventeen portable launcher entries. Nine compatibility
+messages and the portable launcher use catalog lookup outside the game. The thirteen
+translations remain unreviewed drafts; native menu/HUD text remains English.
+The portable package is built and offline-checked, while live portability and
+complete language acceptance remain unverified. See [LOCALIZATION.md](LOCALIZATION.md).
 
 0.8.2 startup registered both Mods and 12 native targets at 23:58:46 on 27 September 2026 after a verified 43-file backup. Automation is ON; all 17 payloads and the existing player files matched. The original DDS was staged and hash-verified. Visible icon/HUD, all six controls and gameplay still need the player's check. Validation: 294 production and 519 developer tests, plus real Windows lease and pyMHF checks.
 
@@ -184,13 +211,13 @@ The first automatic summon test in 0.3.1 expired without spawning. Version 0.3.2
 
 ## Supported target
 
-Windows x64, Steam NMS **build 25442159 / Cosmos 7.04**, Python **3.11–3.13 x64**, and **pyMHF 0.2.4**. `compatibility.json` records the supported target; a build gate checks agreement with the host, native declarations and manifest. Other game builds, stores and operating systems require additional compatibility work.
+Windows 10/11 x64, Steam NMS **build 25442159 / Cosmos 7.04**, bundled Python **3.11.9 x64**, and bundled **pyMHF 0.2.4**. Windows .NET Framework 4 and Microsoft Visual C++ v14 x64 are prerequisites. `compatibility.json` records the supported target; a build gate checks agreement with the host, native declarations and manifest. Other game builds, stores and operating systems require additional compatibility work.
 
 This package contains no personal saves, account credentials, preselected pet or machine-specific installation paths. Each player has their own settings. Unsupported executables are rejected before using unverified addresses.
 
 ## Settings
 
-The **0.9.1 source candidate** has seven rows at **Quick Menu → Companions →
+The **0.9.2-test candidate** has seven rows at **Quick Menu → Companions →
 Companion Auto Summon**. The default PC Quick Menu key is **X**; use your assigned
 key if you remapped it. Confirm a row using the game's configured
 Select action: selection mode cycles Last selected → Random → By habitat; the
@@ -198,7 +225,7 @@ other six rows toggle ON/OFF. Matching-biome preference
 only affects Random on planets. All three locations may be OFF. Labels distinguish
 queued changes from applied state and session-only persistence. Browsing or
 rebuilding the page must not change a setting. Complete navigation, the shuffle
-icon and 0.9.1 confirmations still require in-game acceptance. The combined
+icon and current confirmations still require in-game acceptance. The combined
 launch does not create an external pyMHF control window.
 
 The seven native controls are:
@@ -260,49 +287,32 @@ If `settings.json` cannot be read, automation starts off. The mod settings can e
 
 ## Launching / first test
 
-To check an extracted candidate without starting anything, run
-`./Start-CompanionAutoSummon.ps1 -CheckOnly` from PowerShell. NMS may remain
-running. This mode validates available package/game/runtime prerequisites and
-reports missing requirements without creating an environment, installing
-dependencies, staging assets or launching the host/game. It does not validate
-in-game behavior or replace the backup required before a new live trial.
+1. Quit NMS normally, extract the complete **0.9.2-test** ZIP into a new folder,
+   and double-click **Companion Auto Summon.exe**.
+2. Select **Check installation**. If needed, use **Choose game folder** to locate
+   your Steam installation, then check again. A different game executable is refused.
+3. Select **Start game**. A verified private backup is required before each
+   normal start; failure prevents launch. No Python/pip installation is needed.
+4. Keep the launcher open for the first live test. Do not end its background
+   host. Closing the launcher is designed to leave the session running, but
+   that behavior has not yet been proven in game.
 
-For normal setup and the first live test, close NMS and back up the current save profile. Extract the package and install a supported x64 Python version if necessary. Run `Start-CompanionAutoSummon.ps1` from PowerShell.
+See [the complete quick start](docs/release/PORTABLE-QUICKSTART.md) for the
+one-time Microsoft Visual C++ x64 prerequisite, first pet checks and recovery.
+Backups, logs and private sessions live under `%LOCALAPPDATA%\NMS-AutoPet\`;
+existing `settings.json` and `state.json` remain there. Backup copying verifies
+the source before and after copying. Session files must not be removed while
+playing, and personal data must not be shared with another tester.
 
-Normal setup refuses to proceed while NMS is running or process enumeration is unavailable, detects Steam libraries, checks the game and packaged script, and creates a private environment under `%LOCALAPPDATA%\NMS-AutoPet\runtime-0.2.4`. It installs `pymhf[gui]==0.2.4`, including GUI dependencies, when needed, requiring internet on first setup, then launches Companion Auto Summon. This development runtime keeps its legacy path to reuse existing dependencies. Fixed session-wide setup and host leases reject a second launch across package folders; they do not use stale lock files or require manual cleanup after a process exits.
+To play without the mod, quit NMS normally and start it through Steam. Removing
+`settings.json` resets the approved fresh defaults rather than preserving your
+choices; routine upgrades do not require deleting it. After both solo checks,
+use [the multiplayer plan](docs/release/MULTIPLAYER-TEST.md). Record visible
+pets independently on each PC; a log request alone does not prove appearance.
 
-An optional `-GameDirectory` argument selects a game folder for preflight checks. It must match the installation used by the active Steam client: pyMHF still launches Steam app 275850.
-
-In 0.8.4, the supported hosts verify the selected executable before importing
-the framework, then verify the executable belonging to the actual target
-process handle before each DLL injection. Startup also rejects unexpected
-framework configuration and foreign `pymhflib` entry points. An unsupported,
-changed or unreadable executable refuses mod activation with an outside-game
-warning; it does not reset preferences or use an unverified native HUD.
-Refusal boundaries are tested offline; a supported guarded launch also succeeded
-in 0.8.4 and 0.8.7. The 0.8.7 live scope is the two Nexus Random summons
-documented above, not complete gameplay or installer acceptance.
-
-Compatibility warnings use the Windows UI locale with an optional `-Language`
-override, for example `-Language fr`. This is not game-language detection.
-`-NoDialog` suppresses the warning dialog while retaining console errors;
-`-CheckOnly` also avoids dialogs. Invalid translation data uses a short English
-package-error fallback. Other setup messages still have untranslated English.
-
-Diagnostic logs are written to `logs` beside CompanionAutoSummon.py. The
-interactive Python console and separate logging window are disabled. In the
-0.9.1 combined trial, `gui.shown = false` also suppresses the pyMHF control window;
-standalone developer launches retain it. This is not a completed console-free
-or portable installer.
-
-Use `Start-CompanionAutoSummon.ps1` from a regular PowerShell terminal. It calls the host-only `Launch-CompanionAutoSummon.py`, which verifies DLLs by their full physical path and actual address in the game before Python code executes there. This guard does not edit installed framework files. Direct `pymhf run CompanionAutoSummon.py` bypasses this extra verification and is not the supported launch path for this package. `python CompanionAutoSummon.py` alone does not start the mod; copying it into GAMEDATA/MODS does not activate it.
-
-For the combined candidate, test all seven native rows and the absence of the
-external control window. Check exact HUD values, a no-op and persistence across
-a restart. The standalone developer setup separately retains nine panel
-controls/displays. Test OFF/ON changes, individual location choices, Random mode, the biome preference and selection confirmation. Load directly on foot on a planet, station and the Nexus; confirm a single summon, then dismiss it and confirm it stays dismissed until another trigger. Also load with automation OFF or a companion already present. For the biome option, test a matching eligible pet, no matching pet, OFF, station/Nexus bypass, and an unchanged manual favorite. On an archive platform or unsuitable terrain, remain there beyond 12 seconds, then walk to a valid place and check that the waiting pet appears once. Also test normal ship exits, immediate re-entry, manual replacement, save switching and a restart. The single 0.4.3 station startup in Random mode and one later manual dismissal without reappearance are confirmed as described above; remaining startup scenarios and broader dismissal regression still need live checks. Verify multiplayer after the basic behavior works.
-
-To disable the whole mod: quit NMS and launch normally through Steam. To forget choices, close NMS and remove only `state.json`. Removing `settings.json` restores the new-install defaults: automation ON, all three locations ON, By habitat, rotation ON, and biome preference ON for Random. It does not preserve migrated preferences.
+The earlier PowerShell/external-Python workflow is a retained developer path,
+not the portable player's installation procedure. Developer commands and
+version-scoped checks remain in [DEVELOPMENT.md](DEVELOPMENT.md).
 
 ## Source
 

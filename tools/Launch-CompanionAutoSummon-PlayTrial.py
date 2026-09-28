@@ -21,7 +21,7 @@ if str(_support_directory) not in sys.path:
 import cas_compatibility as compatibility
 
 
-VERSION = "0.9.1-play-trial"
+VERSION = "0.9.2-play-trial"
 HOST_NAME = "Launch-CompanionAutoSummon-PlayTrial.py"
 BOOTSTRAP_NAME = "Launch-CompanionAutoSummon.py"
 PAYLOAD_FILES = frozenset((
@@ -40,7 +40,7 @@ PAYLOAD_FILES = frozenset((
 ))
 EXPECTED_MODS = [
     {"name": "CompanionAutoSummon", "version": "0.5.1-experimental", "path": "CompanionAutoSummon.py"},
-    {"name": "CompanionMenuOrderTrial", "version": "0.9.0-selection", "path": "CompanionMenuOrderTrial.py"},
+    {"name": "CompanionMenuOrderTrial", "version": "0.9.1-diagnostics", "path": "CompanionMenuOrderTrial.py"},
 ]
 EXPECTED_CONFIG = {
     "exe": "NMS.exe", "steam_gameid": 275850, "start_paused": False,

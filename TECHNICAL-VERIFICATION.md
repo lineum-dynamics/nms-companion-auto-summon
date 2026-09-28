@@ -1,10 +1,32 @@
 # Companion Auto Summon — verification scope as of 28 September 2026
 
+## Current 0.9.2-test distribution and diagnostic menu
+
+Production remains **0.5.1-experimental**; combined **0.9.2-play-trial** uses menu
+**0.9.1-diagnostics**. The portable distribution adds a graphical executable,
+bundled Python 3.11.9, private verified backups and private session staging.
+The 1,245-file portable artifact is built and passed native imports and
+executable verify-only, without a game launch. The final developer suite passed
+770 tests, and relocated executable/package verification passed. Its hash is
+recorded; Nexus upload/readback remains PENDING in
+[TESTER-HANDOFF](docs/release/TESTER-HANDOFF.md). After normal closure of 090-r2,
+the packaged background child completed a verified 49-file backup and registered
+two Mods and twelve hooks in NMS. The interactive C# launcher was not opened.
+Visible pets, normal exit/restart, launcher clicks/closure and multiplayer remain
+unverified; see [LIVE-092](docs/research/LIVE-092.md). Prior trial files are unchanged.
+
+The menu still refuses an unexpected callback thread. It now records fixed
+callback names, observed/pinned thread, pin origin, a 16-entry trace and pending
+transaction flags. This does not repair the stop or authorize thread rebinding.
+The focused diagnostic suites passed 111 tests; the completed final offline
+checks are recorded above, while live acceptance remains unverified. See [MENU-THREAD-LIFECYCLE](docs/research/MENU-THREAD-LIFECYCLE.md).
+Native controls, gameplay and English display text are unchanged.
+
 Historical sections retain the status recorded for their named versions,
 including statements that a candidate had not yet launched. For the latest
 bounded observations, read the current-candidate section and its linked live record.
 
-## Current candidate 0.5.1 / 0.9.1
+## Retained candidate 0.5.1 / 0.9.1
 
 Production **0.5.1-experimental** and combined **0.9.1-play-trial** retain menu
 **0.9.0-selection**. The candidate names each applied settings value in HUD
@@ -19,7 +41,7 @@ passed actual-framework checks and Python plus Windows PowerShell 5.1 read-only
 preflights. It has not launched, so these results do not establish live menu,
 HUD, placement, localization or multiplayer acceptance.
 
-The immutable running **0.5.0 / 0.9.0 / 090-r2** has one player-confirmed visible
+The immutable prior **0.5.0 / 0.9.0 / 090-r2** has one player-confirmed visible
 Random startup pet in the Anomaly. The player reports apparently saved settings;
 restart persistence, By habitat and shuffle outcomes remain unverified. Its
 custom menu later stopped under the `unexpected_thread` guard at 14:30:17;

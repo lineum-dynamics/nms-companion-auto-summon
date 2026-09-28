@@ -2,33 +2,34 @@
 
 by **Lineum Dynamics**
 
-## Current development package and first-public gate
+## Current portable candidate: 0.9.2-test
 
-The follow-up source candidate **0.5.1-experimental / 0.9.1-play-trial** retains
-menu **0.9.0-selection**, adds specific setting/value confirmations and disables
-the external pyMHF panel in the combined launch configuration. It is prepared
-for a later restart; the running **0.5.0 / 0.9.0 / 090-r2** remains untouched.
-The [0.9.0 live record](../research/LIVE-090.md) includes startup registration and
-the player's first visible Random summon, not acceptance of the 0.9.1 changes.
+The player distribution uses a root **Companion Auto Summon.exe**, bundled
+Python 3.11.9 and pinned dependencies. It contains production **0.5.1**,
+combined **0.9.2-play-trial** and menu **0.9.1-diagnostics**. There are no player
+Python/pip setup steps. Windows 10/11 x64, Windows .NET Framework 4, Microsoft
+Visual C++ v14 x64 and Steam **Cosmos 7.04 / build 25442159** are required.
 
-The first public package must let a player **extract the ZIP and double-click
-one launcher** on an ordinary Windows x64 Steam PC. It must include a vetted,
-pinned runtime and its dependency licences/hashes, need no user Python/pip
-installation and open no development GUI. It must retain exact supported-game
-refusal, duplicate-host protection, stable preferences and the acceptance
-checks below. The currently supported target is Steam build **25442159 /
-Cosmos 7.04**, with the exact executable hash in `compatibility.json`; a later
-game build requires a separately verified compatibility profile.
+Normal start requires Steam open/signed in, exact package/game checks and a
+private verified backup. Private session copies preserve the distribution and
+existing external preferences. Closing the launcher is designed to leave its
+host/game running. The packaged background child completed a verified 49-file
+backup and registered both Mods and twelve hooks in NMS. The interactive C#
+launcher was not opened or clicked. Visible pets, exit/restart, launcher-window
+closure, second-PC and multiplayer acceptance remain unverified; see
+[LIVE-092](../research/LIVE-092.md). The known menu thread stop has additional
+bounded diagnostics, not a fix. The built archive passed 770 developer tests,
+final native/executable/framework checks and relocated package checking without
+a game launch. Its identity is recorded; upload/readback remains PENDING in [TESTER-HANDOFF](TESTER-HANDOFF.md).
+Use [the player quick start](PORTABLE-QUICKSTART.md) for the simple workflow.
 
-The 0.9.1 development PowerShell launcher does not meet that portable gate yet.
-It still creates its isolated environment from an external Python installation
-and installs `pymhf[gui]==0.2.4` dependencies when needed. `gui.shown = false`
-prevents GUI construction in the combined trial, while the standalone developer
-launcher keeps its panel because it has no native settings page. The runtime
-still imports GUI dependencies, and the host still needs its console-capable
-launch path. Console-free host/injected initialization, bundled-runtime
-relocation and safe launcher/game shutdown remain unfinished. A successful
-host-only import prototype does not establish those lifecycle checks.
+## Retained 0.9.1 development path
+
+The earlier 0.9.1 PowerShell package used external Python and retained a
+console-capable host. Its 403 production / 689 developer checks and read-only
+preflights are historical evidence for that package, not portable acceptance.
+The standalone developer script still has its separate panel. The running
+090-r2 remains untouched; see [LIVE-090](../research/LIVE-090.md).
 
 ## Retained 0.8.7 installation evidence
 
@@ -83,8 +84,8 @@ The short in-game name, setting captions and notices remain unchanged.
 Production 0.4.9 retains passive diagnostics after the first logical active
 state; menu 0.8.5-branding retains six controls, seven role icons and language
 observation without enabling translations. Retained 0.8.7 / 087-r1 remains
-unchanged. The public portable installer, complete translations
-and safety of the future saved technology are unfinished; their requirements
+unchanged. Live portability, complete translations
+and safety of the future saved technology remain unverified; their requirements
 and separate historical evidence follow below.
 
 Historical production 0.4.4 / combined package 0.7.1 added passive diagnostics
@@ -120,24 +121,32 @@ with automation ON. Complete in-game toggle testing is not yet confirmed;
 this is not a finished public installer.
 
 At that stage, the plan was to remove the temporary panel after the native
-controls were complete. The current 0.9.1 combined candidate now disables GUI
+controls were complete. The 0.9.1 combined candidate disabled GUI
 construction for the next trial, with acceptance still required. GUI dependency
 removal is separate work; it is not implied by hiding the panel. A launcher and
 background runtime remain necessary.
 
 ## Target player workflow
 
-1. Download the ZIP from Nexus and extract it to a writable folder of the player's choice.
-2. Double-click the Companion Auto Summon for No Man's Sky application.
-3. The launcher validates the installation and offers **Start the game with Companion Auto Summon**. If it finds multiple installations or cannot identify Steam, it offers a folder selection.
+1. The owner downloads the validated 0.9.2-test ZIP from unpublished Nexus mod
+   4579 and passes the unchanged ZIP to the second tester. Extract into a new folder.
+2. Double-click **Companion Auto Summon.exe**. Use **Check installation** and,
+   when needed, **Choose game folder**. Installation checking does not require Steam open.
+3. Open Steam, sign in and choose **Start game**. A private verified backup is
+   mandatory before launch. Keep the launcher open for the first live test.
 
-The player should not need to install Python, type terminal commands, choose library versions or change system environment variables. The ZIP must include its own tested environment. Normal launch should not require administrator privileges or display the external development panel. The first-public gate is this final workflow, not the current PowerShell development setup.
+The package includes its Python runtime. No terminal, pip setup or environment
+changes belong in the portable player flow. A missing Microsoft Visual C++ x64
+runtime gets a localized error and the official one-time installation procedure
+in the quick start; no prerequisite is downloaded automatically. Administrator
+rights are not a normal launcher requirement. Portable lifetime remains an
+acceptance gate even though the graphical entry point is implemented.
 
 ## Packaging approach to validate
 
 - An official portable Python distribution for Windows x64, pinned pyMHF and full dependency-chain versions, included licences and checksums.
 - A small standalone graphical launcher. Its runtime will be included in the ZIP; installation-time network operations and an automatic updater are outside the target design.
-- The current framework audit identified dependencies on `questionary` console initialization, native DLLs including the VC runtime, and standard-library initialization in the target process. Silent graphical launch and a self-contained embedded variant are therefore not yet established. A working console prototype can be an intermediate step, not an advertised finished unobtrusive launcher.
+- The portable source handles noninteractive host import and embedded-runtime preparation; the Windows Visual C++ runtime remains an explicit external prerequisite. Verify host and injected initialization through the final ZIP. An offline import check does not establish quiet live launch, target initialization or safe shutdown.
 - Do not copy the development venv. Verify module, native-DLL and physical-path resolution when launched from a different directory and account.
 - Keep source code available for inspection without bundling game files or personal state.
 
@@ -152,7 +161,7 @@ Official Python documentation describes the embedded distribution as an environm
 - On a game mismatch, state the supported version and the detected version if reliably known; a long hexadecimal string alone does not belong in the main error message.
 - A mismatch or inability to verify the version automatically prevents mod attachment. The maintained source retains the direct Python host check before the framework and actual-target-process verification before DLL injection. Nine compatibility messages are translated outside the game; no unverified native HUD is used. Preferences survive, and there is no option to force an unknown version. Python `--check-only` and Windows PowerShell 5.1 `-CheckOnly` run without launching, deploying or installing dependencies; their result must belong to the exact final package. Earlier guarded development launches do not validate a new portable runtime.
 - Offer to open the log directory. Do not automatically upload logs or user data.
-- Closing an ordinary control window must not silently terminate the game. The current coupling between pyMHF and game lifetimes needs explicit handling and testing in the launcher design.
+- Closing an ordinary control window must not silently terminate the game. The portable design keeps the host detached from the control window; that behavior still needs a live test.
 - Do not disable Windows security, antivirus protection or script-execution rules. Absence of SmartScreen warnings or antivirus approval cannot be promised in advance.
 
 ## Updating and removal

@@ -90,3 +90,12 @@ visible-spawn proof. The temporary pyMHF panel remains present in this retained
 No source, catalog wording, selection rules or gameplay limits changed for this
 launch. No game save was edited by the mod or deployment tooling. In-game native
 text remains English; the fourteen maintained catalogs remain draft preparation.
+
+## Follow-up source diagnostics
+
+The later **0.9.1-diagnostics** menu source adds bounded callback-phase/thread
+and pending-transaction records for a separate combined 0.9.2 candidate. It
+retains the lifetime thread pin, unsafe-callback refusal and native binding
+filter; it does not claim to repair the observed stop. No new live evidence
+comes from this source change, and the retained 090-r2 files and process remain
+untouched. See [the diagnostic contract](MENU-THREAD-LIFECYCLE.md).

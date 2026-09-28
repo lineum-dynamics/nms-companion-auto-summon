@@ -8,8 +8,8 @@ created No Man's Sky draft, category **Creatures**, mod ID **4579**. Its status
 is visibly **Unpublished**: [draft page](https://www.nexusmods.com/nomanssky/mods/4579)
 and [general editor](https://www.nexusmods.com/games/nomanssky/mods/4579/edit/general).
 The exact Nexus page title is **Companion Auto Summon for No Man's Sky - by
-Lineum Dynamics**, with author field **Lineum Dynamics**. The General section
-is saved and marked **Section complete**: version `0.9.1-play-trial`, language
+Lineum Dynamics**, with author field **Lineum Dynamics**. The last verified General section
+was saved and marked **Section complete**: version `0.9.1-play-trial`, language
 **English**, and tags **AI-Generated Content**, **AI Media** and **Quality of
 Life**. The authentic company avatar was previously uploaded and visually
 checked. The **1600 × 900** gallery cover and company avatar remain unchanged.
@@ -26,8 +26,9 @@ ZIP was uploaded during initial draft creation; the first test upload is recorde
 has now succeeded. Keep this status outside the public description. Publication
 remains blocked by unfinished release readiness, not draft creation.
 
-The body and summary below were saved to Nexus and read back on 28 September
-2026, with version **0.9.1-play-trial** (production 0.5.1, menu 0.9.0-selection).
+Historical readback: the previous body and summary were saved to Nexus on
+28 September 2026 with version **0.9.1-play-trial** (production 0.5.1, menu
+0.9.0-selection). The revised 0.9.2 body below was subsequently saved and read back.
 The file **Companion Auto Summon - 0.9.1 development trial**, file ID **49195**,
 is saved under **Miscellaneous**, with mod-manager downloads disabled. Its ZIP
 is 187,533 bytes; SHA-256:
@@ -41,6 +42,15 @@ its linked [VirusTotal report](https://www.virustotal.com/gui/file/7025712f8f9eb
 showed **0/65** detections for the exact ZIP hash. The discrepancy is unresolved;
 neither a false-positive cause nor a clean Nexus status has been established.
 
+Current uploaded copy: **0.9.2-test**, production 0.5.1, combined 0.9.2-play-trial,
+menu 0.9.1-diagnostics, Nexus file **49196**. Full title/byline, version, summary
+and portable description were saved and read back; the page stays Unpublished.
+The exact ZIP is quarantined by automated checks and cannot be routinely
+downloaded. Its linked VirusTotal result is 3/60; the exact compiled entry point
+reports 8/70. The specific cause and false-positive status are unresolved.
+See [TESTER-HANDOFF](TESTER-HANDOFF.md) and [the scan record](../research/PORTABLE-SCAN-092.md).
+No support message was sent; external contact remains unauthorized.
+
 ## Short summary
 
 Automatically bring along an owned companion after loading your save or leaving your starship. Choose Last selected, Random or weighted By habitat selection, with optional shuffle. Configure it in the native Quick Menu. The game's summoning and placement rules still apply.
@@ -53,9 +63,9 @@ Choose a familiar favourite, let Random vary your company, or use By habitat to 
 
 If your landing platform or surrounding terrain is unsuitable, the request can wait while you walk somewhere suitable. A selected random pet stays fixed during that wait. Entering your ship, choosing a pet manually or changing a mod setting cancels the pending request.
 
-## Settings in the 0.9.1 development candidate
+## Settings in the 0.9.2-test portable candidate
 
-In the combined development trial, open **Quick Menu → Companions → Companion Auto Summon** to reach the mod's settings. On PC, the default Quick Menu key is **X**. If you have changed your controls, use your assigned Quick Menu key instead.
+In the portable test candidate, open **Quick Menu → Companions → Companion Auto Summon** to reach the mod's settings. On PC, the default Quick Menu key is **X**. If you have changed your controls, use your assigned Quick Menu key instead.
 
 That page has seven controls:
 
@@ -69,13 +79,36 @@ That page has seven controls:
 
 Fresh-install defaults are **By habitat**, **Shuffle companions ON**, automation ON, all three locations ON, and the Random biome preference ON. Existing preferences are preserved; migration from older schemas starts the new shuffle option OFF.
 
-Applied changes report the actual value, such as **Selection: By habitat**, **Shuffle companions: ON** or **Space stations: OFF**. If several settings change together, the confirmation lists them together. A failed save adds **(session only)**; an unchanged value produces no new confirmation. The 0.9.1 presentation is prepared for its first live check.
+Applied changes report the actual value, such as **Selection: By habitat**, **Shuffle companions: ON** or **Space stations: OFF**. If several settings change together, the confirmation lists them together. A failed save adds **(session only)**; an unchanged value produces no new confirmation. The portable candidate and its presentation still require live acceptance.
 
 ## Compatibility
 
-The supported target is **Windows x64, Steam build 25442159 / Cosmos 7.04**, with the exact executable fingerprint listed in the package manifest. Other builds, stores and operating systems are not supported. A game update requires renewed compatibility checks; the launcher refuses an unknown executable.
+The supported target is **Windows 10/11 x64, Steam build 25442159 / Cosmos 7.04**, with the exact executable fingerprint listed in the package manifest. Other builds, stores and operating systems are not supported. A game update requires renewed compatibility checks; the launcher refuses an unknown executable.
 
-The current development setup requires **Python 3.11–3.13 x64 and pyMHF 0.2.4**. Start it through its supplied launcher. This is a Python/pyMHF mod, not a PAK to drop into GAMEDATA/MODS. The planned portable player installer is unfinished. Multiplayer, second-PC installation and compatibility with other mods are not yet verified.
+The **0.9.2-test** ZIP includes **Companion Auto Summon.exe**, Python 3.11.9
+and its pinned mod runtime. You do not install Python or run pip. Windows .NET
+Framework 4 and Microsoft Visual C++ v14 x64 are prerequisites. A missing VC++
+runtime is explained by the launcher; use Microsoft's official runtime
+instructions linked in the packaged README. Nothing is downloaded automatically.
+This is not a PAK to drop into GAMEDATA/MODS. Portable live launch, second-PC
+installation, multiplayer and compatibility with other mods remain unverified.
+
+## Start the portable test
+
+1. Quit NMS normally, then extract the complete ZIP into a new folder.
+2. Double-click **Companion Auto Summon.exe** and select **Check installation**.
+   Use **Choose game folder** if your Steam installation is not found.
+3. Open Steam, sign in and select **Start game**. The launcher makes and verifies
+   a private backup before every normal start; a failed backup prevents launch.
+4. Keep the launcher open for the first live check. Closing its window is
+   designed to leave the host/game running, but that remains unverified in game.
+
+Backups, logs and working sessions stay under `%LOCALAPPDATA%\NMS-AutoPet\`.
+Existing settings and manual choices are preserved; verified private session
+copies keep runtime writes out of the extracted distribution. Do not terminate
+the background host while playing. To play without the mod, quit normally and
+start NMS through Steam. Follow **README.txt**, **README.cs.txt** and
+**Multiplayer test.txt** in the supplied archive.
 
 ## FAQ
 
@@ -89,16 +122,16 @@ Dismissal does not create another automatic opportunity. Another successful loca
 
 **Does it change my save?**
 
-The mod does not directly edit NMS save files. Its settings and remembered manual choices live separately in `%LOCALAPPDATA%\NMS-AutoPet`. Back up your progress before testing an experimental build. To play without the mod, close the game normally and restart through Steam.
+The mod does not directly edit NMS save files. Its settings and remembered manual choices live separately in `%LOCALAPPDATA%\NMS-AutoPet`. The portable launcher requires a new private verified backup before each normal start. To play without the mod, close the game normally and restart through Steam.
 
 **How much has been tested?**
 
-The 0.9.0 trial has one player-confirmed visible Random companion after loading in the Space Anomaly. The player reports that settings appear to save; persistence across a restart has not been checked. This does not verify By habitat, shuffle outcomes or every native control. The follow-up 0.9.1 candidate has not launched in game. Earlier 0.8.7 load/exit and OFF/ON observations remain version-specific; an intermittent startup failure is still unexplained. Repeatability, placement, HUD/icons, remapped/controller input and multiplayer remain acceptance work. Native menu and HUD text remain English; the other thirteen language catalogs are unreviewed drafts.
+The 0.9.0 trial has one player-confirmed visible Random companion after loading in the Space Anomaly. The player reports that settings appear to save; persistence across a restart has not been checked. This does not verify By habitat, shuffle outcomes or every native control. Neither the retained 0.9.1 nor the 0.9.2 portable candidate has live acceptance. Earlier 0.8.7 load/exit and OFF/ON observations remain version-specific; an intermittent startup failure is still unexplained. Repeatability, placement, HUD/icons, remapped/controller input and multiplayer remain acceptance work. Native menu and HUD text remain English; the other thirteen language catalogs are unreviewed drafts.
 
 **Known current-trial limitation:** the custom settings menu can stop after a
 native callback thread change. This happened in the retained 0.9.0 session; its
-cause and relation to the player's actions are not established. The unchanged
-menu code in 0.9.1 does not resolve it. The guard stops the custom menu while
+cause and relation to the player's actions are not established. Menu 0.9.1-diagnostics in the portable candidate records more detail but does
+not resolve it. The guard stops the custom menu while
 retaining its native binding protection; production summoning is separate.
 
 Teleport arrival and base removal do not create a new summon opportunity.
@@ -108,7 +141,7 @@ pets simply because they disappear, which preserves manual dismissal.
 
 ## Selection and shuffle rules
 
-**Implemented in the development candidate; full live acceptance and public release are pending.** These selection rules are unchanged between 0.9.0 and 0.9.1. The latter improves setting confirmations and the native settings workflow; it does not change the selection balance below.
+**Implemented in the development candidate; full live acceptance and public release are pending.** These selection rules remain unchanged from 0.9.0 through the 0.9.2-test candidate. The later work improves settings feedback, diagnostic evidence and distribution; it does not change the selection balance below.
 
 ### Choose how your companion is selected
 
@@ -165,7 +198,7 @@ Adopting or abandoning companions updates the cycle. Renaming or reordering slot
 
 ### New-install defaults and upgrades
 
-A fresh 0.9.1 configuration uses **By habitat + Shuffle companions ON**, automation ON and all three supported locations ON. The Random biome preference is also ON but only applies if you select Random. Existing 0.8.x preferences retain their previous mode, location and ON/OFF choices; the new shuffle option starts OFF for those upgrades. Existing 0.9.0 settings, including the shuffle choice, remain unchanged. Changing a setting does not immediately summon or dismiss a pet: the next ship exit or successful local save load supplies a new opportunity.
+A fresh 0.9.2-test configuration uses **By habitat + Shuffle companions ON**, automation ON and all three supported locations ON. The Random biome preference is also ON but only applies if you select Random. Existing 0.8.x preferences retain their previous mode, location and ON/OFF choices; the new shuffle option starts OFF for those upgrades. Existing 0.9.0 settings, including the shuffle choice, remain unchanged. Changing a setting does not immediately summon or dismiss a pet: the next ship exit or successful local save load supplies a new opportunity.
 
 ## Credits and disclosure
 
@@ -175,11 +208,11 @@ Framework: [pyMHF](https://github.com/monkeyman192/pyMHF). Native research refer
 
 ## Internal readiness and metadata — do not publish this section
 
-- Current unlaunched candidate: production 0.5.1, combined 0.9.1, menu 0.9.0-selection. Running 090-r2 has production 0.5.0 and the same menu. Preserve its [bounded live record](../research/LIVE-090.md), including the confirmed visible Random startup pet and unverified restart persistence. Earlier 087-r1 evidence is historical. The 0.9.1 ZIP, version, summary and description are saved and verified on the unpublished draft; public release remains pending.
-- **Installation placeholder:** replace with the verified player-package procedure only after portable packaging and clean-machine acceptance. No final installation instructions are approved yet.
-- Combined 0.9.1 sets `gui.shown = false` and does not create the external pyMHF control window. Running 090-r2 still has that window. The standalone developer script lacks the native page and retains its GUI; do not advertise it as the finished player setup. Verify every native control in the next combined launch. The required pyMHF runtime and unfinished console-free/portable distribution are separate concerns.
+- Current portable candidate: 0.9.2-test, production 0.5.1, combined 0.9.2-play-trial, menu 0.9.1-diagnostics. 770 developer tests and final package checks passed; file 49196 and this page were read back. Automatic quarantine blocks downloading. The retained 090-r2 files remain unchanged after normal closure; its [bounded live record](../research/LIVE-090.md) does not validate portable launch or multiplayer.
+- The owner will download the exact validated test archive from the unpublished page and pass it unchanged to the second Windows/Steam tester. The upload is complete; downloading and handoff are blocked by quarantine. Do not claim either has happened.
+- The portable executable and bundled runtime implement the intended simpler player flow, with explicit VC++ x64 prerequisite and automatic private backups. Quiet launch, detached lifetime, target initialization and clean-second-PC behavior still need final live acceptance. Standalone developer scripts remain separate and retain their panel.
 - Source: [private canonical repository](https://github.com/lineum-dynamics/nms-companion-auto-summon). Do not advertise it as a publicly accessible source link.
 - Complete third-party provenance, credits, licences and reuse permissions before uploading release files. Retain the saved **AI-Generated Content** and **AI Media** disclosure tags under the reviewed submission rules; do not substitute AI Assisted.
 - Donation Points eligibility and payment destinations still need checks. No donation URL, account or revenue promise is configured here.
 - Investigate the observed callback-thread/menu lifecycle before claiming reliable access to every setting. Do not assign a despawn cause or add teleport/base-removal triggers from the current observation alone.
-- Weighted habitat selection and shuffle are implemented and unchanged in 0.5.1 / 0.9.1; their live acceptance is pending. The seven-control rules above describe that candidate, not the historical six-control 0.8.7 trial. Rechargeable technology and native translations remain unfinished. No publication is authorized until readiness is complete.
+- Weighted habitat selection and shuffle are implemented in production 0.5.1 and unchanged in 0.9.2-test; their live acceptance is pending. The seven-control rules above describe that candidate, not the historical six-control 0.8.7 trial. Rechargeable technology and native translations remain unfinished. No publication is authorized until readiness is complete.

@@ -1,16 +1,38 @@
 # Companion Auto Summon development guide
 
-Source **0.5.1-experimental / 0.9.1-play-trial** prepares specific confirmations
+Current distribution candidate: **0.9.2-test**, containing production
+**0.5.1-experimental**, combined **0.9.2-play-trial** and menu
+**0.9.1-diagnostics**. The tester ZIP provides **Companion Auto Summon.exe** and
+bundled Python 3.11.9; players do not install Python or use pip. It targets
+Windows 10/11 x64, Steam **Cosmos 7.04 / build 25442159**, Windows .NET Framework
+4 and Microsoft Visual C++ v14 x64. Native menu/HUD text remains English.
+
+The launcher prepares verified private backups before normal starts and uses
+private session copies, preserving the extracted distribution and existing
+preferences. On 28 September, the packaged background child completed a
+49-file verified backup and registered both Mods and twelve hooks in NMS.
+The interactive C# launcher was not opened or clicked. Visible pet behavior,
+normal exit/restart, launcher-window closure, second-PC use and multiplayer
+remain **unverified**; see [LIVE-092](docs/research/LIVE-092.md).
+The menu adds bounded diagnostics for the known
+`unexpected_thread` stop; it does not fix it. The 0.9.2 archive is built; the final developer suite passed **770 tests**.
+Relocated executable verification and package checks passed without starting
+the game. Nexus file **49196** and the 0.9.2 page were saved and read back,
+but automated quarantine blocks downloading. See the scan evidence and
+[the tester handoff](docs/release/TESTER-HANDOFF.md). Earlier results do not
+validate this new package.
+
+Retained source **0.5.1-experimental / 0.9.1-play-trial** prepares specific confirmations
 for every applied setting and a combined launch without the pyMHF control
 window. The seven-row native menu remains **0.9.0-selection**. Existing gameplay
 rules and preference persistence are unchanged. Validation passed
 403 production and 689 developer tests. Actual-framework checks and both
 read-only preflights passed; the combined ZIP has 42 verified files. This
-0.9.1 candidate has not launched; the running 090-r2 is never edited. The standalone
+0.9.1 candidate has not launched; the retained 090-r2 files remain unchanged. The standalone
 source mod retains its development GUI because it does not include the native
 menu. This does not establish a finished portable or console-free launcher.
 
-The running 090-r2 log later reports `Inert menu ordering stopped
+The retained 090-r2 log reports `Inert menu ordering stopped
 (unexpected_thread)` at 14:30:17. The menu guard retains the native binding
 filter but stops custom menu handling after a callback thread change; the
 production automation is separate. The reason for the thread change and its
@@ -93,10 +115,32 @@ This repository is the canonical development location. Keep installed test copie
 
 ## Current implementation
 
+The 0.9.2-test portable layer adds `launcher/`, `tools/portable_launcher.py`,
+pinned runtime construction/audit, the executable builder and the allowlisted
+distribution builder. Normal launch checks Steam, exact package/game identity,
+Windows prerequisites and competing hosts, then holds its setup lease across
+backup, private session staging and host lifetime. Check-only does not require
+Steam running and does not perform setup or game launch. Backups verify source,
+copy and source again before launch; framework writes use the staged session.
+The existing target-handle/native guards remain in force. Launcher/host logs use
+`%LOCALAPPDATA%\NMS-AutoPet\logs`, sessions use `sessions`, and backups use
+`backups`; player preferences retain their original external location.
+
+The built portable folder is `build/portable-092-r1`, using input runtime3119r3.
+Final native imports, executable verify-only and the combined actual-framework
+check passed without starting the game. The final developer suite passed
+770 tests; relocated executable and actual-package check-only passed with
+non-ASCII paths, poisoned Python variables and a minimal PATH, leaving 1,245
+files unchanged and creating no backup. Distribution readback belongs in [TESTER-HANDOFF](docs/release/TESTER-HANDOFF.md). Source
+changes after packaging require a new artifact identity; never mutate retained
+ZIPs, running sessions or installed runtime files to make them match docs.
+
+
 Repository-only native text preparation now renders the existing catalogs from
 an immutable validated snapshot, preserving whole-message state within the
-127-byte menu / 511-byte HUD payload limits. The expanded source matrix covers
-2,086 language/state combinations without fallback. This preparation remains
+127-byte menu / 511-byte HUD payload limits. The earlier single-message matrix covered
+2,086 language/state combinations without fallback; new multi-setting batches
+use a complete English fallback when translated text exceeds the byte limit. This preparation remains
 outside the production imports; current native menu/HUD text is English.
 The exact-build UTF-8 measurement and drawing
 decoders are now verified statically. The new combined trial observes copied
@@ -106,8 +150,10 @@ See [native localization preparation](docs/research/NATIVE-LOCALIZATION-AUDIT.md
 
 The repository-only noninteractive host import prototype passed seven focused
 tests and a real console-free pyMHF import comparison, including its negative
-control. Existing hosts do not import it. Target-side initialization, host/game
-lifecycle and a portable dependency bundle remain unverified. See
+control. The retained hosts did not import it. The portable source now has
+noninteractive host support and a bundled runtime. The first packaged background
+start registered both Mods and twelve hooks in NMS; interactive launcher use,
+visible behavior, shutdown and restart remain unverified. See
 [portable runtime preparation](docs/research/PORTABLE-RUNTIME-AUDIT.md).
 The earlier repository preparation passed 655 tests, including 22 native-text
 and host-import tests. Twenty language-observer and isolation regressions bring
@@ -119,7 +165,7 @@ production and the prepared combined trial. Its pure model, pinned native-data
 builder and six additional technology catalog entries do not gate the current
 mod, consume inventory or write a save. See
 [technology prototype](docs/research/TECHNOLOGY-PROTOTYPE.md) for evidence and
-remaining native transaction/persistence work. The catalogs now contain 46 keys
+remaining native transaction/persistence work. The catalogs now contain 63 keys
 in each of 14 languages; thirteen remain unreviewed drafts.
 The two product keys keep the full proper name invariant and translate the author
 credit. Three compatibility messages now use the full title. These external
@@ -149,7 +195,7 @@ The combined build and packaging also check generated production, menu/filter
 and technology-prototype targets. Drift stops output creation. Build the separate
 candidate with `python -B tools/build_quick_menu_play_trial.py --enable-menu`.
 Use a fresh explicit output directory if that version's default already exists;
-the builder refuses to overwrite an earlier trial. The current unlaunched artifact
+the builder refuses to overwrite an earlier trial. The retained unlaunched 0.9.1 artifact
 is `build/quick-menu-play-trial-091-r1`, with 41 payloads plus its manifest. It
 passed actual-framework checks and Python plus Windows PowerShell 5.1 read-only
 preflights. The immutable running `090-r2` retains the bounded startup and
@@ -166,7 +212,7 @@ Python probe regression covers legacy PowerShell argument quoting; target-path
 tests count UTF-16 units, including non-BMP characters. No new live behavior
 has been verified by these checks.
 
-The current launched source is **0.5.0-experimental**, paired with menu **0.9.0-selection** for **0.9.0-play-trial**. The retained **0.8.7-play-trial** has production **0.4.9** and menu **0.8.5-branding**. Retained **0.8.4-play-trial** has production **0.4.7** and menu **0.8.3-settings-trial**. Earlier artifacts remain unchanged. The target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The development launcher accepts Python 3.11–3.13 x64.
+The current registered source is **0.5.1-experimental**, paired with menu **0.9.1-diagnostics** for **0.9.2-play-trial**; its first packaged background start is recorded in [LIVE-092](docs/research/LIVE-092.md). The prior **0.5.0 / 0.9.0 / 090-r2** was closed normally before that launch. The retained **0.8.7-play-trial** has production **0.4.9** and menu **0.8.5-branding**. Retained **0.8.4-play-trial** has production **0.4.7** and menu **0.8.3-settings-trial**. Earlier artifacts remain unchanged. The target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The development launcher accepts Python 3.11–3.13 x64.
 
 The PowerShell launcher's `-CheckOnly` path validates package integrity, the
 supported game and the existing runtime without creating files/directories,
@@ -180,9 +226,10 @@ is the lifetime of the OS handles, not a lock file or a remembered PID. The
 lease ends when its last handle closes, including after a crash. Duplicate
 launches are refused across folders. An error enumerating processes prevents
 normal setup rather than being treated as evidence that the game is closed.
-The 0.9.1 combined candidate sets `gui.shown = false`; its standalone developer
-configuration still shows the panel. The portable public installer, console-free
-startup and localization remain unfinished; this revision does not change native hooks, summon rules or input.
+The 0.9.1 and 0.9.2 combined candidates set `gui.shown = false`; standalone
+developer configuration still shows the panel. Packaged background startup and
+native registration are observed; interactive/visible quiet startup, shutdown,
+restart and native localization remain unverified; this revision does not change native hooks, summon rules or input.
 
 The 0.9.0 menu opts into seven tagged None children on one flat page. Existing
 roles 0–5 remain `enabled`, `selection_mode`, `prefer_same_biome`, `planets`,

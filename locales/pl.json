@@ -196,6 +196,74 @@
     "hud.no_suitable_habitat": {
       "text": "Brak odpowiedniego towarzysza dla tego siedliska.",
       "source_sha256": "e96f4f446a004e504a0e31474177eb032ad5d24d6c4b07b9d1f9cf2aa6418a0e"
+    },
+    "portable.start": {
+      "text": "Uruchom grę",
+      "source_sha256": "dc58131a08f4009891d2e333cd6cd573dc0441bfa1bd01b8d60fdec76205f0d7"
+    },
+    "portable.check": {
+      "text": "Sprawdź instalację",
+      "source_sha256": "aa9e294ac5c702e64d820d6c646e7dcb967bef2f76af1378d2029f7acda71533"
+    },
+    "portable.choose_game": {
+      "text": "Wybierz folder gry",
+      "source_sha256": "9597f24dcea2d563893837c98a7ed80afabddd32f6722a1ee0c63c015bee8699"
+    },
+    "portable.ready": {
+      "text": "Tylko Windows + Steam. Sprawdzona wersja gry: Cosmos 7.04. Zamknij grę przed uruchomieniem.",
+      "source_sha256": "20ece24c0c55f743430953014b5a86f598cd804f8fad30668ceac9fc7d211f50"
+    },
+    "portable.checking": {
+      "text": "Sprawdzanie pakietu i instalacji gry...",
+      "source_sha256": "c03e660b4256ad2cd285cd3b147ddf2211b2ee6ebfe633c2c941fc463537079e"
+    },
+    "portable.starting": {
+      "text": "Uruchamianie moda...",
+      "source_sha256": "0d25c893bc4fe112f58983979a2d299b49b7fe007572634b15ae373a82f0828d"
+    },
+    "portable.started": {
+      "text": "Zażądano uruchomienia. Możesz zamknąć to okno. Ewentualne błędy uruchamiania pojawią się osobno.",
+      "source_sha256": "2a8bbb1dbc997d20c2c6787350f6049134d923009e83adc5f903c1c4588ffc52"
+    },
+    "portable.close": {
+      "text": "Zamknij",
+      "source_sha256": "7d9eb7acb13e24625c404401d8e88b2350e32162455885f18276cf802f7701ed"
+    },
+    "portable.backup_failed": {
+      "text": "Nie udało się utworzyć zweryfikowanej kopii zapisów gry. Gra i mod nie zostały uruchomione.",
+      "source_sha256": "2cc089f44d3f0f42ad5f8a7f2d5d0a612d3c5f3c3d7b4056241de4dc021231b4"
+    },
+    "portable.runtime_invalid": {
+      "text": "Przenośne środowisko jest niekompletne lub zmienione. Wypakuj nową kopię całego pobranego pakietu.",
+      "source_sha256": "ef04c1b2ce13b455ca2d992ac9414cc48ea02185157d068e0e86a8513961cdab"
+    },
+    "portable.game_choice_required": {
+      "text": "Wybierz folder No Man's Sky zawierający Binaries/NMS.exe.",
+      "source_sha256": "caa989a6b2eede92bb468496f09af7dbc5312991de89cb0c07541543255b59a7"
+    },
+    "portable.check_passed": {
+      "text": "Pakiet i gra przeszły sprawdzanie. Nie uruchomiono gry ani moda.",
+      "source_sha256": "fd85c1276be833daee4522f242384979cbc255db76c052eefc4c5422bda9730a"
+    },
+    "portable.check_failed": {
+      "text": "Sprawdzanie instalacji nie powiodło się. {details}",
+      "source_sha256": "1f01258a16d84b9f53d6d9a5b7b7265a07b849faa80726430ee69c23898a6e10"
+    },
+    "portable.check_timeout": {
+      "text": "Sprawdzanie instalacji nie zakończyło się na czas. Nie uruchomiono gry ani moda.",
+      "source_sha256": "b1c8b086f766c0fb4272715961820ca4433c4355c1c5d4ed582af70ca06b7e25"
+    },
+    "portable.native_runtime_missing": {
+      "text": "Brakuje środowiska uruchomieniowego Microsoft Visual C++ (x64). Zainstaluj je z https://aka.ms/vc14/vc_redist.x64.exe, a następnie ponownie sprawdź instalację.",
+      "source_sha256": "f9d76fb62c4e604b852f59206dbc5f86677c2875411deaf8d6fbc7e88b67d604"
+    },
+    "portable.steam_required": {
+      "text": "Otwórz Steam i zaloguj się na konto, które posiada No Man's Sky, a następnie spróbuj ponownie.",
+      "source_sha256": "80d0150bc87a256f5a11e8b6d8bf5f5187cfce041a7091e8bdb19c5212e2bb4f"
+    },
+    "portable.start_failed": {
+      "text": "Nie udało się uruchomić gry z modem. Zamknij każdą grę, która się otworzyła, i spróbuj ponownie. Jeśli problem się powtórzy, zachowaj dziennik programu uruchamiającego.",
+      "source_sha256": "596509fe4c0bdf8e67edd080518c8fddcd08125824777910fcb1761065f1087a"
     }
   }
 }

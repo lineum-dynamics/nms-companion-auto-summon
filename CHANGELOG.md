@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.9.2-test first packaged background-host startup — 28 September 2026
+
+- Start the packaged Python child after owner-confirmed normal game closure and executable verify-only success. Built-in source/copy/source backup verified 49 files; a later target check matched all 49 hashes without an incomplete marker. Stage into a new private session, retaining prior trial files.
+- Observe injection completion, production 0.5.1 with automation ON, the binding filter and two Mods/twelve hooks initialized at 15:34:12. Retain the early `Cannot find window handle` warning without assigning a cause. See `docs/research/LIVE-092.md`.
+- The interactive C# launcher was not opened or clicked. Visible pets, settings/HUD acceptance, normal exit/restart, launcher-window closure, second-PC use and multiplayer remain unverified. Registration does not establish a fix for the menu thread stop.
+
+## 0.9.2-test portable candidate — preparation checkpoint
+
+- Prepare a root graphical executable with bundled Python 3.11.9 and pinned dependencies, installation checking and game-folder selection. Portable testers do not install Python or run pip. Retain Windows .NET Framework 4 and Microsoft Visual C++ v14 x64 as checked prerequisites; no automatic prerequisite download.
+- Require private, source/copy/source-verified backups before normal starts, preserve existing external preferences and stage verified mod files into private sessions. Keep runtime writes out of the extracted distribution. Detached launcher/host lifetime is prepared but not yet live-verified.
+- Retain production 0.5.1 and all selection/gameplay rules. Use combined 0.9.2-play-trial and menu 0.9.1-diagnostics; log bounded callback/thread/transaction evidence without accepting arbitrary new threads or fixing the known menu stop.
+- Add portable English/Czech quick starts, a private tester handoff and two-player acceptance plan. The owner will download the exact validated unpublished Nexus ZIP and pass it unchanged to the other tester. No portable live or multiplayer success is claimed.
+- Build the 1,245-file portable archive; final developer validation passed 770 tests. Final native imports, executable verify-only, actual-framework checks and relocated executable/package checking passed without game start or attach. The relocated path included non-ASCII characters and isolated/poisoned Python environment variables; all packaged files remained unchanged and no backups were mutated. Artifact hash and byte count are recorded in `docs/release/TESTER-HANDOFF.md`. New Nexus upload ID/readback and scan remain PENDING; do not reuse the historical 0.9.1 file ID or Nexus/VirusTotal discrepancy as 0.9.2 evidence.
+
 ## 0.5.1 / 0.9.1 developer candidate — exact settings confirmations
 
 - Replace generic settings-updated notices with every effective changed label and its new ON/OFF or mode value. Batch multiple changes in canonical menu order, keep one session-only suffix on save failure, and emit nothing for a no-op. Preserve preference application, storage, summon cancellation and existing latest-notice delivery semantics.

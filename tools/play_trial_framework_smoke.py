@@ -158,7 +158,7 @@ def check(bundle_folder):
             "Canonical injection bootstrap must be byte-identical")
     require((bundle / host.HOST_NAME).read_bytes() == (ROOT / "tools" / host.HOST_NAME).read_bytes(),
             "Combined host must match its reviewed source")
-    menu_source = (ROOT / "tools/quick_menu_order_trial.py").read_text(encoding="utf-8")
+    menu_source = (ROOT / "tools/quick_menu_order_trial.py").read_bytes().decode("utf-8")
     require(menu_source.count("TRIAL_ENABLED = False") == 1, "Expected one disabled menu source flag")
     require(menu_source.count("SETTINGS_TOGGLE_ENABLED = False") == 1, "Expected disabled toggle source")
     expected_menu = menu_source.replace("TRIAL_ENABLED = False", "TRIAL_ENABLED = True", 1)

@@ -65,6 +65,12 @@ LOAD_RESOURCES_RVA = 0x151AD80
 PENDING_SELECTION_OFFSET = 0xA16C
 LOGGER = logging.getLogger("CompanionMenuOrderTrial")
 ICON_REGISTRY_NAME = "_companion_auto_summon_icon_owner_v1"
+CALLBACK_PHASES = (
+    "builder_before", "append", "builder_after", "label_after",
+    "trigger_before", "trigger_after", "confirmation_before", "confirmation_after",
+)
+CALLBACK_HISTORY_LIMIT = 16
+CALLBACK_COUNT_LIMIT = 1_000_000
 
 if SETTINGS_TOGGLE_ENABLED:
     import quick_menu_toggle as toggle
@@ -230,7 +236,7 @@ else:
 
 
 class CompanionMenuOrderTrial(Mod):
-    _version = ("0.9.0-selection" if LANGUAGE_OBSERVATION_ENABLED
+    _version = ("0.9.1-diagnostics" if LANGUAGE_OBSERVATION_ENABLED
                 else "0.8.3-settings-trial" if EXTENDED_SETTINGS_ENABLED or CUSTOM_ICON_ENABLED
                 else "0.7.0-toggle-trial" if SETTINGS_TOGGLE_ENABLED else "0.6.0-order-trial")
     _author = "Lineum Dynamics"
@@ -242,6 +248,11 @@ class CompanionMenuOrderTrial(Mod):
         super().__init__()
         self._lock = Lock()
         self._thread = None
+        self._thread_origin = None
+        self._diagnostic_lock = Lock()
+        self._callback_history = ()
+        self._callback_counts = {phase: 0 for phase in CALLBACK_PHASES}
+        self._callback_sequence = 0
         self._stopped = True
         self._notice_sent = False
         self._appended = False
@@ -303,8 +314,57 @@ class CompanionMenuOrderTrial(Mod):
         except Exception:
             self._stop("initialization")
 
-    def _stop(self, reason):
+    def _record_callback(self, phase, native_thread):
+        """Keep bounded Python-only observations; never authorize a callback."""
+        acquired = False
+        first = False
+        try:
+            if phase not in CALLBACK_PHASES:
+                return
+            acquired = self._diagnostic_lock.acquire(blocking=False)
+            if not acquired:
+                return  # Best-effort diagnostics never wait on another callback.
+            first = self._callback_counts[phase] == 0
+            self._callback_counts[phase] = min(self._callback_counts[phase] + 1,
+                                              CALLBACK_COUNT_LIMIT)
+            self._callback_sequence = min(self._callback_sequence + 1, CALLBACK_COUNT_LIMIT)
+            # No menu/action/item pointer or native data enters this record.
+            thread = native_thread if type(native_thread) is int and 0 < native_thread <= 0xFFFFFFFF else None
+            record = (self._callback_sequence, phase, thread,
+                      self._building is not None, self._pending is not None,
+                      self._confirmation_call is not None, self._confirmation_intent is not None)
+            self._callback_history = (*self._callback_history, record)[-CALLBACK_HISTORY_LIMIT:]
+        except Exception:
+            return
+        finally:
+            if acquired:
+                self._diagnostic_lock.release()
+        if first:
+            try:
+                LOGGER.info("Menu callback first observed: phase=%s thread=%s; diagnostic only.", phase, thread)
+            except Exception:
+                pass
+
+    def _callback_snapshot(self):
+        """Copy owned trace data without blocking or consulting the game."""
+        acquired = False
+        try:
+            acquired = self._diagnostic_lock.acquire(blocking=False)
+            if acquired:
+                return (self._callback_history, tuple(self._callback_counts.items()))
+        except Exception:
+            pass
+        finally:
+            if acquired:
+                self._diagnostic_lock.release()
+        return ("unavailable", "unavailable")
+
+    def _stop(self, reason, *, phase=None, native_thread=None):
         self._stopped = True
+        # Capture pending Python state before cancellation erases the evidence.
+        lifecycle = (self._building is not None, self._pending is not None,
+                     self._confirmation_call is not None, self._confirmation_intent is not None,
+                     self._icon_phase_seen, self._appended, self._opened)
         self._pending = None
         self._building = None
         self._confirmation_call = None
@@ -314,40 +374,57 @@ class CompanionMenuOrderTrial(Mod):
         if not self._notice_sent:
             self._notice_sent = True
             try:
-                LOGGER.warning("Inert menu ordering stopped (%s); native binding filter is retained.", reason)
+                if native_thread is None:
+                    try:
+                        native_thread = get_native_id()
+                    except Exception:
+                        native_thread = None
+                history, counts = self._callback_snapshot()
+                LOGGER.warning(
+                    "Inert menu ordering stopped (%s); native binding filter is retained. "
+                    "callback=%s observed_thread=%s pinned_thread=%s pinned_by=%s "
+                    "lifecycle(build,trigger,confirm,intent,resources,appended,opened)=%s "
+                    "recent(sequence,phase,thread,build,trigger,confirm,intent)=%s counts=%s; "
+                    "diagnostics are bounded and do not establish the cause of a thread change.",
+                    reason, phase, native_thread, self._thread, self._thread_origin,
+                    lifecycle, history, counts,
+                )
             except Exception:
                 pass
 
-    def _enter(self, phase="ordinary"):
+    def _enter(self, phase):
         if self._stopped:
             return False
         if not self._lock.acquire(blocking=False):
-            self._stop("overlapping_callback")
+            self._stop("overlapping_callback", phase=phase)
             return False
         try:
             native_thread = get_native_id()
+            self._record_callback(phase, native_thread)
             if self._stopped or (self._thread is not None and native_thread != self._thread):
-                self._stop("unexpected_thread")
+                self._stop("unexpected_thread", phase=phase, native_thread=native_thread)
                 self._lock.release()
                 return False
+            if self._thread is None:
+                self._thread_origin = phase
             self._thread = native_thread
             if self._confirmation_call is not None and phase != "confirmation_after":
-                self._stop("nested_confirmation_callback")
+                self._stop("nested_confirmation_callback", phase=phase)
                 self._lock.release()
                 return False
             if phase != "trigger_before":
                 self._confirmation_intent = None
             if self._building is not None and phase not in ("append", "builder_after"):
-                self._stop("nested_build_callback")
+                self._stop("nested_build_callback", phase=phase)
                 self._lock.release()
                 return False
             if self._pending is not None and (phase == "trigger_before" or (
                     phase != "trigger_after" and self._pending[4] is not None)):
-                self._stop("nested_callback")
+                self._stop("nested_callback", phase=phase)
                 self._lock.release()
                 return False
         except Exception:
-            self._stop("thread_lookup")
+            self._stop("thread_lookup", phase=phase)
             self._lock.release()
             return False
         return True
@@ -495,7 +572,7 @@ class CompanionMenuOrderTrial(Mod):
             if not self._stopped:
                 self._building = (menu, render, self._thread)
         except Exception:
-            self._stop("builder_before")
+            self._stop("builder_before", phase="builder_before")
         finally:
             if self._stopped:
                 self._building = None
@@ -510,11 +587,13 @@ class CompanionMenuOrderTrial(Mod):
         if self._stopped or building is None or header != building[0] + item.VECTORS_OFFSET + item.VECTOR_SIZE:
             return None
         try:
-            if get_native_id() != building[2]:
-                self._stop("append_unexpected_thread")
+            native_thread = get_native_id()
+            if native_thread != building[2]:
+                self._record_callback("append", native_thread)
+                self._stop("append_unexpected_thread", phase="append", native_thread=native_thread)
                 return None
         except Exception:
-            self._stop("append_thread_lookup")
+            self._stop("append_thread_lookup", phase="append")
             return None
         if not self._enter("append"):
             return None
@@ -540,7 +619,7 @@ class CompanionMenuOrderTrial(Mod):
                     self._ordered = True
                     LOGGER.info("Companion Auto Summon inserted before the first companion; visual order remains a player check.")
         except Exception:
-            self._stop("ordered_append")
+            self._stop("ordered_append", phase="append")
         finally:
             if self._stopped:
                 self._building = None
@@ -586,7 +665,7 @@ class CompanionMenuOrderTrial(Mod):
                 self._appended = True
                 LOGGER.info("Companion Auto Summon submenu entry appended; visible navigation remains a player check.")
         except Exception:
-            self._stop("builder")
+            self._stop("builder", phase="builder_after")
         finally:
             self._building = None
             self._lock.release()
@@ -608,7 +687,7 @@ class CompanionMenuOrderTrial(Mod):
 
     @cas_item_label.after
     def after_label(self, menu, output):
-        if not self._enter():
+        if not self._enter("label_after"):
             return None
         try:
             if SETTINGS_TOGGLE_ENABLED:
@@ -641,7 +720,7 @@ class CompanionMenuOrderTrial(Mod):
                     self._label_seen = True
                     LOGGER.info("Submenu label supplied; visible rendering remains a player check.")
         except Exception:
-            self._stop("label")
+            self._stop("label", phase="label_after")
         finally:
             self._lock.release()
         return None
@@ -667,7 +746,7 @@ class CompanionMenuOrderTrial(Mod):
                 # invocation. The action pointer is never dereferenced AFTER.
                 self._pending = (menu, action, called_as_menu, self._thread, token, preference_token)
         except Exception:
-            self._stop("activation_before")
+            self._stop("activation_before", phase="trigger_before")
         finally:
             if self._stopped:
                 self._pending = None
@@ -713,7 +792,7 @@ class CompanionMenuOrderTrial(Mod):
         except Exception:
             # Never roll back native storage or free the binding guard after a
             # partial operation. Native maintenance handles an empty subpage.
-            self._stop("activation_after")
+            self._stop("activation_after", phase="trigger_after")
         finally:
             self._pending = None
             self._lock.release()
@@ -728,7 +807,7 @@ class CompanionMenuOrderTrial(Mod):
             item._address(menu, 0, PENDING_SELECTION_OFFSET + 1)
             self._confirmation_call = (menu, self._thread)
         except Exception:
-            self._stop("confirmation_before")
+            self._stop("confirmation_before", phase="confirmation_before")
         finally:
             self._lock.release()
         return None
@@ -753,7 +832,7 @@ class CompanionMenuOrderTrial(Mod):
                     if preference is not None and not self._stopped:
                         self._confirmation_intent = (menu, self._thread, state, preference)
         except Exception:
-            self._stop("confirmation_after")
+            self._stop("confirmation_after", phase="confirmation_after")
         finally:
             self._confirmation_call = None
             if self._stopped:

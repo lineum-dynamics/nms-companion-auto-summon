@@ -1,5 +1,27 @@
 # Companion Auto Summon for No Man's Sky — player experience
 
+Current distribution candidate: **0.9.2-test**, containing production
+**0.5.1-experimental**, combined **0.9.2-play-trial** and menu
+**0.9.1-diagnostics**. The tester ZIP provides **Companion Auto Summon.exe** and
+bundled Python 3.11.9; players do not install Python or use pip. It targets
+Windows 10/11 x64, Steam **Cosmos 7.04 / build 25442159**, Windows .NET Framework
+4 and Microsoft Visual C++ v14 x64. Native menu/HUD text remains English.
+
+The launcher prepares verified private backups before normal starts and uses
+private session copies, preserving the extracted distribution and existing
+preferences. On 28 September, the packaged background child completed a
+49-file verified backup and registered both Mods and twelve hooks in NMS.
+The interactive C# launcher was not opened or clicked. Visible pet behavior,
+normal exit/restart, launcher-window closure, second-PC use and multiplayer
+remain **unverified**; see [LIVE-092](docs/research/LIVE-092.md).
+The menu adds bounded diagnostics for the known
+`unexpected_thread` stop; it does not fix it. The 0.9.2 archive is built; the final developer suite passed **770 tests**.
+Relocated executable verification and package checks passed without starting
+the game. Nexus file **49196** and the 0.9.2 page were saved and read back,
+but automated quarantine blocks downloading. See the scan evidence and
+[the tester handoff](docs/release/TESTER-HANDOFF.md). Earlier results do not
+validate this new package.
+
 This document records the accepted product direction. It distinguishes the current experimental implementation from the intended public experience.
 
 ## Goal
@@ -17,19 +39,20 @@ The canonical repository is
 The repository slug, code identifiers, filenames and legacy player-data paths
 remain unchanged by this presentation update.
 
-## Current state
+## Current behavior and retained version evidence
 
-The follow-up **0.5.1 / 0.9.1** candidate replaces generic setting confirmations
+The retained **0.5.1 / 0.9.1** candidate replaces generic setting confirmations
 with the changed labels and applied values, preserving session-only feedback
 when persistence fails. Combined launches will omit the external pyMHF control
 window through `gui.shown = false`; the native menu remains the player settings
 interface. Validation passed 403 production and 689 developer tests. The 091-r1
 bundle is built; actual-framework checks and both Python and Windows PowerShell
-5.1 read-only preflights passed. This candidate has not launched and is not applied to the
-running 090-r2. Standalone developer
-launches still have their panel, and console-free packaging remains unfinished.
+5.1 read-only preflights passed. This 0.9.1 candidate has not launched. The
+separate 0.9.2 background-host startup is recorded above; prior 090-r2 was closed
+normally first. Standalone developer launches still have their panel. Interactive
+launcher and visible console-free behavior remain unverified.
 
-The running 090-r2 log later reports `Inert menu ordering stopped
+The retained 090-r2 log reports `Inert menu ordering stopped
 (unexpected_thread)` at 14:30:17. The menu guard retains the native binding
 filter but stops custom menu handling after a callback thread change; the
 production automation is separate. The reason for the thread change and its
@@ -131,8 +154,9 @@ overwrite preferences, offer a force-enable bypass, remove technology from saves
 or silently promise an already modified save is safe without its data package.
 The current candidate implements nine localized compatibility messages in the
 host, with both preflight and actual-process checks before injection. It keeps
-the native disabled guard. Other launcher text, the final portable installer
-and native language selection remain unfinished. A compatibility refusal must
+the native disabled guard. The 0.9.2 portable source adds seventeen cataloged
+launcher labels/status/failure messages and a graphical entry point. Portable
+live acceptance and native language selection remain unfinished. A compatibility refusal must
 not start another game, reset preferences or attempt a native HUD notification.
 
 ## Summoning after loading
@@ -152,7 +176,7 @@ from acceptance or add retries that could override a manual dismissal.
 
 Prefer one dedicated CompanionAutoSummon/automatic-companion entry in the companion section of the native quick menu, before individual pets and after general companion actions. The separate 0.6.0 trial implements this order in offline checks; its live result remains pending. Its final label must fit the existing layout and terminology. Do not replace a vanilla action or reuse its ID for a different purpose without a verified, non-conflicting implementation.
 
-The retained 0.9.0-selection menu used by the 0.9.1 candidate exposes the same shared preference store with seven rows:
+The current 0.9.1-diagnostics menu retains the 0.9.0-selection page and exposes the same shared preference store with seven rows:
 
 - Automatic summoning on/off.
 - Last selected, Random or By habitat selection mode.
@@ -169,7 +193,7 @@ live acceptance; this is implemented source, not a verified release interface.
 
 The native menu and any retained development panel must share one preference store and apply changes through the same established game-thread path. Translated labels must not become internal setting values. A menu appearance change must not bypass native eligibility, change a companion's attributes or write game save files.
 
-The 0.9.1 combined candidate suppresses the separate pyMHF settings panel while
+The 0.9.1 and 0.9.2 combined candidates suppress the separate pyMHF settings panel while
 complete native-control acceptance remains pending. The final release must
 verify this workflow end to end. The standalone developer panel is a temporary
 development tool, not a second required player interface. Preserve existing
@@ -308,7 +332,7 @@ Match existing spacing, selection feedback, input prompts and navigation. Do not
 
 ## Public installation
 
-The target is an extracted ZIP with a clickable launcher and an included, tested runtime. It must not require users to install Python or type setup commands. Native quick-menu settings would remove the need to visit a separate settings window during normal play; the external launcher would still be needed to start the runtime unless a different launch mechanism is separately implemented and verified.
+The 0.9.2-test source implements an extracted ZIP with a clickable launcher and a bundled runtime; live portability is not yet verified. It must not require users to install Python or type setup commands. Native quick-menu settings would remove the need to visit a separate settings window during normal play; the external launcher would still be needed to start the runtime unless a different launch mechanism is separately implemented and verified.
 
 ## Verification before claiming integration
 

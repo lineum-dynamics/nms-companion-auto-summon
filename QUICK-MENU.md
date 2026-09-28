@@ -1,6 +1,28 @@
 # Native quick-menu investigation
 
-## Current source: 0.9.1 combined trial, menu 0.9.0-selection
+## Current 0.9.2-test distribution and diagnostic menu
+
+Production remains **0.5.1-experimental**; combined **0.9.2-play-trial** uses menu
+**0.9.1-diagnostics**. The portable distribution adds a graphical executable,
+bundled Python 3.11.9, private verified backups and private session staging.
+The 1,245-file portable artifact is built and passed native imports and
+executable verify-only, without a game launch. The final developer suite passed
+770 tests, and relocated executable/package verification passed. Its hash is
+recorded; Nexus upload/readback remains PENDING in
+[TESTER-HANDOFF](docs/release/TESTER-HANDOFF.md). After normal closure of 090-r2,
+the packaged background child completed a verified 49-file backup and registered
+two Mods and twelve hooks in NMS. The interactive C# launcher was not opened.
+Visible pets, normal exit/restart, launcher clicks/closure and multiplayer remain
+unverified; see [LIVE-092](docs/research/LIVE-092.md). Prior trial files are unchanged.
+
+The menu still refuses an unexpected callback thread. It now records fixed
+callback names, observed/pinned thread, pin origin, a 16-entry trace and pending
+transaction flags. This does not repair the stop or authorize thread rebinding.
+The focused diagnostic suites passed 111 tests; the completed final offline
+checks are recorded above, while live acceptance remains unverified. See [MENU-THREAD-LIFECYCLE](docs/research/MENU-THREAD-LIFECYCLE.md).
+Native controls, gameplay and English display text are unchanged.
+
+## Retained 0.9.1 combined trial, menu 0.9.0-selection
 
 Source **0.5.1-experimental / 0.9.1-play-trial** retains menu
 **0.9.0-selection**, By habitat and Shuffle companions. It adds precise applied
@@ -9,7 +31,7 @@ Validation passed 403 production and 689 developer tests. The separate 091-r1
 bundle is built and passed actual-framework checks plus Python and Windows
 PowerShell 5.1 read-only preflights. It has not launched.
 
-The immutable running 090-r2 has one player-confirmed visible Random startup
+The immutable prior 090-r2 has one player-confirmed visible Random startup
 pet and a report that preferences appear saved. This does not establish restart
 persistence, By habitat, shuffle outcomes or complete seven-row acceptance.
 Its custom menu stopped under `unexpected_thread` at 14:30:17; production
