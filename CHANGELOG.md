@@ -14,6 +14,7 @@
 - Upload the corrected header after owner confirmation and verify the full title and controls on the actual unpublished page. Keep the gallery cover and avatar unchanged. No runtime or localization meaning changes.
 - Explain the planned weighted By habitat mode and optional shuffle separately from the current Last selected/Random controls in the Nexus draft. Do not imply those roadmap features are implemented.
 - Add the native settings route and default PC Quick Menu key X, with an explicit note to use the player's assigned key when controls are remapped.
+- Keep temporary desktop-panel and standalone-prototype details in internal release notes instead of the Nexus player-facing settings description. Retain the pyMHF runtime requirement and pending native-control validation; no runtime or locale changes.
 
 ## 0.8.7 live observations — 28 September 2026
 

@@ -106,7 +106,7 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "c8eda5a459f7d62f9248fe8183122fdde49851bed5a00c3661ee3fecda0e8888"
+      "sha256": "39469deb830f7d223006a8feef8a324d0cb27bbb61df1754ff29b3212667bc27"
     },
     {
       "path": "ROADMAP.md",
@@ -126,7 +126,7 @@
     },
     {
       "path": "docs/release/NEXUS-DESCRIPTION-DRAFT.md",
-      "sha256": "8f636f47f6aa6088380af2712daef8f608498ea281022e7033445f26324f3022"
+      "sha256": "3574045c67afe0f5550fca6a35c1ca809af48daae93e74b01c6ea4cd7eeef704"
     },
     {
       "path": "docs/research/TECHNOLOGY-PROTOTYPE.md",

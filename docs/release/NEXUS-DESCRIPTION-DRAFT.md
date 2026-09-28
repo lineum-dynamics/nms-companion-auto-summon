@@ -51,7 +51,7 @@ That page has six controls:
 - **Space stations:** allow automatic summoning on stations.
 - **Space Anomaly:** allow automatic summoning in the Nexus.
 
-Defaults are automation ON, all three locations ON, Last selected, and biome preference ON. Native controls have partial live validation; the temporary pyMHF desktop panel remains available during development. The standalone production script uses that panel and does not include the native page.
+Defaults are automation ON, all three locations ON, Last selected, and biome preference ON. Native controls have partial live validation.
 
 ## Compatibility
 
@@ -91,6 +91,7 @@ Framework: [pyMHF](https://github.com/monkeyman192/pyMHF). Native research refer
 
 - Candidate: production 0.4.9, combined 0.8.7 / `087-r1`, menu 0.8.5-branding. Retain the bounded [live record](../research/LIVE-087.md); do not turn one session into a general guarantee.
 - **Installation placeholder:** replace with the verified player-package procedure only after portable packaging and clean-machine acceptance. No final installation instructions are approved yet.
+- The temporary pyMHF desktop panel and standalone script are development implementation details, not the intended player settings interface. The combined trial still retains the panel, and the standalone script lacks the native page. Keep those facts in internal readiness records; removing the panel from the player package and verifying native controls remain release work. The pyMHF runtime dependency is separate from its desktop panel.
 - Source: [private canonical repository](https://github.com/lineum-dynamics/nms-companion-auto-summon). Do not advertise it as a publicly accessible source link.
 - Complete third-party provenance, credits, licences and reuse permissions before uploading release files. Retain the saved **AI-Generated Content** and **AI Media** disclosure tags under the reviewed submission rules; do not substitute AI Assisted.
 - Donation Points eligibility and payment destinations still need checks. No donation URL, account or revenue promise is configured here.
