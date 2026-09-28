@@ -1,8 +1,21 @@
 # Companion Auto Summon — příprava prvního vydání na Nexus Mods
 
-Stav k 27. 9. 2026. Pracovní plán; mód ani stránka nebyly zveřejněné. Hlavní zdrojový projekt už je v lokálním Gitu; tento soubor se udržuje v `docs/release/`. Odkazy na dokumenty ve složce `CompanionAutoSummon/` níže označují dokumenty v kořeni repozitáře a distribučního balíčku.
+Stav k 28. 9. 2026. Pracovní plán; mód ani stránka nebyly veřejně zveřejněné. Hlavní zdrojový projekt je v soukromém GitHub repozitáři; tento soubor se udržuje v `docs/release/`. Odkazy na dokumenty ve složce `CompanionAutoSummon/` níže označují dokumenty v kořeni repozitáře a distribučního balíčku.
 
-Aktuálně připravovaný kandidát je 0.4.4 v odděleném balíčku 0.7.1. Přidává
+Aktuální zdroj je **0.4.8 / 0.8.5**, zatím nespuštěný. Běží neměnná **0.4.7 / 0.8.4**.
+Snímky potvrzují šest odlišných ikon nastavení. Načtení v Anomálii jednou selhalo
+vizuálně, pozdější výstup z lodi vyvolal jiného náhodného peta úspěšně. Příčinu
+neznáme. Nový kandidát pouze prodlužuje pasivní sledování v původních limitech;
+podrobnosti uvádí [záznam 0.8.4](../research/LIVE-084.md). Úplné ověření menu,
+hlášek, přemapování, lokalizace a veřejného přenosného spouštěče stále čeká.
+Monetizaci shrnuje [aktuální přehled pravidel](MONETIZATION.md).
+
+Následující výsledky 0.4.4 / 0.7.1 a 0.7.0 jsou historický záznam; jejich
+tehdejší další kroky nepopisují současně běžící verzi.
+
+## Historická příprava a test 0.4.4 / 0.7.1
+
+Tehdy připravovaný kandidát byl 0.4.4 v odděleném balíčku 0.7.1. Přidává
 pouze pasivní sledování po přijetí požadavku. Neopakuje vyvolání, nemění
 prodlevy ani preference. Po nové záloze se 27. 9. 2026 v 22:22:35
 načetly oba módy a 11 hook cílů s automatikou ON; viditelný výsledek čeká. Základní přepínání
@@ -107,15 +120,17 @@ Schválený finální název: **Companion Auto Summon**. Slug repozitáře: `nms
 
 Přidat skutečný screenshot nastavení a ukázku výstupu z lodi / příchodu peta. Obrázky nesmějí vytvářet dojem neexistujících funkcí. Připravit požadavky, podporovaný build, seznam omezení a stručné poznámky k verzi.
 
-Ověřená pravidla Nexusu:
+Pravidla Nexusu pro zveřejnění a monetizaci, ověřená 28. 9. 2026:
 
-- Pro převážně AI vytvořený kód použít **AI-Generated Content**; AI vytvořený veřejný popis spadá také pod **AI Media**.
+- Pro převážně AI vytvořený kód, UI a překlady použít **AI-Generated Content**; AI vytvořený veřejný popis nebo propagační média spadají také pod **AI Media**. Samotné **AI Assisted** vyžaduje omezené zapojení AI a doloženou lidskou tvorbu i odbornou znalost; není to vhodná náhrada pro současný rozsah CAS.
 - Síťové stahování má omezenou výjimku pro nezbytnou funkčnost. Pravidla neznamenají automatické schválení našeho launcheru.
 - Vyplnit oprávnění k dalšímu použití a uvést použité zdroje / autory.
 
-Zdroj: [File Submission Guidelines](https://help.nexusmods.com/article/28-file-submission-guidelines), ověřeno 27. 9. 2026.
+Zdroj: [File Submission Guidelines](https://help.nexusmods.com/article/28-file-submission-guidelines), aktualizováno 4. 9. 2026.
 
-Mód navrhnout zdarma; Donation Points zapnout při splnění podmínek. Dobrovolný odkaz na podporu přidat pouze po dodání skutečného účtu vlastníkem, bez placených funkcí či přednostního přístupu. [Donation Options & Guidelines](https://help.nexusmods.com/article/77-donation-options-guidelines).
+Nejvyšší doložený rámec podle Nexusu: kompletní mód zdarma, podmíněné Donation Points a dobrovolné jednorázové či pravidelné poděkování přes stránku módu/profilu, bez placených funkcí, přístupu nebo výhod podpory. Aktuální [DP pravidla](https://help.nexusmods.com/article/68-donation-points-system-terms-of-service) neobsahují plošné vyloučení AI; způsobilost závisí na právech k obsahu a rozhodnutí Nexusu. Neslibovat výdělek.
+
+[Donation Options & Guidelines](https://help.nexusmods.com/article/77-donation-options-guidelines) povolují odkazy na stránkách Nexusu; tím není schválen finanční prvek ve hře ani launcheru. Použití [EULA Hello Games](https://www.nomanssky.com/end-user-licence-agreement/) na konkrétní lokální Support/About zůstává nevyjasněné. Podrobný [monetizační přehled](MONETIZATION.md) obsahuje anglické neodeslané dotazy na dobrovolně otevřenou stránku s jedním odkazem. Nikdo nebyl kontaktován, účet ani platební cíl se nenastavoval a finanční UI se nepřidávalo.
 
 ## 5. Zveřejnění
 

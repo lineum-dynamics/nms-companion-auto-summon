@@ -1,6 +1,16 @@
 # Companion Auto Summon development guide
 
-The next source candidate is **0.8.4-play-trial**, with unchanged menu **0.8.3-settings-trial** and production **0.4.7**. It adds host compatibility checks, translated failure notices and build-profile consistency validation. It has not launched or deployed. Prepared 0.8.3 and last launched **0.8.2** remain immutable. The latter registered two Mods and 12 targets at 23:58:46 on 27 September 2026, after a verified 43-file backup. Native rendering and full controls still await player acceptance. Earlier preparation notes below retain their historical scope.
+Current candidate validation: **333 production and 633 developer tests passed** without failures, skips or source changes. The separate 40-file 0.8.5 folder passed real-framework discovery, shared Python dispatch and all six temporary preference paths; no native binding or game access occurred. The retained 0.8.4 payloads remain unchanged.
+
+The current source candidate is **0.8.5-play-trial**, with production **0.4.8**
+and unchanged menu **0.8.3-settings-trial**. It retains the passive observation
+window after the first logical active index, without adding retries or changing
+summon behavior. It is not launched. The running **0.8.4** bundle is immutable.
+Its registration and six distinct setting icons are confirmed, but the player
+reported a failed visible Nexus startup. A later ship exit in the same session
+summoned a different Random companion successfully. See
+[the bounded live record](docs/research/LIVE-084.md); these two runs do not
+establish the cause or an intermittent-failure fix.
 
 This repository is the canonical development location. Keep installed test copies and prior exports as deployment artifacts, not as competing source trees. Record live observations against the exact version; neither the historical 0.4.2 rename nor the new 0.4.3 load trigger inherits earlier gameplay verification.
 
@@ -40,7 +50,7 @@ languages fall back to English. Corrupt translation resources use the two
 maintained emergency English package-failure strings. `-NoDialog`/`--no-dialog`
 suppresses dialogs; `-CheckOnly`/`--check-only` performs no setup or launch and
 does not display a dialog. This is not complete launcher or native localization.
-The portable public installer and actual next-session injection remain unverified.
+Guarded injection was observed in combined 0.8.4. The portable public installer remains unverified.
 
 `tools/validate_compatibility.py` compares the host constants, JSON profile,
 manifest, production mapping and framework pin without importing runtime code.
@@ -57,7 +67,7 @@ Python probe regression covers legacy PowerShell argument quoting; target-path
 tests count UTF-16 units, including non-BMP characters. No new live behavior
 has been verified by these checks.
 
-The production source remains **0.4.7-experimental**, used by the last launched **0.8.2-play-trial** and upcoming **0.8.4-play-trial**. The latter carries menu **0.8.3-settings-trial**; the installed 0.8.2 retains menu 0.8.0. Earlier artifacts remain unchanged. The target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The development launcher accepts Python 3.11–3.13 x64.
+The production source is **0.4.8-experimental**, prepared for **0.8.5-play-trial**. Last-launched **0.8.4-play-trial** retains production **0.4.7** and menu **0.8.3-settings-trial**. Earlier artifacts remain unchanged. The target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The development launcher accepts Python 3.11–3.13 x64.
 
 The PowerShell launcher's `-CheckOnly` path validates package integrity, the
 supported game and the existing runtime without creating files/directories,
@@ -84,7 +94,7 @@ and session-only captions retain their existing meaning. Legacy trials keep
 their one-child default. Full-page navigation and preference application remain
 unverified in-game; the development panel stays available.
 
-The seven original DDS icons are exclusive to the upcoming combined trial.
+The seven original DDS icons belong to the combined development bundle.
 Its launcher validates the entire fixed set before staging unique assets while
 the game is closed; packaging itself never deploys.
 An exact-build natural `LoadResources` AFTER callback makes one registration
@@ -92,8 +102,8 @@ attempt. Its owner and buffers are pinned before native resource operations;
 it retains a verified original paw as fallback and never writes the menu's paw
 field. Fresh bounded manager/resource identity and readiness checks choose a
 usable handle without new native calls. No destructor, retry or late-load path
-is installed. Ownership during native teardown and actual appearance remain
-live acceptance boundaries. Production 0.4.7 retains the optional idempotently
+is installed. Screenshots from 0.8.4 confirm the six distinct setting icons. HUD appearance
+and ownership during native teardown remain acceptance boundaries. Production 0.4.7 retains the optional idempotently
 bound notice provider; absent/invalid providers yield text-only HUD notices.
 The standalone ZIP does not include the custom asset or native settings page.
 
@@ -135,15 +145,18 @@ After a matching native queue acceptance, policy intent is still consumed.
 A separate observer samples only the existing verified fields through the
 local ownership callback. It stops after 15 seconds or 4096 observer callbacks,
 with at most eight transition logs. These are diagnostic caps, not summon
-delays or retry conditions. Native active state ends observation permanently;
-pending disappearance without observed activity remains indeterminate. A manual
+delays or retry conditions. A matching active index is an intermediate logical
+observation, and subsequent active/pending transitions remain observable until
+the existing limits or cancellation. A terminal record states whether logical
+activity was ever seen and includes the last sampled indices; rendering and
+removal causes remain unverified. Queue disappearance alone is indeterminate. A manual
 dismissal cannot re-arm this observer or the policy. Context changes, a new
 trigger, preferences, manual selection/preview/emote and invalid state end it.
 Observer failures do not disable working automation. It adds no native calls,
 hooks, offsets, preference fields or game-save writes.
 
-The separate 0.8.2 bundle pins its preference bridge to the versioned 0.4.7
-initializer. It keeps the production control lock, queue, application callback
+The prepared 0.8.5 bundle pins its preference bridge to the versioned 0.4.8
+initializer; immutable 0.8.4 retains its 0.4.7 bridge. It keeps the production control lock, queue, application callback
 and two-Mod discovery contract. The additional resource callback belongs to
 the menu Mod. Old artifacts are retained; the active 0.7.1 folder is immutable.
 
@@ -232,7 +245,9 @@ Only the current source and new packages receive the new names. Historical test 
 - `README.cs.md`: Czech companion guide; keep behavior and status aligned with the English guide.
 - `DEVELOPMENT.md`: canonical development rules, architecture and maintenance workflow.
 - `DESIGN.md`: accepted player-experience direction, native menu/notification goals and current implementation limits.
-- `QUICK-MENU.md`: exact-build menu investigation, retained observers, bounded live results and the unlaunched six-setting/custom-icon candidate, with staged acceptance checks.
+- `QUICK-MENU.md`: exact-build menu investigation, retained observers, bounded six-setting/icon evidence and staged acceptance checks.
+- `docs/research/LIVE-084.md`: failed Nexus startup, successful later ship exit with another Random pet, and limits of the current evidence.
+- `docs/release/MONETIZATION.md`: dated primary-source policy review, proposed free distribution and unsent clarification drafts.
 - `ROADMAP.md`: canonical unfinished release backlog and explicitly unapproved future proposals; update status and evidence as decisions are made.
 - `LOCALIZATION.md`: localization status, target languages and implementation/verification requirements.
 - `CHANGELOG.md`: version-scoped changes; update with each user-visible behavior or distribution change.

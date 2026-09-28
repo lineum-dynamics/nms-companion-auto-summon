@@ -1,6 +1,19 @@
 # Companion Auto Summon — rozsah ověření k 28. 9. 2026
 
-## Připravená 0.8.4 — ochrana před neověřenou verzí
+## Aktuální výsledek a kandidát 0.8.5
+
+Společná 0.8.4 byla 28. 9. 2026 spuštěna po ověřené záloze 43 souborů.
+Načetly se oba módy a dvanáct nativních cílů; snímky potvrdily šest různých
+ikon nastavení. Načtení v Anomálii nevedlo k viditelnému petovi. Hra krátce
+hlásila aktivní slot, pozdější čtení už žádného aktivního ani čekajícího peta
+nenašlo. Pozdější výstup z lodi ve stejné relaci úspěšně vyvolal jiného náhodného
+peta. Příčina rozdílu zůstává neprokázaná; viz [záznam](docs/research/LIVE-084.md).
+
+Zdrojová 0.4.8 / 0.8.5 ponechává diagnostiku i po prvním aktivním slotu až do
+původního limitu 15 sekund / 4096 callbacků. Neopakuje vyvolání, nemění herní
+pravidla ani texty a není nasazena. Běžící 0.8.4 se nemění.
+
+## Původní příprava 0.8.4 — ochrana před neověřenou verzí
 
 Spouštěče nyní ověřují zvolenou hru a před každou injekcí DLL znovu ověří
 skutečný cílový proces. Neznámá nebo nečitelná verze, odlišná instalace,

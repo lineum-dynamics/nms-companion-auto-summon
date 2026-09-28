@@ -21,7 +21,7 @@ if str(_support_directory) not in sys.path:
 import cas_compatibility as compatibility
 
 
-VERSION = "0.8.4-play-trial"
+VERSION = "0.8.5-play-trial"
 HOST_NAME = "Launch-CompanionAutoSummon-PlayTrial.py"
 BOOTSTRAP_NAME = "Launch-CompanionAutoSummon.py"
 PAYLOAD_FILES = frozenset((
@@ -38,7 +38,7 @@ PAYLOAD_FILES = frozenset((
                                          "pl", "pt-PT", "pt-BR", "ru", "zh-Hans", "zh-Hant")),
 ))
 EXPECTED_MODS = [
-    {"name": "CompanionAutoSummon", "version": "0.4.7-experimental", "path": "CompanionAutoSummon.py"},
+    {"name": "CompanionAutoSummon", "version": "0.4.8-experimental", "path": "CompanionAutoSummon.py"},
     {"name": "CompanionMenuOrderTrial", "version": "0.8.3-settings-trial", "path": "CompanionMenuOrderTrial.py"},
 ]
 EXPECTED_CONFIG = {

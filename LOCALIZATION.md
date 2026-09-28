@@ -9,7 +9,8 @@ values/statuses, caption formats and current HUD notices; six keys cover the
 proposed rechargeable technologies and nine cover launcher compatibility
 messages. The biome label is **Random: prefer matching
 biome**, which only affects Random on planets. This updates source preparation;
-the previously installed 0.8.2 artifact remains unchanged.
+the running 0.8.4 artifact remains unchanged. The 0.4.8 diagnostic-only change
+changes no player-facing strings or meaning; all 39 keys remain unchanged.
 
 The catalogs are **not integrated into the game runtime**. Native text still
 uses the existing English ASCII path. There is no language selector, automatic

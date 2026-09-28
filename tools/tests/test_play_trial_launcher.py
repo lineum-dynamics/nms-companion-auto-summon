@@ -56,13 +56,13 @@ class PlayTrialFixture(unittest.TestCase):
             destination.parent.mkdir(parents=True, exist_ok=True)
             destination.write_bytes(data)
         self.manifest = {
-            "version": "0.8.4-play-trial", "framework": "pymhf[gui]==0.2.4",
+            "version": "0.8.5-play-trial", "framework": "pymhf[gui]==0.2.4",
             "steam_build": LAUNCHER.compatibility.STEAM_BUILD,
             "supported_nms_exe_sha256": LAUNCHER.compatibility.SUPPORTED_GAME_SHA256,
             "auto_summon": True, "preference_actions": True,
             "preference_keys": ["enabled", "selection_mode", "prefer_same_biome", "locations"],
             "mods": [
-                {"name": "CompanionAutoSummon", "version": "0.4.7-experimental",
+                {"name": "CompanionAutoSummon", "version": "0.4.8-experimental",
                  "path": "CompanionAutoSummon.py"},
                 {"name": "CompanionMenuOrderTrial", "version": "0.8.3-settings-trial",
                  "path": "CompanionMenuOrderTrial.py"},

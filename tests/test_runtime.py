@@ -2625,7 +2625,7 @@ class RuntimePostQueueObservationTests(RuntimeFixture):
                 result.append(str(template) % tuple(arguments) if arguments else str(template))
         return result
 
-    def test_accepted_queue_observes_native_active_once_then_dismissal_never_rearms(self):
+    def test_accepted_queue_retains_active_then_manual_dismissal_without_rearming(self):
         for source in ("ship exit", "save load"):
             with self.subTest(source=source):
                 self.setUp()
@@ -2635,15 +2635,92 @@ class RuntimePostQueueObservationTests(RuntimeFixture):
                 self.set_pending(-1)
                 self.set_active(self.observed_slot)
                 self.observe(3)
+                record = self.mod._summon_observation
+                self.assertIsNotNone(record)
+                self.assertTrue(record["active_seen"])
+                active_messages = list(self.messages())
+                self.assertTrue(any("active index observed" in line for line in active_messages))
+                self.assertFalse(any(word in " ".join(active_messages).lower()
+                                     for word in ("visible", "materialized", "spawn succeeded")))
+                # Model the ordinary native dismissal branch: TriggerAction
+                # clears active without calling QueuePet or changing a favourite.
+                self.begin_manual_action(self.observed_slot)
+                self.set_active(-1)
+                self.end_manual_action()
+                self.observe(4)
+                self.assertIs(self.mod._summon_observation, record)
+                self.assertTrue(any("no longer present; cause unknown" in line for line in self.messages()))
+                self.assertEqual(record["last_state"], (-1, -1, True))
+                self.observe(self.accepted_at + self.module.POST_QUEUE_OBSERVATION_SECONDS)
                 self.assertIsNone(self.mod._summon_observation)
                 terminal_messages = list(self.messages())
-                self.assertTrue(any("active" in line for line in terminal_messages))
-                self.assertFalse(any(word in " ".join(terminal_messages).lower()
-                                     for word in ("visible", "materialized", "spawn succeeded")))
-                self.set_active(-1)
-                self.observe(4)
+                self.assertIn("logical_active_seen=True", terminal_messages[-1])
+                self.assertIn("last_active_pet=-1 last_native_pending_pet=-1", terminal_messages[-1])
                 self.observe(100)
                 self.assertEqual(self.messages(), terminal_messages)
+                self.assert_passive()
+
+    def test_active_and_pending_indices_are_both_logged_and_deduplicated(self):
+        self.accept_queue()
+        self.begin_passive_checks()
+        self.set_active(self.observed_slot)
+        self.observe(3)
+        record = self.mod._summon_observation
+        self.assertIsNotNone(record)
+        self.assertEqual(record["last_state"], (self.observed_slot, self.observed_slot, True))
+        self.assertIn("active_pet=5 native_pending_pet=5", self.messages()[-1])
+        first_messages = list(self.messages())
+        self.observe(4)
+        self.assertEqual(self.messages(), first_messages)
+        self.set_pending(-1)
+        self.observe(5)
+        self.assertEqual(len(self.messages()), len(first_messages) + 1)
+        self.assertIn("active_pet=5 native_pending_pet=-1", self.messages()[-1])
+        self.assert_passive()
+
+    def test_seen_active_at_deadline_stops_before_reads_and_never_claims_rendering(self):
+        self.accept_queue()
+        self.begin_passive_checks()
+        self.set_pending(-1)
+        self.set_active(self.observed_slot)
+        self.observe(3)
+        self.assertIsNotNone(self.mod._summon_observation)
+        forbidden = Mock(side_effect=AssertionError("Expired observer must not read native memory"))
+        fake_c = types.SimpleNamespace(c_void_p=types.SimpleNamespace(from_address=forbidden))
+        with patch.object(self.module, "C", fake_c):
+            self.observe(self.accepted_at + self.module.POST_QUEUE_OBSERVATION_SECONDS)
+            self.observe(1000)
+        forbidden.assert_not_called()
+        self.assertIsNone(self.mod._summon_observation)
+        terminal = self.messages()[-1]
+        self.assertIn("time limit", terminal)
+        self.assertIn("logical_active_seen=True", terminal)
+        self.assertIn("last_active_pet=5 last_native_pending_pet=-1", terminal)
+        self.assertIn("Rendering unverified", terminal)
+        self.assertNotIn("without active observation", terminal)
+        self.assert_passive()
+
+    def test_seen_active_keeps_callback_budget_for_local_and_foreign_callbacks(self):
+        for foreign in (False, True):
+            with self.subTest(foreign=foreign):
+                self.setUp()
+                self.accept_queue()
+                self.begin_passive_checks()
+                self.set_pending(-1)
+                self.set_active(self.observed_slot)
+                self.observe(3)
+                record = self.mod._summon_observation
+                self.assertIsNotNone(record)
+                for _ in range(self.module.POST_QUEUE_OBSERVATION_MAX_UPDATES + 1):
+                    self.observe(3, owner=1 if foreign else self.owner)
+                self.assertIsNone(self.mod._summon_observation)
+                self.assertEqual(record["callbacks"], self.module.POST_QUEUE_OBSERVATION_MAX_UPDATES)
+                self.assertEqual(record["updates"], 1 if foreign else record["callbacks"])
+                self.assertEqual(len(self.messages()), 2)
+                terminal = self.messages()[-1]
+                self.assertIn("callback limit", terminal)
+                self.assertIn("logical_active_seen=True", terminal)
+                self.assertNotIn("without active observation", terminal)
                 self.assert_passive()
 
     def test_cleared_queue_without_active_observation_remains_indeterminate_and_never_retries(self):
@@ -2659,6 +2736,7 @@ class RuntimePostQueueObservationTests(RuntimeFixture):
         self.assertEqual(self.messages(), initial_messages)
         self.observe(self.accepted_at + self.module.POST_QUEUE_OBSERVATION_SECONDS)
         self.assertIsNone(self.mod._summon_observation)
+        self.assertIn("logical_active_seen=False", self.messages()[-1])
         self.observe(1000)
         self.assert_passive()
 
@@ -2672,7 +2750,8 @@ class RuntimePostQueueObservationTests(RuntimeFixture):
         self.set_pending(-1)
         self.set_active(self.observed_slot)
         self.observe(5)
-        self.assertIsNone(self.mod._summon_observation)
+        self.assertIsNotNone(self.mod._summon_observation)
+        self.assertTrue(self.mod._summon_observation["active_seen"])
         self.assertTrue(any("indeterminate" in line for line in self.messages()))
         self.assertTrue(any("active" in line for line in self.messages()))
         self.assert_passive()
@@ -2688,7 +2767,8 @@ class RuntimePostQueueObservationTests(RuntimeFixture):
         self.observe(3)
         self.set_active(7)
         self.observe(4)
-        self.assertIsNone(self.mod._summon_observation)
+        self.assertIsNotNone(self.mod._summon_observation)
+        self.assertTrue(self.mod._summon_observation["active_seen"])
         messages = " ".join(self.messages())
         for private_value in (identity.hex(), self.mod.save_key, str(self.app_address), str(self.state_path)):
             self.assertNotIn(private_value, messages)
@@ -2901,17 +2981,38 @@ class RuntimePostQueueObservationTests(RuntimeFixture):
         self.assertEqual(len(self.messages()), previous + 1)
         self.assert_passive()
 
+    def test_active_disappearance_after_log_cap_is_retained_in_terminal_summary(self):
+        self.accept_queue()
+        self.begin_passive_checks()
+        self.set_pending(-1)
+        for index in range(40):
+            self.set_active(self.observed_slot if index % 2 == 0 else -1)
+            self.observe(3 + index / 100)
+        record = self.mod._summon_observation
+        self.assertIsNotNone(record)
+        self.assertTrue(record["active_seen"])
+        self.assertEqual(record["last_state"], (-1, -1, True))
+        self.assertEqual(len(self.messages()), self.module.POST_QUEUE_OBSERVATION_TRANSITION_LIMIT + 1)
+        self.observe(self.accepted_at + self.module.POST_QUEUE_OBSERVATION_SECONDS)
+        self.assertIsNone(self.mod._summon_observation)
+        self.assertEqual(len(self.messages()), self.module.POST_QUEUE_OBSERVATION_TRANSITION_LIMIT + 2)
+        self.assertIn("logical_active_seen=True", self.messages()[-1])
+        self.assertIn("last_active_pet=-1 last_native_pending_pet=-1", self.messages()[-1])
+        self.assert_passive()
+
     def test_diagnostic_logging_failure_never_disables_runtime_or_alters_policy(self):
         for stage in ("transition", "terminal"):
             with self.subTest(stage=stage):
                 self.setUp()
                 self.accept_queue()
                 self.begin_passive_checks()
-                self.module.LOGGER.info.side_effect = RuntimeError("synthetic logging failure")
                 if stage == "terminal":
                     self.set_pending(-1)
                     self.set_active(self.observed_slot)
-                self.observe(3)
+                    self.observe(3)
+                self.module.LOGGER.info.side_effect = RuntimeError("synthetic logging failure")
+                self.observe(self.accepted_at + self.module.POST_QUEUE_OBSERVATION_SECONDS
+                             if stage == "terminal" else 3)
                 self.assertIsNone(self.mod._summon_observation)
                 self.assert_passive()
 

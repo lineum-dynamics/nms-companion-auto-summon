@@ -1,15 +1,17 @@
-# Companion Auto Summon 0.4.7 — testovací verze
+# Companion Auto Summon 0.4.8 — testovací verze
 
-Aktuální zdrojový kandidát **0.8.4-play-trial** zachovává produkci **0.4.7**
-a menu **0.8.3-settings-trial**. Přidává kontroly přímého spuštění hostitele
-a devět přeložených kompatibilitních zpráv. Finální ověření prošlo
-**329 produkčními a 633 vývojovými testy**, bez chyb a vynechaných testů.
-Hotový balíček obsahuje 40 souborů (39 datových souborů a manifest). Prošla také
-kontrola skutečného frameworku včetně šesti voleb s dočasnými preferencemi,
-bez nativních hooků a přístupu ke hře. Python `--check-only` i Windows PowerShell
-5.1 `-CheckOnly` prošly proti instalované hře a runtime, bez spuštění, nasazení
-nebo instalace závislostí. Herní ověření zůstává nedokončené. Připravená 0.8.3 i poslední
-spuštěná instalace 0.8.2 zůstávají nedotčené.
+Ověření mimo hru: prošlo **333 produkčních a 633 vývojových testů**, bez vynechání a změn zdroje během testů. Oddělený balíček se 40 soubory prošel kontrolou skutečného frameworku včetně všech šesti voleb s dočasnými preferencemi; bez nativních hooků nebo přístupu ke hře.
+
+Zdrojový kandidát **0.8.5-play-trial** obsahuje produkci **0.4.8** a nezměněné
+menu **0.8.3-settings-trial**. Pasivní diagnostika pokračuje i po prvním aktivním
+slotu v původních časových a početních limitech. Nejde o opravu občasného
+selhání při načtení v Anomálii; tento kandidát zatím nebyl spuštěn.
+
+Běžící balíček **0.8.4** zůstává nedotčený. Načetly se oba módy a dvanáct
+nativních cílů, snímky potvrzují šest různých ikon nastavení. Při jednom načtení
+v Anomálii se pet neobjevil, přestože ho hra krátce vedla jako aktivního.
+Pozdější výstup z lodi vyvolal jiného náhodného peta úspěšně. Úplné ověření menu,
+hlášek a hraní zůstává otevřené. Podrobnosti jsou v [záznamu testu](docs/research/LIVE-084.md).
 
 Všech 14 katalogů obsahuje 39 položek. Při spuštění se z nich nyní používá pouze
 devět kompatibilitních zpráv; 13 překladů jsou návrhy bez jazykové revize. Menu
@@ -20,7 +22,7 @@ Balíček 0.8.2 po ověřené záloze 43 souborů načetl 27. 9. 2026 v 23:58:46
 
 Tento Git repozitář je hlavní zdrojový projekt. Testovací instalace a ZIP balíčky jsou jeho výstupy; další úpravy vznikají v repozitáři. Postup sestavení a ověření je v [DEVELOPMENT.md](DEVELOPMENT.md).
 
-Poslední spuštěný kandidát **0.4.7 / 0.8.2-play-trial** doplnil spouštěč. Parametr
+Dřívější kandidát **0.4.7 / 0.8.2-play-trial** doplnil spouštěč. Parametr
 `-CheckOnly` ověří balíček, podporovanou hru a existující runtime i za běhu NMS;
 nic nevytváří, neinstaluje ani nespouští. Běžnou přípravu a hostitele chrání
 oddělené zámky relace Windows `Setup.v1` a `Host.v1`, společné i pro balíčky
@@ -33,7 +35,7 @@ zůstává menu **0.8.0-settings-trial**. Připravená 0.8.3 přidala odlišné 
 šesti voleb a popisek `Random: prefer matching biome`; 0.8.4 toto menu nemění.
 Starší balíčky 0.7.1, 0.7.2 a 0.8.0 zůstávají nedotčené.
 
-Zdrojový kandidát **0.4.7** a společný balíček **0.8.2-play-trial**
+Zdrojový kandidát **0.4.8** a společný balíček **0.8.5-play-trial**
 ukládají ručního favorita pouze po odpovídající úspěšné akci nativního ovládání
 petů. Samotné přijetí požadavku do fronty, například při obnovení řízeném hrou,
 favorita nezmění a nevytvoří potvrzení ruční volby. Původ konkrétního volání
@@ -53,7 +55,7 @@ se nepřepisuje. Dočasný panel zůstává k porovnání při tomto společném
 
 Kandidát 0.8.2 byl spuštěn. Předchozí instalace **0.4.4 / 0.7.1** a připravený
 starší balíček **0.4.5 / 0.7.2** zůstávají beze změny. Samostatný produkční ZIP
-obsahuje 0.4.7 bez pokusného menu a DDS; bez poskytovatele ikony používá čistý
+obsahuje 0.4.8 bez pokusného menu a DDS; bez poskytovatele ikony používá čistý
 text. Přesný rozsah kontrol aktuálního kandidáta uvádí
 [technický záznam](TECHNICKE-OVERENI.md). Starší počty níže patří uvedeným verzím.
 
@@ -164,7 +166,8 @@ frameworku a před každým vložením DLL znovu ověří skutečný proces podl
 handlu. Odmítnou také neodpovídající konfiguraci frameworku a cizí rozšíření
 `pymhflib`. Neznámý, změněný nebo nečitelný EXE zabrání aktivaci módu; chyba se
 zobrazí mimo hru a preference se neresetují. Tyto kontroly prošly testy mimo
-hru, nikoli spuštěnou relací 0.8.4.
+hru; podporované spuštění přes kontrolovaný host prošlo také v relaci 0.8.4.
+Nová 0.8.5 zatím spuštěna nebyla.
 
 Kompatibilitní zprávy vybírají jazyk podle prostředí Windows; parametr
 `-Language`, například `-Language fr`, jej může změnit. Nejde o zjištění jazyka

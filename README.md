@@ -1,15 +1,17 @@
-# Companion Auto Summon 0.4.7 — experimental
+# Companion Auto Summon 0.4.8 — experimental
 
-The current source candidate is **0.8.4-play-trial**, retaining production
-**0.4.7** and menu **0.8.3-settings-trial**. It adds guarded host startup and
-nine localized compatibility messages. Final validation passed **329 production
-tests and 633 developer tests**, with no failures or skips. The final bundle
-contains 40 files (39 payloads). A real-framework offline smoke passed, including
-all six controls with temporary preferences and no native hooks or game access.
-Python `--check-only` and Windows PowerShell 5.1 `-CheckOnly` both passed against
-the installed game and runtime without launch, deployment or setup. In-game
-acceptance remains pending. Prepared 0.8.3 and
-the last-launched 0.8.2 folder remain unchanged.
+Offline validation: **333 production tests and 633 developer tests passed**, without skips or source changes during either suite. The separate 40-file candidate passed real-framework discovery, dispatch and all six temporary preference paths. No native hooks were bound and no game was accessed by these checks.
+
+The source candidate **0.8.5-play-trial** pairs production **0.4.8** with the
+unchanged **0.8.3-settings-trial** menu. Passive diagnostics continue after the
+first logical active index, within the existing time/read/log limits. This is
+not a fix for the intermittent Nexus startup issue, and it has not launched.
+
+The running **0.8.4** bundle remains unchanged. Both Mods and twelve native
+targets registered; screenshots confirm six distinct setting icons. One Nexus
+startup failed visibly despite a temporary active index; a later ship exit
+successfully summoned a different Random pet. Full menu, HUD and gameplay
+acceptance remain incomplete. See [live evidence](docs/research/LIVE-084.md).
 
 Fourteen catalogs now contain 39 keys. Only the nine launcher compatibility
 messages use them during launch; the thirteen translations remain unreviewed
@@ -22,7 +24,7 @@ portable public installer are unfinished. See [LOCALIZATION.md](LOCALIZATION.md)
 
 This Git repository is the canonical source for Companion Auto Summon. Development commands and the maintained documentation map are in [DEVELOPMENT.md](DEVELOPMENT.md). The installed test copy and exported ZIPs are built outputs.
 
-The last launched **0.4.7 / 0.8.2-play-trial** candidate improved the development
+The earlier **0.4.7 / 0.8.2-play-trial** candidate improved the development
 launcher. `-CheckOnly` checks the package, supported game and existing runtime
 while NMS can remain running; it creates, installs and starts nothing. Normal
 setup and the running host use separate Windows session leases, `Setup.v1` and
@@ -41,7 +43,7 @@ preferences on one native companion settings page: automatic summoning,
 Last selected/Random, matching-biome preference, planets, space stations and
 the Space Anomaly. It shares the production preference queue and stored values;
 the temporary desktop panel remains available during development. The new page
-and original paw/arrow icon have not been tested in-game.
+has partial live evidence in 0.8.4; the parent/notice icon still needs visual acceptance.
 
 The current combined launcher's next launch validates all seven DDS files before
 staging them at unique mod paths with NMS closed. No vanilla texture is replaced.
@@ -49,7 +51,8 @@ One natural resource-loading callback attempts registration; a ready custom
 role icon is preferred, with a retained native paw fallback. Notifications use text
 alone if neither owned icon is usable. The standalone production ZIP has no
 custom asset or menu and uses text-only notices unless a validated provider is
-installed. Resource lifetime and visual results still need live validation.
+installed. Six setting icons are visible in 0.8.4 screenshots; HUD appearance
+and resource teardown lifetime still need live validation.
 
 This candidate includes the prepared **0.4.5 / 0.7.2** repair, which learns
 a manual favourite only from a matched successful native companion UI action.
@@ -202,7 +205,8 @@ process handle before each DLL injection. Startup also rejects unexpected
 framework configuration and foreign `pymhflib` entry points. An unsupported,
 changed or unreadable executable refuses mod activation with an outside-game
 warning; it does not reset preferences or use an unverified native HUD.
-These boundaries are tested offline, not yet in a launched 0.8.4 session.
+Refusal boundaries are tested offline; a supported guarded launch also succeeded
+in 0.8.4. The new 0.8.5 candidate is not launched.
 
 Compatibility warnings use the Windows UI locale with an optional `-Language`
 override, for example `-Language fr`. This is not game-language detection.

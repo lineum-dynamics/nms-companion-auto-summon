@@ -1,21 +1,26 @@
 # Native quick-menu investigation
 
-## Current status: last launched 0.8.2, prepared 0.8.4
+## Current status: running 0.8.4, source 0.8.5 unlaunched
 
-The immutable last-launched **0.8.2-play-trial** folder contains production **0.4.7**
-and menu **0.8.0-settings-trial**, with the original single custom icon.
-Registration and native active-state logs are not visual confirmation of an
-icon or companion. Gameplay and interface acceptance remain separate checks.
+The immutable running **0.8.4-play-trial** contains production **0.4.7** and menu
+**0.8.3-settings-trial**. Two Mods and twelve native targets registered after a
+verified backup. The player's screenshots confirm six distinct setting icons,
+including station and Anomaly captions. Runtime logs show deliberate changes
+to five control roles; complete navigation, all six controls, remapping,
+controller and HUD icon acceptance remain incomplete.
 
-Prepared **0.8.4-play-trial** pairs unchanged production **0.4.7** with
-**0.8.3-settings-trial** and seven distinct role icons. It has not launched.
-This revision adds the host compatibility guard, nine cataloged launcher
-messages and build-profile validation. It changes no menu/native behavior.
-The earlier prepared 0.8.3 folder is retained unchanged.
 The six existing preferences remain on a flat page: automatic summoning,
 Last selected/Random, matching-biome preference, planets, space stations and
-the Space Anomaly. The desktop development panel remains until the native
-controls pass acceptance.
+the Space Anomaly. Icons identify the setting role and remain stable when the
+value changes. The caption carries the value; native white/gray highlights
+indicate selection. English captions use sentence case and retain proper-name
+capitalization (Space Anomaly) and ON/OFF tokens. No UI strings changed here.
+
+Source **0.8.5** pairs the unchanged menu with production **0.4.8** and retains
+the 0.8.4 host compatibility checks. It changes passive diagnostic retention
+only and is not launched. The developer panel remains until native controls
+pass acceptance. [The live record](docs/research/LIVE-084.md) distinguishes the
+failed Nexus startup from a later successful ship exit with another Random pet.
 
 Each child is a uniquely marked None action with an explicit role. Full-page
 validation requires exactly the six expected children; foreign/native content
@@ -49,9 +54,9 @@ The standalone production ZIP has neither custom asset nor native settings.
 
 Offline helper checks cover six-role topology, stale preference captures,
 unrelated queued writes, explicit icon allowlists and fallback ownership.
-Final aggregate validation belongs in the candidate manifest. The unlaunched
-seven-icon revision has no live evidence for native mounting/decoding,
-lifetime or small-size rendering. All six controls still need acceptance.
+Final aggregate validation belongs in the candidate manifest. Screenshots from
+0.8.4 confirm six distinct setting icons after native resource registration.
+Parent/HUD appearance, teardown lifetime and full controls still need acceptance.
 Test browsing without changes, each confirmed row, held
 input, Back/reopen/rebuild, ordinary pets, saved values and remapped/controller
 inputs. The optional icon must not become a prerequisite for automatic summoning.

@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.4.8 / 0.8.5 developer candidate — bounded follow-up after logical activity
+
+- Preserve passive post-queue observation after the first matching active index, until the existing 15-second / 4096-callback limit or cancellation. Deduplicate active/pending transitions, including disappearance, within the existing log cap. Terminal diagnostics distinguish whether activity was ever seen and do not claim rendering or a cause of removal.
+- Keep native ownership, placement, calls, hooks, summon policy, timing and manual-dismissal behavior unchanged. No retry, save mutation or player-facing text change is added. Locale impact: all fourteen catalogs remain unchanged and require validation.
+- Passed 333 production and 633 developer tests with unchanged sources and no skips, including four added runtime regressions. Real-framework standalone and combined discovery/dispatch/temporary-preference checks passed without game access.
+- Prepare a separate 0.8.5 candidate and version-pinned bridge; the running 0.8.4 bundle is immutable. This candidate is not a spawn fix or live-verified release.
+- Record live 0.8.4 registration and six visible role icons, one failed visible Nexus load and one later successful ship exit with a different Random pet. Retain the failure and comparison without attributing a cause.
+- Refresh the monetization policy review and preserve unsent clarification drafts; no financial interface, external contact or account was configured.
+
+
 ## 0.8.4 developer trial — guarded launch and localized compatibility failures
 
 - Prepared a separate launcher candidate with byte-identical production 0.4.7 and menu 0.8.3. Prior 0.8.2/0.8.3 artifacts stay unchanged; no launch or deployment is part of this change.

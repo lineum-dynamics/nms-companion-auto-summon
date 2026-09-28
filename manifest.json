@@ -1,10 +1,10 @@
 {
   "name": "Companion Auto Summon",
-  "version": "0.4.7-experimental",
+  "version": "0.4.8-experimental",
   "date": "2026-09-28",
   "installed_in_game_directory": false,
-  "tested_inside_game": true,
-  "runtime_load_verified": true,
+  "tested_inside_game": false,
+  "runtime_load_verified": false,
   "gameplay_verified": false,
   "multiplayer_verified": false,
   "basic_auto_summon_verified": false,
@@ -16,7 +16,7 @@
   "selection_mode_control_verified_in_game": false,
   "biome_preference_verified_in_game": false,
   "location_preferences_verified_in_game": false,
-  "gameplay_verification_scope": "Combined 0.8.2 registered production0.4.7 and native menu0.8.0 at23:58:46 on27 September2026 after a43-file verified backup and final save-hash recheck. Two Mods/12 native targets, automation ON,17 unchanged payloads. The DDS was staged and verified; visible icon/summon and six-control behavior are not yet confirmed.",
+  "gameplay_verification_scope": "Source 0.4.8 / combined 0.8.5 is unlaunched. It changes passive diagnostics only. The live 0.4.7 / 0.8.4 Nexus startup visibly failed; bounded evidence is retained in previous_047_live_evidence.",
   "supported_summon_locations": {
     "2": "SpaceStation",
     "3": "PlanetOnFoot",
@@ -24,16 +24,16 @@
   },
   "previous_live_result": "0.4.0 applied Random and successfully summoned slot 3 from three eligible owned pets on a planet, confirmed by the user; manual favorite slot 1 stayed in runtime. 0.3.3 verified station summoning and restart restoration, 0.3.2 planetary summoning. These observations do not validate the new 0.4.1 biome preference. In combined play trial 0.6.1, 0.4.2 registered with automation ON and the log recorded an accepted station queue after ship exit at 20:18:19 on 27 September 2026; actual appearance was not separately confirmed.",
   "offline_tests": {
-    "passed": 329,
+    "passed": 333,
     "policy": 34,
     "persistence": 14,
     "settings": 24,
-    "adapter_simulation": 192,
+    "adapter_simulation": 196,
     "host_launcher": 41,
     "compatibility": 24
   },
   "actual_framework_import_and_gui_properties": "Passed with the real pyMHF 0.2.4 and DearPyGui: eight widgets constructed and preference callbacks exercised with temporary files, no viewport, hook registration, native game calls or game launch",
-  "launcher_validation": "329 production and 633 developer tests passed on unchanged sources, plus final combined 0.8.4 real pyMHF offline discovery and six temporary preferences. Actual Python and Windows PowerShell 5.1 check-only both accepted the selected installation/runtime without setup, staging, game launch or injection. No live 0.8.4 launch; prior 0.8.2/0.8.3 artifacts remain unchanged.",
+  "launcher_validation": "0.8.4 launched the guarded host and registered two Mods/12 targets. The new 0.8.5 source is not yet launched; prior live artifacts stay immutable. New 0.8.5 offline validation passed 333 production/633 developer tests, including 19 real PowerShell integration cases; real-framework checks passed without native hook binding or game access.",
   "preferences_included": false,
   "manual_selection_path": "%LOCALAPPDATA%/NMS-AutoPet/state.json",
   "preferences_path": "%LOCALAPPDATA%/NMS-AutoPet/settings.json",
@@ -58,7 +58,7 @@
   "files": [
     {
       "path": "CompanionAutoSummon.py",
-      "sha256": "d8cf09a808322900db9149e601248ddf18e4dedf094c44e22f7396c950871268"
+      "sha256": "7ed86ad7d14b95a4b0e7eeb322bb8d006a8bf7338b238b690a2988079a2f20a5"
     },
     {
       "path": "Launch-CompanionAutoSummon.py",
@@ -66,11 +66,11 @@
     },
     {
       "path": "README.md",
-      "sha256": "efbfba7a540f581857037efc32e9a5fd01aa624f2ed09ef67eb13f4ccdb9cb3d"
+      "sha256": "bbcac1fb97c7763bf92a7ff2290234d020be87454a9fd78d7c30c66d7d77e9ab"
     },
     {
       "path": "README.cs.md",
-      "sha256": "4ed8907ea7e7aca0dbe14ad24ff5a1bd7800789ef17d6f311d1bbeb15903c250"
+      "sha256": "1c6edd2c271ed06821d1150fe6f3a8b32286c1888ccdd55b7b95ccfcfdf932ce"
     },
     {
       "path": "cas_compatibility.py",
@@ -82,11 +82,11 @@
     },
     {
       "path": "TECHNICKE-OVERENI.md",
-      "sha256": "0609b823404e78f1958cc87a99c551ff1ad146cf728bf0c9bde229fe65d76c44"
+      "sha256": "3a47a95650f93f88a7b74c8fc8cb97e67ca998ba3887ba53ae42da14940289a8"
     },
     {
       "path": "build.py",
-      "sha256": "51e2ce0083a91d718bb92936329065363692d98105750a7cf21b594e6b071126"
+      "sha256": "e69b20ca5044d094b4b38c580260ca8e34691b1d7055a2f72a1bc38bdfebf6f9"
     },
     {
       "path": "Start-CompanionAutoSummon.ps1",
@@ -94,31 +94,31 @@
     },
     {
       "path": "DEVELOPMENT.md",
-      "sha256": "7dcd34aabe435449d39338ae7af8d22fa40c51a996f2d0b7366c80a06229d22b"
+      "sha256": "88eaccbff82f2611e1d85de4a489f2b33d6fa4da56047314b5e252f74a0180cc"
     },
     {
       "path": "LOCALIZATION.md",
-      "sha256": "dddb761ecee4992f4d3cdad8af9dfb748ee7f9e34fee1bd7ba60b312e95c8221"
+      "sha256": "a6fe290af2cd54a7a2c687112f0938bf07273a6ac478356e2d86d5886ae15976"
     },
     {
       "path": "DESIGN.md",
-      "sha256": "5f7b21691fe549c9e1586ce559a00052ace36691be3ea7715faf8966b315aff2"
+      "sha256": "4a0d26e40807e4513b186909338a3a7f9cff8dea2c29d037062ad329dfa4b07b"
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "3e2aa0c905331ff0d69b3d1f937edacbbcf89b7e463b77eb870a991aa847705e"
+      "sha256": "cbf02269f0f221a550f2006ebfe26c7fb91fc513251c11d742f13675a6b19789"
     },
     {
       "path": "ROADMAP.md",
-      "sha256": "405b3131d3c3ee30b8c11bf3e4e42f5198817fabf88911b2f921f6c3ec6dab2e"
+      "sha256": "e8a935dac99b5055505b82827f101fc259007e58213febdd094f83cbf2775d4c"
     },
     {
       "path": "QUICK-MENU.md",
-      "sha256": "6184614068462f3baa85aceb343fe99070186cbfc4f3d700d57f220b4da9e425"
+      "sha256": "eda6ac95e0a95e0c6b9f1fa3682cf93116dd0a40f85a1833e7321e9fee034c7b"
     },
     {
       "path": "docs/release/PRIPRAVA-VYDANI.md",
-      "sha256": "8fe02a15b3d27ee29350a005ca7cdc562e744804ade7263fdb6bb5b645c8c54a"
+      "sha256": "8e49f1aafc51f5f80b71e846d6fe29681bc222074fdbe9c273468c188a9550e2"
     },
     {
       "path": "docs/release/INSTALACE-ZADANI.md",
@@ -141,6 +141,14 @@
       "sha256": "e5f8211c60f89893c1ac2be61da84fa130f2eec0a36be8c33c6176744a392c63"
     },
     {
+      "path": "docs/research/LIVE-084.md",
+      "sha256": "6f380500624826659a955edbdcae57fc4aec440db52e9bd146b69f7e2f7e618d"
+    },
+    {
+      "path": "docs/release/MONETIZATION.md",
+      "sha256": "382158079fcf6dcbcedc5ab55fd375137cca5736857ed53f7f6d1e64cfbc3cd8"
+    },
+    {
       "path": "src/policy.py",
       "sha256": "231b47324344edf65ca8eae3ec305cb46af64186aaae136840b6831740e279eb"
     },
@@ -154,7 +162,7 @@
     },
     {
       "path": "src/runtime.py",
-      "sha256": "e61949424cdd7d4310575c876f7e760b90f8fdd06d7fa6d60b61dee626d643a9"
+      "sha256": "80813fde44fa74c73589028cc7ae4d543bfbfff7137087009070417631dd1c59"
     },
     {
       "path": "tests/test_policy.py",
@@ -170,7 +178,7 @@
     },
     {
       "path": "tests/test_runtime.py",
-      "sha256": "3eefa5fd6814ce389e0076504135287f57bc9f4615d977be201ad5d0a8a2094d"
+      "sha256": "4939b07b332587e25da3a49127e7b1a822561fd0ad7e730eba9bd25cd8f5d02e"
     },
     {
       "path": "tests/test_launcher.py",
@@ -293,7 +301,7 @@
     "scope": "Separately built, predicate-gated native ON/OFF candidate. Requires same-menu false then true native confirmation, one matching selected-child trigger and original false result; no tail-only activation. Existing production applies and persists the queued setting. Other preferences remain in the temporary development panel. Registered on 27 September 2026 after normal exit and a fresh verified backup: two Mods, 11 hook targets, automation ON and 14 unchanged payloads. Complete live preference validation, remapping/controllers and held input await testing."
   },
   "developer_native_menu_trial": {
-    "version": "0.8.4-play-trial",
+    "version": "0.8.5-play-trial",
     "menu_version": "0.8.3-settings-trial",
     "preference_keys": [
       "enabled",
@@ -301,12 +309,12 @@
       "prefer_same_biome",
       "locations"
     ],
-    "production_script_byte_identical": true,
+    "production_script_byte_identical": false,
     "live_verified": false,
     "launched": false,
     "registration_verified": false,
     "included_in_player_zip": false,
-    "scope": "Prepared unlaunched candidate with unchanged production 0.4.7/menu 0.8.3, guarded hosts, nine localized compatibility messages and a cross-source compatibility profile. Real-framework offline discovery and both actual read-only host preflights passed. Native rendering, input and gameplay still require live acceptance.",
+    "scope": "Unlaunched candidate with production 0.4.8 passive diagnostics retained after first logical active state. Existing 15-second/callback/log limits, native paths, menu, settings and localization are unchanged. No spawn fix is claimed. Passed 333 production and 633 developer tests with unchanged sources and no skips; real-framework offline folder discovery, dispatch and temporary six-control bridge checks passed.",
     "developer_tests_passed": 633,
     "actual_framework_discovery_verified": true,
     "temporary_all_six_preferences_verified": true,
@@ -317,27 +325,28 @@
     "custom_icons_included": 7,
     "custom_icon_deployed": false,
     "custom_icon_live_verified": false,
-    "production_sha256": "d8cf09a808322900db9149e601248ddf18e4dedf094c44e22f7396c950871268",
     "menu_sha256": "8bd8302569aafc0a22d8c8946fccec84d798be57c42e0bd977d356f4a3205326",
     "locale_validation_required_during_build": true,
     "physical_hotkeys": 0,
     "shortcut_binding_enabled": false,
     "host_compatibility_guard_included": true,
     "localized_launcher_messages": 9,
-    "compatibility_profile_validation_required": true
+    "compatibility_profile_validation_required": true,
+    "production_sha256": "7ed86ad7d14b95a4b0e7eeb322bb8d006a8bf7338b238b690a2988079a2f20a5"
   },
   "post_queue_observation": {
     "passive_only": true,
     "seconds_limit": 15.0,
     "callback_limit": 4096,
     "transition_log_limit": 8,
-    "new_runtime_tests": 23,
+    "new_runtime_tests": 4,
     "new_native_hooks_or_calls": false,
     "automatic_retry": false,
     "active_slot_is_not_visible_spawn_confirmation": true,
     "live_verified": false,
     "expected_active_path_verified_in_game": false,
-    "live_scope": "No 0.4.7 live result; previous 0.4.4 observation retained separately."
+    "live_scope": "0.4.8 unlaunched; prior 0.4.7 stopped at first active and missed any later removal. No rendering proof or retry added.",
+    "continues_after_expected_active": true
   },
   "known_manual_attribution_issue": {
     "confirmed_code_gap": true,
@@ -345,9 +354,9 @@
     "later_native_snapshot": "Location14, active=-1 and pending=-1 in two stable external read-only samples at2026-09-27T22:40:26+02:00. Earlier appearance cannot be inferred.",
     "favorite_write_requires_verified_manual_origin": true,
     "fixed": false,
-    "candidate_version": "0.4.7-experimental",
+    "candidate_version": "0.4.8-experimental",
     "candidate_fix_validated": true,
-    "validation_scope": "Offline regression and exact-build call-path review only; no later candidate has a live result yet.",
+    "validation_scope": "Offline regression and exact-build call-path review. Later 0.8.4 registration and other live results do not verify manual-attribution acceptance.",
     "fixed_in_source": true
   },
   "known_hud_issue": {
@@ -358,7 +367,7 @@
     "previous_live_duration_seconds": 3.0,
     "candidate_hides_icon_containers": "Only when no ready icon is available.",
     "native_hide_flag_mapping_verified": true,
-    "scope": "Production 0.4.7 was loaded in 0.8.2 with an optional owned-icon provider and text-only fallback; visible results remain unconfirmed. Upcoming 0.8.4 retains the unlaunched 0.8.3 role icons and only adds host safeguards/localized warnings."
+    "scope": "Running 0.4.7 / 0.8.4 includes optional owned notification icons and text-only fallback. Six setting-role icons are visible in screenshots, but parent/notice rendering and the white-disc outcome remain unconfirmed. Unlaunched 0.4.8 / 0.8.5 changes no HUD behavior."
   },
   "previous_044_live_evidence": {
     "version": "0.4.4-experimental",
@@ -578,7 +587,8 @@
       "production": 329,
       "developer": 633
     },
-    "live_candidate_launch_verified": false
+    "live_candidate_launch_verified": true,
+    "live_candidate_launch_scope": "Guarded launch verified for combined 0.8.4 only; new 0.8.5 remains unlaunched."
   },
   "previous_unlaunched_083_developer_native_menu_trial": {
     "version": "0.8.3-play-trial",
@@ -618,5 +628,124 @@
     "generated_source_checked": true,
     "developer_sources_checked": true,
     "all_declarations_match": true
+  },
+  "previous_084_developer_native_menu_trial": {
+    "version": "0.8.4-play-trial",
+    "menu_version": "0.8.3-settings-trial",
+    "preference_keys": [
+      "enabled",
+      "selection_mode",
+      "prefer_same_biome",
+      "locations"
+    ],
+    "production_script_byte_identical": true,
+    "live_verified": false,
+    "launched": true,
+    "registration_verified": true,
+    "included_in_player_zip": false,
+    "scope": "Live 0.8.4 registration and six distinct setting icons confirmed; Nexus load failed visually despite transient logical active state. Full controls, HUD and gameplay acceptance remain incomplete.",
+    "developer_tests_passed": 633,
+    "actual_framework_discovery_verified": true,
+    "temporary_all_six_preferences_verified": true,
+    "optional_icon_provider_binding_verified": true,
+    "callbacks": 18,
+    "distinct_native_targets": 12,
+    "payload_files": 39,
+    "custom_icons_included": 7,
+    "custom_icon_deployed": true,
+    "custom_icon_live_verified": false,
+    "production_sha256": "d8cf09a808322900db9149e601248ddf18e4dedf094c44e22f7396c950871268",
+    "menu_sha256": "8bd8302569aafc0a22d8c8946fccec84d798be57c42e0bd977d356f4a3205326",
+    "locale_validation_required_during_build": true,
+    "physical_hotkeys": 0,
+    "shortcut_binding_enabled": false,
+    "host_compatibility_guard_included": true,
+    "localized_launcher_messages": 9,
+    "compatibility_profile_validation_required": true,
+    "setting_role_icons_visible_in_screenshots": true,
+    "custom_icon_acceptance_scope": "Six distinct setting icons visible; parent, HUD and teardown acceptance incomplete."
+  },
+  "previous_047_live_evidence": {
+    "version": "0.8.4-play-trial",
+    "production_version": "0.4.7-experimental",
+    "menu_version": "0.8.3-settings-trial",
+    "date": "2026-09-28",
+    "timezone": "Europe/Prague",
+    "launched": true,
+    "registration_verified": true,
+    "registration_time": "08:15:41",
+    "mods": 2,
+    "distinct_native_targets": 12,
+    "verified_backup_files": 43,
+    "payload_files": 39,
+    "payloads_unchanged_during_live_test": true,
+    "player_files_match_prelaunch_snapshot_at_check": {
+      "settings.json": true,
+      "state.json": true
+    },
+    "player_file_check_at": "2026-09-28T06:32:57.674074+00:00",
+    "settings_changed_by_player": true,
+    "settings_log_evidence": [
+      "enabled",
+      "selection_mode",
+      "prefer_same_biome",
+      "space_stations",
+      "nexus"
+    ],
+    "settings_screenshot_evidence": [
+      "six distinct role icons",
+      "Space stations: ON",
+      "Space Anomaly: ON"
+    ],
+    "all_six_controls_accepted": false,
+    "hud_icon_accepted": false,
+    "remapped_controls_verified": false,
+    "controller_verified": false,
+    "nexus_load": {
+      "location": 14,
+      "selection_mode": "random",
+      "eligible_owned_companions": 6,
+      "requested_slot_one_based": 1,
+      "armed_at": "08:16:23.761",
+      "queue_accepted_at": "08:16:26.981",
+      "logical_active_observed_at": "08:16:29.816",
+      "observer_stopped_at_first_active": true,
+      "player_reported_visible_pet": false,
+      "later_external_read_at": "08:21:35",
+      "later_active": -1,
+      "later_pending": -1,
+      "cause_and_removal_time_known": false
+    },
+    "first_hidden_launcher_attempt": "Ended before new game, host or log; exact cause unknown.",
+    "successful_launcher_attempt": "Persistent PTY through guarded PowerShell host; portable launch remains unverified.",
+    "native_active_is_not_visual_confirmation": true,
+    "automatic_retry": false,
+    "production_sha256": "d8cf09a808322900db9149e601248ddf18e4dedf094c44e22f7396c950871268",
+    "menu_sha256": "8bd8302569aafc0a22d8c8946fccec84d798be57c42e0bd977d356f4a3205326",
+    "nexus_ship_exit": {
+      "armed_at": "08:31:59.811",
+      "queue_accepted_at": "08:32:01.437",
+      "logical_active_observed_at": "08:32:01.477",
+      "requested_slot_one_based": 5,
+      "eligible_owned_companions": 6,
+      "player_reported_visible_pet": true,
+      "external_matching_active_observed_at": "08:32:01.486",
+      "same_session_as_failed_load": true,
+      "same_companion_as_failed_load": false,
+      "cause_of_difference_established": false
+    },
+    "external_sampler": {
+      "started_at": "08:30:17.383",
+      "finished_at": "08:33:17.379",
+      "samples": 1788,
+      "unstable_samples": 0,
+      "observed_transitions": 2,
+      "read_only": true,
+      "final_sampled_location": 14,
+      "final_sampled_active": 4,
+      "final_sampled_pending": -1,
+      "matching_active_observed_until_end": true,
+      "visibility_established_by_sampler": false
+    }
   }
 }

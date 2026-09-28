@@ -8,17 +8,23 @@ Companion Auto Summon should feel consistent with No Man's Sky: familiar control
 
 ## Current state
 
-Upcoming combined 0.8.4 retains production 0.4.7, menu 0.8.3, all six existing preferences
-and 5.5-second confirmations. It adds distinct icons for the six settings and
-uses the original paw/arrow for the parent and notices. Resource registration
-is attempted once in the verified natural loading phase; a retained native paw
-is the per-role fallback. Notices remain text-only when no owned icon is usable.
-The biome label explicitly identifies Random as its scope. The installed 0.8.2
-folder is unchanged. Its registration and logged native activation do not
-establish visible appearance or full control acceptance. Keep the development
-panel until native acceptance passes. The standalone production ZIP has no
-native page or custom textures. Absence alone must never trigger a retry after
-a possible manual dismissal.
+The running combined **0.8.4** has production **0.4.7**, menu **0.8.3**, all six
+existing preferences and 5.5-second confirmations. Screenshots confirm distinct
+icons for the six setting roles. Each icon represents its function and stays
+the same when its value changes; ON/OFF or the selected mode is in the caption.
+White/gray is native selection styling, not the enabled state. English labels
+use sentence case, with proper names such as **Space Anomaly** capitalized;
+**Space stations** is a generic label and ON/OFF are uppercase state tokens.
+This records the current English design, not a verified game-wide style guide.
+
+The player reported no visible companion on one Nexus startup despite a brief
+logical active index. A later ship exit successfully summoned another Random
+pet. The source **0.4.8 / 0.8.5** extends passive diagnostics within their existing
+bounds; it is unlaunched and is not a spawn fix. See [live evidence](docs/research/LIVE-084.md).
+Full control, HUD, teardown and remapping acceptance remains incomplete.
+Retain the development panel until native acceptance passes. The standalone
+production ZIP has no native page or custom textures. Absence alone must never
+trigger a retry after a possible manual dismissal.
 
 Fourteen menu/HUD catalogs are now maintained and validated during builds.
 The thirteen non-English catalogs are drafts, not verified language support.
@@ -31,7 +37,7 @@ replay after restart, removal and preservation of existing assignments under
 remapped native controls. Current tagged None entries remain blocked because
 native serialization could replace a prior binding with an empty action.
 
-Historical production 0.4.3 added one deferred opportunity after a successful local save load, using the existing automation toggle and summon checks. One Random-mode startup on a space station is confirmed by the log and the user, without a ship exit. Production 0.4.2 previously registered in the combined 0.6.1 trial and logged an accepted station queue at 20:18:19 without separate visible-pet confirmation. The separate pyMHF tab uses the class name `CompanionAutoSummon`. The running trial retains that English panel and the native automation toggle; the new six-control candidate is not yet launched. HUD messages use the game's existing timed-message function. The 0.7.0 trial screenshot confirms OFF text rendering with an unwanted solid white disc above it. Full native acceptance, localization and a finished public launcher remain incomplete.
+Historical production 0.4.3 added one deferred opportunity after a successful local save load, using the existing automation toggle and summon checks. One Random-mode startup on a space station is confirmed by the log and the user, without a ship exit. Production 0.4.2 previously registered in the combined 0.6.1 trial and logged an accepted station queue at 20:18:19 without separate visible-pet confirmation. The separate pyMHF tab uses the class name `CompanionAutoSummon`. The running trial retains that English panel and the native automation toggle; the six-control page has partial live evidence in combined 0.8.4. HUD messages use the game's existing timed-message function. The 0.7.0 trial screenshot confirms OFF text rendering with an unwanted solid white disc above it. Full native acceptance, localization and a finished public launcher remain incomplete.
 
 Menu development sessions should retain functional automatic summoning and the
 player's existing preferences. Use a separately validated combined development
