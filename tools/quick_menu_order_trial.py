@@ -230,10 +230,10 @@ else:
 
 
 class CompanionMenuOrderTrial(Mod):
-    _version = ("0.8.4-language-observation" if LANGUAGE_OBSERVATION_ENABLED
+    _version = ("0.8.5-branding" if LANGUAGE_OBSERVATION_ENABLED
                 else "0.8.3-settings-trial" if EXTENDED_SETTINGS_ENABLED or CUSTOM_ICON_ENABLED
                 else "0.7.0-toggle-trial" if SETTINGS_TOGGLE_ENABLED else "0.6.0-order-trial")
-    _author = "Companion Auto Summon contributors"
+    _author = "Lineum Dynamics"
     _description = ("Native automation toggle before individual companions" if SETTINGS_TOGGLE_ENABLED
                     else "One inert native settings subpage before individual companions")
     _disabled = not supported_runtime()

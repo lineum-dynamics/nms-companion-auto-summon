@@ -1,4 +1,4 @@
-"""In-process bridge to the existing 0.4.8 preference queue; no I/O or hooks.
+"""In-process bridge to the existing 0.4.9 preference queue; no I/O or hooks.
 
 The caller supplies live pyMHF registry/module lookups and the verified sibling
 production path. Bundle checksums establish source provenance before startup;
@@ -15,7 +15,7 @@ from threading import Lock
 PRODUCTION_NAME = "CompanionAutoSummon"
 EXPECTED_EXE_SHA256 = "b7913f268dfc62386b6b68f524bfc8ade4a44a9f4fbad39085b7bf51be3680cb"
 EXPECTED_INIT_MARKER = (
-    "Companion Auto Summon 0.4.8 experimental: automation %s; use the CompanionAutoSummon settings panel."
+    "Companion Auto Summon 0.4.9 experimental: automation %s; use the CompanionAutoSummon settings panel."
 )
 _ABSENT = object()
 SETTING_KEYS = ("enabled", "selection_mode", "prefer_same_biome", "planets", "space_stations", "nexus")
@@ -212,7 +212,7 @@ class PreferenceBridge:
         A newer applied queue, changed captured request or replaced/stopped
         runtime refuses the old capture. Unrelated queued settings survive.
         Identical setting writes within the same queue have no revision marker
-        in 0.4.8 and cannot be distinguished; the visible desired value governs.
+        in 0.4.9 and cannot be distinguished; the visible desired value governs.
         An optional pure, nonblocking authorization predicate runs under both
         locks immediately before the write and must return literal True. It
         must not perform I/O, native calls or reenter the preference bridge.

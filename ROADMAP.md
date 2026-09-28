@@ -1,6 +1,6 @@
 # Companion Auto Summon roadmap
 
-This is the canonical backlog for unfinished release work and future ideas. It is not a feature list for the current package or a promise of release dates. Status updated on 28 September 2026: source candidate **0.8.6-play-trial** contains unchanged production **0.4.8** and menu **0.8.4-language-observation**. It passed 675 developer tests without failures or skips; production retains its unchanged 333-test evidence. The final separate 41-file bundle (40 payloads) passed real-framework offline checks and both read-only launch preflights. It has not launched. Running **0.8.4** and prepared **0.8.5** remain unchanged. Six setting icons are visible in 0.8.4 screenshots, but one Nexus startup failed visibly and a later ship exit summoned a different Random pet. Gameplay and full interface acceptance remain incomplete. Unaccepted proposals below remain unapproved for implementation.
+This is the canonical backlog for unfinished release work and future ideas. It is not a feature list for the current package or a promise of release dates. Status updated on 28 September 2026: **Companion Auto Summon for No Man's Sky — by Lineum Dynamics**, source candidate **0.8.7-play-trial**, contains production **0.4.9-experimental** and menu **0.8.5-branding**. It passed 333 production and 675 developer tests without failures or skips. The separate `build/quick-menu-play-trial-087-r1` folder has 41 files (40 payloads and its manifest) and passed real-framework offline checks, all six temporary preference paths and both Python and Windows PowerShell 5.1 read-only preflights. It has not launched. Running **0.8.4** and prepared, unlaunched **0.8.6-r1** remain unchanged. Six setting icons are visible in 0.8.4 screenshots, but one Nexus startup failed visibly and a later ship exit summoned a different Random pet. Gameplay and full interface acceptance remain incomplete. Unaccepted proposals below remain unapproved for implementation.
 
 Use [DESIGN.md](DESIGN.md) for accepted product behavior, [LOCALIZATION.md](LOCALIZATION.md) for language requirements and [the release plan](docs/release/PRIPRAVA-VYDANI.md) for publication checks. Update this backlog when a proposal is accepted, deferred, rejected or implemented. Record the version and verification evidence when a task is completed.
 
@@ -16,11 +16,11 @@ language observation without choosing a catalog or changing display text. See
 establishes game-language readiness, rendered translations or an installer.
 
 The immediate priority is the intermittent Nexus startup failure. Prepared
-production 0.4.8 retains passive diagnostics after the first logical active
+production 0.4.9 retains passive diagnostics after the first logical active
 index, within the existing 15-second / 4096-callback observation limits. It adds
 no retry, placement override or summon timing change and is not a spawn fix.
 See [the live 0.8.4 record](docs/research/LIVE-084.md) and the
-[next combined test](docs/release/PRIPRAVA-VYDANI.md#nejbližší-společný-test-086).
+[next combined test](docs/release/PRIPRAVA-VYDANI.md#nejbližší-společný-test-087).
 Keep the running game and host intact; use the next ordinary closed-game window
 for a fresh backup and the separately prepared candidate.
 
@@ -28,12 +28,13 @@ The candidate retains matched manual-selection attribution, 5.5-second notices,
 six native controls and seven original role assets. Screenshots confirm the six
 setting icons in 0.8.4; parent/HUD appearance, all controls and resource teardown
 still need acceptance. The label **Random: prefer matching biome** describes the
-existing planet-only Random preference. No new player-facing wording or meaning
-is introduced by 0.4.8; all fourteen catalogs remain unchanged.
+existing planet-only Random preference. Native captions and HUD wording remain
+unchanged. The branding update adds the full product name and author-credit
+keys and expands the product name in three launcher compatibility messages.
 
 The guarded host, actual target-handle check before injection, read-only
 preflight and separate setup/host leases remain in place. Nine compatibility
-messages use fourteen catalogs (39 keys each; thirteen draft translations).
+messages use fourteen catalogs (41 keys each; thirteen draft translations).
 These checks do not complete the portable installer, full launcher/native
 localization or saved-technology safety. Retained older artifacts stay unchanged.
 
@@ -51,16 +52,49 @@ remapping and controllers remain untested; rapid toggles were repeated presses.
 
 | Work | Current boundary | Completion evidence |
 |---|---|---|
-| Simple, reliable installation | Current 0.8.6 retains the guarded direct host, shared compatibility profile, nine localized compatibility messages, read-only preflight and setup/host leases from 0.8.4. The 0.8.4 preflights and subsequent guarded launch have bounded evidence. Normal setup still requires external Python and prepares dependencies. A portable offline runtime and finished graphical launcher are not implemented. | Retain the offline mismatch/no-write/lease tests, then verify extract-and-launch on a clean second Windows account/PC, relocated/non-ASCII paths, no external Python dependency and no unexpected game termination. Follow [installer requirements](docs/release/INSTALACE-ZADANI.md). |
-| Native quick-menu settings | Running 0.8.4 and prepared 0.8.6 retain six settings and the explicit Random biome label. Menu 0.8.4-language-observation adds optional diagnostics only. Six setting icons are visible in 0.8.4 screenshots. All seven DDS files are validated before staging; each role has native-paw fallback. Complete controls, parent/HUD rendering and resource lifetime remain unverified. Keep automatic summoning and the desktop panel during acceptance. See [QUICK-MENU.md](QUICK-MENU.md). | All six controls apply/persist without changing unrelated values; native navigation/rebuilds and ordinary pet actions; default/remapped keyboard and controllers; seven correct icons, retained fallback and text-only behavior; no changed gameplay limits or shared vanilla textures. |
+| Simple, reliable installation | Current 0.8.7 retains the guarded direct host, shared compatibility profile, nine localized compatibility messages, read-only preflight and setup/host leases from 0.8.4. Current preflights passed; the 0.8.4 guarded launch has bounded evidence. Normal setup still requires external Python and prepares dependencies. A portable offline runtime and finished graphical launcher are not implemented. | Retain the offline mismatch/no-write/lease tests, then verify extract-and-launch on a clean second Windows account/PC, relocated/non-ASCII paths, no external Python dependency and no unexpected game termination. Follow [installer requirements](docs/release/INSTALACE-ZADANI.md). |
+| Native quick-menu settings | Running 0.8.4 and prepared 0.8.7 retain six settings and the explicit Random biome label. Menu 0.8.5-branding retains optional language diagnostics without translated rendering. Six setting icons are visible in 0.8.4 screenshots. All seven DDS files are validated before staging; each role has native-paw fallback. Complete controls, parent/HUD rendering and resource lifetime remain unverified. Keep automatic summoning and the desktop panel during acceptance. See [QUICK-MENU.md](QUICK-MENU.md). | All six controls apply/persist without changing unrelated values; native navigation/rebuilds and ordinary pet actions; default/remapped keyboard and controllers; seven correct icons, retained fallback and text-only behavior; no changed gameplay limits or shared vanilla textures. |
 | Native number shortcuts | Requested next work; blocked by tagged None serialization losing the marker and potentially replacing a prior binding with an empty action. The existing native binding guard remains required. No custom shortcut or physical hotkey is implemented. | Verify native binding, replay, removal and persistence without losing existing shortcuts; prove remapped native-input behavior and controller handling before enabling it. Do not substitute physical key hooks or a second hotkey system. |
-| Localization and natural feedback | Fourteen catalogs contain 39 keys; thirteen translations are drafts. Nine launcher compatibility messages use catalog lookup. Offline native text preparation passes 1,666 language/state combinations within byte limits; it is not connected to native rendering. Candidate 0.8.6 observes copied language scalars only. UTF-8 measurement/drawing decoders are statically verified; reload safety, language selection and live glyph rendering remain unverified. Native menu/HUD remain English. | Reviewed catalogs for all 14 official interface languages, complete launcher coverage, verified language selection, placeholders and in-game rendering. Quiet ordinary summons, honest save/session-only messages; evaluate the combined activation/donation-information proposal separately under the published-rule boundary below. |
-| Live behavior and compatibility | Running 0.4.7 / 0.8.4 has one visibly failed Nexus startup and one later successful ship exit with a different Random companion. Prepared 0.4.8 / 0.8.6 retains bounded passive spawn diagnostics and adds menu language observations only. The confirmed station startup and one respected dismissal belong to historical 0.4.3 / 0.6.2; they do not verify the current candidate. | Capture the longer failed-startup lifecycle and control companion choice before attributing a load/exit difference. Broaden dismissal regression; test planet/Nexus and Last manually selected startup, normal ship exit, preferences, biome preference/fallback, location controls, restart/save switching, obstructed placement then suitable terrain, cancellation and unsupported locations. Record visible appearance separately from queue acceptance or logical activity. |
+| Localization and natural feedback | Fourteen catalogs contain 41 keys; thirteen translations are drafts. Nine launcher compatibility messages use catalog lookup; two product keys cover the full name and author credit. Offline native text preparation passes 1,666 language/state combinations within byte limits; it is not connected to native rendering. Candidate 0.8.7 observes copied language scalars only. UTF-8 measurement/drawing decoders are statically verified; reload safety, language selection and live glyph rendering remain unverified. Native menu/HUD remain English. | Reviewed catalogs for all 14 official interface languages, complete launcher coverage, verified language selection, placeholders and in-game rendering. Quiet ordinary summons, honest save/session-only messages; evaluate the combined activation/donation-information proposal separately under the published-rule boundary below. |
+| Live behavior and compatibility | Running 0.4.7 / 0.8.4 has one visibly failed Nexus startup and one later successful ship exit with a different Random companion. Prepared 0.4.9 / 0.8.7 retains bounded passive spawn diagnostics and menu language observations; branding adds no summon fix. The confirmed station startup and one respected dismissal belong to historical 0.4.3 / 0.6.2; they do not verify the current candidate. | Capture the longer failed-startup lifecycle and control companion choice before attributing a load/exit difference. Broaden dismissal regression; test planet/Nexus and Last manually selected startup, normal ship exit, preferences, biome preference/fallback, location controls, restart/save switching, obstructed placement then suitable terrain, cancellation and unsupported locations. Record visible appearance separately from queue acceptance or logical activity. |
 | Multiplayer and release preparation | Second-PC installation and multiplayer remain unverified; Nexus material is still a draft. | Controlled tests with one and then, where available, two mod users; no duplicate or foreign-pet changes; accurate support limits; owner-approved attribution/reuse terms and distribution contents; current platform/publisher policy review. |
 
 Keep the current native ownership, eligibility and placement rules. No roadmap item authorizes pet creation/unlocking, reduced gameplay limits, accelerated progression or writing NMS save files. The same exact-build guard remains required.
 
 ## New proposals, in suggested order
+
+### Selection modes and weighted habitat choice
+
+**Status: weighted principle accepted for further design; not implemented.**
+Discuss three modes: Last selected, Random and By habitat. The habitat mode
+would favour a matching environment without requiring the highest matching
+group on every draw. At the owner's request, use Fibonacci numbers as the basis
+for the proposed balance: **13 exact / 5 related / 1 acceptable**, approximately
+**68.4% / 26.3% / 5.3%** when all three groups contain eligible pets. These are
+selected, nonconsecutive Fibonacci numbers. They express a strong preference
+for matching habitats with some variety; the sequence itself is not evidence
+of ecological suitability or better gameplay.
+
+First choose a nonempty group using the integer weights, renormalizing when
+other groups are empty, then choose among its native-eligible pets (uniformly
+unless Rotate companions is enabled). For example, without an exact match,
+the related/acceptable probabilities become **5:1**, about **83.3% / 16.7%**.
+Group population must not change the group weight. The specific ratio and
+compatibility table remain proposals to evaluate, not validated balance.
+
+Explicitly unsuitable pairs stay excluded; Frozen versus Lava is an example.
+Do not fall back without restriction to every owned pet. Scorched and Lava are
+distinct native categories; they are the proposed first related pair, not an
+existing merge or a verified universal suitability rule. If no approved group
+contains an eligible pet, the proposed mode would skip the automatic summon.
+Nonplanet behavior and the complete related/acceptable table still need design.
+
+By habitat is the recommended future default **for new installations only**,
+subject to approval of the complete feature; preserve existing preferences.
+The current default remains Last manually selected. Current Random still has
+an optional exact-biome preference and falls back to its full native-eligible
+pool when the habitat is unknown or no exact match exists. No mode, setting,
+catalog text or player data changes as part of this proposal.
 
 ### 1. Choose which companions Random may use
 
@@ -68,11 +102,47 @@ Keep the current native ownership, eligibility and placement rules. No roadmap i
 
 Treat inclusion and exclusion as two possible interfaces for one filter, not two independent settings systems. Use stable companion identity instead of slot numbers so rearranging slots does not silently select another pet. Build the pool from native-eligible owned companions, apply the player's filter and then apply the existing biome preference within that filtered pool. If the filtered pool is empty, do not summon and provide an unobtrusive status; never silently reintroduce an excluded companion. A draw stays fixed through deferred placement retries.
 
-### 2. Optional avoidance of the immediately previous random companion
+### 2. Rotate companions across automatic opportunities
 
-**Status: proposed; not implemented.** An optional Random setting could make successive exits feel more varied. Recommended initial default: off, preserving ordinary Random behavior unless the player chooses otherwise.
+**Status: proposed; not implemented.** This develops the earlier immediate-repeat
+avoidance idea into one optional shared control, provisionally named **Rotate
+companions**. Random would use a shuffled cycle of its currently eligible pets.
+By habitat would first make its weighted group draw, then use a separate
+shuffled cycle within that group. Do not force a cycle across groups that
+changes their intended probabilities. A group with one pet may repeat; Last
+selected remains unaffected.
 
-Apply it only when at least two distinct eligible companions remain after the optional player filter and biome preference. If only one remains, allow it. Exclude the previous random companion for that draw only; do not reroll while placement is blocked or draw a replacement after cancellation. Track the previous automatic choice separately from the manual favourite and define save/context reset behavior before implementation. Live tests must distinguish a confirmed appearance from a queue request before deciding which event advances the history.
+Recommending this control ON for new installations is still a proposal; existing
+preferences must survive. Selection occurs only for the next normal load or
+ship-exit opportunity. It never dismisses or replaces an active pet, redraws
+during blocked placement or creates a replacement request after cancellation.
+Define eligibility changes, cycle resets and which confirmed event advances a
+cycle before implementation. Keep cycle history separate from the manual
+favourite, and distinguish visible appearance from queue acceptance in tests.
+
+Roster changes must reconcile the cycle rather than reset it. The proposed
+rules are:
+
+- Use a verified, stable companion identity; mutable slot indices and display
+  names are not identities. Reordering or renaming must not restart a cycle.
+- Remove no-longer-owned members while preserving the order of surviving
+  unselected members. Insert each genuinely new owned member once at a random
+  position in the remaining cycle; keep previously selected members marked.
+- Track temporary native ineligibility separately from ownership changes so a
+  pet becoming eligible again is not repeatedly treated as a new adoption.
+- Recheck ownership, identity-to-slot resolution and native eligibility before
+  submitting the chosen pet. If it was removed or its identity cannot be
+  resolved safely while placement is deferred, cancel the request; do not
+  summon a replacement occupant of its former slot or silently redraw.
+- Keep each habitat context's mutually exclusive group membership separate.
+  Reconcile membership for the next normal opportunity without rerolling an
+  existing deferred request. Cycle membership must not alter group weights.
+
+Reliable identity across roster edits, duplicate-looking companions and save
+changes is an implementation prerequisite, not a verified current capability.
+Test adoption, abandonment, reorder, rename, eligibility changes and removal of
+the deferred candidate before enabling this feature. The exact cycle-advance
+event and persistence/reset boundaries remain to be specified.
 
 ### 3. A small diagnostic report the player can review and share
 
@@ -118,7 +188,7 @@ or inject prototype inventory into the normal player save. Compiling an XML
 definition does not validate these behaviors.
 
 Unknown game versions must stop native integration before hooks or native calls.
-The current 0.8.6 source retains the guarded host and scoped localized
+The current 0.8.7 source retains the guarded host and scoped localized
 outside-game warnings without an unsafe bypass or preference reset. Final-bundle
 offline checks passed; live acceptance remains pending. A saved custom item still requires verified
 update/removal behavior. Runtime refusal alone does not establish inventory or

@@ -1,11 +1,23 @@
-# Companion Auto Summon 0.4.8 — experimental
+# Companion Auto Summon for No Man's Sky
 
-Offline validation: **333 production tests and 633 developer tests passed**, without skips or source changes during either suite. The separate 40-file candidate passed real-framework discovery, dispatch and all six temporary preference paths. No native hooks were bound and no game was accessed by these checks.
+by **Lineum Dynamics**
 
-The source candidate **0.8.5-play-trial** pairs production **0.4.8** with the
-unchanged **0.8.3-settings-trial** menu. Passive diagnostics continue after the
-first logical active index, within the existing time/read/log limits. This is
-not a fix for the intermittent Nexus startup issue, and it has not launched.
+The branding candidate **0.8.7-play-trial** pairs production
+**0.4.9-experimental** with menu **0.8.5-branding**. Source validation passed
+**333 production and 675 developer tests**, without failures or skips. Real-framework
+checks covered both Mods and all six temporary preference paths; Python and
+Windows PowerShell 5.1 read-only preflights passed. It has not launched.
+The separate final folder is `build/quick-menu-play-trial-087-r1`, with 41 files;
+its focused locale, framework and both preflight checks also passed after a
+Korean translation correction.
+The full title is used outside the game, while
+the in-game title remains **Companion Auto Summon**. Existing code identifiers,
+filenames and player-data paths are retained.
+
+The candidate retains extended passive summon diagnostics and read-only native
+language observation. It does not select a translation or fix the intermittent
+Nexus startup issue. The previously prepared **0.8.6-r1** remains unchanged;
+its test and preflight results belong to that artifact, not to this new candidate.
 
 The running **0.8.4** bundle remains unchanged. Both Mods and twelve native
 targets registered; screenshots confirm six distinct setting icons. One Nexus
@@ -13,7 +25,8 @@ startup failed visibly despite a temporary active index; a later ship exit
 successfully summoned a different Random pet. Full menu, HUD and gameplay
 acceptance remain incomplete. See [live evidence](docs/research/LIVE-084.md).
 
-Fourteen catalogs now contain 39 keys. Only the nine launcher compatibility
+Fourteen catalogs now contain 41 keys, including the full product name and author
+credit. Three launcher messages use the expanded title. Only the nine launcher compatibility
 messages use them during launch; the thirteen translations remain unreviewed
 drafts. Native menu/HUD text remains English. Full launcher translation and the
 portable public installer are unfinished. See [LOCALIZATION.md](LOCALIZATION.md).
@@ -22,7 +35,7 @@ portable public installer are unfinished. See [LOCALIZATION.md](LOCALIZATION.md)
 
 [Český návod](README.cs.md)
 
-This Git repository is the canonical source for Companion Auto Summon. Development commands and the maintained documentation map are in [DEVELOPMENT.md](DEVELOPMENT.md). The installed test copy and exported ZIPs are built outputs.
+The canonical source is [lineum-dynamics/nms-companion-auto-summon](https://github.com/lineum-dynamics/nms-companion-auto-summon), currently a private repository. Development commands and the maintained documentation map are in [DEVELOPMENT.md](DEVELOPMENT.md). The installed test copy and exported ZIPs are built outputs.
 
 The earlier **0.4.7 / 0.8.2-play-trial** candidate improved the development
 launcher. `-CheckOnly` checks the package, supported game and existing runtime
@@ -206,7 +219,7 @@ framework configuration and foreign `pymhflib` entry points. An unsupported,
 changed or unreadable executable refuses mod activation with an outside-game
 warning; it does not reset preferences or use an unverified native HUD.
 Refusal boundaries are tested offline; a supported guarded launch also succeeded
-in 0.8.4. The new 0.8.5 candidate is not launched.
+in 0.8.4. The new 0.8.7 branding candidate is not launched.
 
 Compatibility warnings use the Windows UI locale with an optional `-Language`
 override, for example `-Language fr`. This is not game-language detection.

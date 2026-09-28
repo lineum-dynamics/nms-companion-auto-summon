@@ -172,7 +172,7 @@ def cas_submenu_trigger(menu: C.c_void_p, action: C.c_void_p, called_as_menu: C.
 
 class CompanionMenuSubmenuTrial(Mod):
     _version = "0.5.0-submenu-trial"
-    _author = "Companion Auto Summon contributors"
+    _author = "Lineum Dynamics"
     _description = "One inert native settings subpage with a separate binding guard"
     _disabled = not supported_runtime()
 

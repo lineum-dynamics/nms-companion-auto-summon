@@ -1,6 +1,6 @@
 # Native quick-menu investigation
 
-## Current status: running 0.8.4, source 0.8.6 unlaunched
+## Current status: running 0.8.4, source 0.8.7 unlaunched
 
 The immutable running **0.8.4-play-trial** contains production **0.4.7** and menu
 **0.8.3-settings-trial**. Two Mods and twelve native targets registered after a
@@ -14,14 +14,21 @@ Last selected/Random, matching-biome preference, planets, space stations and
 the Space Anomaly. Icons identify the setting role and remain stable when the
 value changes. The caption carries the value; native white/gray highlights
 indicate selection. English captions use sentence case and retain proper-name
-capitalization (Space Anomaly) and ON/OFF tokens. No UI strings changed here.
+capitalization (Space Anomaly) and ON/OFF tokens. These native captions are unchanged.
 
-Source **0.8.6** pairs menu **0.8.4-language-observation** with byte-identical
-production **0.4.8** from 0.8.5 and retains the host compatibility checks.
+Source **0.8.7-play-trial** pairs menu **0.8.5-branding** with production
+**0.4.9-experimental** and retains the host compatibility checks. The external
+title is **Companion Auto Summon for No Man's Sky — by Lineum Dynamics**;
+the in-game short title, captions and HUD notices stay unchanged.
 It records bounded language observations only on owned CAS captions, using the
 existing guarded reader and hook. It does not select a catalog or change text,
-icons, settings, timing or summon behavior. The final `086-r1` bundle is not
-launched. The developer panel remains until native controls
+icons, settings, timing or summon behavior. The separate
+`build/quick-menu-play-trial-087-r1` bundle has 41 files (40 payloads and a manifest)
+and is not launched. It passed 333 production and 675 developer tests, actual
+framework checks with nine callbacks per Mod across twelve targets and all six
+temporary preference paths, plus Python and Windows PowerShell 5.1 read-only
+preflights. The prepared `086-r1` remains immutable and unlaunched. These checks
+do not establish gameplay or visual acceptance. The developer panel remains until native controls
 pass acceptance. [The live record](docs/research/LIVE-084.md) distinguishes the
 failed Nexus startup from a later successful ship exit with another Random pet.
 

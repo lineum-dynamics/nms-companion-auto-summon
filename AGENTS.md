@@ -1,7 +1,8 @@
 # Companion Auto Summon development instructions
 
-- The approved public name is Companion Auto Summon; the repository slug is `nms-companion-auto-summon`. Keep the legacy `NMS-AutoPet` data and development-runtime paths for compatibility; do not silently reset or migrate player data during a rename.
-- This repository is the canonical source. Installed game-test copies and old exported packages are outputs, not parallel development roots.
+- The approved external title is Companion Auto Summon for No Man's Sky, with the byline "by Lineum Dynamics". Keep the in-game short title Companion Auto Summon and repository slug `nms-companion-auto-summon`. Code/class identifiers, filenames and legacy `NMS-AutoPet` data and development-runtime paths remain stable; do not silently reset or migrate player data for branding.
+- Use one modest author credit in the main presentation or an appropriate About surface; keep native setting captions focused on their function. Do not claim an in-game credit is implemented until it exists and is verified. A future player-facing credit requires the same catalog updates as other UI text.
+- The canonical source is https://github.com/lineum-dynamics/nms-companion-auto-summon, currently private. Installed game-test copies and old exported packages are outputs, not parallel development roots.
 - Read `DEVELOPMENT.md`, `DESIGN.md`, `LOCALIZATION.md` and the current manifest before changing behavior or compatibility claims.
 - All source code, identifiers, comments, docstrings, test names, tooling and developer diagnostics must be English. Translated player-facing values belong in separate locale resources. Preserve Unicode coverage in test data.
 - Review localization impact in every change. Every player-facing UI text or meaning change must update the canonical English entry and all affected language entries in the same change, without exception. Code-only changes do not require pointless translation rewrites. The nine compatibility-launcher messages are cataloged; other launcher text and the development panel still need coverage before changing their wording. Do not silently leave changed text outside this rule.

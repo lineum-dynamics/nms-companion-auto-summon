@@ -28,7 +28,7 @@ WARNING_KEYS = ("launcher.blocked_title", "launcher.unsupported_game", "launcher
                 "launcher.game_required", "launcher.invalid_package", "launcher.wrong_framework",
                 "launcher.game_changed", "launcher.game_running", "launcher.preflight_passed")
 WARNING_FALLBACKS = {
-    "launcher.blocked_title": "Companion Auto Summon could not start",
+    "launcher.blocked_title": "Companion Auto Summon for No Man's Sky could not start",
     "launcher.invalid_package": "The mod package is incomplete or inconsistent. Extract a complete matching package and try again.",
 }
 LOCALES = ("en", "fr", "it", "de", "es-ES", "nl", "ja", "ko", "pl", "pt-PT",

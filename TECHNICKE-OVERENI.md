@@ -1,6 +1,21 @@
 # Companion Auto Summon — rozsah ověření k 28. 9. 2026
 
-## Aktuální výsledek a kandidát 0.8.5
+## Aktuální kandidát 0.4.9 / 0.8.7
+
+Externí název je **Companion Auto Summon for No Man's Sky**, s podpisem
+**by Lineum Dynamics**. Herní krátký název, nastavení a pravidla vyvolávání
+zůstávají zachované. Produkce 0.4.9 a menu 0.8.5-branding obsahují aktualizovaná
+metadata; všech 14 katalogů má 41 položek včetně plného názvu a autorství.
+
+Prošlo 333 produkčních a 675 vývojových testů bez chyb a vynechání, kontrola
+skutečného frameworku mimo hru a obě nezapisující předstartovní kontroly.
+Po drobné gramatické opravě korejského názvu znovu prošlo 24 lokalizačních testů
+a framework i obě kontroly finálního balíčku `build/quick-menu-play-trial-087-r1`.
+Ten obsahuje 40 datových souborů a manifest a zatím není spuštěný. Původní
+výstup `087` je překonaný. Běžící 0.8.4 a dříve připravená 0.8.6-r1 se neměnily.
+Vážený výběr podle prostředí a shuffle jsou samostatný návrh, ne součást tohoto kandidáta.
+
+## Historický výsledek 0.8.4 a příprava 0.8.5
 
 Společná 0.8.4 byla 28. 9. 2026 spuštěna po ověřené záloze 43 souborů.
 Načetly se oba módy a dvanáct nativních cílů; snímky potvrdily šest různých

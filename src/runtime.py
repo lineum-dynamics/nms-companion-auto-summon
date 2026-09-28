@@ -19,6 +19,8 @@ from pymhf.gui.decorators import BOOLEAN, ENUM, STRING
 
 EXPECTED_EXE_SHA256 = "b7913f268dfc62386b6b68f524bfc8ade4a44a9f4fbad39085b7bf51be3680cb"
 EXPECTED_PYMHF = "0.2.4"
+PRODUCT_NAME = "Companion Auto Summon for No Man's Sky"
+PRODUCT_AUTHOR = "Lineum Dynamics"
 LOGGER = logging.getLogger("CompanionAutoSummon")
 
 # All addresses are RVAs in the exact Steam 25442159 / Cosmos 7.04 executable.
@@ -166,6 +168,9 @@ def cas_add_timed_message(notifications: C.c_void_p, message: C.c_void_p,
 class CompanionAutoSummon(Mod):
     """Experimental summon after a ship exit where native game rules permit it."""
 
+    _version = "0.4.9-experimental"
+    _author = PRODUCT_AUTHOR
+    _description = PRODUCT_NAME
     _disabled = not supported_runtime()
 
     def __init__(self):
@@ -223,7 +228,7 @@ class CompanionAutoSummon(Mod):
             self.auto_enabled = False
             self.settings_ok = False
             LOGGER.exception("Companion Auto Summon settings unavailable; automation starts OFF. The settings panel can enable it for this session.")
-        LOGGER.info("Companion Auto Summon 0.4.8 experimental: automation %s; use the CompanionAutoSummon settings panel.",
+        LOGGER.info("Companion Auto Summon 0.4.9 experimental: automation %s; use the CompanionAutoSummon settings panel.",
                     "ON" if self.auto_enabled else "OFF")
 
     @property

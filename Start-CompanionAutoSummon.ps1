@@ -57,7 +57,7 @@ function Read-LauncherCatalog {
 function Get-LauncherMessage {
     param([string]$Key)
     # These two emergency strings are checked against the English catalog.
-    $fallbackTitle = 'Companion Auto Summon could not start'
+    $fallbackTitle = 'Companion Auto Summon for No Man''s Sky could not start'
     $fallbackBody = 'The mod package is incomplete or inconsistent. Extract a complete matching package and try again.'
     $code = $Language
     if (-not $code) { $code = [Globalization.CultureInfo]::CurrentUICulture.Name }

@@ -52,25 +52,29 @@ log_level = "info"
 shown = true
 always_on_top = false
 """
-README = b"""# Companion Auto Summon combined play trial
+README = b"""# Companion Auto Summon for No Man's Sky
+
+by Lineum Dynamics
+
+Combined developer play trial.
 
 This isolated developer bundle runs two mods in one pyMHF host:
 
-- CompanionAutoSummon 0.4.8-experimental: automatic summoning after loading or
+- CompanionAutoSummon 0.4.9-experimental: automatic summoning after loading or
   ship exit, including its separate preference panel. The production source is
   copied byte-identically into this bundle.
-- CompanionMenuOrderTrial 0.8.4-language-observation: the ordered native companion
+- CompanionMenuOrderTrial 0.8.5-branding: the ordered native companion
   submenu with all six settings, its binding filter and distinct setting icons.
 
-The bundle version is 0.8.6-play-trial. This revision is not yet live-verified.
+The bundle version is 0.8.7-play-trial. This revision is not yet live-verified.
 It adds optional, bounded language observations while a CAS menu caption is
 selected. Two matching copies must confirm construction, the exact derived
 vtable, a known native region and a prior completed-load marker. The marker is
 not a reload lock. Diagnostics never change language, captions or HUD text,
 follow pointers, call a language getter or add a native hook. A diagnostic
-failure leaves the menu and automatic summoning active. Production remains
-byte-identical to the prepared 0.8.5 candidate, including its extended passive
-post-queue observation; this is not a spawn fix.
+failure leaves the menu and automatic summoning active. Production retains the 0.8.6 trial's summon behavior and extended passive
+post-queue observation. Version 0.8.7 updates product/author metadata and
+localized launcher names; this is not a spawn fix.
 It adds exact-build checks before host startup and before each DLL injection
 into the actual selected game process. Compatibility failures use translated
 outside-game notices; --language/-Language selects a launcher language, otherwise
@@ -83,7 +87,7 @@ Use Start-CompanionAutoSummon.ps1 -CheckOnly to check the package, exact game
 and existing runtime while playing. It installs nothing and launches no game
 or mod host; a missing runtime is reported, never prepared in check-only mode.
 Previous launchers without these leases are not covered; never run them together.
-Production 0.4.8 requires matching native UI pet selection before it can
+Production 0.4.9 requires matching native UI pet selection before it can
 remember a manual favorite. An unrelated accepted queue, including native
 battle restoration, cannot overwrite that choice or announce it as saved.
 Passive observation remains; no new retries or summon delays are added.
@@ -195,7 +199,7 @@ def _launcher(data):
     return text.encode("utf-8")
 
 
-def build(*, enable_menu=False, output_name="quick-menu-play-trial-086"):
+def build(*, enable_menu=False, output_name="quick-menu-play-trial-087"):
     """Create one fresh, checksum-complete folder without executing payloads."""
     if enable_menu is not True:
         raise ValueError("Pass --enable-menu for this combined developer trial")
@@ -241,12 +245,14 @@ def build(*, enable_menu=False, output_name="quick-menu-play-trial-086"):
     payload["README.md"] = README
 
     current = json.loads((ROOT / "manifest.json").read_text(encoding="utf-8"))
-    if (current["version"] != "0.4.8-experimental"
+    if (current["version"] != "0.4.9-experimental"
             or current["framework"] != "pymhf[gui]==0.2.4"):
         raise ValueError("The play-trial host requires the reviewed production and framework versions")
     manifest = {
-        "name": "Companion Auto Summon combined play trial",
-        "version": "0.8.6-play-trial",
+        "name": "Companion Auto Summon for No Man's Sky",
+        "author": "Lineum Dynamics",
+        "repository": "https://github.com/lineum-dynamics/nms-companion-auto-summon",
+        "version": "0.8.7-play-trial",
         "framework": current["framework"],
         "steam_build": current["steam_build"],
         "supported_nms_exe_sha256": current["supported_nms_exe_sha256"],
@@ -262,7 +268,7 @@ def build(*, enable_menu=False, output_name="quick-menu-play-trial-086"):
         "mods": [
             {"name": "CompanionAutoSummon", "version": current["version"],
              "path": PRODUCTION_FILE},
-            {"name": "CompanionMenuOrderTrial", "version": "0.8.4-language-observation",
+            {"name": "CompanionMenuOrderTrial", "version": "0.8.5-branding",
              "path": MENU_FILE},
         ],
         "files": [{"path": name, "sha256": hashlib.sha256(data).hexdigest()}
@@ -284,7 +290,7 @@ def build(*, enable_menu=False, output_name="quick-menu-play-trial-086"):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--enable-menu", action="store_true")
-    parser.add_argument("--output-name", default="quick-menu-play-trial-086")
+    parser.add_argument("--output-name", default="quick-menu-play-trial-087")
     options = parser.parse_args()
     print(json.dumps(build(enable_menu=options.enable_menu,
                            output_name=options.output_name)))

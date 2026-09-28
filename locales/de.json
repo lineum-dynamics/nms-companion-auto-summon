@@ -8,7 +8,8 @@
     "menu.parent_title",
     "format.setting",
     "format.with_status",
-    "hud.automation_state"
+    "hud.automation_state",
+    "product.full_name"
   ],
   "messages": {
     "menu.parent_title": {
@@ -132,12 +133,12 @@
       "source_sha256": "5f608bf2ec639e6883f3e378a2b617d6bfabcf3e52031bf57ae8defaf9dee80e"
     },
     "launcher.blocked_title": {
-      "text": "Companion Auto Summon konnte nicht gestartet werden",
-      "source_sha256": "da358e7460a65a69b7f5d85c46716edfb81a535b0630206f2f6906d14152fa8c"
+      "text": "Companion Auto Summon for No Man's Sky konnte nicht gestartet werden",
+      "source_sha256": "83d1046a499f6580311b2e9c516dcca7d0c570577dbb2e746e424470f0cbf0de"
     },
     "launcher.unsupported_game": {
-      "text": "Diese Spielversion wurde für Companion Auto Summon noch nicht überprüft. Unterstützte Version: {build}. Die Mod wurde nicht aktiviert. Suche nach einem kompatiblen Update der Mod.",
-      "source_sha256": "9bc820fd9db3a56d83daf51f40edc855301c0d4a4c007e011e374cad46942d82"
+      "text": "Diese Spielversion wurde für Companion Auto Summon for No Man's Sky noch nicht überprüft. Unterstützte Version: {build}. Die Mod wurde nicht aktiviert. Suche nach einem kompatiblen Update der Mod.",
+      "source_sha256": "111871781f9a6461334dd5ee5a21c8a5a8ff8f3beebf15f292ed68c96837fe33"
     },
     "launcher.unreadable_game": {
       "text": "Die ausführbare Spieldatei konnte nicht überprüft werden. Die Mod wurde nicht aktiviert. Prüfe die ausgewählte Installation und versuche es erneut.",
@@ -160,12 +161,20 @@
       "source_sha256": "c20cd93d54a674e6e3227e8884132dc7f04775b92fd86fcd513add6b1a47d2e4"
     },
     "launcher.game_running": {
-      "text": "No Man’s Sky wird bereits ausgeführt. Beende das Spiel regulär, bevor du Companion Auto Summon startest.",
-      "source_sha256": "99e2aa17ffff50dc1a5af884a14a68268520cd4317d0bdcfa57d47310babab06"
+      "text": "No Man’s Sky wird bereits ausgeführt. Beende das Spiel regulär, bevor du Companion Auto Summon for No Man's Sky startest.",
+      "source_sha256": "35dee3cba23e9f1e6a11780e1764e65cba35688980d270960d1e0a0c8554b26a"
     },
     "launcher.preflight_passed": {
       "text": "Spielkompatibilität überprüft. Weder Spiel noch Mod wurden gestartet.",
       "source_sha256": "652cce3e713a5e9ba3eff4675dd0304bc1259a53ce1f8350723ce8764e717991"
+    },
+    "product.full_name": {
+      "text": "Companion Auto Summon for No Man's Sky",
+      "source_sha256": "93d89e924ffd0dd3c2c0f56a1f7c94298b2c72dd06c37329cde1757b4f6c6c51"
+    },
+    "product.author_credit": {
+      "text": "von Lineum Dynamics",
+      "source_sha256": "f34174f2751cbd9f72653756878099ac4486f106e8472a6eeaa3a75d950e356f"
     }
   }
 }

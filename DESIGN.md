@@ -1,10 +1,21 @@
-# Companion Auto Summon player experience
+# Companion Auto Summon for No Man's Sky — player experience
 
 This document records the accepted product direction. It distinguishes the current experimental implementation from the intended public experience.
 
 ## Goal
 
 Companion Auto Summon should feel consistent with No Man's Sky: familiar controls, the game's presentation style, appropriate language and a small number of meaningful notifications. It remains a third-party mod; do not claim official endorsement or disguise the origin of its installer or download page.
+
+The approved external title is **Companion Auto Summon for No Man's Sky**, with
+the byline **by Lineum Dynamics**. The in-game title remains **Companion Auto
+Summon**. Present the author once in the main project/download presentation or
+an appropriate About surface; keep individual native settings captions concise
+and functional. An in-game author credit is a design direction, not an
+implemented claim. Any future player-facing credit follows the catalog rule.
+The canonical repository is
+[lineum-dynamics/nms-companion-auto-summon](https://github.com/lineum-dynamics/nms-companion-auto-summon).
+The repository slug, code identifiers, filenames and legacy player-data paths
+remain unchanged by this presentation update.
 
 ## Current state
 
@@ -19,9 +30,11 @@ This records the current English design, not a verified game-wide style guide.
 
 The player reported no visible companion on one Nexus startup despite a brief
 logical active index. A later ship exit successfully summoned another Random
-pet. The source **0.4.8 / 0.8.6** retains extended passive diagnostics within their
-existing bounds and adds read-only language observation in the CAS menu. It is
-unlaunched and is not a spawn fix. See [live evidence](docs/research/LIVE-084.md).
+pet. The source branding candidate **0.4.9 / 0.8.7**, with menu
+**0.8.5-branding**, retains extended passive diagnostics within their existing
+bounds and read-only language observation in the CAS menu. Validation is pending;
+it is unlaunched and is not a spawn fix. The prepared **0.8.6-r1** remains
+unchanged. See [live evidence](docs/research/LIVE-084.md).
 Full control, HUD, teardown and remapping acceptance remains incomplete.
 Retain the development panel until native acceptance passes. The standalone
 production ZIP has no native page or custom textures. Absence alone must never

@@ -9,6 +9,11 @@ state without selecting a catalog or changing rendered text. Live language
 observations, glyph coverage and localization acceptance remain unverified.
 The running 0.8.4, prepared 0.8.5 and initial 0.8.6 artifacts are unchanged.
 
+Subsequent branding candidate 0.8.7 retains this observation-only implementation.
+Its catalogs add two external product/credit keys (41 per language) and expand
+three launcher names. The 546-value decoder check below describes the earlier
+39-key snapshot; it is not relabelled as a check of those later text values.
+
 ## Implemented offline preparation
 
 `tools/native_text.py` prepares an owned immutable text snapshot using the same
@@ -69,7 +74,7 @@ The ordinary text class installs the same drawing/measurement callbacks, but
 this audit did not independently re-prove the exact selected-menu-caption
 object wiring.
 
-Offline emulation of the actual table decoded all **546 current catalog text
+Offline emulation of the actual table decoded all **546 retained catalog text
 values** into their original Unicode scalar sequences. Seven additional vectors
 covered ASCII, accented Latin, Cyrillic, Chinese, Japanese, Korean and
 supplementary scalars. Five malformed or incomplete vectors ended in a nonzero

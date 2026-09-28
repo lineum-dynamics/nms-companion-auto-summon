@@ -1,11 +1,22 @@
-# Companion Auto Summon 0.4.8 — testovací verze
+# Companion Auto Summon for No Man's Sky
 
-Ověření mimo hru: prošlo **333 produkčních a 633 vývojových testů**, bez vynechání a změn zdroje během testů. Oddělený balíček se 40 soubory prošel kontrolou skutečného frameworku včetně všech šesti voleb s dočasnými preferencemi; bez nativních hooků nebo přístupu ke hře.
+by **Lineum Dynamics**
 
-Zdrojový kandidát **0.8.5-play-trial** obsahuje produkci **0.4.8** a nezměněné
-menu **0.8.3-settings-trial**. Pasivní diagnostika pokračuje i po prvním aktivním
-slotu v původních časových a početních limitech. Nejde o opravu občasného
-selhání při načtení v Anomálii; tento kandidát zatím nebyl spuštěn.
+Připravovaný kandidát **0.8.7-play-trial** spojuje produkci
+**0.4.9-experimental** a menu **0.8.5-branding**. Zdroj prošel **333 produkčními
+a 675 vývojovými testy** bez chyb a vynechání, kontrolou skutečného frameworku
+s oběma módy a šesti dočasnými preferencemi i nezapisujícími kontrolami Python
+a Windows PowerShell 5.1. Ve hře nebyl spuštěn. Oddělený finální adresář
+`build/quick-menu-play-trial-087-r1` má 41 souborů; po opravě korejského překladu
+u něj znovu prošly dotčené kontroly lokalizace, frameworku a obě předstartovní
+kontroly. Plný název patří do prezentace mimo hru, zatímco
+ve hře zůstává **Companion Auto Summon**. Názvy tříd, souborů a cesty k osobním
+datům se nemění.
+
+Kandidát zachovává rozšířenou pasivní diagnostiku vyvolání a pouhé pozorování
+jazyka hry. Nezapíná překlady a neopravuje občasné selhání při načtení v Anomálii.
+Dříve připravený balíček **0.8.6-r1** zůstává nedotčený; jeho testy a vstupní
+kontroly nejsou výsledky ověření tohoto nového kandidáta.
 
 Běžící balíček **0.8.4** zůstává nedotčený. Načetly se oba módy a dvanáct
 nativních cílů, snímky potvrzují šest různých ikon nastavení. Při jednom načtení
@@ -13,14 +24,15 @@ v Anomálii se pet neobjevil, přestože ho hra krátce vedla jako aktivního.
 Pozdější výstup z lodi vyvolal jiného náhodného peta úspěšně. Úplné ověření menu,
 hlášek a hraní zůstává otevřené. Podrobnosti jsou v [záznamu testu](docs/research/LIVE-084.md).
 
-Všech 14 katalogů obsahuje 39 položek. Při spuštění se z nich nyní používá pouze
+Všech 14 katalogů obsahuje 41 položek, včetně plného názvu a autorského kreditu.
+Tři zprávy spouštěče mají rozšířený název. Při spuštění se z katalogů nyní používá pouze
 devět kompatibilitních zpráv; 13 překladů jsou návrhy bez jazykové revize. Menu
 a herní hlášky zůstávají anglické. Úplný překlad spouštěče ani veřejný přenosný
 instalátor nejsou hotové. Rozsah uvádí [LOCALIZATION.md](LOCALIZATION.md).
 
 Balíček 0.8.2 po ověřené záloze 43 souborů načetl 27. 9. 2026 v 23:58:46 oba módy a 12 nativních cílů s automatikou ON. Všech 17 souborů balíčku i osobní nastavení zůstalo shodných. Vlastní DDS je připravené a jeho hash ověřený. Viditelnou ikonu, hlášky, všech šest voleb a hraní teprve ověří hráč. Prošlo 294 produkčních a 519 vývojových testů i kontroly Windows a pyMHF.
 
-Tento Git repozitář je hlavní zdrojový projekt. Testovací instalace a ZIP balíčky jsou jeho výstupy; další úpravy vznikají v repozitáři. Postup sestavení a ověření je v [DEVELOPMENT.md](DEVELOPMENT.md).
+Hlavním zdrojovým projektem je [lineum-dynamics/nms-companion-auto-summon](https://github.com/lineum-dynamics/nms-companion-auto-summon), nyní soukromý repozitář. Testovací instalace a ZIP balíčky jsou jeho výstupy; další úpravy vznikají v repozitáři. Postup sestavení a ověření je v [DEVELOPMENT.md](DEVELOPMENT.md).
 
 Dřívější kandidát **0.4.7 / 0.8.2-play-trial** doplnil spouštěč. Parametr
 `-CheckOnly` ověří balíček, podporovanou hru a existující runtime i za běhu NMS;
@@ -35,7 +47,7 @@ zůstává menu **0.8.0-settings-trial**. Připravená 0.8.3 přidala odlišné 
 šesti voleb a popisek `Random: prefer matching biome`; 0.8.4 toto menu nemění.
 Starší balíčky 0.7.1, 0.7.2 a 0.8.0 zůstávají nedotčené.
 
-Zdrojový kandidát **0.4.8** a společný balíček **0.8.5-play-trial**
+Zdrojový kandidát **0.4.9** a společný balíček **0.8.7-play-trial**
 ukládají ručního favorita pouze po odpovídající úspěšné akci nativního ovládání
 petů. Samotné přijetí požadavku do fronty, například při obnovení řízeném hrou,
 favorita nezmění a nevytvoří potvrzení ruční volby. Původ konkrétního volání
@@ -55,7 +67,7 @@ se nepřepisuje. Dočasný panel zůstává k porovnání při tomto společném
 
 Kandidát 0.8.2 byl spuštěn. Předchozí instalace **0.4.4 / 0.7.1** a připravený
 starší balíček **0.4.5 / 0.7.2** zůstávají beze změny. Samostatný produkční ZIP
-obsahuje 0.4.8 bez pokusného menu a DDS; bez poskytovatele ikony používá čistý
+se připravuje s verzí 0.4.9 bez pokusného menu a DDS; bez poskytovatele ikony používá čistý
 text. Přesný rozsah kontrol aktuálního kandidáta uvádí
 [technický záznam](TECHNICKE-OVERENI.md). Starší počty níže patří uvedeným verzím.
 
@@ -167,7 +179,7 @@ handlu. Odmítnou také neodpovídající konfiguraci frameworku a cizí rozší
 `pymhflib`. Neznámý, změněný nebo nečitelný EXE zabrání aktivaci módu; chyba se
 zobrazí mimo hru a preference se neresetují. Tyto kontroly prošly testy mimo
 hru; podporované spuštění přes kontrolovaný host prošlo také v relaci 0.8.4.
-Nová 0.8.5 zatím spuštěna nebyla.
+Nový kandidát 0.8.7 zatím spuštěn nebyl.
 
 Kompatibilitní zprávy vybírají jazyk podle prostředí Windows; parametr
 `-Language`, například `-Language fr`, jej může změnit. Nejde o zjištění jazyka

@@ -1,14 +1,19 @@
-# Companion Auto Summon — jednoduchá a spolehlivá instalace
+# Companion Auto Summon for No Man's Sky — jednoduchá a spolehlivá instalace
 
-Aktuální zdrojový kandidát **0.8.4-play-trial** používá produkci **0.4.7**
-a menu **0.8.3-settings-trial**. Finální ověření prošlo 329 produkčními
-a 633 vývojovými testy, bez chyb a vynechaných testů. Hotový balíček obsahuje
-40 souborů (39 datových souborů a manifest). Prošla kontrola skutečného frameworku
+by **Lineum Dynamics**
+
+Aktuální zdrojový kandidát **0.8.7-play-trial** používá produkci **0.4.9-experimental**
+a menu **0.8.5-branding**. Ověření zdroje prošlo 333 produkčními
+a 675 vývojovými testy, bez chyb a vynechaných testů. Oddělený finální adresář
+`build/quick-menu-play-trial-087-r1` obsahuje 41 souborů (40 položek a manifest).
+Původní `087` je uchovaný nespuštěný výstup před opravou dvou korejských částic.
+Prošla kontrola skutečného frameworku
 a šesti voleb s dočasnými preferencemi, bez nativních hooků a přístupu ke hře.
 Python `--check-only` i Windows PowerShell 5.1 `-CheckOnly` prošly proti instalované
 hře a runtime, bez spuštění, nasazení nebo instalace závislostí. Herní ověření
-zůstává nedokončené. Připravený 0.8.3 a poslední spuštěný 0.8.2
-zůstávají nedotčené. Režim PowerShell `-CheckOnly` ověří balíček, podporovanou hru a
+zůstává nedokončené. Po jazykové opravě znovu prošlo 24 lokalizačních testů,
+kontrola frameworku a obě předstartovní kontroly finálního r1. Připravený nespuštěný 0.8.6-r1 a běžící 0.8.4
+zůstávají nedotčené; ani nový 0.8.7 nebyl spuštěný. Režim PowerShell `-CheckOnly` ověří balíček, podporovanou hru a
 existující runtime i za běhu NMS. Nic nevytváří, neinstaluje, nekopíruje do hry
 ani nespouští. Chybějící předpoklady ohlásí; jejich náprava vyžaduje samostatné
 běžné spuštění při zavřené hře. Úspěšná kontrola není herní ověření.
@@ -19,20 +24,25 @@ systémových handlů; zavření posledního je uvolní i po pádu procesu. Nejd
 zámkové soubory vyžadující ruční odstranění. Pokud zjišťování běžících procesů
 selže, běžná příprava se odmítne.
 
-Hostitelé 0.8.4 kontrolují vybraný EXE před importem frameworku a skutečný EXE
+Současní hostitelé zachovávají ochranu ověřenou v 0.8.4: kontrolují vybraný EXE před importem frameworku a skutečný EXE
 cílového procesu podle jeho handlu před každým vložením DLL. Odmítnou
 neodpovídající konfiguraci a cizí rozšíření `pymhflib`. Sestavení navíc kontroluje
 shodu `compatibility.json` s hostitelem, nativními deklaracemi a manifestem.
 Neznámý nebo nečitelný build se nedá vynutit a preference se neresetují.
 
-Devět kompatibilitních zpráv používá 14 katalogů s celkem 39 klíči; 13 překladů
+Devět kompatibilitních zpráv používá 14 katalogů po 41 klíčích; 13 překladů
 zůstává bez jazykové revize. Jazyk volí prostředí Windows nebo parametr
 `-Language`, nikoli zjištění jazyka hry. `-NoDialog` potlačí dialog a ponechá
 konzolovou chybu. Chybný katalog použije stručnou anglickou chybu balíčku.
 Ostatní texty spouštěče ani nativní menu/HUD nejsou tímto lokalizované.
+Dva nové produktové klíče zachovávají plný název jako vlastní jméno a překládají
+autorský kredit; tři kompatibilitní zprávy spouštěče mají rozšířený název.
+Herní krátký název, popisky nastavení a hlášky zůstávají stejné.
 
-Produkce 0.4.7 zůstává nezměněná. Poslední spuštěná 0.8.2 obsahuje menu 0.8.0;
-aktuální 0.8.4 přebírá menu 0.8.3 se sedmi odlišnými ikonami. Veřejný přenosný
+Produkce 0.4.9 zachovává pasivní diagnostiku po prvním logickém aktivním stavu;
+menu 0.8.5-branding ponechává šest voleb, sedm ikon rolí a pozorování jazyka bez
+zapnutí překladů. Běžící 0.8.4 nadále obsahuje produkci 0.4.7 a menu 0.8.3.
+Veřejný přenosný
 instalátor, úplné překlady a bezpečnost budoucí uložené technologie nejsou
 hotové; níže je jejich zadání a oddělená historická evidence.
 
@@ -75,7 +85,7 @@ znovuotevření a běžné akce petů; současné hraní může pokračovat beze
 ## Cílový postup hráče
 
 1. Stáhnout ZIP z Nexusu a rozbalit do vlastní zapisovatelné složky.
-2. Dvojklikem otevřít aplikaci Companion Auto Summon.
+2. Dvojklikem otevřít aplikaci Companion Auto Summon for No Man's Sky.
 3. Spouštěč ověří instalaci a nabídne **Spustit hru s Companion Auto Summon**. Pokud najde více instalací nebo Steam nelze určit, nabídne výběr složky.
 
 Hráč nemusí instalovat Python, psát příkazy do terminálu, volit verze knihoven ani měnit systémové proměnné. Mód má mít vlastní předem otestované prostředí. Běžné spuštění nemá vyžadovat administrátorská oprávnění.
@@ -97,7 +107,7 @@ Oficiální Python popisuje embedded distribuci jako prostředí pro přibalení
 - Běžící hru neukončovat a nesnažit se připojit druhý launcher. Zobrazit stručnou instrukci, co má hráč udělat.
 - Dvojklik opakovaný v krátkém čase nesmí vytvořit dvě instance módu.
 - Při neshodě hry sdělit podporovanou a nalezenou verzi, pokud je spolehlivě známá; samotný dlouhý hex řetězec nepatří do hlavního chybového hlášení.
-- Neshoda nebo nemožnost verzi ověřit automaticky zabrání napojení módu. Zdroj 0.8.4 už kontroluje také přímý Python host před frameworkem i skutečný cílový proces před DLL. Devět kompatibilitních zpráv se překládá mimo hru; nepoužívá se neověřený nativní HUD. Preference se zachovají a není možnost vynutit neznámou verzi. Finální balíček prošel kontrolami Python `--check-only` i Windows PowerShell 5.1 `-CheckOnly` proti instalované hře a runtime bez spuštění, nasazení nebo instalace závislostí. Nativní ověření v nové herní relaci stále čeká.
+- Neshoda nebo nemožnost verzi ověřit automaticky zabrání napojení módu. Zdroj 0.8.7 zachovává kontrolu přímého Python hostitele před frameworkem i skutečného cílového procesu před DLL. Devět kompatibilitních zpráv se překládá mimo hru; nepoužívá se neověřený nativní HUD. Preference se zachovají a není možnost vynutit neznámou verzi. Kontroly Python `--check-only` i Windows PowerShell 5.1 `-CheckOnly` běží bez spuštění, nasazení nebo instalace závislostí; jejich výsledek musí patřit přesnému finálnímu balíčku. Nativní ověření v nové herní relaci stále čeká.
 - Nabídnout otevření složky s logem. Neodesílat logy ani uživatelská data automaticky.
 - Zavření běžného ovládacího okna nesmí potichu ukončit hru. Současné provázání životního cyklu pyMHF a hry vyžaduje při návrhu launcheru výslovné ošetření a test.
 - Nevypínat zabezpečení Windows, antivirovou ochranu ani pravidla pro spouštění skriptů. Nelze předem slíbit absenci upozornění SmartScreen nebo schválení antivirem.

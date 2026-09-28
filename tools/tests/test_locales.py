@@ -45,7 +45,7 @@ class LocaleTests(unittest.TestCase):
                   for path in self.root.rglob("*") if path.is_file()}
         report = self.validate()
         self.assertEqual(report["locales"], 14)
-        self.assertEqual(report["keys_per_locale"], 39)
+        self.assertEqual(report["keys_per_locale"], 41)
         self.assertEqual(report["scope"], "native_menu_hud_technology_launcher")
         self.assertEqual(report["translated_drafts"], 13)
         self.assertTrue(report["source_text_verified"])
@@ -124,7 +124,7 @@ class LocaleTests(unittest.TestCase):
         path = self.root / "cas_compatibility.py"
         original = path.read_text(encoding="utf-8")
         for old, new, message in (("launcher.preflight_passed", "launcher.untracked", "warning keys"),
-                                  ("Companion Auto Summon could not start", "Unknown failure", "fallback"),
+                                  ("Companion Auto Summon for No Man's Sky could not start", "Unknown failure", "fallback"),
                                   ("The mod package is incomplete or inconsistent. Extract a complete matching package and try again.",
                                    "Untracked package warning", "fallback")):
             tree = ast.parse(original)
@@ -149,7 +149,7 @@ class LocaleTests(unittest.TestCase):
     def test_powershell_fallback_and_literal_warning_key_drift_are_rejected(self):
         path = self.root / "Start-CompanionAutoSummon.ps1"
         original = path.read_text(encoding="utf-8")
-        for old, new, message in (("Companion Auto Summon could not start", "Untracked failure", "PowerShell recovery fallback"),
+        for old, new, message in (("Companion Auto Summon for No Man''s Sky could not start", "Untracked failure", "PowerShell recovery fallback"),
                                   ("The mod package is incomplete or inconsistent. Extract a complete matching package and try again.",
                                    "Untracked package error", "PowerShell recovery fallback"),
                                   ("-Key 'launcher.game_running'", "-Key 'launcher.unknown'", "unknown warning keys"),

@@ -3,22 +3,26 @@
 ## Status
 
 `locales/en.json` is canonical English alongside thirteen translated
-**unreviewed draft** catalogs. Each now has the same 39 keys:
+**unreviewed draft** catalogs. Each now has the same 41 keys:
 the original 24 cover the native parent title, six settings labels,
 values/statuses, caption formats and current HUD notices; six keys cover the
-proposed rechargeable technologies and nine cover launcher compatibility
-messages. The biome label is **Random: prefer matching
-biome**, which only affects Random on planets. This updates source preparation;
-the running 0.8.4 artifact remains unchanged. The 0.4.8 diagnostic-only change
-changes no player-facing strings or meaning; all 39 keys remain unchanged.
+proposed rechargeable technologies, nine cover launcher compatibility
+messages and two cover product identity. In the unlaunched 0.4.9 / 0.8.7 branding
+candidate, `product.full_name` is the invariant proper name **Companion Auto Summon
+for No Man's Sky**; `product.author_credit` translates **by Lineum Dynamics**.
+The full title also replaces the short name in `launcher.blocked_title`,
+`launcher.unsupported_game` and `launcher.game_running`, with all affected
+translations and fingerprints updated. Native menu/HUD wording is unchanged,
+including **Random: prefer matching biome**, effective only for Random on planets.
+The running 0.8.4 and prepared, unlaunched 0.8.6-r1 artifacts remain unchanged.
 
 The catalogs are **not integrated into the game runtime**. Native text still
-uses the existing English ASCII path. The unlaunched 0.8.6 menu observes copied
-game-language scalars for developer diagnostics only. There is no language
+uses the existing English ASCII path. The unlaunched 0.8.7 menu retains observation
+of copied game-language scalars for developer diagnostics only. There is no language
 selector, automatic catalog choice, verified non-English rendering or native-language
 terminology review. English and Czech README files remain documentation
 translations. The development panel, other launcher/setup messages and older
-inert-preview captions are outside the current 39-key catalog; this is not
+inert-preview captions are outside the current 41-key catalog; this is not
 whole-application coverage.
 
 The prepared launcher compatibility warnings are the first catalog consumer
@@ -86,7 +90,7 @@ Updating a fingerprint must follow an actual meaning/translation review, not
 serve as a way to hide an unchanged stale translation. A matching fingerprint
 proves synchronization only, not translation quality.
 
-`tools/validate_locales.py` requires exactly all fourteen files and all 39 keys,
+`tools/validate_locales.py` requires exactly all fourteen files and all 41 keys,
 rejects duplicate JSON keys, invalid/empty/oversized/control-character text and
 stale hashes, and compares named placeholder names and multiplicities. Placeholders
 are simple text names such as `{label}`, `{value}`, `{status}`, `{state}` and
@@ -103,6 +107,14 @@ menu combinations and every current HUD notice against the catalog. It parses
 `src/runtime.py` without importing or running it. Only the extracted pure menu
 text function runs, with restricted calls and owned sample state. Source strings
 changed without matching catalog updates fail the check.
+
+The exported `PRODUCT_KEYS` tuple identifies `product.full_name` and
+`product.author_credit`. Static checks compare these with the literal
+`PRODUCT_NAME` and `PRODUCT_AUTHOR` in `src/runtime.py`. The full proper name is
+explicitly allowed to remain unchanged in each translation; the credit phrase
+is translated while Lineum Dynamics remains a proper name. These entries do not
+mean a native About surface or author credit has been implemented. The in-game
+short title remains Companion Auto Summon.
 
 The exported `TECHNOLOGY_KEYS` tuple identifies `tech.link.name`,
 `tech.link.subtitle`, `tech.link.description`, `tech.recharger.name`,
@@ -151,7 +163,7 @@ within the current byte limits, with explicit whole-message English fallback
 for overflow or unsupported locale IDs. All 1,666 current menu/HUD combinations
 fit without fallback. This is not imported by the native mod or play-trial
 bundle. See [the preparation and static evidence](docs/research/NATIVE-LOCALIZATION-AUDIT.md).
-The 0.8.6 candidate includes a guarded read-only language observer, with stable
+The 0.8.7 candidate retains a guarded read-only language observer, with stable
 double copies, constructor/vtable/range checks, two samples per second and a
 bounded transition log. The completed-load flag remains set during a known
 reload, so it is not a rendering-readiness lock. The 17 native enum values are

@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.4.9 / 0.8.7 developer candidate — product identity and Lineum Dynamics
+
+- Use **Companion Auto Summon for No Man's Sky**, with **by Lineum Dynamics**, for the external product identity. Preserve the short native title, code/class/file identifiers, repository slug, mutexes and legacy player-data paths.
+- Record the existing private repository transfer to `lineum-dynamics/nms-companion-auto-summon`, retaining repository identity and history. Update canonical links, source author/product metadata, README files, build metadata and the Nexus draft. No new license or legal IP assignment is introduced.
+- Maintain 41 entries in every one of the fourteen catalogs: add the invariant full product name and translated author credit, and expand the product name in the three affected launcher messages. Native menu/HUD wording remains unchanged. Preserve draft review status and verify PowerShell's escaped apostrophe in the emergency title.
+- Production version 0.4.9 and menu 0.8.5-branding retain the prior summon and diagnostic behavior. The new separate 0.8.7 bundle does not deploy or launch. Live 0.8.4 and prepared 0.8.6-r1 remain unchanged; no gameplay acceptance is inherited.
+- Passed 333 production and 675 developer tests without failures or skips, standalone/combined real-framework offline checks, and Python plus Windows PowerShell 5.1 read-only preflights. Runtime AST comparison confirms only product/author/version metadata and the diagnostic version marker changed. The combined candidate contains 40 payloads plus its manifest.
+- The weighted habitat-selection mode is a separate design proposal, with suggested Fibonacci group weights of 13:5:1 and optional shuffled cycles within each selected group. Current selection modes, default `last_manual`, exact-biome preference and fallback remain unchanged.
+
 ## 0.8.6 developer candidate — observation-only game language
 
 - Retain byte-identical production 0.4.8, including bounded post-queue diagnostics, and all six existing menu controls. Add menu 0.8.4-language-observation with no new native hook, getter, setter or save access.

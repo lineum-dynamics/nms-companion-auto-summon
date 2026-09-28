@@ -1,15 +1,25 @@
-# Companion Auto Summon — příprava prvního vydání na Nexus Mods
+# Companion Auto Summon for No Man's Sky — příprava prvního vydání na Nexus Mods
+
+by **Lineum Dynamics**
 
 Stav k 28. 9. 2026. Pracovní plán; mód ani stránka nebyly veřejně zveřejněné. Hlavní zdrojový projekt je v soukromém GitHub repozitáři; tento soubor se udržuje v `docs/release/`. Odkazy na dokumenty ve složce `CompanionAutoSummon/` níže označují dokumenty v kořeni repozitáře a distribučního balíčku.
 
-Aktuální zdroj je **0.4.8 / 0.8.6**, zatím nespuštěný. Běží neměnná **0.4.7 / 0.8.4**.
+Aktuální zdroj je **0.4.9-experimental / 0.8.7-play-trial** s menu
+**0.8.5-branding**, zatím nespuštěný. Běží neměnná **0.4.7 / 0.8.4**.
+Připravená **0.8.6-r1** zůstává nedotčená a nespuštěná. Plný název a autorství
+se používají v prezentaci mimo hru; krátký herní název zůstává Companion Auto Summon.
 Snímky potvrzují šest odlišných ikon nastavení. Načtení v Anomálii jednou selhalo
 vizuálně, pozdější výstup z lodi vyvolal jiného náhodného peta úspěšně. Příčinu
 neznáme. Kandidát zachovává prodloužené pasivní sledování v původních limitech
-a přidává pouze čtení jazyka pro diagnostiku při otevření našeho menu;
+a čtení jazyka pro diagnostiku při otevření našeho menu;
 podrobnosti uvádí [záznam 0.8.4](../research/LIVE-084.md). Úplné ověření menu,
 hlášek, přemapování, lokalizace a veřejného přenosného spouštěče stále čeká.
 Monetizaci shrnuje [aktuální přehled pravidel](MONETIZATION.md).
+
+Všech 14 katalogů má 41 klíčů. Dva nové klíče zachovávají plný název jako
+vlastní jméno a překládají frázi autorského kreditu; tři kompatibilitní zprávy
+spouštěče nově uvádějí plný název. Nativní popisky a herní hlášky se nemění.
+Třináct překladů nadále čeká na jazykovou revizi; herní kredit není zavedený.
 
 Mimo herní balíček je nově připravené skládání přeložených textů: všech 1 666
 kombinací jazyků a stavů se vejde do stávajících limitů bez zkrácení. Samotné
@@ -19,17 +29,21 @@ prototypem. Současný spouštěč ho zatím nepoužívá; přenosná instalace 
 hotová. Podrobnosti: [lokalizace](../research/NATIVE-LOCALIZATION-AUDIT.md) a
 [přenosný runtime](../research/PORTABLE-RUNTIME-AUDIT.md).
 
-## Nejbližší společný test 0.8.6
+## Nejbližší společný test 0.8.7
 
 Prioritou je zachytit občasné selhání po načtení v Anomálii. Běžící 0.8.4 se
-nemění a její host se neukončuje. Oddělenou 0.8.6 nasadit při příštím běžném
+nemění a její host se neukončuje. Oddělenou 0.8.7 nasadit při příštím běžném
 ukončení hry, po ověření nové zálohy a shody připraveného balíčku. Diagnostika
 nemění pravidla vyvolávání a sama o sobě závadu neopravuje.
 
-Připravený finální adresář je `build/quick-menu-play-trial-086-r1`; starší
-výstup `086` je překonaný a nesmí se spouštět. Prošlo 675 vývojových testů,
-kontrola skutečného frameworku mimo hru a obě nezapisující předstartovní kontroly.
-Produkce 0.4.8 zůstává totožná s dříve ověřeným kandidátem (333 testů).
+Finální adresář je `build/quick-menu-play-trial-087-r1`, se 41 soubory
+(40 položek a manifest). Původní výstup `087` zůstává uchovaný, nespuštěný a
+překonaný opravou dvou korejských částic v lokalizaci. Zdroj prošel 333
+produkčními a 675 vývojovými testy bez chyb a vynechání. Kontrola skutečného
+frameworku ověřila mimo hru devět callbacků každého módu pro dvanáct cílů a všech
+šest dočasných preferencí; prošly také Python a Windows PowerShell 5.1
+předstartovní kontroly bez zápisu. Po jazykové opravě znovu prošlo 24
+lokalizačních testů, kontrola frameworku a obě předstartovní kontroly finálního r1.
 
 1. Po načtení na povoleném místě vyčkat přibližně 20 sekund bez změn nastavení,
    otevření náhledu petů nebo ručního vyvolání. Zaznamenat skutečně viditelného
@@ -94,13 +108,13 @@ Windows x64, Steam NMS build 25442159 / Cosmos 7.04, přesný podporovaný otisk
 
 Funkce pro první vydání: automatické vyvolání vlastního peta po výstupu nebo po úspěšném načtení místního savu, poslední ruční volba nebo Random, volitelná preference domovského biomu v Random, volby lokací, zachování nastavení a čekání na vhodné místo. Kandidát 0.4.3 přidává po načtení jednu odloženou příležitost: zpracuje ji až vhodný callback místního hráče se stejným zpožděním a nativními kontrolami jako po výstupu. Během deserializace se nativní vyvolání nevolá. Ruční odvolání peta nespouští opakované automatické vyvolávání. Další funkce před dokončením ověření nepřidávat. Nativní omezení hry, vlastnictví a umístění zůstávají rozhodující.
 
-Požadavek vlastníka: instalace musí být co nejjednodušší a nejspolehlivější. Cílový postup je **rozbalit ZIP a spustit jednu aplikaci**, s vlastním otestovaným prostředím bez ručního Pythonu, pip příkazů a systémových změn. Tento distribuční spouštěč ještě není vytvořený; stávající zdrojový kandidát 0.4.3 a kombinovaný testovací balíček 0.6.2 jsou vývojové varianty. Konkrétní požadavky jsou v `INSTALACE-ZADANI.md`.
+Požadavek vlastníka: instalace musí být co nejjednodušší a nejspolehlivější. Cílový postup je **rozbalit ZIP a spustit jednu aplikaci**, s vlastním otestovaným prostředím bez ručního Pythonu, pip příkazů a systémových změn. Tento distribuční spouštěč ještě není vytvořený; zdrojový kandidát 0.4.9 a kombinovaný testovací balíček 0.8.7 jsou vývojové varianty. Konkrétní požadavky jsou v `INSTALACE-ZADANI.md`.
 
-Pořadí práce: připravit a ověřit jednoduché přenosné balení souběžně s herními zkouškami kandidáta 0.4.3 v kombinovaném balíčku 0.6.2. Potvrzené je jedno vyvolání v Random po načtení na stanici a samostatně jedno ruční odvolání bez návratu peta během pozorování. Při vhodné příležitosti doplnit načtení na planetě, v Nexusu a v režimu Last manually selected; není kvůli tomu nutné ihned ukončovat hru. Test druhého počítače už musí používat finální balení pro hráče.
+Pořadí práce: připravovat přenosné balení souběžně s nejbližším společným testem 0.8.7 popsaným výše. Historické potvrzení načtení na stanici a samostatného ručního odvolání patří verzi 0.4.3 / 0.6.2; nenahrazuje ověření nového kandidáta. Test druhého počítače už musí používat finální balení pro hráče.
 
-Další potvrzené požadavky: celý zdrojový kód, komentáře a docstringy anglicky; uživatelské překlady odděleně. Lokalizační systém pro všech 14 oficiálních jazyků rozhraní zatím není implementovaný. Je potřeba ověřit i kódování herních potvrzení, zobrazení znaků a přepínání textů panelu. Autoritativní stav a zadání jsou v `CompanionAutoSummon/LOCALIZATION.md`; pravidla průběžné aktualizace dokumentace v `CompanionAutoSummon/DEVELOPMENT.md`.
+Další potvrzené požadavky: celý zdrojový kód, komentáře a docstringy anglicky; uživatelské překlady odděleně. Existuje 14 katalogů po 41 klíčích a devět přeložených kompatibilitních zpráv spouštěče. Nativní nabídka a HUD zatím překlady nepoužívají; statická evidence UTF-8 neověřuje skutečné fonty, vykreslení ani bezpečné přepnutí jazyka. Autoritativní stav a zadání jsou v `CompanionAutoSummon/LOCALIZATION.md`; pravidla průběžné aktualizace dokumentace v `CompanionAutoSummon/DEVELOPMENT.md`.
 
-Uživatel dále požaduje přirozené začlenění do původního rozhraní hry: nenápadná herní potvrzení a nastavení v menu X. Směr popisuje `CompanionAutoSummon/DESIGN.md`. Samostatný experiment už vkládá nativní položku a jednu neaktivní podstránku Settings preview; kombinovaný kandidát 0.6.2 ponechává menu modul 0.6.0 beze změny. Podstránka zatím nemění preference. Skutečné nastavení zůstává v panelu pyMHF, který nelze označovat za nativní herní menu. Ověření životního cyklu, zkratek, přemapování a ovladače pokračuje odděleně od připraveného vstupu do podstránky; finální herní testy se zopakují nad výsledným balíčkem.
+Uživatel dále požaduje přirozené začlenění do původního rozhraní hry: nenápadná herní potvrzení a nastavení v menu X. Směr popisuje `CompanionAutoSummon/DESIGN.md`. Kombinovaný kandidát obsahuje šest skutečných voleb ve společné nativní podstránce a odlišné ikony rolí. Dočasný panel pyMHF zůstává vývojovou zálohou do dokončení přijetí nativního ovládání. Životní cyklus, zkratky, přemapování, ovladač a úplné vizuální chování stále vyžadují ověření nad výsledným balíčkem.
 
 ## Doložený výchozí stav
 
@@ -152,7 +166,7 @@ Jestli tester není dostupný, lze později připravit omezenou veřejnou betu s
 - Při sjednocení oznámení opravit také existující větev `manual favorite saved`: při chybě persistence nyní může mluvit o uložení, přestože volba platí jen pro relaci. Text musí odpovídat skutečnému výsledku; tuto okrajovou větev dosavadní herní pozorování neověřilo.
 - Opravit případné chyby a zopakovat dotčené testy. Jakákoli změna nativních adres nebo herního chování vyžaduje odpovídající nový herní test; nepřenášet úspěšné výsledky automaticky na nový kód.
 - Připravit veřejný spouštěč s přibaleným samostatným Python prostředím a pevně určenými verzemi závislostí. Cílem je rozbalení ZIPu a jedno kliknutí bez stahování závislostí při použití. Nejde o kopii vývojového venv; přenositelnost, načtení DLL a licence všech přibalených částí se musí ověřit. Automatické schválení takového balíčku Nexusem nelze předpokládat. Ruční instalace Pythonu je pouze současný vývojový postup, nikoli cílová instalace pro hráče.
-- Doplnit autorství, kredity a rozhodnutí vlastníka o licenci / oprávnění k úpravám a redistribuci. Samostatný soubor LICENSE je vhodný způsob vyjádření, není zde označován za univerzálně povinný formát Nexusu. Cizí závislosti mají vlastní licence; automaticky na ně neuplatňovat naši licenci.
+- Použít schválený plný název a kredit **by Lineum Dynamics**. Doplnit kredity závislostí a rozhodnutí vlastníka o licenci / oprávnění k úpravám a redistribuci; značka sama licenci ani právní vlastnictví neurčuje. Samostatný soubor LICENSE je vhodný způsob vyjádření, není zde označován za univerzálně povinný formát Nexusu. Cizí závislosti mají vlastní licence; automaticky na ně neuplatňovat naši licenci.
 - Zkrátit uživatelský návod. Při přesunu do Gitu už byly nefunkční odkazy do soukromé testovací složky nahrazeny názvy externě uchovaných záznamů; technický dokument zachovává shrnutí výsledků. Soukromé zálohy a logy nepřibalovat.
 - Aktualizovat verzi, manifest a pouze skutečně doložené výsledky; ZIP zpětně rozbalit a porovnat s manifestem.
 - Připravit krátký postup instalace, aktualizace, běžného spuštění a úplného vypnutí. Uvést, že nejde o soubor pro GAMEDATA/MODS.

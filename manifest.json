@@ -1,6 +1,6 @@
 {
-  "name": "Companion Auto Summon",
-  "version": "0.4.8-experimental",
+  "name": "Companion Auto Summon for No Man's Sky",
+  "version": "0.4.9-experimental",
   "date": "2026-09-28",
   "installed_in_game_directory": false,
   "tested_inside_game": false,
@@ -16,7 +16,7 @@
   "selection_mode_control_verified_in_game": false,
   "biome_preference_verified_in_game": false,
   "location_preferences_verified_in_game": false,
-  "gameplay_verification_scope": "Source 0.4.8 / combined 0.8.6 is unlaunched. It retains passive spawn diagnostics and adds observation-only language reads. The live 0.4.7 / 0.8.4 Nexus startup visibly failed; bounded evidence is retained in previous_047_live_evidence.",
+  "gameplay_verification_scope": "Source 0.4.9 / combined 0.8.7 branding candidate is unlaunched. Summon behavior is unchanged from 0.4.8. Live 0.8.4 and prepared 0.8.6-r1 remain immutable; no live verification is inherited.",
   "supported_summon_locations": {
     "2": "SpaceStation",
     "3": "PlanetOnFoot",
@@ -33,7 +33,7 @@
     "compatibility": 24
   },
   "actual_framework_import_and_gui_properties": "Passed with the real pyMHF 0.2.4 and DearPyGui: eight widgets constructed and preference callbacks exercised with temporary files, no viewport, hook registration, native game calls or game launch",
-  "launcher_validation": "0.8.4 launched the guarded host and registered two Mods/12 targets. Final 0.8.6-r1 is not launched; prior artifacts stay immutable. It passed 675 developer tests, actual-framework offline checks without native hook binding/game access, and both Python and Windows PowerShell 5.1 read-only preflights. Unchanged production 0.4.8 retains 333-test evidence.",
+  "launcher_validation": "0.8.7 passed 333 production and 675 developer tests, real-framework checks without native hook binding/game access and Python/Windows PowerShell 5.1 read-only preflights. It is unlaunched. Live 0.8.4 and retained 0.8.6-r1 remain immutable.",
   "preferences_included": false,
   "manual_selection_path": "%LOCALAPPDATA%/NMS-AutoPet/state.json",
   "preferences_path": "%LOCALAPPDATA%/NMS-AutoPet/settings.json",
@@ -58,7 +58,7 @@
   "files": [
     {
       "path": "CompanionAutoSummon.py",
-      "sha256": "7ed86ad7d14b95a4b0e7eeb322bb8d006a8bf7338b238b690a2988079a2f20a5"
+      "sha256": "1b8359ffea6b11591bfbb7e6c8ac0bc0d3a3df008f3a379505afe861e0399bbf"
     },
     {
       "path": "Launch-CompanionAutoSummon.py",
@@ -66,15 +66,15 @@
     },
     {
       "path": "README.md",
-      "sha256": "bbcac1fb97c7763bf92a7ff2290234d020be87454a9fd78d7c30c66d7d77e9ab"
+      "sha256": "bcedf30280a4effcabd4bee53431dde4189d02ff1cea9e0d54498d7e995c05c9"
     },
     {
       "path": "README.cs.md",
-      "sha256": "1c6edd2c271ed06821d1150fe6f3a8b32286c1888ccdd55b7b95ccfcfdf932ce"
+      "sha256": "d67c6c86123e5af82907c7b304c8e30b20f205b61bf760173e3a9855de4f16ff"
     },
     {
       "path": "cas_compatibility.py",
-      "sha256": "3998aba60cb965204a6f7b627bef5b351c542c089068c03e451f7163d18433ad"
+      "sha256": "6f096be3d0d19aac0e7839b0109c8c3571a1a3c738792093103a9510fcd27e88"
     },
     {
       "path": "compatibility.json",
@@ -82,51 +82,51 @@
     },
     {
       "path": "TECHNICKE-OVERENI.md",
-      "sha256": "3a47a95650f93f88a7b74c8fc8cb97e67ca998ba3887ba53ae42da14940289a8"
+      "sha256": "317921b7d5985be363304c5abd5f8e13347d88ce1c3ab1504fa662ba560235bb"
     },
     {
       "path": "build.py",
-      "sha256": "e69b20ca5044d094b4b38c580260ca8e34691b1d7055a2f72a1bc38bdfebf6f9"
+      "sha256": "04118497d0067ee73a1bf16b7ce9dc8688e154b883c89ed7dbf08d0a6b53a7f2"
     },
     {
       "path": "Start-CompanionAutoSummon.ps1",
-      "sha256": "48777c3e01e124a34c18b5dc0e416dd69dd77be79af551187cfb90cd447c59dd"
+      "sha256": "d17c5d8a8b6ec4fa4af4cf61d3e08714083de5a22ce5d05011be8a5f96878453"
     },
     {
       "path": "DEVELOPMENT.md",
-      "sha256": "29fb8eaf5e3ea3bc25e5e34922fe9d0d42aef2464f281a11d38559e64d85e4e6"
+      "sha256": "d2aa42604ff9754f442676d991557b6b0b35dfb2bb9d9ded356805fb09f780c5"
     },
     {
       "path": "LOCALIZATION.md",
-      "sha256": "68e63a248207cb71ce61f7d68f38077c5b18676dd19d71624962740519e1f90f"
+      "sha256": "1bcb897430ac1cfb7933b30f474597a7cd24a6dc32c9d503f3e05c9650d6345a"
     },
     {
       "path": "DESIGN.md",
-      "sha256": "ad3353a5bf97c6f534f84b3b5b8c3fde34304cfce8fd9c6ed897091f7ff606c5"
+      "sha256": "cb8ebc8f9191804e8e90e71a478eb28cff5ba1609c29fe484870a87bd9026f52"
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "e3f46d88abeef75ba966c1b7381913860b7465e14511e5fceeea82bc78a11ce1"
+      "sha256": "0659c85f084d719d1dfa3ca9696a110f660350f4a0f6a6c53d2b7d27d98a91d3"
     },
     {
       "path": "ROADMAP.md",
-      "sha256": "71f65eea80c360cd92c1f56ca761dc8466e6e90a8c398836bfe54607d9a61e75"
+      "sha256": "8cfd0cee4cc373dd60b8280d8aa394ed11e6bc92883ff0f00ae1f47bc4c51fcf"
     },
     {
       "path": "QUICK-MENU.md",
-      "sha256": "ae85c1466bcb510c703b03631051e27ecaf93d3d74fbd84a813cbb8624f54d29"
+      "sha256": "5c7a064230564d3683b372753a626dd12ef24e887f07f63fbeb85fc0a037fe99"
     },
     {
       "path": "docs/release/PRIPRAVA-VYDANI.md",
-      "sha256": "b0c8071c9e719e0e5cfda27f567c8660afeda02b7fda1803f011e128ebfebf8b"
+      "sha256": "e0099a5562abc27180cad8cee7c37e548cb18d9d9ea4f91cbfaf0997bb115f00"
     },
     {
       "path": "docs/release/INSTALACE-ZADANI.md",
-      "sha256": "8d96a35d2765d8b2bce7dcdef22e94afd1e7de807b7a960c0c96a85bfae53932"
+      "sha256": "42e0b89de6e51cfc8ecd44d66c152cb342c521cf8404270279d1650b015f4663"
     },
     {
       "path": "docs/release/NEXUS-DESCRIPTION-DRAFT.md",
-      "sha256": "503f4dbba7e2373a24c34fbe6c9505d407995610e02e5f9b38edfa36b068b1ff"
+      "sha256": "c6b11ef576a62b058531caad217b16d844861fdaf5a4923ded3783e82a4d0f41"
     },
     {
       "path": "docs/research/TECHNOLOGY-PROTOTYPE.md",
@@ -150,7 +150,7 @@
     },
     {
       "path": "docs/research/NATIVE-LOCALIZATION-AUDIT.md",
-      "sha256": "667462a38e46b33b40172328ec8e784880b06633890322a49e6f03d2cc1cfd33"
+      "sha256": "a7b8e69a2201af02c0caa9d460d5ab3fb360fd1d13244073609fd9d79bafffa1"
     },
     {
       "path": "docs/research/PORTABLE-RUNTIME-AUDIT.md",
@@ -170,7 +170,7 @@
     },
     {
       "path": "src/runtime.py",
-      "sha256": "80813fde44fa74c73589028cc7ae4d543bfbfff7137087009070417631dd1c59"
+      "sha256": "ca546b14b5346ad292968ca862269bf6fad288d4aa3229bf056c128dc7603b40"
     },
     {
       "path": "tests/test_policy.py",
@@ -198,7 +198,7 @@
     },
     {
       "path": "tools/validate_locales.py",
-      "sha256": "475cd971510418c5d2b26122cf04605d9503e9a1f10d98ce39431966d42d09d5"
+      "sha256": "fcdbe6e2024a36d680a92e31a9fbca99af10ff0a8bea2809cad8aeb982084666"
     },
     {
       "path": "tools/quick_menu_toggle.py",
@@ -214,59 +214,59 @@
     },
     {
       "path": "locales/en.json",
-      "sha256": "213fcbff643224337d75e4bcc82a68c14711cbba0f9420acded352b96f87531e"
+      "sha256": "8271161d5bdff4c636fe4c0dc9d014403cace686505234b5309a0eea547b8afe"
     },
     {
       "path": "locales/fr.json",
-      "sha256": "497e706f2d3560d27a154cf40c8c4db0de6d6771b02906f97c264f5b2fc822cc"
+      "sha256": "ff48a22ee03fa1f4449de607d48f217e029f1783e323dd951a084ed3d18c52eb"
     },
     {
       "path": "locales/it.json",
-      "sha256": "ab8592951f31e51a715de47c2743d7b3e424e0243cc176b006a342ed17b0591b"
+      "sha256": "ef75f9eb533780b84a0444338acda8294199a9036d2c52f29ac91c4bb4fecd26"
     },
     {
       "path": "locales/de.json",
-      "sha256": "ccdd6be0f89f4a46cfac3b369eb652fe58cd63bb1e137ca0a4069f28d1471167"
+      "sha256": "bd21e2404ca23a80c2d0bb2b4ae19400c2100621beb00f6189167b6a53dc6177"
     },
     {
       "path": "locales/es-ES.json",
-      "sha256": "615e245c9d355abda891287f2b4c72a6a40d95ac6b3a0117a9472f814ea0e334"
+      "sha256": "6ed5fa76631bf2d4cf8ef538c8fd41890b367cab996a366a49fef12c7fddc2c2"
     },
     {
       "path": "locales/nl.json",
-      "sha256": "2dc1c2e4329be231edc30e16cd5472280c169bcdd9ef60ed21f259a2bd1d4c4c"
+      "sha256": "c745a612d94368bb2912138fdb04782e076333dcca26368ce9fa537989c2b8e7"
     },
     {
       "path": "locales/ja.json",
-      "sha256": "111ef2ad69c68fc8da3147d688b08b771e0805f66f14c25a6bbca1f4c162c5de"
+      "sha256": "01e5c502d593a866e040044c9cff795a0595bf3f70a606b9f9fc55ea213c1587"
     },
     {
       "path": "locales/ko.json",
-      "sha256": "c92c0783e7efc1f40865545a315592f5f4d83386c08dcdca4ad0afa5eb929dcd"
+      "sha256": "679e423fdc283cb430f305c810a5ea98a71146bda889c805eeda7c93f6375dfe"
     },
     {
       "path": "locales/pl.json",
-      "sha256": "f31c7c85890e83b07785ebd8101df3afd5a59bfc38b2d077cff987c7ac5dcd18"
+      "sha256": "1e66f654f8bca810029235f6846e2129574c547c773734dd9e4969dbad309fca"
     },
     {
       "path": "locales/pt-PT.json",
-      "sha256": "e6f5d97463e2268c3f325d5c0515cc1931acb86a3303956bc833ef5075ff0e87"
+      "sha256": "0081d68a0e81581d3612c8107b5ebf87eaa73517567dbd06524ec0be2b9fdcdc"
     },
     {
       "path": "locales/pt-BR.json",
-      "sha256": "53063329403873e6f9f0ae88ec108a1fdae6e209903c47a9efc7e31042913f94"
+      "sha256": "2da3e6c8f7a62b4ddeed9c0e1c1d0700d34cbcbe0f029a68fa72a44c081debac"
     },
     {
       "path": "locales/ru.json",
-      "sha256": "1c1c2b6cd3869a4948cd822da4f26cb4e2d930a6d148f42e08330dfe8d9ef39a"
+      "sha256": "75f1485eb7ad1e6d0028eb767684b76bac81d04b0e32234b4bb9b592d4066edc"
     },
     {
       "path": "locales/zh-Hans.json",
-      "sha256": "9c08399e5c81a072a04f8400bb44b104a681acb2543ef4b30a68a40d63cbcee7"
+      "sha256": "e32f38fe20f66eccc3d9b510378ea7857849574ae03bd3e3e23892928fa47689"
     },
     {
       "path": "locales/zh-Hant.json",
-      "sha256": "4817d7e8aa6118619c6d3e6a46082eb064b3f0ceadae56c33b6d431b7e13a51c"
+      "sha256": "6f423e97ead470a8148e6f41aecc6247b226cf9b9c1182f4c481c6dd8905f654"
     }
   ],
   "legacy_data_directory": "NMS-AutoPet is intentionally retained for settings, remembered companions and the existing development runtime; schemas and file contents are unchanged.",
@@ -309,21 +309,20 @@
     "scope": "Separately built, predicate-gated native ON/OFF candidate. Requires same-menu false then true native confirmation, one matching selected-child trigger and original false result; no tail-only activation. Existing production applies and persists the queued setting. Other preferences remain in the temporary development panel. Registered on 27 September 2026 after normal exit and a fresh verified backup: two Mods, 11 hook targets, automation ON and 14 unchanged payloads. Complete live preference validation, remapping/controllers and held input await testing."
   },
   "developer_native_menu_trial": {
-    "version": "0.8.6-play-trial",
-    "menu_version": "0.8.4-language-observation",
+    "version": "0.8.7-play-trial",
+    "menu_version": "0.8.5-branding",
     "preference_keys": [
       "enabled",
       "selection_mode",
       "prefer_same_biome",
       "locations"
     ],
-    "production_script_byte_identical": true,
+    "production_script_byte_identical": false,
     "live_verified": false,
     "launched": false,
     "registration_verified": false,
     "included_in_player_zip": false,
-    "scope": "Unlaunched 0.8.6-r1 retains byte-identical production 0.4.8 passive post-queue diagnostics and adds bounded read-only language observations on owned CAS menu captions. Existing summon behavior, settings, icons and player text remain unchanged. No new native hook/call, catalog choice, translated rendering or spawn fix. Passed 675 developer tests, real-framework offline discovery/shared dispatch/all six temporary preferences, and Python plus Windows PowerShell 5.1 read-only preflights. Production retains unchanged 333-test evidence.",
-    "developer_tests_passed": 675,
+    "scope": "Unlaunched branding candidate with production 0.4.9 and menu 0.8.5-branding. Runtime behavior is AST-identical to 0.4.8 after excluding only new product/author/version metadata and the diagnostic version marker. Passed 333 production and 675 developer tests, real-framework offline discovery/shared dispatch/all six temporary preferences, and Python plus Windows PowerShell 5.1 read-only preflights. Native captions, preferences and summon behavior are unchanged; no new habitat mode is implemented. Final r1 includes a Korean grammatical correction after renaming; the 24 focused locale tests and combined framework/preflights were rerun successfully. Initial 087 is superseded and unlaunched.",
     "actual_framework_discovery_verified": true,
     "temporary_all_six_preferences_verified": true,
     "optional_icon_provider_binding_verified": true,
@@ -333,20 +332,21 @@
     "custom_icons_included": 7,
     "custom_icon_deployed": false,
     "custom_icon_live_verified": false,
-    "menu_sha256": "5d2361d9c06a795b58129ff21c30c78297bf7d59ae4858bdc0a45deb61a90f03",
     "locale_validation_required_during_build": true,
     "physical_hotkeys": 0,
     "shortcut_binding_enabled": false,
     "host_compatibility_guard_included": true,
     "localized_launcher_messages": 9,
     "compatibility_profile_validation_required": true,
-    "production_sha256": "7ed86ad7d14b95a4b0e7eeb322bb8d006a8bf7338b238b690a2988079a2f20a5",
-    "production_byte_identity_reference": "Unchanged production 0.4.8 from retained 0.8.5",
+    "production_byte_identity_reference": "Version and author/product metadata changed from 0.4.8; behavior unchanged",
     "language_observation_only": true,
     "native_translation_rendering": false,
-    "final_candidate_directory": "build/quick-menu-play-trial-086-r1",
+    "final_candidate_directory": "build/quick-menu-play-trial-087-r1",
     "language_observer_sha256": "6f3915086730274e363c54766c4734d5cc740add099141fee6759143bd5c47f0",
-    "candidate_manifest_sha256": "b6fd827f2125bded54df26c0150791541444ad4200e49df051d29fe5934b80e4"
+    "developer_tests_passed": 675,
+    "production_sha256": "1b8359ffea6b11591bfbb7e6c8ac0bc0d3a3df008f3a379505afe861e0399bbf",
+    "menu_sha256": "c32a2fbce95bdde117e1bd3f096e6a0bc97f95ee526ffea752ced29f0e45ce6a",
+    "candidate_manifest_sha256": "c909f0bccbb49f9749e55bf8a95bf7c9292ef99a901b40e694ea56a207313386"
   },
   "post_queue_observation": {
     "passive_only": true,
@@ -532,7 +532,7 @@
   },
   "localization_catalogs": {
     "locales": 14,
-    "keys_per_locale": 39,
+    "keys_per_locale": 41,
     "translated_drafts": 13,
     "scope": "native_menu_hud_technology_launcher",
     "source_text_verified": true,
@@ -795,5 +795,49 @@
     "localized_launcher_messages": 9,
     "compatibility_profile_validation_required": true,
     "production_sha256": "7ed86ad7d14b95a4b0e7eeb322bb8d006a8bf7338b238b690a2988079a2f20a5"
-  }
+  },
+  "previous_086_developer_native_menu_trial": {
+    "version": "0.8.6-play-trial",
+    "menu_version": "0.8.4-language-observation",
+    "preference_keys": [
+      "enabled",
+      "selection_mode",
+      "prefer_same_biome",
+      "locations"
+    ],
+    "production_script_byte_identical": true,
+    "live_verified": false,
+    "launched": false,
+    "registration_verified": false,
+    "included_in_player_zip": false,
+    "scope": "Unlaunched 0.8.6-r1 retains byte-identical production 0.4.8 passive post-queue diagnostics and adds bounded read-only language observations on owned CAS menu captions. Existing summon behavior, settings, icons and player text remain unchanged. No new native hook/call, catalog choice, translated rendering or spawn fix. Passed 675 developer tests, real-framework offline discovery/shared dispatch/all six temporary preferences, and Python plus Windows PowerShell 5.1 read-only preflights. Production retains unchanged 333-test evidence.",
+    "developer_tests_passed": 675,
+    "actual_framework_discovery_verified": true,
+    "temporary_all_six_preferences_verified": true,
+    "optional_icon_provider_binding_verified": true,
+    "callbacks": 18,
+    "distinct_native_targets": 12,
+    "payload_files": 40,
+    "custom_icons_included": 7,
+    "custom_icon_deployed": false,
+    "custom_icon_live_verified": false,
+    "menu_sha256": "5d2361d9c06a795b58129ff21c30c78297bf7d59ae4858bdc0a45deb61a90f03",
+    "locale_validation_required_during_build": true,
+    "physical_hotkeys": 0,
+    "shortcut_binding_enabled": false,
+    "host_compatibility_guard_included": true,
+    "localized_launcher_messages": 9,
+    "compatibility_profile_validation_required": true,
+    "production_sha256": "7ed86ad7d14b95a4b0e7eeb322bb8d006a8bf7338b238b690a2988079a2f20a5",
+    "production_byte_identity_reference": "Unchanged production 0.4.8 from retained 0.8.5",
+    "language_observation_only": true,
+    "native_translation_rendering": false,
+    "final_candidate_directory": "build/quick-menu-play-trial-086-r1",
+    "language_observer_sha256": "6f3915086730274e363c54766c4734d5cc740add099141fee6759143bd5c47f0",
+    "candidate_manifest_sha256": "b6fd827f2125bded54df26c0150791541444ad4200e49df051d29fe5934b80e4"
+  },
+  "short_name": "Companion Auto Summon",
+  "author": "Lineum Dynamics",
+  "author_credit": "by Lineum Dynamics",
+  "repository": "https://github.com/lineum-dynamics/nms-companion-auto-summon"
 }

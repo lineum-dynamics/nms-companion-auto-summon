@@ -25,6 +25,7 @@ TECHNOLOGY_KEYS = ("tech.link.name", "tech.link.subtitle", "tech.link.descriptio
 LAUNCHER_KEYS = ("launcher.blocked_title", "launcher.unsupported_game", "launcher.unreadable_game",
                 "launcher.game_required", "launcher.invalid_package", "launcher.wrong_framework",
                 "launcher.game_changed", "launcher.game_running", "launcher.preflight_passed")
+PRODUCT_KEYS = ("product.full_name", "product.author_credit")
 SCOPE = "native_menu_hud_technology_launcher"
 KEYS = frozenset(("menu.parent_title", *MENU_KEYS, "value.on", "value.off",
                   "value.last_selected", "value.random", "status.pending",
@@ -32,9 +33,9 @@ KEYS = frozenset(("menu.parent_title", *MENU_KEYS, "value.on", "value.off",
                   "format.setting", "format.with_status", "hud.automation_state",
                   "hud.settings_updated", "hud.session_suffix", "hud.companion_saved",
                   "hud.companion_session", "hud.auto_off_suffix", "hud.random_on_suffix",
-                  *TECHNOLOGY_KEYS, *LAUNCHER_KEYS))
+                  *TECHNOLOGY_KEYS, *LAUNCHER_KEYS, *PRODUCT_KEYS))
 UNCHANGED_ALLOWED = frozenset(("menu.parent_title", "format.setting", "format.with_status",
-                               "hud.automation_state"))
+                               "hud.automation_state", "product.full_name"))
 TOP_KEYS = frozenset(("schema_version", "locale", "scope", "review_status",
                      "native_runtime_integrated", "unchanged_keys", "messages"))
 MAX_TEXT_BYTES = 1024  # Catalog bound, not a promise about native buffer/glyph support.
@@ -194,8 +195,9 @@ def _check_sources(english, source_root):
     _require(len(powershell) <= 100_000, "PowerShell launcher exceeds source-check bound")
     for variable, key in (("fallbackTitle", "launcher.blocked_title"),
                           ("fallbackBody", "launcher.invalid_package")):
-        values = re.findall(r"^[ \t]*\$" + variable + r"[ \t]*=[ \t]*'([^'\r\n]*)'[ \t]*$",
+        values = re.findall(r"^[ \t]*\$" + variable + r"[ \t]*=[ \t]*'((?:[^'\r\n]|'')*)'[ \t]*$",
                             powershell, re.MULTILINE | re.IGNORECASE)
+        values = [value.replace("''", "'") for value in values]
         _require(values == [english[key]], "PowerShell recovery fallback differs from English catalog")
     calls = re.findall(r"(?:Throw-LauncherCompatibility|Get-LauncherMessage)\s+-Key\s+(['\"])([^'\"\r\n]*)\1",
                        powershell, re.IGNORECASE)
@@ -224,6 +226,10 @@ def _check_sources(english, source_root):
         expected = english["format.setting"].format(label=english[key], value=english["status.unavailable"])
         _require(render(role, None).decode("ascii") == expected, "Unavailable caption differs from English catalog")
     runtime = _tree(source_root / "src/runtime.py")
+    _require(_assignment(runtime, "PRODUCT_NAME") == english["product.full_name"],
+             "Product name differs from English catalog")
+    _require("by " + _assignment(runtime, "PRODUCT_AUTHOR") == english["product.author_credit"],
+             "Author credit differs from English catalog")
     control = _function(runtime, "_apply_control")
     expressions = {name: _notice_assignments(control, name) for name in ("state", "suffix", "self.pending_notice")}
     _require(all(len(value) == 1 for value in expressions.values()), "HUD settings text source shape changed")

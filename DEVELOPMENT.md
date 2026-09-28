@@ -1,13 +1,15 @@
 # Companion Auto Summon development guide
 
-Current candidate validation: **675 developer tests passed** without failures or skips. Production 0.4.8 is byte-identical to the retained 333-test candidate. The separate 41-file `quick-menu-play-trial-086-r1` folder passed real-framework discovery, shared Python dispatch, all six temporary preference paths and both Python and Windows PowerShell 5.1 read-only preflights; no native binding or game access occurred in the framework checks. The retained 0.8.4 and 0.8.5 payloads remain unchanged.
+Current candidate validation: **333 production tests and 675 developer tests passed** without failures or skips. The separate 41-file `quick-menu-play-trial-087-r1` folder (40 payloads and its manifest) passed real-framework discovery, shared Python dispatch, all six temporary preference paths and both Python and Windows PowerShell 5.1 read-only preflights. The framework checks used nine callbacks per Mod across twelve targets, without native binding or game access. The running 0.8.4 and prepared, unlaunched `086-r1` payloads remain unchanged.
 
-The current source candidate is **0.8.6-play-trial**, with production **0.4.8**
-and menu **0.8.4-language-observation**. It retains the passive observation
+The current source candidate is **0.8.7-play-trial**, with production **0.4.9-experimental**
+and menu **0.8.5-branding**. Its external title is **Companion Auto Summon for No Man's Sky**,
+with the byline **by Lineum Dynamics**; the in-game short title stays unchanged.
+It retains the passive observation
 window after the first logical active index, without adding retries or changing
-summon behavior. The menu adds bounded read-only language diagnostics when a
+summon behavior. The menu retains bounded read-only language diagnostics when a
 CAS caption is selected; it does not enable translated rendering. The final
-`086-r1` bundle is not launched. The running **0.8.4** bundle is immutable.
+`087-r1` bundle is not launched. The running **0.8.4** bundle is immutable.
 Its registration and six distinct setting icons are confirmed, but the player
 reported a failed visible Nexus startup. A later ship exit in the same session
 summoned a different Random companion successfully. See
@@ -31,8 +33,9 @@ This repository is the canonical development location. Keep installed test copie
 Repository-only native text preparation now renders the existing catalogs from
 an immutable validated snapshot, preserving whole-message state within the
 127-byte menu / 511-byte HUD payload limits. Fifteen focused tests and the
-1,666-case language/state matrix passed. No catalog meaning or production import
-changed. The exact-build UTF-8 measurement and drawing
+1,666-case language/state matrix passed. This preparation remains outside the
+production imports; the current branding changes leave native menu/HUD wording
+unchanged. The exact-build UTF-8 measurement and drawing
 decoders are now verified statically. The new combined trial observes copied
 language scalars only: completed-load history is not a reload lock. Font coverage,
 rendered glyphs, language switching and automatic catalog selection remain unverified.
@@ -53,8 +56,11 @@ production and the prepared combined trial. Its pure model, pinned native-data
 builder and six additional technology catalog entries do not gate the current
 mod, consume inventory or write a save. See
 [technology prototype](docs/research/TECHNOLOGY-PROTOTYPE.md) for evidence and
-remaining native transaction/persistence work. The catalogs now contain 39 keys
+remaining native transaction/persistence work. The catalogs now contain 41 keys
 in each of 14 languages; thirteen remain unreviewed drafts.
+The two product keys keep the full proper name invariant and translate the author
+credit. Three compatibility messages now use the full title. These external
+branding changes do not add an in-game credit or change native setting captions.
 
 All maintained launchers now preflight the selected executable. The standalone
 Python host also validates sibling package hashes and the exact reviewed launch
@@ -81,8 +87,8 @@ and technology-prototype targets. Drift stops output creation. Build the separat
 candidate with `python -B tools/build_quick_menu_play_trial.py --enable-menu`.
 Use a fresh explicit output directory if that version's default already exists;
 the builder refuses to overwrite an earlier trial. The final current artifact
-is `build/quick-menu-play-trial-086-r1`; the earlier `086` folder is superseded
-and must not be launched.
+is `build/quick-menu-play-trial-087-r1`; the prepared `086-r1` folder remains
+immutable and unlaunched.
 
 The final 0.8.4 candidate passed 329 production and 633 developer tests, with
 unchanged sources and no skips. Its 39 payloads plus manifest passed real pyMHF
@@ -93,7 +99,7 @@ Python probe regression covers legacy PowerShell argument quoting; target-path
 tests count UTF-16 units, including non-BMP characters. No new live behavior
 has been verified by these checks.
 
-The production source is **0.4.8-experimental**, retained unchanged in **0.8.6-play-trial**. Last-launched **0.8.4-play-trial** retains production **0.4.7** and menu **0.8.3-settings-trial**. Earlier artifacts remain unchanged. The target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The development launcher accepts Python 3.11–3.13 x64.
+The production source is **0.4.9-experimental**, paired with menu **0.8.5-branding** in **0.8.7-play-trial**. Last-launched **0.8.4-play-trial** retains production **0.4.7** and menu **0.8.3-settings-trial**. Earlier artifacts remain unchanged. The target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The development launcher accepts Python 3.11–3.13 x64.
 
 The PowerShell launcher's `-CheckOnly` path validates package integrity, the
 supported game and the existing runtime without creating files/directories,
@@ -181,10 +187,11 @@ trigger, preferences, manual selection/preview/emote and invalid state end it.
 Observer failures do not disable working automation. It adds no native calls,
 hooks, offsets, preference fields or game-save writes.
 
-The prepared 0.8.6 bundle pins its preference bridge to the versioned 0.4.8
-initializer; immutable 0.8.4 retains its 0.4.7 bridge. It keeps the production control lock, queue, application callback
+The prepared 0.8.7 bundle pins its preference bridge to the versioned 0.4.9
+initializer; immutable 0.8.6-r1 and 0.8.4 retain their 0.4.8 and 0.4.7 bridges.
+It keeps the production control lock, queue, application callback
 and two-Mod discovery contract. The additional resource callback belongs to
-the menu Mod. Old artifacts are retained; the active 0.7.1 folder is immutable.
+the menu Mod. Old artifacts are retained; the active 0.8.4 folder is immutable.
 
 Historical 0.4.5 / 0.7.2 offline validation passed **279 production tests** (189 runtime, 34 policy,
 14 persistence, 24 settings, 18 launcher) and **408 developer tests**. Actual
@@ -257,7 +264,7 @@ One Random-mode Anomaly startup is now confirmed for 0.4.4 / 0.7.1. On 27 Septem
 
 ## Naming and compatibility
 
-The public name is **Companion Auto Summon**; the repository slug is `nms-companion-auto-summon`. The private GitHub repository is [TomasTriska88/nms-companion-auto-summon](https://github.com/TomasTriska88/nms-companion-auto-summon). Remote existence and privacy have been verified; a push is a separate operation and must be confirmed by reading back the remote commit.
+The external title is **Companion Auto Summon for No Man's Sky**, with **by Lineum Dynamics** as the author credit. The in-game short title remains **Companion Auto Summon**; the repository slug is `nms-companion-auto-summon`. The canonical private GitHub repository is [lineum-dynamics/nms-companion-auto-summon](https://github.com/lineum-dynamics/nms-companion-auto-summon). The transfer and privacy have been verified; a push is a separate operation and must be confirmed by reading back the remote commit. This attribution does not assign a licence or change third-party rights.
 
 The standalone file is `CompanionAutoSummon.py`, with `Launch-CompanionAutoSummon.py` and `Start-CompanionAutoSummon.ps1`. The pyMHF class and its current tab are `CompanionAutoSummon`. Preserve the framework's inherited class identity: overriding `_mod_name` independently breaks its loader/reload and GUI mappings. Do not export a second legacy alias for the Mod class, which the loader can discover as an additional mod.
 

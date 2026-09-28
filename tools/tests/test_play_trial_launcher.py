@@ -56,15 +56,15 @@ class PlayTrialFixture(unittest.TestCase):
             destination.parent.mkdir(parents=True, exist_ok=True)
             destination.write_bytes(data)
         self.manifest = {
-            "version": "0.8.6-play-trial", "framework": "pymhf[gui]==0.2.4",
+            "version": "0.8.7-play-trial", "framework": "pymhf[gui]==0.2.4",
             "steam_build": LAUNCHER.compatibility.STEAM_BUILD,
             "supported_nms_exe_sha256": LAUNCHER.compatibility.SUPPORTED_GAME_SHA256,
             "auto_summon": True, "preference_actions": True,
             "preference_keys": ["enabled", "selection_mode", "prefer_same_biome", "locations"],
             "mods": [
-                {"name": "CompanionAutoSummon", "version": "0.4.8-experimental",
+                {"name": "CompanionAutoSummon", "version": "0.4.9-experimental",
                  "path": "CompanionAutoSummon.py"},
-                {"name": "CompanionMenuOrderTrial", "version": "0.8.4-language-observation",
+                {"name": "CompanionMenuOrderTrial", "version": "0.8.5-branding",
                  "path": "CompanionMenuOrderTrial.py"},
             ],
             "files": [{"path": name, "sha256": hashlib.sha256((self.bundle / name).read_bytes()).hexdigest()}
@@ -187,7 +187,7 @@ class BundleValidationTests(PlayTrialFixture):
 
     def test_wrong_manifest_semantics_are_not_accepted_as_another_trial(self):
         pristine = copy.deepcopy(self.manifest)
-        for key, value in (("version", "0.8.4-language-observation"), ("framework", "pymhf==0.2.4"),
+        for key, value in (("version", "0.8.5-branding"), ("framework", "pymhf==0.2.4"),
                            ("auto_summon", False), ("auto_summon", 1),
                            ("preference_actions", False), ("preference_keys", []),
                            ("preference_keys", ["enabled", "locations"]), ("mods", pristine["mods"][:1]),

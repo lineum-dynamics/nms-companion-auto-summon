@@ -1,18 +1,28 @@
-# Companion Auto Summon
+# Companion Auto Summon for No Man's Sky
 
-**LOCAL DRAFT — not uploaded. Update the validation status, final installer instructions, attribution and permissions before publishing.**
+by **Lineum Dynamics**
 
-Current source candidate: 0.4.4, with separate combined developer trial 0.7.1.
-The candidate registered both Mods and 11 hook targets with automation ON
-on 27 September 2026 at 22:22:35 after a fresh verified backup. It adds
-passive post-queue diagnostics only; registration does not verify spawn or
-fix the failed visible Anomaly startup or white HUD disc observed in 0.7.0.
-Basic native ON/OFF application has partial evidence in the older trial, not
-complete input/navigation coverage. Do not publish claims of verified startup
-across all locations or finished native settings. Earlier results below retain
-their explicit version boundaries.
+**LOCAL DRAFT — not uploaded. Update the validation status, final installer instructions, third-party credits and permissions before publishing.**
 
-One Random-mode Anomaly startup is now confirmed for 0.4.4 / 0.7.1. On 27 September 2026, load arming at 22:23:39.698 led to native queue acceptance at 22:23:42.250 (logged 2.56 seconds). The new observer recorded the expected active companion at 22:23:42.266, on its first update, then stopped. The player confirmed visible appearance. No ship exit or automatic retry preceded this result. This is one successful run, not a fix for the earlier intermittent failure; only passive diagnostics changed.
+Current branding candidate: **0.4.9-experimental**, with combined developer
+trial **0.8.7-play-trial** and menu **0.8.5-branding**. Validation passed 333
+production and 675 developer tests. The final 41-file `087-r1` bundle passed
+actual-framework checks, all six temporary preference paths and both Python
+and Windows PowerShell 5.1 read-only preflights; focused checks were repeated
+after its Korean translation correction. This candidate has not launched.
+The running 0.8.4 and prepared 0.8.6-r1 remain
+unchanged. The in-game short title is **Companion Auto Summon**; stable filenames
+and player-data paths are retained. The canonical source is the currently
+private [Lineum Dynamics repository](https://github.com/lineum-dynamics/nms-companion-auto-summon).
+
+The current candidate retains six native settings, passive summon diagnostics
+and read-only language observation. It does not enable translated rendering or
+fix intermittent startup placement. In 0.8.4 the player reported one invisible
+Nexus startup and later confirmed a different Random pet after a ship exit.
+Do not publish blanket startup, native-menu or multiplayer verification claims.
+Earlier results below retain their explicit version boundaries.
+
+One historical Random-mode Anomaly startup was confirmed for 0.4.4 / 0.7.1. On 27 September 2026, load arming at 22:23:39.698 led to native queue acceptance at 22:23:42.250 (logged 2.56 seconds). That observer recorded the expected active companion at 22:23:42.266, on its first update, then stopped. The player confirmed visible appearance. No ship exit or automatic retry preceded this result. This is one successful run, not a fix for the earlier intermittent failure; only passive diagnostics changed.
 
 ## Short description
 
@@ -38,9 +48,13 @@ The mod does not unlock or create pets, alter their growth, trust, eggs or comba
 - Prefer same biome in Random mode: on by default.
 - Status and companion displays.
 
-The controls are in the separate pyMHF desktop window. Alt+Tab to it and open the CompanionAutoSummon tab. They are not added to the game's X quick menu. Return to the game after changing a preference so it can be applied and saved.
-
-The separate 0.6.2 combined developer trial also includes an experimental native menu entry and an inert Settings preview child. That menu cannot change settings and is not a finished public settings interface.
+The combined developer trial has a native companion settings page for the six
+preferences above; status/companion displays also remain in the temporary pyMHF
+desktop panel. Both use the same production preference queue. Return to the game
+after changing a preference so it can be applied and saved. The native page has
+partial live evidence, including distinct setting icons in 0.8.4; complete
+input, navigation and controller acceptance remains pending. The standalone
+production package still uses the separate panel and has no native page.
 
 In the default mode, summon an owned companion manually once to choose your favourite. Random mode does not need a previous manual choice, but you must own an eligible pet. Random selections do not replace your remembered manual favourite.
 
@@ -55,7 +69,13 @@ Other game builds, stores and operating systems are not supported by this packag
 
 ## Installation — draft pending final packaging
 
-The 0.4.3 development launcher currently creates a private Python environment and downloads missing pyMHF dependencies. The separate 0.6.2 combined trial runs production auto-summoning and the inert menu together in one host. Neither is the planned public installer. The public experience is to extract the ZIP and double-click a launcher, with a bundled offline runtime and automatic compatibility checks. This launcher is not yet implemented. Replace this paragraph with the final verified setup procedure; do not publish an incomplete installer guide.
+The development launcher creates a private Python environment and downloads
+missing pyMHF dependencies. The combined trial runs production auto-summoning
+and native settings together in one host, with exact-build compatibility
+checks. Neither is the planned public installer. The public experience is to
+extract the ZIP and double-click a launcher with a bundled offline runtime;
+that packaging remains unverified. Replace this paragraph with the final
+verified setup procedure before publishing.
 
 ## Removing or disabling Companion Auto Summon
 
@@ -75,11 +95,12 @@ otherwise uncorrelated activations do not change settings. On 27 September
 both Mods and 11 hook targets with automation ON. Complete live preference
 validation remains pending. This developer candidate is not the player ZIP.
 
-Remaining native controls are unfinished. The separate pyMHF panel is temporary
+All six existing preferences now have native controls in the combined trial;
+their full acceptance remains unfinished. The separate pyMHF panel is temporary
 and will be retired from the player interface after the complete native page
 passes validation; existing settings will be preserved. The framework may
-remain the background runtime. Do not advertise complete native settings or
-panel-free installation until that transition has actually been delivered.
+remain the background runtime. Do not advertise fully verified native settings
+or panel-free installation until that transition has actually been delivered.
 
 Status on 27 September 2026: production 0.4.3 passed 230 offline tests, including 140 runtime tests, and the developer suite passed 341 tests. The actual production GUI and the 0.6.2 combined-folder smoke checks also passed without game access or hook registration.
 
@@ -95,6 +116,10 @@ Startup on a planet or in the Nexus, startup in Last manually selected mode, bro
 
 Framework: [pyMHF by monkeyman192](https://github.com/monkeyman192/pyMHF). Native-function research reference: [NMS.py](https://github.com/monkeyman192/NMS.py). Confirm attribution and any incorporated third-party material in the final package.
 
-Author display name and licence / reuse permissions remain to be supplied by the owner. The mod's code was developed with generative AI assistance, including substantial code generation. Apply the Nexus **AI-Generated Content** tag and **AI Media** for this AI-written page text under the current submission rules.
+Project attribution: **Companion Auto Summon for No Man's Sky — by Lineum
+Dynamics**. Licence and reuse permissions remain undecided; this attribution
+does not assign them. The mod's code was developed with generative AI assistance,
+including substantial code generation. Recheck the Nexus **AI-Generated Content**
+and **AI Media** tagging requirements before uploading this AI-written page.
 
 The intended release is free. No donation account or paid access is configured in this draft.
