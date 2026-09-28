@@ -69,11 +69,11 @@
     },
     {
       "path": "README.md",
-      "sha256": "a531140be313437beb57f3f7b61104d4978f680b0c02ec1f1458f3dc0f6a4dae"
+      "sha256": "a1e62ad87432012e036186fb99b231b9efc18d4c0a1605dc6c7466938124524c"
     },
     {
       "path": "README.cs.md",
-      "sha256": "fb631aaf06801db4a846ec70d971f9ec40dbf4c54ae0f5c58e74abda7b560e95"
+      "sha256": "41d4f48af8689f657db84ae94763595516d2a665e2917be7fb135913debe3e03"
     },
     {
       "path": "cas_compatibility.py",
@@ -97,19 +97,19 @@
     },
     {
       "path": "DEVELOPMENT.md",
-      "sha256": "958d2a95dc328a7b2b8e75fe40e08be06ed58d23a18f47c5c17c1f1142b38437"
+      "sha256": "df81feb9f985a41577ec3cc61be8e0aceff8369a8f6a6b3496df9fa6365e5ccb"
     },
     {
       "path": "LOCALIZATION.md",
-      "sha256": "2bf90bb12bf83be80e039a71857484f2870c60005a3f911f5e3829e0b0431994"
+      "sha256": "ce0755f977769dba8dd7459cac0df20b48f7577bc5a33d13b0f232983740061d"
     },
     {
       "path": "DESIGN.md",
-      "sha256": "e1a3208bfd39ac0f7ed8f7f5293aaa58cd8db6064cdf880ae2c662308d020131"
+      "sha256": "482a83c47c27a20bd5ced70ce36f5e1e52184b1abfc7e3b1e8f7babae1973f0f"
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "459cf82c834df6e141d2c66d3073b35bd0929e4d18ebb71fe3ac559aec0f5a6f"
+      "sha256": "9784ec6a012ab5391e8a14b79a664fee0971614535e4fcb1ab56a5553da36426"
     },
     {
       "path": "ROADMAP.md",
@@ -121,23 +121,23 @@
     },
     {
       "path": "docs/release/RELEASE-PREPARATION.md",
-      "sha256": "3e0ed86a58de6a9dc7a08c2787522abaedd3414895164833fd2f5d21421adc91"
+      "sha256": "da5b885842d35bdb654ddda225feedebae1673ddd00a69a6951d3103ddfde4ed"
     },
     {
       "path": "docs/release/INSTALLATION-REQUIREMENTS.md",
-      "sha256": "a24e0855049c8c39d31de6f7de098fc443e331f6e297be61bb9f37da96b2adf3"
+      "sha256": "6a5b2b53f5456e7804c4f815f324d862616e04909629d63827648d60bee4311e"
     },
     {
       "path": "docs/release/NEXUS-DESCRIPTION-DRAFT.md",
-      "sha256": "9d82d8c12ae0986418006fbb1b296e256a75350c0ebcdac7c92d5e464393374c"
+      "sha256": "16f8d02376516e20cf4469f74ad4204fe77c70823521f97460b7d5ca669dfa5b"
     },
     {
       "path": "docs/release/PORTABLE-QUICKSTART.md",
-      "sha256": "7c8556ad9abf39ff7fcb7c3e540230038f19f3297e111216fbe815904c738065"
+      "sha256": "066149012ab2629fc93cfc9b7dc2d1921657aca6609473e111b6989598fa2412"
     },
     {
       "path": "docs/release/PORTABLE-QUICKSTART.cs.md",
-      "sha256": "9413ceeaca6b6ae2e1c57d8f3837d1ba3a9f5b9af3070498439ba98bba24d709"
+      "sha256": "5abf9b44c69de8078fa12c29c932f954276f3990b38cb344f9c43518ddc9a665"
     },
     {
       "path": "docs/release/MULTIPLAYER-TEST.md",
@@ -145,7 +145,7 @@
     },
     {
       "path": "docs/release/TESTER-HANDOFF.md",
-      "sha256": "e4ed91bfe98c8d3ae8a7b5c6c815bf69bcd327b18c5234c7434571928389d6ab"
+      "sha256": "23cd9c1b5843936116265c0fb6b6a13a50686a8799a6e3500a429e3a82fdec98"
     },
     {
       "path": "docs/research/TECHNOLOGY-PROTOTYPE.md",
@@ -190,6 +190,26 @@
     {
       "path": "docs/research/LIVE-092.md",
       "sha256": "88f97bed0fd2608b347505daaf2d728ca094c3d429d3f912721dd44eaf81d451"
+    },
+    {
+      "path": "docs/research/PORTABLE-SCAN-093.md",
+      "sha256": "4f74fce2701220dbb50562a9cd6fd4f171617d1c0dedce737bd1a498ec2d9bda"
+    },
+    {
+      "path": "docs/research/WINDOWS-DISTRIBUTION-TRUST.md",
+      "sha256": "a316537ff5573009043a46808a6617beeb40be645e5bc88a1f6369a2c208197e"
+    },
+    {
+      "path": "docs/research/LAUNCHER-IL-AUDIT-092.md",
+      "sha256": "4e5eb5e29a8dc1479aa115ccf881be0226699cef89badecc8dc2efb30238e66d"
+    },
+    {
+      "path": "docs/research/LAUNCHER-IL-AUDIT-093.md",
+      "sha256": "4cfab0be94c3445178b8e8b09802fdade02a74b5565b21130d17639f35350df1"
+    },
+    {
+      "path": "docs/research/LAUNCHER-SOURCE-REVIEW-092.md",
+      "sha256": "85b1d8c1ea90d9ca3d26c14df63e22026b1a509a02a37fc81b01e715a122119c"
     },
     {
       "path": "docs/research/MENU-THREAD-LIFECYCLE.md",
@@ -1138,7 +1158,7 @@
       "publication_authorized": false
     }
   },
-  "portable_test_distribution": {
+  "retained_portable_092": {
     "version": "0.9.2-test",
     "archive": {
       "version": "0.9.2-test",
@@ -1240,5 +1260,87 @@
       "contact_sent": false,
       "publication_authorized": false
     }
+  },
+  "portable_test_distribution": {
+    "version": "0.9.3-test",
+    "archive": {
+      "version": "0.9.3-test",
+      "directory": "build/portable-093-r1",
+      "archive": "CompanionAutoSummon-0.9.3-test.zip",
+      "files": 1897,
+      "bytes": 23534865,
+      "sha256": "d87f868c618aec200cf276aae1faf81748eeaf7be26bd1e21a8594590627e383",
+      "entrypoint": {
+        "manifest_sha256": "eecf4602887a189d94558ca5335cfa6d2173ee479747e5fa4366cbdfb20a2078",
+        "file_version": "0.9.3.0",
+        "product_version": "0.9.3-test",
+        "company": "Lineum Dynamics",
+        "exe_sha256": "0df7e0930c407ecdb64eba6c79ff7bae535606d9d71932e8342926e6b6120172",
+        "bytes": 94720
+      },
+      "archive_verified": true,
+      "final_runtime_check_passed": true,
+      "entrypoint_integrity_gate_passed": true,
+      "launched": false,
+      "deployed": false,
+      "live_verified": false,
+      "multiplayer_verified": false
+    },
+    "relocated": {
+      "passed": true,
+      "archive_sha256": "d87f868c618aec200cf276aae1faf81748eeaf7be26bd1e21a8594590627e383",
+      "files": 1897,
+      "unicode_relocation": true,
+      "external_python_poisoned": true,
+      "system_only_path": true,
+      "payload_unchanged": true,
+      "checks": [
+        {
+          "entry": "Companion Auto Summon.exe",
+          "returncode": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "entry": "python.exe",
+          "returncode": 0,
+          "stdout": "Package and game checks passed. No game or mod was started.\n",
+          "stderr": ""
+        }
+      ],
+      "game_started": false,
+      "game_attached": false,
+      "backups_created": false,
+      "live_verified": false,
+      "multiplayer_verified": false
+    },
+    "developer_tests": {
+      "passed": 786,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "report": "build/validation/developer-093-final.txt",
+      "sha256": "13311af50616641827ea1c4bebfa8ec92a47c8d0833dc34bed9453bc647a2d61"
+    },
+    "native_host_audit_passed": true,
+    "gameplay_payload_unchanged": true,
+    "nested_distribution_archives": false,
+    "live_verified": false,
+    "nexus": {
+      "mod_id": 4579,
+      "file_id": 49197,
+      "upload_verified": true,
+      "status": "Virus scanning in progress",
+      "scan_clearance": false,
+      "owner_download_verified": false,
+      "contact_sent": false,
+      "publication_authorized": false,
+      "version_summary_description_saved_and_read_back": true,
+      "category": "Miscellaneous",
+      "page_status": "Unpublished",
+      "mod_manager_download_enabled": false,
+      "archive_sha_matched_linked_scan": false
+    },
+    "independent_shipped_recipe_matches": true
   }
 }

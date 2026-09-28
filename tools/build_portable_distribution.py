@@ -8,14 +8,15 @@ import os
 import subprocess
 import zipfile
 
-from build_portable_entrypoint import build as build_entrypoint
-from portable_launcher import regular_path, unique_object, validate_distribution
-from validate_locales import validate as validate_locales
+from build_portable_entrypoint import (application_manifest, assembly_identity,
+                                       build as build_entrypoint, locale_resource)
+from build_portable_runtime import reject_archive_payload
+from portable_launcher import VERSION, regular_path, unique_object, validate_distribution
+from validate_locales import validate as validate_locales, validated_catalogs
 from validate_compatibility import validate as validate_compatibility
 
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.9.2-test"
 ENTRYPOINT = "Companion Auto Summon.exe"
 
 
@@ -66,10 +67,18 @@ def build(runtime, mod, output, archive):
     for name in ("portable_launcher.py", "portable_host_support.py"):
         payload["app/" + name] = (ROOT / "tools" / name).read_bytes()
     payload["app/PortableLauncher.cs"] = (ROOT / "launcher/PortableLauncher.cs").read_bytes()
+    numeric_version, identity_source = assembly_identity(VERSION)
+    payload["app/AssemblyInfo.cs"] = identity_source.encode("utf-8")
+    payload["app/PortableLauncher.manifest"] = application_manifest(numeric_version).encode("utf-8")
+    payload["app/portable-locales.json"] = locale_resource(validated_catalogs()).encode("utf-8")
+    payload["app/BUILD-LAUNCHER.txt"] = (ROOT / "launcher/BUILD-LAUNCHER.txt").read_bytes()
     for source, target in (("PORTABLE-QUICKSTART.md", "README.txt"),
                            ("PORTABLE-QUICKSTART.cs.md", "README.cs.txt"),
                            ("MULTIPLAYER-TEST.md", "Multiplayer test.txt")):
         payload[target] = (ROOT / "docs/release" / source).read_bytes()
+    # Nexus requires inspectable files, not archives nested inside the release ZIP.
+    for name, data in payload.items():
+        reject_archive_payload(name, data)
     manifest = {
         "schema_version": 1, "version": VERSION,
         "name": "Companion Auto Summon for No Man's Sky", "author": "Lineum Dynamics",
@@ -78,6 +87,7 @@ def build(runtime, mod, output, archive):
         "steam_build": "25442159", "no_external_python": True,
         "installs_dependencies_at_launch": False, "native_menu_language": "English",
         "live_verified": False, "multiplayer_verified": False,
+        "nested_archives": False,
         "files": [{"path": name, "sha256": hashlib.sha256(data).hexdigest()}
                   for name, data in sorted(payload.items())],
     }

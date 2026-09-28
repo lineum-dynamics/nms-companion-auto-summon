@@ -32,7 +32,7 @@ class EntryPointTests(unittest.TestCase):
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_bytes(b"Harmless test fixture, not an executable.\n")
             records.append({"path": relative, "sha256": hashlib.sha256(target.read_bytes()).hexdigest()})
-        cls.document = {"schema_version": 1, "version": "offline-test", "files": records}
+        cls.document = {"schema_version": 1, "version": "0.9.3-test", "files": records}
         cls.manifest = cls.source / "portable-manifest.json"
         cls.manifest.write_text(json.dumps(cls.document), encoding="utf-8")
         cls.receipt = ENTRYPOINT.build(cls.manifest, cls.source / "CompanionAutoSummon.exe")
@@ -106,8 +106,27 @@ class EntryPointTests(unittest.TestCase):
         self.verify(2)
 
     def test_manifest_version_is_required(self):
-        self.new_manifest(lambda data: data.pop("version"))
-        self.verify(2)
+        with self.assertRaises(ValueError):
+            self.new_manifest(lambda data: data.pop("version"))
+
+    def test_windows_file_properties_identify_the_actual_release(self):
+        path = str(self.destination / "CompanionAutoSummon.exe").replace("'", "''")
+        command = ("[Diagnostics.FileVersionInfo]::GetVersionInfo('" + path + "') | "
+                   "Select-Object FileDescription,ProductName,CompanyName,FileVersion,ProductVersion | ConvertTo-Json")
+        result = subprocess.run(["powershell.exe", "-NoProfile", "-Command", command],
+                                capture_output=True, timeout=30, check=True,
+                                creationflags=subprocess.CREATE_NO_WINDOW)
+        data = json.loads(result.stdout.decode("utf-8-sig"))
+        self.assertEqual(data["FileDescription"], "Companion Auto Summon for No Man's Sky")
+        self.assertEqual(data["ProductName"], "Companion Auto Summon for No Man's Sky")
+        self.assertEqual(data["CompanyName"], "Lineum Dynamics")
+        self.assertEqual(data["FileVersion"], "0.9.3.0")
+        self.assertEqual(data["ProductVersion"], "0.9.3-test")
+
+    def test_invalid_version_cannot_enter_generated_csharp_or_manifest(self):
+        for version in (None, "offline-test", "0.9.3\"", "65535.0.0", "1.2.3/4", "1.2.3\n"):
+            with self.subTest(version=version), self.assertRaises(ValueError):
+                ENTRYPOINT.assembly_identity(version)
 
     def test_junction_directory_is_rejected(self):
         target = self.parent / "junction-target"

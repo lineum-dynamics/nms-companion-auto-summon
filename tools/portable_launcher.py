@@ -21,6 +21,7 @@ import uuid
 
 
 MAX_MANIFEST_BYTES = 8 * 1024 * 1024
+VERSION = "0.9.3-test"
 MAX_FILES = 30000
 MAX_BACKUP_BYTES = 1024 * 1024 * 1024
 SETUP_MUTEX = r"Local\CompanionAutoSummon.Setup.v1"
@@ -75,7 +76,7 @@ def validate_distribution(root):
         raise ValueError("Oversized manifest")
     manifest = json.loads(data, object_pairs_hook=unique_object)
     if (type(manifest) is not dict or type(manifest.get("schema_version")) is not int
-            or manifest["schema_version"] != 1 or manifest.get("version") != "0.9.2-test"):
+            or manifest["schema_version"] != 1 or manifest.get("version") != VERSION):
         raise ValueError("Unsupported portable package")
     files = manifest.get("files")
     if type(files) is not list or not 1 <= len(files) <= MAX_FILES:
@@ -340,7 +341,7 @@ def run(root, args):
         stamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S") + "_" + uuid.uuid4().hex[:8]
         try:
             backup_profiles(Path(roaming) / "HelloGames/NMS", data,
-                            data / "backups" / (stamp + "_before-0.9.2"), compatibility.game_closed)
+                            data / "backups" / (stamp + "_before-" + VERSION), compatibility.game_closed)
         except PortableError:
             raise
         except Exception:

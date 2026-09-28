@@ -47,7 +47,10 @@ runs. A found child PID is opened directly instead of reselecting by name.
             try:
                 if process.name().casefold() == "steam.exe":
                     parents.append(process)
-            except framework.psutil.NoSuchProcess:
+            except (framework.psutil.NoSuchProcess, framework.psutil.AccessDenied):
+                # An unclassifiable system process is not a Steam candidate.
+                # Access failures on the selected Steam parent or its target
+                # remain fatal below; actual-handle validation is unchanged.
                 continue
     except Exception as error:
         raise PortableLaunchError("Steam could not be identified") from error

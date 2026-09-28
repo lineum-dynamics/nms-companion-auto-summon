@@ -30,7 +30,7 @@ class PortableLaunchTests(unittest.TestCase):
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_bytes(name.encode())
             files.append({"path": name, "sha256": portable.digest(path)})
-        manifest = {"schema_version": 1, "version": "0.9.2-test", "files": files}
+        manifest = {"schema_version": 1, "version": "0.9.3-test", "files": files}
         (self.root / "portable-manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
         return manifest
 

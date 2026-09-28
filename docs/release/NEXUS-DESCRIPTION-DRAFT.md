@@ -51,6 +51,12 @@ reports 8/70. The specific cause and false-positive status are unresolved.
 See [TESTER-HANDOFF](TESTER-HANDOFF.md) and [the scan record](../research/PORTABLE-SCAN-092.md).
 No support message was sent; external contact remains unauthorized.
 
+Revision **0.9.3-test** removes the nested Python ZIP, adds accurate Windows
+identity and reproducible launcher inputs, and fixes unrelated-process access
+errors during Steam discovery. The version/body and file **49197** were saved
+and read back. Virus scanning is in progress; no clearance or successful
+owner download is claimed. Earlier files remain present and the page stays Unpublished.
+
 ## Short summary
 
 Automatically bring along an owned companion after loading your save or leaving your starship. Choose Last selected, Random or weighted By habitat selection, with optional shuffle. Configure it in the native Quick Menu. The game's summoning and placement rules still apply.
@@ -63,7 +69,12 @@ Choose a familiar favourite, let Random vary your company, or use By habitat to 
 
 If your landing platform or surrounding terrain is unsuitable, the request can wait while you walk somewhere suitable. A selected random pet stays fixed during that wait. Entering your ship, choosing a pet manually or changing a mod setting cancels the pending request.
 
-## Settings in the 0.9.2-test portable candidate
+The 0.9.3 test updates packaging and launch reliability only; companion rules
+are unchanged. Its standard library is extracted for Nexus file inspection,
+and launcher source/build inputs are included. A quarantined test file is not
+cleared for distribution; offline tests are separate from scanner clearance.
+
+## Settings in the 0.9.3-test portable candidate
 
 In the portable test candidate, open **Quick Menu → Companions → Companion Auto Summon** to reach the mod's settings. On PC, the default Quick Menu key is **X**. If you have changed your controls, use your assigned Quick Menu key instead.
 
@@ -85,7 +96,7 @@ Applied changes report the actual value, such as **Selection: By habitat**, **Sh
 
 The supported target is **Windows 10/11 x64, Steam build 25442159 / Cosmos 7.04**, with the exact executable fingerprint listed in the package manifest. Other builds, stores and operating systems are not supported. A game update requires renewed compatibility checks; the launcher refuses an unknown executable.
 
-The **0.9.2-test** ZIP includes **Companion Auto Summon.exe**, Python 3.11.9
+The **0.9.3-test** ZIP includes **Companion Auto Summon.exe**, Python 3.11.9
 and its pinned mod runtime. You do not install Python or run pip. Windows .NET
 Framework 4 and Microsoft Visual C++ v14 x64 are prerequisites. A missing VC++
 runtime is explained by the launcher; use Microsoft's official runtime
@@ -141,7 +152,7 @@ pets simply because they disappear, which preserves manual dismissal.
 
 ## Selection and shuffle rules
 
-**Implemented in the development candidate; full live acceptance and public release are pending.** These selection rules remain unchanged from 0.9.0 through the 0.9.2-test candidate. The later work improves settings feedback, diagnostic evidence and distribution; it does not change the selection balance below.
+**Implemented in the development candidate; full live acceptance and public release are pending.** These selection rules remain unchanged from 0.9.0 through the 0.9.3-test candidate. The later work improves settings feedback, diagnostic evidence and distribution; it does not change the selection balance below.
 
 ### Choose how your companion is selected
 
@@ -198,7 +209,7 @@ Adopting or abandoning companions updates the cycle. Renaming or reordering slot
 
 ### New-install defaults and upgrades
 
-A fresh 0.9.2-test configuration uses **By habitat + Shuffle companions ON**, automation ON and all three supported locations ON. The Random biome preference is also ON but only applies if you select Random. Existing 0.8.x preferences retain their previous mode, location and ON/OFF choices; the new shuffle option starts OFF for those upgrades. Existing 0.9.0 settings, including the shuffle choice, remain unchanged. Changing a setting does not immediately summon or dismiss a pet: the next ship exit or successful local save load supplies a new opportunity.
+A fresh 0.9.3-test configuration uses **By habitat + Shuffle companions ON**, automation ON and all three supported locations ON. The Random biome preference is also ON but only applies if you select Random. Existing 0.8.x preferences retain their previous mode, location and ON/OFF choices; the new shuffle option starts OFF for those upgrades. Existing 0.9.0 settings, including the shuffle choice, remain unchanged. Changing a setting does not immediately summon or dismiss a pet: the next ship exit or successful local save load supplies a new opportunity.
 
 ## Credits and disclosure
 
@@ -208,11 +219,11 @@ Framework: [pyMHF](https://github.com/monkeyman192/pyMHF). Native research refer
 
 ## Internal readiness and metadata — do not publish this section
 
-- Current portable candidate: 0.9.2-test, production 0.5.1, combined 0.9.2-play-trial, menu 0.9.1-diagnostics. 770 developer tests and final package checks passed; file 49196 and this page were read back. Automatic quarantine blocks downloading. The retained 090-r2 files remain unchanged after normal closure; its [bounded live record](../research/LIVE-090.md) does not validate portable launch or multiplayer.
-- The owner will download the exact validated test archive from the unpublished page and pass it unchanged to the second Windows/Steam tester. The upload is complete; downloading and handoff are blocked by quarantine. Do not claim either has happened.
+- Current portable candidate: 0.9.3-test, production 0.5.1, combined 0.9.2-play-trial, menu 0.9.1-diagnostics. 786 developer tests and final package checks passed; file 49197 and this page were read back. Virus scanning is in progress, so downloading is not yet available. File 49196 is the retained quarantined 0.9.2. The retained 090-r2 files remain unchanged after normal closure; its [bounded live record](../research/LIVE-090.md) does not validate portable launch or multiplayer.
+- The owner will download the exact validated test archive from the unpublished page and pass it unchanged to the second Windows/Steam tester. The upload is complete; downloading and handoff wait for the new scan result. Do not claim either has happened.
 - The portable executable and bundled runtime implement the intended simpler player flow, with explicit VC++ x64 prerequisite and automatic private backups. Quiet launch, detached lifetime, target initialization and clean-second-PC behavior still need final live acceptance. Standalone developer scripts remain separate and retain their panel.
 - Source: [private canonical repository](https://github.com/lineum-dynamics/nms-companion-auto-summon). Do not advertise it as a publicly accessible source link.
 - Complete third-party provenance, credits, licences and reuse permissions before uploading release files. Retain the saved **AI-Generated Content** and **AI Media** disclosure tags under the reviewed submission rules; do not substitute AI Assisted.
 - Donation Points eligibility and payment destinations still need checks. No donation URL, account or revenue promise is configured here.
 - Investigate the observed callback-thread/menu lifecycle before claiming reliable access to every setting. Do not assign a despawn cause or add teleport/base-removal triggers from the current observation alone.
-- Weighted habitat selection and shuffle are implemented in production 0.5.1 and unchanged in 0.9.2-test; their live acceptance is pending. The seven-control rules above describe that candidate, not the historical six-control 0.8.7 trial. Rechargeable technology and native translations remain unfinished. No publication is authorized until readiness is complete.
+- Weighted habitat selection and shuffle are implemented in production 0.5.1 and unchanged in 0.9.3-test; their live acceptance is pending. The seven-control rules above describe that candidate, not the historical six-control 0.8.7 trial. Rechargeable technology and native translations remain unfinished. No publication is authorized until readiness is complete.

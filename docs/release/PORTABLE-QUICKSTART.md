@@ -1,6 +1,6 @@
 # Companion Auto Summon for No Man's Sky — by Lineum Dynamics
 
-## Private tester quick start: 0.9.2-test
+## Private tester quick start: 0.9.3-test
 
 This guide describes the portable test candidate. Its launch flow, recovery and
 multiplayer behavior still need testing on real PCs. It is not a stable release.
@@ -11,8 +11,10 @@ Steam build 25442159**. The launcher checks the exact game executable; another
 store or game update is not supported by this test package. Python 3.11.9 is
 included, so you do not install Python or run pip.
 
-The owner downloads the exact **0.9.2-test ZIP** from the unpublished Nexus
-page and passes that unchanged ZIP to the other tester. The page stays private.
+After Nexus makes the file available, the owner downloads the exact
+**0.9.3-test ZIP** from the unpublished page and passes that unchanged ZIP to
+the other tester. The page stays private. A quarantined file is not cleared
+for tester distribution; do not disable antivirus protections to use it.
 
 ## Install and start
 

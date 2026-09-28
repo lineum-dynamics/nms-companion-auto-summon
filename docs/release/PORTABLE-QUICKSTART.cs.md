@@ -3,7 +3,7 @@
 Český překlad návodu pro testery. Autoritativní anglická verze je **README.txt**
 ve stejném ZIPu; ve zdrojovém repozitáři jde o PORTABLE-QUICKSTART.md.
 
-## Soukromý testovací balíček 0.9.2-test
+## Soukromý testovací balíček 0.9.3-test
 
 Tento návod popisuje připravovaný přenosný balíček. Spouštění, návrat k běžné hře
 a multiplayer ještě vyžadují zkoušku na skutečných počítačích. Nejde o stabilní vydání.
@@ -14,8 +14,10 @@ Microsoft Visual C++ v14 x64 a Steam verzi No Man's Sky, **Cosmos 7.04 / Steam b
 hry zatím nejsou podporované. Python 3.11.9 je součástí balíčku, takže Python
 neinstaluješ a nespouštíš pip.
 
-Autor stáhne přesný **ZIP 0.9.2-test** z neveřejné stránky Nexusu a předá
-stejný nezměněný soubor druhému testerovi. Stránka zůstává neveřejná.
+Jakmile Nexus soubor zpřístupní, autor stáhne přesný **ZIP 0.9.3-test**
+z neveřejné stránky a předá stejný nezměněný soubor druhému testerovi.
+Stránka zůstává neveřejná. Soubor v karanténě ještě není schválený pro předání
+testerům; kvůli jeho použití nevypínej antivirovou ochranu.
 
 ## Instalace a spuštění
 

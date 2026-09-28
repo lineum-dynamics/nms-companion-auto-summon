@@ -4,7 +4,17 @@
 
 by **Lineum Dynamics**
 
-Aktuální distribuční kandidát je **0.9.2-test**: produkce **0.5.1-experimental**,
+Aktuální kandidát balíčku je **0.9.3-test**. Standardní knihovna Pythonu
+je rozbalená, takže neobsahuje vnořený ZIP zakázaný Nexusem. Spouštěč má
+správný název produktu, firmy a verzi; přiložené jsou i podklady k jeho sestavení.
+Opravené je hledání Steamu při nepřístupném nesouvisejícím procesu. Herní část
+zůstává beze změny: produkce **0.5.1**, společný mód **0.9.2-play-trial** a menu
+**0.9.1-diagnostics**. Prošlo **786 vývojových testů** i kontroly přenosnosti,
+runtime a integrity. Verze 0.9.3 ještě nebyla spuštěna ve hře ani schválena
+skenery. Soubor **49197** je nahraný na Nexusu a skenování ještě probíhá;
+původní soubor 0.9.2 zůstává v karanténě. Podrobnosti: [ověření balíčku](docs/research/PORTABLE-SCAN-093.md).
+
+Zachovaný distribuční kandidát **0.9.2-test**: produkce **0.5.1-experimental**,
 společný mód **0.9.2-play-trial** a menu **0.9.1-diagnostics**. ZIP obsahuje
 **Companion Auto Summon.exe** a Python 3.11.9; hráč Python neinstaluje ani nepoužívá
 pip. Podporovaný cíl je Windows 10/11 x64, Steam **Cosmos 7.04 / build 25442159**,
@@ -195,7 +205,7 @@ První automatické vyvolání ve verzi 0.3.1 selhalo vypršením čekání. Ver
 
 ## Ovládání
 
-Kandidát **0.9.2-test** nabízí sedm voleb přes **Quick Menu → Companions →
+Kandidát **0.9.3-test** nabízí sedm voleb přes **Quick Menu → Companions →
 Companion Auto Summon**, před konkrétními pety. Na PC je výchozí klávesa **X**;
 pokud sis ji změnil, použij své nastavené ovládání. V tomto balíčku se externí
 panel neotevírá. Jen samostatný vývojový skript bez nativního menu ponechává
@@ -255,7 +265,7 @@ Pokud nelze přečíst `settings.json`, automatika začne vypnutá. V nastavení
 
 ## Spuštění a použití ostatními hráči
 
-1. Běžně ukonči NMS, rozbal celý ZIP **0.9.2-test** do nové složky a spusť
+1. Běžně ukonči NMS, rozbal celý ZIP **0.9.3-test** do nové složky a spusť
    **Companion Auto Summon.exe** dvojklikem.
 2. Zvol **Check installation**. Pokud se hra nenašla, vyber instalaci Steamu
    přes **Choose game folder** a kontrolu zopakuj. Jiný herní soubor se odmítne.

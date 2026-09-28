@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.9.3-test archive-layout and launcher provenance repair
+
+- Extract the original 649 Python standard-library files unchanged and record their inner-archive provenance. Refuse nested distribution archives before packaging; retain vendor native files and licenses.
+- Add correct Windows product/company/version identity with the same non-elevated behavior. Ship actual build inputs and an offline compilation recipe. This is not a claim of antivirus clearance.
+- Skip inaccessible unrelated processes while identifying Steam; preserve selected-parent/target failures, ambiguity refusal and actual-process guards. Label new backups with the actual portable version.
+- Pass 786 developer tests, all locale/profile checks, host/native runtime initialization, final ZIP verification and Unicode relocation with unchanged payloads. Keep production and native menu files unchanged; no 0.9.3 game start, attachment or save modification.
+- Preserve quarantined Nexus file 49196 and its exact 3/60 ZIP and 8/70 EXE evidence. The 0.9.2 EXE matches a faithful rebuild except timestamp/MVID. New file 49197 is uploaded under Unpublished and virus scanning is in progress; no owner download or clearance yet. See `docs/research/PORTABLE-SCAN-093.md`.
+
 ## 0.9.2-test first packaged background-host startup — 28 September 2026
 
 - Start the packaged Python child after owner-confirmed normal game closure and executable verify-only success. Built-in source/copy/source backup verified 49 files; a later target check matched all 49 hashes without an incomplete marker. Stage into a new private session, retaining prior trial files.

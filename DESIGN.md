@@ -1,6 +1,17 @@
 # Companion Auto Summon for No Man's Sky — player experience
 
-Current distribution candidate: **0.9.2-test**, containing production
+Current packaging candidate: **0.9.3-test**. It extracts the original Python
+standard library to remove the nested ZIP prohibited by Nexus, supplies accurate
+Windows product/company/version metadata and the actual launcher build inputs,
+and fixes Steam discovery failing on an unrelated inaccessible process. Gameplay
+still uses production **0.5.1**, combined **0.9.2-play-trial** and menu
+**0.9.1-diagnostics**, unchanged. All **786 developer tests** and offline runtime,
+relocation and executable integrity checks pass. No 0.9.3 live test or scanner
+clearance is claimed. Nexus file **49197** is uploaded and scanning; the retained
+0.9.2 file remains quarantined. See [packaging evidence](docs/research/PORTABLE-SCAN-093.md)
+and [tester handoff](docs/release/TESTER-HANDOFF.md).
+
+Retained distribution candidate: **0.9.2-test**, containing production
 **0.5.1-experimental**, combined **0.9.2-play-trial** and menu
 **0.9.1-diagnostics**. The tester ZIP provides **Companion Auto Summon.exe** and
 bundled Python 3.11.9; players do not install Python or use pip. It targets

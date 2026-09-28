@@ -1,6 +1,12 @@
 # Companion Auto Summon localization
 
-Current **0.9.2-test** source has **63 keys in each of fourteen catalogs**:
+Packaging **0.9.3-test** retains all **63 keys across fourteen catalogs**.
+No UI wording or meaning changes. Windows product/company identity and version
+are invariant branding/build metadata. The English/Czech quick starts both
+describe the new version and conditional Nexus distribution. Validation passes;
+native language rendering and linguistic review remain unverified.
+
+Retained **0.9.2-test** source has **63 keys in each of fourteen catalogs**:
 the previous 46 plus seventeen `portable.*` entries for the graphical launcher,
 status and failures, including missing Visual C++ runtime and Steam. The English
 catalog is canonical; thirteen translations remain unreviewed drafts. The

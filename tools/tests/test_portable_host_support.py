@@ -84,7 +84,8 @@ class BoundedSteamStartTests(unittest.TestCase):
         self.parent = SimpleNamespace(name=lambda: "steam.exe", children=Mock(return_value=[self.child]))
         self.binary = SimpleNamespace(process_handle=123, close_process=Mock())
         self.framework = SimpleNamespace(
-            psutil=SimpleNamespace(process_iter=Mock(return_value=[self.parent]), NoSuchProcess=LookupError),
+            psutil=SimpleNamespace(process_iter=Mock(return_value=[self.parent]),
+                                   NoSuchProcess=LookupError, AccessDenied=PermissionError),
             webbrowser=SimpleNamespace(open=Mock(return_value=True)),
             pymem=SimpleNamespace(Pymem=Mock(return_value=self.binary),
                 exception=SimpleNamespace(ProcessNotFound=FileNotFoundError, CouldNotOpenProcess=PermissionError),
@@ -121,6 +122,44 @@ class BoundedSteamStartTests(unittest.TestCase):
             self.call()
         self.framework.webbrowser.open.assert_not_called()
         self.framework.pymem.Pymem.assert_not_called()
+
+    def test_inaccessible_unclassified_process_does_not_hide_identified_steam(self):
+        inaccessible = SimpleNamespace(name=Mock(side_effect=PermissionError("protected process")))
+        self.framework.psutil.process_iter.return_value = [inaccessible, self.parent]
+        self.assertEqual(self.call(), ("guarded-runner", "owned-wrapper"))
+        self.framework.pymem.Pymem.assert_called_once_with(self.child.pid)
+        self.framework.dllinject.pyRunner.assert_called_once_with(self.binary)
+
+    def test_inaccessible_process_alone_does_not_establish_steam_identity(self):
+        inaccessible = SimpleNamespace(name=Mock(side_effect=PermissionError("protected process")))
+        self.framework.psutil.process_iter.return_value = [inaccessible]
+        with self.assertRaisesRegex(support.PortableLaunchError, "One running Steam process"):
+            self.call()
+        self.framework.webbrowser.open.assert_not_called()
+        self.framework.pymem.Pymem.assert_not_called()
+
+    def test_identified_steam_ambiguity_still_refuses_with_inaccessible_process(self):
+        inaccessible = SimpleNamespace(name=Mock(side_effect=PermissionError("protected process")))
+        second_parent = SimpleNamespace(name=lambda: "steam.exe")
+        self.framework.psutil.process_iter.return_value = [inaccessible, self.parent, second_parent]
+        with self.assertRaisesRegex(support.PortableLaunchError, "One running Steam process"):
+            self.call()
+        self.framework.webbrowser.open.assert_not_called()
+        self.framework.pymem.Pymem.assert_not_called()
+
+    def test_selected_steam_children_access_failure_remains_fatal(self):
+        self.parent.children.side_effect = PermissionError("selected parent unavailable")
+        with self.assertRaisesRegex(support.PortableLaunchError, "Steam children could not be inspected"):
+            self.call()
+        self.framework.pymem.Pymem.assert_not_called()
+        self.framework.dllinject.pyRunner.assert_not_called()
+
+    def test_selected_steam_child_name_access_failure_remains_fatal(self):
+        self.child.name = Mock(side_effect=PermissionError("selected child unavailable"))
+        with self.assertRaisesRegex(support.PortableLaunchError, "Steam children could not be inspected"):
+            self.call()
+        self.framework.pymem.Pymem.assert_not_called()
+        self.framework.dllinject.pyRunner.assert_not_called()
 
     def test_timeout_is_bounded_and_sleeps_without_constructing_runner(self):
         self.parent.children.return_value = []

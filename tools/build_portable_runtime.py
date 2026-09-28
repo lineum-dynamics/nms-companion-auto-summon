@@ -8,7 +8,7 @@ import argparse
 import base64
 import csv
 import hashlib
-from io import StringIO
+from io import BytesIO, StringIO
 import json
 from pathlib import Path, PurePosixPath
 import re
@@ -22,7 +22,22 @@ ROOT = Path(__file__).resolve().parents[1]
 LOCK = Path(__file__).with_name("portable_runtime_lock.json")
 MAX_ARCHIVE_BYTES = 100_000_000
 MAX_MEMBER_BYTES = 50_000_000
-PTH = b"python311.zip\n.\nLib/site-packages\nLib/site-packages/win32\nLib/site-packages/win32/lib\nLib/site-packages/pythonwin\n"
+MAX_EXPANDED_BYTES = 300_000_000
+STDLIB_DIRECTORY = "Lib/stdlib"
+PTH = b"Lib/stdlib\n.\nLib/site-packages\nLib/site-packages/win32\nLib/site-packages/win32/lib\nLib/site-packages/pythonwin\n"
+ARCHIVE_SUFFIXES = frozenset({
+    ".zip", ".zipx", ".7z", ".rar", ".tar", ".tgz", ".taz", ".gz", ".gzip",
+    ".bz", ".bz2", ".tbz", ".tbz2", ".xz", ".txz", ".lz", ".lzma", ".tlz",
+    ".z", ".zst", ".tzst", ".cab", ".cpio", ".iso", ".wim", ".esd",
+    ".whl", ".egg", ".jar", ".war", ".ear", ".nupkg", ".appx", ".msix",
+    ".appxbundle", ".msixbundle",
+})
+ARCHIVE_SIGNATURES = (
+    b"PK\x03\x04", b"PK\x05\x06", b"PK\x07\x08", b"7z\xbc\xaf\x27\x1c",
+    b"Rar!\x1a\x07", b"MSCF", b"\x1f\x8b", b"BZh", b"\xfd7zXZ\x00",
+    b"\x28\xb5\x2f\xfd", b"LZIP", b"\x1f\x9d", b"MSWIM\x00\x00\x00",
+    b"070701", b"070702", b"070707",
+)
 
 
 def digest(data):
@@ -37,6 +52,49 @@ def safe_member(name):
             or any(re.fullmatch(r"(?i)(?:con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\..*)?", part) for part in path.parts)):
         raise ValueError("Unsafe archive member")
     return path
+
+
+def reject_archive_payload(name, data):
+    """Reject nested containers by filename or content; never disguise them.
+
+The sole supported nested input is CPython's locked python311.zip, which is
+expanded before this final-payload check. ZIP detection also finds prefixed
+containers, rather than relying on their extension or first bytes alone.
+    This check covers distribution archive/compression formats, not every
+    container format. Vendor COFF static linker libraries remain unchanged;
+    ZIP signatures and structure are still checked regardless of suffix.
+"""
+    if (PurePosixPath(name).suffix.casefold() in ARCHIVE_SUFFIXES
+            or data.startswith(ARCHIVE_SIGNATURES)
+            or data[257:262] == b"ustar"
+            or (len(data) >= 32774 and data[32769:32774] == b"CD001")
+            or has_zip_container(data)):
+        raise ValueError("Nested archive payload is unsupported: " + name)
+
+
+def has_zip_container(data):
+    """Recognize a complete prefixed ZIP, not bytecode's ZIP signature constants.
+
+CPython's zipimport.pyc contains a literal empty-directory marker. The standard
+is_zipfile probe accepts that literal despite unrelated bytes following it, so
+require the declared end-of-directory comment to end at the payload boundary.
+"""
+    end = data.rfind(b"PK\x05\x06", max(0, len(data) - 65557))
+    if end < 0 or end + 22 > len(data):
+        return False
+    comment_length = int.from_bytes(data[end + 20:end + 22], "little")
+    return end + 22 + comment_length == len(data) and zipfile.is_zipfile(BytesIO(data))
+
+
+def claim_file(name, files, directories):
+    """Reserve a Windows path without file/directory or case collisions."""
+    path = safe_member(name)
+    folded = name.casefold()
+    parents = {parent.as_posix().casefold() for parent in path.parents if parent.parts}
+    if folded in files or folded in directories or parents.intersection(files):
+        raise ValueError("Archive or runtime files collide")
+    files.add(folded)
+    directories.update(parents)
 
 
 def load_lock(path=LOCK):
@@ -82,22 +140,28 @@ def archive_bytes(entry, cache, download):
 
 def read_archive(raw, wheel=False):
     """Read bounded, nonaliasing regular files; verify every wheel RECORD hash."""
-    from io import BytesIO
-    files, folded = {}, set()
+    files, folded, directories, expanded_size = {}, set(), set(), 0
     with zipfile.ZipFile(BytesIO(raw)) as archive:
         if len(archive.infolist()) > 10000:
             raise ValueError("Archive has too many entries")
         for entry in archive.infolist():
             if entry.is_dir():
-                safe_member(entry.filename.rstrip("/"))
+                directory = safe_member(entry.filename.rstrip("/"))
+                directory_paths = {directory.as_posix().casefold(), *(
+                    parent.as_posix().casefold() for parent in directory.parents if parent.parts)}
+                if directory_paths.intersection(folded):
+                    raise ValueError("Archive files and directories collide")
+                directories.update(directory_paths)
                 continue
             safe_member(entry.filename)
-            if (entry.filename.casefold() in folded or stat.S_ISLNK(entry.external_attr >> 16)
-                    or not 0 <= entry.file_size <= MAX_MEMBER_BYTES):
+            if stat.S_ISLNK(entry.external_attr >> 16) or not 0 <= entry.file_size <= MAX_MEMBER_BYTES:
                 raise ValueError("Unsafe archive entry")
-            folded.add(entry.filename.casefold())
+            claim_file(entry.filename, folded, directories)
+            expanded_size += entry.file_size
+            if expanded_size > MAX_EXPANDED_BYTES:
+                raise ValueError("Expanded archive exceeds its bound")
             files[entry.filename] = archive.read(entry)
-    if sum(map(len, files.values())) > 300_000_000:
+    if sum(map(len, files.values())) > MAX_EXPANDED_BYTES:
         raise ValueError("Expanded archive exceeds its bound")
     if wheel:
         records = [name for name in files if name.endswith(".dist-info/RECORD")]
@@ -123,12 +187,13 @@ def assemble(output, cache, *, download=False, lock_path=LOCK):
     if not output.is_absolute() or output.exists():
         raise ValueError("Supply a fresh absolute runtime output directory")
     lock = load_lock(lock_path)
-    payload, owners, notices = {}, {}, []
+    payload, owners, notices, sources = {}, {}, [], {}
+    claimed, directories = set(), set()
+    stdlib = None
 
     def add(name, data, owner):
-        safe_member(name)
-        if name.casefold() in owners:
-            raise ValueError("Runtime files collide")
+        reject_archive_payload(name, data)
+        claim_file(name, claimed, directories)
         payload[name] = data
         owners[name.casefold()] = owner
 
@@ -137,6 +202,19 @@ def assemble(output, cache, *, download=False, lock_path=LOCK):
         files = read_archive(archive_bytes(entry, cache, download), wheel=not is_python)
         licenses = []
         for name, data in files.items():
+            if is_python and name == "python311.zip":
+                members = read_archive(data)
+                if not members:
+                    raise ValueError("The Python standard-library archive is empty")
+                stdlib = {"input_artifact": entry["filename"], "input_member": name,
+                          "input_member_sha256": digest(data), "destination": STDLIB_DIRECTORY,
+                          "member_count": len(members), "member_bytes_modified": False}
+                for member, contents in members.items():
+                    destination = STDLIB_DIRECTORY + "/" + member
+                    add(destination, contents, entry["filename"])
+                    sources[destination] = {"archive_member": name, "archive_sha256": stdlib["input_member_sha256"],
+                                            "member": member}
+                continue
             # Preserve installer scripts as inert data; never execute them.
             destination = name if is_python else "Lib/site-packages/" + name
             add(destination, data, entry["filename"])
@@ -147,6 +225,8 @@ def assemble(output, cache, *, download=False, lock_path=LOCK):
             raise ValueError("A runtime artifact lacks packaged license notices")
         notices.append({"artifact": entry["filename"], "url": entry["url"], "sha256": entry["sha256"],
                         "licenses": licenses})
+    if stdlib is None:
+        raise ValueError("The pinned Python standard-library archive is absent")
     original_pth = payload["python311._pth"]
     payload["python311._pth"] = PTH
     owners["python311._pth"] = "Companion Auto Summon owned relative-path configuration"
@@ -157,11 +237,15 @@ def assemble(output, cache, *, download=False, lock_path=LOCK):
     manifest = {"schema": 1, "python": "3.11.9", "platform": "win_amd64", "framework": "0.2.4",
                 "vendor_wheel_bytes_modified": False, "python_path_configuration_replaced": True,
                 "original_pth_sha256": digest(original_pth),
+                "python_standard_library": stdlib, "nested_archives_shipped": False,
                 "local_python_installation_required": False,
                 "game_lifecycle_verified": False, "clean_windows_verified": False,
-                "files": [{"path": name, "sha256": digest(data), "origin": owners[name.casefold()]}
+                "files": [{"path": name, "sha256": digest(data), "origin": owners[name.casefold()],
+                           **({"source_archive": sources[name]} if name in sources else {})}
                           for name, data in sorted(payload.items())]}
     payload["runtime-manifest.json"] = (json.dumps(manifest, indent=2) + "\n").encode()
+    for name, data in payload.items():
+        reject_archive_payload(name, data)
     output.mkdir(parents=True, exist_ok=False)
     for name, data in payload.items():
         path = output / name

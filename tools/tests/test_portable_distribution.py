@@ -47,6 +47,8 @@ class PortableDistributionTests(unittest.TestCase):
         self.write_manifests()
         self.source = self.root / "source"
         for name in ("tools/portable_launcher.py", "tools/portable_host_support.py", "launcher/PortableLauncher.cs",
+                     "launcher/PortableLauncher.manifest",
+                     "launcher/BUILD-LAUNCHER.txt",
                      "docs/release/PORTABLE-QUICKSTART.md", "docs/release/PORTABLE-QUICKSTART.cs.md",
                      "docs/release/MULTIPLAYER-TEST.md"):
             path = self.source / name
@@ -160,6 +162,24 @@ class PortableDistributionTests(unittest.TestCase):
             self.build_with_traps(output, archive)
         self.assertEqual(marker.read_bytes(), b"preserve")
         self.assertFalse(archive.exists())
+
+    def test_nested_archive_is_rejected_before_compilation_or_output(self):
+        from io import BytesIO
+        content = BytesIO()
+        with zipfile.ZipFile(content, "w") as archive:
+            archive.writestr("data.txt", b"nested content")
+        for index, name in enumerate(("python311.zip", "disguised.dat")):
+            with self.subTest(name=name):
+                previous = list(self.runtime_document["files"])
+                self.runtime_document["files"].extend(self.write_payloads(self.runtime, {name: content.getvalue()}))
+                self.write_manifests()
+                output = self.root / ("nested-" + str(index))
+                destination = self.root / ("nested-" + str(index) + ".zip")
+                with self.assertRaises(ValueError):
+                    self.build_with_traps(output, destination)
+                self.assertFalse(output.exists())
+                self.assertFalse(destination.exists())
+                self.runtime_document["files"] = previous
 
     def test_assembly_records_explicit_payloads_after_required_offline_gates(self):
         (self.runtime / "developer-secret.txt").write_bytes(b"private runtime source")

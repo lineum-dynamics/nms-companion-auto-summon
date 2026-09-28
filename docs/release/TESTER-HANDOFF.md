@@ -1,4 +1,42 @@
-# 0.9.2-test private tester handoff
+# 0.9.3-test private tester handoff
+
+Local packaging candidate built and offline-verified. **Nexus file 49197 is
+uploaded; virus scanning is in progress. No clearance or successful owner download yet.** Keep mod 4579
+Unpublished and preserve older files. Do not replace the running 0.9.2 session.
+
+| Field | Value |
+| --- | --- |
+| ZIP | `CompanionAutoSummon-0.9.3-test.zip` |
+| Files / bytes | 1,897 / 23,534,865 |
+| ZIP SHA256 | `d87f868c618aec200cf276aae1faf81748eeaf7be26bd1e21a8594590627e383` |
+| EXE SHA256 | `0df7e0930c407ecdb64eba6c79ff7bae535606d9d71932e8342926e6b6120172` |
+| Local build / runtime input | `build/portable-093-r1` / `build/portable-runtime-3119-r4/runtime` |
+| Production / combined / menu | 0.5.1-experimental / 0.9.2-play-trial / 0.9.1-diagnostics; unchanged |
+| Offline developer tests | 786 passed, zero failures/errors/skips |
+| Host/native runtime + relocated package | Passed; no payload mutation, game start, attachment or backup creation |
+| Live / second PC / multiplayer | NOT VERIFIED for 0.9.3 |
+| Nexus file / scan / owner download | 49197 / scanning in progress / not yet available |
+
+Installation remains: extract the whole ZIP, double-click **Companion Auto
+Summon.exe**, check installation, then start after normally closing the game.
+Use the matching English/Czech quick start after the distribution is cleared.
+The company identity/build recipe improve reviewability; they do not prove a
+false positive. See [the exact repair and scan boundary](../research/PORTABLE-SCAN-093.md).
+
+The 0.9.3 version, full description and file row were saved and read back on
+28 September 2026. The file is Miscellaneous with mod-manager downloads OFF;
+49196 and 49195 remain present. Exact scan hash/download verification waits
+until Nexus exposes the completed result. This is not a clearance assertion.
+
+The frozen ZIP's `Multiplayer test.txt` retains the scenario plan's 0.9.2
+heading. Its steps also apply to the unchanged 0.9.3 gameplay; use the 0.9.3
+README and artifact identity above. Do not relabel or rewrite the uploaded ZIP.
+
+## Retained historical evidence
+
+The following records belong only to 0.9.2, not the new candidate.
+
+## Retained 0.9.2-test private tester handoff
 
 This is the local readiness record, not public download-page text. The ZIP is
 built, offline-checked and uploaded as file 49196; automated Nexus quarantine

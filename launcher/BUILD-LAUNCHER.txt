@@ -1,0 +1,38 @@
+Companion Auto Summon for No Man's Sky - by Lineum Dynamics
+Offline launcher review / build recipe (Windows .NET Framework 4, x64)
+
+This is a reviewer recipe, not player installation instructions. The ordinary
+player starts the supplied root EXE. These statements only compile a separate
+review executable; they do not run it, start NMS, inject code or change security
+settings. Use an extracted, complete package as the current directory.
+
+The app folder includes the authored C# template, actual generated assembly
+identity, resolved asInvoker Windows manifest and exact locale resource. The
+only template substitution is the SHA256 of the root portable-manifest.json.
+Do not build into the supplied package: its integrity gate rejects extra files.
+
+PowerShell statements, run directly in a normal non-administrator terminal:
+
+$packagePath = (Get-Location).Path
+$reviewPath = Join-Path ([IO.Path]::GetTempPath()) ('cas-review-' + [Guid]::NewGuid().ToString('N'))
+New-Item -ItemType Directory -Path $reviewPath | Out-Null
+$manifestHash = (Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $packagePath 'portable-manifest.json')).Hash.ToLowerInvariant()
+$source = [IO.File]::ReadAllText((Join-Path $packagePath 'app/PortableLauncher.cs')).Replace('@@MANIFEST_SHA256@@', $manifestHash)
+[IO.File]::WriteAllText((Join-Path $reviewPath 'PortableLauncher.cs'), $source, [Text.UTF8Encoding]::new($false))
+$compiler = Join-Path $env:SystemRoot 'Microsoft.NET/Framework64/v4.0.30319/csc.exe'
+& $compiler /nologo /target:winexe /platform:x64 /optimize+ /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /reference:System.Web.Extensions.dll ('/out:' + (Join-Path $reviewPath 'CompanionAutoSummon.exe')) ('/win32manifest:' + (Join-Path $packagePath 'app/PortableLauncher.manifest')) ('/resource:' + (Join-Path $packagePath 'app/portable-locales.json') + ',PortableLocales') (Join-Path $reviewPath 'PortableLauncher.cs') (Join-Path $packagePath 'app/AssemblyInfo.cs')
+if ($LASTEXITCODE -ne 0) { throw 'Launcher compilation failed' }
+Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $reviewPath 'CompanionAutoSummon.exe')
+
+This legacy compiler generates a fresh timestamp and module ID. A raw hash is
+therefore not expected to equal the supplied EXE. Compare managed instructions,
+metadata and resources, excluding only those independently identified generated
+fields; do not rewrite the release EXE. Inspect app/portable_launcher.py,
+app/portable_host_support.py and the mod source separately for their behavior.
+
+The mod intentionally loads pyMHF into the exact supported game process after
+game identity validation and a verified private save backup. The GUI EXE itself
+only validates its package and dispatches package-local Python. The package
+ships no code-signing certificate, updater, remote payload downloader, service,
+scheduled task, antivirus exclusion or elevated launcher. Source comparison is
+not a scanner clearance or proof that every dependency is safe.

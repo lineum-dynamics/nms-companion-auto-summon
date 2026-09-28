@@ -2,7 +2,18 @@
 
 by **Lineum Dynamics**
 
-Current distribution candidate: **0.9.2-test**, containing production
+Current packaging candidate: **0.9.3-test**. It extracts the original Python
+standard library to remove the nested ZIP prohibited by Nexus, supplies accurate
+Windows product/company/version metadata and the actual launcher build inputs,
+and fixes Steam discovery failing on an unrelated inaccessible process. Gameplay
+still uses production **0.5.1**, combined **0.9.2-play-trial** and menu
+**0.9.1-diagnostics**, unchanged. All **786 developer tests** and offline runtime,
+relocation and executable integrity checks pass. No 0.9.3 live test or scanner
+clearance is claimed. Nexus file **49197** is uploaded and scanning; the retained
+0.9.2 file remains quarantined. See [packaging evidence](docs/research/PORTABLE-SCAN-093.md)
+and [tester handoff](docs/release/TESTER-HANDOFF.md).
+
+Retained distribution candidate: **0.9.2-test**, containing production
 **0.5.1-experimental**, combined **0.9.2-play-trial** and menu
 **0.9.1-diagnostics**. The tester ZIP provides **Companion Auto Summon.exe** and
 bundled Python 3.11.9; players do not install Python or use pip. It targets
@@ -217,7 +228,7 @@ This package contains no personal saves, account credentials, preselected pet or
 
 ## Settings
 
-The **0.9.2-test candidate** has seven rows at **Quick Menu → Companions →
+The **0.9.3-test candidate** has seven rows at **Quick Menu → Companions →
 Companion Auto Summon**. The default PC Quick Menu key is **X**; use your assigned
 key if you remapped it. Confirm a row using the game's configured
 Select action: selection mode cycles Last selected → Random → By habitat; the
@@ -287,7 +298,7 @@ If `settings.json` cannot be read, automation starts off. The mod settings can e
 
 ## Launching / first test
 
-1. Quit NMS normally, extract the complete **0.9.2-test** ZIP into a new folder,
+1. Quit NMS normally, extract the complete **0.9.3-test** ZIP into a new folder,
    and double-click **Companion Auto Summon.exe**.
 2. Select **Check installation**. If needed, use **Choose game folder** to locate
    your Steam installation, then check again. A different game executable is refused.

@@ -2,7 +2,16 @@
 
 by **Lineum Dynamics**
 
-## Current portable candidate: 0.9.2-test
+## Current portable candidate: 0.9.3-test
+
+The simple player flow and game requirements below are unchanged. The new
+candidate repairs nested-archive layout, supplies identifiable/reproducible
+launcher inputs and tolerates unrelated inaccessible processes during Steam
+discovery. Its 786 developer tests and offline runtime/relocation checks pass.
+Nexus file 49197 is uploaded and scanning; live 0.9.3, second-PC and multiplayer
+acceptance remain pending. Follow [the current handoff](TESTER-HANDOFF.md).
+
+## Retained portable candidate: 0.9.2-test
 
 The player distribution uses a root **Companion Auto Summon.exe**, bundled
 Python 3.11.9 and pinned dependencies. It contains production **0.5.1**,
@@ -20,7 +29,7 @@ closure, second-PC and multiplayer acceptance remain unverified; see
 [LIVE-092](../research/LIVE-092.md). The known menu thread stop has additional
 bounded diagnostics, not a fix. The built archive passed 770 developer tests,
 final native/executable/framework checks and relocated package checking without
-a game launch. Its identity is recorded; upload/readback remains PENDING in [TESTER-HANDOFF](TESTER-HANDOFF.md).
+a game launch. Its identity and file 49196 were read back; that old file remains quarantined. See [TESTER-HANDOFF](TESTER-HANDOFF.md).
 Use [the player quick start](PORTABLE-QUICKSTART.md) for the simple workflow.
 
 ## Retained 0.9.1 development path
