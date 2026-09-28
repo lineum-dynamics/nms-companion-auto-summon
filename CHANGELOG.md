@@ -8,6 +8,7 @@
 - Prepare a separate 0.8.5 candidate and version-pinned bridge; the running 0.8.4 bundle is immutable. This candidate is not a spawn fix or live-verified release.
 - Record live 0.8.4 registration and six visible role icons, one failed visible Nexus load and one later successful ship exit with a different Random pet. Retain the failure and comparison without attributing a cause.
 - Refresh the monetization policy review and preserve unsent clarification drafts; no financial interface, external contact or account was configured.
+- Align the release backlog with the running 0.8.4 evidence and unlaunched 0.8.5 candidate; prepare one combined gameplay/menu/HUD test. Record the owner's neutral activation-plus-donation-information proposal without inventing a destination or policy permission. External contact remains declined. Documentation only; no runtime or locale text changes.
 
 
 ## 0.8.4 developer trial — guarded launch and localized compatibility failures

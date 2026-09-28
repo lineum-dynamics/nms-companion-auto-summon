@@ -102,15 +102,15 @@
     },
     {
       "path": "DESIGN.md",
-      "sha256": "4a0d26e40807e4513b186909338a3a7f9cff8dea2c29d037062ad329dfa4b07b"
+      "sha256": "39a838c425f204c0621bfb0e8bff9e077807ee5480c37a05c0c0615a032c12f8"
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "cbf02269f0f221a550f2006ebfe26c7fb91fc513251c11d742f13675a6b19789"
+      "sha256": "5183ed82056e366ae3424a91d7c989bc93ed0c418a8a28a7c951b1e0ad0cb7af"
     },
     {
       "path": "ROADMAP.md",
-      "sha256": "43a6c3ca6e732452d4c81071fffec930a75b40bb016e7a0f360188e8432f958c"
+      "sha256": "c7652a4ba5fd492b64e1abdd49f2fad0979cd5fd515bcedb65b914e91056fc5d"
     },
     {
       "path": "QUICK-MENU.md",
@@ -118,7 +118,7 @@
     },
     {
       "path": "docs/release/PRIPRAVA-VYDANI.md",
-      "sha256": "aa425e518081b1bfc465cdf2b79698fbae2ccb209c01bdd554e56045289266ee"
+      "sha256": "43a0998eb7f83411e47e2e8f6df6a8dd070250b8d58685e04885233219174b84"
     },
     {
       "path": "docs/release/INSTALACE-ZADANI.md",
@@ -146,7 +146,7 @@
     },
     {
       "path": "docs/release/MONETIZATION.md",
-      "sha256": "d5d8e67b2741d2f7e65ca4c3619579800ab279cd1e1fc1eeadc2527ade3f5c3e"
+      "sha256": "c9e73d95bd3b2085fb462bb8b61e0c217cea3a59b1c724a9e57faef094be1790"
     },
     {
       "path": "src/policy.py",

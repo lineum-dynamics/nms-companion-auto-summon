@@ -10,6 +10,31 @@ podrobnosti uvádí [záznam 0.8.4](../research/LIVE-084.md). Úplné ověření
 hlášek, přemapování, lokalizace a veřejného přenosného spouštěče stále čeká.
 Monetizaci shrnuje [aktuální přehled pravidel](MONETIZATION.md).
 
+## Nejbližší společný test 0.8.5
+
+Prioritou je zachytit občasné selhání po načtení v Anomálii. Běžící 0.8.4 se
+nemění a její host se neukončuje. Oddělenou 0.8.5 nasadit při příštím běžném
+ukončení hry, po ověření nové zálohy a shody připraveného balíčku. Diagnostika
+nemění pravidla vyvolávání a sama o sobě závadu neopravuje.
+
+1. Po načtení na povoleném místě vyčkat přibližně 20 sekund bez změn nastavení,
+   otevření náhledu petů nebo ručního vyvolání. Zaznamenat skutečně viditelného
+   peta či jeho nepřítomnost a celý omezený diagnostický průběh.
+2. Potom ve stejné relaci porovnat běžný výstup z lodi. Random může vybrat jiného
+   peta; takový výsledek nerozliší příčinu v načítání od rozdílu mezi pety. Pokud
+   bude potřeba řízené srovnání, použít stejného ručně zvoleného peta v režimu
+   Last selected při dalším přirozeném načtení i výstupu. Neopakovat automaticky
+   přijatý požadavek a nezaměňovat ruční odvolání za chybu.
+3. Až po úvodním pozorování spojit ověření šesti voleb, návratu/znovuotevření
+   menu, běžného ručního vyvolání a odvolání s kontrolou čitelnosti hlášek a
+   jejich ikon. Ověřit zachování ostatních voleb; na konci vrátit uživatelovy
+   preference. Přemapování a ovladač označit za ověřené pouze po skutečném testu.
+
+Není nutné nyní přerušovat hraní. Mezitím lze připravovat lokalizaci a přenosný
+instalátor mimo běžící prostředí. Odstranění panelu pyMHF následuje po přijetí
+všech nativních ovládacích prvků. Žádný z těchto kroků nepotvrzuje veřejnou
+připravenost, multiplayer ani správnost dosud neotestovaných překladů.
+
 Následující výsledky 0.4.4 / 0.7.1 a 0.7.0 jsou historický záznam; jejich
 tehdejší další kroky nepopisují současně běžící verzi.
 
@@ -130,7 +155,13 @@ Zdroj: [File Submission Guidelines](https://help.nexusmods.com/article/28-file-s
 
 Cílem vlastníka je maximální příjem v mezích pravidel, nikoli předem omezená nenápadná propagace. Nexus umožňuje kombinovat podmíněné Donation Points, PayPal a externí dárcovské odkazy. Aktuální [DP pravidla](https://help.nexusmods.com/article/68-donation-points-system-terms-of-service) neobsahují plošné vyloučení AI; způsobilost závisí na právech k obsahu a rozhodnutí Nexusu. Neslibovat výdělek.
 
-[Donation Options & Guidelines](https://help.nexusmods.com/article/77-donation-options-guidelines) povolují odkazy na stránkách Nexusu; tím není schválen finanční prvek ve hře ani launcheru. Přesná frekvence připomínek nebo rozměr dárcovského banneru není určena. Limit 100 px se týká odkazů na zvlášť schválený placený obsah, ne obecně darů. Výklad [EULA Hello Games](https://www.nomanssky.com/end-user-licence-agreement/) pro lokální finanční UI zůstává nevyjasněný. [Přehled](MONETIZATION.md) obsahuje rozšířené neodeslané dotazy také na první spuštění, aktualizace, opakované výzvy, sponzory, affiliate a případnou komerční licenci. Nikdo nebyl kontaktován a finanční UI se nepřidávalo.
+[Donation Options & Guidelines](https://help.nexusmods.com/article/77-donation-options-guidelines) povolují odkazy na stránkách Nexusu; tím není schválen finanční prvek ve hře ani launcheru. Přesná frekvence připomínek nebo rozměr dárcovského banneru není určena. Limit 100 px se týká odkazů na zvlášť schválený placený obsah, ne obecně darů. Výklad [EULA Hello Games](https://www.nomanssky.com/end-user-licence-agreement/) pro lokální finanční UI zůstává nevyjasněný. [Přehled](MONETIZATION.md) zachovává neodeslané pracovní dotazy; vlastník výslovně zakázal kontaktování obou organizací. Vycházet pouze z publikovaných pravidel.
+
+Aktuální návrh spojuje oznámení o aktivaci s neutrální informací, kde lze
+dobrovolně přispět. Je zapsaný v přehledu; četnost a cílový odkaz nejsou určeny.
+Samotné spojení textů nezakládá výjimku z pravidel. Nejde o implementovanou
+hlášku ani potvrzené povolení této podoby. Při zavedení skutečného textu musí
+současně vzniknout odpovídající anglický záznam a všechny dotčené překlady.
 
 ## 5. Zveřejnění
 

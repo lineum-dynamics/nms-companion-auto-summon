@@ -1,6 +1,6 @@
 # Companion Auto Summon roadmap
 
-This is the canonical backlog for unfinished release work and future ideas. It is not a feature list for the current package or a promise of release dates. Status updated on 28 September 2026: current source candidate 0.8.4-play-trial retains production 0.4.7 and menu 0.8.3-settings-trial. Final validation passed 329 production and 633 developer tests without failures or skips. The final 40-file bundle (39 payloads), real-framework offline smoke and both Python and Windows PowerShell 5.1 read-only preflights passed. No launch, deployment or setup occurred. Prepared 0.8.3 and the immutable last-launched 0.8.2 folder remain unchanged. The latter contains menu 0.8.0 and the original single icon. Registration and native active-state logs do not confirm visible icons or companions. Gameplay and interface acceptance are pending. Unaccepted proposals below remain unapproved for implementation.
+This is the canonical backlog for unfinished release work and future ideas. It is not a feature list for the current package or a promise of release dates. Status updated on 28 September 2026: source candidate **0.8.5-play-trial** contains production **0.4.8** and unchanged menu **0.8.3-settings-trial**. It passed 333 production and 633 developer tests without failures or skips, plus real-framework offline checks of the separate 40-file bundle (39 payloads). It has not launched. The running **0.8.4** bundle remains unchanged. Its six setting icons are visible in screenshots, but one Nexus startup failed visibly and a later ship exit summoned a different Random pet. Gameplay and full interface acceptance remain incomplete. Unaccepted proposals below remain unapproved for implementation.
 
 Use [DESIGN.md](DESIGN.md) for accepted product behavior, [LOCALIZATION.md](LOCALIZATION.md) for language requirements and [the release plan](docs/release/PRIPRAVA-VYDANI.md) for publication checks. Update this backlog when a proposal is accepted, deferred, rejected or implemented. Record the version and verification evidence when a task is completed.
 
@@ -8,39 +8,27 @@ Use [DESIGN.md](DESIGN.md) for accepted product behavior, [LOCALIZATION.md](LOCA
 
 These requirements were accepted before this backlog was created. Finish them before adding optional features that would complicate the first release.
 
-The 0.4.7 candidate retains the manual-origin repair prepared in unlaunched
-0.4.5 / 0.7.2: only a matched successful native UI summon can replace or announce
-a favourite. The 0.7.1 arena event's actual caller remains unknown; existing
-stored choices are preserved. Shorter 5.5-second notices and the verified
-icon-hide fallback need a live visual check. Combined 0.8.2 retains the six
-native settings and original-icon loading/fallback from menu 0.8.0-settings-trial,
-all pending live acceptance. Production 0.4.7 changes only version metadata from
-0.4.6. Launcher changes add read-only `-CheckOnly`, usable while NMS runs, and
-separate fixed setup/host session leases that reject duplicate launches across
-package folders. Their OS handle lifetime handles process exits and crashes;
-normal setup refuses an unknown process state. Preflight is not gameplay
-validation. Retained older artifacts remain unchanged.
+The immediate priority is the intermittent Nexus startup failure. Prepared
+production 0.4.8 retains passive diagnostics after the first logical active
+index, within the existing 15-second / 4096-callback observation limits. It adds
+no retry, placement override or summon timing change and is not a spawn fix.
+See [the live 0.8.4 record](docs/research/LIVE-084.md) and the
+[next combined test](docs/release/PRIPRAVA-VYDANI.md#nejbližší-společný-test-085).
+Keep the running game and host intact; use the next ordinary closed-game window
+for a fresh backup and the separately prepared candidate.
 
-Prepared 0.8.3 assigns distinct original icons to the parent and all six settings,
-with independently validated native-paw fallback. Closed-game staging validates
-all seven DDS files and existing destinations before publication; the installed 0.8.2
-installation is untouched. The label **Random: prefer matching biome** clarifies
-the existing rule without changing it. Final validation totals belong in the
-candidate manifest, and visual acceptance requires the next separate live trial.
+The candidate retains matched manual-selection attribution, 5.5-second notices,
+six native controls and seven original role assets. Screenshots confirm the six
+setting icons in 0.8.4; parent/HUD appearance, all controls and resource teardown
+still need acceptance. The label **Random: prefer matching biome** describes the
+existing planet-only Random preference. No new player-facing wording or meaning
+is introduced by 0.4.8; all fourteen catalogs remain unchanged.
 
-The 0.8.4 host guard verifies the selected executable before framework import
-and the actual target-handle executable before every DLL injection. It rejects
-unexpected framework configuration and foreign `pymhflib` entry points.
-The shared compatibility profile is checked against source/manifest declarations
-during builds. Nine scoped launcher messages now consume the 14 catalogs
-(39 keys each; 13 draft translations). Final validation passed 329 production
-and 633 developer tests with no failures or skips. The real-framework smoke
-passed with all six controls and temporary preferences, without native hooks
-or game access. The rebuilt final bundle contains 40 files (39 payloads).
-Python `--check-only` and Windows PowerShell 5.1 `-CheckOnly` both passed against
-the installed game and runtime without launch, deployment or setup.
-These checks do not complete the portable installer, all launcher translations, native
-localization or the saved-technology safety work.
+The guarded host, actual target-handle check before injection, read-only
+preflight and separate setup/host leases remain in place. Nine compatibility
+messages use fourteen catalogs (39 keys each; thirteen draft translations).
+These checks do not complete the portable installer, full launcher/native
+localization or saved-technology safety. Retained older artifacts stay unchanged.
 
 Historical 0.4.4 / 0.7.1 added bounded passive post-queue observation; one Anomaly startup has player and native-active
 confirmation, with no automatic retry. Repeatability remains unverified. Validate it against the failed Anomaly case before
@@ -56,11 +44,11 @@ remapping and controllers remain untested; rapid toggles were repeated presses.
 
 | Work | Current boundary | Completion evidence |
 |---|---|---|
-| Simple, reliable installation | Current 0.8.4 adds the guarded direct host, shared compatibility profile and nine localized compatibility messages to existing read-only preflight and setup/host leases. Both final-bundle preflights passed against the installed game/runtime. Normal setup still requires external Python and prepares dependencies. A portable offline runtime and finished graphical launcher are not implemented. | Retain the offline mismatch/no-write/lease tests, then verify extract-and-launch on a clean second Windows account/PC, relocated/non-ASCII paths, no external Python dependency and no unexpected game termination. Follow [installer requirements](docs/release/INSTALACE-ZADANI.md). |
-| Native quick-menu settings | Installed 0.8.2 contains the six-row menu from 0.8.0; current unlaunched 0.8.4 retains the prepared 0.8.3 menu, seven distinct icons and explicit Random biome label. All seven DDS files are validated before closed-game staging; each role has native-paw fallback. Full-page acceptance and resource rendering/lifetime remain unverified. Keep automatic summoning and the desktop panel during acceptance. See [QUICK-MENU.md](QUICK-MENU.md). | All six controls apply/persist without changing unrelated values; native navigation/rebuilds and ordinary pet actions; default/remapped keyboard and controllers; seven correct icons, retained fallback and text-only behavior; no changed gameplay limits or shared vanilla textures. |
+| Simple, reliable installation | Current 0.8.5 retains the guarded direct host, shared compatibility profile, nine localized compatibility messages, read-only preflight and setup/host leases from 0.8.4. The 0.8.4 preflights and subsequent guarded launch have bounded evidence. Normal setup still requires external Python and prepares dependencies. A portable offline runtime and finished graphical launcher are not implemented. | Retain the offline mismatch/no-write/lease tests, then verify extract-and-launch on a clean second Windows account/PC, relocated/non-ASCII paths, no external Python dependency and no unexpected game termination. Follow [installer requirements](docs/release/INSTALACE-ZADANI.md). |
+| Native quick-menu settings | Running 0.8.4 and prepared 0.8.5 share menu 0.8.3, six settings and the explicit Random biome label. Six setting icons are visible in 0.8.4 screenshots. All seven DDS files are validated before staging; each role has native-paw fallback. Complete controls, parent/HUD rendering and resource lifetime remain unverified. Keep automatic summoning and the desktop panel during acceptance. See [QUICK-MENU.md](QUICK-MENU.md). | All six controls apply/persist without changing unrelated values; native navigation/rebuilds and ordinary pet actions; default/remapped keyboard and controllers; seven correct icons, retained fallback and text-only behavior; no changed gameplay limits or shared vanilla textures. |
 | Native number shortcuts | Requested next work; blocked by tagged None serialization losing the marker and potentially replacing a prior binding with an empty action. The existing native binding guard remains required. No custom shortcut or physical hotkey is implemented. | Verify native binding, replay, removal and persistence without losing existing shortcuts; prove remapped native-input behavior and controller handling before enabling it. Do not substitute physical key hooks or a second hotkey system. |
 | Localization and natural feedback | Fourteen catalogs contain 39 keys; thirteen translations are drafts. Nine launcher compatibility messages use catalog lookup, with Windows UI locale/explicit override and English recovery fallback. Other launcher text and the panel remain outside this scope. Native menu/HUD remain English; no verified game-language reader or non-English glyph path exists. | Reviewed catalogs for all 14 official interface languages, complete launcher coverage, verified language selection, placeholders and in-game rendering. Quiet ordinary summons, honest save/session-only messages and a restrained first-activation notice. |
-| Live behavior and compatibility | In combined trial 0.6.2, production 0.4.3 summoned one Random companion after an on-foot station load without a ship-exit trigger; the log and player confirm the result. The player later confirmed one manual dismissal without reappearance after traveling in the same unchanged session. Earlier visible results belong to their original versions. | Broaden dismissal regression; test planet/Nexus and Last manually selected startup, then normal ship-exit regression; existing preferences; biome preference/fallback; location controls; restart/save switching; rejected placement followed by a suitable location; cancellation and unsupported locations. Record actual appearance separately from an accepted queue request. |
+| Live behavior and compatibility | Running 0.4.7 / 0.8.4 has one visibly failed Nexus startup and one later successful ship exit with a different Random companion. Prepared 0.4.8 / 0.8.5 adds bounded passive diagnostics only. The confirmed station startup and one respected dismissal belong to historical 0.4.3 / 0.6.2; they do not verify the current candidate. | Capture the longer failed-startup lifecycle and control companion choice before attributing a load/exit difference. Broaden dismissal regression; test planet/Nexus and Last manually selected startup, normal ship exit, preferences, biome preference/fallback, location controls, restart/save switching, obstructed placement then suitable terrain, cancellation and unsupported locations. Record visible appearance separately from queue acceptance or logical activity. |
 | Multiplayer and release preparation | Second-PC installation and multiplayer remain unverified; Nexus material is still a draft. | Controlled tests with one and then, where available, two mod users; no duplicate or foreign-pet changes; accurate support limits; owner-approved attribution/reuse terms and distribution contents; current platform/publisher policy review. |
 
 Keep the current native ownership, eligibility and placement rules. No roadmap item authorizes pet creation/unlocking, reduced gameplay limits, accelerated progression or writing NMS save files. The same exact-build guard remains required.
@@ -123,7 +111,7 @@ or inject prototype inventory into the normal player save. Compiling an XML
 definition does not validate these behaviors.
 
 Unknown game versions must stop native integration before hooks or native calls.
-The current 0.8.4 source implements the guarded host and scoped localized
+The current 0.8.5 source retains the guarded host and scoped localized
 outside-game warnings without an unsafe bypass or preference reset. Final-bundle
 offline checks passed; live acceptance remains pending. A saved custom item still requires verified
 update/removal behavior. Runtime refusal alone does not establish inventory or
@@ -139,7 +127,13 @@ No new pause control is prioritized yet. The current OFF setting already cancels
 
 The current [Donation Points rules](https://help.nexusmods.com/article/68-donation-points-system-terms-of-service) contain no blanket AI exclusion, but eligibility still depends on provenance, permissions and Nexus discretion. The substantial generated code/UI/translations require accurate **AI-Generated Content** disclosure under the [File Submission Guidelines](https://help.nexusmods.com/article/28-file-submission-guidelines); do not substitute **AI Assisted** to improve eligibility or visibility.
 
-Evaluate persistent Support entries, first-activation/update/recurring notices, banner placement, sponsor and affiliate options against the [donation guidelines](https://help.nexusmods.com/article/77-donation-options-guidelines), file rules and [Hello Games EULA](https://www.nomanssky.com/end-user-licence-agreement/). Request actual limits and any relevant exceptions rather than inventing a frequency or excluding a format on taste alone. Published prohibitions still apply; unclassified proposals are not authorization to implement them. Multiplayer promotion has an explicit uploaded-content restriction. The normal paid-mod ban and publisher-endorsed exception must not be conflated.
+Evaluate persistent Support entries, first-activation/update/recurring notices, banner placement, sponsor and affiliate options against the [donation guidelines](https://help.nexusmods.com/article/77-donation-options-guidelines), file rules and [Hello Games EULA](https://www.nomanssky.com/end-user-licence-agreement/). Record limits and exceptions established by published sources; unpublished limits remain unresolved. Do not contact either organization or exclude a format on taste alone. Published prohibitions still apply; unclassified proposals are not authorization to implement them. Multiplayer promotion has an explicit uploaded-content restriction. The normal paid-mod ban and publisher-endorsed exception must not be conflated.
+
+The latest owner proposal combines a startup activation notice with neutral
+information about optional donations. Record its wording, timing and unresolved
+scope in the [monetization review](docs/release/MONETIZATION.md#combined-startup-notice-proposal).
+This is not implemented UI, a selected payment destination or confirmed policy
+permission. A normal game startup and each save load are distinct events.
 
 See [Monetization review](docs/release/MONETIZATION.md) for exact source dates, limits and unsent permission-request drafts. No account, donation destination or earnings forecast is assumed. Recheck the rules and final package rights before enrollment or publication.
 

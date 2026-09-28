@@ -40,7 +40,7 @@ review before opting the final package into DP.
 | Recurring donations without mod content/services in return | Consistent with the expressly allowed Patreon option; that is an interpretation, not approval of a particular tier. |
 | Donation banner prominence, number and position | No numeric maximum published. Excessive promotion and active solicitation remain restricted. |
 | First-run, update or recurring local notices | No published permitted frequency or format. Neither once per installation nor once monthly is an established safe allowance. |
-| Sponsor and affiliate advertising in package/page | The general ban on advertising other websites/services applies; donation-link permission is not an advertising exception. Seek a specific ruling. |
+| Sponsor and affiliate advertising in package/page | The general ban on advertising other websites/services applies; donation-link permission is not an advertising exception. No specific published exception was established; external contact is not authorized. |
 | Paid content route | Standard paid-mod restrictions apply. Publisher-endorsed programs are a separate exception, not established for this NMS mod. |
 
 The 100-pixel/footer/sticky limits in the donation article apply specifically
@@ -73,6 +73,33 @@ For discoverability, prioritize clear requirements, a reliable installation,
 truthful images and meaningful maintenance. These are supported by Nexus's
 [Best Practices for Mod Authors](https://help.nexusmods.com/article/136-best-practices-for-mod-authors)
 (5 August 2024); they are not a promised revenue formula.
+
+## Combined startup notice proposal
+
+**Owner proposal, 28 September 2026:** combine a startup activation notice with
+neutral information about optional donations. Example English copy:
+
+> Companion Auto Summon is active. Optional donations: [destination].
+
+This is proposed wording, not implemented UI or confirmed policy permission.
+No donation destination has been selected. Published rules do not establish
+that one brief neutral notice is inherently excessive, nor do they expressly
+approve this format. A notice on every launch is repeated promotion; its wording
+and repetition must be assessed together. Combining it with an activation
+message creates no exemption from other Nexus or Hello Games restrictions.
+
+The earlier first-activation-only operational notice is not an agreed ceiling
+for this proposal. Define startup versus save-load triggers, frequency, duration
+and dismissal behavior before implementation; do not invent a policy limit.
+The activation statement must also match actual runtime readiness and the ON/OFF
+preference, without promising that a pet appeared. The sample contains no direct
+request to donate, paid benefit or promise of development in exchange. Its policy
+classification remains unresolved.
+
+Before adding actual UI, supply a real destination and maintain the canonical
+English text and all affected translations in the same change. No runtime or
+catalog entry is added by documenting the proposal. Continue using published
+information only; the owner's instruction against external contact remains.
 
 ## Unsent request to Nexus Mods
 

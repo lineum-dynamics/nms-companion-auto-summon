@@ -202,7 +202,7 @@ a usable owned handle, the verified final timed-message flag hides both icon
 containers independently of the text. A new visual check must establish the
 actual icon and white-disc outcomes; the ordinary standalone ZIP is text-only.
 
-Use the game's existing visual presentation and a short localized sentence. Avoid a startup banner on every load, repeated waiting errors, sounds on every summon, or messages that obscure ordinary game information.
+Use the game's existing visual presentation and a short localized sentence. Avoid repeated waiting errors, sounds on every summon, or messages that obscure ordinary game information. Ordinary save loads should not each generate an operational startup banner; this presentation preference is not a published monetization rule or the final frequency decision for the combined notice proposed below.
 
 | Event | Intended feedback |
 |---|---|
@@ -213,6 +213,14 @@ Use the game's existing visual presentation and a short localized sentence. Avoi
 | Ordinary automatic summon | Quiet by default; seeing the pet is the confirmation |
 | Temporary placement obstruction | Keep a status available; avoid repeated toasts or sounds while checking |
 | Recoverable/terminal problem needing the player's action | One actionable localized message with details in the diagnostic log |
+
+The owner has proposed combining the startup activation notice with neutral
+information about where optional donations are possible. This is not implemented;
+see [the wording and published-rule boundary](docs/release/MONETIZATION.md#combined-startup-notice-proposal).
+The table's first-activation row describes the earlier operational ready notice,
+not a final frequency limit for the combined proposal. A game startup and a save
+load are distinct events. Any implemented copy must reflect actual readiness
+and the automation preference and update English and all affected locales together.
 
 Example English source wording, subject to terminology and display review: `Automatic companion summoning enabled.`, `Preferred companion saved.`, `Waiting for a suitable location.` These are proposed catalog values, not implemented translations or verified official game text.
 
