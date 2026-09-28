@@ -1,8 +1,22 @@
 # Habitat selection and companion rotation
 
-Source candidate **0.5.0-experimental**, combined **0.9.0-play-trial**, menu
-**0.9.0-selection**. Implemented in source; offline validation passed 396 production and 683 developer tests. This candidate has not been launched. The retained running 0.8.7
-trial and its [bounded live evidence](LIVE-087.md) do not validate these changes.
+Current source **0.5.1-experimental**, combined **0.9.1-play-trial**, retains
+menu **0.9.0-selection** and the selection rules introduced in 0.5.0 / 0.9.0.
+The follow-up changes only settings confirmation and combined GUI presentation.
+Validation passed 403 production and 689 developer tests. The 091-r1 bundle
+is built and passed actual-framework checks plus Python and Windows PowerShell
+5.1 read-only preflights; 0.9.1 has not launched. The immutable 090-r2 trial launched on
+28 September 2026 and has one player-confirmed visible Random startup pet.
+Settings appear saved according to the player; restart persistence, By habitat
+and shuffle outcomes remain unverified. See [the bounded live record](LIVE-090.md). The retained 0.8.7 trial and its
+[bounded live evidence](LIVE-087.md) do not validate these changes.
+
+The retained session later stopped custom menu handling under its
+`unexpected_thread` guard. The unchanged menu in 0.9.1 retains that known
+limitation; it is not evidence for or against habitat selection. Teleport
+arrival and base removal are not new automatic triggers, and a reported pet
+disappearance has no established cause. See the live record for the bounded
+menu-lifecycle investigation.
 
 ## Selection contract
 

@@ -2,7 +2,37 @@
 
 by **Lineum Dynamics**
 
-The current source candidate **0.8.7-play-trial** uses production **0.4.9-experimental**
+## Current development package and first-public gate
+
+The follow-up source candidate **0.5.1-experimental / 0.9.1-play-trial** retains
+menu **0.9.0-selection**, adds specific setting/value confirmations and disables
+the external pyMHF panel in the combined launch configuration. It is prepared
+for a later restart; the running **0.5.0 / 0.9.0 / 090-r2** remains untouched.
+The [0.9.0 live record](../research/LIVE-090.md) includes startup registration and
+the player's first visible Random summon, not acceptance of the 0.9.1 changes.
+
+The first public package must let a player **extract the ZIP and double-click
+one launcher** on an ordinary Windows x64 Steam PC. It must include a vetted,
+pinned runtime and its dependency licences/hashes, need no user Python/pip
+installation and open no development GUI. It must retain exact supported-game
+refusal, duplicate-host protection, stable preferences and the acceptance
+checks below. The currently supported target is Steam build **25442159 /
+Cosmos 7.04**, with the exact executable hash in `compatibility.json`; a later
+game build requires a separately verified compatibility profile.
+
+The 0.9.1 development PowerShell launcher does not meet that portable gate yet.
+It still creates its isolated environment from an external Python installation
+and installs `pymhf[gui]==0.2.4` dependencies when needed. `gui.shown = false`
+prevents GUI construction in the combined trial, while the standalone developer
+launcher keeps its panel because it has no native settings page. The runtime
+still imports GUI dependencies, and the host still needs its console-capable
+launch path. Console-free host/injected initialization, bundled-runtime
+relocation and safe launcher/game shutdown remain unfinished. A successful
+host-only import prototype does not establish those lifecycle checks.
+
+## Retained 0.8.7 installation evidence
+
+The retained previous **0.8.7-play-trial** uses production **0.4.9-experimental**
 and menu **0.8.5-branding**. Source validation passed 333 production
 and 675 developer tests, without failures or skipped tests. The separate final directory
 `build/quick-menu-play-trial-087-r1` contains 41 files (40 payloads and a manifest).
@@ -41,7 +71,7 @@ configuration and foreign `pymhflib` extensions. The build also checks
 `compatibility.json` against the host, native declarations and manifest.
 An unknown or unreadable build cannot be forced, and preferences are not reset.
 
-Nine compatibility messages use 14 catalogs of 41 keys each; 13 translations
+In that retained 0.8.7 package, nine compatibility messages use 14 catalogs of 41 keys each; 13 translations
 remain without language review. Windows or `-Language` selects the language,
 not detection of the game's language. `-NoDialog` suppresses the dialog while
 retaining the console error. A bad catalog uses a short English package error.
@@ -52,8 +82,8 @@ The short in-game name, setting captions and notices remain unchanged.
 
 Production 0.4.9 retains passive diagnostics after the first logical active
 state; menu 0.8.5-branding retains six controls, seven role icons and language
-observation without enabling translations. Running 0.8.7 / 087-r1 remains
-unchanged during testing. The public portable installer, complete translations
+observation without enabling translations. Retained 0.8.7 / 087-r1 remains
+unchanged. The public portable installer, complete translations
 and safety of the future saved technology are unfinished; their requirements
 and separate historical evidence follow below.
 
@@ -89,12 +119,11 @@ backup, both Mods and 11 hook targets loaded on 27 September 2026 at 21:48:38
 with automation ON. Complete in-game toggle testing is not yet confirmed;
 this is not a finished public installer.
 
-The final player interface will not require the pyMHF panel. Once all X-menu
-controls are complete, the temporary development panel will be removed;
-GUI dependencies will be assessed separately according to the framework.
-A simple launcher and background runtime will remain. The next in-game check
-will cover OFF/ON, held confirmation, navigation without changes, Back,
-reopening and ordinary pet actions; current play can continue unchanged.
+At that stage, the plan was to remove the temporary panel after the native
+controls were complete. The current 0.9.1 combined candidate now disables GUI
+construction for the next trial, with acceptance still required. GUI dependency
+removal is separate work; it is not implied by hiding the panel. A launcher and
+background runtime remain necessary.
 
 ## Target player workflow
 
@@ -102,7 +131,7 @@ reopening and ordinary pet actions; current play can continue unchanged.
 2. Double-click the Companion Auto Summon for No Man's Sky application.
 3. The launcher validates the installation and offers **Start the game with Companion Auto Summon**. If it finds multiple installations or cannot identify Steam, it offers a folder selection.
 
-The player should not need to install Python, type terminal commands, choose library versions or change system environment variables. The mod should have its own tested environment. Normal launch should not require administrator privileges.
+The player should not need to install Python, type terminal commands, choose library versions or change system environment variables. The ZIP must include its own tested environment. Normal launch should not require administrator privileges or display the external development panel. The first-public gate is this final workflow, not the current PowerShell development setup.
 
 ## Packaging approach to validate
 
@@ -121,7 +150,7 @@ Official Python documentation describes the embedded distribution as an environm
 - Do not terminate a running game or attempt to attach a second launcher. Show a short instruction explaining what the player should do.
 - Repeated double-clicks within a short interval must not create two mod instances.
 - On a game mismatch, state the supported version and the detected version if reliably known; a long hexadecimal string alone does not belong in the main error message.
-- A mismatch or inability to verify the version automatically prevents mod attachment. Source 0.8.7 retains the direct Python host check before the framework and actual-target-process verification before DLL injection. Nine compatibility messages are translated outside the game; no unverified native HUD is used. Preferences survive, and there is no option to force an unknown version. Python `--check-only` and Windows PowerShell 5.1 `-CheckOnly` run without launching, deploying or installing dependencies; their result must belong to the exact final package. Native validation in a new game session remains pending.
+- A mismatch or inability to verify the version automatically prevents mod attachment. The maintained source retains the direct Python host check before the framework and actual-target-process verification before DLL injection. Nine compatibility messages are translated outside the game; no unverified native HUD is used. Preferences survive, and there is no option to force an unknown version. Python `--check-only` and Windows PowerShell 5.1 `-CheckOnly` run without launching, deploying or installing dependencies; their result must belong to the exact final package. Earlier guarded development launches do not validate a new portable runtime.
 - Offer to open the log directory. Do not automatically upload logs or user data.
 - Closing an ordinary control window must not silently terminate the game. The current coupling between pyMHF and game lifetimes needs explicit handling and testing in the launcher design.
 - Do not disable Windows security, antivirus protection or script-execution rules. Absence of SmartScreen warnings or antivirus approval cannot be promised in advance.
@@ -142,6 +171,7 @@ Official Python documentation describes the embedded distribution as an environm
 | Extraction elsewhere, spaces and accented characters in the path | Successful launch or a clear supported error without loading the wrong DLL |
 | Different Steam library / drive | Automatic discovery or working folder selection |
 | Dependencies without Internet access | No pip or download required; availability of Steam itself is assessed separately |
+| Ordinary launch and native settings | No external development GUI; all intended settings remain usable through configured game controls |
 | Wrong game EXE | No hook or attempt to use unverified addresses |
 | Incomplete extraction or corrupt file | Clear error before mod startup |
 | NMS or another Companion Auto Summon already running | No second attachment or game termination |
@@ -151,4 +181,4 @@ Official Python documentation describes the embedded distribution as an environm
 | Local save load in 0.4.3, followed by manual dismissal | One eligible deferred opportunity using saved preferences; no repeated summon after dismissal |
 | Second computer with a matching game | Installation from a short guide without development tools |
 
-First verify imports and check-only mode outside the game. Candidate 0.4.3 / 0.6.2 already has one confirmed Random summon after station loading and a separate manual dismissal without reappearance during observation. Add planet, Nexus and Last manually selected startup and the other scenarios when an opportunity is available; immediate game closure is unnecessary. Running files stay unchanged during these checks. The future public package must repeat the scenarios through its own launcher. Success of the current development launcher does not automatically transfer to new packaging.
+First verify imports and check-only mode outside the game. Historical candidate 0.4.3 / 0.6.2 has one confirmed Random summon after station loading and a separate manual dismissal without reappearance during observation; later 0.8.7 and 0.9.0 evidence is recorded separately. Add missing startup and other scenarios against the exact candidate when an opportunity is available; immediate game closure is unnecessary. Running files stay unchanged during these checks. The first public package must repeat the applicable scenarios through its own launcher. Success of the current development launcher does not automatically transfer to new packaging.

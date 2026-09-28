@@ -30,7 +30,7 @@ shown = false
 log_dir = "{CURR_DIR}"
 log_level = "info"
 [pymhf.gui]
-shown = true
+shown = false
 always_on_top = false
 '''
 
@@ -56,13 +56,13 @@ class PlayTrialFixture(unittest.TestCase):
             destination.parent.mkdir(parents=True, exist_ok=True)
             destination.write_bytes(data)
         self.manifest = {
-            "version": "0.9.0-play-trial", "framework": "pymhf[gui]==0.2.4",
+            "version": "0.9.1-play-trial", "framework": "pymhf[gui]==0.2.4",
             "steam_build": LAUNCHER.compatibility.STEAM_BUILD,
             "supported_nms_exe_sha256": LAUNCHER.compatibility.SUPPORTED_GAME_SHA256,
             "auto_summon": True, "preference_actions": True,
             "preference_keys": ["enabled", "selection_mode", "prefer_same_biome", "locations", "rotate_companions"],
             "mods": [
-                {"name": "CompanionAutoSummon", "version": "0.5.0-experimental",
+                {"name": "CompanionAutoSummon", "version": "0.5.1-experimental",
                  "path": "CompanionAutoSummon.py"},
                 {"name": "CompanionMenuOrderTrial", "version": "0.9.0-selection",
                  "path": "CompanionMenuOrderTrial.py"},
@@ -144,7 +144,7 @@ class BundleValidationTests(PlayTrialFixture):
     def test_valid_bundle_preserves_two_mod_identities_and_global_settings_routes(self):
         bundle, config = LAUNCHER.validate_bundle(str(self.bundle))
         self.assertEqual(bundle, self.bundle.resolve())
-        self.assertTrue(config["gui"]["shown"])
+        self.assertIs(config["gui"]["shown"], False)
         self.assertEqual(len(self.manifest["files"]), 41)
         self.assertEqual({entry["name"] for entry in self.manifest["mods"]},
                          {"CompanionAutoSummon", "CompanionMenuOrderTrial"})
@@ -241,7 +241,7 @@ class BundleValidationTests(PlayTrialFixture):
         self.bootstrap.install_injection_guard.assert_not_called()
 
     def test_config_changes_are_rejected_even_with_matching_checksum(self):
-        for content in (CONFIG.replace(b'shown = true', b'shown = false'),
+        for content in (CONFIG.replace(b'[pymhf.gui]\nshown = false', b'[pymhf.gui]\nshown = true'),
                         CONFIG.replace(b'interactive_console = false', b'interactive_console = true'),
                         CONFIG + b'\n[extra]\nvalue = "unexpected"\n'):
             with self.subTest(content=content):
@@ -404,6 +404,8 @@ class HostRoutingTests(PlayTrialFixture):
     def test_sibling_bootstrap_retains_verified_remote_dll_guard(self):
         bootstrap = LAUNCHER._load_bootstrap(self.bundle)
         self.assertIs(bootstrap.compatibility, LAUNCHER.compatibility)
+        self.assertIs(bootstrap.EXPECTED_FRAMEWORK_CONFIG["gui"]["shown"], True)
+        self.assertIs(LAUNCHER.EXPECTED_CONFIG["gui"]["shown"], False)
         dll = self.root / "owned-placeholder.pyd"
         dll.write_bytes(b"Never loaded; only filename validation is exercised")
         canonical = os.path.normcase(os.path.realpath(str(dll)))

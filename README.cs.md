@@ -4,10 +4,36 @@
 
 by **Lineum Dynamics**
 
-Zdrojový kandidát **0.5.0-experimental / 0.9.0-play-trial** s menu
+Aktuální zdroj **0.5.1-experimental / 0.9.1-play-trial** s menu
+**0.9.0-selection** potvrzuje konkrétní změněné volby a jejich výsledné hodnoty.
+Společný testovací balíček díky `gui.shown = false` neotevírá ovládací okno pyMHF;
+nastavení je v herním rychlém menu. Samostatný vývojový mód si panel ponechává.
+Prošlo 403 produkčních a 689 vývojových testů, kontroly skutečného frameworku
+i obě kontroly před spuštěním. Společný archiv má 42 ověřených souborů.
+Tento kandidát nebyl spuštěn; právě běžící **090-r2** se nemění. Text ve hře
+zůstává anglický.
+
+V běžící 090-r2 se v 14:30:17 objevilo `Inert menu ordering stopped
+(unexpected_thread)`: ochrana po změně vlákna callbacku zastavila naše menu,
+ale ponechala filtr číselných vazeb. Produkční automatika je oddělená. Příčina
+změny vlákna a souvislost s hráčovou akcí nejsou potvrzené; stejné menu v 0.9.1
+tento problém neopravuje. Příchod teleportem ani odstranění základny automatiku
+nespouští. Hráč hlásil chybějícího peta po příchodu a zmizení po odstranění
+základny, příčina zmizení ale není prokázaná. Následuje cílené ověření životního
+cyklu menu; samotné zmizení peta nemůže automaticky opravňovat jeho nové vyvolání.
+
+Zachovaný herní test **0.5.0-experimental / 0.9.0-play-trial** s menu
 **0.9.0-selection** implementuje **By habitat** (podle prostředí) a **Shuffle
 companions** (střídání společníků). Prošlo 396 produkčních a 683 vývojových
-testů mimo hru; kandidát ještě nebyl spuštěn. Dříve testovaný **0.8.7 / 087-r1**
+testů mimo hru. Finální kandidát `090-r2` se spustil 28. 9. 2026 po ověřené
+záloze 46 souborů savu a dvou souborů nastavení/stavu módu. Log potvrzuje
+inicializaci produkce 0.5.0, menu 0.9.0 a načtení obou módů s dvanácti hooky.
+Dosavadní nastavení schématu 3 při migraci v paměti zachovalo Random a vypnuté
+střídání. Hráč potvrdil viditelného náhodného peta po načtení v Anomálii a uvedl,
+že se nastavení zdá být uložené. Uložení po restartu, úplné ovládání menu,
+By habitat a výsledky střídání ještě nejsou ověřené; viz
+[záznam tohoto testu](docs/research/LIVE-090.md).
+Dříve testovaný **0.8.7 / 087-r1**
 zůstává beze změny.
 By habitat na planetách váží skupiny shodné/příbuzné/přijatelné 13/5/1; stanice
 a Nexus používají běžný nevážený výběr vhodných vlastních petů. Nová instalace
@@ -15,7 +41,7 @@ začíná s By habitat a zapnutým střídáním. Dosavadní schémata 1/2/3 zac
 volby a nové střídání nechají vypnuté. Herní způsobilost ani umístění se neobchází.
 Podrobnosti a hranice uvádí [anglický kontrakt výběru](docs/research/HABITAT-SELECTION.md).
 
-Zachovaný běžící balíček **0.8.7-play-trial** spojuje produkci
+Zachovaný dříve testovaný balíček **0.8.7-play-trial** spojuje produkci
 **0.4.9-experimental** a menu **0.8.5-branding**. Zdroj prošel **333 produkčními
 a 675 vývojovými testy** bez chyb a vynechání, kontrolou skutečného frameworku
 s oběma módy a šesti dočasnými preferencemi i nezapisujícími kontrolami Python
@@ -82,7 +108,7 @@ není připravená, použije ověřenou herní tlapku; bez použitelné ikony se
 blok ikony skryje a zůstane text. Načtení obrázku, zmizení bílého kruhu
 a čitelnost ještě vyžadují herní vizuální zkoušku.
 
-Běžící menu 0.8.7 obsahuje šest voleb: zapnutí automatiky, poslední ruční nebo náhodný
+Zachované menu 0.8.7 obsahuje šest voleb: zapnutí automatiky, poslední ruční nebo náhodný
 výběr, přednost stejného biomu a samostatné povolení planet, stanic a Anomálie.
 Používá dosavadní ukládání nastavení a přenastavené nativní ovládání. Textura
 se připravuje při spuštění se zavřenou hrou; neznámý existující soubor
@@ -90,7 +116,7 @@ se nepřepisuje. Dočasný panel zůstává k porovnání při tomto společném
 
 Kandidát 0.8.2 byl spuštěn. Předchozí instalace **0.4.4 / 0.7.1** a připravený
 starší balíček **0.4.5 / 0.7.2** zůstávají beze změny. Samostatný produkční ZIP
-kandidáta 0.5.0 nemá nativní menu ani DDS; bez poskytovatele ikony používá čistý
+kandidáta 0.5.1 nemá nativní menu ani DDS; bez poskytovatele ikony používá čistý
 text. Přesný rozsah kontrol aktuálního kandidáta uvádí
 [technický záznam](TECHNICAL-VERIFICATION.md). Starší počty níže patří uvedeným verzím.
 
@@ -144,21 +170,31 @@ První automatické vyvolání ve verzi 0.3.1 selhalo vypršením čekání. Ver
 
 ## Ovládání
 
-Samostatný produkční balíček používá okno **pyMHF**: přes **Alt+Tab** otevři
-záložku **CompanionAutoSummon**. Nový zdrojový kandidát **0.9.0** navíc
-nabízí sedm voleb v rychlém menu hry, v položce **Companion Auto Summon**
-před konkrétními pety. Nabídku otevři svým nastaveným herním ovládáním.
-Dočasný panel zůstává během ověření k dispozici.
+Společný kandidát **0.9.1** nabízí sedm voleb přes **Quick Menu → Companions →
+Companion Auto Summon**, před konkrétními pety. Na PC je výchozí klávesa **X**;
+pokud sis ji změnil, použij své nastavené ovládání. V tomto balíčku se externí
+panel neotevírá. Jen samostatný vývojový skript bez nativního menu ponechává
+okno **pyMHF** a záložku **CompanionAutoSummon** přes **Alt+Tab**.
 
-- **Automatically summon companion**: zapne nebo vypne automatiku po načtení savu i po výstupu z lodi. Výchozí stav je zapnuto.
-- Tři samostatná zaškrtávátka dovolují automatiku na planetách, vesmírných stanicích a v Nexusu. Výchozí stav všech je zapnuto. Vypnutí všech míst znamená, že se nikde automaticky nevyvolává.
-- **Companion selection** nabízí **Last manually selected**, **Random** a **By habitat**. Nová instalace používá By habitat; původní nastavení zůstává zachované. Každý režim respektuje vlastnictví, způsobilost a umístění podle hry.
-- **Prefer same biome in Random mode**: výchozí zapnuto. V náhodném režimu na planetě upřednostní shodné domovské prostředí mezi již vhodnými pety. Vypnutí vrátí běžný náhodný výběr; stejný výběr se použije i při neznámém biomu nebo bez shody. Preference nemění herní způsobilost petů.
-- **Shuffle companions**: střídá vhodné pety v Random nebo uvnitř skupiny vybrané režimem By habitat. U nové instalace je zapnuto, po migraci vypnuto; Last selected neovlivňuje.
-- **Status**: aktuální stav včetně **Waiting for a suitable place** (čekání na vhodné místo), případně informace, že změna čeká na návrat do hry nebo platí jen pro tuto relaci.
-- **Companion**: vybraný slot, uložená volba čekající na ověření vlastnictví nebo zapnutý náhodný režim. V režimu poslední ruční volby se při prázdném výběru zobrazí výzva k prvnímu ručnímu vyvolání.
+Sedm nativních voleb:
 
-Změna se provede a uloží při další aktualizaci lokálního hráče; vrať se tedy do hry před jejím ukončením. Změna nastavení zruší čekající automatické vyvolání a ponechá již přítomného peta. Zapnutí nebo změna režimu samo nic nevyvolá — automatika počká na další výstup z lodi nebo nové načtení savu. Mód nezavádí vlastní klávesovou zkratku.
+- **Automatic summoning**: zapne nebo vypne automatiku po načtení savu i po výstupu z lodi. Výchozí stav je ON.
+- **Selection**: **Last selected**, **Random** nebo **By habitat**. Nová instalace používá By habitat; původní nastavení zůstává zachované. Každý režim respektuje vlastnictví, způsobilost a umístění podle hry.
+- **Random: prefer matching biome**: výchozí ON. V Random na planetě upřednostní shodné domovské prostředí mezi vhodnými pety. OFF, neznámý biom nebo chybějící vhodná shoda znamená běžný náhodný výběr. Ostatní režimy ani herní způsobilost petů tato volba nemění.
+- **Planets**: dovolí automatiku na planetách, výchozí ON.
+- **Space stations**: dovolí automatiku na vesmírných stanicích, výchozí ON.
+- **Space Anomaly**: dovolí automatiku v Nexusu, výchozí ON.
+- **Shuffle companions**: střídá vhodné pety v Random nebo uvnitř skupiny vybrané režimem By habitat. U nové instalace je ON, po migraci starších předvoleb OFF; Last selected neovlivňuje.
+
+Vypnutí všech tří míst zabrání automatickému vyvolání všude. Samostatný vývojový
+panel má navíc údaje **Status** a **Companion**: čekající změny, hledání vhodného
+místa, stav ukládání a zapamatovanou nebo aktivní volbu.
+
+Změna se provede a uloží při další aktualizaci lokálního hráče. Hláška ukáže
+výslednou hodnotu, například `Selection: By habitat` nebo `Space stations: OFF`.
+Více současných změn vypíše společně; neúspěšné uložení doplní `(session only)`.
+Nezměněná hodnota nevytváří potvrzení. Ze samostatného vývojového panelu se
+před ukončením vrať do hry. Změna nastavení zruší čekající automatické vyvolání a ponechá již přítomného peta. Zapnutí nebo změna režimu samo nic nevyvolá — automatika počká na další výstup z lodi nebo nové načtení savu. Mód nezavádí vlastní klávesovou zkratku.
 
 V režimu poslední ruční volby nemá nový hráč žádného předvybraného peta. Úspěšně ručně vyvolej vlastního společníka. Změněná volba požádá hru o tiché potvrzení na 5,5 sekundy: **Companion saved.** Bez úspěšného trvalého uložení uvede **Companion selected (session only).** Podle stavu doplní, že automatika je OFF nebo zůstává aktivní Random či výběr podle prostředí. Opakování stejné volby, automatické vyvolání a obnovení řízené hrou zůstávají tiché. Nové znění a zobrazení ikony nebo čistého textu ještě čekají na herní vizuální zkoušku. Hlášky a panel jsou zatím pouze anglické.
 
@@ -190,7 +226,7 @@ Pet se poznává kombinací CreatureSeed a BirthTime. Změna pořadí slotů nev
 
 Základní hra a expedice uvnitř jednoho savu sdílejí jednu volbu; obnoví se jen tam, kde pet existuje. U savu s chybějícím/nulovým ID nebo nedostupným nastavením zůstává výběr jen pro aktuální hraní. Poškozený soubor nastavení se nepřepisuje.
 
-Pokud nelze přečíst `settings.json`, automatika začne vypnutá. V panelu ji lze výslovně zapnout pro aktuální relaci. Runtime chyba je samostatná pojistka; přepínač ji neobejde.
+Pokud nelze přečíst `settings.json`, automatika začne vypnutá. V nastavení módu ji lze výslovně zapnout pro aktuální relaci. Runtime chyba je samostatná pojistka; přepínač ji neobejde.
 
 ## Použití ostatními hráči
 
@@ -203,7 +239,8 @@ handlu. Odmítnou také neodpovídající konfiguraci frameworku a cizí rozší
 `pymhflib`. Neznámý, změněný nebo nečitelný EXE zabrání aktivaci módu; chyba se
 zobrazí mimo hru a preference se neresetují. Tyto kontroly prošly testy mimo
 hru; podporované spuštění přes kontrolovaný host prošlo také v relaci 0.8.4.
-Běžící 0.8.7 má výše vymezené potvrzení; nový zdrojový kandidát 0.9.0 zatím spuštěn nebyl.
+Starší 0.8.7 má výše vymezené potvrzení; kandidát 0.9.0 / 090-r2 už prošel
+spuštěním a inicializací, herní přijetí nových funkcí zatím není ověřené.
 
 Kompatibilitní zprávy vybírají jazyk podle prostředí Windows; parametr
 `-Language`, například `-Language fr`, jej může změnit. Nejde o zjištění jazyka
@@ -219,10 +256,15 @@ ohlásí, ale nic nevytvoří, nestáhne, nezkopíruje do hry ani nespustí.
 
 Při běžném spuštění `Start-CompanionAutoSummon.ps1` vyhledá Steam a připraví vlastní Python prostředí v profilu uživatele. Při prvním nastavení stáhne `pymhf[gui]==0.2.4` včetně GUI závislostí. Při běžící hře nebo chybě zjišťování procesů odmítne pokračovat. Ochrana proti dvojímu spuštění platí i mezi různými složkami balíčků a po skončení procesu nezanechává zámkový soubor. Volitelný parametr `-GameDirectory` musí ukazovat na instalaci používanou aktivním Steamem. Podrobnosti jsou v [anglickém návodu](README.md).
 
-Pro diagnostiku se zapisují logy do podsložky `logs` u CompanionAutoSummon.py. Interaktivní Python konzole a samostatné logovací okno jsou vypnuté; panel nastavení zůstává dostupný.
+Pro diagnostiku se zapisují logy do podsložky `logs` u CompanionAutoSummon.py.
+Interaktivní Python konzole a samostatné logovací okno jsou vypnuté; společný
+balíček 0.9.1 navíc neotevírá ovládací okno pyMHF. Samostatný vývojový skript si
+panel ponechává. Nejde ještě o hotový přenosný instalátor ani bezkonzolové spuštění.
 
 Používej `Start-CompanionAutoSummon.ps1` z běžného terminálu PowerShell. Volá pomocný `Launch-CompanionAutoSummon.py`, který ověřuje skutečně načtené knihovny ještě před spuštěním Python kódu uvnitř hry. Žádné soubory nainstalovaného frameworku tím neupravuje.
 
-Před prvním herním testem ukončit současné hraní a vytvořit novou zálohu aktuálního profilu. Ověřit osm prvků panelu, přepínač OFF/ON, jednotlivé lokace, náhodný režim, preferenci biomu a potvrzení výběru. U biomu zkusit shodného vhodného peta, žádnou shodu, vypnutí, nepoužití na stanici/Nexusu a zachování ruční volby. Na platformě archivu nebo nevhodném terénu zůstat déle než 12 sekund a potom dojít na vhodné místo: pet má přijít jednou bez dalšího výstupu z lodi. Dále ověřit běžnou planetu a peta, stanici, rychlý návrat do lodi, ruční změnu, jiný save a restart. Multiplayer až po základním ověření.
+Před prvním herním testem ukončit současné hraní a vytvořit novou zálohu aktuálního profilu. Ve společném balíčku ověřit sedm nativních voleb, nepřítomnost externího panelu,
+přesné hodnoty v hláškách a uložení po restartu. Samostatný vývojový panel má
+devět ovládacích/stavových prvků. Dále ověřit přepínač OFF/ON, jednotlivé lokace, náhodný režim, preferenci biomu a potvrzení výběru. U biomu zkusit shodného vhodného peta, žádnou shodu, vypnutí, nepoužití na stanici/Nexusu a zachování ruční volby. Na platformě archivu nebo nevhodném terénu zůstat déle než 12 sekund a potom dojít na vhodné místo: pet má přijít jednou bez dalšího výstupu z lodi. Dále ověřit běžnou planetu a peta, stanici, rychlý návrat do lodi, ruční změnu, jiný save a restart. Multiplayer až po základním ověření.
 
-Úplné vypnutí módu: hru ukončit a příště spustit běžně přes Steam. Volby lze zapomenout odstraněním pouze souboru `state.json` při vypnuté hře; odstranění `settings.json` obnoví všechny výchozí hodnoty: automatiku zapnutou, všechny tři lokace zapnuté, poslední ruční volbu a zapnutou preferenci biomu pro náhodný režim. Samotné vložení skriptu mezi EXML módy ho nezapne.
+Úplné vypnutí módu: hru ukončit a příště spustit běžně přes Steam. Volby lze zapomenout odstraněním pouze souboru `state.json` při vypnuté hře; odstranění `settings.json` obnoví všechny výchozí hodnoty: automatiku zapnutou, všechny tři lokace zapnuté, By habitat, zapnuté střídání a zapnutou preferenci biomu pro náhodný režim. Samotné vložení skriptu mezi EXML módy ho nezapne.

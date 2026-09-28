@@ -1,19 +1,40 @@
 # Companion Auto Summon roadmap
 
-Current source **0.5.0-experimental / 0.9.0-play-trial**, with menu
-**0.9.0-selection**, implements the accepted By habitat and Shuffle companions
-work. Offline validation passed 396 production and 683 developer tests; the new candidate is
-unlaunched. The running 0.8.7 package below remains unchanged, and its live
-results do not validate the new selector. Source now has seven native settings
+Current source **0.5.1-experimental / 0.9.1-play-trial**, with menu
+**0.9.0-selection**, adds specific settings confirmations and disables the
+combined development GUI. Offline validation passed 403 production and 689
+developer tests, actual-framework checks and Python plus Windows PowerShell
+5.1 read-only preflights. The 091-r1 bundle is built but unlaunched. Running 090-r2 has one confirmed visible Random startup
+pet; restart persistence, By habitat and shuffle outcomes remain unverified.
+The 0.8.7 record below is historical. Source now has seven native settings
 and 46 catalog keys in each of fourteen languages; native rendering remains
 English. The seventh setting has an original rotation icon, checked offline. Full semantics and the
 explicit heuristic table are in [HABITAT-SELECTION](docs/research/HABITAT-SELECTION.md).
 
-This is the canonical backlog for unfinished release work and future ideas. It is not a feature list for the current package or a promise of release dates. Status updated on 28 September 2026: **Companion Auto Summon for No Man's Sky — by Lineum Dynamics**, running **0.8.7-play-trial**, contains production **0.4.9-experimental** and menu **0.8.5-branding**. It passed 333 production and 675 developer tests without failures or skips. The `build/quick-menu-play-trial-087-r1` folder has 41 files (40 payloads and its manifest) and passed real-framework offline checks, all six temporary preference paths and both Python and Windows PowerShell 5.1 read-only preflights. After normal closure and a verified 46-file backup, both Mods and twelve targets registered at 11:07:26 (Europe/Prague). The player confirmed visible Random pets after Nexus load and ship exit, then reported no apparent reappearance after a requested manual dismissal; the waiting duration was not independently measured. Initial post-start hashes matched the 40 payloads and existing settings/state. Retained **0.8.4** and prepared, unlaunched **0.8.6-r1** remain unchanged. Different pets and the unexplained earlier startup failure prevent a causal fix claim. Gameplay and full interface acceptance remain incomplete. See [LIVE-087](docs/research/LIVE-087.md). Unaccepted proposals below remain unapproved for implementation; the selection and rotation sections explicitly identify the newly implemented work.
+This is the canonical backlog for unfinished release work and future ideas. It is not a feature list for the current package or a promise of release dates. The current unlaunched candidate is 0.5.1 / 0.9.1, as described above; the retained live session is 090-r2.
+
+Historical 0.8.7 record from 28 September 2026: **Companion Auto Summon for No Man's Sky — by Lineum Dynamics** then ran **0.8.7-play-trial**, containing production **0.4.9-experimental** and menu **0.8.5-branding**. It passed 333 production and 675 developer tests without failures or skips. The `build/quick-menu-play-trial-087-r1` folder has 41 files (40 payloads and its manifest) and passed real-framework offline checks, all six temporary preference paths and both Python and Windows PowerShell 5.1 read-only preflights. After normal closure and a verified 46-file backup, both Mods and twelve targets registered at 11:07:26 (Europe/Prague). The player confirmed visible Random pets after Nexus load and ship exit, then reported no apparent reappearance after a requested manual dismissal; the waiting duration was not independently measured. Initial post-start hashes matched the 40 payloads and existing settings/state. Retained **0.8.4** and prepared, unlaunched **0.8.6-r1** remain unchanged. Different pets and the unexplained earlier startup failure prevent a causal fix claim. Those observations do not establish gameplay or full interface acceptance for 0.5.1 / 0.9.1. See [LIVE-087](docs/research/LIVE-087.md) for that historical scope and [LIVE-090](docs/research/LIVE-090.md) for the retained session. Unaccepted proposals below remain unapproved for implementation; the selection and rotation sections identify implemented work separately from pending acceptance.
 
 Use [DESIGN.md](DESIGN.md) for accepted product behavior, [LOCALIZATION.md](LOCALIZATION.md) for language requirements and [the release plan](docs/release/RELEASE-PREPARATION.md) for publication checks. Update this backlog when a proposal is accepted, deferred, rejected or implemented. Record the version and verification evidence when a task is completed.
 
 ## Accepted unfinished release work
+
+### Menu lifecycle and travel observations
+
+The retained 090-r2 menu stopped on `unexpected_thread` at 14:30:17 while
+production summoning continued. The unchanged 091 menu inherits this limitation.
+Investigate callback phase, thread ownership and in-flight menu transactions on
+a separate experimental branch before the next live trial. Keep the safety
+guard; accepting arbitrary callback threads is not a verified fix.
+
+The owner reports no companion after base teleport arrival and disappearance
+after base removal. Neither event currently creates a summon opportunity, and
+the disappearance cause is unproven. Verify a native completed local long-range
+teleport event and distinguish it from cancellation, remote-player activity,
+warping and short-range/VR movement before adding any arrival trigger. Base
+removal needs its own observation. Preserve OFF, manual dismissal and existing
+ownership/placement checks; pet absence alone must never cause automatic respawn.
+See [LIVE-090](docs/research/LIVE-090.md) for the evidence boundary.
 
 These requirements were accepted before this backlog was created. Finish them before adding optional features that would complicate the first release.
 
@@ -24,17 +45,17 @@ language observation without choosing a catalog or changing display text. See
 [portable runtime](docs/research/PORTABLE-RUNTIME-AUDIT.md). Neither preparation
 establishes game-language readiness, rendered translations or an installer.
 
-The intermittent Nexus startup failure remains unresolved. Running
-production 0.4.9 retains passive diagnostics after the first logical active
-index, within the existing 15-second / 4096-callback observation limits. It adds
-no retry, placement override or summon timing change and is not a spawn fix.
-The two [current successful summons](docs/research/LIVE-087.md) involved different
-Random pets and do not reproduce the [0.8.4 failure](docs/research/LIVE-084.md).
-Use the remaining checks in the
-[next combined test](docs/release/RELEASE-PREPARATION.md#next-combined-test-087).
-Keep the current game and host intact; routine controls and appearance checks
-can continue in this session. New deployment requires normal closure and a
-fresh backup as appropriate.
+The intermittent Nexus startup failure remains unresolved. Running production
+0.5.0 and candidate 0.5.1 retain the passive diagnostics introduced in 0.4.9,
+within the existing 15-second / 4096-callback observation limits. They add no
+retry, placement override or summon timing change and are not a spawn fix.
+The two [historical 0.8.7 successful summons](docs/research/LIVE-087.md) involved
+different Random pets. The [090-r2 startup](docs/research/LIVE-090.md) is another
+bounded success, not a reproduction or explanation of the
+[0.8.4 failure](docs/research/LIVE-084.md). Use the current
+[release plan](docs/release/RELEASE-PREPARATION.md) and investigate the menu stop
+before another live trial. Keep the running game and host intact. New deployment
+requires normal closure and a fresh backup as appropriate.
 
 The retained 0.8.7 candidate has matched manual-selection attribution, 5.5-second notices,
 six native controls and seven original role assets. Screenshots confirm the six
@@ -43,8 +64,8 @@ OFF prevented a ship-exit summon, ON alone did not summon, and the next exit
 summoned a pet, with other preferences unchanged. The other five controls,
 held/remapped input and controllers remain pending. Parent/HUD appearance
 and resource teardown still need acceptance. The label **Random: prefer matching biome** describes the
-existing planet-only Random preference. Native captions and HUD wording remain
-unchanged. The branding update adds the full product name and author-credit
+existing planet-only Random preference. In that historical branding update,
+native captions and HUD wording were unchanged. It added the full product name and author-credit
 keys and expands the product name in three launcher compatibility messages.
 
 The guarded host, actual target-handle check before injection, read-only
@@ -67,12 +88,12 @@ remapping and controllers remain untested; rapid toggles were repeated presses.
 
 | Work | Current boundary | Completion evidence |
 |---|---|---|
-| Simple, reliable installation | Current 0.8.7 retains the guarded direct host, shared compatibility profile, nine localized compatibility messages, read-only preflight and setup/host leases from 0.8.4. Current preflights and the subsequent 087-r1 launch have bounded evidence; initial payload and player-state hashes matched. Normal setup still requires external Python and prepares dependencies. A portable offline runtime and finished graphical launcher are not implemented. | Retain the offline mismatch/no-write/lease tests, then verify extract-and-launch on a clean second Windows account/PC, relocated/non-ASCII paths, no external Python dependency and no unexpected game termination. Follow [installer requirements](docs/release/INSTALLATION-REQUIREMENTS.md). |
-| Native quick-menu settings | Running 0.8.7 retains six settings and the explicit Random biome label. Menu 0.8.5-branding recorded one native English observation without translated rendering. Six setting icons are visible in retained 0.8.4 screenshots. All seven DDS files are validated before staging; each role has native-paw fallback. Complete controls, parent/HUD rendering and resource lifetime remain unverified. Keep automatic summoning and the desktop panel during acceptance. See [QUICK-MENU.md](QUICK-MENU.md). | All six controls apply/persist without changing unrelated values; native navigation/rebuilds and ordinary pet actions; default/remapped keyboard and controllers; seven correct icons, retained fallback and text-only behavior; no changed gameplay limits or shared vanilla textures. |
+| Simple, reliable installation | Candidate 0.9.1 retains the guarded direct host, shared compatibility profile, nine localized compatibility messages and setup/host leases. The built 091-r1 bundle passed actual-framework checks plus Python and Windows PowerShell preflights, but has not launched. Normal setup still requires external Python and prepares dependencies. A portable offline runtime and finished graphical launcher are not implemented. | Retain the offline mismatch/no-write/lease tests, then verify extract-and-launch on a clean second Windows account/PC, relocated/non-ASCII paths, no external Python dependency and no unexpected game termination. Follow [installer requirements](docs/release/INSTALLATION-REQUIREMENTS.md). |
+| Native quick-menu settings | Current menu 0.9.0-selection has seven settings and eight original DDS assets. Running 090-r2 stopped custom menu handling on `unexpected_thread`; the unchanged 091 menu inherits this limitation. The 091 combined GUI is suppressed, while standalone developer launches retain it. Historical 0.8.4 screenshots confirm six setting icons; the complete current menu still needs acceptance. See [QUICK-MENU.md](QUICK-MENU.md). | Investigate the thread/lifecycle stop; verify all seven controls apply/persist without unrelated changes, native navigation/rebuilds and ordinary pet actions, default/remapped keyboard and controllers, all eight role/parent assets with retained fallback and text-only behavior, and no changed gameplay limits or shared vanilla textures. |
 | Native number shortcuts | Requested next work; blocked by tagged None serialization losing the marker and potentially replacing a prior binding with an empty action. The existing native binding guard remains required. No custom shortcut or physical hotkey is implemented. | Verify native binding, replay, removal and persistence without losing existing shortcuts; prove remapped native-input behavior and controller handling before enabling it. Do not substitute physical key hooks or a second hotkey system. |
-| Localization and natural feedback | Fourteen catalogs contain 46 keys; thirteen translations are drafts. Nine launcher compatibility messages use catalog lookup; two product keys cover the full name and author credit. Offline native text preparation passes 1,666 language/state combinations within byte limits; it is not connected to native rendering. Candidate 0.8.7 observes copied language scalars only. UTF-8 measurement/drawing decoders are statically verified; reload safety, language selection and live glyph rendering remain unverified. Native menu/HUD remain English. | Reviewed catalogs for all 14 official interface languages, complete launcher coverage, verified language selection, placeholders and in-game rendering. Quiet ordinary summons, honest save/session-only messages; evaluate the combined activation/donation-information proposal separately under the published-rule boundary below. |
-| Live behavior and compatibility | Running 0.4.9 / 0.8.7 has player-confirmed visible Nexus summons after load and ship exit, with different Random pets. The player then reported no apparent return after requested manual dismissal; exact waiting time was not independently measured. These bounded observations do not explain the failed 0.8.4 startup or establish repeatability. | Control companion choice before attributing a load/exit difference. Broaden repeatability and dismissal regression; test planet and Last manually selected startup, preferences, biome preference/fallback, location controls, restart/save switching, obstructed placement then suitable terrain, cancellation and unsupported locations. Record visible appearance separately from queue acceptance or logical activity. |
-| Multiplayer and release preparation | Second-PC installation and multiplayer remain unverified; Nexus material is still a draft. | Controlled tests with one and then, where available, two mod users; no duplicate or foreign-pet changes; accurate support limits; owner-approved attribution/reuse terms and distribution contents; current platform/publisher policy review. |
+| Localization and natural feedback | Fourteen catalogs contain 46 keys; thirteen translations are drafts. Nine launcher compatibility messages use catalog lookup. Offline menu/HUD rendering and all settings-change subsets are checked; overlong translated batches use complete English fallback. This is not connected to native rendering. The retained menu only observes copied language scalars. UTF-8 measurement/drawing decoders are statically verified; reload safety, language selection and live glyph rendering remain unverified. Native menu/HUD remain English. | Reviewed catalogs for all 14 official interface languages, complete launcher coverage, verified language selection, placeholders and in-game rendering. Quiet ordinary summons, exact applied setting values and honest save/session-only messages; evaluate the combined activation/donation-information proposal separately under the published-rule boundary below. |
+| Live behavior and compatibility | Running 0.5.0 / 0.9.0 / 090-r2 has one player-confirmed visible Random startup pet. Settings appear saved according to the player; restart persistence, By habitat and shuffle outcomes are unverified. Its menu stopped on `unexpected_thread`. Historical 0.8.7 load/exit and dismissal observations remain version-specific and do not explain the failed 0.8.4 startup or establish repeatability. | Investigate menu lifecycle; control companion choice before attributing a load/exit difference. Broaden repeatability and dismissal regression; test planet and Last selected startup, all preferences/modes, weighted pools, shuffle, restart/save switching, obstructed placement, cancellation and unsupported locations. Record visible appearance separately from queue acceptance or logical activity. |
+| Multiplayer and release preparation | Second-PC installation and multiplayer remain unverified. The 0.9.1 Nexus test archive and updated description were saved and verified on the unpublished page. Nexus reports `Some suspicious files`; that scan status is under investigation and is not a clean-scan or release-readiness result. | Resolve the scan finding and remaining release gates. Run controlled tests with one and then, where available, two mod users; verify no duplicate or foreign-pet changes, accurate support limits, owner-approved attribution/reuse terms and distribution contents, and current platform/publisher policy review. |
 
 Keep the current native ownership, eligibility and placement rules. No roadmap item authorizes pet creation/unlocking, reduced gameplay limits, accelerated progression or writing NMS save files. The same exact-build guard remains required.
 
@@ -80,7 +101,7 @@ Keep the current native ownership, eligibility and placement rules. No roadmap i
 
 ### Selection modes and weighted habitat choice
 
-**Status: implemented in 0.5.0 source; offline validation passed, unlaunched.**
+**Status: implemented in 0.5.0 / 0.9.0 and retained in 0.5.1 / 0.9.1. Offline checks passed; 090-r2 launched, but these selection outcomes remain unverified. The 091-r1 follow-up is unlaunched.**
 Last selected, Random and By habitat now exist. By habitat draws a native-eligible
 group with integer weights **13 exact / 5 related / 1 acceptable**, then a member
 uniformly or through that group's rotation bag. Empty eligible groups are
@@ -109,7 +130,7 @@ Treat inclusion and exclusion as two possible interfaces for one filter, not two
 
 ### 2. Shuffle companions across automatic opportunities
 
-**Status: implemented in 0.5.0 source; offline validation passed, unlaunched.**
+**Status: implemented in 0.5.0 / 0.9.0 and retained in 0.5.1 / 0.9.1. Offline checks passed; 090-r2 launched, but these selection outcomes remain unverified. The 091-r1 follow-up is unlaunched.**
 Shuffle companions is the seventh native row. Random uses an eligible session
 cycle; By habitat draws its group first, then uses that habitat/group's cycle.
 Last selected is unaffected. A single eligible member may repeat; no cross-group
@@ -177,7 +198,7 @@ or inject prototype inventory into the normal player save. Compiling an XML
 definition does not validate these behaviors.
 
 Unknown game versions must stop native integration before hooks or native calls.
-The current 0.8.7 source retains the guarded host and scoped localized
+The current 0.5.1 / 0.9.1 source retains the guarded host and scoped localized
 outside-game warnings without an unsafe bypass or preference reset. Final-bundle
 offline checks passed; live acceptance remains pending. A saved custom item still requires verified
 update/removal behavior. Runtime refusal alone does not establish inventory or

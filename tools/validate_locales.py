@@ -30,13 +30,13 @@ SCOPE = "native_menu_hud_technology_launcher_panel"
 KEYS = frozenset(("menu.parent_title", *MENU_KEYS, "value.on", "value.off",
                   "value.last_selected", "value.random", "value.by_habitat", "status.pending",
                   "status.session_only", "status.unavailable", "status.stopped",
-                  "format.setting", "format.with_status", "hud.automation_state",
-                  "hud.settings_updated", "hud.session_suffix", "hud.companion_saved",
+                  "format.setting", "format.with_status", "hud.settings_applied",
+                  "hud.setting_separator", "hud.session_suffix", "hud.companion_saved",
                   "hud.companion_session", "hud.auto_off_suffix", "hud.random_on_suffix", "hud.habitat_on_suffix",
                   "hud.no_suitable_habitat", "panel.habitat_status",
                   *TECHNOLOGY_KEYS, *LAUNCHER_KEYS, *PRODUCT_KEYS))
 UNCHANGED_ALLOWED = frozenset(("menu.parent_title", "format.setting", "format.with_status",
-                               "hud.automation_state", "product.full_name"))
+                               "hud.settings_applied", "hud.setting_separator", "product.full_name"))
 TOP_KEYS = frozenset(("schema_version", "locale", "scope", "review_status",
                      "native_runtime_integrated", "unchanged_keys", "messages"))
 MAX_TEXT_BYTES = 1024  # Catalog bound, not a promise about native buffer/glyph support.
@@ -181,6 +181,36 @@ def _evaluate_notice(expression, environment):
                 {"__builtins__": {}}, environment)
 
 
+def _settings_notice_renderer(tree):
+    """Run only the audited pure formatter, never import the game runtime."""
+    function = _function(tree, "settings_change_notice")
+    for node in ast.walk(function):
+        _require(not isinstance(node, (ast.Import, ast.ImportFrom, ast.While, ast.With,
+                                      ast.Try, ast.Global, ast.Nonlocal, ast.Lambda,
+                                      ast.ListComp, ast.DictComp, ast.SetComp, ast.GeneratorExp)),
+                 "Settings notice source requires a new offline audit")
+        if isinstance(node, ast.For):
+            _require(isinstance(node.iter, ast.Name) and node.iter.id == "SETTINGS_NOTICE_LABELS",
+                     "Settings notice must iterate the bounded label list")
+        if isinstance(node, ast.Call):
+            allowed = isinstance(node.func, ast.Name) and node.func.id in {"len", "ValueError"}
+            if isinstance(node.func, ast.Attribute):
+                allowed |= (isinstance(node.func.value, ast.Name)
+                            and (node.func.value.id, node.func.attr) in {("changes", "append"), ("notice", "encode")})
+                allowed |= isinstance(node.func.value, ast.Constant) and type(node.func.value.value) is str and node.func.attr == "join"
+            _require(allowed, "Unexpected operation in settings notice formatter")
+        if isinstance(node, ast.Attribute):
+            _require((isinstance(node.value, ast.Name)
+                      and (node.value.id, node.attr) in {("changes", "append"), ("notice", "encode")})
+                     or isinstance(node.value, ast.Constant) and type(node.value.value) is str and node.attr == "join",
+                     "Unexpected data access in settings notice formatter")
+    namespace = {"__builtins__": {"len": len, "ValueError": ValueError}}
+    for name in ("SETTINGS_NOTICE_LABELS", "SETTINGS_NOTICE_LOCATIONS", "SETTINGS_NOTICE_MODES"):
+        namespace[name] = _assignment(tree, name)
+    exec(compile(ast.Module(body=[function], type_ignores=[]), "<scoped-settings-notice>", "exec"), namespace)
+    return namespace["settings_change_notice"]
+
+
 def _check_sources(english, source_root):
     compatibility = _tree(source_root / "cas_compatibility.py")
     _require(_assignment(compatibility, "WARNING_KEYS") == LAUNCHER_KEYS,
@@ -257,20 +287,51 @@ def _check_sources(english, source_root):
     _require("by " + _assignment(runtime, "PRODUCT_AUTHOR") == english["product.author_credit"],
              "Author credit differs from English catalog")
     control = _function(runtime, "_apply_control")
-    expressions = {name: _notice_assignments(control, name) for name in ("state", "suffix", "self.pending_notice")}
-    _require(all(len(value) == 1 for value in expressions.values()), "HUD settings text source shape changed")
-    for enabled in (True, False):
+    setting_notices = _notice_assignments(control, "self.pending_notice")
+    expected_call = ast.parse("settings_change_notice(previous, requested, self.settings_ok)", mode="eval").body
+    _require(len(setting_notices) == 1 and ast.dump(setting_notices[0]) == ast.dump(expected_call),
+             "HUD settings text source shape changed")
+    setting_keys = ("enabled", "selection_mode", "prefer_same_biome", "planets", "space_stations", "nexus", "rotate_companions")
+    labels = tuple(zip(setting_keys, (english[key] for key in MENU_KEYS)))
+    _require(_assignment(runtime, "SETTINGS_NOTICE_LABELS") == labels,
+             "HUD settings labels differ from English catalog")
+    locations = {"planets": 3, "space_stations": 2, "nexus": 14}
+    _require(_assignment(runtime, "SETTINGS_NOTICE_LOCATIONS") == locations,
+             "HUD settings location mapping changed")
+    modes = {"last_manual": english["value.last_selected"], "random": english["value.random"],
+             "by_habitat": english["value.by_habitat"]}
+    _require(_assignment(runtime, "SETTINGS_NOTICE_MODES") == modes,
+             "HUD settings modes differ from English catalog")
+    render_settings = _settings_notice_renderer(runtime)
+    for mask in range(128):
         for saved in (True, False):
-            for changed in (True, False):
-                env = {"self": SimpleNamespace(auto_enabled=enabled, settings_ok=saved),
-                       "previous": {"enabled": not enabled if changed else enabled}}
-                env["state"] = _evaluate_notice(expressions["state"][0], env)
-                env["suffix"] = _evaluate_notice(expressions["suffix"][0], env)
-                expected = english["hud.automation_state" if changed else "hud.settings_updated"].format(
-                    state=english["value.on" if enabled else "value.off"],
-                    suffix="" if saved else english["hud.session_suffix"])
-                _require(_evaluate_notice(expressions["self.pending_notice"][0], env) == expected,
-                         "HUD settings notice differs from English catalog")
+            for enabled in (True, False):
+                for mode in modes:
+                    previous = {"enabled": not enabled, "selection_mode": "random" if mode == "last_manual" else "last_manual",
+                                "prefer_same_biome": not enabled, "locations": [] if enabled else [2, 3, 14],
+                                "rotate_companions": not enabled}
+                    requested = dict(previous, locations=list(previous["locations"]))
+                    changed = []
+                    for index, (key, label) in enumerate(labels):
+                        if not mask & (1 << index):
+                            continue
+                        value = mode if key == "selection_mode" else enabled
+                        if key in locations:
+                            if enabled:
+                                requested["locations"].append(locations[key])
+                            else:
+                                requested["locations"].remove(locations[key])
+                        else:
+                            requested[key] = value
+                        display = modes[value] if key == "selection_mode" else english["value.on" if value else "value.off"]
+                        changed.append(english["format.setting"].format(label=label, value=display))
+                    expected = (english["hud.settings_applied"].format(
+                        changes=english["hud.setting_separator"].join(changed),
+                        suffix="" if saved else english["hud.session_suffix"]) if changed else None)
+                    actual = render_settings(previous, requested, saved)
+                    _require(actual == expected, "HUD settings notice differs from English catalog")
+                    _require(actual is None or len(actual.encode("ascii")) <= 511,
+                             "HUD settings notice exceeds its native bound")
     manual = _function(runtime, "_remember_confirmed_companion")
     prefixes = _notice_assignments(manual, "prefix")
     _require([ast.literal_eval(value) for value in prefixes]
@@ -284,7 +345,7 @@ def _check_sources(english, source_root):
     unavailable = _notice_assignments(_function(runtime, "_choose_automatic_companion"), "self.pending_notice")
     _require([ast.literal_eval(value) for value in unavailable] == [english["hud.no_suitable_habitat"]],
              "HUD unavailable habitat notice differs from English catalog")
-    known_notices = {id(value) for value in expressions["self.pending_notice"] + notices + unavailable}
+    known_notices = {id(value) for value in setting_notices + notices + unavailable}
     all_notices = _notice_assignments(runtime, "self.pending_notice")
     _require(all(id(value) in known_notices
                  or isinstance(value, ast.Constant) and value.value is None for value in all_notices),

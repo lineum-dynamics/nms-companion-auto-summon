@@ -1,4 +1,4 @@
-"""In-process bridge to the existing 0.5.0 preference queue; no I/O or hooks.
+"""In-process bridge to the existing 0.5.1 preference queue; no I/O or hooks.
 
 The caller supplies live pyMHF registry/module lookups and the verified sibling
 production path. Bundle checksums establish source provenance before startup;
@@ -15,7 +15,7 @@ from threading import Lock
 PRODUCTION_NAME = "CompanionAutoSummon"
 EXPECTED_EXE_SHA256 = "b7913f268dfc62386b6b68f524bfc8ade4a44a9f4fbad39085b7bf51be3680cb"
 EXPECTED_INIT_MARKER = (
-    "Companion Auto Summon 0.5.0 experimental: automation %s; use the CompanionAutoSummon settings panel."
+    "Companion Auto Summon 0.5.1 experimental: automation %s; use the CompanionAutoSummon settings."
 )
 _ABSENT = object()
 SETTING_KEYS = ("enabled", "selection_mode", "prefer_same_biome", "planets", "space_stations", "nexus", "rotate_companions")

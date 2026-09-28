@@ -74,6 +74,51 @@ truthful images and meaningful maintenance. These are supported by Nexus's
 [Best Practices for Mod Authors](https://help.nexusmods.com/article/136-best-practices-for-mod-authors)
 (5 August 2024); they are not a promised revenue formula.
 
+## Payment service research — 28 September 2026
+
+The owner-authorized search of the authenticated company Zoho mailbox on this
+date found no messages matching `stripe`, including Spam and Trash. This does
+not establish whether a company Stripe account exists. Personal-account mail
+is not evidence of company ownership. No new account or payment link was created.
+
+No payment account, destination or in-game financial message is currently
+configured. Source inspection confirms that financial notices remain a proposal.
+The recommendation is a **direct Stripe Payment Link** under **Lineum Dynamics
+s.r.o.**, initially for a one-time voluntary tip with an amount chosen by the
+supporter. This is a recommendation awaiting owner selection and account setup,
+not an activated payment path or a publisher-policy approval.
+
+- [Stripe Payment Links](https://docs.stripe.com/payment-links/create) supports
+  customer-chosen amounts and compatible card/mobile-wallet methods without
+  building a payment form. Customer-chosen amounts are one-time; a separate
+  recurring plan would have its own pricing and Billing cost.
+- The [Czech Stripe price list](https://stripe.com/en-cz/pricing) includes Payment
+  Links in standard processing: standard EEA cards cost 1.5% + CZK 6.50; premium
+  EEA cards 2.8% + CZK 6.50, UK cards 2.5% + CZK 6.50 and other international cards
+  3.15% + CZK 6.50. Currency conversion, when required, adds 2%. Standard scheduled
+  payouts are free; instant payouts and additional-currency settlement have
+  separate charges. Prices must be rechecked before activation.
+- [Stripe payouts](https://docs.stripe.com/payouts) supports Czech bank details
+  and CZK. The company payment account and recipient bank account must belong
+  to the proper legal entity. Starting with CZK charges and CZK settlement avoids
+  requiring merchant EUR/USD conversion on every tip; a supporter's issuer or
+  optional/localized currency presentation can still involve conversion costs.
+- [Ko-fi](https://help.ko-fi.com/hc/en-us/articles/360002506494-Does-Ko-fi-take-a-fee)
+  with the company's own Stripe is a viable creator-page alternative. Its Free
+  mode has no Ko-fi fee on one-time tips, but standard-mode tips and recurring
+  support can carry a 5% platform fee. It supports EUR/USD but not CZK, so it does
+  not simplify the CZK settlement goal. Processor fees remain additional.
+- [Buy Me a Coffee](https://help.buymeacoffee.com/en/articles/8105744-how-to-calculate-charges-on-your-payment)
+  adds a 5% platform fee and its published processing/payout charges. It is not
+  the preferred starting point for the requested low-friction company payout.
+
+Stripe's [tip/donation requirements](https://support.stripe.com/questions/requirements-for-accepting-tips-or-donations?locale=en-GB)
+distinguish voluntary tips for provided content/services from charitable
+donations. Describe support truthfully as an optional tip for the free mod;
+do not claim charitable or tax-deductible status. No paid mod benefit, early
+access or promise of a future feature is attached. Payment-service eligibility
+does not resolve the separate Nexus/Hello Games in-game-promotion question.
+
 ## Combined startup notice proposal
 
 **Owner proposal, 28 September 2026:** combine a startup activation notice with

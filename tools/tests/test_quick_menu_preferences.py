@@ -300,7 +300,7 @@ class ToggleTests(BridgeFixture):
         stored = json.loads((self.data_path / "NMS-AutoPet/settings.json").read_text())
         self.assertFalse(stored["enabled"])
         self.assertEqual(stored["locations"], [2, 14])
-        self.assertEqual(self.mod.pending_notice, "Companion Auto Summon: OFF")
+        self.assertEqual(self.mod.pending_notice, "Automatic summoning: OFF; Planets: OFF")
 
     def test_session_only_runtime_accepts_toggle_without_repairing_or_replacing_store(self):
         self.mod.settings_ok = False
@@ -309,7 +309,7 @@ class ToggleTests(BridgeFixture):
         self.mod._apply_control()
         self.assertFalse(self.mod.auto_enabled)
         self.assertIs(self.mod.settings_store, store)
-        self.assertEqual(self.mod.pending_notice, "Companion Auto Summon: OFF (session only)")
+        self.assertEqual(self.mod.pending_notice, "Automatic summoning: OFF (session only)")
         self.assertFalse(list(self.data_path.rglob("*.json")))
 
 

@@ -4,7 +4,30 @@ Historical sections retain the status recorded for their named versions,
 including statements that a candidate had not yet launched. For the latest
 bounded observations, read the current-candidate section and its linked live record.
 
-## Current candidate 0.4.9 / 0.8.7
+## Current candidate 0.5.1 / 0.9.1
+
+Production **0.5.1-experimental** and combined **0.9.1-play-trial** retain menu
+**0.9.0-selection**. The candidate names each applied settings value in HUD
+confirmations and sets `gui.shown = false` in the combined configuration;
+standalone developer launches retain their panel. Gameplay and persistence
+semantics are unchanged. All fourteen catalogs have 46 keys; native rendering
+remains English, and thirteen translated catalogs are unreviewed drafts.
+
+Validation passed **403 production and 689 developer tests**. The separate
+`build/quick-menu-play-trial-091-r1` bundle has 41 payloads plus its manifest and
+passed actual-framework checks and Python plus Windows PowerShell 5.1 read-only
+preflights. It has not launched, so these results do not establish live menu,
+HUD, placement, localization or multiplayer acceptance.
+
+The immutable running **0.5.0 / 0.9.0 / 090-r2** has one player-confirmed visible
+Random startup pet in the Anomaly. The player reports apparently saved settings;
+restart persistence, By habitat and shuffle outcomes remain unverified. Its
+custom menu later stopped under the `unexpected_thread` guard at 14:30:17;
+production automation remained separate. The unchanged menu in 0.9.1 does not
+fix that stop. See [LIVE-090](docs/research/LIVE-090.md) for the precise scope and
+unproven relation to travel/base-removal observations.
+
+## Historical candidate 0.4.9 / 0.8.7
 
 The external title is **Companion Auto Summon for No Man's Sky**, credited
 **by Lineum Dynamics**. The short in-game title, settings, and summoning rules
@@ -26,7 +49,8 @@ failure has been fixed. Language observation reported ENGLISH, without enabling
 translations. The [0.8.7 record](docs/research/LIVE-087.md) retains the details
 and unverified areas. The original `087` output is superseded. The earlier 0.8.4
 and prepared 0.8.6-r1 remain immutable. Habitat-weighted selection and shuffle
-are a separate proposal, not part of this candidate.
+were a separate proposal at that point, not part of the 0.8.7 candidate; they
+were subsequently implemented in 0.5.0 / 0.9.0.
 
 ## Historical 0.8.4 result and preparation of 0.8.5
 

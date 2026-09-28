@@ -68,6 +68,36 @@ QUICK_MENU_ACTION_OFFSET = 0x4
 QUICK_MENU_SLOT_OFFSET = 0x84
 SUMMON_PET_ACTION = 46
 SelectionMode = Enum("SelectionMode", {"Last manually selected": "last_manual", "Random": "random", "By habitat": "by_habitat"})
+SETTINGS_NOTICE_LABELS = (
+    ("enabled", "Automatic summoning"), ("selection_mode", "Selection"),
+    ("prefer_same_biome", "Random: prefer matching biome"), ("planets", "Planets"),
+    ("space_stations", "Space stations"), ("nexus", "Space Anomaly"),
+    ("rotate_companions", "Shuffle companions"),
+)
+SETTINGS_NOTICE_LOCATIONS = {"planets": 3, "space_stations": 2, "nexus": 14}
+SETTINGS_NOTICE_MODES = {"last_manual": "Last selected", "random": "Random", "by_habitat": "By habitat"}
+
+
+def settings_change_notice(previous, requested, saved):
+    """Describe every effective change in one complete, bounded native notice."""
+    changes = []
+    for key, label in SETTINGS_NOTICE_LABELS:
+        if key in SETTINGS_NOTICE_LOCATIONS:
+            before = SETTINGS_NOTICE_LOCATIONS[key] in previous["locations"]
+            after = SETTINGS_NOTICE_LOCATIONS[key] in requested["locations"]
+        else:
+            before, after = previous[key], requested[key]
+        if before == after:
+            continue
+        value = SETTINGS_NOTICE_MODES[after] if key == "selection_mode" else ("ON" if after else "OFF")
+        changes.append(f"{label}: {value}")
+    if not changes:
+        return None
+    suffix = "" if saved else " (session only)"
+    notice = "; ".join(changes) + suffix
+    if len(notice.encode("ascii")) > 511:
+        raise ValueError("Complete settings notice exceeds its native buffer")
+    return notice
 
 
 def selection_store_path():
@@ -168,7 +198,7 @@ def cas_add_timed_message(notifications: C.c_void_p, message: C.c_void_p,
 class CompanionAutoSummon(Mod):
     """Experimental summon after a ship exit where native game rules permit it."""
 
-    _version = "0.5.0-experimental"
+    _version = "0.5.1-experimental"
     _author = PRODUCT_AUTHOR
     _description = PRODUCT_NAME
     _disabled = not supported_runtime()
@@ -231,8 +261,8 @@ class CompanionAutoSummon(Mod):
             # An unreadable preference must not silently turn automation back on.
             self.auto_enabled = False
             self.settings_ok = False
-            LOGGER.exception("Companion Auto Summon settings unavailable; automation starts OFF. The settings panel can enable it for this session.")
-        LOGGER.info("Companion Auto Summon 0.5.0 experimental: automation %s; use the CompanionAutoSummon settings panel.",
+            LOGGER.exception("Companion Auto Summon settings unavailable; automation starts OFF. Enable it in mod settings for this session.")
+        LOGGER.info("Companion Auto Summon 0.5.1 experimental: automation %s; use the CompanionAutoSummon settings.",
                     "ON" if self.auto_enabled else "OFF")
 
     @property
@@ -392,11 +422,8 @@ class CompanionAutoSummon(Mod):
                 self.settings_store.save_preferences(requested)
             except SettingsStoreError:
                 self.settings_ok = False
-                LOGGER.exception("Companion Auto Summon toggle applies to this session only; settings file preserved.")
-        state = "ON" if self.auto_enabled else "OFF"
-        suffix = "" if self.settings_ok else " (session only)"
-        self.pending_notice = (f"Companion Auto Summon: {state}{suffix}" if previous["enabled"] != self.auto_enabled
-                               else f"Companion Auto Summon: settings updated{suffix}")
+                LOGGER.exception("Companion Auto Summon settings apply to this session only; settings file preserved.")
+        self.pending_notice = settings_change_notice(previous, requested, self.settings_ok)
         LOGGER.info(self.pending_notice)
         LOGGER.info("Companion Auto Summon preferences: locations=%s selection=%s prefer_same_biome=%s rotate=%s.",
                     requested["locations"], requested["selection_mode"], requested["prefer_same_biome"],
@@ -670,7 +697,7 @@ class CompanionAutoSummon(Mod):
         except Exception:
             self.notifications_ok = False
             self.pending_notice = None
-            LOGGER.exception("Companion Auto Summon HUD confirmation unavailable; see the settings panel for status.")
+            LOGGER.exception("Companion Auto Summon HUD confirmation unavailable; see mod settings for status.")
 
     def _app_for_player(self, player):
         app = C.c_void_p.from_address(_internal.BASE_ADDRESS + APPLICATION_PTR_RVA).value

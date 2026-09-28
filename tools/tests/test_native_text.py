@@ -76,15 +76,42 @@ class NativeTextTests(unittest.TestCase):
             self.assertIsNone(message.fallback_reason)
 
     def test_settings_notices_match_catalog_semantics_in_all_languages(self):
-        for locale, enabled, saved, changed in itertools.product(LOCALES, (False, True), (False, True), (False, True)):
-            text = {key: entry["text"] for key, entry in self.catalogs[locale]["messages"].items()}
-            expected = text["hud.automation_state" if changed else "hud.settings_updated"].format(
-                state=text["value.on" if enabled else "value.off"], suffix="" if saved else text["hud.session_suffix"])
-            message = self.text.settings_notice(enabled=enabled, saved=saved, enabled_changed=changed, locale=locale)
+        for locale, saved, key in itertools.product(LOCALES, (False, True), nt.SETTING_LABEL_KEYS):
+            for value in (("last_manual", "random", "by_habitat") if key == "selection_mode" else (False, True)):
+                message = self.text.settings_notice(changes={key: value}, saved=saved, locale=locale)
+                text = {key: entry["text"] for key, entry in self.catalogs[message.locale]["messages"].items()}
+                label = self.text.setting(key, nt.MenuTextState(value), message.locale).text
+                expected = text["hud.settings_applied"].format(changes=label, suffix="" if saved else text["hud.session_suffix"])
+                self.assertEqual(message.text, expected)
+                self.assertEqual(message.payload.decode("utf-8"), expected)
+                self.assertLessEqual(len(message.payload), nt.HUD_BYTES)
+
+    def test_batch_notice_keeps_every_changed_setting_in_canonical_order(self):
+        changes = {"rotate_companions": True, "nexus": False, "space_stations": False, "planets": False,
+                   "prefer_same_biome": False, "selection_mode": "by_habitat", "enabled": False}
+        for locale, saved in itertools.product(LOCALES, (False, True)):
+            message = self.text.settings_notice(changes=changes, saved=saved, locale=locale)
+            text = {key: entry["text"] for key, entry in self.catalogs[message.locale]["messages"].items()}
+            parts = [self.text.setting(key, nt.MenuTextState(changes[key]), message.locale).text
+                     for key in nt.SETTING_LABEL_KEYS]
+            expected = text["hud.settings_applied"].format(changes=text["hud.setting_separator"].join(parts),
+                                                          suffix="" if saved else text["hud.session_suffix"])
             self.assertEqual(message.text, expected)
-            self.assertEqual(message.payload.decode("utf-8"), expected)
             self.assertLessEqual(len(message.payload), nt.HUD_BYTES)
-            self.assertIsNone(message.fallback_reason)
+        self.assertEqual(list(changes)[0], "rotate_companions")
+
+    def test_empty_changes_do_not_create_a_misleading_confirmation(self):
+        for saved in (False, True):
+            self.assertIsNone(self.text.settings_notice(changes={}, saved=saved))
+
+    def test_long_batch_translation_falls_back_without_dropping_changes(self):
+        directory = self.modified_catalog("ja", lambda data: data["messages"]["menu.biome"].update(text="\u754c" * 160))
+        text = nt.NativeText(locales_dir=directory, source_root=ROOT)
+        changes = {"prefer_same_biome": True, "selection_mode": "random", "rotate_companions": False}
+        message = text.settings_notice(changes=changes, saved=False, locale="ja")
+        self.assertEqual(message, nt.PreparedMessage(text.settings_notice(changes=changes, saved=False).text,
+                                                   text.settings_notice(changes=changes, saved=False).payload,
+                                                   "en", "byte_limit"))
 
     def test_manual_notices_preserve_saved_session_off_random_distinctions(self):
         for locale, enabled, saved, mode in itertools.product(LOCALES, (False, True), (False, True), ("last_manual", "random", "by_habitat")):
@@ -153,8 +180,10 @@ class NativeTextTests(unittest.TestCase):
         for value in (1, "yes", None):
             with self.assertRaises(nt.TextError):
                 nt.MenuTextState(True, pending=value)
-        with self.assertRaises(nt.TextError):
-            self.text.settings_notice(enabled=1, saved=True, enabled_changed=True)
+        for changes in ({"enabled": 1}, {"selection_mode": True}, {"selection_mode": "translated value"},
+                        {"unknown": True}, {1: True}, None, []):
+            with self.assertRaises(nt.TextError):
+                self.text.settings_notice(changes=changes, saved=True)
         with self.assertRaises(nt.TextError):
             self.text.companion_notice(saved=True, enabled=True, selection_mode="translated value")
 

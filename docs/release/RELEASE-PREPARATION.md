@@ -1,10 +1,16 @@
 # Companion Auto Summon for No Man's Sky - by Lineum Dynamics
 
-New source candidate **0.5.0-experimental / 0.9.0-play-trial**, menu
-**0.9.0-selection**, implements By habitat and Shuffle companions. Offline validation passed 396 production and 683 developer tests; no new live acceptance or deployment is
-claimed. The unchanged running 0.8.7-r1 and its unpublished Nexus page below
-retain their own evidence and metadata. Do not publish the new features as a
-tested player release based on the older session.
+The current follow-up candidate is **0.5.1-experimental / 0.9.1-play-trial**,
+with unchanged menu **0.9.0-selection**. It prepares confirmations naming the
+changed setting and applied value, and disables the external pyMHF panel in
+the combined package. The separate `091-r1` bundle is built on
+`feat/settings-feedback-no-gui`; validation passed 403 production and 689
+developer tests, actual-framework checks and both Python and Windows PowerShell
+5.1 read-only preflights. It has not launched and still needs live acceptance.
+The running **0.5.0 / 0.9.0 / 090-r2** remains untouched. These checks do not
+complete the portable installer or transfer older gameplay evidence. Its
+`unexpected_thread` menu stop is documented in [LIVE-090](../research/LIVE-090.md)
+and remains unresolved in the unchanged 091 menu.
 
 The seven-row candidate preserves existing role IDs and appends rotation. Fresh
 settings use By habitat/rotation ON; schema 1/2/3 migration preserves previous
@@ -15,24 +21,32 @@ planet data waits; no approved owned group skips with one notice; temporary
 ineligibility or placement waits. Native mappings, eligibility, limits, saves
 and the existing no-respawn-after-dismissal rule remain unchanged.
 
-The separate `090-r2` candidate passed aggregate tests, real-framework checks
+The retained `090-r2` candidate passed 396 production and 683 developer tests, real-framework checks
 of all seven shared preference paths, and Python plus Windows PowerShell 5.1
-read-only preflights. It contains eight original icons and has not deployed or
-launched. The next combined live test must check visible habitat
+read-only preflights. It contains eight original icons and launched on
+28 September 2026 after a verified backup of 46 save files and two mod files.
+Both Mods and twelve native targets loaded; the player confirmed the first
+visible Random summon after loading in the Anomaly. See
+[LIVE-090](../research/LIVE-090.md) for the bounded record. Further combined tests must check visible habitat
 selection/rotation and the seventh control alongside ordinary pet actions,
 cancellation, save switching and remapped/controller input. Keep the running
 artifact untouched until normal closure and an appropriate fresh backup.
 
 Status as of 28 September 2026. Working plan; neither the mod nor its page has been publicly published. The canonical source project is in a private GitHub repository; this file is maintained in `docs/release/`. References below to documents under `CompanionAutoSummon/` mean documents at the root of the repository and distribution package.
 
-The owner-created Nexus account is `LineumDynamics`; its authentic company
+The 0.9.1 test archive and updated description have now been saved and verified
+on Nexus, with the page still **Unpublished**. The antivirus status reads
+**Some suspicious files** and is under investigation; do not treat the upload
+as a clean scan or public-release readiness. The earlier page readback below
+is retained as history and predates that archive upload. The owner-created Nexus account is `LineumDynamics`; its authentic company
 avatar is saved and visually checked. A real No Man's Sky draft now exists in
 category **Creatures**, mod ID **4579**, with visible status **Unpublished**:
 [draft page](https://www.nexusmods.com/nomanssky/mods/4579) and
 [general editor](https://www.nexusmods.com/games/nomanssky/mods/4579/edit/general).
 The exact Nexus page title is **Companion Auto Summon for No Man's Sky - by
-Lineum Dynamics**, with author field **Lineum Dynamics**. The General section
-is saved and marked **Section complete**: version `0.8.7-play-trial`, language
+Lineum Dynamics**, with author field **Lineum Dynamics**. At that earlier
+readback, General was saved and marked **Section complete**: version
+`0.8.7-play-trial`, language
 **English**, and tags **AI-Generated Content**, **AI Media** and **Quality of
 Life**. The **1600 × 900** gallery cover and company avatar remain unchanged.
 The corrected **1300 × 372** [header](https://staticdelivery.nexusmods.com/mods/1634/images/headers/4579_1790592385.jpg)
@@ -40,15 +54,15 @@ is uploaded and visually verified on the actual mod page: a dark decorative
 background without embedded text, a company mark or white elements, with a
 subdued paw on the right. Nexus supplies the full approved title, which is
 legible in the checked screenshot. Media is **Section complete**; the page
-still shows **Unpublished** and a **Files missing** banner.
-No code ZIP has been uploaded,
-and files and permissions remain pending. The earlier disabled `Upload mod` button and
+showed **Unpublished** and a **Files missing** banner at that readback.
+No code ZIP had been uploaded at that point,
+and files and permissions remained pending. The earlier disabled `Upload mod` button and
 `Something went wrong. Please try again.` error are historical; creation is no
 longer blocked. Public release still requires the acceptance work below and
 the owner's release decision.
 
-The immutable **0.4.9-experimental / 0.8.7-play-trial**, with menu
-**0.8.5-branding**, is currently running from the final `087-r1` directory.
+The immutable previous **0.4.9-experimental / 0.8.7-play-trial**, with menu
+**0.8.5-branding**, was tested from the final `087-r1` directory.
 Prepared **0.8.6-r1** remains untouched and unlaunched. The full title and author
 credit are used in presentation outside the game; the short in-game title
 remains Companion Auto Summon. After normal closure of the previous game and
@@ -69,14 +83,16 @@ other preferences stayed unchanged. This does not verify the other five
 controls, held input, remapping or controllers. Monetization is summarized in
 the [current rules review](MONETIZATION.md).
 
-The new source has 46 keys in each of 14 catalogs, with thirteen unreviewed translations. The retained 0.8.7 catalogs had 41 keys. Two new keys preserve the full title as a proper
+The retained 0.9.0 source had 46 keys in each of 14 catalogs, with thirteen unreviewed translations. Current catalog coverage is maintained in [LOCALIZATION](../../LOCALIZATION.md), including the 0.9.1 feedback additions. The retained 0.8.7 catalogs had 41 keys. Two branding keys preserve the full title as a proper
 name and translate the author-credit phrase; three launcher compatibility
-messages now use the full title. Native captions and in-game notices are
-unchanged. Thirteen translations still await language review; an in-game
+messages use the full title. That branding change left native captions and
+in-game notices unchanged; the 0.9.1 feedback change is separate. Thirteen translations still await language review; an in-game
 author credit has not been implemented.
 
-Localized text composition is now prepared outside the game package: all 2,086
-language/state combinations fit within existing limits without truncation.
+Localized text composition is prepared outside the game package. The earlier
+2,086 single-message language/state combinations fit within existing limits.
+The new multi-setting confirmations separately cover every changed-control
+subset and use complete English fallback for overlong translated batches.
 Actual rendering and automatic language selection are not yet verified.
 A real console-free pyMHF import check also passed, including reproduction of
 the original failure and its resolution by a prototype. The current launcher
@@ -84,10 +100,17 @@ does not yet use it; portable installation is not thereby complete. Details:
 [localization](../research/NATIVE-LOCALIZATION-AUDIT.md) and
 [portable runtime](../research/PORTABLE-RUNTIME-AUDIT.md).
 
-## Next combined test 0.9.0
+## Current combined test and 0.9.1 follow-up
 
-Use the separate `build/quick-menu-play-trial-090-r2`, after normal game closure
-and a fresh verified backup. Preserve the old package and existing settings.
+Keep `build/quick-menu-play-trial-090-r2` unchanged. Its production automation
+can still be observed, but its custom menu stopped on `unexpected_thread`.
+Investigate that lifecycle before the next live trial; the built and
+separately validated 091-r1 package retains the same menu limitation. A later
+launch requires normal game closure and a fresh verified backup. Its native
+settings must work without an external panel, and each confirmation must name
+the changed setting/value and persistence result. Preserve prior test packages
+and existing settings. The checklist below remains pending acceptance, not a
+claim that the stopped menu is available in the retained session.
 Legacy settings intentionally retain Random/Last selected with rotation OFF;
 enable By habitat and Shuffle companions explicitly for their tests.
 
@@ -116,8 +139,9 @@ request to alter or sacrifice the player's normal companions for a test.
 ## Retained 0.8.7 observations and missing checks
 
 The initial load and exit in 0.8.7 have confirmed visible results; broader
-repeatability and Last selected mode do not. Continue the missing checks in
-the running session without changing its files or host. Diagnostics do not
+repeatability and Last selected mode do not. These are historical observations;
+continue missing checks against the exact current test version without changing
+its running files or host. Diagnostics do not
 change summoning rules or themselves fix the earlier failure.
 
 The final directory is `build/quick-menu-play-trial-087-r1`, with 41 files
@@ -149,11 +173,12 @@ both preflights passed again for final r1.
    Text remains English; this version does not enable translations. On error,
    reading stops itself without disabling the menu or automation.
 
-The basic observations above have already taken place; remaining controls and
-appearance can be checked in the current session. New deployment or a
+The basic 0.8.7 observations above have already taken place; remaining controls
+and appearance still require a versioned result. New deployment or a
 controlled startup repeat requires normal closure and relaunch. The portable
 installer can continue to be prepared outside the running environment. The
-pyMHF panel is removed only after all native controls pass acceptance. None of
+0.9.1 candidate disables GUI construction; operation of its native controls
+without that panel must be checked before public release. None of
 these steps establishes public readiness, multiplayer support or correctness
 of translations that have not yet been tested.
 
@@ -198,17 +223,63 @@ saved preferences and the background framework runtime.
 
 ## First-release scope
 
-Windows x64, Steam NMS build 25442159 / Cosmos 7.04, the exact supported NMS.exe fingerprint, pyMHF 0.2.4 and Python 3.11–3.13 x64. Other stores and operating systems are not prerequisites for the first release. Label the first public release a beta with specific verification limits.
+Ordinary Windows x64 PCs with the Steam edition, currently NMS build 25442159 /
+Cosmos 7.04 and the exact supported NMS.exe fingerprint. The package must carry
+its vetted, pinned runtime; Python 3.11–3.13 x64 describes current development
+compatibility, not a requirement for players to install Python. Other stores,
+operating systems and consoles are outside the first-release support scope.
+Label the first public release a beta with specific verification limits.
 
-First-release feature candidate: automatically summon an owned pet after ship exit or successful local save loading; Last selected, Random or By habitat; optional exact-biome preference in Random; rotation; location controls; preserved settings; waiting for a suitable place. New 0.5.0 behavior remains pending full validation. Candidate 0.4.3 adds one deferred opportunity after loading: an appropriate local-player callback handles it with the same delay and native checks as ship exit. No native summon is called during deserialization. Manual dismissal does not trigger repeated automatic summoning. Do not add further features before completing validation. Native game restrictions, ownership and placement remain authoritative.
+First-release feature candidate: automatically summon an owned pet after ship exit or successful local save loading; Last selected, Random or By habitat; optional exact-biome preference in Random; Shuffle companions; location controls; preserved settings; waiting for a suitable place. Current behavior remains pending full validation. Historical candidate 0.4.3 introduced one deferred opportunity after loading: an appropriate local-player callback handles it with the same delay and native checks as ship exit. No native summon is called during deserialization. Manual dismissal does not trigger repeated automatic summoning. Future proposals are not release functionality until implemented and separately validated. Native game restrictions, ownership and placement remain authoritative.
 
-Owner requirement: installation must be as simple and reliable as possible. The target workflow is **extract a ZIP and launch one application**, with its own tested environment and no manual Python, pip commands or system changes. This distribution launcher has not yet been created; source candidate 0.5.0 and combined candidate 0.9.0 are development variants; running 0.8.7 is retained. Specific requirements are in `INSTALLATION-REQUIREMENTS.md`.
+The first-public installation gate is **extract a ZIP and double-click one
+launcher**. It must include the vetted runtime and dependency licences/hashes,
+require no user Python or pip setup, and open no development GUI. Native
+settings remain available through the game's configured quick-menu controls.
+Exact game-version refusal, duplicate-host protection and preference
+preservation remain mandatory. The final package must pass the existing clean
+Windows account/second-PC, relocation, offline dependency and normal lifecycle
+checks in [INSTALLATION-REQUIREMENTS](INSTALLATION-REQUIREMENTS.md).
 
-Work order: prepare portable packaging alongside the next combined 0.8.7 test described above. Historical confirmation of station startup and a separate manual dismissal belongs to 0.4.3 / 0.6.2; it does not replace validation of the new candidate. Second-PC testing must use the final player package.
+Current 0.9.1 is a development PowerShell package: it still uses an external
+Python installation to create its isolated environment and installs dependencies
+when needed. Disabling `gui.shown` omits the control window; it neither packages
+a portable runtime nor proves console-free host/injected initialization and
+safe launcher/game lifetimes. Those are unfinished parts of the first-public
+installation gate, not reasons to advertise the present archive as portable.
 
-Other confirmed requirements: all source code, comments and docstrings in English; user translations separate. There are 14 catalogs of 46 keys and nine translated launcher compatibility messages. The native menu and HUD do not yet use translations; static UTF-8 evidence does not validate actual fonts, rendering or safe language switching. The authoritative status and requirements are in `CompanionAutoSummon/LOCALIZATION.md`; ongoing documentation rules are in `CompanionAutoSummon/DEVELOPMENT.md`.
+Work order: finish the 0.9.1 package checks and its next live acceptance while
+preparing the vetted portable runtime and single launcher separately. Historical
+confirmation of station startup and a separate manual dismissal belongs to
+0.4.3 / 0.6.2; it does not replace validation of the new candidate. Second-PC
+testing must use the final player package.
 
-The user also requires natural integration with the original game interface: unobtrusive in-game confirmations and X-menu settings. The direction is recorded in `CompanionAutoSummon/DESIGN.md`. The new combined source contains seven settings on one native subpage; the first six role IDs remain stable, and the new rotation icon is included and checked offline. The temporary pyMHF panel remains a development fallback until native controls pass acceptance. Lifetime, shortcuts, remapping, controllers and complete visual behavior still require validation against the final package.
+Other confirmed requirements: all source code, comments and docstrings in English; user translations separate. Fourteen catalogs and nine translated launcher compatibility messages are maintained; exact current coverage is recorded in `CompanionAutoSummon/LOCALIZATION.md`. The native menu and HUD do not yet use translations; static UTF-8 evidence does not validate actual fonts, rendering or safe language switching. Ongoing documentation rules are in `CompanionAutoSummon/DEVELOPMENT.md`.
+
+The user also requires natural integration with the original game interface: unobtrusive in-game confirmations and X-menu settings. The direction is recorded in `CompanionAutoSummon/DESIGN.md`. The combined source contains seven settings on one native subpage; the first six role IDs remain stable, and the rotation icon is included and checked offline. The 0.9.1 combined package disables the temporary pyMHF panel; standalone development launches retain it because they have no native menu. Lifetime, shortcuts, remapping, controllers and complete visual behavior still require validation against the final package.
+
+## Feature branches and unpublished Nexus test archives
+
+The owner requires experimental features to start on feature branches, before
+implementation. Keep the accepted baseline separate and merge only after the
+checks appropriate to that change; passing offline tests must not relabel
+unverified live behavior as accepted. Current work is on
+`feat/settings-feedback-no-gui`.
+
+The owner also authorizes regularly keeping the latest validated, versioned
+test archive on the existing unpublished Nexus page. At each ready test
+milestone, package only the explicit distribution allowlist, verify its hashes
+and readback, and upload it with the matching version and concise experimental
+limits. Do not include personal settings, saves, credentials, private logs,
+raw research or copyrighted game binaries. Keep the prior working test archive
+available for comparison and recovery; never silently replace its bytes under
+the same version. Record the uploaded filename/version and the actual Nexus
+readback before calling the upload complete.
+
+These uploads update the draft/testing material only. Keep the page unpublished;
+do not automatically publish it, mark new features verified or claim a finished
+portable installer. Public publication remains a separate owner decision after
+the first-release gates and final page/files/permissions review.
 
 ## Documented baseline
 
@@ -292,6 +363,6 @@ English entry and every affected translation in the same change.
 
 ## 5. Publication
 
-The author account is identified as `LineumDynamics`, and unpublished draft 4579 exists. Before publication, the working file for the stated support scope, final description and permissions must be complete. Only then publish and inspect the public page and downloaded ZIP. Neither draft creation nor the current plan establishes Nexus approval of the final package.
+The author account is identified as `LineumDynamics`, and unpublished draft 4579 exists. Before publication, the working file for the stated support scope, final description and permissions must be complete. After the owner's separate public-release decision, publish and inspect the public page and downloaded ZIP. Neither draft creation, test-archive uploads nor the current plan establishes Nexus approval of the final package.
 
 Further checks can be added when opportunities arise: planet and Nexus loading, Last manually selected startup, the existing ship-exit path and coexistence with the inert menu subpage. Immediate game closure is not required to continue work; the running candidate stays unchanged. Verifying biome preference itself requires knowing the available pets' home biomes. One confirmed dismissal does not replace broader regression checks.

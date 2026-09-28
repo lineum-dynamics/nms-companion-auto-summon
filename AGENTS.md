@@ -17,5 +17,7 @@
 - Keep personal saves, accounts, credentials, settings, logs, raw game disassembly and copyrighted game binaries out of Git and release ZIPs.
 - The public target is an easy portable installation, native-looking feedback, safe X-menu settings and verified language coverage. The current candidate does not yet implement all of these; do not claim otherwise.
 - Inspect Git status before editing and preserve unrelated changes. Remote creation, pushes and public publishing are separate from local version control; use the user's actual authorization and never guess the destination account.
+- Keep experimental features on named feature branches. Prepare the first public release separately, with a simple packaged launcher; a developer PowerShell trial is not the finished installation experience.
+- The owner requests regular uploads of the latest validated, versioned test archives to the existing unpublished Nexus draft. Package only an explicit release-file allowlist, excluding personal settings, saves, logs, caches and research assets. Describe offline versus live verification and preserve the prior working test version. Uploading a test file does not authorize publishing the mod page or labelling it stable.
 
 Explicitly labelled translations such as `README.cs.md` and locale resources may contain their target language. They are translations of the English canonical material, not an exception for internal or developer documentation.

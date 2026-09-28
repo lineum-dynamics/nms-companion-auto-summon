@@ -19,10 +19,35 @@ remain unchanged by this presentation update.
 
 ## Current state
 
-Source **0.5.0-experimental / 0.9.0-play-trial**, with menu
-**0.9.0-selection**, now implements By habitat and Shuffle companions. Offline validation passed 396 production and 683 developer tests; the candidate is unlaunched. Retained 0.8.7
+The follow-up **0.5.1 / 0.9.1** candidate replaces generic setting confirmations
+with the changed labels and applied values, preserving session-only feedback
+when persistence fails. Combined launches will omit the external pyMHF control
+window through `gui.shown = false`; the native menu remains the player settings
+interface. Validation passed 403 production and 689 developer tests. The 091-r1
+bundle is built; actual-framework checks and both Python and Windows PowerShell
+5.1 read-only preflights passed. This candidate has not launched and is not applied to the
+running 090-r2. Standalone developer
+launches still have their panel, and console-free packaging remains unfinished.
+
+The running 090-r2 log later reports `Inert menu ordering stopped
+(unexpected_thread)` at 14:30:17. The menu guard retains the native binding
+filter but stops custom menu handling after a callback thread change; the
+production automation is separate. The reason for the thread change and its
+relation to the player's actions are not established. The unchanged menu in
+0.9.1 does not fix this known limitation. Teleport arrival and base removal are
+not automatic-summon triggers. The player reported no arrival pet and a pet
+disappearing after base removal; the cause of that disappearance is unproven.
+Next work is a bounded menu-lifecycle investigation, not an assumed new trigger
+or automatic respawn after disappearance.
+
+Retained source **0.5.0-experimental / 0.9.0-play-trial**, with menu
+**0.9.0-selection**, now implements By habitat and Shuffle companions. Offline validation passed 396 production and 683 developer tests. The final `090-r2` candidate launched on 28 September 2026: its log records production 0.5.0, menu 0.9.0 and two Mods with twelve hooks initialized. Retained 0.8.7
 and earlier artifacts remain immutable. The seven-row interface,
 new selection behavior and rotation icon have no new live acceptance.
+Existing schema-3 preferences retained Random with shuffle OFF during the
+in-memory migration. The player confirms a visible Random startup companion
+and says preferences appear saved. This is not restart-persistence, By habitat,
+shuffle or full menu acceptance; see [LIVE-090](docs/research/LIVE-090.md).
 
 By habitat uses explicit directed 13/5/1 exact/related/acceptable groups on
 planets, independently of group population; stations/Nexus use the unweighted
@@ -34,7 +59,7 @@ Schema 4 defaults fresh installs to By habitat and rotation ON; legacy schemas
 1/2/3 preserve their choices with rotation OFF. Details and the complete heuristic
 table are in [HABITAT-SELECTION](docs/research/HABITAT-SELECTION.md).
 
-The running combined **0.8.7** has production **0.4.9**, menu **0.8.5-branding**, all six
+The retained combined **0.8.7** has production **0.4.9**, menu **0.8.5-branding**, all six
 existing preferences and 5.5-second confirmations. Earlier 0.8.4 screenshots confirm distinct
 icons for the six setting roles. Each icon represents its function and stays
 the same when its value changes; ON/OFF or the selected mode is in the caption.
@@ -51,11 +76,12 @@ bounds and read-only language observation in the CAS menu. The final 0.8.7-r1
 launched after a verified 46-file backup. The player confirmed visible Random
 summons after both Nexus save load and ship exit; different pets were chosen.
 This does not establish an intermittent-failure fix or repeatability. The
-prepared **0.8.6-r1** remains unchanged. See [current evidence](docs/research/LIVE-087.md)
+prepared **0.8.6-r1** remains unchanged. See [the retained 0.8.7 evidence](docs/research/LIVE-087.md)
 and [the earlier failure](docs/research/LIVE-084.md).
 Full control, HUD, teardown and remapping acceptance remains incomplete.
-Retain the development panel until native acceptance passes. The standalone
-production ZIP has no native page or custom textures. Absence alone must never
+The combined 0.9.1 candidate uses the native menu without creating the external
+control window. The standalone developer ZIP retains its panel because it has
+no native page or custom textures. Absence alone must never
 trigger a retry after a possible manual dismissal.
 
 Fourteen menu/HUD catalogs are now maintained and validated during builds.
@@ -70,7 +96,7 @@ replay after restart, removal and preservation of existing assignments under
 remapped native controls. Current tagged None entries remain blocked because
 native serialization could replace a prior binding with an empty action.
 
-Historical production 0.4.3 added one deferred opportunity after a successful local save load, using the existing automation toggle and summon checks. One Random-mode startup on a space station is confirmed by the log and the user, without a ship exit. Production 0.4.2 previously registered in the combined 0.6.1 trial and logged an accepted station queue at 20:18:19 without separate visible-pet confirmation. The separate pyMHF tab uses the class name `CompanionAutoSummon`. The running trial retains that English panel and the native automation toggle; the six-control page has partial live evidence in combined 0.8.4. HUD messages use the game's existing timed-message function. The 0.7.0 trial screenshot confirms OFF text rendering with an unwanted solid white disc above it. Full native acceptance, localization and a finished public launcher remain incomplete.
+Historical production 0.4.3 added one deferred opportunity after a successful local save load, using the existing automation toggle and summon checks. One Random-mode startup on a space station is confirmed by the log and the user, without a ship exit. Production 0.4.2 previously registered in the combined 0.6.1 trial and logged an accepted station queue at 20:18:19 without separate visible-pet confirmation. The separate pyMHF tab uses the class name `CompanionAutoSummon`. That historical trial retained its English panel and the native automation toggle; the six-control page has partial live evidence in combined 0.8.4. HUD messages use the game's existing timed-message function. The 0.7.0 trial screenshot confirms OFF text rendering with an unwanted solid white disc above it. Full native acceptance, localization and a finished public launcher remain incomplete.
 
 Menu development sessions should retain functional automatic summoning and the
 player's existing preferences. Use a separately validated combined development
@@ -126,7 +152,7 @@ from acceptance or add retries that could override a manual dismissal.
 
 Prefer one dedicated CompanionAutoSummon/automatic-companion entry in the companion section of the native quick menu, before individual pets and after general companion actions. The separate 0.6.0 trial implements this order in offline checks; its live result remains pending. Its final label must fit the existing layout and terminology. Do not replace a vanilla action or reuse its ID for a different purpose without a verified, non-conflicting implementation.
 
-The 0.9.0 source page exposes the same shared preference store with seven rows:
+The retained 0.9.0-selection menu used by the 0.9.1 candidate exposes the same shared preference store with seven rows:
 
 - Automatic summoning on/off.
 - Last selected, Random or By habitat selection mode.
@@ -143,8 +169,9 @@ live acceptance; this is implemented source, not a verified release interface.
 
 The native menu and any retained development panel must share one preference store and apply changes through the same established game-thread path. Translated labels must not become internal setting values. A menu appearance change must not bypass native eligibility, change a companion's attributes or write game save files.
 
-The final player release must retire the separate pyMHF settings panel once
-all native controls are implemented and verified. The panel is a temporary
+The 0.9.1 combined candidate suppresses the separate pyMHF settings panel while
+complete native-control acceptance remains pending. The final release must
+verify this workflow end to end. The standalone developer panel is a temporary
 development tool, not a second required player interface. Preserve existing
 preferences during that transition. pyMHF may remain the background runtime;
 its window must not be required during normal play. Removing GUI dependencies
@@ -187,7 +214,7 @@ field. Loading, retained lifetime and small-size appearance remain unverified
 in-game; source readiness is not proof of successful native rendering.
 Do not overwrite a shared vanilla texture or distribute copied game artwork.
 
-Native menu insertion is not a finished player capability. The prior inert-item trial has a native binding filter and confirmed visibility, selection, Back/close/reopen and normal manual companion summoning. The 0.5.0 submenu trial now also has the player's confirmation of its inert child, native Back/close/reopen and ordinary pet actions, with screenshots confirming both captions and empty inline names. Shortcut, changing-pet-list, remapping and controller scenarios remain pending. Only after the relevant lifecycle and shortcut protection checks pass should it change a preference. Retain the desktop panel for development until this route is proven.
+Historical insertion milestones: the inert-item trial has a native binding filter and confirmed visibility, selection, Back/close/reopen and normal manual companion summoning. The 0.5.0 submenu trial also has the player's confirmation of its inert child, native Back/close/reopen and ordinary pet actions, with screenshots confirming both captions and empty inline names. Shortcut, changing-pet-list, remapping and controller scenarios remain pending. At that stage, preference mutation remained gated on lifecycle and shortcut protection checks, and development retained the desktop panel. Later native preferences and the 0.9.1 combined GUI suppression are described above; complete player-interface acceptance remains pending.
 
 The initial read-only audit found a known-action dispatcher, but no verified registration API for custom entries. Existing submenu transitions in the pinned executable clamp depth to two beyond the root. Prefer a flat settings page within the verified limit; do not assume another nested location submenu is possible. A new numeric action ID alone does not create a working native action. The next investigation must establish native item construction, ownership and cleanup, then observe natural menu use before modifying it.
 
@@ -228,7 +255,15 @@ Unclassified queues cannot replace the favourite or announce a manual choice.
 They retain native behavior and cancel pending automatic intent. Ordinary,
 remapped and shortcut routes still need live checks before claiming coverage.
 
-Explicit confirmations request 5.5 seconds. `Companion saved.` means persistence
+Explicit confirmations request 5.5 seconds. Every effective settings change
+names its applied value, such as `Selection: By habitat`, `Shuffle companions:
+ON` or `Space stations: OFF`. Multiple changes applied together appear in one
+complete message, with one `(session only)` suffix if saving failed. A no-op
+does not announce a change or cancel waiting intent. Presentation uses the
+existing native notice path; it changes neither settings semantics nor summon
+behavior. These new confirmations still require a visual game test.
+
+`Companion saved.` means persistence
 succeeded; otherwise use `Companion selected (session only).` OFF, Random or
 habitat-selection context is appended where relevant. By habitat uses one
 `No suitable companion for this habitat.` notice only when the known owned

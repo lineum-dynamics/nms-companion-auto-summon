@@ -147,6 +147,8 @@ def check(bundle_folder):
     host = util.module_from_spec(spec)
     spec.loader.exec_module(host)
     bundle, config = host.validate_bundle(str(bundle))
+    require(config["gui"]["shown"] is False,
+            "The combined trial must disable external GUI construction")
     paths = [bundle / name for name in host.PAYLOAD_FILES] + [bundle / "manifest.json"]
     hashes = {path.relative_to(bundle).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()
               for path in paths}
@@ -236,13 +238,31 @@ def check(bundle_folder):
                     "Menu class resolved globals from another module")
             require(menu_module.TRIAL_ENABLED is True and menu_module.CompanionMenuOrderTrial._disabled is True,
                     "Enabled artifact must still refuse native initialization outside game")
+            lifecycle_hooks = SimpleNamespace(
+                register_hook=Mock(), _add_custom_callbacks=Mock(),
+                initialize_hooks=Mock(side_effect=AssertionError("No native hook binding")),
+            )
             with patch.object(menu_module, "current_process_io", side_effect=AssertionError("No game I/O")), \
                     patch.object(menu_module, "native_adapters", side_effect=AssertionError("No game calls")), \
-                    patch.object(menu_module, "ensure_guard", side_effect=AssertionError("No native guard")):
-                production = production_module.CompanionAutoSummon()
-                menu = menu_module.CompanionMenuOrderTrial()
+                    patch.object(menu_module, "ensure_guard", side_effect=AssertionError("No native guard")), \
+                    patch.object(manager, "hook_manager", lifecycle_hooks), \
+                    patch.object(mod_loader.keyboard, "hook", side_effect=AssertionError("No physical hotkeys")):
+                # Exercise the actual framework lifecycle through insertion in
+                # its owned registry. Registration callbacks are mocks; native
+                # binding is trapped. No GUI is constructed or assigned.
+                production = manager.instantiate_mod(production_module.CompanionAutoSummon)
+                menu = manager.instantiate_mod(menu_module.CompanionMenuOrderTrial)
+                manager._assign_mod_instances()
+            require(manager.mods == {"CompanionAutoSummon": production, "CompanionMenuOrderTrial": menu},
+                    "Framework lifecycle did not retain both instances without a GUI")
+            require(lifecycle_hooks.register_hook.call_count == 18
+                    and lifecycle_hooks._add_custom_callbacks.call_count == 2,
+                    "Framework lifecycle lost hook or custom callback registration")
+            lifecycle_hooks.initialize_hooks.assert_not_called()
             require(menu._stopped and menu._guard is None, "Disabled menu constructor was not inert")
             require(production._abc_initialised and menu._abc_initialised, "Framework initialization failed")
+            require(production.pymhf_gui is None and menu.pymhf_gui is None,
+                    "Mod construction unexpectedly depends on a GUI instance")
             production_hooks = {(hook._hook_offset, hook._hook_time.name) for hook in production.hooks}
             menu_hooks = {(hook._hook_offset, hook._hook_time.name) for hook in menu.hooks}
             require(len(production.hooks) == 9 and production_hooks == PRODUCTION_HOOKS,
@@ -268,7 +288,8 @@ def check(bundle_folder):
                     "Constructors changed local preference/selection data")
 
             # Exercise the bridge with the actual framework-created Python
-            # instance and temporary settings. This never registers a hook or
+            # instance and temporary settings. Hook registration was mocked;
+            # this never binds a hook or
             # calls a native function; application below is an offline method
             # invocation, not an injected player update.
             bridge = menu_module.PreferenceBridge(
@@ -277,7 +298,7 @@ def check(bundle_folder):
                 get_module=lambda: sys.modules.get("CompanionAutoSummon"),
             )
             with patch.object(production_module.CompanionAutoSummon, "_disabled", False), \
-                    patch.dict(menu_module.mod_manager.mods, {"CompanionAutoSummon": production}):
+                    patch.object(menu_module, "mod_manager", manager):
                 state = bridge.snapshot()
                 require(state is not None and state.applied and state.desired and not state.pending,
                         "Bridge did not resolve the actual registered production instance")
@@ -331,6 +352,8 @@ def check(bundle_folder):
                 require(production._notice_icon_handle() == 0, "Text fallback changed")
                 provider.assert_called_once_with()
                 require(not settings_path.with_name("state.json").exists(), "Bridge changed companion memory")
+                require(production.pymhf_gui is None and menu.pymhf_gui is None,
+                        "Native preference queue/apply required a GUI instance")
 
             # Exercise host validation and dispatch with the real folder and
             # configuration. Game preflight, leases, injection, asset staging
@@ -376,7 +399,11 @@ def check(bundle_folder):
         "version": host.VERSION, "framework": "0.2.4", "pymhflib_entry_points": [],
         "bundle_sha256": hashes, "production_byte_identical": True,
         "menu_only_five_enable_flags_changed": True, "actual_folder_discovery": True,
-        "disabled_flags_lifted_for_discovery_only": True, "mods_preloaded_not_registered": 2,
+        "disabled_flags_lifted_for_discovery_only": True, "mods_preloaded": 2,
+        "mods_instantiated_in_owned_framework_registry": 2,
+        "framework_registration_callbacks_mocked": True,
+        "combined_gui_shown": False, "gui_instances_created": 0,
+        "preference_bridge_without_gui_verified": True,
         "production_callbacks": 9, "menu_callbacks": 9, "distinct_native_targets": 12,
         "shared_target": "0x1526940", "shared_python_registry_and_dispatch": shared_dispatch,
         "shared_dispatch_owned_none_item_menu_disabled": True,

@@ -1,11 +1,21 @@
 # Native quick-menu investigation
 
-## Current source: 0.9.0 selection trial, offline validation passed
+## Current source: 0.9.1 combined trial, menu 0.9.0-selection
 
-Source **0.5.0-experimental / 0.9.0-play-trial**, with menu
-**0.9.0-selection**, now implements By habitat and Shuffle companions. Offline validation passed 396 production and 683 developer tests; the candidate is unlaunched. Retained 0.8.7
-and earlier artifacts remain immutable. The seven-row interface,
-new selection behavior and rotation icon have no new live acceptance.
+Source **0.5.1-experimental / 0.9.1-play-trial** retains menu
+**0.9.0-selection**, By habitat and Shuffle companions. It adds precise applied
+settings confirmations and suppresses the combined pyMHF control window.
+Validation passed 403 production and 689 developer tests. The separate 091-r1
+bundle is built and passed actual-framework checks plus Python and Windows
+PowerShell 5.1 read-only preflights. It has not launched.
+
+The immutable running 090-r2 has one player-confirmed visible Random startup
+pet and a report that preferences appear saved. This does not establish restart
+persistence, By habitat, shuffle outcomes or complete seven-row acceptance.
+Its custom menu stopped under `unexpected_thread` at 14:30:17; production
+summoning continued. The unchanged 0.9.1 menu does not fix this limitation.
+See [LIVE-090](docs/research/LIVE-090.md) before the next lifecycle investigation.
+Retained 0.8.7 and earlier artifacts remain immutable.
 
 By habitat uses explicit directed 13/5/1 exact/related/acceptable groups on
 planets, independently of group population; stations/Nexus use the unweighted
@@ -18,7 +28,7 @@ Schema 4 defaults fresh installs to By habitat and rotation ON; legacy schemas
 table are in [HABITAT-SELECTION](docs/research/HABITAT-SELECTION.md).
 
 The parent/roles 0–5 keep their existing IDs; role 6 adds Shuffle companions.
-The source bridge resolves the exact 0.5.0 production instance and uses its
+The current source bridge resolves the exact 0.5.1 production instance and uses its
 existing lock/queue. Selection cycles through all three modes; no browsing,
 hover or rebuild may change a preference. Full topology requires exactly seven
 children in this opt-in candidate; explicit legacy six-role/one-child modes
@@ -26,9 +36,9 @@ remain separate. The original native binding guard still covers tagged items.
 No new native address, input hook or gameplay limit is introduced. The rotation
 icon is included and checked offline; existing icon fallback remains required.
 
-## Retained running 0.8.7, bounded live confirmation
+## Historical 0.8.7, bounded live confirmation
 
-The immutable running **0.8.7-play-trial / 087-r1** contains production **0.4.9**
+The immutable previously tested **0.8.7-play-trial / 087-r1** contains production **0.4.9**
 and menu **0.8.5-branding**. On 28 September 2026 at 11:07:26 (Europe/Prague),
 two Mods and twelve native targets registered after normal closure and a fresh
 verified 46-file backup. The player confirmed visible Random pets in the Nexus
@@ -63,13 +73,13 @@ It records bounded language observations only on owned CAS captions, using the
 existing guarded reader and hook. It does not select a catalog or change text,
 icons, settings, timing or summon behavior. The separate
 `build/quick-menu-play-trial-087-r1` bundle has 41 files (40 payloads and a manifest)
-and is now running. It passed 333 production and 675 developer tests, actual
+and was launched for that historical session. It passed 333 production and 675 developer tests, actual
 framework checks with nine callbacks per Mod across twelve targets and all six
 temporary preference paths, plus Python and Windows PowerShell 5.1 read-only
 preflights. The prepared `086-r1` remains immutable and unlaunched. These checks
-do not establish gameplay or visual acceptance. The developer panel remains until native controls
-pass acceptance. The different pets in both the earlier and current Random
-runs do not establish a cause or fix for the [0.8.4 Nexus failure](docs/research/LIVE-084.md).
+do not establish gameplay or visual acceptance. That trial retained the developer panel. The 0.9.1 combined candidate now
+suppresses it while full native acceptance remains pending. The different pets
+in those historical Random runs do not establish a cause or fix for the [0.8.4 Nexus failure](docs/research/LIVE-084.md).
 
 Each child is a uniquely marked None action with an explicit role. In 0.8.7,
 full-page validation requires exactly the six expected children; foreign/native content

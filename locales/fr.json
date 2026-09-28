@@ -7,7 +7,9 @@
   "unchanged_keys": [
     "menu.parent_title",
     "format.with_status",
-    "product.full_name"
+    "product.full_name",
+    "hud.settings_applied",
+    "hud.setting_separator"
   ],
   "messages": {
     "menu.parent_title": {
@@ -78,13 +80,13 @@
       "text": "{label} ({status})",
       "source_sha256": "91296ce9d7f8f557e739c1b6959e7287451b134eb73e31e5b3d804c9c45240de"
     },
-    "hud.automation_state": {
-      "text": "Companion Auto Summon : {state}{suffix}",
-      "source_sha256": "9736c6783d3a6f8a0c802663cc486ff3346149d15e0adcdfdd4243ff88f5e799"
+    "hud.settings_applied": {
+      "text": "{changes}{suffix}",
+      "source_sha256": "e62f8fc3c76e9091e720584c3f6430345a05c5e568583738a920b372396adb4e"
     },
-    "hud.settings_updated": {
-      "text": "Companion Auto Summon : paramètres mis à jour{suffix}",
-      "source_sha256": "32091ba51b817c817456204dbe6c2f1ca126459ffdf22bad03c1284439a918d9"
+    "hud.setting_separator": {
+      "text": "; ",
+      "source_sha256": "0a2d3f8f9b727cf73e6c7e44f2feefc41855195b3010a3c4f6b05c33aeb484a9"
     },
     "hud.session_suffix": {
       "text": " (session uniquement)",

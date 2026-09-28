@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.5.1 / 0.9.1 developer candidate — exact settings confirmations
+
+- Replace generic settings-updated notices with every effective changed label and its new ON/OFF or mode value. Batch multiple changes in canonical menu order, keep one session-only suffix on save failure, and emit nothing for a no-op. Preserve preference application, storage, summon cancellation and existing latest-notice delivery semantics.
+- Replace two obsolete HUD catalog formats with `hud.settings_applied` and `hud.setting_separator` across all fourteen catalogs, retaining 46 keys. Reuse existing translated labels and values; maintain draft status. Offline rendering preserves complete changes and whole-message English fallback; native runtime remains English ASCII with a 511-byte bound.
+- Set `gui.shown = false` only for the combined trial, retaining the seven-control 0.9.0-selection native menu. Standalone developer launches retain the GUI because they lack that menu. This does not complete portable distribution, console-free startup, native localization or live control acceptance.
+- Validation passed 403 production and 689 developer tests, actual-framework checks and both read-only preflights. The allowlisted combined ZIP has 42 verified files. The separate 0.9.1 candidate has not launched. Preserve the running 090-r2 payload and player settings. Its confirmed Random startup pet and report of apparently saved settings do not prove restart persistence, By habitat or shuffle outcomes.
+- Record the retained 090-r2 `unexpected_thread` menu-stop guard at 14:30:17. The 0.9.1 menu is unchanged and does not fix it; production automation is separate. Teleport arrival/base removal create no new summon opportunity, and the cause of a reported disappearance remains unproven. Menu-lifecycle investigation is next.
+- Refresh English/Czech guides and selection evidence for all seven controls and exact feedback. Save and verify the 0.9.1 description, summary, version and development ZIP on the unpublished Nexus draft (mod 4579, file 49195, Miscellaneous; mod-manager download disabled). Preserve the explicit menu-thread and travel-trigger limitations. Native hooks, gameplay rules, weights, limits and game saves are unchanged.
+- Record a scan-status discrepancy: Nexus displays Some suspicious files; its linked VirusTotal report for the exact uploaded ZIP shows 0/65 detections. The cause is unresolved and the page remains unpublished.
+
+## 0.9.0-r2 first live launch — 28 September 2026
+
+- Start the unchanged separate 090-r2 bundle after a matching read-only preflight and a fresh verified backup of 46 save-profile files and both external mod data files. Preserve existing Random preferences; do not force new-install defaults.
+- Confirm production 0.5.0, menu 0.9.0-selection and twelve native targets loaded. Diagnostics record an accepted Random startup queue in the Space Anomaly and a matching logical active index; the player confirms visible appearance. Native menu actions log shuffle ON and mode changes; the player reports settings appearing to save, without a restart-persistence check.
+- Record the bounded observations in `docs/research/LIVE-090.md`. New selection behavior, seven-row UI, placement, inputs and multiplayer still need live acceptance. No source, translation wording, gameplay rules or running trial payload changed.
+
 ## Habitat fauna evidence — 28 September 2026
 
 - Establish Waterworld adoption from a firsthand Water-bound helmet-crab report; distinguish aquatic creatures on other planet types, underwater adoption and native summon placement. Do not promise underwater or Exo-Skiff summoning.

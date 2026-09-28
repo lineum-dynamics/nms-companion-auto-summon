@@ -1,9 +1,39 @@
 # Companion Auto Summon development guide
 
-Source **0.5.0-experimental / 0.9.0-play-trial**, with menu
-**0.9.0-selection**, now implements By habitat and Shuffle companions. Offline validation passed 396 production and 683 developer tests; the candidate is unlaunched. Retained 0.8.7
+Source **0.5.1-experimental / 0.9.1-play-trial** prepares specific confirmations
+for every applied setting and a combined launch without the pyMHF control
+window. The seven-row native menu remains **0.9.0-selection**. Existing gameplay
+rules and preference persistence are unchanged. Validation passed
+403 production and 689 developer tests. Actual-framework checks and both
+read-only preflights passed; the combined ZIP has 42 verified files. This
+0.9.1 candidate has not launched; the running 090-r2 is never edited. The standalone
+source mod retains its development GUI because it does not include the native
+menu. This does not establish a finished portable or console-free launcher.
+
+The running 090-r2 log later reports `Inert menu ordering stopped
+(unexpected_thread)` at 14:30:17. The menu guard retains the native binding
+filter but stops custom menu handling after a callback thread change; the
+production automation is separate. The reason for the thread change and its
+relation to the player's actions are not established. The unchanged menu in
+0.9.1 does not fix this known limitation. Teleport arrival and base removal are
+not automatic-summon triggers. The player reported no arrival pet and a pet
+disappearing after base removal; the cause of that disappearance is unproven.
+Next work is a bounded menu-lifecycle investigation, not an assumed new trigger
+or automatic respawn after disappearance.
+
+Retained source **0.5.0-experimental / 0.9.0-play-trial**, with menu
+**0.9.0-selection**, now implements By habitat and Shuffle companions. Offline validation passed 396 production and 683 developer tests. The final `090-r2` candidate launched on 28 September 2026 through the guarded Windows PowerShell 5.1/PTY path. Retained 0.8.7
 and earlier artifacts remain immutable. The seven-row interface,
 new selection behavior and rotation icon have no new live acceptance.
+
+The new session started NMS PID 16776 after a verified backup of 46 save files
+and two mod preference/state files. Production 0.5.0 initialized at
+14:11:13.488 (Europe/Prague); menu 0.9.0 initialized its binding filter at
+14:11:13.682, and the framework reported two Mods and twelve hooks loaded at
+14:11:13.828. Existing schema-3 settings retained Random with shuffle OFF in
+the in-memory migration. The player subsequently confirmed a visible Random
+startup companion and reports that preferences appear to save. A restart check,
+By habitat, shuffle outcomes and complete menu acceptance remain pending. See [LIVE-090](docs/research/LIVE-090.md).
 
 By habitat uses explicit directed 13/5/1 exact/related/acceptable groups on
 planets, independently of group population; stations/Nexus use the unweighted
@@ -15,9 +45,9 @@ Schema 4 defaults fresh installs to By habitat and rotation ON; legacy schemas
 1/2/3 preserve their choices with rotation OFF. Details and the complete heuristic
 table are in [HABITAT-SELECTION](docs/research/HABITAT-SELECTION.md).
 
-Retained 0.8.7 validation: **333 production tests and 675 developer tests passed** without failures or skips. The separate 41-file `quick-menu-play-trial-087-r1` folder (40 payloads and its manifest) passed real-framework discovery, shared Python dispatch, all six temporary preference paths and both Python and Windows PowerShell 5.1 read-only preflights. The framework checks used nine callbacks per Mod across twelve targets, without native binding or game access. The now-running `087-r1`, retained 0.8.4 and prepared, unlaunched `086-r1` payloads remain immutable.
+Retained 0.8.7 validation: **333 production tests and 675 developer tests passed** without failures or skips. The separate 41-file `quick-menu-play-trial-087-r1` folder (40 payloads and its manifest) passed real-framework discovery, shared Python dispatch, all six temporary preference paths and both Python and Windows PowerShell 5.1 read-only preflights. The framework checks used nine callbacks per Mod across twelve targets, without native binding or game access. The previously tested `087-r1`, retained 0.8.4 and prepared, unlaunched `086-r1` payloads remain immutable.
 
-The running retained candidate is **0.8.7-play-trial**, with production **0.4.9-experimental**
+The retained previous candidate is **0.8.7-play-trial**, with production **0.4.9-experimental**
 and menu **0.8.5-branding**. Its external title is **Companion Auto Summon for No Man's Sky**,
 with the byline **by Lineum Dynamics**; the in-game short title stays unchanged.
 It retains the passive observation
@@ -119,10 +149,13 @@ The combined build and packaging also check generated production, menu/filter
 and technology-prototype targets. Drift stops output creation. Build the separate
 candidate with `python -B tools/build_quick_menu_play_trial.py --enable-menu`.
 Use a fresh explicit output directory if that version's default already exists;
-the builder refuses to overwrite an earlier trial. The final current artifact
-is `build/quick-menu-play-trial-090-r2`, with 41 payloads plus its manifest;
-the previously tested `087-r1` and prepared `086-r1` folders remain
-immutable and unlaunched.
+the builder refuses to overwrite an earlier trial. The current unlaunched artifact
+is `build/quick-menu-play-trial-091-r1`, with 41 payloads plus its manifest. It
+passed actual-framework checks and Python plus Windows PowerShell 5.1 read-only
+preflights. The immutable running `090-r2` retains the bounded startup and
+menu-stop evidence in [LIVE-090](docs/research/LIVE-090.md).
+The previously tested `087-r1` and prepared, unlaunched `086-r1` folders remain
+immutable.
 
 The final 0.8.4 candidate passed 329 production and 633 developer tests, with
 unchanged sources and no skips. Its 39 payloads plus manifest passed real pyMHF
@@ -133,7 +166,7 @@ Python probe regression covers legacy PowerShell argument quoting; target-path
 tests count UTF-16 units, including non-BMP characters. No new live behavior
 has been verified by these checks.
 
-The new source is **0.5.0-experimental**, paired with menu **0.9.0-selection** for **0.9.0-play-trial**. The running **0.8.7-play-trial** retains production **0.4.9** and menu **0.8.5-branding**. Retained **0.8.4-play-trial** has production **0.4.7** and menu **0.8.3-settings-trial**. Earlier artifacts remain unchanged. The target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The development launcher accepts Python 3.11–3.13 x64.
+The current launched source is **0.5.0-experimental**, paired with menu **0.9.0-selection** for **0.9.0-play-trial**. The retained **0.8.7-play-trial** has production **0.4.9** and menu **0.8.5-branding**. Retained **0.8.4-play-trial** has production **0.4.7** and menu **0.8.3-settings-trial**. Earlier artifacts remain unchanged. The target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The development launcher accepts Python 3.11–3.13 x64.
 
 The PowerShell launcher's `-CheckOnly` path validates package integrity, the
 supported game and the existing runtime without creating files/directories,
@@ -147,8 +180,9 @@ is the lifetime of the OS handles, not a lock file or a remembered PID. The
 lease ends when its last handle closes, including after a crash. Duplicate
 launches are refused across folders. An error enumerating processes prevents
 normal setup rather than being treated as evidence that the game is closed.
-The portable public installer, final GUI retirement and localization remain
-unfinished; this revision does not change native hooks, summon rules or input.
+The 0.9.1 combined candidate sets `gui.shown = false`; its standalone developer
+configuration still shows the panel. The portable public installer, console-free
+startup and localization remain unfinished; this revision does not change native hooks, summon rules or input.
 
 The 0.9.0 menu opts into seven tagged None children on one flat page. Existing
 roles 0–5 remain `enabled`, `selection_mode`, `prefer_same_biome`, `planets`,
@@ -160,7 +194,8 @@ and the manual favourite are preserved. Mode cycles last_manual → random → b
 the other controls flip Booleans. All three locations may be disabled. Pending
 and session-only captions retain their existing meaning. Legacy trials keep
 their one-child default. Full-page navigation and preference application remain
-unverified in-game; the development panel stays available.
+incomplete in-game. The combined 0.9.1 candidate does not create the pyMHF
+control window; the standalone developer script retains it.
 
 Eight original DDS icons belong to the 0.9.0 combined development bundle.
 Its launcher validates the entire fixed set before staging unique assets while
@@ -200,7 +235,17 @@ dispatch, not a second native detour at that address; the native binding guard
 is unchanged. Both callback orders passed the real Python registry/compound
 dispatch check with all four Boolean combinations and one mocked original call.
 
-Explicit confirmations request 5.5 seconds. A changed manual identity says
+Explicit confirmations request 5.5 seconds. Production 0.5.1 reports every
+effective preference change through `settings_change_notice(previous, requested,
+saved)`: canonical setting order, exact ON/OFF or mode values, one combined
+message and one session-only suffix if persistence fails. No-op requests remain
+silent and do not cancel existing summon intent. The complete English ASCII
+message must fit 511 bytes; text is not truncated. Existing latest-notice delivery
+is unchanged. All fourteen catalogs reuse the translated menu labels/values via
+`hud.settings_applied` and `hud.setting_separator`; the offline renderer accepts
+`settings_notice(changes=..., saved=..., locale=...)` and falls back as a whole
+if translated text exceeds its byte bound. These helpers add no native calls,
+game-save writes or preference semantics. A changed manual identity says
 `Companion saved.` only after persistence succeeds, otherwise
 `Companion selected (session only).`; OFF/Random context is appended as needed.
 Repeated choices, automatic requests and game restoration remain quiet. The
@@ -223,11 +268,11 @@ trigger, preferences, manual selection/preview/emote and invalid state end it.
 Observer failures do not disable working automation. It adds no native calls,
 hooks, offsets, preference fields or game-save writes.
 
-The running 0.8.7 bundle pins its preference bridge to the versioned 0.4.9
+The retained 0.8.7 bundle pins its preference bridge to the versioned 0.4.9
 initializer; immutable 0.8.6-r1 and 0.8.4 retain their 0.4.8 and 0.4.7 bridges.
 It keeps the production control lock, queue, application callback
 and two-Mod discovery contract. The additional resource callback belongs to
-the menu Mod. Old artifacts are retained; the active 0.8.7-r1 folder is immutable.
+the menu Mod. Old artifacts are retained; the previously tested 0.8.7-r1 folder is immutable.
 
 Historical 0.4.5 / 0.7.2 offline validation passed **279 production tests** (189 runtime, 34 policy,
 14 persistence, 24 settings, 18 launcher) and **408 developer tests**. Actual
@@ -315,7 +360,7 @@ Only the current source and new packages receive the new names. Historical test 
 - `README.cs.md`: Czech companion guide; keep behavior and status aligned with the English guide.
 - `DEVELOPMENT.md`: canonical development rules, architecture and maintenance workflow.
 - `DESIGN.md`: accepted player-experience direction, native menu/notification goals and current implementation limits.
-- `QUICK-MENU.md`: exact-build menu investigation, retained observers, bounded six-setting/icon evidence and staged acceptance checks.
+- `QUICK-MENU.md`: exact-build menu investigation, retained observers, bounded historical six-setting/icon evidence and current seven-row acceptance checks.
 - `docs/research/LIVE-084.md`: failed Nexus startup, successful later ship exit with another Random pet, and limits of the current evidence.
 - `docs/release/MONETIZATION.md`: dated primary-source policy review, proposed free distribution and unsent clarification drafts.
 - `ROADMAP.md`: canonical unfinished release backlog and explicitly unapproved future proposals; update status and evidence as decisions are made.

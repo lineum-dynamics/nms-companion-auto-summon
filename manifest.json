@@ -1,6 +1,6 @@
 {
   "name": "Companion Auto Summon for No Man's Sky",
-  "version": "0.5.0-experimental",
+  "version": "0.5.1-experimental",
   "date": "2026-09-28",
   "installed_in_game_directory": false,
   "tested_inside_game": false,
@@ -16,26 +16,26 @@
   "selection_mode_control_verified_in_game": false,
   "biome_preference_verified_in_game": false,
   "location_preferences_verified_in_game": false,
-  "gameplay_verification_scope": "0.5.0 / combined 0.9.0 has no live acceptance. Retained 0.8.7-r1 observations remain historical only. See docs/research/LIVE-087.md.",
+  "gameplay_verification_scope": "0.5.1 / combined 0.9.1 has not launched. Specific setting confirmations and combined GUI-free startup await live acceptance. Retained 090-r2 is the running trial; its bounded results are in docs/research/LIVE-090.md.",
   "supported_summon_locations": {
     "2": "SpaceStation",
     "3": "PlanetOnFoot",
     "14": "Nexus"
   },
-  "previous_live_result": "Final combined 0.8.7-r1 launched on 28 September 2026 with production 0.4.9. Player confirmed visible Random summons after save load and ship exit in the Space Anomaly; logs confirm native location 14, accepted queues and expected active indices for different pets. One later manual-dismissal check had no apparent reappearance per player; duration not independently timed. No fix or repeatability is established for the earlier intermittent 0.8.4 failure. Full gameplay, controls, icons/HUD, other locations/modes and multiplayer remain unverified. See docs/research/LIVE-087.md.",
+  "previous_live_result": "28 September 2026: player confirmed one visible Random startup companion in the Space Anomaly and reported preferences appearing to save; native diagnostics agree. Native menu changes logged shuffle and mode changes. No restart-persistence, By habitat outcome, shuffle-cycle, broad input or multiplayer acceptance. See docs/research/LIVE-090.md.",
   "offline_tests": {
-    "passed": 396,
+    "passed": 403,
     "policy": 34,
     "persistence": 14,
     "settings": 27,
-    "adapter_simulation": 196,
+    "adapter_simulation": 203,
     "host_launcher": 41,
     "compatibility": 24,
     "selection": 40,
     "selection_adapter": 20
   },
   "actual_framework_import_and_gui_properties": "Passed pyMHF 0.2.4 / Dear PyGui 2.3.1 offline discovery, all nine widget constructors/callbacks, nine production callbacks, zero hotkeys; disabled outside the supported game.",
-  "launcher_validation": "Separate 0.9.0-play-trial / 090-r2 passed Python and Windows PowerShell 5.1 CheckOnly against the exact supported installation and existing runtime. No setup, asset staging, game launch or hooks. Real-framework combined discovery, shared Python dispatch and all seven temporary preference paths passed.",
+  "launcher_validation": "0.9.1 combined candidate passed direct Python check-only and Windows PowerShell 5.1 CheckOnly against the supported game and existing runtime while NMS was running; neither performed setup, asset staging, game start or native hook registration. The actual-framework offline check instantiated both mods with no GUI and applied all seven temporary preferences. Standalone retains its development panel. Combined no-window and native-control behavior still await live acceptance.",
   "preferences_included": false,
   "manual_selection_path": "%LOCALAPPDATA%/NMS-AutoPet/state.json",
   "preferences_path": "%LOCALAPPDATA%/NMS-AutoPet/settings.json",
@@ -61,7 +61,7 @@
   "files": [
     {
       "path": "CompanionAutoSummon.py",
-      "sha256": "067083f7097a9f5737bfa15639a6e0e6bd78fa71aded18e69277c3a478646e18"
+      "sha256": "d12cb9a2c7c87d5ea07752057b3ed74670d3215fa794d59c8cc2e55c9bab1098"
     },
     {
       "path": "Launch-CompanionAutoSummon.py",
@@ -69,11 +69,11 @@
     },
     {
       "path": "README.md",
-      "sha256": "1b533538d9d2ff71a2b86d13405e964e2aa03bd158e2f0138d30fbf66f1bb66b"
+      "sha256": "0da77f227622d648b57405003298253f72082dd7a4f6ea926c8179f9551aa3dd"
     },
     {
       "path": "README.cs.md",
-      "sha256": "7c61ba7f6a38d9b4403744e38d51e03d050a8b2d37bec56880242bbc58348be7"
+      "sha256": "7d5f04eea3e609626ac5de04cac7f9eeed350af72b7a54dbe644b114a415b554"
     },
     {
       "path": "cas_compatibility.py",
@@ -85,11 +85,11 @@
     },
     {
       "path": "TECHNICAL-VERIFICATION.md",
-      "sha256": "10c8faacc43404f3eb1a82053b1ed11e47b08aff6f13c2b640251bb6bb929702"
+      "sha256": "e7dbac0cfed750fdc769e494b064a2a2f4b7606c61f53f8b4d257284723c97a8"
     },
     {
       "path": "build.py",
-      "sha256": "2049187f837c6948e7cab2ab2c7e0c2a4c3c0c926933482317382c22f1fef4b5"
+      "sha256": "5a214e7c000ff9b1cf58653257119384bb5cfa42f4fe2d228ad9c58e0bc1a1c1"
     },
     {
       "path": "Start-CompanionAutoSummon.ps1",
@@ -97,39 +97,39 @@
     },
     {
       "path": "DEVELOPMENT.md",
-      "sha256": "b196a54a98c083bcc965de7d6b25f5c08cb67c16643ea901683bb3f1f190fe1c"
+      "sha256": "fe90bc176d4ecc66103f41e5d79b37aea06c7c15ec2734ecc7179519880071cc"
     },
     {
       "path": "LOCALIZATION.md",
-      "sha256": "2cf80f72af63b3188fdb12aba4e965dae0de42461975a3fc576725477e87926d"
+      "sha256": "8a97e99ee3a99ce996c309aff67b9114d324c356a8c1f7f6d57495b0e6923728"
     },
     {
       "path": "DESIGN.md",
-      "sha256": "cc086787841508d8460bbbc9d475fed722ce7003fe1d0251572deeaf1db96c04"
+      "sha256": "d61ceb30fba35984ef5172605aacca20eba2f78d3b6acfc3debf66a6ffd40e2b"
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "54175eec259b0e4c33c3e2a5155c856d1d0588f9bf1a4161133f50d899bbbcd3"
+      "sha256": "a50996b7bd20d5acf55bc4ea36d0b66a47b632eec04e90233641b531feb66a66"
     },
     {
       "path": "ROADMAP.md",
-      "sha256": "fd52927e9f457c3d83a817481910c8dfb7cb3a32d415ee1f5b3b9e8efdc35faa"
+      "sha256": "e777bf61ff5514955ce63ae3167f6e9b4421ccd5273396aae9a9d7f38e271fcb"
     },
     {
       "path": "QUICK-MENU.md",
-      "sha256": "9343c57ad033bf9cf06ac51e50fed0e5551a97c6cc3eba76a2eb6d8a55c35790"
+      "sha256": "65ebeec667300ab028dde541df9360f6ab56d429471b8578a24520df83a524b8"
     },
     {
       "path": "docs/release/RELEASE-PREPARATION.md",
-      "sha256": "3b0f3e46b225d894f6a3a4809ec0945325f8a97030d9b794930e68ebd1d49e1a"
+      "sha256": "46a56042864a541590078d507ecaeb1a08d0cde9c2472911ffc3a5c128360d34"
     },
     {
       "path": "docs/release/INSTALLATION-REQUIREMENTS.md",
-      "sha256": "c39a8a404cae5b527afecf0bc1269a93ea20c36a8a87b79041afac64632c854f"
+      "sha256": "5ea123a251f28eb4e7c1be2accb724f0dd25d8f1c0cf9d90e3638369da4fd68b"
     },
     {
       "path": "docs/release/NEXUS-DESCRIPTION-DRAFT.md",
-      "sha256": "df49f42fa1c04cbbef3f02efa5ef57f54d318e1ab2afb2b397c2aed4b80ab841"
+      "sha256": "47a9c254daf16ef0db06854d273ff13b1a8c867b3699fb744d8acd544c861b4b"
     },
     {
       "path": "docs/research/TECHNOLOGY-PROTOTYPE.md",
@@ -152,8 +152,12 @@
       "sha256": "2b4a16050871bd9572ac7bd8b6e05efbf41f7b0a22923925c3101dd823a3922a"
     },
     {
+      "path": "docs/research/LIVE-090.md",
+      "sha256": "00b47e47dccc005d2567b03ffbaac456a61ce4ac20d628eeb2ed98df98974469"
+    },
+    {
       "path": "docs/release/MONETIZATION.md",
-      "sha256": "c9e73d95bd3b2085fb462bb8b61e0c217cea3a59b1c724a9e57faef094be1790"
+      "sha256": "4795e25a400601f108d746c22812f5aaff2d73c7064345b10962424e1ee3c839"
     },
     {
       "path": "docs/research/NATIVE-LOCALIZATION-AUDIT.md",
@@ -165,7 +169,7 @@
     },
     {
       "path": "docs/research/HABITAT-SELECTION.md",
-      "sha256": "2a70252cd8777757e5e02f0f308a94134229b7633ea99a79c6808b5f9dc7ec0b"
+      "sha256": "da96cd3ea7f62ea027ec71f6473409499f2fa0b384ddc8d5c7157cf7796173d5"
     },
     {
       "path": "src/policy.py",
@@ -185,7 +189,7 @@
     },
     {
       "path": "src/runtime.py",
-      "sha256": "0bba502f1313a0724fb561424f6b833ae4ae7b73491e95ae2cdef19bd2256a40"
+      "sha256": "359a6bc3a76a289ea14326a5018bacd2b521e2f65c1e03ac1bab482d0eb11eed"
     },
     {
       "path": "tests/test_policy.py",
@@ -201,7 +205,7 @@
     },
     {
       "path": "tests/test_runtime.py",
-      "sha256": "252cfbdbf48245088cac221cb8d3044812401f8e8ac0b408eb4b21fe9186212a"
+      "sha256": "08d8f5f823625fb1eec770cf20f09ae4aa7b46bf0df8f6c5b9839307cdcd19b8"
     },
     {
       "path": "tests/test_runtime_selection.py",
@@ -221,7 +225,7 @@
     },
     {
       "path": "tools/validate_locales.py",
-      "sha256": "41b44d6fa4e3b5f0ae940d7db4e1e113792edba88cf28e78528f8a4735192049"
+      "sha256": "d735f56f0ff05dcfc950431ba21dac64d02c41f9bbaea731a1e2b68609ffe165"
     },
     {
       "path": "tools/quick_menu_toggle.py",
@@ -237,59 +241,59 @@
     },
     {
       "path": "locales/en.json",
-      "sha256": "803535ecdb1d55ee874d2b720ebb2232c34a2f464b0db631cfdd021ca8605252"
+      "sha256": "731f9f51bbda477e336819745a01e8e50b7ac9ae22c6a3cdd8ba820fd6006a4d"
     },
     {
       "path": "locales/fr.json",
-      "sha256": "f96fa4279eb85920d9985b448ba897eb999619cd20e70bf669f0c2e4678434bf"
+      "sha256": "bc27411228faefc38cd229247a6bf468e0968706035dbf6164f7c94e49bcfc00"
     },
     {
       "path": "locales/it.json",
-      "sha256": "cc68eb5bfc67fc1fec9b4655e3902db5db31b25aed032fa135aa0ef5fa017512"
+      "sha256": "f85eadf03c325c37848cdb960260ae8ce9a245d95e17ff77cbcdfb2535b998db"
     },
     {
       "path": "locales/de.json",
-      "sha256": "48e5452743d64cdc44bae06c9f9a9a59b1558f43c8e3c0a8b8f890c514d9a8fb"
+      "sha256": "189ec47830649fcfc9b9771065481e306d3834cc950cc167515334a8d5700f30"
     },
     {
       "path": "locales/es-ES.json",
-      "sha256": "46d3991bacedb539facb280b1b11d08e3813842c6b8409ca89ebd7cacb664e27"
+      "sha256": "d6d241f7ae35cfa2509db85d90a66b5b94f52cea477c9cc5e290f6df17b5283f"
     },
     {
       "path": "locales/nl.json",
-      "sha256": "c61bc0998a7791985eae9c2b54db0a7b63648eaf88357420814f0c39c46f10dd"
+      "sha256": "42a6c77679d4fd4d652331703fb97a4d241ddfb0338f8d684d7958e7e88176f4"
     },
     {
       "path": "locales/ja.json",
-      "sha256": "535824075b88576c73d2a34c8ff86da5b639b9059025b62577badefd8dd5a692"
+      "sha256": "952fbefdaa23fbd22f2154c75d71408bfc7b65651f39d9ae207d63a0aa6e15e8"
     },
     {
       "path": "locales/ko.json",
-      "sha256": "4476ac6550e7bcbc063d981e9b9eedfe58fe379767f4db99ad59dcc6be703cd5"
+      "sha256": "67da40031d3a41ffcfbafad26acf23b14a84cbd50f890ec0fb8c1eb6fc02ccfc"
     },
     {
       "path": "locales/pl.json",
-      "sha256": "17322af1305d525cc7be7605c1c8c69c4e4105d80f1c662233a0b50f588c1405"
+      "sha256": "9dbb67a0dcef3b2b7733d5dcb6c396a4a83b9851870d86d80c1e0357643f929c"
     },
     {
       "path": "locales/pt-PT.json",
-      "sha256": "96f946b85beca0494b0f2b0ddbc6d8041b77a931283e9e9101597a060642007f"
+      "sha256": "fc3a7d960c0655efaaa9579a66c275e9570923c329e0d450a272fb8198c47a92"
     },
     {
       "path": "locales/pt-BR.json",
-      "sha256": "e0894bf0782c73fa8770f6b7e005651fb4159f932debb22864bea2c5f98007b2"
+      "sha256": "bad73366aedc7474fe2f104dd8e6c2a6563ac00e45f9c10161cde7e3a65a64f7"
     },
     {
       "path": "locales/ru.json",
-      "sha256": "7d8e9cd3efabf759156eab21f7062e837dd9ce8d066ac20284dddeb2b6533f62"
+      "sha256": "318c5295a488c3292e1ca55de2607cf04345a8b09d0e962a76554763956ee545"
     },
     {
       "path": "locales/zh-Hans.json",
-      "sha256": "9a238f64a26751bde228400590bc7ac480991bd293578e231df6e35f74f823bf"
+      "sha256": "e967205940b3545ea8e3a72b5a2da9a5587c8f0864f4887c79e4788c6ac37bf6"
     },
     {
       "path": "locales/zh-Hant.json",
-      "sha256": "355abcab583409398ba258e29d32f09bf29c5634051d94a3881f381b82b43653"
+      "sha256": "b236bb5e563f22173c9dceabb90a06fc58788be429a928e75d75d5501d0d39cd"
     }
   ],
   "legacy_data_directory": "NMS-AutoPet is intentionally retained for settings, remembered companions and the existing development runtime; schemas and file contents are unchanged.",
@@ -332,7 +336,7 @@
     "scope": "Separately built, predicate-gated native ON/OFF candidate. Requires same-menu false then true native confirmation, one matching selected-child trigger and original false result; no tail-only activation. Existing production applies and persists the queued setting. Other preferences remain in the temporary development panel. Registered on 27 September 2026 after normal exit and a fresh verified backup: two Mods, 11 hook targets, automation ON and 14 unchanged payloads. Complete live preference validation, remapping/controllers and held input await testing."
   },
   "developer_native_menu_trial": {
-    "version": "0.9.0-play-trial",
+    "version": "0.9.1-play-trial",
     "menu_version": "0.9.0-selection",
     "preference_keys": [
       "enabled",
@@ -342,13 +346,12 @@
       "rotate_companions"
     ],
     "production_script_byte_identical": true,
-    "production_byte_identity_reference": "Generated production 0.5.0 in the source package",
+    "production_byte_identity_reference": "Generated production 0.5.1 in the source package",
     "live_verified": false,
     "launched": false,
     "registration_verified": false,
     "included_in_player_zip": false,
-    "scope": "Weighted 13:5:1 habitat selection, identity-based rotation, seven native rows and eight original icons. Existing native rules and mappings retained. Fresh defaults By habitat/rotation ON; legacy choices preserved with rotation OFF. Offline evidence only; no gameplay, input or multiplayer acceptance inherited. Revision r2 changes the visible rotation caption to Shuffle companions across all catalogs; behavior, stable keys and defaults are unchanged.",
-    "developer_tests_passed": 683,
+    "scope": "Specific applied-setting HUD labels and values, including batches and session-only failures; combined launch skips pyMHF GUI construction. Standalone development panel retained. Gameplay, ownership, habitat groups, shuffle, persistence and exact native mappings remain unchanged. No live acceptance inherited.",
     "actual_framework_discovery_verified": true,
     "temporary_all_seven_preferences_verified": true,
     "optional_icon_provider_binding_verified": true,
@@ -366,12 +369,44 @@
     "compatibility_profile_validation_required": true,
     "language_observation_only": true,
     "native_translation_rendering": false,
-    "final_candidate_directory": "build/quick-menu-play-trial-090-r2",
-    "production_sha256": "067083f7097a9f5737bfa15639a6e0e6bd78fa71aded18e69277c3a478646e18",
+    "final_candidate_directory": "build/quick-menu-play-trial-091-r1",
+    "revision": "r1",
+    "visible_shuffle_label": "Shuffle companions",
+    "combined_gui_shown": false,
+    "developer_tests_passed": 689,
+    "developer_test_report": "build/validation/developer-091.log",
+    "developer_test_report_sha256": "8269068d9f8a3db607959699e9a4a9ce38f5d521c07fbe0b2e6b5f6cd38958f1",
+    "production_sha256": "d12cb9a2c7c87d5ea07752057b3ed74670d3215fa794d59c8cc2e55c9bab1098",
     "menu_sha256": "832505a99ba831e6d092ed8057ed9b377e3787e42187b11a2aa0c676e3e0db9e",
-    "candidate_manifest_sha256": "c05e7aeb861884c14ca0a94bae1fc9427fc91f512cf2540bf17de632c159e134",
-    "revision": "r2",
-    "visible_shuffle_label": "Shuffle companions"
+    "candidate_manifest_sha256": "dc68edbf7038e294c6a97ab3546f036f371eb245b2951ff01611d2adde09a77f",
+    "framework_report": "build/validation/menu-play-0.9.1-play-trial-framework.json",
+    "framework_report_sha256": "d12dd48b0f290fd92d4fbc42bf1a95582ed6f80af7fe84da830c26ef76a8284b",
+    "mods_instantiated_in_owned_framework_registry": 2,
+    "gui_instances_created_offline": 0,
+    "preference_bridge_without_gui_verified": true,
+    "framework_native_binding_performed": false,
+    "python_check_only_verified": true,
+    "windows_powershell_5_1_check_only_verified": true,
+    "check_only_scope": "Passed against the installed exact Steam build and existing Python 3.11 x64 / pyMHF 0.2.4 / Dear PyGui 2.3.1 while NMS was running. No setup, asset staging, game start or hook registration. PowerShell used a process-local execution-policy argument; no persistent policy changed.",
+    "test_archive": "CompanionAutoSummon-0.9.1-play-trial.zip",
+    "test_archive_sha256": "7025712f8f9eb89a238f37e3871e817aefee99da9bf177d2163507d23b1a1b43",
+    "test_archive_bytes": 187533,
+    "test_archive_files": 42,
+    "test_archive_entry_set_and_hashes_verified": true,
+    "nexus_test_upload": {
+      "date": "2026-09-28",
+      "mod_id": 4579,
+      "file_id": 49195,
+      "page_status": "Unpublished",
+      "category": "Miscellaneous",
+      "mod_manager_download_enabled": false,
+      "archive_uploaded_and_row_verified": true,
+      "version_summary_description_saved_and_read_back": true,
+      "nexus_scan_status": "Some suspicious files",
+      "linked_virustotal_detections": "0/65",
+      "scan_discrepancy_resolved": false,
+      "publication_authorized": false
+    }
   },
   "post_queue_observation": {
     "passive_only": true,
@@ -951,5 +986,49 @@
     "production_sha256": "eab0741bc45a4f4f4f064ad5b98c521abb99d54a7b990adac134b03f53c72055",
     "menu_sha256": "832505a99ba831e6d092ed8057ed9b377e3787e42187b11a2aa0c676e3e0db9e",
     "candidate_manifest_sha256": "4c54a7897e45ce87f42e5b07fd6efab78b5f00f49b92e324d2ba7b57d6f4ef43"
+  },
+  "previous_090_r2_developer_native_menu_trial": {
+    "version": "0.9.0-play-trial",
+    "menu_version": "0.9.0-selection",
+    "preference_keys": [
+      "enabled",
+      "selection_mode",
+      "prefer_same_biome",
+      "locations",
+      "rotate_companions"
+    ],
+    "production_script_byte_identical": true,
+    "production_byte_identity_reference": "Generated production 0.5.0 in the source package",
+    "live_verified": false,
+    "launched": true,
+    "registration_verified": true,
+    "included_in_player_zip": false,
+    "scope": "Weighted 13:5:1 habitat selection, identity-based rotation, seven native rows and eight original icons. Existing native rules and mappings retained. Fresh defaults By habitat/rotation ON; legacy choices preserved with rotation OFF. Offline evidence only; no gameplay, input or multiplayer acceptance inherited. Revision r2 changes the visible rotation caption to Shuffle companions across all catalogs; behavior, stable keys and defaults are unchanged.",
+    "developer_tests_passed": 683,
+    "actual_framework_discovery_verified": true,
+    "temporary_all_seven_preferences_verified": true,
+    "optional_icon_provider_binding_verified": true,
+    "callbacks": 18,
+    "distinct_native_targets": 12,
+    "payload_files": 41,
+    "custom_icons_included": 8,
+    "custom_icon_deployed": true,
+    "custom_icon_live_verified": false,
+    "locale_validation_required_during_build": true,
+    "physical_hotkeys": 0,
+    "shortcut_binding_enabled": false,
+    "host_compatibility_guard_included": true,
+    "localized_launcher_messages": 9,
+    "compatibility_profile_validation_required": true,
+    "language_observation_only": true,
+    "native_translation_rendering": false,
+    "final_candidate_directory": "build/quick-menu-play-trial-090-r2",
+    "production_sha256": "067083f7097a9f5737bfa15639a6e0e6bd78fa71aded18e69277c3a478646e18",
+    "menu_sha256": "832505a99ba831e6d092ed8057ed9b377e3787e42187b11a2aa0c676e3e0db9e",
+    "candidate_manifest_sha256": "c05e7aeb861884c14ca0a94bae1fc9427fc91f512cf2540bf17de632c159e134",
+    "revision": "r2",
+    "visible_shuffle_label": "Shuffle companions",
+    "live_record": "docs/research/LIVE-090.md",
+    "live_scope": "28 September 2026: player confirmed one visible Random startup companion in the Space Anomaly and reported preferences appearing to save; native diagnostics agree. Native menu changes logged shuffle and mode changes. No restart-persistence, By habitat outcome, shuffle-cycle, broad input or multiplayer acceptance."
   }
 }

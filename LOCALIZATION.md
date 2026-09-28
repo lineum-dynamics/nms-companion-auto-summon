@@ -2,13 +2,29 @@
 
 ## Status
 
+Source **0.5.1 / 0.9.1** implements setting-specific HUD confirmations using
+the maintained setting labels and values. All fourteen catalogs replace the
+old generic/automation formats with `hud.settings_applied` (`{changes}{suffix}`)
+and `hud.setting_separator` (`; `), keeping 46 keys. The separator and wrapper
+contain no words and are explicitly declared invariant; actual labels, mode
+values and session-only suffixes use each locale's existing draft translations.
+A batch reports every effective change once in menu order. No-op changes emit
+nothing; saving failure adds one session-only suffix.
+
+The offline `NativeText.settings_notice(changes=..., saved=..., locale=...)`
+renderer preserves all changes and falls back to a complete English message
+if a translated batch exceeds 511 UTF-8 bytes. The native runtime remains on
+its bounded English ASCII path. Source/catalog checks exercise every subset
+of settings, all modes, both Boolean directions and persistence outcomes.
+This does not establish automatic game-language selection or translated glyphs.
+
 The 090-r2 visible caption is **Shuffle companions** in English; every locale
 now names shuffled selection rather than a fixed rotation. The stable
 `menu.rotate_companions` key and stored `rotate_companions` preference remain
 unchanged. All thirteen translations retain draft status.
 
 `locales/en.json` is canonical English alongside thirteen translated
-**unreviewed draft** catalogs. Source candidate 0.5.0 / 0.9.0 has the same 46 keys in each:
+**unreviewed draft** catalogs. Source candidate 0.5.1 / 0.9.1 has 46 keys in each:
 the original 24 cover the native parent title, six settings labels,
 values/statuses, caption formats and current HUD notices; six keys cover the
 proposed rechargeable technologies, nine cover launcher compatibility
@@ -22,11 +38,14 @@ The full title also replaces the short name in `launcher.blocked_title`,
 translations and fingerprints updated. New source labels are **Shuffle companions**
 and **By habitat**; **Random: prefer matching biome** keeps its existing
 planet-only Random meaning. Native menu/HUD rendering remains English.
-The final 0.8.7-r1 trial is running; former 0.8.4 and prepared, unlaunched
-0.8.6-r1 artifacts remain unchanged.
+The final `090-r2` trial launched on 28 September 2026 with production 0.5.0 and
+menu 0.9.0 initialized. This startup adds no native-language rendering or
+seven-row menu acceptance; see [LIVE-090](docs/research/LIVE-090.md).
+Previously tested 0.8.7-r1 and 0.8.4 and prepared, unlaunched 0.8.6-r1
+artifacts remain unchanged.
 
 The catalogs are **not integrated into the game runtime**. Native text still
-uses the existing English ASCII path. The running 0.8.7 menu retains observation
+uses the existing English ASCII path. The current 0.9.0 menu retains observation
 of copied game-language scalars for developer diagnostics only. There is no language
 selector, automatic catalog choice, verified non-English rendering or native-language
 terminology review. English and Czech README files remain documentation
@@ -37,7 +56,7 @@ the 46-key catalog; this is not
 whole-application coverage. At 11:08:53 on 28 September 2026, the bounded observer
 reported native region 0 (ENGLISH) with prior initialization/load seen. This is
 one live scalar observation, not reload safety or translated-rendering evidence;
-see [the current record](docs/research/LIVE-087.md).
+see [the retained 0.8.7 record](docs/research/LIVE-087.md).
 
 The prepared launcher compatibility warnings are the first catalog consumer
 in the launch path. Their scope is a blocked-start title, unsupported or
@@ -67,8 +86,12 @@ habitat suffixes preserve that distinction. `hud.habitat_on_suffix` says
 no approved habitat group. Temporary ineligibility/placement remains quiet.
 `panel.habitat_status` reads `Habitat-aware owned companion per request; manual
 favorite is preserved.` All five additions have synchronized English fingerprints
-and thirteen draft translations. Candidate validation passed 396 production and 683 developer tests;
-no new language rendering or gameplay acceptance is claimed.
+and thirteen draft translations. Current 0.5.1 validation passed
+403 production and 689 developer tests. The 091-r1 bundle is built and passed
+actual-framework checks plus Python and Windows PowerShell 5.1 read-only
+preflights; it has not launched. The new HUD work
+passed 19 native-text and 29 catalog tests. No new language rendering or gameplay
+acceptance is claimed.
 
 Every change must review localization impact. **Any player-facing text or meaning
 change updates English and every affected locale entry in the same change, with
@@ -125,8 +148,10 @@ authored translations, with honest `draft_unreviewed` status.
 The validator also checks the current parent/settings labels, rendered English
 menu combinations, the three newly changed panel surfaces and every current
 HUD notice against the catalog. It parses
-`src/runtime.py` without importing or running it. Only the extracted pure menu
-text function runs, with restricted calls and owned sample state. Source strings
+`src/runtime.py` without importing or running it. Only the extracted pure menu and settings-confirmation functions run, with
+restricted calls and owned sample state. The settings check covers every subset
+of the seven controls, all mode values, both Boolean directions and successful
+or failed persistence; it rejects missing or mislabeled applied changes. Source strings
 changed without matching catalog updates fail the check.
 
 The exported `PRODUCT_KEYS` tuple identifies `product.full_name` and
@@ -181,10 +206,12 @@ them establishes data/source consistency, not linguistic or visual acceptance.
 Offline preparation now exists in `tools/native_text.py`. It consumes one
 validated immutable catalog snapshot and renders complete menu/HUD messages
 within the current byte limits, with explicit whole-message English fallback
-for overflow or unsupported locale IDs. All 2,086 current menu/HUD combinations
-fit without fallback. This is not imported by the native mod or play-trial
+for overflow or unsupported locale IDs. The earlier 2,086 single-message
+menu/HUD combinations fit without fallback. The new multi-setting confirmation
+path separately checks complete batches; long translated batches may require
+the complete English fallback. This is not imported by the native mod or play-trial
 bundle. See [the preparation and static evidence](docs/research/NATIVE-LOCALIZATION-AUDIT.md).
-The 0.8.7 candidate retains a guarded read-only language observer, with stable
+The retained 0.8.7 and subsequent menu candidates include a guarded read-only language observer, with stable
 double copies, constructor/vtable/range checks, two samples per second and a
 bounded transition log. The completed-load flag remains set during a known
 reload, so it is not a rendering-readiness lock. The 17 native enum values are
@@ -204,8 +231,9 @@ The current HUD path uses ASCII encoding. Directly inserting accented or CJK tex
 
 pyMHF GUI decorators currently capture fixed labels at class definition, and the selection widget displays Enum member names. Updating a dictionary alone will not translate existing controls. Implement and verify an appropriate label/option binding or rebuild mechanism without changing stable selection values.
 
-The accepted final interface retires this temporary development panel once
-the native settings page is complete. Prioritize native menu/HUD and launcher
+The 0.9.1 combined candidate suppresses this temporary development panel using
+`gui.shown = false`; the standalone developer script retains it. Complete
+in-game acceptance of the native settings workflow is still required. Prioritize native menu/HUD and launcher
 translations for the player release; do not build a second permanent settings
 interface merely to translate pyMHF's development window. Verify that the
 finished player package does not require that window during normal play.

@@ -3063,5 +3063,81 @@ class RuntimePostQueueObservationTests(RuntimeFixture):
         self.assertTrue(self.mod.policy.pending)
 
 
+class SettingsNoticeTests(RuntimeFixture):
+    def apply(self, **changes):
+        for key, value in changes.items():
+            self.mod._queue_preference(key, value)
+        self.mod._apply_control()
+
+    def test_each_changed_setting_announces_its_effective_new_value(self):
+        cases = (("enabled", False, "Automatic summoning: OFF"),
+                 ("selection_mode", "by_habitat", "Selection: By habitat"),
+                 ("prefer_same_biome", False, "Random: prefer matching biome: OFF"),
+                 ("planets", False, "Planets: OFF"),
+                 ("space_stations", False, "Space stations: OFF"),
+                 ("nexus", False, "Space Anomaly: OFF"),
+                 ("rotate_companions", True, "Shuffle companions: ON"))
+        self.mod.allowed_locations = frozenset({2, 3, 14})
+        self.mod.prefer_same_biome_value = True
+        for key, value, expected in cases:
+            with self.subTest(key=key):
+                self.apply(**{key: value})
+                self.assertEqual(self.mod.pending_notice, expected)
+                self.assertLessEqual(len(self.mod.pending_notice.encode("ascii")), 511)
+        self.assertEqual(self.queue_calls, [])
+
+    def test_all_queued_changes_are_reported_with_final_values_and_saved_together(self):
+        self.mod.allowed_locations = frozenset({2, 3, 14})
+        self.mod.prefer_same_biome_value = True
+        self.apply(rotate_companions=True, nexus=False, selection_mode="random", planets=False,
+                   enabled=False, prefer_same_biome=False, space_stations=False)
+        self.assertEqual(self.mod.pending_notice,
+                         "Automatic summoning: OFF; Selection: Random; Random: prefer matching biome: OFF; "
+                         "Planets: OFF; Space stations: OFF; Space Anomaly: OFF; Shuffle companions: ON")
+        persisted = self.mod.settings_store.load_preferences()
+        self.assertEqual(persisted, self.mod._current_preferences())
+        self.assertFalse(self.mod.policy.pending)
+
+    def test_intermediate_requests_are_not_reported_as_applied_changes(self):
+        self.mod._queue_preference("selection_mode", "random")
+        self.mod._queue_preference("selection_mode", "last_manual")
+        self.apply(rotate_companions=True)
+        self.assertEqual(self.mod.pending_notice, "Shuffle companions: ON")
+
+    def test_noop_does_not_save_cancel_pending_or_create_notice(self):
+        self.select(5)
+        self.exit(1)
+        self.assertTrue(self.mod.policy.pending)
+        self.mod.pending_notice = None
+        with patch.object(self.mod.settings_store, "save_preferences") as save:
+            self.apply(enabled=True, selection_mode="last_manual", rotate_companions=False)
+        save.assert_not_called()
+        self.assertIsNone(self.mod.pending_notice)
+        self.assertTrue(self.mod.policy.pending)
+
+    def test_write_failure_reports_every_change_and_one_session_only_suffix(self):
+        self.mod.settings_store.save_preferences(self.mod._current_preferences())
+        original = self.settings_path.read_bytes()
+        with patch.object(self.mod.settings_store, "save_preferences",
+                          side_effect=self.module.SettingsStoreError("synthetic failure")), self.assertLogs("CompanionAutoSummon"):
+            self.apply(selection_mode="by_habitat", rotate_companions=True)
+        self.assertEqual(self.mod.pending_notice, "Selection: By habitat; Shuffle companions: ON (session only)")
+        self.assertFalse(self.mod.settings_ok)
+        self.assertEqual(self.settings_path.read_bytes(), original)
+
+    def test_existing_storage_failure_keeps_concrete_session_notice(self):
+        self.mod.settings_ok = False
+        with patch.object(self.mod.settings_store, "save_preferences") as save:
+            self.apply(rotate_companions=True)
+        save.assert_not_called()
+        self.assertEqual(self.mod.pending_notice, "Shuffle companions: ON (session only)")
+
+    def test_location_notice_reports_the_new_switch_not_membership_of_another_location(self):
+        self.mod.allowed_locations = frozenset({3})
+        self.apply(space_stations=True, nexus=True, planets=False)
+        self.assertEqual(self.mod.pending_notice, "Planets: OFF; Space stations: ON; Space Anomaly: ON")
+        self.assertEqual(self.mod.allowed_locations, frozenset({2, 14}))
+
+
 if __name__ == "__main__":
     unittest.main()

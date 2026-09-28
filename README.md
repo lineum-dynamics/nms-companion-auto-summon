@@ -2,9 +2,37 @@
 
 by **Lineum Dynamics**
 
-Source candidate **0.5.0-experimental / 0.9.0-play-trial**, with menu
+Current source **0.5.1-experimental / 0.9.1-play-trial**, with menu
+**0.9.0-selection**, reports each changed setting and its applied value. A batch
+keeps every effective change; failed persistence adds one session-only suffix.
+The combined trial sets `gui.shown = false`, leaving settings in the native
+Quick Menu. The standalone developer mod keeps its panel. Production validation
+passed 403 production and 689 developer tests. Actual-framework checks and both
+read-only launch preflights passed; the combined archive has 42 verified files. This candidate
+has not launched; the running **090-r2** remains unchanged. Native text is English.
+
+The running 090-r2 log later reports `Inert menu ordering stopped
+(unexpected_thread)` at 14:30:17. The menu guard retains the native binding
+filter but stops custom menu handling after a callback thread change; the
+production automation is separate. The reason for the thread change and its
+relation to the player's actions are not established. The unchanged menu in
+0.9.1 does not fix this known limitation. Teleport arrival and base removal are
+not automatic-summon triggers. The player reported no arrival pet and a pet
+disappearing after base removal; the cause of that disappearance is unproven.
+Next work is a bounded menu-lifecycle investigation, not an assumed new trigger
+or automatic respawn after disappearance.
+
+Retained live trial **0.5.0-experimental / 0.9.0-play-trial**, with menu
 **0.9.0-selection**, implements **By habitat** and **Shuffle companions**.
-Offline validation passed 396 production and 683 developer tests; this candidate has not launched.
+Offline validation passed 396 production and 683 developer tests. The final
+`090-r2` candidate launched on 28 September 2026 after a verified backup of
+46 save files and two mod preference/state files. Its log records production
+0.5.0, menu 0.9.0 and two Mods with twelve hooks initialized. Existing schema-3
+settings retained Random with shuffle OFF during the in-memory migration.
+The player confirmed a visible Random pet after loading in the Space Anomaly
+and reports that settings appear to save. Restart persistence, complete native
+control acceptance, By habitat and shuffle outcomes remain unverified; see
+[the bounded live record](docs/research/LIVE-090.md).
 The previously tested **0.8.7 / 087-r1** remains unchanged. By habitat uses explicit
 13/5/1 weighted habitat groups on planets and an unweighted eligible pool on
 stations/Nexus; rotation keeps a separate session cycle without changing native
@@ -71,7 +99,7 @@ distinct icons and the explicit `Random: prefer matching biome` label; 0.8.4
 retains that menu unchanged. The prior 0.7.1, 0.7.2 and 0.8.0 artifacts remain
 unchanged. A successful check-only run is not an in-game test.
 
-The running 0.8.7 retains all six existing
+The retained 0.8.7 has all six existing
 preferences on one native companion settings page: automatic summoning,
 Last selected/Random, matching-biome preference, planets, space stations and
 the Space Anomaly. It shares the production preference queue and stored values;
@@ -162,26 +190,39 @@ This package contains no personal saves, account credentials, preselected pet or
 
 ## Settings
 
-The **0.9.0 source candidate** has a flat seven-row page under Companion Auto
-Summon in the native companion menu. Confirm a row using the game's configured
+The **0.9.1 source candidate** has seven rows at **Quick Menu → Companions →
+Companion Auto Summon**. The default PC Quick Menu key is **X**; use your assigned
+key if you remapped it. Confirm a row using the game's configured
 Select action: selection mode cycles Last selected → Random → By habitat; the
 other six rows toggle ON/OFF. Matching-biome preference
 only affects Random on planets. All three locations may be OFF. Labels distinguish
 queued changes from applied state and session-only persistence. Browsing or
-rebuilding the page must not change a setting. The new seven-row page and rotation icon require in-game acceptance; retain the panel below as the
-development fallback.
+rebuilding the page must not change a setting. Complete navigation, the shuffle
+icon and 0.9.1 confirmations still require in-game acceptance. The combined
+launch does not create an external pyMHF control window.
 
-Launch through Companion Auto Summon, then **Alt+Tab to the separate pyMHF window** and open its **CompanionAutoSummon** tab. This is a desktop settings window, not an entry inside the native NMS menu. No Companion Auto Summon keyboard shortcut is registered.
+The seven native controls are:
 
-- **Automatically summon companion**: on/off checkbox, enabled by default. It covers both ship exits and successful local save loads.
-- Three location checkboxes enable planets, space stations and the Nexus separately. All default on. Turning all three off prevents automatic summoning everywhere.
-- **Companion selection** offers **Last manually selected**, **Random** and **By habitat**. By habitat is the fresh-install default; existing choices are preserved. Every mode retains native ownership, eligibility and placement checks.
-- **Prefer same biome in Random mode** (default ON): prefers the matching native habitat within that eligible pool on planets. Turn it OFF for ordinary random selection. Unknown/no matching habitat falls back automatically; no pet is excluded from ordinary native eligibility by this option.
-- **Shuffle companions**: cycles eligible pets in Random, or within the weighted group chosen by By habitat. ON for fresh installs; migrated preferences start OFF. Last selected is unaffected.
-- **Status**: current state, including **Waiting for a suitable place**, pending changes, session-only persistence, or a runtime error.
-- **Companion**: selected slot, a remembered choice awaiting ownership verification, or the active selection mode. In Last manually selected mode, an empty choice prompts you to summon your first companion manually.
+- **Automatic summoning**: ON/OFF, enabled by default. Covers both ship exits and successful local save loads.
+- **Selection**: **Last selected**, **Random** or **By habitat**. By habitat is the fresh-install default; existing choices are preserved. Every mode retains native ownership, eligibility and placement checks.
+- **Random: prefer matching biome** (default ON): prefers the matching native habitat within the eligible pool on planets. OFF, unknown habitat or no eligible match uses the ordinary random pool. This only affects Random and does not change native eligibility.
+- **Planets**: allow automatic summoning on planets, default ON.
+- **Space stations**: allow automatic summoning on stations, default ON.
+- **Space Anomaly**: allow automatic summoning in the Nexus, default ON.
+- **Shuffle companions**: cycles eligible pets in Random, or within the weighted group chosen by By habitat. ON for fresh installs; migrated older preferences start OFF. Last selected is unaffected.
 
-Return to the game to apply and save a change on the next local-player update before quitting. Changing settings cancels any pending automatic request, including a load opportunity still awaiting ownership, and leaves an already active companion alone. Turning on or changing mode waits for the next ship exit or successful local save load; it never immediately summons a pet. Manual selections are still remembered while automation is off.
+The standalone developer script has no native menu; only that setup retains the
+separate pyMHF **CompanionAutoSummon** tab, accessible with Alt+Tab. It exposes
+these preferences plus **Status** and **Companion** diagnostic displays for pending
+changes, waiting placement, persistence and the remembered or active selection.
+No mod-specific keyboard shortcut is registered; the combined trial uses the
+game's configured menu actions.
+
+A change applies and saves on the next local-player update; return from the
+standalone developer panel before quitting. The HUD names the effective change,
+for example `Selection: By habitat` or `Shuffle companions: ON`. Several changed
+settings are listed together. Failed saving adds `(session only)`; unchanged
+values produce no confirmation. Changing settings cancels any pending automatic request, including a load opportunity still awaiting ownership, and leaves an already active companion alone. Turning on or changing mode waits for the next ship exit or successful local save load; it never immediately summons a pet. Manual selections are still remembered while automation is off.
 
 In Last manually selected mode, new players start with no selected companion. A successful native UI summon chooses an owned companion. A changed choice requests one silent, 5.5-second confirmation: **Companion saved.** If persistence is unavailable, it says **Companion selected (session only).** Random, habitat-selection or automation-OFF status is included when relevant. Repeating the same choice, automatic summoning and game-driven restoration remain quiet. The candidate's icon fallback and new wording still need an in-game visual check. The panel and messages remain English-only.
 
@@ -215,7 +256,7 @@ Manual pet choices: `%LOCALAPPDATA%\NMS-AutoPet\state.json`, outside the game an
 
 Main-game and expedition contexts inside one save share one remembered choice. It is restored only where the pet exists. A zero save ID allows session-only selection; a successful local load with a valid common-data object can still supply a Random-mode opportunity without saving an identity. It never borrows another save's favorite. A damaged settings file is preserved, with persistence disabled for that session. The mod does not edit game save files; ordinary game autosaving continues.
 
-If `settings.json` cannot be read, automation starts off. The panel can explicitly enable it for that session. A runtime error disables automatic summoning separately; the checkbox cannot override that safety stop.
+If `settings.json` cannot be read, automation starts off. The mod settings can explicitly enable it for that session. A runtime error disables automatic summoning separately; the checkbox cannot override that safety stop.
 
 ## Launching / first test
 
@@ -248,17 +289,24 @@ override, for example `-Language fr`. This is not game-language detection.
 `-CheckOnly` also avoids dialogs. Invalid translation data uses a short English
 package-error fallback. Other setup messages still have untranslated English.
 
-Diagnostic logs are written to `logs` beside CompanionAutoSummon.py. The interactive Python console and separate logging window are disabled; the settings panel remains available.
+Diagnostic logs are written to `logs` beside CompanionAutoSummon.py. The
+interactive Python console and separate logging window are disabled. In the
+0.9.1 combined trial, `gui.shown = false` also suppresses the pyMHF control window;
+standalone developer launches retain it. This is not a completed console-free
+or portable installer.
 
 Use `Start-CompanionAutoSummon.ps1` from a regular PowerShell terminal. It calls the host-only `Launch-CompanionAutoSummon.py`, which verifies DLLs by their full physical path and actual address in the game before Python code executes there. This guard does not edit installed framework files. Direct `pymhf run CompanionAutoSummon.py` bypasses this extra verification and is not the supported launch path for this package. `python CompanionAutoSummon.py` alone does not start the mod; copying it into GAMEDATA/MODS does not activate it.
 
-Test the nine panel controls/displays and seven native rows, OFF/ON changes, individual location choices, Random mode, the biome preference and selection confirmation. Load directly on foot on a planet, station and the Nexus; confirm a single summon, then dismiss it and confirm it stays dismissed until another trigger. Also load with automation OFF or a companion already present. For the biome option, test a matching eligible pet, no matching pet, OFF, station/Nexus bypass, and an unchanged manual favorite. On an archive platform or unsuitable terrain, remain there beyond 12 seconds, then walk to a valid place and check that the waiting pet appears once. Also test normal ship exits, immediate re-entry, manual replacement, save switching and a restart. The single 0.4.3 station startup in Random mode and one later manual dismissal without reappearance are confirmed as described above; remaining startup scenarios and broader dismissal regression still need live checks. Verify multiplayer after the basic behavior works.
+For the combined candidate, test all seven native rows and the absence of the
+external control window. Check exact HUD values, a no-op and persistence across
+a restart. The standalone developer setup separately retains nine panel
+controls/displays. Test OFF/ON changes, individual location choices, Random mode, the biome preference and selection confirmation. Load directly on foot on a planet, station and the Nexus; confirm a single summon, then dismiss it and confirm it stays dismissed until another trigger. Also load with automation OFF or a companion already present. For the biome option, test a matching eligible pet, no matching pet, OFF, station/Nexus bypass, and an unchanged manual favorite. On an archive platform or unsuitable terrain, remain there beyond 12 seconds, then walk to a valid place and check that the waiting pet appears once. Also test normal ship exits, immediate re-entry, manual replacement, save switching and a restart. The single 0.4.3 station startup in Random mode and one later manual dismissal without reappearance are confirmed as described above; remaining startup scenarios and broader dismissal regression still need live checks. Verify multiplayer after the basic behavior works.
 
 To disable the whole mod: quit NMS and launch normally through Steam. To forget choices, close NMS and remove only `state.json`. Removing `settings.json` restores the new-install defaults: automation ON, all three locations ON, By habitat, rotation ON, and biome preference ON for Random. It does not preserve migrated preferences.
 
 ## Source
 
-Development rules and architecture are maintained in [DEVELOPMENT.md](DEVELOPMENT.md). Source code, comments and developer diagnostics are English. The settings panel and HUD are currently English-only; the planned language coverage and remaining work are recorded in [LOCALIZATION.md](LOCALIZATION.md). [DESIGN.md](DESIGN.md) records the native-menu and notification goals. The 0.8.2 combined candidate retains all six preferences from 0.8.0; the historical 0.7.1 had the native automation toggle, and older artifacts retain an inert **Settings preview** child. Version-scoped changes are in [CHANGELOG.md](CHANGELOG.md).
+Development rules and architecture are maintained in [DEVELOPMENT.md](DEVELOPMENT.md). Source code, comments and developer diagnostics are English. The native menu, retained developer panel and HUD are currently English-only; the planned language coverage and remaining work are recorded in [LOCALIZATION.md](LOCALIZATION.md). [DESIGN.md](DESIGN.md) records the native-menu and notification goals. The 0.8.2 combined candidate retains all six preferences from 0.8.0; the historical 0.7.1 had the native automation toggle, and older artifacts retain an inert **Settings preview** child. Version-scoped changes are in [CHANGELOG.md](CHANGELOG.md).
 
 `src/` contains policy, pet persistence, settings and runtime code. `build.py` rebuilds and syntax-checks CompanionAutoSummon.py without installing or launching it. Run offline tests with `python -B -m unittest discover -s tests -v`. `manifest.json` records checksums and validation status. `TECHNICAL-VERIFICATION.md` contains version-scoped technical evidence in English. The panel uses the framework's documented [GUI properties](https://github.com/monkeyman192/pyMHF/blob/0c8ebc1c29074c5bc35207e0aff36d4035e20bac/docs/docs/gui/gui.rst).
 

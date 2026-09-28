@@ -147,15 +147,27 @@ class NativeText:
 
         return self._render(locale, MENU_BYTES, compose)
 
-    def settings_notice(self, *, enabled, saved, enabled_changed, locale="en"):
-        for value in (enabled, saved, enabled_changed):
-            _boolean(value)
+    def settings_notice(self, *, changes, saved, locale="en"):
+        """Render copied effective changes; an empty change set emits nothing."""
+        _boolean(saved)
+        if type(changes) is not dict or any(type(key) is not str or key not in SETTING_LABEL_KEYS for key in changes):
+            raise TextError("Unknown settings notice changes")
+        owned = tuple((key, changes[key]) for key in SETTING_LABEL_KEYS if key in changes)
+        for key, value in owned:
+            _mode(value) if key == "selection_mode" else _boolean(value)
+        if not owned:
+            return None
 
         def compose(text):
-            fields = {"suffix": "" if saved else text["hud.session_suffix"]}
-            if enabled_changed:
-                fields["state"] = text["value.on" if enabled else "value.off"]
-            return text["hud.automation_state" if enabled_changed else "hud.settings_updated"].format(**fields)
+            labels = []
+            for key, value in owned:
+                value_key = ({"last_manual": "value.last_selected", "random": "value.random",
+                              "by_habitat": "value.by_habitat"}[value] if key == "selection_mode"
+                             else "value.on" if value else "value.off")
+                labels.append(text["format.setting"].format(label=text[SETTING_LABEL_KEYS[key]], value=text[value_key]))
+            return text["hud.settings_applied"].format(
+                changes=text["hud.setting_separator"].join(labels),
+                suffix="" if saved else text["hud.session_suffix"])
 
         return self._render(locale, HUD_BYTES, compose)
 

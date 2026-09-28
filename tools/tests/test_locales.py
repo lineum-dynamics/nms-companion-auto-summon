@@ -107,6 +107,37 @@ class LocaleTests(unittest.TestCase):
                 self.validate()
             path.write_text(original, encoding="utf-8")
 
+    def test_settings_confirmation_cannot_drop_a_change_or_report_the_wrong_value(self):
+        path = self.root / "src/runtime.py"
+        original = path.read_text(encoding="utf-8")
+        for old, new in (('"Space stations"), ("nexus"', '"Stations"), ("nexus"'),
+                         ('("ON" if after else "OFF")', '("OFF" if after else "ON")'),
+                         ('if before == after:', 'if before != after:'),
+                         ('"; ".join(changes)', '"; ".join(changes[:1])'),
+                         ('settings_change_notice(previous, requested, self.settings_ok)',
+                          'settings_change_notice(previous, requested, True)')):
+            self.assertIn(old, original)
+            path.write_text(original.replace(old, new, 1), encoding="utf-8")
+            with self.subTest(change=old), self.assertRaises(VALIDATOR.CatalogError):
+                self.validate()
+            path.write_text(original, encoding="utf-8")
+
+    def test_settings_confirmation_formats_are_maintained_in_every_catalog(self):
+        for locale in VALIDATOR.LOCALES:
+            data = self.read(locale)
+            self.assertNotIn("hud.settings_updated", data["messages"])
+            self.assertNotIn("hud.automation_state", data["messages"])
+            for key in ("hud.settings_applied", "hud.setting_separator"):
+                self.assertEqual(data["messages"][key]["source_sha256"],
+                                 VALIDATOR.source_fingerprint(self.read("en")["messages"][key]["text"]))
+                if locale != "en":
+                    self.assertIn(key, data["unchanged_keys"])
+        french = self.read("fr")
+        french["messages"]["hud.settings_applied"]["text"] = "{suffix}"
+        self.write("fr", french)
+        with self.assertRaises(VALIDATOR.CatalogError):
+            self.validate()
+
     def test_technology_meaning_change_requires_updated_translation_fingerprints(self):
         english = self.read("en")
         entry = english["messages"]["tech.recharger.description"]
@@ -330,7 +361,8 @@ class LocaleTests(unittest.TestCase):
         path = self.root / "src/runtime.py"
         original = path.read_text(encoding="utf-8")
         for old, new in (("Companion saved.", "Saved."), (" Random stays ON.", " Random remains ON."),
-                         ("settings updated{suffix}", "preferences changed{suffix}")):
+                         ('changes.append(f"{label}: {value}")', 'changes.append(f"{label} = {value}")')):
+            self.assertIn(old, original)
             path.write_text(original.replace(old, new, 1), encoding="utf-8")
             with self.subTest(old=old), self.assertRaises(VALIDATOR.CatalogError):
                 self.validate()
@@ -345,6 +377,13 @@ class LocaleTests(unittest.TestCase):
         menu = self.root / "tools/quick_menu_toggle.py"
         text = menu.read_text(encoding="utf-8").replace("    setting_key(role)", '    forbidden_game_call()\n    setting_key(role)', 1)
         menu.write_text(text, encoding="utf-8")
+        with self.assertRaisesRegex(VALIDATOR.CatalogError, "Unexpected operation"):
+            self.validate()
+
+    def test_settings_formatter_does_not_execute_unreviewed_calls(self):
+        path = self.root / "src/runtime.py"
+        original = path.read_text(encoding="utf-8")
+        path.write_text(original.replace('    changes = []', '    forbidden_game_call()\n    changes = []', 1), encoding="utf-8")
         with self.assertRaisesRegex(VALIDATOR.CatalogError, "Unexpected operation"):
             self.validate()
 
