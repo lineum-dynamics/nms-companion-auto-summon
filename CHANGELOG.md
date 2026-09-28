@@ -1,5 +1,18 @@
 # Changelog
 
+## Native feasibility milestone 1 — 28 September 2026
+
+- Add an inert Windows x64 probe with the documented InitializeASI export,
+  current-process executable SHA-256 inspection and no native game calls/hooks.
+- Port the pure summon-opportunity policy into C++ and compare 31,216 actions
+  and states with the existing Python oracle across 88 traces/four configurations.
+- Verify six owned-host load/inspect/unload runs, eight concurrent initializers
+  per run, invalid ABI handling and Unicode relocation. No game launched.
+- Record loader provenance and current static import evidence, the complete
+  existing integration port map, and unresolved pre-launch backup/lifecycle gates.
+- Keep the installed mod, exact 0.9.3 Nexus artifact and all fourteen catalogs
+  unchanged. This developer experiment is not a new player release.
+
 ## 0.9.3 scan follow-up and independent distribution research
 
 - Record the completed exact launcher report: 3/71 (Bkav Pro, McAfee Scanner,

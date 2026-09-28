@@ -97,7 +97,7 @@
     },
     {
       "path": "DEVELOPMENT.md",
-      "sha256": "34341bbffc0e6e4785746af7fe1b959e5682afba20879b23cfaf966945e11bb6"
+      "sha256": "9668c88d1bb84c47f0118674a694c32c4609a63369f70966e9c2065baec68e47"
     },
     {
       "path": "LOCALIZATION.md",
@@ -109,7 +109,7 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "34cf45547962e4f5e902b178de31eaa6f3714db30067ba637d2dd9242a0eda52"
+      "sha256": "d484278256428202c0eb1571eadddb9f3cc7923d07b7b975df7a29045deb5ff2"
     },
     {
       "path": "ROADMAP.md",
@@ -201,7 +201,7 @@
     },
     {
       "path": "docs/research/NEXUS-SELF-SERVICE-INVESTIGATION.md",
-      "sha256": "2383f82aee2cbdbc08fcdc4cabf4635e8ebc8da7ccd90eda583ddc3bd4dc468a"
+      "sha256": "b628600380763e6f3bc9fa3483f119c21849f98ca3b587a8eb95f551d90917e5"
     },
     {
       "path": "docs/research/LAUNCHER-IL-AUDIT-092.md",
@@ -1364,5 +1364,19 @@
       "self_service_investigation": "docs/research/NEXUS-SELF-SERVICE-INVESTIGATION.md"
     },
     "independent_shipped_recipe_matches": true
+  },
+  "native_feasibility": {
+    "milestone": "inert-native-probe-1",
+    "branch": "feat/native-runtime-feasibility",
+    "source_directory": "native",
+    "receipt": "native/validation/milestone-001.json",
+    "receipt_sha256": "9941c84f59d3c56acf317d969e9d0d7468d5ef88089565bbe5952f7315318f74",
+    "inert": true,
+    "policy_comparison_steps": 31216,
+    "policy_traces": 88,
+    "owned_host_runs": 6,
+    "gameplay_enabled": false,
+    "deployed": false,
+    "nexus_upload": false
   }
 }

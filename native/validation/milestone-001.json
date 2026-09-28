@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "milestone": "inert-native-probe-1",
+  "date": "2026-09-28",
+  "branch": "feat/native-runtime-feasibility",
+  "build_directory": "build/native-probe-001-r4",
+  "compiler": {
+    "version": "clang version 23.1.2 (https://github.com/llvm/llvm-project.git 85ac560262434c9ccfc0c183ec22d4138ed647fb)",
+    "sha256": "20ba1856942744291a6aaaf9f2c94f6d0cd7cac5aa9557fce96471dc7ef25d6f",
+    "archive_sha256_verified_before_use": "e3ad77d117a4bea19a7a3b333341824d79a5a371004a10e25b8504e7b3047666",
+    "lock": "native/toolchain-lock.json",
+    "builder_enforces_archive_provenance": false
+  },
+  "products": {
+    "CompanionAutoSummon.NativeProbe.asi": {
+      "sha256": "9c1bd95fa62276c621159ab77962a7709e63dd732b4bc8562361e34cb922a11a",
+      "bytes": 502784
+    },
+    "native_probe_host.exe": {
+      "sha256": "a9bd871921d21f41ad72ed7aaddb91cacb0608292c96335a8f3fc19e6020edc6",
+      "bytes": 1472512
+    },
+    "policy_reference_driver.exe": {
+      "sha256": "82edbd9e58112a4dd8b5fb5ecc6f75afc786796c8346f97710a7a9c1e7279c22",
+      "bytes": 1463808
+    }
+  },
+  "source_sha256": {
+    "native/src/policy.cpp": "4be44889635342d1a615037824b69917fe04e9b667ab6897dec9882b98f39766",
+    "native/src/probe.cpp": "af3137ea4b6ad2f7619c3a035999b59c1878bb286240d03fe3e0d29f2a53c98d",
+    "native/tests/policy_reference_driver.cpp": "408ab3941f0e3e68c5eb4919a6777350f0be5649fd278b23982426d7f7cbd00c",
+    "native/tests/probe_host.cpp": "93329225456b4d6a02174cb02806e9c774e9d5a279e8ce96eaf4d6346d24dbf6",
+    "native/include/cas/policy.hpp": "554b2f9a1e702a871a7ffd159384f2742a227399660100f13fa132a268e723bc",
+    "native/include/cas/probe.h": "9d9c093eb05c84bf6beb36b5fff9e25ca675aff358685eab6a8a157bf72d3d77",
+    "compatibility.json": "cdfcb9e9cc8fc13e37713ca100b23137c420430509143fdbf37af5fe08a4330d",
+    "native/toolchain-lock.json": "ce9f1298bff409868c294577e29b965d332230643ed03fcc5abc3305ea8cecb3",
+    "tools/build_native_probe.py": "27345a683dc6e25731ec0a909b0de3f3d73b7e98492b2744d30d5320f586fc8c",
+    "src/policy.py": "231b47324344edf65ca8eae3ec305cb46af64186aaae136840b6831740e279eb",
+    "tools/validate_native_policy.py": "1693132f587e566d0e6b4c20be409fbc9748cda4dd8e3ff83b0c8ed11c860039",
+    "tools/validate_native_probe.py": "a3ad02a10130ba9af0f4825467da3cbda48351946b043c6512d03df9eda92d03"
+  },
+  "imports": [
+    "bcrypt.dll",
+    "api-ms-win-crt-string-l1-1-0.dll",
+    "api-ms-win-crt-runtime-l1-1-0.dll",
+    "api-ms-win-crt-private-l1-1-0.dll",
+    "KERNEL32.dll",
+    "api-ms-win-crt-stdio-l1-1-0.dll",
+    "api-ms-win-crt-heap-l1-1-0.dll",
+    "api-ms-win-crt-environment-l1-1-0.dll",
+    "api-ms-win-crt-filesystem-l1-1-0.dll",
+    "api-ms-win-crt-locale-l1-1-0.dll",
+    "api-ms-win-crt-convert-l1-1-0.dll"
+  ],
+  "locales": {
+    "locales": 14,
+    "keys_per_locale": 63,
+    "translated_drafts": 13,
+    "scope": "native_menu_hud_technology_launcher_panel",
+    "source_text_verified": true,
+    "native_runtime_integrated": false,
+    "language_review_verified": false
+  },
+  "compatibility": {
+    "schema_version": 1,
+    "steam_build": "25442159",
+    "game_release": "Cosmos 7.04",
+    "exe_sha256": "b7913f268dfc62386b6b68f524bfc8ade4a44a9f4fbad39085b7bf51be3680cb",
+    "framework_version": "0.2.4"
+  },
+  "policy": {
+    "passed": true,
+    "comparison_steps": 31216,
+    "traces": 88,
+    "configurations": 4,
+    "coverage": {
+      "absent_without_opportunity": 3724,
+      "accepted_resolutions": 694,
+      "commands_compared": 31216,
+      "exception_results": 2008,
+      "fixed_choice_reoffers_after_rejection": 749,
+      "forbidden_location_observations": 717,
+      "invalid_clock_errors": 228,
+      "pending_before_command": 14697,
+      "rejected_resolutions": 826,
+      "summon_offers": 2709,
+      "unknown_sentinel_observations": 641
+    },
+    "random_seed": 9282026,
+    "scope": "offline pure-policy parity against src/policy.py"
+  },
+  "probe": {
+    "passed": true,
+    "owned_host_runs": 6,
+    "concurrent_initializers_per_run": 8,
+    "bundle_unchanged_during_host_runs": true,
+    "supported_game_process_tested": false,
+    "reported_host_digest_matches_independent_hash": true,
+    "unsupported_host_status": 4,
+    "hooks_active": 0
+  },
+  "game_started_or_attached": false,
+  "loader_installed_or_executed": false,
+  "player_distribution_changed": false,
+  "nexus_uploaded_or_cleared": false,
+  "gameplay_enabled": false,
+  "not_implemented": [
+    "native selector and shuffle",
+    "settings persistence",
+    "pre-launch backup replacement",
+    "game hooks and native menu",
+    "safe deployment and loader coexistence",
+    "native localization"
+  ]
+}

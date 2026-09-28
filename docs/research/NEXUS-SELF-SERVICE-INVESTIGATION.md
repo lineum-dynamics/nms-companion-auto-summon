@@ -112,3 +112,11 @@ steps. It is not yet a replacement for the agreed easy portable installation.
 No native implementation, automatic approval, second-PC or multiplayer result
 is claimed. This research changes no player-facing wording; all fourteen
 catalogs remain unchanged.
+
+## Subsequent feasibility milestone
+
+The owner authorized continuing the independent investigation. A separate
+branch now contains an inert native DLL and pure-policy parity proof, documented
+in [native/README.md](../../native/README.md). This supersedes only the earlier
+absence of any native prototype; no playable replacement, Nexus clearance,
+external contact or change to the working installed distribution is claimed.

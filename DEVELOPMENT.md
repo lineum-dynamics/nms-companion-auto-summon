@@ -1,5 +1,14 @@
 # Companion Auto Summon development guide
 
+Native feasibility milestone 1 is now on `feat/native-runtime-feasibility`:
+an inert x64 DLL and a separate pure C++ policy with 31,216 Python-oracle
+comparisons across 88 traces. Six owned-host runs verified unsupported-image
+refusal, hashing, Unicode paths and concurrent idempotent initialization. No
+game hooks, loader deployment, native gameplay or scan clearance. The current
+Python installation remains unchanged. See [native experiment](native/README.md)
+and its committed sanitized evidence. This does not replace the distribution
+candidate described below.
+
 Current packaging candidate: **0.9.3-test**. It extracts the original Python
 standard library to remove the nested ZIP prohibited by Nexus, supplies accurate
 Windows product/company/version metadata and the actual launcher build inputs,
