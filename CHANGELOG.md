@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.5.0 / 0.9.0 developer candidate — habitat selection and rotation
+
+- Add By habitat alongside Last selected and Random. On planets, draw native-eligible exact/related/acceptable groups at integer weights 13:5:1, independent of group size. Use the explicit directed habitat table, including Scorched/Lava as related; exclude unlisted pairs rather than drawing an unrestricted fallback. Neutral stations/Nexus use the ordinary eligible pool. Unknown habitat and temporary eligibility/placement wait; a known owned roster without an approved group skips one opportunity with one notice.
+- Add optional identity-based, session-only rotation. Reconcile adoption, removal and between-opportunity slot reorder; keep temporary ineligibility separate from ownership. Consume a turn only on native queue acceptance, avoid immediate group-boundary repeats when alternatives exist, and retain a frozen choice during retries. Duplicate identities or a changed pending slot cancel without a replacement draw. Revalidate identity and pending controls after native eligibility calls, immediately before queueing. Local save/app boundaries reset cycles; remote loads do not.
+- Schema 4 gives fresh installations By habitat and rotation ON. Legacy schemas 1/2/3 preserve their existing choices and use rotation OFF, with no on-disk migration until an explicit preference save. Manual favourites remain separate. Native rules, limits, delays, mappings, hooks and game saves are unchanged.
+- Preserve native role IDs 0–5 and append Rotate companions as role 6, with an original icon and a three-mode selection cycle. Update all fourteen catalogs to 46 keys, source fingerprints and validation; thirteen translations remain drafts and native rendering remains English. The offline native-text matrix covers 2,086 combinations without fallback.
+- Pass 396 production and 683 developer tests without failures or skips, actual pyMHF/GUI offline checks, combined two-Mod discovery/shared dispatch/all seven temporary preferences, and Python plus Windows PowerShell 5.1 read-only preflights. Prepare the separate `quick-menu-play-trial-090-r1` with 41 payloads plus its manifest and eight original icons. No deployment or game launch; retained 0.8.7 and earlier artifacts remain unchanged. The new behavior, icon, input paths and multiplayer still need live acceptance.
+- Save the complete upcoming-version rules on the unpublished Nexus draft: mode comparison, probabilities, directed habitat list, waiting/cancellation, shuffle, defaults and migration. Preserve 0.8.7 page metadata and its bounded evidence; do not present the unlaunched candidate as a tested release.
+
 ## Documentation language consistency — 28 September 2026
 
 - Translate the complete technical verification record, installation requirements and release plan into English, with English filenames. Preserve version-scoped evidence and historical limitations.

@@ -21,6 +21,7 @@ SETTING_LABEL_KEYS = MappingProxyType({
     "planets": "menu.planets",
     "space_stations": "menu.space_stations",
     "nexus": "menu.space_anomaly",
+    "rotate_companions": "menu.rotate_companions",
 })
 
 
@@ -54,7 +55,7 @@ def _boolean(value):
 
 
 def _mode(value):
-    if type(value) is not str or value not in ("last_manual", "random"):
+    if type(value) is not str or value not in ("last_manual", "random", "by_habitat"):
         raise TextError("Unknown companion selection mode")
     return value
 
@@ -132,7 +133,8 @@ class NativeText:
             elif state.stopped:
                 value = text["status.stopped"]
             elif key == "selection_mode":
-                value = text["value.random" if state.desired == "random" else "value.last_selected"]
+                value = text[{"last_manual": "value.last_selected", "random": "value.random",
+                              "by_habitat": "value.by_habitat"}[state.desired]]
             else:
                 value = text["value.on" if state.desired else "value.off"]
             label = text["format.setting"].format(label=text[SETTING_LABEL_KEYS[key]], value=value)
@@ -168,6 +170,12 @@ class NativeText:
                 return prefix + text["hud.auto_off_suffix"]
             if selection_mode == "random":
                 return prefix + text["hud.random_on_suffix"]
+            if selection_mode == "by_habitat":
+                return prefix + text["hud.habitat_on_suffix"]
             return prefix
 
         return self._render(locale, HUD_BYTES, compose)
+
+    def no_suitable_habitat_notice(self, locale="en"):
+        """Compose evidence supplied by the caller; never decide eligibility."""
+        return self._render(locale, HUD_BYTES, lambda text: text["hud.no_suitable_habitat"])

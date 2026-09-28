@@ -1,8 +1,23 @@
 # Companion Auto Summon development guide
 
-Current candidate validation: **333 production tests and 675 developer tests passed** without failures or skips. The separate 41-file `quick-menu-play-trial-087-r1` folder (40 payloads and its manifest) passed real-framework discovery, shared Python dispatch, all six temporary preference paths and both Python and Windows PowerShell 5.1 read-only preflights. The framework checks used nine callbacks per Mod across twelve targets, without native binding or game access. The now-running `087-r1`, retained 0.8.4 and prepared, unlaunched `086-r1` payloads remain immutable.
+Source **0.5.0-experimental / 0.9.0-play-trial**, with menu
+**0.9.0-selection**, now implements By habitat and Rotate companions. Offline validation passed 396 production and 683 developer tests; the candidate is unlaunched. Retained 0.8.7
+and earlier earlier artifacts remain immutable. The seven-row interface,
+new selection behavior and rotation icon have no new live acceptance.
 
-The current source candidate is **0.8.7-play-trial**, with production **0.4.9-experimental**
+By habitat uses explicit directed 13/5/1 exact/related/acceptable groups on
+planets, independently of group population; stations/Nexus use the unweighted
+eligible owned pool. Unknown planet data waits, no approved owned group skips
+one opportunity with one notice, and temporary eligibility/placement failure
+waits. Rotation is session-only, separate from the manual favourite, and consumes
+only on native queue acceptance. Queue acceptance is not visible-spawn evidence.
+Schema 4 defaults fresh installs to By habitat and rotation ON; legacy schemas
+1/2/3 preserve their choices with rotation OFF. Details and the complete heuristic
+table are in [HABITAT-SELECTION](docs/research/HABITAT-SELECTION.md).
+
+Retained 0.8.7 validation: **333 production tests and 675 developer tests passed** without failures or skips. The separate 41-file `quick-menu-play-trial-087-r1` folder (40 payloads and its manifest) passed real-framework discovery, shared Python dispatch, all six temporary preference paths and both Python and Windows PowerShell 5.1 read-only preflights. The framework checks used nine callbacks per Mod across twelve targets, without native binding or game access. The now-running `087-r1`, retained 0.8.4 and prepared, unlaunched `086-r1` payloads remain immutable.
+
+The running retained candidate is **0.8.7-play-trial**, with production **0.4.9-experimental**
 and menu **0.8.5-branding**. Its external title is **Companion Auto Summon for No Man's Sky**,
 with the byline **by Lineum Dynamics**; the in-game short title stays unchanged.
 It retains the passive observation
@@ -50,10 +65,10 @@ This repository is the canonical development location. Keep installed test copie
 
 Repository-only native text preparation now renders the existing catalogs from
 an immutable validated snapshot, preserving whole-message state within the
-127-byte menu / 511-byte HUD payload limits. Fifteen focused tests and the
-1,666-case language/state matrix passed. This preparation remains outside the
-production imports; the current branding changes leave native menu/HUD wording
-unchanged. The exact-build UTF-8 measurement and drawing
+127-byte menu / 511-byte HUD payload limits. The expanded source matrix covers
+2,086 language/state combinations without fallback. This preparation remains
+outside the production imports; current native menu/HUD text is English.
+The exact-build UTF-8 measurement and drawing
 decoders are now verified statically. The new combined trial observes copied
 language scalars only: completed-load history is not a reload lock. Font coverage,
 rendered glyphs, language switching and automatic catalog selection remain unverified.
@@ -66,7 +81,7 @@ lifecycle and a portable dependency bundle remain unverified. See
 [portable runtime preparation](docs/research/PORTABLE-RUNTIME-AUDIT.md).
 The earlier repository preparation passed 655 tests, including 22 native-text
 and host-import tests. Twenty language-observer and isolation regressions bring
-the current passing suite to 675. The original 633-test evidence still belongs
+that earlier passing suite to 675. The original 633-test evidence still belongs
 to the unchanged 0.8.5 bundle, not to newly integrated features.
 
 The earned-technology work is an **offline prototype**, separate from both
@@ -74,7 +89,7 @@ production and the prepared combined trial. Its pure model, pinned native-data
 builder and six additional technology catalog entries do not gate the current
 mod, consume inventory or write a save. See
 [technology prototype](docs/research/TECHNOLOGY-PROTOTYPE.md) for evidence and
-remaining native transaction/persistence work. The catalogs now contain 41 keys
+remaining native transaction/persistence work. The catalogs now contain 46 keys
 in each of 14 languages; thirteen remain unreviewed drafts.
 The two product keys keep the full proper name invariant and translate the author
 credit. Three compatibility messages now use the full title. These external
@@ -105,7 +120,8 @@ and technology-prototype targets. Drift stops output creation. Build the separat
 candidate with `python -B tools/build_quick_menu_play_trial.py --enable-menu`.
 Use a fresh explicit output directory if that version's default already exists;
 the builder refuses to overwrite an earlier trial. The final current artifact
-is `build/quick-menu-play-trial-087-r1`; the prepared `086-r1` folder remains
+is `build/quick-menu-play-trial-090-r1`, with 41 payloads plus its manifest;
+the previously tested `087-r1` and prepared `086-r1` folders remain
 immutable and unlaunched.
 
 The final 0.8.4 candidate passed 329 production and 633 developer tests, with
@@ -117,7 +133,7 @@ Python probe regression covers legacy PowerShell argument quoting; target-path
 tests count UTF-16 units, including non-BMP characters. No new live behavior
 has been verified by these checks.
 
-The production source is **0.4.9-experimental**, paired with menu **0.8.5-branding** in the running **0.8.7-play-trial**. Retained **0.8.4-play-trial** has production **0.4.7** and menu **0.8.3-settings-trial**. Earlier artifacts remain unchanged. The target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The development launcher accepts Python 3.11–3.13 x64.
+The new source is **0.5.0-experimental**, paired with menu **0.9.0-selection** for **0.9.0-play-trial**. The running **0.8.7-play-trial** retains production **0.4.9** and menu **0.8.5-branding**. Retained **0.8.4-play-trial** has production **0.4.7** and menu **0.8.3-settings-trial**. Earlier artifacts remain unchanged. The target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The development launcher accepts Python 3.11–3.13 x64.
 
 The PowerShell launcher's `-CheckOnly` path validates package integrity, the
 supported game and the existing runtime without creating files/directories,
@@ -134,17 +150,19 @@ normal setup rather than being treated as evidence that the game is closed.
 The portable public installer, final GUI retirement and localization remain
 unfinished; this revision does not change native hooks, summon rules or input.
 
-The 0.8.0 menu opts into six tagged None children on one flat page: `enabled`,
-`selection_mode`, `prefer_same_biome`, `planets`, `space_stations` and `nexus`.
+The 0.9.0 menu opts into seven tagged None children on one flat page. Existing
+roles 0–5 remain `enabled`, `selection_mode`, `prefer_same_biome`, `planets`,
+`space_stations` and `nexus`; role 6 appends `rotate_companions`. Explicit legacy
+six-role and one-child helper contracts remain supported.
 The bridge resolves the existing production instance, captures one selected
 preference and queues only that key under its existing lock. Other queued keys
-and the manual favourite are preserved. Mode cycles between existing values;
+and the manual favourite are preserved. Mode cycles last_manual → random → by_habitat;
 the other controls flip Booleans. All three locations may be disabled. Pending
 and session-only captions retain their existing meaning. Legacy trials keep
 their one-child default. Full-page navigation and preference application remain
 unverified in-game; the development panel stays available.
 
-The seven original DDS icons belong to the combined development bundle.
+Eight original DDS icons belong to the 0.9.0 combined development bundle.
 Its launcher validates the entire fixed set before staging unique assets while
 the game is closed; packaging itself never deploys.
 An exact-build natural `LoadResources` AFTER callback makes one registration
@@ -157,11 +175,11 @@ and ownership during native teardown remain acceptance boundaries. Production 0.
 bound notice provider; absent/invalid providers yield text-only HUD notices.
 The standalone ZIP does not include the custom asset or native settings page.
 
-The parent and notices use the original paw/arrow. The six children use power,
-companion selection, biome, planet, station and Anomaly icons respectively.
+The parent and notices use the original paw/arrow. The seven children use power,
+companion selection, biome, planet, station, Anomaly and rotation icons respectively.
 An unavailable child icon falls back independently to the retained native paw.
 The biome row reads `Random: prefer matching biome`; its value remains stored
-but has no effect in Last selected mode. The source ZIP includes draft locale
+but affects neither Last selected nor By habitat. The source ZIP includes draft locale
 catalogs and their minimal validation sources so its `build.py` remains usable.
 Catalogs are not yet consumed by the runtime; native text remains English.
 
@@ -226,6 +244,7 @@ Earlier production 0.4.3 added a deferred, one-shot opportunity after a successf
 | Component | Responsibility |
 |---|---|
 | `src/policy.py` | Shared timing, pending-request and cancellation decisions |
+| `src/selection.py` | Pure habitat groups, reservations and session-only rotation bags |
 | `src/persistence.py` | Per-save manual companion identity and atomic local storage |
 | `src/settings.py` | Validated global preferences, schema migration and atomic storage |
 | `src/runtime.py` | Exact-build guards, native callbacks, placement checks, settings panel and HUD |
@@ -236,7 +255,7 @@ Earlier production 0.4.3 added a deferred, one-shot opportunity after a successf
 
 Function addresses are relative to the loaded game module. Runtime objects and save identities are obtained from the running game. An exact executable hash guard disables Companion Auto Summon before hook registration on unsupported binaries. This supports portability of the addressing scheme for the same binary; it does not prove second-PC, multiplayer or cross-platform compatibility.
 
-The default mode remembers the last manually summoned pet per save. Random mode uses the native-eligible owned pool, optionally narrowed to the planet's native habitat. Unknown habitat or an empty matching subset falls back to the full eligible pool. A selected pet remains fixed for that request and does not overwrite the manual favourite. Preference changes cancel pending intent without dismissing an active pet.
+Schema 4 fresh defaults are By habitat and rotation ON. Schema 1 explicitly retains last_manual; schemas 2/3 retain previous mode/biome/location choices and migrate with rotation OFF, without writing until explicit save. Random retains its exact-biome preference and unrestricted native-eligible fallback. By habitat uses only its approved groups, with the neutral-location and wait/skip rules above. A selected identity/slot/context is fixed for the request; removal, ambiguity or pending-slot/context change cancels instead of redrawing. Reorder between opportunities preserves cycle history. Only accepted queues consume rotation, and local load/application boundaries reset bags; network loads do not. Preferences never dismiss an active pet or overwrite the manual favourite.
 
 Successful local `LoadFromData` completion records one deferred opportunity when automation is enabled and common data is available. It makes no native summon, ownership-eligibility or placement function calls. A zero persistent ID still allows a session-only Random opportunity; it does not restore another save's favourite. Network-client loads leave the local context alone, and failed local loads create no opportunity.
 

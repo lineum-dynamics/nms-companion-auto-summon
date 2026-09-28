@@ -293,7 +293,7 @@ def _warning_catalog(code):
     document = json.loads(data.decode("utf-8"), object_pairs_hook=_unique_object)
     if (type(document) is not dict or type(document.get("schema_version")) is not int
             or document["schema_version"] != 1 or document.get("locale") != code
-            or document.get("scope") != "native_menu_hud_technology_launcher"
+            or document.get("scope") != "native_menu_hud_technology_launcher_panel"
             or document.get("review_status") != ("canonical" if code == "en" else "draft_unreviewed")
             or document.get("native_runtime_integrated") is not False):
         raise ValueError("Invalid catalog metadata")

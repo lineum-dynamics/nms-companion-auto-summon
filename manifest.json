@@ -1,43 +1,45 @@
 {
   "name": "Companion Auto Summon for No Man's Sky",
-  "version": "0.4.9-experimental",
+  "version": "0.5.0-experimental",
   "date": "2026-09-28",
   "installed_in_game_directory": false,
-  "tested_inside_game": true,
-  "runtime_load_verified": true,
+  "tested_inside_game": false,
+  "runtime_load_verified": false,
   "gameplay_verified": false,
   "multiplayer_verified": false,
-  "basic_auto_summon_verified": true,
+  "basic_auto_summon_verified": false,
   "restart_selection_verified": false,
   "station_auto_summon_verified": false,
-  "nexus_auto_summon_verified": true,
+  "nexus_auto_summon_verified": false,
   "deferred_summon_verified_in_game": false,
-  "random_selection_verified_in_game": true,
+  "random_selection_verified_in_game": false,
   "selection_mode_control_verified_in_game": false,
   "biome_preference_verified_in_game": false,
   "location_preferences_verified_in_game": false,
-  "gameplay_verification_scope": "Final combined 0.8.7-r1 launched on 28 September 2026 with production 0.4.9. Player confirmed visible Random summons after save load and ship exit in the Space Anomaly; logs confirm native location 14, accepted queues and expected active indices for different pets. One later manual-dismissal check had no apparent reappearance per player; duration not independently timed. No fix or repeatability is established for the earlier intermittent 0.8.4 failure. Full gameplay, controls, icons/HUD, other locations/modes and multiplayer remain unverified. See docs/research/LIVE-087.md.",
+  "gameplay_verification_scope": "0.5.0 / combined 0.9.0 has no live acceptance. Retained 0.8.7-r1 observations remain historical only. See docs/research/LIVE-087.md.",
   "supported_summon_locations": {
     "2": "SpaceStation",
     "3": "PlanetOnFoot",
     "14": "Nexus"
   },
-  "previous_live_result": "0.4.0 applied Random and successfully summoned slot 3 from three eligible owned pets on a planet, confirmed by the user; manual favorite slot 1 stayed in runtime. 0.3.3 verified station summoning and restart restoration, 0.3.2 planetary summoning. These observations do not validate the new 0.4.1 biome preference. In combined play trial 0.6.1, 0.4.2 registered with automation ON and the log recorded an accepted station queue after ship exit at 20:18:19 on 27 September 2026; actual appearance was not separately confirmed.",
+  "previous_live_result": "Final combined 0.8.7-r1 launched on 28 September 2026 with production 0.4.9. Player confirmed visible Random summons after save load and ship exit in the Space Anomaly; logs confirm native location 14, accepted queues and expected active indices for different pets. One later manual-dismissal check had no apparent reappearance per player; duration not independently timed. No fix or repeatability is established for the earlier intermittent 0.8.4 failure. Full gameplay, controls, icons/HUD, other locations/modes and multiplayer remain unverified. See docs/research/LIVE-087.md.",
   "offline_tests": {
-    "passed": 333,
+    "passed": 396,
     "policy": 34,
     "persistence": 14,
-    "settings": 24,
+    "settings": 27,
     "adapter_simulation": 196,
     "host_launcher": 41,
-    "compatibility": 24
+    "compatibility": 24,
+    "selection": 40,
+    "selection_adapter": 20
   },
-  "actual_framework_import_and_gui_properties": "Passed with the real pyMHF 0.2.4 and DearPyGui: eight widgets constructed and preference callbacks exercised with temporary files, no viewport, hook registration, native game calls or game launch",
-  "launcher_validation": "0.8.7 passed 333 production and 675 developer tests, real-framework offline checks and Python/Windows PowerShell 5.1 read-only preflights. Final r1 launched through the guarded PowerShell persistent PTY after normal game closure and a fresh verified 46-file backup; two Mods and twelve targets registered. This does not establish portable installer acceptance.",
+  "actual_framework_import_and_gui_properties": "Passed pyMHF 0.2.4 / Dear PyGui 2.3.1 offline discovery, all nine widget constructors/callbacks, nine production callbacks, zero hotkeys; disabled outside the supported game.",
+  "launcher_validation": "Separate 0.9.0-play-trial / 090-r1 passed Python and Windows PowerShell 5.1 CheckOnly against the exact supported installation and existing runtime. No setup, asset staging, game launch or hooks. Real-framework combined discovery, shared Python dispatch and all seven temporary preference paths passed.",
   "preferences_included": false,
   "manual_selection_path": "%LOCALAPPDATA%/NMS-AutoPet/state.json",
   "preferences_path": "%LOCALAPPDATA%/NMS-AutoPet/settings.json",
-  "preferences_schema": 3,
+  "preferences_schema": 4,
   "default_preferences": {
     "enabled": true,
     "locations": [
@@ -45,10 +47,11 @@
       3,
       14
     ],
-    "selection_mode": "last_manual",
-    "prefer_same_biome": true
+    "selection_mode": "by_habitat",
+    "prefer_same_biome": true,
+    "rotate_companions": true
   },
-  "biome_preference": "Optional and default ON, only in Random on PlanetOnFoot. Prefer eligible owned pets whose native habitat matches the normalized current planet habitat; fallback to the full eligible pool if unknown or no match. Ignored in stations/Nexus and last-manual mode. A chosen pet remains fixed during deferred retries.",
+  "biome_preference": "Only Random on PlanetOnFoot: prefer exact native habitat matches, with unrestricted eligible fallback if unknown or no match. Ignored by Last selected, By habitat and neutral stations/Nexus. Fixed choice during deferred retries.",
   "deferred_summon": "No default deadline; native eligibility and placement still required. Probe pairs paced at 0.5 seconds. Rejected requests retain the same choice until success or cancellation.",
   "controls": "CompanionAutoSummon tab in the separate pyMHF window; no mod hotkey",
   "hud_notifications_verified_in_game": false,
@@ -58,7 +61,7 @@
   "files": [
     {
       "path": "CompanionAutoSummon.py",
-      "sha256": "1b8359ffea6b11591bfbb7e6c8ac0bc0d3a3df008f3a379505afe861e0399bbf"
+      "sha256": "eab0741bc45a4f4f4f064ad5b98c521abb99d54a7b990adac134b03f53c72055"
     },
     {
       "path": "Launch-CompanionAutoSummon.py",
@@ -66,15 +69,15 @@
     },
     {
       "path": "README.md",
-      "sha256": "a1b5ffca7abfb20c7a5d7eafce65fc6dfb3d68a6dbe811b54a5cbe812e37a053"
+      "sha256": "ba036a598224c4cd7779e0f44619ba7f4ad15d178e2a3cc6d4e1957195b7b03a"
     },
     {
       "path": "README.cs.md",
-      "sha256": "e4f2a8513743f2d9ef1e30e66d4adc01bd666d686504041a46631c4df4a25f79"
+      "sha256": "d1a500a3599aad3b89a8add2471c4ca527ded1dd0f5c10a45d57944f72ec759f"
     },
     {
       "path": "cas_compatibility.py",
-      "sha256": "6f096be3d0d19aac0e7839b0109c8c3571a1a3c738792093103a9510fcd27e88"
+      "sha256": "b67c752767e7e09bdf6055d72e0386bf38bcc3ca260ed2d4175c1fd4f0ebb471"
     },
     {
       "path": "compatibility.json",
@@ -86,39 +89,39 @@
     },
     {
       "path": "build.py",
-      "sha256": "04118497d0067ee73a1bf16b7ce9dc8688e154b883c89ed7dbf08d0a6b53a7f2"
+      "sha256": "2049187f837c6948e7cab2ab2c7e0c2a4c3c0c926933482317382c22f1fef4b5"
     },
     {
       "path": "Start-CompanionAutoSummon.ps1",
-      "sha256": "d17c5d8a8b6ec4fa4af4cf61d3e08714083de5a22ce5d05011be8a5f96878453"
+      "sha256": "0d3216b9e9240a3fb686ea5e79c956b97c973ab88361b56a394a08d5eed104ec"
     },
     {
       "path": "DEVELOPMENT.md",
-      "sha256": "ebf2d72ca5a5019f58994e10b1dc6a9bf19d416d171f81077a987dc4db6ba340"
+      "sha256": "66778c5ccea39179033da121fc1c98c06d8e6bacf4e0e1c92f00afa0fea46446"
     },
     {
       "path": "LOCALIZATION.md",
-      "sha256": "d46ccb866f93615132243918ee4c5f80834de1db4b8c19d21e8a7ce5ba4e69c3"
+      "sha256": "77d3a0942c04e9ad985292b0712e52b8bab795bb5d97f6cd762c7270b4338333"
     },
     {
       "path": "DESIGN.md",
-      "sha256": "bed810cb867fb2dd2901b0b18fe06b2ef6dbf73953325d1a8972f0dcce75a4c8"
+      "sha256": "81b13fa7c2541991cfdbbbac86555d623e6e1f509e8e6b2283c8c5924384ad36"
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "39469deb830f7d223006a8feef8a324d0cb27bbb61df1754ff29b3212667bc27"
+      "sha256": "11e3b3400647c009e217d29de269124ec3bc4ffcfc5460cb78177a5548a1f961"
     },
     {
       "path": "ROADMAP.md",
-      "sha256": "8efa13a4f9683069c4c0ab955c8ce3a1674710c0ae1e5176d97cc7e75ca09294"
+      "sha256": "0120816eb0b64b19fb9d83022096de843b3c5c64d7182c159bf0869ca9ebed84"
     },
     {
       "path": "QUICK-MENU.md",
-      "sha256": "11a44be8300d75fe7ad379d549a8869366656b732a5a68fe7374c94276c85ceb"
+      "sha256": "362d99dbb8d3178af449ba31ab20b70c25af09d11f92afa53640a953e56c4f53"
     },
     {
       "path": "docs/release/RELEASE-PREPARATION.md",
-      "sha256": "ae3e8d584c1a1363a4b28ee5149b559e11173a01b497fdff6131fc05ad841f19"
+      "sha256": "f2a132f52eeecd669f30c7b9c255662a85f3c8ad3a8325c20c60b87d09440a74"
     },
     {
       "path": "docs/release/INSTALLATION-REQUIREMENTS.md",
@@ -126,7 +129,7 @@
     },
     {
       "path": "docs/release/NEXUS-DESCRIPTION-DRAFT.md",
-      "sha256": "3574045c67afe0f5550fca6a35c1ca809af48daae93e74b01c6ea4cd7eeef704"
+      "sha256": "6e8c530eb0e33238a56812787b33e49b0891e24688ade97e7ae839ec5182059c"
     },
     {
       "path": "docs/research/TECHNOLOGY-PROTOTYPE.md",
@@ -161,6 +164,10 @@
       "sha256": "9823baa184b454b826260428563e1aa6e5dd885651936b34182168af1fb90b3c"
     },
     {
+      "path": "docs/research/HABITAT-SELECTION.md",
+      "sha256": "2d1dc28fd38c326da8b55949ec7be303b04607d40f7dbfaaaf0fce23f21bcf75"
+    },
+    {
       "path": "src/policy.py",
       "sha256": "231b47324344edf65ca8eae3ec305cb46af64186aaae136840b6831740e279eb"
     },
@@ -170,11 +177,15 @@
     },
     {
       "path": "src/settings.py",
-      "sha256": "f715a0ef4810c35ec46e9972d4709a0658f6560a8250bd695f23bba42687ccbc"
+      "sha256": "019ee116c55128802c8e4f8b0f21948bdef43c1384163a39f999d1db80d17c37"
+    },
+    {
+      "path": "src/selection.py",
+      "sha256": "175e52b5151d2c7506eb5ffef0c66fdf2a5257fee48c9ab89765ccba93f6bb9e"
     },
     {
       "path": "src/runtime.py",
-      "sha256": "ca546b14b5346ad292968ca862269bf6fad288d4aa3229bf056c128dc7603b40"
+      "sha256": "ed861fb16f2614595018171bb0b8e05ea11fec24b5f3178f72bed5005bbe03b8"
     },
     {
       "path": "tests/test_policy.py",
@@ -186,11 +197,19 @@
     },
     {
       "path": "tests/test_settings.py",
-      "sha256": "35110a3d3a40d6eb7d5b49e92b61f535d6c7f0f4538cba16c0c37cecea43d2df"
+      "sha256": "790f39d5db952d46ebedea2cb3c7cb22a27b4e4541141a4aea8c768bcc651398"
     },
     {
       "path": "tests/test_runtime.py",
-      "sha256": "4939b07b332587e25da3a49127e7b1a822561fd0ad7e730eba9bd25cd8f5d02e"
+      "sha256": "252cfbdbf48245088cac221cb8d3044812401f8e8ac0b408eb4b21fe9186212a"
+    },
+    {
+      "path": "tests/test_runtime_selection.py",
+      "sha256": "fd5d347a131693f0144c710ffe73741e7f2ed6ab4be2b2652dc5f9acf982bdf2"
+    },
+    {
+      "path": "tests/test_selection.py",
+      "sha256": "a13cc35e94f647d18f02c37cdea106a5fa011b62ed6c3aa786369207f9644909"
     },
     {
       "path": "tests/test_launcher.py",
@@ -202,11 +221,11 @@
     },
     {
       "path": "tools/validate_locales.py",
-      "sha256": "fcdbe6e2024a36d680a92e31a9fbca99af10ff0a8bea2809cad8aeb982084666"
+      "sha256": "41b44d6fa4e3b5f0ae940d7db4e1e113792edba88cf28e78528f8a4735192049"
     },
     {
       "path": "tools/quick_menu_toggle.py",
-      "sha256": "1549a676a6815b64f91f969ad6fb7c3a23cec028c8bf2825ced4c74b659c902f"
+      "sha256": "e01a13d82092f94637578adb06fb2f79c6ade820e599d84f29614f3fb6bc9646"
     },
     {
       "path": "tools/quick_menu_item.py",
@@ -218,59 +237,59 @@
     },
     {
       "path": "locales/en.json",
-      "sha256": "8271161d5bdff4c636fe4c0dc9d014403cace686505234b5309a0eea547b8afe"
+      "sha256": "055e094aabec253ddaade21bcaa8e1be306232c6919009d81d6f73dab6b385b4"
     },
     {
       "path": "locales/fr.json",
-      "sha256": "ff48a22ee03fa1f4449de607d48f217e029f1783e323dd951a084ed3d18c52eb"
+      "sha256": "a93481a987be0949fa823d304401a626468695e5aab41456173e5bdc8db82698"
     },
     {
       "path": "locales/it.json",
-      "sha256": "ef75f9eb533780b84a0444338acda8294199a9036d2c52f29ac91c4bb4fecd26"
+      "sha256": "7a9ebac7d91c8695078e5b1bf45408a161f4993ab6967f289d565f12edcd8170"
     },
     {
       "path": "locales/de.json",
-      "sha256": "bd21e2404ca23a80c2d0bb2b4ae19400c2100621beb00f6189167b6a53dc6177"
+      "sha256": "6d9370add3867dd649d31ead64bea0502980527577ba9aef06eea1cc3113bd0f"
     },
     {
       "path": "locales/es-ES.json",
-      "sha256": "6ed5fa76631bf2d4cf8ef538c8fd41890b367cab996a366a49fef12c7fddc2c2"
+      "sha256": "01945092d4449a1937c2cd096a72df0898b18922a072b972181bd342b1f86491"
     },
     {
       "path": "locales/nl.json",
-      "sha256": "c745a612d94368bb2912138fdb04782e076333dcca26368ce9fa537989c2b8e7"
+      "sha256": "1d7fa0a850a80615488ab04145309701b7089302d2ce8792650c91e9716d79b0"
     },
     {
       "path": "locales/ja.json",
-      "sha256": "01e5c502d593a866e040044c9cff795a0595bf3f70a606b9f9fc55ea213c1587"
+      "sha256": "0f795bbe3eb23555f8d8932cbf1e12fd59921c6b216ef381307bbe2a7bbeb9c9"
     },
     {
       "path": "locales/ko.json",
-      "sha256": "679e423fdc283cb430f305c810a5ea98a71146bda889c805eeda7c93f6375dfe"
+      "sha256": "bd62914a6c21ada685c562736e3144b5b00e27e108256818ce91dc819acc47c0"
     },
     {
       "path": "locales/pl.json",
-      "sha256": "1e66f654f8bca810029235f6846e2129574c547c773734dd9e4969dbad309fca"
+      "sha256": "95d0cadc2007a3fdad6bc015e393c29f9bf5456296ef2900989acc7131044ea5"
     },
     {
       "path": "locales/pt-PT.json",
-      "sha256": "0081d68a0e81581d3612c8107b5ebf87eaa73517567dbd06524ec0be2b9fdcdc"
+      "sha256": "3e213a18fd3cd133da1f02f22f3ca62a1d894fb69ebbd24f212deb8a202a1ce1"
     },
     {
       "path": "locales/pt-BR.json",
-      "sha256": "2da3e6c8f7a62b4ddeed9c0e1c1d0700d34cbcbe0f029a68fa72a44c081debac"
+      "sha256": "4b0782859a34e035f0cf807bb681c1b657a8265d3a5f6a7eaa7dd0e288d79d63"
     },
     {
       "path": "locales/ru.json",
-      "sha256": "75f1485eb7ad1e6d0028eb767684b76bac81d04b0e32234b4bb9b592d4066edc"
+      "sha256": "730daf7df4d7970f1025f68fe004eeb9ff8a978148d8cf552e0952c66dc3d6d5"
     },
     {
       "path": "locales/zh-Hans.json",
-      "sha256": "e32f38fe20f66eccc3d9b510378ea7857849574ae03bd3e3e23892928fa47689"
+      "sha256": "b7b7528c865d45e23f95eb042484f23fcb9b5f1263a36a75b17d71820dbd7e89"
     },
     {
       "path": "locales/zh-Hant.json",
-      "sha256": "6f423e97ead470a8148e6f41aecc6247b226cf9b9c1182f4c481c6dd8905f654"
+      "sha256": "5ddc897ec5ae4540941378b46b03cc62e032d5d50b7780304d384b129d6dae53"
     }
   ],
   "legacy_data_directory": "NMS-AutoPet is intentionally retained for settings, remembered companions and the existing development runtime; schemas and file contents are unchanged.",
@@ -313,28 +332,31 @@
     "scope": "Separately built, predicate-gated native ON/OFF candidate. Requires same-menu false then true native confirmation, one matching selected-child trigger and original false result; no tail-only activation. Existing production applies and persists the queued setting. Other preferences remain in the temporary development panel. Registered on 27 September 2026 after normal exit and a fresh verified backup: two Mods, 11 hook targets, automation ON and 14 unchanged payloads. Complete live preference validation, remapping/controllers and held input await testing."
   },
   "developer_native_menu_trial": {
-    "version": "0.8.7-play-trial",
-    "menu_version": "0.8.5-branding",
+    "version": "0.9.0-play-trial",
+    "menu_version": "0.9.0-selection",
     "preference_keys": [
       "enabled",
       "selection_mode",
       "prefer_same_biome",
-      "locations"
+      "locations",
+      "rotate_companions"
     ],
-    "production_script_byte_identical": false,
+    "production_script_byte_identical": true,
+    "production_byte_identity_reference": "Generated production 0.5.0 in the source package",
     "live_verified": false,
-    "launched": true,
-    "registration_verified": true,
+    "launched": false,
+    "registration_verified": false,
     "included_in_player_zip": false,
-    "scope": "Launched final r1 branding candidate with production 0.4.9 and menu 0.8.5-branding. Runtime behavior is AST-identical to 0.4.8 after excluding only new product/author/version metadata and the diagnostic version marker. Passed 333 production and 675 developer tests, real-framework offline discovery/shared dispatch/all six temporary preferences, and Python plus Windows PowerShell 5.1 read-only preflights. Native captions, preferences and summon behavior are unchanged; no new habitat mode is implemented. Final r1 includes a Korean grammatical correction after renaming; the 24 focused locale tests and combined framework/preflights were rerun successfully. Initial 087 is superseded and unlaunched.",
+    "scope": "Weighted 13:5:1 habitat selection, identity-based rotation, seven native rows and eight original icons. Existing native rules and mappings retained. Fresh defaults By habitat/rotation ON; legacy choices preserved with rotation OFF. Offline evidence only; no gameplay, input or multiplayer acceptance inherited.",
+    "developer_tests_passed": 683,
     "actual_framework_discovery_verified": true,
-    "temporary_all_six_preferences_verified": true,
+    "temporary_all_seven_preferences_verified": true,
     "optional_icon_provider_binding_verified": true,
     "callbacks": 18,
     "distinct_native_targets": 12,
-    "payload_files": 40,
-    "custom_icons_included": 7,
-    "custom_icon_deployed": true,
+    "payload_files": 41,
+    "custom_icons_included": 8,
+    "custom_icon_deployed": false,
     "custom_icon_live_verified": false,
     "locale_validation_required_during_build": true,
     "physical_hotkeys": 0,
@@ -342,20 +364,12 @@
     "host_compatibility_guard_included": true,
     "localized_launcher_messages": 9,
     "compatibility_profile_validation_required": true,
-    "production_byte_identity_reference": "Version and author/product metadata changed from 0.4.8; behavior unchanged",
     "language_observation_only": true,
     "native_translation_rendering": false,
-    "final_candidate_directory": "build/quick-menu-play-trial-087-r1",
-    "language_observer_sha256": "6f3915086730274e363c54766c4734d5cc740add099141fee6759143bd5c47f0",
-    "developer_tests_passed": 675,
-    "production_sha256": "1b8359ffea6b11591bfbb7e6c8ac0bc0d3a3df008f3a379505afe861e0399bbf",
-    "menu_sha256": "c32a2fbce95bdde117e1bd3f096e6a0bc97f95ee526ffea752ced29f0e45ce6a",
-    "candidate_manifest_sha256": "c909f0bccbb49f9749e55bf8a95bf7c9292ef99a901b40e694ea56a207313386",
-    "live_record": "docs/research/LIVE-087.md",
-    "live_scope": "28 September 2026: two Mods/twelve targets registered; automatic Random spawn after Nexus save load and ship exit confirmed by player and logs. Full native settings, HUD/icon rendering, resource teardown and input acceptance remain incomplete. No running payload or preference was overwritten.",
-    "language_observation_scope": "One bounded observation reported native region 0 ENGLISH with prior initialization/load seen. Text unchanged; no reload safety, automatic catalog choice or translated rendering claim.",
-    "native_automation_toggle_verified_in_game": true,
-    "native_automation_toggle_scope": "Player confirmed OFF prevented a ship-exit summon, ON alone did not summon and the next ship exit summoned. Logs: OFF 11:13:04.257, ON 11:13:39.076, next exit armed 11:13:56.061, slot 4 accepted 11:13:57.638 with expected active index 3. Other logged preferences unchanged; automation left ON. Other controls, restart persistence and alternate input unverified."
+    "final_candidate_directory": "build/quick-menu-play-trial-090-r1",
+    "production_sha256": "eab0741bc45a4f4f4f064ad5b98c521abb99d54a7b990adac134b03f53c72055",
+    "menu_sha256": "832505a99ba831e6d092ed8057ed9b377e3787e42187b11a2aa0c676e3e0db9e",
+    "candidate_manifest_sha256": "4c54a7897e45ce87f42e5b07fd6efab78b5f00f49b92e324d2ba7b57d6f4ef43"
   },
   "post_queue_observation": {
     "passive_only": true,
@@ -541,9 +555,9 @@
   },
   "localization_catalogs": {
     "locales": 14,
-    "keys_per_locale": 41,
+    "keys_per_locale": 46,
     "translated_drafts": 13,
-    "scope": "native_menu_hud_technology_launcher",
+    "scope": "native_menu_hud_technology_launcher_panel",
     "source_text_verified": true,
     "native_runtime_integrated": false,
     "language_review_verified": false
@@ -848,5 +862,52 @@
   "short_name": "Companion Auto Summon",
   "author": "Lineum Dynamics",
   "author_credit": "by Lineum Dynamics",
-  "repository": "https://github.com/lineum-dynamics/nms-companion-auto-summon"
+  "repository": "https://github.com/lineum-dynamics/nms-companion-auto-summon",
+  "habitat_selection": "By habitat uses explicit mod-defined exact/related/acceptable groups weighted 13:5:1; no unrestricted planet fallback. Unknown habitat waits; no suitable owned companion skips the opportunity with a notice. Neutral stations/Nexus use an unweighted eligible pool.",
+  "rotation": "Session-only identity-based cycles; native queue acceptance consumes a reserved entry. No save writes. Legacy preferences migrate with rotation OFF and their existing mode preserved. A renewed eligible round avoids its group's last accepted identity if another is eligible; cancellations do not consume history. Local save/app boundaries reset bags.",
+  "previous_087_developer_native_menu_trial": {
+    "version": "0.8.7-play-trial",
+    "menu_version": "0.8.5-branding",
+    "preference_keys": [
+      "enabled",
+      "selection_mode",
+      "prefer_same_biome",
+      "locations"
+    ],
+    "production_script_byte_identical": false,
+    "live_verified": false,
+    "launched": true,
+    "registration_verified": true,
+    "included_in_player_zip": false,
+    "scope": "Launched final r1 branding candidate with production 0.4.9 and menu 0.8.5-branding. Runtime behavior is AST-identical to 0.4.8 after excluding only new product/author/version metadata and the diagnostic version marker. Passed 333 production and 675 developer tests, real-framework offline discovery/shared dispatch/all six temporary preferences, and Python plus Windows PowerShell 5.1 read-only preflights. Native captions, preferences and summon behavior are unchanged; no new habitat mode is implemented. Final r1 includes a Korean grammatical correction after renaming; the 24 focused locale tests and combined framework/preflights were rerun successfully. Initial 087 is superseded and unlaunched.",
+    "actual_framework_discovery_verified": true,
+    "temporary_all_six_preferences_verified": true,
+    "optional_icon_provider_binding_verified": true,
+    "callbacks": 18,
+    "distinct_native_targets": 12,
+    "payload_files": 40,
+    "custom_icons_included": 7,
+    "custom_icon_deployed": true,
+    "custom_icon_live_verified": false,
+    "locale_validation_required_during_build": true,
+    "physical_hotkeys": 0,
+    "shortcut_binding_enabled": false,
+    "host_compatibility_guard_included": true,
+    "localized_launcher_messages": 9,
+    "compatibility_profile_validation_required": true,
+    "production_byte_identity_reference": "Version and author/product metadata changed from 0.4.8; behavior unchanged",
+    "language_observation_only": true,
+    "native_translation_rendering": false,
+    "final_candidate_directory": "build/quick-menu-play-trial-087-r1",
+    "language_observer_sha256": "6f3915086730274e363c54766c4734d5cc740add099141fee6759143bd5c47f0",
+    "developer_tests_passed": 675,
+    "production_sha256": "1b8359ffea6b11591bfbb7e6c8ac0bc0d3a3df008f3a379505afe861e0399bbf",
+    "menu_sha256": "c32a2fbce95bdde117e1bd3f096e6a0bc97f95ee526ffea752ced29f0e45ce6a",
+    "candidate_manifest_sha256": "c909f0bccbb49f9749e55bf8a95bf7c9292ef99a901b40e694ea56a207313386",
+    "live_record": "docs/research/LIVE-087.md",
+    "live_scope": "28 September 2026: two Mods/twelve targets registered; automatic Random spawn after Nexus save load and ship exit confirmed by player and logs. Full native settings, HUD/icon rendering, resource teardown and input acceptance remain incomplete. No running payload or preference was overwritten.",
+    "language_observation_scope": "One bounded observation reported native region 0 ENGLISH with prior initialization/load seen. Text unchanged; no reload safety, automatic catalog choice or translated rendering claim.",
+    "native_automation_toggle_verified_in_game": true,
+    "native_automation_toggle_scope": "Player confirmed OFF prevented a ship-exit summon, ON alone did not summon and the next ship exit summoned. Logs: OFF 11:13:04.257, ON 11:13:39.076, next exit armed 11:13:56.061, slot 4 accepted 11:13:57.638 with expected active index 3. Other logged preferences unchanged; automation left ON. Other controls, restart persistence and alternate input unverified."
+  }
 }

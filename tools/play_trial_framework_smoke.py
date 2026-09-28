@@ -178,8 +178,8 @@ def check(bundle_folder):
     with tempfile.TemporaryDirectory(prefix="cas-play-framework-") as temporary:
         settings_path = Path(temporary) / "NMS-AutoPet/settings.json"
         settings_path.parent.mkdir()
-        preferences = {"schema": 3, "enabled": True, "locations": [2, 3],
-                       "selection_mode": "random", "prefer_same_biome": False}
+        preferences = {"schema": 4, "enabled": True, "locations": [2, 3],
+                       "selection_mode": "random", "prefer_same_biome": False, "rotate_companions": False}
         settings_bytes = (json.dumps(preferences) + "\n").encode("utf-8")
         settings_path.write_bytes(settings_bytes)
         with patch.dict(os.environ, {"PYTEST_VERSION": "cas-play-framework", "LOCALAPPDATA": temporary}):
@@ -253,7 +253,7 @@ def check(bundle_folder):
             require(production_targets & menu_targets == {0x1526940},
                     "Only TriggerAction may be shared between production and menu")
             shared_dispatch = check_shared_dispatch(production, menu, hooking)
-            require(len(production._gui_widgets) == 8 and not menu._gui_widgets,
+            require(len(production._gui_widgets) == 9 and not menu._gui_widgets,
                     "GUI widget discovery differs")
             require(not production._hotkey_funcs and not menu._hotkey_funcs,
                     "A Mod introduced a physical hotkey")
@@ -297,7 +297,7 @@ def check(bundle_folder):
                 # Exercise every additional row against the real Mod instance
                 # and the existing production persistence path. Each result
                 # must change exactly one preference and preserve the others.
-                for key in ("selection_mode", "prefer_same_biome", "planets", "space_stations", "nexus"):
+                for key in ("selection_mode", "prefer_same_biome", "planets", "space_stations", "nexus", "rotate_companions"):
                     before = bridge.snapshot(key)
                     token = bridge.capture_toggle(key)
                     require(before is not None and token is not None,
@@ -311,7 +311,7 @@ def check(bundle_folder):
                     require(json.loads(settings_path.read_text(encoding="utf-8")) == stored,
                             f"{key} persisted before player update")
                     expected = dict(stored)
-                    if key in ("selection_mode", "prefer_same_biome"):
+                    if key in ("selection_mode", "prefer_same_biome", "rotate_companions"):
                         expected[key] = pending.desired
                     else:
                         location = {"planets": 3, "space_stations": 2, "nexus": 14}[key]
@@ -381,9 +381,9 @@ def check(bundle_folder):
         "shared_target": "0x1526940", "shared_python_registry_and_dispatch": shared_dispatch,
         "shared_dispatch_owned_none_item_menu_disabled": True,
         "native_hook_binding_performed": False,
-        "gui_widgets": 8, "physical_hotkeys": 0, "temporary_preferences_preserved_before_apply": True,
+        "gui_widgets": 9, "physical_hotkeys": 0, "temporary_preferences_preserved_before_apply": True,
         "real_preference_bridge_queue_apply_verified": True,
-        "real_preference_bridge_all_six_settings_verified": True,
+        "real_preference_bridge_all_seven_settings_verified": True,
         "real_optional_icon_provider_binding_verified": True,
         "host_direct_folder_dispatch_mocked": True, "host_game_preflight_mocked": True,
         "actual_framework_metadata_checked": True, "hooks_registered": False,

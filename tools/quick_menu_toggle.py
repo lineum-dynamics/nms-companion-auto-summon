@@ -14,9 +14,9 @@ import quick_menu_submenu as submenu
 
 MenuItemError = item.MenuItemError
 CHILD_ROLES = submenu.SETTINGS_CHILD_ROLES
-SETTING_KEYS = ("enabled", "selection_mode", "prefer_same_biome", "planets", "space_stations", "nexus")
+SETTING_KEYS = ("enabled", "selection_mode", "prefer_same_biome", "planets", "space_stations", "nexus", "rotate_companions")
 SETTING_LABELS = ("Automatic summoning", "Selection", "Random: prefer matching biome",
-                  "Planets", "Space stations", "Space Anomaly")
+                  "Planets", "Space stations", "Space Anomaly", "Rotate companions")
 
 
 def setting_key(role):
@@ -34,9 +34,10 @@ def preference_label(role, state):
     if state.stopped:
         return item.encode_label(label + "stopped")
     if role == 1:
-        if type(state.desired) is not str or state.desired not in ("last_manual", "random"):
+        if type(state.desired) is not str or state.desired not in ("last_manual", "random", "by_habitat"):
             raise MenuItemError("Unknown companion selection preference")
-        label += "Last selected" if state.desired == "last_manual" else "Random"
+        label += ("Last selected" if state.desired == "last_manual" else
+                  "Random" if state.desired == "random" else "By habitat")
     else:
         if type(state.desired) is not bool:
             raise MenuItemError("Unexpected boolean preference")

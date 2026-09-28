@@ -193,7 +193,7 @@ class LanguageMetadataTests(unittest.TestCase):
         observed = load_trial(settings_enabled=True, extended_settings=True, custom_icon=True, language_observation=True)
         self.assertEqual([entry.offset for entry in plain.test_declarations],
                          [entry.offset for entry in observed.test_declarations])
-        self.assertEqual(observed.CompanionMenuOrderTrial._version, "0.8.5-branding")
+        self.assertEqual(observed.CompanionMenuOrderTrial._version, "0.9.0-selection")
         with patch.object(observed, "current_process_io") as io, patch.object(observed, "LanguageObserver") as factory:
             trial = observed.CompanionMenuOrderTrial()
         io.assert_not_called()

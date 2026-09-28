@@ -67,7 +67,7 @@ PLACEMENT_MAX_FRAME_GAP = 0.25
 QUICK_MENU_ACTION_OFFSET = 0x4
 QUICK_MENU_SLOT_OFFSET = 0x84
 SUMMON_PET_ACTION = 46
-SelectionMode = Enum("SelectionMode", {"Last manually selected": "last_manual", "Random": "random"})
+SelectionMode = Enum("SelectionMode", {"Last manually selected": "last_manual", "Random": "random", "By habitat": "by_habitat"})
 
 
 def selection_store_path():
@@ -168,7 +168,7 @@ def cas_add_timed_message(notifications: C.c_void_p, message: C.c_void_p,
 class CompanionAutoSummon(Mod):
     """Experimental summon after a ship exit where native game rules permit it."""
 
-    _version = "0.4.9-experimental"
+    _version = "0.5.0-experimental"
     _author = PRODUCT_AUTHOR
     _description = PRODUCT_NAME
     _disabled = not supported_runtime()
@@ -179,8 +179,10 @@ class CompanionAutoSummon(Mod):
         # User preference is separate from the runtime safety latch above.
         self.auto_enabled = True
         self.allowed_locations = SUPPORTED_SUMMON_LOCATIONS
-        self.selection_mode_value = "last_manual"
+        self.selection_mode_value = "by_habitat"
         self.prefer_same_biome_value = True
+        self.rotate_companions_value = True
+        self.selector = CompanionSelector(rng=random)
         self.settings_store = None
         self.settings_ok = True
         self.control_lock = Lock()
@@ -198,6 +200,7 @@ class CompanionAutoSummon(Mod):
         self._summon_observation = None
         self._placement_warmed = False
         self._pending_pet_identity = None
+        self._pending_selection_context = None
         self._next_probe_at = 0.0
         self._probe_primed_at = None
         self._probe_location = None
@@ -223,12 +226,13 @@ class CompanionAutoSummon(Mod):
             self.allowed_locations = frozenset(preferences["locations"])
             self.selection_mode_value = preferences["selection_mode"]
             self.prefer_same_biome_value = preferences["prefer_same_biome"]
+            self.rotate_companions_value = preferences["rotate_companions"]
         except (SelectionStoreError, SettingsStoreError):
             # An unreadable preference must not silently turn automation back on.
             self.auto_enabled = False
             self.settings_ok = False
             LOGGER.exception("Companion Auto Summon settings unavailable; automation starts OFF. The settings panel can enable it for this session.")
-        LOGGER.info("Companion Auto Summon 0.4.9 experimental: automation %s; use the CompanionAutoSummon settings panel.",
+        LOGGER.info("Companion Auto Summon 0.5.0 experimental: automation %s; use the CompanionAutoSummon settings panel.",
                     "ON" if self.auto_enabled else "OFF")
 
     @property
@@ -300,14 +304,25 @@ class CompanionAutoSummon(Mod):
             with self.control_lock:
                 self.requested_preferences[key] = value
 
+    @property
+    @BOOLEAN("Rotate companions")
+    def rotate_companions(self):
+        return self._visible_preferences()["rotate_companions"]
+
+    @rotate_companions.setter
+    def rotate_companions(self, value):
+        if type(value) is bool:
+            self._queue_preference("rotate_companions", value)
+
     def _current_preferences(self):
         return {"enabled": self.auto_enabled, "locations": sorted(self.allowed_locations),
                 "selection_mode": self.selection_mode_value,
-                "prefer_same_biome": self.prefer_same_biome_value}
+                "prefer_same_biome": self.prefer_same_biome_value,
+                "rotate_companions": self.rotate_companions_value}
 
     def _merged_preferences_locked(self):
         preferences = self._current_preferences()
-        for key in ("enabled", "selection_mode", "prefer_same_biome"):
+        for key in ("enabled", "selection_mode", "prefer_same_biome", "rotate_companions"):
             if key in self.requested_preferences:
                 preferences[key] = self.requested_preferences[key]
         locations = set(preferences["locations"])
@@ -343,6 +358,8 @@ class CompanionAutoSummon(Mod):
     @property
     @STRING("Companion")
     def companion_status(self):
+        if self._visible_preferences()["selection_mode"] == "by_habitat":
+            return "Habitat-aware owned companion per request; manual favorite is preserved."
         if self._visible_preferences()["selection_mode"] == "random":
             return "Random eligible owned companion per request; manual favorite is preserved."
         slot = self.policy.last_slot
@@ -365,6 +382,7 @@ class CompanionAutoSummon(Mod):
             self.allowed_locations = frozenset(requested["locations"])
             self.selection_mode_value = requested["selection_mode"]
             self.prefer_same_biome_value = requested["prefer_same_biome"]
+            self.rotate_companions_value = requested["rotate_companions"]
         self._invalidate_manual_action()
         self._finish_exit_diagnostic("cancelled by settings change")
         self._load_summon_pending = False
@@ -380,15 +398,18 @@ class CompanionAutoSummon(Mod):
         self.pending_notice = (f"Companion Auto Summon: {state}{suffix}" if previous["enabled"] != self.auto_enabled
                                else f"Companion Auto Summon: settings updated{suffix}")
         LOGGER.info(self.pending_notice)
-        LOGGER.info("Companion Auto Summon preferences: locations=%s selection=%s prefer_same_biome=%s.",
-                    requested["locations"], requested["selection_mode"], requested["prefer_same_biome"])
+        LOGGER.info("Companion Auto Summon preferences: locations=%s selection=%s prefer_same_biome=%s rotate=%s.",
+                    requested["locations"], requested["selection_mode"], requested["prefer_same_biome"],
+                    requested["rotate_companions"])
 
     def _finish_exit_diagnostic(self, reason):
+        self.selector.cancel()
         self._finish_summon_observation(reason)
         # All cancellation/context transitions invalidate the previous ray jobs
         # for automation. The game owns their actual cleanup; never alter them.
         self._reset_probe()
         self._pending_pet_identity = None
+        self._pending_selection_context = None
         self._queue_rejection_logged = False
         if self._exit_diagnostic is not None:
             LOGGER.info("Companion Auto Summon exit finished: %s.", reason)
@@ -658,6 +679,7 @@ class CompanionAutoSummon(Mod):
             self._load_summon_pending = False
             self._finish_exit_diagnostic("cancelled because application context is unavailable")
             self.policy.reset()
+            self.selector.reset()
             self.app_identity = None
             self.pet_identity = None
             self.save_key = None
@@ -675,6 +697,7 @@ class CompanionAutoSummon(Mod):
                 self.saved_selection = None
                 self.pending_notice = None
             self.policy.reset()
+            self.selector.reset()
             self.pet_identity = None
             self.app_identity = app
         return app if player == app + LOCAL_PLAYER_OFFSET else None
@@ -857,6 +880,8 @@ class CompanionAutoSummon(Mod):
                 self.pending_notice = prefix + " Auto summoning OFF."
             elif self.selection_mode_value == "random":
                 self.pending_notice = prefix + " Random stays ON."
+            elif self.selection_mode_value == "by_habitat":
+                self.pending_notice = prefix + " Habitat selection stays ON."
             else:
                 self.pending_notice = prefix
         LOGGER.info("Companion Auto Summon confirmed native UI companion choice: slot %d; persisted=%s.", slot + 1, persisted)
@@ -901,7 +926,7 @@ class CompanionAutoSummon(Mod):
         self._restore_selected(app)
         self._finish_exit_diagnostic("replaced by " + source)
         now = time.monotonic()
-        random_selection = self.selection_mode_value == "random"
+        random_selection = self.selection_mode_value != "last_manual"
         self.policy.eject(now, random_selection=random_selection)
         if self.policy.pending:
             self._pending_pet_identity = None if random_selection else self.pet_identity
@@ -910,7 +935,7 @@ class CompanionAutoSummon(Mod):
                 "armed_at": now, "last_time": now, "last_state": None,
                 "wait_logs": 0, "suppressed": False, "observed_waits": set(),
             }
-            choice = ("one random eligible companion" if random_selection
+            choice = ("one eligible companion via " + self.selection_mode_value if random_selection
                       else f"slot {self.policy.pending_slot + 1}")
             LOGGER.info("Companion Auto Summon %s armed for %s; stability delay=%.2fs; waiting until a suitable place.",
                         source, choice, self.policy._delay)
@@ -953,6 +978,7 @@ class CompanionAutoSummon(Mod):
             self._load_summon_pending = False
             self._finish_exit_diagnostic("cancelled by main save load")
             self.policy.reset()
+            self.selector.reset()
             self.app_identity = None
             self.pet_identity = None
             self.save_key = None
@@ -1079,6 +1105,11 @@ class CompanionAutoSummon(Mod):
                 else:
                     self.policy.enter_ship()
                 return
+            if selected is not None and self.selector.pending is not None:
+                if not self._reserved_identity_safe(app, selected):
+                    self._finish_exit_diagnostic("cancelled because reserved identity or habitat changed")
+                    self.policy.enter_ship()
+                    return
             preview_slot = C.c_int32.from_address(owner + PET_PREVIEW_OFFSET).value
             emote_active = C.c_ubyte.from_address(owner + PET_EMOTE_OFFSET).value
             if preview_slot != -1 or emote_active != 0:
@@ -1127,13 +1158,19 @@ class CompanionAutoSummon(Mod):
                                     eligible=eligible, slot=slot, wait_reason=wait_reason)
             if not self.policy.pending:
                 self._pending_pet_identity = None
+                self._pending_selection_context = None
+                self.selector.cancel()
                 self._reset_probe()
             if slot is None:
                 return
-            if self.selection_mode_value == "random":
+            if self.selection_mode_value != "last_manual":
                 # Pool scans may inspect other slots after the eventual choice.
                 # Revalidate the frozen choice immediately before each paced
                 # queue attempt. A temporary failure retains it, never rerolls.
+                if self.selector.pending is not None and not self._reserved_identity_safe(app, slot):
+                    self._finish_exit_diagnostic("cancelled before queue because reserved identity changed")
+                    self.policy.enter_ship()
+                    return
                 if (self._pet_seed(app, slot) != chosen_identity
                         or not self._slot_occupied(app, slot)
                         or not self._native_owned(owner, slot)
@@ -1141,6 +1178,17 @@ class CompanionAutoSummon(Mod):
                     self.policy.resolve(False)
                     self._reset_probe(next_at=now + PLACEMENT_PROBE_INTERVAL)
                     return
+            # Native eligibility wrappers can run other callbacks. Revalidate
+            # AFTER them, immediately before the queue, not only before them.
+            # Cancellation must not substitute the current occupant of a slot.
+            if (self._app_for_player(player) != app or not self.policy.pending
+                    or self.policy.pending_slot != slot or self._pending_pet_identity != chosen_identity
+                    or self._controls_pending() or not self._slot_occupied(app, slot)
+                    or self._pet_seed(app, slot) != chosen_identity
+                    or (self.selector.pending is not None and not self._reserved_identity_safe(app, slot))):
+                self._finish_exit_diagnostic("cancelled by final pre-queue identity or intent check")
+                self.policy.enter_ship()
+                return
             # Only an accepted native queue consumes the intent. Rejection waits
             # for a fresh throttled placement pair before retrying the same pet.
             self.in_auto_call = True
@@ -1158,10 +1206,15 @@ class CompanionAutoSummon(Mod):
                 return
             if queued_slot != slot:
                 self.enabled = False
+                self._finish_exit_diagnostic("cancelled after unexpected native queued slot")
                 self.policy.reset()
                 LOGGER.error("Companion Auto Summon disabled: unexpected queued companion after summon request.")
                 return
             self.policy.resolve(True)
+            # Native queue acceptance advances only the reserved shuffle entry;
+            # it is not evidence of rendered appearance. Rejection never advances.
+            if self.selector.pending is not None:
+                self.selector.commit(chosen_identity)
             self._finish_exit_diagnostic("summon request accepted")
             self._arm_summon_observation(app, slot, chosen_identity, source, location, now)
             LOGGER.info("Companion Auto Summon queued slot %d through the game's normal summon path.", slot + 1)
@@ -1240,6 +1293,87 @@ class CompanionAutoSummon(Mod):
             return candidates
         return matching or candidates
 
+    def _selection_roster(self, app):
+        """Copy occupied identities twice; ambiguity must never resolve by slot."""
+        def snapshot():
+            return tuple((slot, self._pet_seed(app, slot), self._pet_biome(app, slot))
+                         for slot in range(30) if self._slot_occupied(app, slot))
+        first = snapshot()
+        if snapshot() != first:
+            raise SelectionError("Companion roster changed while being copied")
+        identities = [row[1] for row in first]
+        if len(identities) != len(set(identities)):
+            raise AmbiguousIdentityError("Occupied companions have duplicate identities")
+        return first
+
+    def _selection_context(self, app, location):
+        if self.selection_mode_value == "random":
+            return ("random", None)
+        if self.selection_mode_value == "by_habitat" and location == 3:
+            return ("planet", normalize_habitat(self._current_planet_biome(app)))
+        return ("neutral", None)
+
+    def _reserved_identity_safe(self, app, slot):
+        """Revalidate the frozen token, slot and selection context before a call."""
+        try:
+            roster = self._selection_roster(app)
+            match = [row for row in roster if row[1] == self._pending_pet_identity]
+            location = C.c_int32.from_address(app + LOCATION_OFFSET).value
+            if (self.selector.pending is None
+                    or self.selector.pending.identity != self._pending_pet_identity
+                    or len(match) != 1 or match[0][0] != slot
+                    or (location in SUPPORTED_SUMMON_LOCATIONS
+                        and self._selection_context(app, location) != self._pending_selection_context)):
+                return False
+            if self.selection_mode_value == "by_habitat" and location == 3:
+                return DEFAULT_HABITAT_RULES.group(self._pending_selection_context[1], match[0][2]) is not None
+            return True
+        except (SelectionError, OSError, ValueError):
+            return False
+
+    def _choose_automatic_companion(self, app, location, candidates):
+        """Reserve one identity after native eligibility, without touching saves."""
+        if self.selection_mode_value == "random" and not self.rotate_companions_value:
+            candidates = self._random_biome_pool(app, location, candidates)
+            slot = random.choice(candidates)
+            identity = self._pet_seed(app, slot)
+        else:
+            try:
+                roster = self._selection_roster(app)
+                by_slot = {row[0]: Candidate(row[1], row[2]) for row in roster}
+                context = self._selection_context(app, location)
+                mode = "by_habitat" if self.selection_mode_value == "by_habitat" and location == 3 else "random"
+                if mode == "by_habitat":
+                    if context[1] is None:
+                        return False, "habitat_unavailable"
+                    if roster and not any(DEFAULT_HABITAT_RULES.group(context[1], row[2]) for row in roster):
+                        self._finish_exit_diagnostic("no owned companion suits this habitat")
+                        self.policy.enter_ship()
+                        self.pending_notice = "No suitable companion for this habitat."
+                        return False, "no_suitable_habitat"
+                elif self.selection_mode_value == "random":
+                    candidates = self._random_biome_pool(app, location, candidates)
+                if any(slot not in by_slot for slot in candidates):
+                    raise SelectionError("An eligible slot changed ownership")
+                choice = self.selector.reserve(tuple(by_slot.values()),
+                                               [by_slot[slot].identity for slot in candidates],
+                                               mode=mode, habitat=context[1],
+                                               rotate=self.rotate_companions_value)
+                if choice is None:
+                    return False, "habitat_eligibility_wait"
+                slot = next(row[0] for row in roster if row[1] == choice.identity)
+                identity = choice.identity
+                self._pending_selection_context = context
+            except (SelectionError, OSError, ValueError):
+                self._finish_exit_diagnostic("cancelled because companion selection is ambiguous or changed")
+                self.policy.enter_ship()
+                return False, "selection_invalidated"
+        self.policy.select_for_exit(slot)
+        self._pending_pet_identity = identity
+        LOGGER.info("Companion Auto Summon chose slot %d using %s from %d eligible companions for this opportunity.",
+                    slot + 1, self.selection_mode_value, len(candidates))
+        return True, None
+
     def _refresh_placement(self, app, owner):
         arc_range = C.c_float.from_address(_internal.BASE_ADDRESS + SUMMON_ARC_RANGE_RVA).value
         if not math.isfinite(arc_range) or arc_range <= 0:
@@ -1294,12 +1428,7 @@ class CompanionAutoSummon(Mod):
         if not candidates:
             return False, "eligibility_false"
         if selected is None:
-            candidates = self._random_biome_pool(app, location, candidates)
-            slot = random.choice(candidates)
-            self.policy.select_for_exit(slot)
-            self._pending_pet_identity = self._pet_seed(app, slot)
-            LOGGER.info("Companion Auto Summon chose random companion slot %d from %d eligible owned companions for this exit.",
-                        slot + 1, len(candidates))
+            return self._choose_automatic_companion(app, location, candidates)
         return True, None
 
 

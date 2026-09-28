@@ -60,21 +60,28 @@ Combined developer play trial.
 
 This isolated developer bundle runs two mods in one pyMHF host:
 
-- CompanionAutoSummon 0.4.9-experimental: automatic summoning after loading or
+- CompanionAutoSummon 0.5.0-experimental: automatic summoning after loading or
   ship exit, including its separate preference panel. The production source is
   copied byte-identically into this bundle.
-- CompanionMenuOrderTrial 0.8.5-branding: the ordered native companion
-  submenu with all six settings, its binding filter and distinct setting icons.
+- CompanionMenuOrderTrial 0.9.0-selection: the ordered native companion
+  submenu with all seven settings, its binding filter and distinct setting icons.
 
-The bundle version is 0.8.7-play-trial. This revision is not yet live-verified.
-It adds optional, bounded language observations while a CAS menu caption is
+The bundle version is 0.9.0-play-trial. This revision is not yet live-verified.
+It adds By habitat selection with explicit 13:5:1 group weights and optional
+identity-based companion rotation. Fresh installations use By habitat and
+rotation ON; legacy preferences keep their selection mode with rotation OFF.
+Native queue acceptance consumes a shuffle entry; rejection retains it.
+Duplicate identities and changed frozen selections cancel safely. Rotation
+history is session-only and resets on local loading. Known habitats have no
+unrestricted fallback; unknown habitats wait, and neutral stations/Nexus use
+the eligible pool without habitat weights. All native game rules still apply.
+It retains optional, bounded language observations while a CAS menu caption is
 selected. Two matching copies must confirm construction, the exact derived
 vtable, a known native region and a prior completed-load marker. The marker is
 not a reload lock. Diagnostics never change language, captions or HUD text,
 follow pointers, call a language getter or add a native hook. A diagnostic
-failure leaves the menu and automatic summoning active. Production retains the 0.8.6 trial's summon behavior and extended passive
-post-queue observation. Version 0.8.7 updates product/author metadata and
-localized launcher names; this is not a spawn fix.
+failure leaves the menu and automatic summoning active. Production retains
+extended passive post-queue observation. This is not a claimed startup fix.
 It adds exact-build checks before host startup and before each DLL injection
 into the actual selected game process. Compatibility failures use translated
 outside-game notices; --language/-Language selects a launcher language, otherwise
@@ -87,14 +94,15 @@ Use Start-CompanionAutoSummon.ps1 -CheckOnly to check the package, exact game
 and existing runtime while playing. It installs nothing and launches no game
 or mod host; a missing runtime is reported, never prepared in check-only mode.
 Previous launchers without these leases are not covered; never run them together.
-Production 0.4.9 requires matching native UI pet selection before it can
+Production 0.5.0 requires matching native UI pet selection before it can
 remember a manual favorite. An unrelated accepted queue, including native
 battle restoration, cannot overwrite that choice or announce it as saved.
 Passive observation remains; no new retries or summon delays are added.
 Shorter notices last 5.5 seconds. In-game validation is still required.
 The native page contains Automatic summoning: ON/OFF, companion selection
-(Last selected/Random), Random: prefer matching biome and three separate location
-switches (planets, space stations and Space Anomaly). Confirm a row with the
+(Last selected/Random/By habitat), Random: prefer matching biome, three separate
+location switches (planets, space stations and Space Anomaly) and Rotate companions.
+Confirm a row with the
 configured native Select action to queue its change. The local player update
 applies and saves it through the existing production preference path. Pending
 and session-only labels do not claim a successful disk save. Navigation,
@@ -108,9 +116,9 @@ native controls are verified. Existing settings are not reset or forced.
 
 The original paw-with-arrow icon is included as SETTINGS.DDS for the parent
 and notices. Each child has its own original icon: power, companion selection,
-biome, planet, station and Anomaly. The biome preference affects Random on
+biome, planet, station, Anomaly and rotation. The biome preference affects Random on
 planets only; Last selected preserves its stored value without using it.
-At a future closed-game launch, the host validates all seven assets before
+At a future closed-game launch, the host validates all eight assets before
 staging under GAMEDATA/MODS/CompanionAutoSummon/TEXTURES/UI/FRONTEND/ICONS/
 COMPANIONAUTOSUMMON/. It reuses identical bytes and refuses to overwrite an
 unknown file. Packaging installs nothing. One natural menu-resource phase
@@ -149,12 +157,12 @@ still apply; no pets are granted and no gameplay limits are lowered.
 
 Open the quick menu with the configured control and enter companions. The CAS
 entry should follow general companion actions and precede individual pets or
-pet pages. Check the custom icon, all six rows, native Back, close/reopen and
+pet pages. Check the custom icon, all seven rows, native Back, close/reopen and
 normal manual pet actions. First browse without confirming: every setting
 must stay unchanged. Confirm one row at a time, return to play for the local
 update, then reopen and compare with the development panel. Change each row
-back after checking it. Confirm OFF and ON; cycle Last selected and Random;
-flip the biome preference and each location. Hold Select and verify only one
+back after checking it. Confirm OFF and ON; cycle Last selected, Random and By habitat;
+flip rotation, the biome preference and each location. Hold Select and verify only one
 change. Check that changing a row preserves every other value. OFF cancels
 pending summons without dismissing an active pet; ON alone does not summon.
 The remaining controls must keep their values. This new native route is not
@@ -199,7 +207,7 @@ def _launcher(data):
     return text.encode("utf-8")
 
 
-def build(*, enable_menu=False, output_name="quick-menu-play-trial-087"):
+def build(*, enable_menu=False, output_name="quick-menu-play-trial-090"):
     """Create one fresh, checksum-complete folder without executing payloads."""
     if enable_menu is not True:
         raise ValueError("Pass --enable-menu for this combined developer trial")
@@ -245,22 +253,22 @@ def build(*, enable_menu=False, output_name="quick-menu-play-trial-087"):
     payload["README.md"] = README
 
     current = json.loads((ROOT / "manifest.json").read_text(encoding="utf-8"))
-    if (current["version"] != "0.4.9-experimental"
+    if (current["version"] != "0.5.0-experimental"
             or current["framework"] != "pymhf[gui]==0.2.4"):
         raise ValueError("The play-trial host requires the reviewed production and framework versions")
     manifest = {
         "name": "Companion Auto Summon for No Man's Sky",
         "author": "Lineum Dynamics",
         "repository": "https://github.com/lineum-dynamics/nms-companion-auto-summon",
-        "version": "0.8.7-play-trial",
+        "version": "0.9.0-play-trial",
         "framework": current["framework"],
         "steam_build": current["steam_build"],
         "supported_nms_exe_sha256": current["supported_nms_exe_sha256"],
-        "purpose": "Automatic summoning, six native settings, role icons and bounded scalar language observations",
+        "purpose": "Automatic summoning, seven native settings, role icons and bounded scalar language observations",
         "observation_only": False,
         "auto_summon": True,
         "preference_actions": True,
-        "preference_keys": ["enabled", "selection_mode", "prefer_same_biome", "locations"],
+        "preference_keys": ["enabled", "selection_mode", "prefer_same_biome", "locations", "rotate_companions"],
         "live_verified": False,
         "preferences_included": False,
         "manual_selection_path": "%LOCALAPPDATA%/NMS-AutoPet/state.json",
@@ -268,7 +276,7 @@ def build(*, enable_menu=False, output_name="quick-menu-play-trial-087"):
         "mods": [
             {"name": "CompanionAutoSummon", "version": current["version"],
              "path": PRODUCTION_FILE},
-            {"name": "CompanionMenuOrderTrial", "version": "0.8.5-branding",
+            {"name": "CompanionMenuOrderTrial", "version": "0.9.0-selection",
              "path": MENU_FILE},
         ],
         "files": [{"path": name, "sha256": hashlib.sha256(data).hexdigest()}
@@ -290,7 +298,7 @@ def build(*, enable_menu=False, output_name="quick-menu-play-trial-087"):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--enable-menu", action="store_true")
-    parser.add_argument("--output-name", default="quick-menu-play-trial-087")
+    parser.add_argument("--output-name", default="quick-menu-play-trial-090")
     options = parser.parse_args()
     print(json.dumps(build(enable_menu=options.enable_menu,
                            output_name=options.output_name)))

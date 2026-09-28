@@ -3,17 +3,20 @@
 ## Status
 
 `locales/en.json` is canonical English alongside thirteen translated
-**unreviewed draft** catalogs. Each now has the same 41 keys:
+**unreviewed draft** catalogs. Source candidate 0.5.0 / 0.9.0 has the same 46 keys in each:
 the original 24 cover the native parent title, six settings labels,
 values/statuses, caption formats and current HUD notices; six keys cover the
 proposed rechargeable technologies, nine cover launcher compatibility
-messages and two cover product identity. In the 0.4.9 / 0.8.7 branding
+messages and two cover product identity. Five new keys cover companion rotation,
+By habitat, its manual-choice suffix, an unsuitable-habitat notice and one
+changed development-panel status. In the 0.4.9 / 0.8.7 branding
 candidate, `product.full_name` is the invariant proper name **Companion Auto Summon
 for No Man's Sky**; `product.author_credit` translates **by Lineum Dynamics**.
 The full title also replaces the short name in `launcher.blocked_title`,
 `launcher.unsupported_game` and `launcher.game_running`, with all affected
-translations and fingerprints updated. Native menu/HUD wording is unchanged,
-including **Random: prefer matching biome**, effective only for Random on planets.
+translations and fingerprints updated. New source labels are **Rotate companions**
+and **By habitat**; **Random: prefer matching biome** keeps its existing
+planet-only Random meaning. Native menu/HUD rendering remains English.
 The final 0.8.7-r1 trial is running; former 0.8.4 and prepared, unlaunched
 0.8.6-r1 artifacts remain unchanged.
 
@@ -22,8 +25,10 @@ uses the existing English ASCII path. The running 0.8.7 menu retains observation
 of copied game-language scalars for developer diagnostics only. There is no language
 selector, automatic catalog choice, verified non-English rendering or native-language
 terminology review. English and Czech README files remain documentation
-translations. The development panel, other launcher/setup messages and older
-inert-preview captions are outside the current 41-key catalog; this is not
+translations. Only the new rotation caption, By habitat enum value and
+`panel.habitat_status` are now checked for the development panel; its other text,
+other launcher/setup messages and older inert-preview captions remain outside
+the 46-key catalog; this is not
 whole-application coverage. At 11:08:53 on 28 September 2026, the bounded observer
 reported native region 0 (ENGLISH) with prior initialization/load seen. This is
 one live scalar observation, not reload safety or translated-rendering evidence;
@@ -50,9 +55,15 @@ technology-gated summoning already works. All thirteen translations remain
 drafts, including their native-game terminology.
 
 Pending means queued, not saved. `Companion saved.` is used only after successful
-persistence; otherwise it is `Companion selected (session only).` OFF/Random
-suffixes preserve that distinction. Automatic summoning and game restoration
-remain quiet. Catalog preparation changes none of those runtime rules.
+persistence; otherwise it is `Companion selected (session only).` OFF/Random/By
+habitat suffixes preserve that distinction. `hud.habitat_on_suffix` says
+` Habitat selection stays ON.`; `hud.no_suitable_habitat` says
+`No suitable companion for this habitat.` only when the known owned roster has
+no approved habitat group. Temporary ineligibility/placement remains quiet.
+`panel.habitat_status` reads `Habitat-aware owned companion per request; manual
+favorite is preserved.` All five additions have synchronized English fingerprints
+and thirteen draft translations. Candidate validation passed 396 production and 683 developer tests;
+no new language rendering or gameplay acceptance is claimed.
 
 Every change must review localization impact. **Any player-facing text or meaning
 change updates English and every affected locale entry in the same change, with
@@ -86,7 +97,7 @@ Source: [official Steam store language table](https://store.steampowered.com/app
 
 ## Catalog and validation contract
 
-Each UTF-8 JSON file declares schema version 1, locale, `native_menu_hud_technology_launcher` scope,
+Each UTF-8 JSON file declares schema version 1, locale, `native_menu_hud_technology_launcher_panel` scope,
 review status and `native_runtime_integrated: false`. Entries contain display
 `text` and `source_sha256`: SHA256 of that key's exact canonical English UTF-8
 text. English edits invalidate existing fingerprints in every translation.
@@ -94,7 +105,7 @@ Updating a fingerprint must follow an actual meaning/translation review, not
 serve as a way to hide an unchanged stale translation. A matching fingerprint
 proves synchronization only, not translation quality.
 
-`tools/validate_locales.py` requires exactly all fourteen files and all 41 keys,
+`tools/validate_locales.py` requires exactly all fourteen files and all 46 keys,
 rejects duplicate JSON keys, invalid/empty/oversized/control-character text and
 stale hashes, and compares named placeholder names and multiplicities. Placeholders
 are simple text names such as `{label}`, `{value}`, `{status}`, `{state}` and
@@ -107,7 +118,8 @@ such key must appear in that locale's `unchanged_keys`. Other entries contain
 authored translations, with honest `draft_unreviewed` status.
 
 The validator also checks the current parent/settings labels, rendered English
-menu combinations and every current HUD notice against the catalog. It parses
+menu combinations, the three newly changed panel surfaces and every current
+HUD notice against the catalog. It parses
 `src/runtime.py` without importing or running it. Only the extracted pure menu
 text function runs, with restricted calls and owned sample state. Source strings
 changed without matching catalog updates fail the check.
@@ -164,7 +176,7 @@ them establishes data/source consistency, not linguistic or visual acceptance.
 Offline preparation now exists in `tools/native_text.py`. It consumes one
 validated immutable catalog snapshot and renders complete menu/HUD messages
 within the current byte limits, with explicit whole-message English fallback
-for overflow or unsupported locale IDs. All 1,666 current menu/HUD combinations
+for overflow or unsupported locale IDs. All 2,086 current menu/HUD combinations
 fit without fallback. This is not imported by the native mod or play-trial
 bundle. See [the preparation and static evidence](docs/research/NATIVE-LOCALIZATION-AUDIT.md).
 The 0.8.7 candidate retains a guarded read-only language observer, with stable

@@ -53,7 +53,7 @@ class CompanionAutoSummonSettingsStoreTests(unittest.TestCase):
     def test_missing_defaults_to_enabled_without_creating_file_or_directory(self):
         self.assertIs(self.store.load(), True)
         self.assertEqual(self.store.load_preferences(), {
-            "enabled": True, "locations": [2, 3, 14], "selection_mode": "last_manual", "prefer_same_biome": True
+            "enabled": True, "locations": [2, 3, 14], "selection_mode": "by_habitat", "prefer_same_biome": True, "rotate_companions": True
         })
         self.assertFalse(self.path.exists())
         self.assertFalse(self.path.parent.exists())
@@ -64,7 +64,7 @@ class CompanionAutoSummonSettingsStoreTests(unittest.TestCase):
         defaults["enabled"] = False
         loaded = self.store.load_preferences()
         self.assertEqual(loaded, {
-            "enabled": True, "locations": [2, 3, 14], "selection_mode": "last_manual", "prefer_same_biome": True
+            "enabled": True, "locations": [2, 3, 14], "selection_mode": "by_habitat", "prefer_same_biome": True, "rotate_companions": True
         })
         loaded["locations"].append(99)
         self.assertEqual(self.store.load_preferences(), CompanionAutoSummonSettingsStore.defaults())
@@ -74,8 +74,8 @@ class CompanionAutoSummonSettingsStoreTests(unittest.TestCase):
         self.store.save(False)
         self.assertIs(CompanionAutoSummonSettingsStore(self.path).load(), False)
         self.assertEqual(json.loads(self.path.read_text()), {
-            "schema": 3, "enabled": False, "locations": [2, 3, 14],
-            "selection_mode": "last_manual", "prefer_same_biome": True
+            "schema": 4, "enabled": False, "locations": [2, 3, 14],
+            "selection_mode": "by_habitat", "prefer_same_biome": True, "rotate_companions": True
         })
         CompanionAutoSummonSettingsStore(self.path).save(True)
         self.assertIs(self.store.load(), True)
@@ -84,36 +84,36 @@ class CompanionAutoSummonSettingsStoreTests(unittest.TestCase):
     def test_legacy_off_migrates_in_memory_only_until_explicit_save(self):
         original = b'{"schema":1,"enabled":false}\n'
         self.write_raw(original)
-        expected = {"enabled": False, "locations": [2, 3, 14], "selection_mode": "last_manual", "prefer_same_biome": True}
+        expected = {"enabled": False, "locations": [2, 3, 14], "selection_mode": "last_manual", "prefer_same_biome": True, "rotate_companions": False}
         self.assertEqual(self.store.load_preferences(), expected)
         self.assertIs(self.store.load(), False)
         self.assertEqual(self.path.read_bytes(), original)
         self.store.save_preferences(expected)
-        self.assertEqual(json.loads(self.path.read_bytes()), {"schema": 3, **expected})
+        self.assertEqual(json.loads(self.path.read_bytes()), {"schema": 4, **expected})
         self.assertEqual(CompanionAutoSummonSettingsStore(self.path).load_preferences(), expected)
 
     def test_all_preferences_round_trip_in_canonical_order_without_mutating_input(self):
-        preferences = {"enabled": False, "locations": [14, 2, 3], "selection_mode": "random", "prefer_same_biome": False}
+        preferences = {"enabled": False, "locations": [14, 2, 3], "selection_mode": "random", "prefer_same_biome": False, "rotate_companions": False}
         self.store.save_preferences(preferences)
-        expected = {"enabled": False, "locations": [2, 3, 14], "selection_mode": "random", "prefer_same_biome": False}
+        expected = {"enabled": False, "locations": [2, 3, 14], "selection_mode": "random", "prefer_same_biome": False, "rotate_companions": False}
         self.assertEqual(CompanionAutoSummonSettingsStore(self.path).load_preferences(), expected)
-        self.assertEqual(json.loads(self.path.read_bytes()), {"schema": 3, **expected})
+        self.assertEqual(json.loads(self.path.read_bytes()), {"schema": 4, **expected})
         self.assertEqual(preferences["locations"], [14, 2, 3])
         preferences["locations"].clear()
         self.assertEqual(self.store.load_preferences(), expected)
 
-    def test_schema_two_migration_preserves_choices_and_only_writes_schema_three_on_save(self):
+    def test_schema_two_migration_preserves_choices_and_only_writes_schema_four_on_save(self):
         for locations, mode in (([], "last_manual"), ([14, 2], "random")):
             with self.subTest(locations=locations, mode=mode):
                 legacy = {"schema": 2, "enabled": False, "locations": locations, "selection_mode": mode}
                 original = json.dumps(legacy).encode("utf-8")
                 self.write_raw(original)
                 expected = {"enabled": False, "locations": sorted(locations),
-                            "selection_mode": mode, "prefer_same_biome": True}
+                            "selection_mode": mode, "prefer_same_biome": True, "rotate_companions": False}
                 self.assertEqual(self.store.load_preferences(), expected)
                 self.assertEqual(self.path.read_bytes(), original)
                 self.store.save(False)
-                self.assertEqual(json.loads(self.path.read_bytes()), {"schema": 3, **expected})
+                self.assertEqual(json.loads(self.path.read_bytes()), {"schema": 4, **expected})
                 self.assertEqual(CompanionAutoSummonSettingsStore(self.path).load_preferences(), expected)
 
     def test_invalid_schema_two_preferences_are_not_repaired_during_migration(self):
@@ -123,22 +123,57 @@ class CompanionAutoSummonSettingsStoreTests(unittest.TestCase):
             with self.subTest(updates=updates):
                 self.assert_invalid_preserved(json.dumps({**legacy, **updates}).encode("utf-8"))
 
+    def test_schema_three_preserves_all_existing_choices_and_disables_new_rotation(self):
+        for mode in ("last_manual", "random"):
+            for biome in (False, True):
+                with self.subTest(mode=mode, biome=biome):
+                    legacy = {"schema": 3, "enabled": False, "locations": [14, 2],
+                              "selection_mode": mode, "prefer_same_biome": biome}
+                    original = json.dumps(legacy).encode("utf-8")
+                    self.write_raw(original)
+                    expected = {"enabled": False, "locations": [2, 14], "selection_mode": mode,
+                                "prefer_same_biome": biome, "rotate_companions": False}
+                    self.assertEqual(self.store.load_preferences(), expected)
+                    self.assertEqual(self.path.read_bytes(), original)
+                    self.store.save(False)
+                    self.assertEqual(json.loads(self.path.read_bytes()), {"schema": 4, **expected})
+
+    def test_legacy_documents_cannot_claim_new_mode_or_rotation(self):
+        for schema in (2, 3):
+            legacy = {"schema": schema, "enabled": True, "locations": [3], "selection_mode": "random"}
+            if schema == 3:
+                legacy["prefer_same_biome"] = False
+            for change in ({"selection_mode": "by_habitat"}, {"rotate_companions": False},
+                           {"selection_mode": []}):
+                with self.subTest(schema=schema, change=change):
+                    self.assert_invalid_preserved(json.dumps({**legacy, **change}).encode("utf-8"))
+
+    def test_schema_four_round_trips_each_mode_and_rotation_without_changing_biome(self):
+        for mode in ("last_manual", "random", "by_habitat"):
+            for rotation in (False, True):
+                with self.subTest(mode=mode, rotation=rotation):
+                    preferences = {**self.store.defaults(), "selection_mode": mode,
+                                   "rotate_companions": rotation, "prefer_same_biome": False}
+                    self.store.save_preferences(preferences)
+                    self.assertEqual(CompanionAutoSummonSettingsStore(self.path).load_preferences(), preferences)
+                    self.assertEqual(json.loads(self.path.read_bytes()), {"schema": 4, **preferences})
+
     def test_empty_location_selection_is_valid_and_survives_restart(self):
-        preferences = {"enabled": True, "locations": [], "selection_mode": "random", "prefer_same_biome": True}
+        preferences = {"enabled": True, "locations": [], "selection_mode": "random", "prefer_same_biome": True, "rotate_companions": False}
         self.store.save_preferences(preferences)
         self.assertEqual(CompanionAutoSummonSettingsStore(self.path).load_preferences(), preferences)
 
     def test_boolean_compatibility_save_preserves_custom_preferences(self):
-        original = {"enabled": True, "locations": [14, 3], "selection_mode": "random", "prefer_same_biome": False}
+        original = {"enabled": True, "locations": [14, 3], "selection_mode": "random", "prefer_same_biome": False, "rotate_companions": False}
         self.store.save_preferences(original)
         self.store.save(False)
         self.assertIs(self.store.load(), False)
         self.assertEqual(self.store.load_preferences(), {
-            "enabled": False, "locations": [3, 14], "selection_mode": "random", "prefer_same_biome": False
+            "enabled": False, "locations": [3, 14], "selection_mode": "random", "prefer_same_biome": False, "rotate_companions": False
         })
         CompanionAutoSummonSettingsStore(self.path).save(True)
         self.assertEqual(self.store.load_preferences(), {
-            "enabled": True, "locations": [3, 14], "selection_mode": "random", "prefer_same_biome": False
+            "enabled": True, "locations": [3, 14], "selection_mode": "random", "prefer_same_biome": False, "rotate_companions": False
         })
 
     def test_each_load_observes_external_valid_update(self):
@@ -162,12 +197,12 @@ class CompanionAutoSummonSettingsStoreTests(unittest.TestCase):
                 self.assert_invalid_preserved(raw)
 
     def test_unknown_schemas_fields_and_wrong_types_are_preserved(self):
-        valid = {"schema": 3, **CompanionAutoSummonSettingsStore.defaults()}
+        valid = {"schema": 4, **CompanionAutoSummonSettingsStore.defaults()}
         documents = [
             None, [], True, 1,
             {}, {"schema": 1}, {"enabled": True},
             {"schema": 2, "enabled": True},
-            {**valid, "schema": 4},
+            {**valid, "schema": 5},
             {**valid, "schema": 2},  # New field cannot silently appear in legacy schema.
             {"schema": True, "enabled": True},
             {"schema": 1.0, "enabled": True},
@@ -188,7 +223,9 @@ class CompanionAutoSummonSettingsStoreTests(unittest.TestCase):
             documents.append({**valid, "selection_mode": mode})
         for preference in (None, 1, 0, "true", [], {}):
             documents.append({**valid, "prefer_same_biome": preference})
+            documents.append({**valid, "rotate_companions": preference})
         documents.append({key: value for key, value in valid.items() if key != "prefer_same_biome"})
+        documents.append({key: value for key, value in valid.items() if key != "rotate_companions"})
         for document in documents:
             with self.subTest(document=document):
                 self.assert_invalid_preserved(json.dumps(document).encode("utf-8"))
@@ -235,7 +272,9 @@ class CompanionAutoSummonSettingsStoreTests(unittest.TestCase):
             invalid.append({**valid, "selection_mode": mode})
         for preference in (None, 1, 0, "true", [], {}):
             invalid.append({**valid, "prefer_same_biome": preference})
+            invalid.append({**valid, "rotate_companions": preference})
         invalid.append({key: value for key, value in valid.items() if key != "prefer_same_biome"})
+        invalid.append({key: value for key, value in valid.items() if key != "rotate_companions"})
         with patch.object(Path, "open", side_effect=AssertionError("unexpected open")), patch.object(
             Path, "mkdir", side_effect=AssertionError("unexpected mkdir")
         ), patch.object(_module.os, "replace", side_effect=AssertionError("unexpected replace")):
@@ -255,7 +294,7 @@ class CompanionAutoSummonSettingsStoreTests(unittest.TestCase):
         self.assertEqual(self.path.read_bytes(), original)
 
     def test_atomic_replace_failure_preserves_original_and_removes_temporary(self):
-        preferences = {"enabled": False, "locations": [14], "selection_mode": "random", "prefer_same_biome": False}
+        preferences = {"enabled": False, "locations": [14], "selection_mode": "random", "prefer_same_biome": False, "rotate_companions": False}
         self.store.save_preferences(preferences)
         original = self.path.read_bytes()
         with patch.object(_module.os, "replace", side_effect=OSError("test replace failure")):

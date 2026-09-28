@@ -15,7 +15,7 @@ class SettingsStoreError(Exception):
 
 
 class CompanionAutoSummonSettingsStore:
-    """Store schema-3 preferences and read legacy schema-1/2 settings.
+    """Store schema-4 preferences and read legacy schema-1/2/3 settings.
 
     Missing settings use fresh defaults. Legacy settings migrate in memory only
     until an explicit save. Existing unreadable, malformed, or
@@ -23,10 +23,10 @@ class CompanionAutoSummonSettingsStore:
     Each operation rereads the file; use one settings writer at a time.
     """
 
-    SCHEMA = 3
+    SCHEMA = 4
     MAX_BYTES = 4096
     ALLOWED_LOCATIONS = frozenset({2, 3, 14})
-    SELECTION_MODES = frozenset({"last_manual", "random"})
+    SELECTION_MODES = frozenset({"last_manual", "random", "by_habitat"})
 
     def __init__(self, path: Path):
         self.path = Path(path)
@@ -37,8 +37,9 @@ class CompanionAutoSummonSettingsStore:
         return {
             "enabled": True,
             "locations": sorted(cls.ALLOWED_LOCATIONS),
-            "selection_mode": "last_manual",
+            "selection_mode": "by_habitat",
             "prefer_same_biome": True,
+            "rotate_companions": True,
         }
 
     @staticmethod
@@ -53,13 +54,15 @@ class CompanionAutoSummonSettingsStore:
     @classmethod
     def _validate_preferences(cls, preferences):
         if type(preferences) is not dict or set(preferences) != {
-            "enabled", "locations", "selection_mode", "prefer_same_biome"
+            "enabled", "locations", "selection_mode", "prefer_same_biome", "rotate_companions"
         }:
             raise ValueError("Preferences have an invalid structure")
         if type(preferences["enabled"]) is not bool:
             raise ValueError("Preferences enabled value must be boolean")
         if type(preferences["prefer_same_biome"]) is not bool:
             raise ValueError("Preferences biome preference must be boolean")
+        if type(preferences["rotate_companions"]) is not bool:
+            raise ValueError("Preferences companion rotation must be boolean")
         locations = preferences["locations"]
         if type(locations) is not list or any(
             type(location) is not int or location not in cls.ALLOWED_LOCATIONS
@@ -76,24 +79,30 @@ class CompanionAutoSummonSettingsStore:
             "locations": sorted(locations),
             "selection_mode": mode,
             "prefer_same_biome": preferences["prefer_same_biome"],
+            "rotate_companions": preferences["rotate_companions"],
         }
 
     @classmethod
     def _validate_document(cls, document):
         if type(document) is not dict or "schema" not in document:
             raise SettingsStoreError("Settings have an invalid document structure")
-        if type(document["schema"]) is not int or document["schema"] not in {1, 2, cls.SCHEMA}:
+        if type(document["schema"]) is not int or document["schema"] not in {1, 2, 3, cls.SCHEMA}:
             raise SettingsStoreError("Settings use an unsupported schema")
         if document["schema"] == 1:
             if set(document) != {"schema", "enabled"} or type(document["enabled"]) is not bool:
                 raise SettingsStoreError("Legacy settings have an invalid document structure")
-            preferences = cls.defaults()
-            preferences["enabled"] = document["enabled"]
-            return preferences
+            return {"enabled": document["enabled"], "locations": sorted(cls.ALLOWED_LOCATIONS),
+                    "selection_mode": "last_manual", "prefer_same_biome": True,
+                    "rotate_companions": False}
         if document["schema"] == 2:
             if set(document) != {"schema", "enabled", "locations", "selection_mode"}:
                 raise SettingsStoreError("Legacy settings have an invalid document structure")
             document = {**document, "prefer_same_biome": True}
+        if document["schema"] in {2, 3}:
+            if (set(document) != {"schema", "enabled", "locations", "selection_mode", "prefer_same_biome"}
+                    or document["selection_mode"] not in ("last_manual", "random")):
+                raise SettingsStoreError("Legacy settings have an invalid document structure")
+            document = {**document, "rotate_companions": False}
         try:
             return cls._validate_preferences({key: value for key, value in document.items() if key != "schema"})
         except ValueError as exc:

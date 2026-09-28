@@ -29,7 +29,7 @@ VIRTUAL_PATHS = tuple(
     b"TEXTURES/UI/FRONTEND/ICONS/COMPANIONAUTOSUMMON/" + filename
     for filename in (
         b"SETTINGS.DDS", b"AUTOMATION.DDS", b"SELECTION.DDS", b"BIOME.DDS",
-        b"PLANET.DDS", b"STATION.DDS", b"ANOMALY.DDS",
+        b"PLANET.DDS", b"STATION.DDS", b"ANOMALY.DDS", b"ROTATE.DDS",
     )
 )
 VIRTUAL_PATH = VIRTUAL_PATHS[0]
@@ -162,7 +162,7 @@ class _TextureRecord:
 
 
 class IconOwner:
-    """One phase attempt with seven custom references and one retained paw.
+    """One phase attempt with eight custom references and one retained paw.
 
     pin_owner(self) must return exactly True and retain self independently of
     any Mod instance/toggle. The adapter must reject a second process owner.
@@ -262,10 +262,10 @@ class IconOwner:
     def icon_handle(self, reader, manager_slot, role=-1):
         """Return the role's validated icon or retained paw, without native calls.
 
-        Role -1 is the parent; roles 0..5 match the six settings in path order.
+        Role -1 is the parent; roles 0..6 match the seven settings in path order.
         Invalid roles return zero without reading, loading or changing owners.
         """
-        if type(role) is not int or not -1 <= role <= 5:
+        if type(role) is not int or not -1 <= role <= 6:
             return 0
         if not self._lock.acquire(blocking=False):
             return 0

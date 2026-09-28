@@ -19,20 +19,21 @@ ROOT = Path(__file__).resolve().parents[1]
 LOCALES = ("en", "fr", "it", "de", "es-ES", "nl", "ja", "ko", "pl", "pt-PT",
            "pt-BR", "ru", "zh-Hans", "zh-Hant")
 MENU_KEYS = ("menu.automation", "menu.selection", "menu.biome", "menu.planets",
-             "menu.space_stations", "menu.space_anomaly")
+             "menu.space_stations", "menu.space_anomaly", "menu.rotate_companions")
 TECHNOLOGY_KEYS = ("tech.link.name", "tech.link.subtitle", "tech.link.description",
                    "tech.recharger.name", "tech.recharger.subtitle", "tech.recharger.description")
 LAUNCHER_KEYS = ("launcher.blocked_title", "launcher.unsupported_game", "launcher.unreadable_game",
                 "launcher.game_required", "launcher.invalid_package", "launcher.wrong_framework",
                 "launcher.game_changed", "launcher.game_running", "launcher.preflight_passed")
 PRODUCT_KEYS = ("product.full_name", "product.author_credit")
-SCOPE = "native_menu_hud_technology_launcher"
+SCOPE = "native_menu_hud_technology_launcher_panel"
 KEYS = frozenset(("menu.parent_title", *MENU_KEYS, "value.on", "value.off",
-                  "value.last_selected", "value.random", "status.pending",
+                  "value.last_selected", "value.random", "value.by_habitat", "status.pending",
                   "status.session_only", "status.unavailable", "status.stopped",
                   "format.setting", "format.with_status", "hud.automation_state",
                   "hud.settings_updated", "hud.session_suffix", "hud.companion_saved",
-                  "hud.companion_session", "hud.auto_off_suffix", "hud.random_on_suffix",
+                  "hud.companion_session", "hud.auto_off_suffix", "hud.random_on_suffix", "hud.habitat_on_suffix",
+                  "hud.no_suitable_habitat", "panel.habitat_status",
                   *TECHNOLOGY_KEYS, *LAUNCHER_KEYS, *PRODUCT_KEYS))
 UNCHANGED_ALLOWED = frozenset(("menu.parent_title", "format.setting", "format.with_status",
                                "hud.automation_state", "product.full_name"))
@@ -210,13 +211,14 @@ def _check_sources(english, source_root):
              "Native setting labels differ from English catalog")
     render = _menu_renderer(menu)
     for role, key in enumerate(MENU_KEYS):
-        for desired in (("last_manual", "random") if role == 1 else (False, True)):
+        for desired in (("last_manual", "random", "by_habitat") if role == 1 else (False, True)):
             for pending, settings_ok, stopped in ((False, True, False), (True, True, False),
                                                  (False, False, False), (True, False, False),
                                                  (False, True, True)):
                 state = SimpleNamespace(desired=desired, pending=pending, settings_ok=settings_ok, stopped=stopped)
                 value_key = ("status.stopped" if stopped else
-                             ("value.last_selected" if desired == "last_manual" else "value.random") if role == 1
+                             {"last_manual": "value.last_selected", "random": "value.random",
+                              "by_habitat": "value.by_habitat"}[desired] if role == 1
                              else "value.on" if desired else "value.off")
                 expected = english["format.setting"].format(label=english[key], value=english[value_key])
                 if not stopped and (pending or not settings_ok):
@@ -226,6 +228,30 @@ def _check_sources(english, source_root):
         expected = english["format.setting"].format(label=english[key], value=english["status.unavailable"])
         _require(render(role, None).decode("ascii") == expected, "Unavailable caption differs from English catalog")
     runtime = _tree(source_root / "src/runtime.py")
+    # These are the newly changed panel surfaces only, not whole-panel coverage.
+    selection = [node.value for node in runtime.body if isinstance(node, ast.Assign)
+                 and any(isinstance(target, ast.Name) and target.id == "SelectionMode" for target in node.targets)]
+    _require(len(selection) == 1 and isinstance(selection[0], ast.Call)
+             and len(selection[0].args) == 2, "Selection enum source shape changed")
+    modes = ast.literal_eval(selection[0].args[1])
+    _require([label for label, value in modes.items() if value == "by_habitat"] == [english["value.by_habitat"]],
+             "Panel habitat mode differs from English catalog")
+    rotation = [node for node in ast.walk(runtime) if isinstance(node, ast.FunctionDef)
+                and node.name == "rotate_companions" and any(isinstance(decorator, ast.Name)
+                and decorator.id == "property" for decorator in node.decorator_list)]
+    _require(len(rotation) == 1, "Expected one rotation panel property")
+    captions = [ast.literal_eval(decorator.args[0]) for decorator in rotation[0].decorator_list
+                if isinstance(decorator, ast.Call) and isinstance(decorator.func, ast.Name)
+                and decorator.func.id == "BOOLEAN" and len(decorator.args) == 1]
+    _require(captions == [english["menu.rotate_companions"]], "Panel rotation caption differs from English catalog")
+    status = _function(runtime, "companion_status")
+    habitat_status = [statement for statement in status.body if isinstance(statement, ast.If)
+                      and any(isinstance(node, ast.Constant) and node.value == "by_habitat"
+                              for node in ast.walk(statement.test))]
+    _require(len(habitat_status) == 1 and len(habitat_status[0].body) == 1
+             and isinstance(habitat_status[0].body[0], ast.Return)
+             and ast.literal_eval(habitat_status[0].body[0].value) == english["panel.habitat_status"],
+             "Panel habitat status differs from English catalog")
     _require(_assignment(runtime, "PRODUCT_NAME") == english["product.full_name"],
              "Product name differs from English catalog")
     _require("by " + _assignment(runtime, "PRODUCT_AUTHOR") == english["product.author_credit"],
@@ -252,9 +278,13 @@ def _check_sources(english, source_root):
              "HUD manual-choice text differs from English catalog")
     notices = _notice_assignments(manual, "self.pending_notice")
     _require([_evaluate_notice(value, {"prefix": "<prefix>"}) for value in notices]
-             == ["<prefix>" + english["hud.auto_off_suffix"], "<prefix>" + english["hud.random_on_suffix"], "<prefix>"],
+             == ["<prefix>" + english["hud.auto_off_suffix"], "<prefix>" + english["hud.random_on_suffix"],
+                 "<prefix>" + english["hud.habitat_on_suffix"], "<prefix>"],
              "HUD manual-choice suffixes differ from English catalog")
-    known_notices = {id(value) for value in expressions["self.pending_notice"] + notices}
+    unavailable = _notice_assignments(_function(runtime, "_choose_automatic_companion"), "self.pending_notice")
+    _require([ast.literal_eval(value) for value in unavailable] == [english["hud.no_suitable_habitat"]],
+             "HUD unavailable habitat notice differs from English catalog")
+    known_notices = {id(value) for value in expressions["self.pending_notice"] + notices + unavailable}
     all_notices = _notice_assignments(runtime, "self.pending_notice")
     _require(all(id(value) in known_notices
                  or isinstance(value, ast.Constant) and value.value is None for value in all_notices),

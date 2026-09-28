@@ -45,8 +45,8 @@ class LocaleTests(unittest.TestCase):
                   for path in self.root.rglob("*") if path.is_file()}
         report = self.validate()
         self.assertEqual(report["locales"], 14)
-        self.assertEqual(report["keys_per_locale"], 41)
-        self.assertEqual(report["scope"], "native_menu_hud_technology_launcher")
+        self.assertEqual(report["keys_per_locale"], 46)
+        self.assertEqual(report["scope"], "native_menu_hud_technology_launcher_panel")
         self.assertEqual(report["translated_drafts"], 13)
         self.assertTrue(report["source_text_verified"])
         self.assertFalse(report["native_runtime_integrated"])
@@ -71,6 +71,41 @@ class LocaleTests(unittest.TestCase):
                         self.assertEqual(catalog["review_status"], "draft_unreviewed")
                         self.assertNotEqual(entry["text"], english[key]["text"])
         self.validate()
+
+    def test_smart_selection_messages_are_translated_drafts_with_current_fingerprints(self):
+        keys = ("menu.rotate_companions", "value.by_habitat", "hud.habitat_on_suffix",
+                "panel.habitat_status", "hud.no_suitable_habitat")
+        english = self.read("en")["messages"]
+        for locale in VALIDATOR.LOCALES:
+            catalog = self.read(locale)
+            for key in keys:
+                with self.subTest(locale=locale, key=key):
+                    entry = catalog["messages"][key]
+                    self.assertEqual(entry["source_sha256"], VALIDATOR.source_fingerprint(english[key]["text"]))
+                    if locale != "en":
+                        self.assertNotEqual(entry["text"], english[key]["text"])
+                        self.assertEqual(catalog["review_status"], "draft_unreviewed")
+                    self.assertNotIn(key, catalog["unchanged_keys"])
+        self.validate()
+
+    def test_new_mode_rotation_panel_and_hud_wording_cannot_drift(self):
+        cases = (
+            ("tools/quick_menu_toggle.py", '"By habitat"', '"Smart"'),
+            ("tools/quick_menu_toggle.py", '"Rotate companions"', '"Shuffle pets"'),
+            ("src/runtime.py", '"By habitat"', '"Smart"'),
+            ("src/runtime.py", '@BOOLEAN("Rotate companions")', '@BOOLEAN("Shuffle pets")'),
+            ("src/runtime.py", 'Habitat-aware owned companion per request;', 'Habitat-matched companion;'),
+            ("src/runtime.py", ' Habitat selection stays ON.', ' Habitat mode remains on.'),
+            ("src/runtime.py", 'No suitable companion for this habitat.', 'No companions.'),
+        )
+        for relative, old, new in cases:
+            path = self.root / relative
+            original = path.read_text(encoding="utf-8")
+            self.assertIn(old, original)
+            path.write_text(original.replace(old, new, 1), encoding="utf-8")
+            with self.subTest(source=relative, text=old), self.assertRaises(VALIDATOR.CatalogError):
+                self.validate()
+            path.write_text(original, encoding="utf-8")
 
     def test_technology_meaning_change_requires_updated_translation_fingerprints(self):
         english = self.read("en")

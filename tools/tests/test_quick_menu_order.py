@@ -51,7 +51,8 @@ class OrderingTests(OrderFixture):
             buffer[:4] = icon.to_bytes(4, "little")
         self.constructor.side_effect = construct
         before = bytes(self.regions[self.incoming])
-        self.assertTrue(self.order(role_icons={-1: 101, 0: 102},
+        self.assertTrue(self.order(role_icons={-1: 101, 6: 102},
+                                   child_roles=SUB.SETTINGS_CHILD_ROLES,
                                    permitted_icons=(101, 102, 103), icon_handle=103))
         self.append_original()
         self.assertEqual(self.actions(), [40, 50, 0, 46])
@@ -60,7 +61,7 @@ class OrderingTests(OrderFixture):
         self.assertEqual(bytes(self.regions[self.incoming]), before)
 
     def test_invalid_or_unpermitted_later_role_refuses_before_parent_append(self):
-        for mapping in ({-1: 101, 5: 999}, {6: 101}, {True: 101}, {0: 0}):
+        for mapping in ({-1: 101, 6: 999}, {7: 101}, {True: 101}, {0: 0}):
             with self.subTest(mapping=mapping), self.assertRaises(ORDER.MenuItemError):
                 self.order(role_icons=mapping, child_roles=SUB.SETTINGS_CHILD_ROLES,
                            permitted_icons=(101,))

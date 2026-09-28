@@ -29,9 +29,10 @@ PACKAGE_FILES = (
     "docs/research/LIVE-084.md", "docs/research/LIVE-087.md", "docs/release/MONETIZATION.md",
     "docs/research/NATIVE-LOCALIZATION-AUDIT.md",
     "docs/research/PORTABLE-RUNTIME-AUDIT.md",
-    "src/policy.py", "src/persistence.py", "src/settings.py", "src/runtime.py",
+    "docs/research/HABITAT-SELECTION.md",
+    "src/policy.py", "src/persistence.py", "src/settings.py", "src/selection.py", "src/runtime.py",
     "tests/test_policy.py", "tests/test_persistence.py", "tests/test_settings.py",
-    "tests/test_runtime.py", "tests/test_launcher.py",
+    "tests/test_runtime.py", "tests/test_runtime_selection.py", "tests/test_selection.py", "tests/test_launcher.py",
     "tests/test_compatibility.py",
     "tools/validate_locales.py", "tools/quick_menu_toggle.py", "tools/quick_menu_item.py",
     "tools/validate_compatibility.py",
@@ -99,6 +100,8 @@ def main():
         "persistence": counts["test_persistence"], "settings": counts["test_settings"],
         "adapter_simulation": counts["test_runtime"], "host_launcher": counts["test_launcher"],
         "compatibility": counts["test_compatibility"],
+        "selection": counts["test_selection"],
+        "selection_adapter": counts["test_runtime_selection"],
     }
     manifest["localization_catalogs"] = locale_report
     manifest["compatibility_profile_validation"] = profile_report

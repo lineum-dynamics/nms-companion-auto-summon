@@ -2,7 +2,17 @@
 
 by **Lineum Dynamics**
 
-The branding candidate **0.8.7-play-trial** pairs production
+Source candidate **0.5.0-experimental / 0.9.0-play-trial**, with menu
+**0.9.0-selection**, implements **By habitat** and **Rotate companions**.
+Offline validation passed 396 production and 683 developer tests; this candidate has not launched.
+The previously tested **0.8.7 / 087-r1** remains unchanged. By habitat uses explicit
+13/5/1 weighted habitat groups on planets and an unweighted eligible pool on
+stations/Nexus; rotation keeps a separate session cycle without changing native
+eligibility or placement. Fresh installs default to By habitat and rotation ON.
+Existing schema 1/2/3 settings preserve their choices with rotation OFF.
+See [selection semantics and limits](docs/research/HABITAT-SELECTION.md).
+
+The retained branding candidate **0.8.7-play-trial** pairs production
 **0.4.9-experimental** with menu **0.8.5-branding**. Source validation passed
 **333 production and 675 developer tests**, without failures or skips. Real-framework
 checks covered both Mods and all six temporary preference paths; Python and
@@ -34,8 +44,9 @@ prevented a ship-exit summon, ON alone summoned nothing, and the next exit
 summoned a pet. Other controls, remapping, HUD/icons, repeatability, Last selected and
 multiplayer remain unverified. See [the bounded 0.8.7 record](docs/research/LIVE-087.md).
 
-Fourteen catalogs now contain 41 keys, including the full product name and author
-credit. Three launcher messages use the expanded title. Only the nine launcher compatibility
+Fourteen catalogs now contain 46 keys, including the new selection/rotation labels,
+habitat notices and one scoped development-panel status. Product name and author
+credit remain covered. Three launcher messages use the expanded title. Only the nine launcher compatibility
 messages use them during launch; the thirteen translations remain unreviewed
 drafts. Native menu/HUD text remains English. Full launcher translation and the
 portable public installer are unfinished. See [LOCALIZATION.md](LOCALIZATION.md).
@@ -60,14 +71,14 @@ distinct icons and the explicit `Random: prefer matching biome` label; 0.8.4
 retains that menu unchanged. The prior 0.7.1, 0.7.2 and 0.8.0 artifacts remain
 unchanged. A successful check-only run is not an in-game test.
 
-The combined candidate retains all six existing
+The running 0.8.7 retains all six existing
 preferences on one native companion settings page: automatic summoning,
 Last selected/Random, matching-biome preference, planets, space stations and
 the Space Anomaly. It shares the production preference queue and stored values;
 the temporary desktop panel remains available during development. The new page
 has partial live evidence in 0.8.4; the parent/notice icon still needs visual acceptance.
 
-The current combined launcher's next launch validates all seven DDS files before
+The retained 0.8.7 launcher validates its seven DDS files before
 staging them at unique mod paths with NMS closed. No vanilla texture is replaced.
 One natural resource-loading callback attempts registration; a ready custom
 role icon is preferred, with a retained native paw fallback. Notifications use text
@@ -151,34 +162,34 @@ This package contains no personal saves, account credentials, preselected pet or
 
 ## Settings
 
-The separate **0.8.2 combined developer trial** retains a flat settings page
-under Companion Auto Summon in the native companion menu. Confirm a row using
-the game's configured Select action: selection mode cycles between Last
-selected and Random; the other five rows toggle ON/OFF. Matching-biome preference
+The **0.9.0 source candidate** has a flat seven-row page under Companion Auto
+Summon in the native companion menu. Confirm a row using the game's configured
+Select action: selection mode cycles Last selected → Random → By habitat; the
+other six rows toggle ON/OFF. Matching-biome preference
 only affects Random on planets. All three locations may be OFF. Labels distinguish
 queued changes from applied state and session-only persistence. Browsing or
-rebuilding the page must not change a setting. All six native controls and the
-custom icon remain pending in-game acceptance; retain the panel below as the
+rebuilding the page must not change a setting. The new seven-row page and rotation icon require in-game acceptance; retain the panel below as the
 development fallback.
 
 Launch through Companion Auto Summon, then **Alt+Tab to the separate pyMHF window** and open its **CompanionAutoSummon** tab. This is a desktop settings window, not an entry inside the native NMS menu. No Companion Auto Summon keyboard shortcut is registered.
 
 - **Automatically summon companion**: on/off checkbox, enabled by default. It covers both ship exits and successful local save loads.
 - Three location checkboxes enable planets, space stations and the Nexus separately. All default on. Turning all three off prevents automatic summoning everywhere.
-- **Companion selection** offers **Last manually selected** (default) and **Random**. Random mode uses only owned companions accepted by the native game checks.
+- **Companion selection** offers **Last manually selected**, **Random** and **By habitat**. By habitat is the fresh-install default; existing choices are preserved. Every mode retains native ownership, eligibility and placement checks.
 - **Prefer same biome in Random mode** (default ON): prefers the matching native habitat within that eligible pool on planets. Turn it OFF for ordinary random selection. Unknown/no matching habitat falls back automatically; no pet is excluded from ordinary native eligibility by this option.
+- **Rotate companions**: cycles eligible pets in Random, or within the weighted group chosen by By habitat. ON for fresh installs; migrated preferences start OFF. Last selected is unaffected.
 - **Status**: current state, including **Waiting for a suitable place**, pending changes, session-only persistence, or a runtime error.
 - **Companion**: selected slot, a remembered choice awaiting ownership verification, or the active selection mode. In Last manually selected mode, an empty choice prompts you to summon your first companion manually.
 
 Return to the game to apply and save a change on the next local-player update before quitting. Changing settings cancels any pending automatic request, including a load opportunity still awaiting ownership, and leaves an already active companion alone. Turning on or changing mode waits for the next ship exit or successful local save load; it never immediately summons a pet. Manual selections are still remembered while automation is off.
 
-In Last manually selected mode, new players start with no selected companion. A successful native UI summon chooses an owned companion. A changed choice requests one silent, 5.5-second confirmation: **Companion saved.** If persistence is unavailable, it says **Companion selected (session only).** Random or automation-OFF status is included when relevant. Repeating the same choice, automatic summoning and game-driven restoration remain quiet. The candidate's icon fallback and new wording still need an in-game visual check. The panel and messages remain English-only.
+In Last manually selected mode, new players start with no selected companion. A successful native UI summon chooses an owned companion. A changed choice requests one silent, 5.5-second confirmation: **Companion saved.** If persistence is unavailable, it says **Companion selected (session only).** Random, habitat-selection or automation-OFF status is included when relevant. Repeating the same choice, automatic summoning and game-driven restoration remain quiet. The candidate's icon fallback and new wording still need an in-game visual check. The panel and messages remain English-only.
 
-Explicitly selecting Random does not require a previous manual choice, but the player must own an eligible companion. Companion Auto Summon never creates or unlocks one. Random selection does not replace the remembered manual companion. The same pet may be drawn on consecutive requests.
+Random and By habitat need no previous manual choice, but require an eligible owned companion; neither replaces the manual favourite. By habitat draws exact/related/acceptable groups at weights 13/5/1, independent of group size, using an explicit mod-design table. Unknown planet data waits; an owned roster with no approved group skips this opportunity with one notice. Temporary native ineligibility waits. Rotation advances only on accepted queues; without rotation, or with one eligible member, consecutive requests may select the same pet.
 
 ## Behavior
 
-1. In Last manually selected mode, manually summon your preferred companion once with Companion Auto Summon running. Random mode needs an eligible owned companion but no previous manual choice.
+1. In Last manually selected mode, manually summon your preferred companion once with Companion Auto Summon running. Random and By habitat need an eligible owned companion but no previous manual choice.
 2. A ship exit or successful local save load supplies one opportunity. Save deserialization itself calls no summon or placement functions; the first suitable local ownership update prepares the request. The mod then uses the unchanged 1.5-second stability delay in an enabled, supported location: on foot on a planet, a space station, or the Nexus inside the Space Anomaly. No pet may be active or queued, and native ownership, eligibility and placement checks must pass.
 3. If the current place is unsuitable, the request remains pending without a time limit. Walk to a suitable place and Companion Auto Summon can complete that same request; another ship entry and exit is not required.
 4. In Last manually selected mode, loading the same save can restore its remembered identity without a ship exit. If ownership data is still arriving, identity lookup waits and retries at 0.5-second intervals. It never substitutes another pet at the old slot. No remembered choice means no startup summon; Random can instead wait for an eligible owned companion.
@@ -192,7 +203,7 @@ The load opportunity is consumed once, before the ordinary request is armed. Aft
 
 Companion Auto Summon refreshes native placement while the menu is closed, using the game's configured range and unchanged spatial checks. It never marks an invalid position valid. Placement is checked in fresh pairs of game callbacks, with at least 0.5 seconds between pairs. If the game rejects the queue request, Companion Auto Summon waits for a fresh check and retries the same chosen pet. Once the game accepts the queue request, that opportunity is finished. Waiting on archive platforms, delayed placement and these retries still need an in-game test.
 
-Random mode chooses at most one candidate per request after placement is prepared. Once selected, it never rerolls during that request. An identity change, manual selection or cancellation does not trigger a replacement draw. Identity, ownership and full native eligibility are checked again before queuing the selected pet.
+Automatic selection chooses at most one candidate per request after placement is prepared. A reserved identity and slot remain fixed; ambiguity, removal or reorder of that pending pet cancels instead of redrawing. By habitat also freezes its supported planet/neutral context; Random retains its choice across temporary location changes. Between opportunities, roster reorder preserves cycle history. Native queue acceptance alone consumes rotation; rejected placement and cancellation do not. Local save/application boundaries reset session bags; network loads do not. See [the exact contract](docs/research/HABITAT-SELECTION.md).
 
 Growth, speed, trust, eggs, combat values and game capacities are unchanged. Companion Auto Summon does not change summon limits, unlock companions, generate pets or bypass native placement restrictions.
 
@@ -200,7 +211,7 @@ Growth, speed, trust, eggs, combat values and game capacities are unchanged. Com
 
 The legacy `NMS-AutoPet` data directory is intentionally retained. Do not rename it: existing manual favourites, preferences and the development runtime continue to use it. Renaming the mod does not reset or copy personal data.
 
-Manual pet choices: `%LOCALAPPDATA%\NMS-AutoPet\state.json`, outside the game and its saves. Selections are keyed by `SaveUniversalId`; pets are matched by CreatureSeed + BirthTime. Reordered slots are supported. Initial ownership loading may delay restoration; a persistently missing or ambiguous pet requires a new manual choice. The adjacent `settings.json` uses schema 3 to store enabled status, locations, selection mode and `prefer_same_biome` for all saves of this Windows user. Legacy schemas 1 and 2 migrate in memory with the biome preference ON while preserving their existing choices, including OFF. Schema 3 is written only on an explicit settings save; a stored OFF biome preference remains OFF.
+Manual pet choices: `%LOCALAPPDATA%\NMS-AutoPet\state.json`, outside the game and its saves. Selections are keyed by `SaveUniversalId`; pets are matched by CreatureSeed + BirthTime. Reordered slots are supported. Initial ownership loading may delay restoration; a persistently missing or ambiguous pet requires a new manual choice. The adjacent `settings.json` uses schema 4, adding `rotate_companions` to enabled status, locations, selection mode and `prefer_same_biome` for this Windows user. Schema 1 explicitly retains Last selected; schemas 2/3 retain their selection and biome choices. All migrate with rotation OFF and preserve automation/location values. Migration is in memory until explicit save. Fresh settings use By habitat and rotation ON; stored OFF choices remain OFF.
 
 Main-game and expedition contexts inside one save share one remembered choice. It is restored only where the pet exists. A zero save ID allows session-only selection; a successful local load with a valid common-data object can still supply a Random-mode opportunity without saving an identity. It never borrows another save's favorite. A damaged settings file is preserved, with persistence disabled for that session. The mod does not edit game save files; ordinary game autosaving continues.
 
@@ -241,9 +252,9 @@ Diagnostic logs are written to `logs` beside CompanionAutoSummon.py. The interac
 
 Use `Start-CompanionAutoSummon.ps1` from a regular PowerShell terminal. It calls the host-only `Launch-CompanionAutoSummon.py`, which verifies DLLs by their full physical path and actual address in the game before Python code executes there. This guard does not edit installed framework files. Direct `pymhf run CompanionAutoSummon.py` bypasses this extra verification and is not the supported launch path for this package. `python CompanionAutoSummon.py` alone does not start the mod; copying it into GAMEDATA/MODS does not activate it.
 
-Test the eight panel controls/displays, OFF/ON changes, individual location choices, Random mode, the biome preference and selection confirmation. Load directly on foot on a planet, station and the Nexus; confirm a single summon, then dismiss it and confirm it stays dismissed until another trigger. Also load with automation OFF or a companion already present. For the biome option, test a matching eligible pet, no matching pet, OFF, station/Nexus bypass, and an unchanged manual favorite. On an archive platform or unsuitable terrain, remain there beyond 12 seconds, then walk to a valid place and check that the waiting pet appears once. Also test normal ship exits, immediate re-entry, manual replacement, save switching and a restart. The single 0.4.3 station startup in Random mode and one later manual dismissal without reappearance are confirmed as described above; remaining startup scenarios and broader dismissal regression still need live checks. Verify multiplayer after the basic behavior works.
+Test the nine panel controls/displays and seven native rows, OFF/ON changes, individual location choices, Random mode, the biome preference and selection confirmation. Load directly on foot on a planet, station and the Nexus; confirm a single summon, then dismiss it and confirm it stays dismissed until another trigger. Also load with automation OFF or a companion already present. For the biome option, test a matching eligible pet, no matching pet, OFF, station/Nexus bypass, and an unchanged manual favorite. On an archive platform or unsuitable terrain, remain there beyond 12 seconds, then walk to a valid place and check that the waiting pet appears once. Also test normal ship exits, immediate re-entry, manual replacement, save switching and a restart. The single 0.4.3 station startup in Random mode and one later manual dismissal without reappearance are confirmed as described above; remaining startup scenarios and broader dismissal regression still need live checks. Verify multiplayer after the basic behavior works.
 
-To disable the whole mod: quit NMS and launch normally through Steam. To forget choices, close NMS and remove only `state.json`. Removing `settings.json` restores all defaults: automation on, all three locations on, Last manually selected mode, and biome preference on for Random mode.
+To disable the whole mod: quit NMS and launch normally through Steam. To forget choices, close NMS and remove only `state.json`. Removing `settings.json` restores the new-install defaults: automation ON, all three locations ON, By habitat, rotation ON, and biome preference ON for Random. It does not preserve migrated preferences.
 
 ## Source
 

@@ -19,6 +19,21 @@ remain unchanged by this presentation update.
 
 ## Current state
 
+Source **0.5.0-experimental / 0.9.0-play-trial**, with menu
+**0.9.0-selection**, now implements By habitat and Rotate companions. Offline validation passed 396 production and 683 developer tests; the candidate is unlaunched. Retained 0.8.7
+and earlier earlier artifacts remain immutable. The seven-row interface,
+new selection behavior and rotation icon have no new live acceptance.
+
+By habitat uses explicit directed 13/5/1 exact/related/acceptable groups on
+planets, independently of group population; stations/Nexus use the unweighted
+eligible owned pool. Unknown planet data waits, no approved owned group skips
+one opportunity with one notice, and temporary eligibility/placement failure
+waits. Rotation is session-only, separate from the manual favourite, and consumes
+only on native queue acceptance. Queue acceptance is not visible-spawn evidence.
+Schema 4 defaults fresh installs to By habitat and rotation ON; legacy schemas
+1/2/3 preserve their choices with rotation OFF. Details and the complete heuristic
+table are in [HABITAT-SELECTION](docs/research/HABITAT-SELECTION.md).
+
 The running combined **0.8.7** has production **0.4.9**, menu **0.8.5-branding**, all six
 existing preferences and 5.5-second confirmations. Earlier 0.8.4 screenshots confirm distinct
 icons for the six setting roles. Each icon represents its function and stays
@@ -30,7 +45,7 @@ This records the current English design, not a verified game-wide style guide.
 
 In the earlier 0.8.4 session, the player reported no visible companion on one Nexus startup despite a brief
 logical active index. A later ship exit successfully summoned another Random
-pet. The source branding candidate **0.4.9 / 0.8.7**, with menu
+pet. The retained branding candidate **0.4.9 / 0.8.7**, with menu
 **0.8.5-branding**, retains extended passive diagnostics within their existing
 bounds and read-only language observation in the CAS menu. The final 0.8.7-r1
 launched after a verified 46-file backup. The player confirmed visible Random
@@ -111,15 +126,16 @@ from acceptance or add retries that could override a manual dismissal.
 
 Prefer one dedicated CompanionAutoSummon/automatic-companion entry in the companion section of the native quick menu, before individual pets and after general companion actions. The separate 0.6.0 trial implements this order in offline checks; its live result remains pending. Its final label must fit the existing layout and terminology. Do not replace a vanilla action or reuse its ID for a different purpose without a verified, non-conflicting implementation.
 
-The prepared 0.8.0 flat page exposes the same underlying preferences:
+The 0.9.0 source page exposes the same shared preference store with seven rows:
 
 - Automatic summoning on/off.
-- Last manually selected or Random selection mode.
+- Last selected, Random or By habitat selection mode.
 - Prefer matching native habitat in Random mode, relevant only on planets.
 - Per-location controls for planets, space stations and the Space Anomaly (Nexus).
+- Rotate companions in Random and By habitat; no effect on Last selected.
 
-The six rows use the existing queue and storage. Selection displays **Last
-selected** or **Random**; other rows display ON/OFF. Matching-biome preference
+The seven rows use the existing queue and storage. Selection cycles **Last
+selected → Random → By habitat**; other rows display ON/OFF. Matching-biome preference
 only affects Random on planets. All three locations may be OFF without changing
 the main enabled flag or manual favourite. Queued and session-only states are
 explicit. Full-page rebuild, navigation and deliberate confirmation still need
@@ -142,7 +158,8 @@ proof of confirmation because selection paths can also dispatch an action.
 
 The custom entry opens one flat settings page, rather than acting as another
 pet or toggling every setting itself. The new candidate's children expose
-automatic summoning, selection mode, habitat preference and three locations.
+automatic summoning, selection mode, the legacy Random habitat preference,
+three locations and companion rotation.
 Location choices should remain on that same page within the verified depth
 limit. The first live inert entry did not open a subpage. The separate
 0.5.0-submenu-trial introduced one inert Settings preview child for navigation
@@ -212,8 +229,10 @@ They retain native behavior and cancel pending automatic intent. Ordinary,
 remapped and shortcut routes still need live checks before claiming coverage.
 
 Explicit confirmations request 5.5 seconds. `Companion saved.` means persistence
-succeeded; otherwise use `Companion selected (session only).` OFF or Random
-context is appended where relevant. Repeating the same choice, automatic
+succeeded; otherwise use `Companion selected (session only).` OFF, Random or
+habitat-selection context is appended where relevant. By habitat uses one
+`No suitable companion for this habitat.` notice only when the known owned
+roster has no approved group, not for temporary ineligibility or placement. Repeating the same choice, automatic
 summoning and game restoration stay quiet. The combined candidate supplies a
 ready original icon or retained native paw through an optional provider. Without
 a usable owned handle, the verified final timed-message flag hides both icon

@@ -23,7 +23,7 @@ function Read-LauncherCatalog {
     $catalog = $raw | ConvertFrom-Json
     $review = if ($Code -eq 'en') { 'canonical' } else { 'draft_unreviewed' }
     if (($catalog.schema_version -isnot [int] -and $catalog.schema_version -isnot [long]) -or $catalog.schema_version -ne 1 -or
-        $catalog.locale -cne $Code -or $catalog.scope -cne 'native_menu_hud_technology_launcher' -or
+        $catalog.locale -cne $Code -or $catalog.scope -cne 'native_menu_hud_technology_launcher_panel' -or
         $catalog.review_status -cne $review -or $catalog.native_runtime_integrated -isnot [bool] -or $catalog.native_runtime_integrated) {
         throw 'Invalid launcher catalog metadata'
     }

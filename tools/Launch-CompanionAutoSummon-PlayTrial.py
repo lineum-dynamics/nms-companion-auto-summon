@@ -21,7 +21,7 @@ if str(_support_directory) not in sys.path:
 import cas_compatibility as compatibility
 
 
-VERSION = "0.8.7-play-trial"
+VERSION = "0.9.0-play-trial"
 HOST_NAME = "Launch-CompanionAutoSummon-PlayTrial.py"
 BOOTSTRAP_NAME = "Launch-CompanionAutoSummon.py"
 PAYLOAD_FILES = frozenset((
@@ -31,7 +31,7 @@ PAYLOAD_FILES = frozenset((
     "quick_menu_preferences.py", "quick_menu_toggle.py",
     "game_language.py",
     "quick_menu_icon.py", "quick_menu_assets.py", "SETTINGS.DDS",
-    "AUTOMATION.DDS", "SELECTION.DDS", "BIOME.DDS", "PLANET.DDS", "STATION.DDS", "ANOMALY.DDS",
+    "AUTOMATION.DDS", "SELECTION.DDS", "BIOME.DDS", "PLANET.DDS", "STATION.DDS", "ANOMALY.DDS", "ROTATE.DDS",
     HOST_NAME, BOOTSTRAP_NAME, "Start-CompanionAutoSummon.ps1",
     "pymhf.toml", "README.md",
     "cas_compatibility.py", "compatibility.json",
@@ -39,8 +39,8 @@ PAYLOAD_FILES = frozenset((
                                          "pl", "pt-PT", "pt-BR", "ru", "zh-Hans", "zh-Hant")),
 ))
 EXPECTED_MODS = [
-    {"name": "CompanionAutoSummon", "version": "0.4.9-experimental", "path": "CompanionAutoSummon.py"},
-    {"name": "CompanionMenuOrderTrial", "version": "0.8.5-branding", "path": "CompanionMenuOrderTrial.py"},
+    {"name": "CompanionAutoSummon", "version": "0.5.0-experimental", "path": "CompanionAutoSummon.py"},
+    {"name": "CompanionMenuOrderTrial", "version": "0.9.0-selection", "path": "CompanionMenuOrderTrial.py"},
 ]
 EXPECTED_CONFIG = {
     "exe": "NMS.exe", "steam_gameid": 275850, "start_paused": False,
@@ -76,7 +76,7 @@ def validate_bundle(folder):
             or manifest.get("steam_build") != compatibility.STEAM_BUILD
             or manifest.get("auto_summon") is not True
             or manifest.get("preference_actions") is not True
-            or manifest.get("preference_keys") != ["enabled", "selection_mode", "prefer_same_biome", "locations"]
+            or manifest.get("preference_keys") != ["enabled", "selection_mode", "prefer_same_biome", "locations", "rotate_companions"]
             or manifest.get("mods") != EXPECTED_MODS):
         raise BundleError("The manifest does not describe the supported combined trial.")
     entries = manifest.get("files")

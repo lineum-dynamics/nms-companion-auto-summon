@@ -15,7 +15,7 @@ ROOT_SLOT = -1
 CHILD_SLOT = 0
 ROOT_LABEL = item.DEFAULT_LABEL
 CHILD_LABEL = "Settings preview"
-SETTINGS_CHILD_ROLES = (0, 1, 2, 3, 4, 5)
+SETTINGS_CHILD_ROLES = (0, 1, 2, 3, 4, 5, 6)
 MenuItemError = item.MenuItemError
 
 
@@ -56,7 +56,7 @@ class ActivationToken:
 
 def _roles(child_roles):
     if (type(child_roles) is not tuple or any(type(role) is not int for role in child_roles)
-            or child_roles not in ((CHILD_SLOT,), SETTINGS_CHILD_ROLES)):
+            or child_roles not in ((CHILD_SLOT,), (0, 1, 2, 3, 4, 5), SETTINGS_CHILD_ROLES)):
         raise MenuItemError("Unsupported explicit submenu roles")
     return child_roles
 
@@ -64,7 +64,7 @@ def _roles(child_roles):
 def _icons(permitted_icons):
     if permitted_icons is None:
         return ()
-    if (type(permitted_icons) is not tuple or len(permitted_icons) > 8
+    if (type(permitted_icons) is not tuple or len(permitted_icons) > 9
             or any(type(icon) is not int or not 0 <= icon <= 0xFFFFFFFF for icon in permitted_icons)
             or len(set(permitted_icons)) != len(permitted_icons)):
         raise MenuItemError("Unsupported explicit submenu icon handles")

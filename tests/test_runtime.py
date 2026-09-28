@@ -39,10 +39,10 @@ class FakeNativeFunction:
 
 def load_runtime(*, injected=False, framework_version="0.2.4", version_error=None):
     """Compile the same concatenation as the build, with framework imports mocked."""
-    # Read only our four source fragments, before replacing Path.open below.
+    # Read only our source fragments, before replacing Path.open below.
     source = "\n\n".join(
         (_SRC / name).read_text(encoding="utf-8")
-        for name in ("policy.py", "persistence.py", "settings.py", "runtime.py")
+        for name in ("policy.py", "persistence.py", "settings.py", "selection.py", "runtime.py")
     )
     events = []
     declarations = []
@@ -192,6 +192,10 @@ class RuntimeFixture(unittest.TestCase):
         self.settings_path = Path(self.temp_directory.name) / "NMS-AutoPet" / "settings.json"
         with patch.dict(os.environ, {"LOCALAPPDATA": self.temp_directory.name}):
             self.mod = self.module.CompanionAutoSummon()
+        # Historical adapter scenarios explicitly exercise Last selected and
+        # independent Random draws. Fresh defaults/migration have separate cases.
+        self.mod.selection_mode_value = "last_manual"
+        self.mod.rotate_companions_value = False
         self.mod.store = self.module.PetSelectionStore(self.state_path)
         self.common_buffer = ctypes.create_string_buffer(0xA000)
         self.common_address = ctypes.addressof(self.common_buffer)
@@ -272,6 +276,10 @@ class RuntimeFixture(unittest.TestCase):
 
     def select(self, slot=5):
         """Model a completed native UI dispatch, not an arbitrary queue call."""
+        if 0 <= slot < 30:
+            # A successful manual summon refers to an occupied game slot.
+            # Preserve caller-provided identity bytes, including zero fixtures.
+            self.set_pet(slot, self.mod._pet_seed(self.app_address, slot))
         self.begin_manual_action(slot)
         self.set_pending(slot)
         self.mod.remember_pet(self.player, slot)
@@ -304,8 +312,13 @@ class RuntimeFixture(unittest.TestCase):
 
     def restart(self):
         """Discard instance caches; only the test-owned JSON survives."""
+        legacy_mode = self.mod.selection_mode_value
+        legacy_rotate = self.mod.rotate_companions_value
         with patch.dict(os.environ, {"LOCALAPPDATA": self.temp_directory.name}):
             self.mod = self.module.CompanionAutoSummon()
+        if not self.settings_path.exists():
+            self.mod.selection_mode_value = legacy_mode
+            self.mod.rotate_companions_value = legacy_rotate
         self.mod.store = self.module.PetSelectionStore(self.state_path)
         self.clock.now = 0.0
         self.set_active(-1)
@@ -1339,6 +1352,7 @@ class RuntimePersistenceTests(RuntimeFixture):
         self.set_pet(5, self.seed(1234))
         self.select(5)
         self.assertFalse(self.mod.auto_enabled)
+        self.mod.companion_selection = self.module.SelectionMode("last_manual")
         self.mod.automatic_summoning = True
         self.update(0, dt=0)
         self.exit(1)

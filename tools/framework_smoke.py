@@ -65,11 +65,11 @@ def main():
             mod = module.CompanionAutoSummon()
             require(mod._mod_name == "CompanionAutoSummon", "Framework mod identity differs")
             require(len(mod.hooks) == 9, "Expected nine callbacks including native UI attribution")
-            require(len(mod._gui_widgets) == 8, "Expected eight GUI widgets")
+            require(len(mod._gui_widgets) == 9, "Expected nine GUI widgets")
             require(len(mod._hotkey_funcs) == 0, "No CompanionAutoSummon hotkeys should be registered")
             require(mod.automatic_summoning and mod.planets and mod.space_stations and mod.nexus,
                     "Default location controls differ")
-            require(mod.companion_selection.name == "Last manually selected" and mod.prefer_same_biome,
+            require(mod.companion_selection.name == "By habitat" and mod.prefer_same_biome and mod.rotate_companions,
                     "Default companion controls differ")
             dpg.create_context()
             try:
@@ -82,16 +82,16 @@ def main():
                 widgets = {widget.variable_name: widget for widget in mapping.values()}
                 dropdown = widgets["companion_selection"]
                 require(dpg.get_item_configuration(dropdown.ids["INPUT"])["items"] == [
-                    "Last manually selected", "Random"], "Selection labels differ")
-                require(dpg.get_value(dropdown.id_) == "Last manually selected", "Selection default differs")
+                    "Last manually selected", "Random", "By habitat"], "Selection labels differ")
+                require(dpg.get_value(dropdown.id_) == "By habitat", "Selection default differs")
                 dropdown.update_variable(None, "Random", (mod, "companion_selection"))
-                for name in ("automatic_summoning", "planets", "space_stations", "nexus", "prefer_same_biome"):
+                for name in ("automatic_summoning", "planets", "space_stations", "nexus", "prefer_same_biome", "rotate_companions"):
                     widgets[name].update_variable(None, False, (mod, name))
                 require(mod.auto_enabled and not mod.automatic_summoning, "Enabled change was not queued")
                 require(mod.allowed_locations == frozenset({2, 3, 14})
                         and not mod.planets and not mod.space_stations and not mod.nexus,
                         "Location changes were not queued")
-                require(mod.selection_mode_value == "last_manual"
+                require(mod.selection_mode_value == "by_habitat"
                         and mod.companion_selection.value == "random", "Selection change was not queued")
                 require(not mod.prefer_same_biome and mod._current_preferences()["prefer_same_biome"],
                         "Biome change was not queued")
@@ -102,8 +102,8 @@ def main():
             # ownership callback, native wrapper, hook manager, or launcher runs.
             mod._apply_control()
             stored = json.loads((Path(directory) / "NMS-AutoPet/settings.json").read_text())
-            require(stored == {"schema": 3, "enabled": False, "locations": [],
-                               "selection_mode": "random", "prefer_same_biome": False},
+            require(stored == {"schema": 4, "enabled": False, "locations": [],
+                               "selection_mode": "random", "prefer_same_biome": False, "rotate_companions": False},
                     "Applied preference data differs")
             require(not mod.auto_enabled and mod.allowed_locations == frozenset()
                     and mod.selection_mode_value == "random", "Applied runtime preferences differ")

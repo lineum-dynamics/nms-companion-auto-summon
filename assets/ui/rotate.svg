@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <title>Rotate companions</title>
+  <desc>Original crossing arrows for companion rotation, white on transparent.</desc>
+  <g fill="none" stroke="#fff" stroke-width="18" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M33 72 H62 C92 72 104 104 128 128 S164 184 194 184 H219"/>
+    <path d="M33 184 H62 C85 184 100 163 114 144 M142 113 C158 94 171 72 194 72 H219"/>
+    <path d="M197 50 L219 72 L197 94 M197 162 L219 184 L197 206"/>
+  </g>
+</svg>

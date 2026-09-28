@@ -1,4 +1,4 @@
-/** Build original per-setting SVG glyphs and legacy DDS files; never deploy. */
+/** Render original per-setting SVG glyphs to PNG and legacy DDS; never deploy. */
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const crypto = require('node:crypto');
@@ -6,9 +6,9 @@ const sharp = require('sharp');
 
 async function main() {
   const directory = path.resolve(__dirname, '../assets/ui');
-  const names = ['automation', 'selection', 'biome', 'planet', 'station', 'anomaly'];
+  const names = ['automation', 'selection', 'biome', 'planet', 'station', 'anomaly', 'rotate'];
   const labels = ['Automatic summoning', 'Companion selection', 'Random: prefer matching biome',
-    'Planets', 'Space stations', 'Space Anomaly'];
+    'Planets', 'Space stations', 'Space Anomaly', 'Rotate companions'];
   const outputs = {};
   const tiles = [];
   for (const [index, name] of names.entries()) {
@@ -36,8 +36,8 @@ async function main() {
     tiles.push({ input: await sharp(png).resize(156,156).toBuffer(), left:x+72, top:y+30 });
     tiles.push({ input: Buffer.from(`<svg width="300" height="36"><text x="150" y="24" text-anchor="middle" fill="#eef6f8" font-family="Arial" font-size="16">${labels[index]}</text></svg>`), left:x, top:y+205 });
   }
-  await sharp({ create: { width:900, height:520, channels:4, background:'#132832' } })
-    .composite(tiles).png().toFile(path.join(directory, 'settings-icons-preview.png'));
+  await sharp({ create: { width:900, height:780, channels:4, background:'#132832' } })
+    .composite(tiles).png().toFile(path.join(directory, 'settings-icons-preview-rotate.png'));
   console.log(JSON.stringify({ original:true, deployed:false, outputs }));
 }
 main().catch(error => { console.error(error); process.exitCode=1; });

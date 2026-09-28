@@ -22,7 +22,7 @@ from validate_locales import CatalogError, LOCALES, validated_catalogs
 
 def states(key):
     yield None
-    values = ("last_manual", "random") if key == "selection_mode" else (False, True)
+    values = ("last_manual", "random", "by_habitat") if key == "selection_mode" else (False, True)
     for value, pending, saved, stopped in itertools.product(values, (False, True), (False, True), (False, True)):
         yield nt.MenuTextState(value, pending=pending, settings_ok=saved, stopped=stopped)
 
@@ -87,17 +87,29 @@ class NativeTextTests(unittest.TestCase):
             self.assertIsNone(message.fallback_reason)
 
     def test_manual_notices_preserve_saved_session_off_random_distinctions(self):
-        for locale, enabled, saved, mode in itertools.product(LOCALES, (False, True), (False, True), ("last_manual", "random")):
+        for locale, enabled, saved, mode in itertools.product(LOCALES, (False, True), (False, True), ("last_manual", "random", "by_habitat")):
             text = {key: entry["text"] for key, entry in self.catalogs[locale]["messages"].items()}
             expected = text["hud.companion_saved" if saved else "hud.companion_session"]
             if not enabled:
                 expected += text["hud.auto_off_suffix"]
             elif mode == "random":
                 expected += text["hud.random_on_suffix"]
+            elif mode == "by_habitat":
+                expected += text["hud.habitat_on_suffix"]
             message = self.text.companion_notice(enabled=enabled, saved=saved, selection_mode=mode, locale=locale)
             self.assertEqual(message.text, expected)
             self.assertLessEqual(len(message.payload), nt.HUD_BYTES)
             self.assertIsNone(message.fallback_reason)
+
+    def test_unsuitable_habitat_notice_is_complete_catalog_text_without_state_access(self):
+        for locale in LOCALES:
+            with self.subTest(locale=locale):
+                message = self.text.no_suitable_habitat_notice(locale)
+                expected = self.catalogs[locale]["messages"]["hud.no_suitable_habitat"]["text"]
+                self.assertEqual(message.text, expected)
+                self.assertEqual(message.payload, expected.encode("utf-8"))
+                self.assertIsNone(message.fallback_reason)
+                self.assertLessEqual(len(message.payload), nt.HUD_BYTES)
 
     def test_unknown_locale_does_not_guess_game_language_or_interpret_a_path(self):
         for locale in (None, "cs", "fr-FR", "../fr", "../../settings", "", [], 1):

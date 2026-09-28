@@ -230,7 +230,7 @@ else:
 
 
 class CompanionMenuOrderTrial(Mod):
-    _version = ("0.8.5-branding" if LANGUAGE_OBSERVATION_ENABLED
+    _version = ("0.9.0-selection" if LANGUAGE_OBSERVATION_ENABLED
                 else "0.8.3-settings-trial" if EXTENDED_SETTINGS_ENABLED or CUSTOM_ICON_ENABLED
                 else "0.7.0-toggle-trial" if SETTINGS_TOGGLE_ENABLED else "0.6.0-order-trial")
     _author = "Lineum Dynamics"
@@ -451,7 +451,8 @@ class CompanionMenuOrderTrial(Mod):
         for role in roles:
             handle = self._icon_for_role(role)
             if handle and handle not in self._known_icon_handles:
-                if len(self._known_icon_handles) < 8:
+                # Eight fixed custom textures plus their one retained native paw.
+                if len(self._known_icon_handles) < 9:
                     self._known_icon_handles.add(handle)
                 else:
                     handle = 0

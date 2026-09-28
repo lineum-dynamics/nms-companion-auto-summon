@@ -22,7 +22,7 @@ class SettingsFixture(ToggleFixture):
         self.assertFalse(self.trial._stopped)
         self.assertEqual(self.native_errors, [])
         self.assertEqual(self.vector(1)[1], 2)
-        self.assertEqual(self.vector(2)[1], 6)
+        self.assertEqual(self.vector(2)[1], 7)
         self.parent = self.vector(1)[0]
         return self.parent
 
@@ -39,18 +39,18 @@ class SettingsFixture(ToggleFixture):
 
 
 class FullPageTests(SettingsFixture):
-    def test_all_six_unique_roles_are_created_before_preserved_native_pet(self):
+    def test_all_seven_unique_roles_are_created_before_preserved_native_pet(self):
         self.prepare_child()
         pointer, count = self.vector(2)
-        self.assertEqual(count, 6)
-        for role in range(6):
+        self.assertEqual(count, 7)
+        for role in range(7):
             data = self.reader(pointer + role * ITEM.ITEM_SIZE, ITEM.ITEM_SIZE)
             self.assertEqual(data[ITEM.MARKER_OFFSET:ITEM.MARKER_OFFSET + 16], ITEM.CUSTOM_ACTION_MARKER)
             self.assertEqual(int.from_bytes(data[ITEM.SLOT_OFFSET:ITEM.SLOT_OFFSET + 4], "little", signed=True), role)
             self.assertEqual(int.from_bytes(data[ITEM.ACTION_OFFSET:ITEM.ACTION_OFFSET + 4], "little"), 0)
         self.assertEqual(self.reader(self.parent + ITEM.ITEM_SIZE, ITEM.ITEM_SIZE), self.pet_before)
         self.assertEqual(bytes(self.regions[self.pet]), self.pet_before)
-        self.assertEqual(len(self.native_calls), 8)  # Parent, original pet, six children.
+        self.assertEqual(len(self.native_calls), 9)  # Parent, original pet, seven children.
         self.assert_no_request()
 
     def test_rebuild_reuses_complete_page_without_duplicate_children(self):
@@ -65,11 +65,12 @@ class FullPageTests(SettingsFixture):
     def test_each_role_reports_applied_then_pending_then_applied_state(self):
         cases = (
             (0, "enabled", False, b"Automatic summoning: ON", b"Automatic summoning: OFF"),
-            (1, "selection_mode", "random", b"Selection: Last selected", b"Selection: Random"),
+            (1, "selection_mode", "last_manual", b"Selection: By habitat", b"Selection: Last selected"),
             (2, "prefer_same_biome", False, b"Random: prefer matching biome: ON", b"Random: prefer matching biome: OFF"),
             (3, "planets", False, b"Planets: ON", b"Planets: OFF"),
             (4, "space_stations", False, b"Space stations: ON", b"Space stations: OFF"),
             (5, "nexus", False, b"Space Anomaly: ON", b"Space Anomaly: OFF"),
+            (6, "rotate_companions", False, b"Rotate companions: ON", b"Rotate companions: OFF"),
         )
         for role, key, desired, applied_label, desired_label in cases:
             with self.subTest(role=role):
@@ -116,16 +117,20 @@ class FullPageTests(SettingsFixture):
         self.observe(True)
         self.trigger_child()
         self.assert_no_request()
-        self.fresh_press()
-        self.trigger_child()
-        self.assertEqual(self.production_mod.requested_preferences, {"selection_mode": "random"})
-        for _ in range(3):
-            self.observe(True)
+        self.expected_label(b"Selection: By habitat")
+        for mode, caption in (("last_manual", b"Last selected"), ("random", b"Random"),
+                              ("by_habitat", b"By habitat")):
+            self.fresh_press()
             self.trigger_child()
-        self.assertEqual(self.production_mod.requested_preferences, {"selection_mode": "random"})
-        self.fresh_press()
-        self.trigger_child()
-        self.assertEqual(self.production_mod.requested_preferences, {"selection_mode": "last_manual"})
+            self.assertEqual(self.production_mod.requested_preferences, {"selection_mode": mode})
+            self.expected_label(b"Selection: " + caption + b" (pending)")
+            for _ in range(3):
+                self.observe(True)
+                self.trigger_child()
+            self.assertEqual(self.production_mod.requested_preferences, {"selection_mode": mode})
+        self.production_mod._apply_control()
+        self.expected_label(b"Selection: By habitat")
+        self.assert_no_transition()
 
     def test_parent_held_confirmation_does_not_change_first_setting(self):
         self.prepare_parent()
@@ -155,7 +160,7 @@ class FullPageTests(SettingsFixture):
     def test_each_role_stays_inert_for_navigation_and_preserves_native_true(self):
         self.prepare_child()
         before = self.memory_snapshot()
-        for role in range(6):
+        for role in range(7):
             self.select_role(role)
             self.trigger_child(False)
             self.trigger_child(True)
@@ -181,7 +186,7 @@ class FullPageTests(SettingsFixture):
         self.fresh_press()
         self.trigger_child()
         self.assertEqual(self.production_mod.requested_preferences,
-                         {"planets": False, "selection_mode": "random"})
+                         {"planets": False, "selection_mode": "last_manual"})
 
     def test_all_roles_report_session_only_stopped_and_unavailable_truthfully(self):
         self.prepare_child()
@@ -220,16 +225,16 @@ class IconFixture(SettingsFixture):
     def copied_role_icons(self):
         parent = int.from_bytes(self.reader(self.parent, 4), "little")
         pointer, count = self.vector(2)
-        self.assertEqual(count, 6)
+        self.assertEqual(count, 7)
         return {-1: parent, **{
             role: int.from_bytes(self.reader(pointer + role * ITEM.ITEM_SIZE, 4), "little")
-            for role in range(6)
+            for role in range(7)
         }}
 
 
 class OptionalIconTests(IconFixture):
     def test_distinct_role_icons_reach_matching_items_and_hud_keeps_parent(self):
-        handles = {role: 0x4455 + role + 1 for role in range(-1, 6)}
+        handles = {role: 0x4455 + role + 1 for role in range(-1, 7)}
         self.use_role_icons(handles)
         self.assertIsNone(self.trial.after_resources(self.menu))
         self.prepare_child()
@@ -243,7 +248,7 @@ class OptionalIconTests(IconFixture):
         self.assert_no_request()
 
     def test_one_unavailable_role_uses_native_paw_without_changing_other_icons(self):
-        handles = {role: 0x4455 + role + 1 for role in range(-1, 6)}
+        handles = {role: 0x4455 + role + 1 for role in range(-1, 7)}
         expected = {**handles, 2: 0x12345678}
         handles[2] = 0
         self.use_role_icons(handles)
@@ -257,32 +262,32 @@ class OptionalIconTests(IconFixture):
         self.assertEqual(self.reader(self.parent + ITEM.ITEM_SIZE, ITEM.ITEM_SIZE), self.pet_before)
         self.assert_no_transition()
 
-    def test_eight_known_handles_keep_existing_page_usable_when_provider_is_unavailable(self):
-        custom = {role: 0x4455 + role + 1 for role in range(-1, 6)}
-        handles = {**custom, 5: 0x12345678}  # A retained native paw during the last asset's load.
+    def test_nine_known_handles_keep_existing_page_usable_when_provider_is_unavailable(self):
+        custom = {role: 0x4455 + role + 1 for role in range(-1, 7)}
+        handles = {**custom, 6: 0x12345678}  # A retained native paw during the last asset's load.
         self.use_role_icons(handles)
         self.prepare_child()
         self.assertEqual(self.copied_role_icons(), handles)
-        handles[5] = custom[5]
+        handles[6] = custom[6]
         fresh = self.trial._menu_options(construction=True)
         self.assertEqual(fresh["role_icons"], custom)
         self.assertEqual(set(fresh["permitted_icons"]), set(custom.values()) | {0x12345678})
         handles.clear()
         options = self.trial._menu_options()
         self.assertEqual(set(options), {"child_roles", "permitted_icons"})
-        self.assertEqual(len(options["permitted_icons"]), 8)
+        self.assertEqual(len(options["permitted_icons"]), 9)
         before = self.memory_snapshot()
         native_count = len(self.native_calls)
         for role, caption in enumerate((
-                b"Automatic summoning: ON", b"Selection: Last selected",
+                b"Automatic summoning: ON", b"Selection: By habitat",
                 b"Random: prefer matching biome: ON", b"Planets: ON",
-                b"Space stations: ON", b"Space Anomaly: ON")):
+                b"Space stations: ON", b"Space Anomaly: ON", b"Rotate companions: ON")):
             self.select_role(role)
             self.expected_label(caption)
-        self.select_role(5)
+        self.select_role(6)
         self.fresh_press()
         self.trigger_child()
-        self.assertEqual(self.production_mod.requested_preferences, {"nexus": False})
+        self.assertEqual(self.production_mod.requested_preferences, {"rotate_companions": False})
         self.select_role(0)
         self.assertIsNone(self.builder())
         self.assertFalse(self.trial._stopped)
@@ -309,6 +314,24 @@ class OptionalIconTests(IconFixture):
         self.assertEqual(self.trial._thread, 271828)
         self.assertIsNone(self.trial.after_resources(self.menu))
         self.icons.register_once.assert_called_once()
+        self.assert_no_request()
+
+    def test_tenth_handle_cannot_expand_recognition_or_construct_new_items(self):
+        custom = {role: 0x4455 + role + 1 for role in range(-1, 7)}
+        handles = {**custom, 6: 0x12345678}
+        self.use_role_icons(handles)
+        self.prepare_child()
+        handles[6] = custom[6]
+        self.trial._menu_options(construction=True)
+        expected = set(custom.values()) | {0x12345678}
+        self.assertEqual(self.trial._known_icon_handles, expected)
+        handles[6] = 0x9988
+        options = self.trial._menu_options(construction=True)
+        self.assertNotIn(6, options["role_icons"])
+        self.assertEqual(set(options["permitted_icons"]), expected)
+        self.assertEqual(self.trial._known_icon_handles, expected)
+        self.select_role(6)
+        self.expected_label(b"Rotate companions: ON")
         self.assert_no_request()
 
     def test_preparation_exception_does_not_disable_settings_or_retry(self):
@@ -352,15 +375,15 @@ class OptionalIconTests(IconFixture):
         self.assertTrue(self.production_mod.auto_enabled)
         self.assertEqual(self.production_mod.requested_preferences, {})
 
-    def test_original_icon_fallback_keeps_all_six_settings_usable(self):
+    def test_original_icon_fallback_keeps_all_seven_settings_usable(self):
         self.prepare_child()
         for _, _, data in self.native_calls:
             if data[ITEM.MARKER_OFFSET:ITEM.MARKER_OFFSET + 16] == ITEM.CUSTOM_ACTION_MARKER:
                 self.assertEqual(int.from_bytes(data[:4], "little"), 0x12345678)
-        self.select_role(2)
+        self.select_role(6)
         self.fresh_press()
         self.trigger_child()
-        self.assertEqual(self.production_mod.requested_preferences, {"prefer_same_biome": False})
+        self.assertEqual(self.production_mod.requested_preferences, {"rotate_companions": False})
 
     def test_ready_icon_is_used_only_by_tagged_parent_and_children(self):
         handle = 0x4455
@@ -418,10 +441,10 @@ class OptionalIconTests(IconFixture):
         self.constructor.side_effect = self.construct  # Accept only the ordinary native paw.
         self.assertIsNone(self.builder())
         self.assertFalse(self.trial._stopped)
-        self.assertEqual(self.constructor.call_count, 6)
+        self.assertEqual(self.constructor.call_count, 7)
         pointer, count = self.vector(2)
-        self.assertEqual(count, 6)
-        for role in range(6):
+        self.assertEqual(count, 7)
+        for role in range(7):
             self.assertEqual(int.from_bytes(self.reader(pointer + role * ITEM.ITEM_SIZE, 4), "little"),
                              0x12345678)
 

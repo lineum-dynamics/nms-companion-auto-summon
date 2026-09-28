@@ -314,10 +314,41 @@ class ToggleTests(BridgeFixture):
 
 
 class ExtendedPreferenceTests(BridgeFixture):
+    def test_three_mode_cycle_uses_visible_queue_and_never_changes_other_preferences(self):
+        self.mod.selection_mode_value = "last_manual"
+        self.mod.requested_preferences = {"rotate_companions": False, "prefer_same_biome": False}
+        self.mod.policy.remember(5)
+        for mode in ("random", "by_habitat", "last_manual"):
+            self.assertTrue(self.bridge.commit_toggle(self.bridge.capture_toggle("selection_mode")))
+            self.assertEqual(self.mod.requested_preferences, {"rotate_companions": False,
+                             "prefer_same_biome": False, "selection_mode": mode})
+            self.assertEqual(self.mod.selection_mode_value, "last_manual")
+            self.assertEqual(self.mod.policy.last_slot, 5)
+        self.assertFalse(list(self.data_path.rglob("*.json")))
+
+    def test_rotation_change_preserves_mode_and_biome_and_applies_only_through_runtime(self):
+        self.mod.selection_mode_value = "random"
+        self.mod.prefer_same_biome_value = False
+        self.mod.policy.remember(5)
+        token = self.bridge.capture_toggle("rotate_companions")
+        self.assertTrue(self.bridge.commit_toggle(token))
+        self.assertTrue(self.mod.rotate_companions_value)
+        self.assertFalse(self.bridge.commit_toggle(token))
+        self.assertEqual(self.mod.requested_preferences, {"rotate_companions": False})
+        self.mod._apply_control()
+        self.assertFalse(self.mod.rotate_companions_value)
+        self.assertEqual(self.mod.selection_mode_value, "random")
+        self.assertFalse(self.mod.prefer_same_biome_value)
+        self.assertEqual(self.mod.policy.last_slot, 5)
+        saved = json.loads((self.data_path / "NMS-AutoPet/settings.json").read_text())
+        self.assertEqual(saved, {"schema": 4, "enabled": True, "locations": [2, 3, 14],
+                                "selection_mode": "random", "prefer_same_biome": False,
+                                "rotate_companions": False})
+
     def test_each_existing_setting_queues_only_its_key_without_applying(self):
-        expected = {"enabled": (True, False), "selection_mode": ("last_manual", "random"),
+        expected = {"enabled": (True, False), "selection_mode": ("by_habitat", "last_manual"),
                     "prefer_same_biome": (True, False), "planets": (True, False),
-                    "space_stations": (True, False), "nexus": (True, False)}
+                    "space_stations": (True, False), "nexus": (True, False), "rotate_companions": (True, False)}
         for key, (applied, desired) in expected.items():
             with self.subTest(key=key):
                 self.mod.requested_preferences = {}
@@ -335,7 +366,7 @@ class ExtendedPreferenceTests(BridgeFixture):
         self.mod.prefer_same_biome = False
         self.assertTrue(self.bridge.commit_toggle(token))
         self.assertEqual(self.mod.requested_preferences,
-                         {"selection_mode": "last_manual", "nexus": False, "prefer_same_biome": False})
+                         {"selection_mode": "by_habitat", "nexus": False, "prefer_same_biome": False})
 
     def test_stale_target_request_refuses_for_every_new_setting(self):
         for key in BRIDGE.SETTING_KEYS[1:]:
@@ -358,6 +389,7 @@ class ExtendedPreferenceTests(BridgeFixture):
         self.assertTrue(persisted["enabled"])
 
     def test_production_applies_mode_biome_and_location_without_changing_favorite(self):
+        self.mod.selection_mode_value = "last_manual"
         self.mod.policy.remember(5)
         for key in ("selection_mode", "prefer_same_biome", "space_stations"):
             self.assertTrue(self.bridge.commit_toggle(self.bridge.capture_toggle(key)))
@@ -372,7 +404,7 @@ class ExtendedPreferenceTests(BridgeFixture):
             with self.subTest(key=repr(key)):
                 self.assertIsNone(self.bridge.snapshot(key))
                 self.assertIsNone(self.bridge.capture_toggle(key))
-        for key, invalid in (("selection_mode", "fast"), ("planets", 1), ("prefer_same_biome", "yes")):
+        for key, invalid in (("selection_mode", "fast"), ("planets", 1), ("prefer_same_biome", "yes"), ("rotate_companions", 1)):
             self.mod.requested_preferences = {key: invalid}
             self.assertIsNone(self.bridge.snapshot(key))
             self.assertIsNone(self.bridge.capture_toggle(key))

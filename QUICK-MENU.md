@@ -1,6 +1,32 @@
 # Native quick-menu investigation
 
-## Current status: running 0.8.7, bounded live confirmation
+## Current source: 0.9.0 selection trial, offline validation passed
+
+Source **0.5.0-experimental / 0.9.0-play-trial**, with menu
+**0.9.0-selection**, now implements By habitat and Rotate companions. Offline validation passed 396 production and 683 developer tests; the candidate is unlaunched. Retained 0.8.7
+and earlier earlier artifacts remain immutable. The seven-row interface,
+new selection behavior and rotation icon have no new live acceptance.
+
+By habitat uses explicit directed 13/5/1 exact/related/acceptable groups on
+planets, independently of group population; stations/Nexus use the unweighted
+eligible owned pool. Unknown planet data waits, no approved owned group skips
+one opportunity with one notice, and temporary eligibility/placement failure
+waits. Rotation is session-only, separate from the manual favourite, and consumes
+only on native queue acceptance. Queue acceptance is not visible-spawn evidence.
+Schema 4 defaults fresh installs to By habitat and rotation ON; legacy schemas
+1/2/3 preserve their choices with rotation OFF. Details and the complete heuristic
+table are in [HABITAT-SELECTION](docs/research/HABITAT-SELECTION.md).
+
+The parent/roles 0–5 keep their existing IDs; role 6 adds Rotate companions.
+The source bridge resolves the exact 0.5.0 production instance and uses its
+existing lock/queue. Selection cycles through all three modes; no browsing,
+hover or rebuild may change a preference. Full topology requires exactly seven
+children in this opt-in candidate; explicit legacy six-role/one-child modes
+remain separate. The original native binding guard still covers tagged items.
+No new native address, input hook or gameplay limit is introduced. The rotation
+icon is included and checked offline; existing icon fallback remains required.
+
+## Retained running 0.8.7, bounded live confirmation
 
 The immutable running **0.8.7-play-trial / 087-r1** contains production **0.4.9**
 and menu **0.8.5-branding**. On 28 September 2026 at 11:07:26 (Europe/Prague),
@@ -22,14 +48,14 @@ station and Anomaly captions; its logs show changes to five control roles.
 Complete controls, navigation, remapping, controller and HUD/icon acceptance
 remain incomplete for the current trial.
 
-The six existing preferences remain on a flat page: automatic summoning,
+In retained 0.8.7, six preferences remain on a flat page: automatic summoning,
 Last selected/Random, matching-biome preference, planets, space stations and
 the Space Anomaly. Icons identify the setting role and remain stable when the
 value changes. The caption carries the value; native white/gray highlights
 indicate selection. English captions use sentence case and retain proper-name
 capitalization (Space Anomaly) and ON/OFF tokens. These native captions are unchanged.
 
-Source **0.8.7-play-trial** pairs menu **0.8.5-branding** with production
+Retained **0.8.7-play-trial** pairs menu **0.8.5-branding** with production
 **0.4.9-experimental** and retains the host compatibility checks. The external
 title is **Companion Auto Summon for No Man's Sky — by Lineum Dynamics**;
 the in-game short title, captions and HUD notices stay unchanged.
@@ -45,8 +71,8 @@ do not establish gameplay or visual acceptance. The developer panel remains unti
 pass acceptance. The different pets in both the earlier and current Random
 runs do not establish a cause or fix for the [0.8.4 Nexus failure](docs/research/LIVE-084.md).
 
-Each child is a uniquely marked None action with an explicit role. Full-page
-validation requires exactly the six expected children; foreign/native content
+Each child is a uniquely marked None action with an explicit role. In 0.8.7,
+full-page validation requires exactly the six expected children; foreign/native content
 and incomplete prior appends are never cleared or adopted. Native construction
 and the original append trampoline remain in use. A deliberate, correlated
 native confirmation queues only the selected preference through the existing
@@ -55,7 +81,7 @@ pending and session-only captions do not promise a disk save. Mode cycles existi
 values, the other five controls toggle, and all three locations may be OFF.
 The biome row now says **Random: prefer matching biome: ON/OFF**; its behavior
 remains effective only for Random on planets. Legacy source defaults retain the
-one-child trial; the new bundle explicitly enables six rows.
+one-child trial; the retained 0.8.7 bundle explicitly enables six rows.
 
 The bundle includes `SETTINGS.DDS` for the parent and `AUTOMATION.DDS`,
 `SELECTION.DDS`, `BIOME.DDS`, `PLANET.DDS`, `STATION.DDS` and `ANOMALY.DDS` for

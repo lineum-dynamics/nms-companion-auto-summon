@@ -4,7 +4,18 @@
 
 by **Lineum Dynamics**
 
-Aktuální testovací balíček **0.8.7-play-trial** spojuje produkci
+Zdrojový kandidát **0.5.0-experimental / 0.9.0-play-trial** s menu
+**0.9.0-selection** implementuje **By habitat** (podle prostředí) a **Rotate
+companions** (střídání společníků). Prošlo 396 produkčních a 683 vývojových
+testů mimo hru; kandidát ještě nebyl spuštěn. Dříve testovaný **0.8.7 / 087-r1**
+zůstává beze změny.
+By habitat na planetách váží skupiny shodné/příbuzné/přijatelné 13/5/1; stanice
+a Nexus používají běžný nevážený výběr vhodných vlastních petů. Nová instalace
+začíná s By habitat a zapnutým střídáním. Dosavadní schémata 1/2/3 zachovají
+volby a nové střídání nechají vypnuté. Herní způsobilost ani umístění se neobchází.
+Podrobnosti a hranice uvádí [anglický kontrakt výběru](docs/research/HABITAT-SELECTION.md).
+
+Zachovaný běžící balíček **0.8.7-play-trial** spojuje produkci
 **0.4.9-experimental** a menu **0.8.5-branding**. Zdroj prošel **333 produkčními
 a 675 vývojovými testy** bez chyb a vynechání, kontrolou skutečného frameworku
 s oběma módy a šesti dočasnými preferencemi i nezapisujícími kontrolami Python
@@ -35,7 +46,8 @@ a až další výstup peta vyvolal. Ostatní volby, přemapování, hlášky a i
 opakovatelnost, režim Last selected a multiplayer stále čekají na ověření.
 Podrobnosti jsou v [záznamu 0.8.7](docs/research/LIVE-087.md).
 
-Všech 14 katalogů obsahuje 41 položek, včetně plného názvu a autorského kreditu.
+Všech 14 katalogů nyní obsahuje 46 položek, včetně nových voleb výběru/střídání,
+hlášek prostředí a jednoho stavového textu vývojového panelu. Plný název a autorský kredit zůstávají pokryté.
 Tři zprávy spouštěče mají rozšířený název. Při spuštění se z katalogů nyní používá pouze
 devět kompatibilitních zpráv; 13 překladů jsou návrhy bez jazykové revize. Menu
 a herní hlášky zůstávají anglické. Úplný překlad spouštěče ani veřejný přenosný
@@ -58,7 +70,7 @@ zůstává menu **0.8.0-settings-trial**. Připravená 0.8.3 přidala odlišné 
 šesti voleb a popisek `Random: prefer matching biome`; 0.8.4 toto menu nemění.
 Starší balíčky 0.7.1, 0.7.2 a 0.8.0 zůstávají nedotčené.
 
-Zdrojový kandidát **0.4.9** a společný balíček **0.8.7-play-trial**
+Zachovaný kandidát **0.4.9** a společný balíček **0.8.7-play-trial**
 ukládají ručního favorita pouze po odpovídající úspěšné akci nativního ovládání
 petů. Samotné přijetí požadavku do fronty, například při obnovení řízeném hrou,
 favorita nezmění a nevytvoří potvrzení ruční volby. Původ konkrétního volání
@@ -70,7 +82,7 @@ není připravená, použije ověřenou herní tlapku; bez použitelné ikony se
 blok ikony skryje a zůstane text. Načtení obrázku, zmizení bílého kruhu
 a čitelnost ještě vyžadují herní vizuální zkoušku.
 
-Menu obsahuje šest voleb: zapnutí automatiky, poslední ruční nebo náhodný
+Běžící menu 0.8.7 obsahuje šest voleb: zapnutí automatiky, poslední ruční nebo náhodný
 výběr, přednost stejného biomu a samostatné povolení planet, stanic a Anomálie.
 Používá dosavadní ukládání nastavení a přenastavené nativní ovládání. Textura
 se připravuje při spuštění se zavřenou hrou; neznámý existující soubor
@@ -78,7 +90,7 @@ se nepřepisuje. Dočasný panel zůstává k porovnání při tomto společném
 
 Kandidát 0.8.2 byl spuštěn. Předchozí instalace **0.4.4 / 0.7.1** a připravený
 starší balíček **0.4.5 / 0.7.2** zůstávají beze změny. Samostatný produkční ZIP
-se připravuje s verzí 0.4.9 bez pokusného menu a DDS; bez poskytovatele ikony používá čistý
+kandidáta 0.5.0 nemá nativní menu ani DDS; bez poskytovatele ikony používá čistý
 text. Přesný rozsah kontrol aktuálního kandidáta uvádí
 [technický záznam](TECHNICAL-VERIFICATION.md). Starší počty níže patří uvedeným verzím.
 
@@ -133,23 +145,24 @@ První automatické vyvolání ve verzi 0.3.1 selhalo vypršením čekání. Ver
 ## Ovládání
 
 Samostatný produkční balíček používá okno **pyMHF**: přes **Alt+Tab** otevři
-záložku **CompanionAutoSummon**. Společný vývojový kandidát **0.8.2** navíc
-nabízí všech šest voleb v rychlém menu hry, v položce **Companion Auto Summon**
+záložku **CompanionAutoSummon**. Nový zdrojový kandidát **0.9.0** navíc
+nabízí sedm voleb v rychlém menu hry, v položce **Companion Auto Summon**
 před konkrétními pety. Nabídku otevři svým nastaveným herním ovládáním.
 Dočasný panel zůstává během ověření k dispozici.
 
 - **Automatically summon companion**: zapne nebo vypne automatiku po načtení savu i po výstupu z lodi. Výchozí stav je zapnuto.
 - Tři samostatná zaškrtávátka dovolují automatiku na planetách, vesmírných stanicích a v Nexusu. Výchozí stav všech je zapnuto. Vypnutí všech míst znamená, že se nikde automaticky nevyvolává.
-- **Companion selection** nabízí **Last manually selected** a **Random**. Výchozí je poslední ruční volba. Náhodný režim vybírá pouze z vlastních petů, které dovolí nativní kontrola hry.
+- **Companion selection** nabízí **Last manually selected**, **Random** a **By habitat**. Nová instalace používá By habitat; původní nastavení zůstává zachované. Každý režim respektuje vlastnictví, způsobilost a umístění podle hry.
 - **Prefer same biome in Random mode**: výchozí zapnuto. V náhodném režimu na planetě upřednostní shodné domovské prostředí mezi již vhodnými pety. Vypnutí vrátí běžný náhodný výběr; stejný výběr se použije i při neznámém biomu nebo bez shody. Preference nemění herní způsobilost petů.
+- **Rotate companions**: střídá vhodné pety v Random nebo uvnitř skupiny vybrané režimem By habitat. U nové instalace je zapnuto, po migraci vypnuto; Last selected neovlivňuje.
 - **Status**: aktuální stav včetně **Waiting for a suitable place** (čekání na vhodné místo), případně informace, že změna čeká na návrat do hry nebo platí jen pro tuto relaci.
 - **Companion**: vybraný slot, uložená volba čekající na ověření vlastnictví nebo zapnutý náhodný režim. V režimu poslední ruční volby se při prázdném výběru zobrazí výzva k prvnímu ručnímu vyvolání.
 
 Změna se provede a uloží při další aktualizaci lokálního hráče; vrať se tedy do hry před jejím ukončením. Změna nastavení zruší čekající automatické vyvolání a ponechá již přítomného peta. Zapnutí nebo změna režimu samo nic nevyvolá — automatika počká na další výstup z lodi nebo nové načtení savu. Mód nezavádí vlastní klávesovou zkratku.
 
-V režimu poslední ruční volby nemá nový hráč žádného předvybraného peta. Úspěšně ručně vyvolej vlastního společníka. Změněná volba požádá hru o tiché potvrzení na 5,5 sekundy: **Companion saved.** Bez úspěšného trvalého uložení uvede **Companion selected (session only).** Podle stavu doplní, že automatika je OFF nebo Random zůstává ON. Opakování stejné volby, automatické vyvolání a obnovení řízené hrou zůstávají tiché. Nové znění a zobrazení ikony nebo čistého textu ještě čekají na herní vizuální zkoušku. Hlášky a panel jsou zatím pouze anglické.
+V režimu poslední ruční volby nemá nový hráč žádného předvybraného peta. Úspěšně ručně vyvolej vlastního společníka. Změněná volba požádá hru o tiché potvrzení na 5,5 sekundy: **Companion saved.** Bez úspěšného trvalého uložení uvede **Companion selected (session only).** Podle stavu doplní, že automatika je OFF nebo zůstává aktivní Random či výběr podle prostředí. Opakování stejné volby, automatické vyvolání a obnovení řízené hrou zůstávají tiché. Nové znění a zobrazení ikony nebo čistého textu ještě čekají na herní vizuální zkoušku. Hlášky a panel jsou zatím pouze anglické.
 
-Při výslovném přepnutí do náhodného režimu není předchozí ruční volba nutná. Hráč však musí vlastnit alespoň jednoho vhodného peta; mód žádného nevytváří ani neodemyká. Náhodná volba nepřepisuje oblíbeného peta zapamatovaného pro režim poslední ruční volby. Tentýž pet může být náhodně vybrán i při následujícím výstupu.
+Random ani By habitat nepotřebují předchozí ruční volbu, ale vyžadují vhodného vlastního peta; ručního favorita nepřepisují. By habitat nejprve losuje skupinu shodného/příbuzného/přijatelného prostředí s váhami 13/5/1 nezávisle na počtu petů ve skupině. Jde o výslovnou návrhovou tabulku módu. Neznámý biom čeká; pokud ve známém úplném seznamu vlastních petů není žádná přípustná skupina, příležitost přeskočí s jednou hláškou. Dočasná herní nezpůsobilost čeká. Pořadí střídání spotřebuje až přijatý požadavek. Bez střídání nebo s jediným vhodným petem se může volba opakovat.
 
 ## Chování
 
@@ -163,7 +176,7 @@ Návrat do lodi, ruční náhled peta nebo související emote, ruční výběr 
 
 Ověření vyvolání používá nativní hledání umístění včetně běžného herního dosahu. Mód připravuje místo i při zavřeném menu; neoznačuje nevhodné místo za platné. Kontroly tvoří čerstvé dvojice herních aktualizací s odstupem nejméně 0,5 sekundy mezi dvojicemi. Pokud hra požadavek nepřijme, mód počká na novou kontrolu a zkusí znovu téhož vybraného peta. Přijatý požadavek daný výstup dokončí. Čekání na platformě archivu, pozdější nalezení místa a opakování odmítnutého požadavku ještě potřebují herní test.
 
-V náhodném režimu se po přípravě umístění vybere nejvýše jeden kandidát pro daný výstup. Po výběru se pet během čekání nepřelosuje. Změna jeho identity, ruční volba nebo zrušení požadavku nevyvolá náhradní los. Před vlastním požadavkem se znovu ověří identita, vlastnictví a nativní způsobilost.
+Automatický výběr po přípravě místa rezervuje nejvýše jednoho peta. Jeho identita a slot zůstanou pevné; změna, nejednoznačnost nebo přesun čekajícího peta do jiného slotu požadavek zruší bez náhradního losu. By habitat také hlídá kontext podporované lokace a biomu; Random zachová výběr při dočasné změně místa. Mezi příležitostmi změna pořadí slotů cyklus nerestartuje. Přijetí do herní fronty spotřebuje položku střídání, odmítnutí či zrušení nikoli. Lokální načtení nebo změna aplikace vymaže dočasné cykly; síťové načtení cizího hráče ne.
 
 Nemění růst, rychlosti, důvěru, vejce, bojové hodnoty ani kapacity. Nezvyšuje limity vyvolání, neodemyká ani nevytváří pety a neobchází nativní omezení umístění.
 
@@ -171,7 +184,7 @@ Nemění růst, rychlosti, důvěru, vejce, bojové hodnoty ani kapacity. Nezvy�
 
 Původní složka `NMS-AutoPet` zůstává záměrně zachována. Nepřejmenovávat ji: ruční favorit, preference i dosavadní vývojové prostředí dále používají stejné umístění. Přejmenování módu osobní data neresetuje ani nekopíruje.
 
-Ruční volby petů jsou v `%LOCALAPPDATA%\NMS-AutoPet\state.json`. Každý uživatel Windows má vlastní soubor a uvnitř jsou volby rozdělené podle trvalého ID savu. Zapnutí, povolená místa, režim výběru a `prefer_same_biome` jsou v sousedním `settings.json` ve schématu 3 a platí pro všechny savy tohoto uživatele. Schémata 1 a 2 se převedou v paměti se zapnutou preferencí biomu, přičemž zachovají dosavadní volby včetně vypnuté automatiky. Schéma 3 se zapíše až při výslovném uložení nastavení; již uložená vypnutá preference biomu se sama nezapíná. Do samotných herních savů mód nezapisuje.
+Ruční volby petů jsou v `%LOCALAPPDATA%\NMS-AutoPet\state.json`. Každý uživatel Windows má vlastní soubor a uvnitř jsou volby rozdělené podle trvalého ID savu. Zapnutí, povolená místa, režim, `prefer_same_biome` a nové `rotate_companions` ukládá sousední `settings.json` ve schématu 4 pro všechny savy uživatele. Schéma 1 výslovně zachová Last selected; schémata 2/3 zachovají dosavadní režim a biom. Všechna starší schémata přejdou s vypnutým střídáním a zachovanými ostatními volbami. Migrace proběhne jen v paměti do výslovného uložení. Pouze nová nastavení mají By habitat a střídání zapnuté. Do samotných herních savů mód nezapisuje.
 
 Pet se poznává kombinací CreatureSeed a BirthTime. Změna pořadí slotů nevadí. V režimu poslední ruční volby mód při odstraněném petovi nebo více nerozlišitelných shodách počká na nový ruční výběr.
 
@@ -190,7 +203,7 @@ handlu. Odmítnou také neodpovídající konfiguraci frameworku a cizí rozší
 `pymhflib`. Neznámý, změněný nebo nečitelný EXE zabrání aktivaci módu; chyba se
 zobrazí mimo hru a preference se neresetují. Tyto kontroly prošly testy mimo
 hru; podporované spuštění přes kontrolovaný host prošlo také v relaci 0.8.4.
-Nový kandidát 0.8.7 zatím spuštěn nebyl.
+Běžící 0.8.7 má výše vymezené potvrzení; nový zdrojový kandidát 0.9.0 zatím spuštěn nebyl.
 
 Kompatibilitní zprávy vybírají jazyk podle prostředí Windows; parametr
 `-Language`, například `-Language fr`, jej může změnit. Nejde o zjištění jazyka

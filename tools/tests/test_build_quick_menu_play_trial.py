@@ -57,7 +57,7 @@ class PlayTrialBuildTests(unittest.TestCase):
         )))
         self.manifest = self.root / "manifest.json"
         self.manifest.write_text(json.dumps({
-            "version": "0.4.9-experimental", "framework": "pymhf[gui]==0.2.4",
+            "version": "0.5.0-experimental", "framework": "pymhf[gui]==0.2.4",
             "steam_build": "synthetic-build", "supported_nms_exe_sha256": "f" * 64,
         }), encoding="utf-8")
         self.root_patch = patch.object(builder, "ROOT", self.root)
@@ -101,8 +101,8 @@ class PlayTrialBuildTests(unittest.TestCase):
                      for path in self.root.rglob("*") if path.is_file()}
         result = self.build()
         output = Path(result["output"])
-        self.assertEqual(output, self.root / "build/quick-menu-play-trial-087")
-        self.assertEqual(result["files"], 41)
+        self.assertEqual(output, self.root / "build/quick-menu-play-trial-090")
+        self.assertEqual(result["files"], 42)
         self.assertFalse(result["launched"])
         self.assertFalse(result["deployed"])
         self.assertTrue(result["auto_summon"])
@@ -123,20 +123,20 @@ class PlayTrialBuildTests(unittest.TestCase):
         for name in builder.HELPERS:
             self.assertEqual((output / name).read_bytes(), (self.root / "tools" / name).read_bytes())
         manifest = json.loads((output / "manifest.json").read_text())
-        self.assertEqual(manifest["version"], "0.8.7-play-trial")
+        self.assertEqual(manifest["version"], "0.9.0-play-trial")
         self.assertEqual(manifest["mods"], [
-            {"name": "CompanionAutoSummon", "version": "0.4.9-experimental", "path": builder.PRODUCTION_FILE},
-            {"name": "CompanionMenuOrderTrial", "version": "0.8.5-branding", "path": builder.MENU_FILE},
+            {"name": "CompanionAutoSummon", "version": "0.5.0-experimental", "path": builder.PRODUCTION_FILE},
+            {"name": "CompanionMenuOrderTrial", "version": "0.9.0-selection", "path": builder.MENU_FILE},
         ])
         self.assertTrue(manifest["auto_summon"])
         self.assertTrue(manifest["preference_actions"])
-        self.assertEqual(manifest["preference_keys"], ["enabled", "selection_mode", "prefer_same_biome", "locations"])
+        self.assertEqual(manifest["preference_keys"], ["enabled", "selection_mode", "prefer_same_biome", "locations", "rotate_companions"])
         for key in ("live_verified", "observation_only", "preferences_included"):
             self.assertFalse(manifest[key])
         self.assertEqual(manifest["steam_build"], "synthetic-build")
         self.assertEqual(manifest["supported_nms_exe_sha256"], "f" * 64)
         entries = manifest["files"]
-        self.assertEqual(len(entries), 40)
+        self.assertEqual(len(entries), 41)
         self.assertEqual({entry["path"] for entry in entries},
                          {path.relative_to(output).as_posix() for path in output.rglob("*") if path.is_file()} - {"manifest.json"})
         for entry in entries:
@@ -192,11 +192,11 @@ class PlayTrialBuildTests(unittest.TestCase):
     def test_readme_explains_native_toggle_and_preserves_other_preferences(self):
         output = Path(self.build()["output"])
         readme = (output / "README.md").read_text()
-        for phrase in ("two mods", "0.4.9-experimental", "0.8.5-branding", "Automatic summoning: ON/OFF",
+        for phrase in ("two mods", "0.5.0-experimental", "0.9.0-selection", "Automatic summoning: ON/OFF",
                        "This revision is not yet live-verified", "not reset or forced",
                        "temporary CompanionAutoSummon development panel", "no personal data", "absolute LOCALAPPDATA",
                        "neither mod writes the game's save files", "Never hot-reload",
-                       "Exit NMS normally", "fresh backup", "paw-with-arrow icon", "all six rows",
+                       "Exit NMS normally", "fresh backup", "paw-with-arrow icon", "all seven rows",
                        "first eligible local-player update", "current selection mode",
                        "change is needed", "Deserialization makes no native"):
             self.assertIn(phrase, readme)
@@ -218,7 +218,7 @@ class PlayTrialBuildTests(unittest.TestCase):
         self.assertFalse((output / "unrelated.py").exists())
 
     def test_existing_file_or_directory_is_not_reused(self):
-        output = self.root / "build/quick-menu-play-trial-087"
+        output = self.root / "build/quick-menu-play-trial-090"
         output.mkdir(parents=True)
         sentinel = output / "keep"
         sentinel.write_bytes(b"prior trial")
@@ -279,7 +279,7 @@ class PlayTrialBuildTests(unittest.TestCase):
             return original_write(path, data)
         with patch.object(Path, "write_bytes", failing_write), self.assertRaises(OSError):
             self.build()
-        output = self.root / "build/quick-menu-play-trial-087"
+        output = self.root / "build/quick-menu-play-trial-090"
         before = {path.name: path.read_bytes() for path in output.iterdir()}
         self.assertTrue(before)
         with self.assertRaises(FileExistsError):

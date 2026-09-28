@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "locale": "ja",
-  "scope": "native_menu_hud_technology_launcher",
+  "scope": "native_menu_hud_technology_launcher_panel",
   "review_status": "draft_unreviewed",
   "native_runtime_integrated": false,
   "unchanged_keys": [
@@ -172,6 +172,26 @@
     "product.author_credit": {
       "text": "制作：Lineum Dynamics",
       "source_sha256": "f34174f2751cbd9f72653756878099ac4486f106e8472a6eeaa3a75d950e356f"
+    },
+    "menu.rotate_companions": {
+      "text": "コンパニオンを順番に選ぶ",
+      "source_sha256": "0ec55e95b97b9a226e65e66b3dfae8fb633ecc4c477b23831ef7505f77555da5"
+    },
+    "value.by_habitat": {
+      "text": "生息地で選択",
+      "source_sha256": "4829433c5de5b737f4908237706d3136398f28545c84f3675b204e277d3eb64d"
+    },
+    "hud.habitat_on_suffix": {
+      "text": " 生息地に基づく選択はオンのままです。",
+      "source_sha256": "43c7ef604b53fa9bb5421334f6b48eac99c9f43b6b897563e4f296858a9f2082"
+    },
+    "panel.habitat_status": {
+      "text": "リクエストごとに生息地を考慮して所有コンパニオンを選択します。手動のお気に入りは保持されます。",
+      "source_sha256": "03baf15ad0e4386995ea7875d0b91cd8ed0fb2cd8cbbdc9b370a82db7643b81a"
+    },
+    "hud.no_suitable_habitat": {
+      "text": "この生息地に適したコンパニオンはいません。",
+      "source_sha256": "e96f4f446a004e504a0e31474177eb032ad5d24d6c4b07b9d1f9cf2aa6418a0e"
     }
   }
 }

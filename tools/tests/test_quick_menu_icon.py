@@ -23,20 +23,20 @@ class IconOwnerTests(unittest.TestCase):
         self.table = 0x3330000
         self.paw = 0x4440000
         self.custom = 0x5550000
-        self.customs = tuple(self.custom + index * 0x1000 for index in range(7))
+        self.customs = tuple(self.custom + index * 0x1000 for index in range(8))
         self.menu = 0x6660000
         self.regions = {
             self.slot: bytearray(8),
             self.retain_slot: bytearray(8),
             self.manager: bytearray(0x68),
-            self.table: bytearray(64),
+            self.table: bytearray(72),
             self.paw: bytearray(0x270),
             self.menu: bytearray(0xA108),
         }
         self.regions.update({pointer: bytearray(0x270) for pointer in self.customs})
         self.write(self.slot, self.manager, 8)
         self.write(self.retain_slot, self.manager, 8)
-        self.write(self.manager + 0x5C, 8)
+        self.write(self.manager + 0x5C, 9)
         self.write(self.manager + 0x60, self.table, 8)
         self.write(self.table, self.paw, 8)
         for index, pointer in enumerate(self.customs):
@@ -121,32 +121,32 @@ class IconOwnerTests(unittest.TestCase):
     def test_registration_pins_before_both_native_calls(self):
         menu_before = bytes(self.regions[self.menu])
         self.assertTrue(self.register())
-        self.assertEqual(self.events, ["pin", "retain"] + ["load"] * 7)
+        self.assertEqual(self.events, ["pin", "retain"] + ["load"] * 8)
         self.assertEqual(self.handle(), 2)
         self.assertEqual(self.owner.status, "custom_ready")
         self.assertEqual(bytes(self.regions[self.menu]), menu_before)
 
-    def test_seven_roles_load_distinct_paths_records_and_handles_once(self):
+    def test_eight_roles_load_distinct_paths_records_and_handles_once(self):
         self.assertTrue(self.register())
         expected_names = (
             b"SETTINGS.DDS", b"AUTOMATION.DDS", b"SELECTION.DDS",
-            b"BIOME.DDS", b"PLANET.DDS", b"STATION.DDS", b"ANOMALY.DDS",
+            b"BIOME.DDS", b"PLANET.DDS", b"STATION.DDS", b"ANOMALY.DDS", b"ROTATE.DDS",
         )
         self.assertEqual(self.loaded_paths, [
             b"TEXTURES/UI/FRONTEND/ICONS/COMPANIONAUTOSUMMON/" + name
             for name in expected_names
         ])
-        self.assertEqual(len(set(self.loaded_records)), 7)
+        self.assertEqual(len(set(self.loaded_records)), 8)
         path_addresses = [C.c_void_p.from_address(record).value for record in self.loaded_records]
-        self.assertEqual(len(set(path_addresses)), 7)
-        self.assertEqual([self.handle(role=role) for role in range(-1, 6)], list(range(2, 9)))
+        self.assertEqual(len(set(path_addresses)), 8)
+        self.assertEqual([self.handle(role=role) for role in range(-1, 7)], list(range(2, 10)))
         self.assertEqual(self.owner.icon_handle(self.reader, self.slot), 2)
         self.pin.assert_called_once_with(self.owner)
         self.retain.assert_called_once()
-        self.assertEqual(self.load.call_count, 7)
+        self.assertEqual(self.load.call_count, 8)
 
     def test_each_missing_role_uses_paw_without_replacing_other_icons(self):
-        for missing in range(-1, 6):
+        for missing in range(-1, 7):
             with self.subTest(role=missing):
                 self.setUp()
                 def missing_one(record):
@@ -156,9 +156,9 @@ class IconOwnerTests(unittest.TestCase):
                         C.c_uint32.from_address(record + ICON.HANDLE_OFFSET).value = 0
                 self.load.side_effect = missing_one
                 self.assertTrue(self.register())
-                expected = [1 if role == missing else role + 3 for role in range(-1, 6)]
-                self.assertEqual([self.handle(role=role) for role in range(-1, 6)], expected)
-                self.assertEqual(self.load.call_count, 7)
+                expected = [1 if role == missing else role + 3 for role in range(-1, 7)]
+                self.assertEqual([self.handle(role=role) for role in range(-1, 7)], expected)
+                self.assertEqual(self.load.call_count, 8)
 
     def test_unready_child_promotes_independently_without_late_load_or_retain(self):
         child = self.customs[4]
@@ -168,24 +168,24 @@ class IconOwnerTests(unittest.TestCase):
         self.assertEqual(self.handle(role=-1), 2)
         self.write(child + 0x260, 0xABC000, 8)
         self.assertEqual(self.handle(role=3), 6)
-        self.assertEqual(self.load.call_count, 7)
+        self.assertEqual(self.load.call_count, 8)
         self.retain.assert_called_once()
 
     def test_role_cannot_borrow_different_custom_asset_as_fallback(self):
         self.load.side_effect = lambda record: setattr(
-            C.c_uint32.from_address(record + ICON.HANDLE_OFFSET), "value", 8)
+            C.c_uint32.from_address(record + ICON.HANDLE_OFFSET), "value", 9)
         self.assertTrue(self.register())
-        self.assertEqual([self.handle(role=role) for role in range(-1, 6)], [1] * 6 + [8])
+        self.assertEqual([self.handle(role=role) for role in range(-1, 7)], [1] * 7 + [9])
 
     def test_invalid_roles_refuse_without_reads_or_disabling_valid_icons(self):
         self.assertTrue(self.register())
         self.reads.clear()
-        for role in (-2, 6, 999, True, False, None, "0", 0.0, [], {}):
+        for role in (-2, 7, 999, True, False, None, "0", 0.0, [], {}):
             with self.subTest(role=role):
                 self.assertEqual(self.handle(role=role), 0)
                 self.assertEqual(self.reads, [])
         self.assertEqual(self.handle(role=0), 3)
-        self.assertEqual(self.load.call_count, 7)
+        self.assertEqual(self.load.call_count, 8)
 
     def test_partial_load_failure_keeps_only_confirmed_icons_and_never_retries(self):
         def partial(record):
@@ -195,7 +195,7 @@ class IconOwnerTests(unittest.TestCase):
         self.load.side_effect = partial
         self.assertFalse(self.register())
         self.assertEqual(self.load.call_count, 3)
-        self.assertEqual([self.handle(role=role) for role in range(-1, 6)], [2, 3, 1, 1, 1, 1, 1])
+        self.assertEqual([self.handle(role=role) for role in range(-1, 7)], [2, 3, 1, 1, 1, 1, 1, 1])
         before = list(self.reads)
         self.assertFalse(self.register())
         self.assertEqual(self.reads, before)
@@ -226,19 +226,19 @@ class IconOwnerTests(unittest.TestCase):
         self.assertEqual(self.load.call_count, 4)
         self.write(self.retain_slot, self.manager, 8)
         self.reads.clear()
-        self.assertEqual([self.handle(role=role) for role in range(-1, 6)], [0] * 7)
+        self.assertEqual([self.handle(role=role) for role in range(-1, 7)], [0] * 8)
         self.assertFalse(self.register())
         self.assertEqual(self.reads, [])
         self.assertEqual(self.load.call_count, 4)
 
     def test_recycled_child_disables_other_previously_confirmed_roles(self):
         self.assertTrue(self.register())
-        self.resource(self.customs[6], b"REPLACEMENT.DDS", image=88)
-        self.assertEqual(self.handle(role=5), 0)
+        self.resource(self.customs[7], b"REPLACEMENT.DDS", image=88)
+        self.assertEqual(self.handle(role=6), 0)
         self.assertEqual(self.owner.status, "resource_identity_changed")
-        self.resource(self.customs[6], ICON.VIRTUAL_PATHS[6], image=88)
+        self.resource(self.customs[7], ICON.VIRTUAL_PATHS[7], image=88)
         self.reads.clear()
-        self.assertEqual([self.handle(role=role) for role in range(-1, 6)], [0] * 7)
+        self.assertEqual([self.handle(role=role) for role in range(-1, 7)], [0] * 8)
         self.assertEqual(self.reads, [])
 
     def test_repeated_registration_never_calls_or_reads_again(self):
@@ -246,7 +246,7 @@ class IconOwnerTests(unittest.TestCase):
         before = list(self.reads)
         self.assertFalse(self.register())
         self.assertEqual(self.reads, before)
-        self.assertEqual(self.events, ["pin", "retain"] + ["load"] * 7)
+        self.assertEqual(self.events, ["pin", "retain"] + ["load"] * 8)
 
     def test_pending_custom_uses_owned_paw_then_promotes_without_calls(self):
         self.write(self.custom + 0x1E0, 0)
@@ -255,7 +255,7 @@ class IconOwnerTests(unittest.TestCase):
         self.assertEqual(self.owner.status, "native_ready")
         self.write(self.custom + 0x260, 0x1234567800000000, 8)
         self.assertEqual(self.handle(), 2)
-        self.assertEqual(self.events, ["pin", "retain"] + ["load"] * 7)
+        self.assertEqual(self.events, ["pin", "retain"] + ["load"] * 8)
 
     def test_no_menu_read_after_initialization(self):
         self.assertTrue(self.register())
@@ -312,7 +312,7 @@ class IconOwnerTests(unittest.TestCase):
         self.assertEqual(self.handle(), 2)
 
     def test_invalid_handles_or_resource_type_are_not_usable(self):
-        for handle in (0, 9, 0x80000000, 0xFFFFFFFF):
+        for handle in (0, 10, 0x80000000, 0xFFFFFFFF):
             with self.subTest(handle=handle):
                 self.setUp()
                 self.load.side_effect = lambda record: setattr(C.c_uint32.from_address(record + 16), "value", handle)
@@ -444,14 +444,14 @@ class IconOwnerTests(unittest.TestCase):
         self.assertTrue(self.register())
         self.regions[0x7770000] = bytearray(self.regions[self.table]) + bytearray(8)
         self.write(self.manager + 0x60, 0x7770000, 8)
-        self.write(self.manager + 0x5C, 9)
+        self.write(self.manager + 0x5C, 10)
         self.assertEqual(self.handle(), 2)
 
     def test_midread_table_or_readiness_change_fails_current_sample(self):
         self.assertTrue(self.register())
-        for field, size, value in ((self.manager + 0x5C, 4, 9), (self.custom + 0x1E0, 4, 0)):
+        for field, size, value in ((self.manager + 0x5C, 4, 10), (self.custom + 0x1E0, 4, 0)):
             with self.subTest(field=field):
-                self.write(self.manager + 0x5C, 8)
+                self.write(self.manager + 0x5C, 9)
                 self.write(self.custom + 0x1E0, 88)
                 changed = False
                 def mutating(address, amount):
@@ -469,7 +469,7 @@ class IconOwnerTests(unittest.TestCase):
             with self.subTest(bad=bad):
                 self.assertEqual(self.handle(reader=lambda *_: bad), 0)
         self.assertEqual(self.handle(reader=Mock(side_effect=OSError("unreadable"))), 0)
-        self.assertEqual(self.events, ["pin", "retain"] + ["load"] * 7)
+        self.assertEqual(self.events, ["pin", "retain"] + ["load"] * 8)
 
     def test_registration_reentry_and_read_reentry_do_not_deadlock(self):
         original = self.load_texture
@@ -480,7 +480,7 @@ class IconOwnerTests(unittest.TestCase):
         self.load.side_effect = reentry
         self.assertTrue(self.register())
         self.assertEqual(self.handle(), 2)
-        self.assertEqual(self.events, ["pin", "retain"] + ["load"] * 7)
+        self.assertEqual(self.events, ["pin", "retain"] + ["load"] * 8)
 
     def test_bounded_read_sizes_and_worst_case_name(self):
         self.resource(self.paw, b"P" * 255, image=4)

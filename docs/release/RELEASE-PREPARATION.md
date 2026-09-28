@@ -1,5 +1,28 @@
 # Companion Auto Summon for No Man's Sky - by Lineum Dynamics
 
+New source candidate **0.5.0-experimental / 0.9.0-play-trial**, menu
+**0.9.0-selection**, implements By habitat and Rotate companions. Offline validation passed 396 production and 683 developer tests; no new live acceptance or deployment is
+claimed. The unchanged running 0.8.7-r1 and its unpublished Nexus page below
+retain their own evidence and metadata. Do not publish the new features as a
+tested player release based on the older session.
+
+The seven-row candidate preserves existing role IDs and appends rotation. Fresh
+settings use By habitat/rotation ON; schema 1/2/3 migration preserves previous
+choices and uses rotation OFF. The explicit 13/5/1 heuristic, identity/slot/context
+reservation, queue-only rotation consumption and neutral station/Nexus behavior
+are documented in [HABITAT-SELECTION](../research/HABITAT-SELECTION.md). Unknown
+planet data waits; no approved owned group skips with one notice; temporary
+ineligibility or placement waits. Native mappings, eligibility, limits, saves
+and the existing no-respawn-after-dismissal rule remain unchanged.
+
+The separate `090-r1` candidate passed aggregate tests, real-framework checks
+of all seven shared preference paths, and Python plus Windows PowerShell 5.1
+read-only preflights. It contains eight original icons and has not deployed or
+launched. The next combined live test must check visible habitat
+selection/rotation and the seventh control alongside ordinary pet actions,
+cancellation, save switching and remapped/controller input. Keep the running
+artifact untouched until normal closure and an appropriate fresh backup.
+
 Status as of 28 September 2026. Working plan; neither the mod nor its page has been publicly published. The canonical source project is in a private GitHub repository; this file is maintained in `docs/release/`. References below to documents under `CompanionAutoSummon/` mean documents at the root of the repository and distribution package.
 
 The owner-created Nexus account is `LineumDynamics`; its authentic company
@@ -46,13 +69,13 @@ other preferences stayed unchanged. This does not verify the other five
 controls, held input, remapping or controllers. Monetization is summarized in
 the [current rules review](MONETIZATION.md).
 
-All 14 catalogs have 41 keys. Two new keys preserve the full title as a proper
+The new source has 46 keys in each of 14 catalogs, with thirteen unreviewed translations. The retained 0.8.7 catalogs had 41 keys. Two new keys preserve the full title as a proper
 name and translate the author-credit phrase; three launcher compatibility
 messages now use the full title. Native captions and in-game notices are
 unchanged. Thirteen translations still await language review; an in-game
 author credit has not been implemented.
 
-Localized text composition is now prepared outside the game package: all 1,666
+Localized text composition is now prepared outside the game package: all 2,086
 language/state combinations fit within existing limits without truncation.
 Actual rendering and automatic language selection are not yet verified.
 A real console-free pyMHF import check also passed, including reproduction of
@@ -61,7 +84,36 @@ does not yet use it; portable installation is not thereby complete. Details:
 [localization](../research/NATIVE-LOCALIZATION-AUDIT.md) and
 [portable runtime](../research/PORTABLE-RUNTIME-AUDIT.md).
 
-## Next combined test 0.8.7
+## Next combined test 0.9.0
+
+Use the separate `build/quick-menu-play-trial-090-r1`, after normal game closure
+and a fresh verified backup. Preserve the old package and existing settings.
+Legacy settings intentionally retain Random/Last selected with rotation OFF;
+enable By habitat and Rotate companions explicitly for their tests.
+
+1. Load the save in an enabled supported location. Check one visible summon,
+   dismiss it, and verify no return until a new load or ship-exit opportunity.
+2. In Quick Menu (default PC X) → Companions → Companion Auto Summon, check
+   seven distinct settings/icons, the complete three-mode cycle, deliberate
+   confirmation, Back/close/reopen, and ordinary manual companion actions.
+   Changing a setting alone must not summon or dismiss a companion.
+3. With By habitat, compare a planet's known category against owned companions.
+   On Lava, Scorched is related and Frozen/Weird are excluded. Repeat exits to
+   observe rotation, using multiple eligible pets within a group where possible.
+   A single or temporarily restricted pool may repeat; a short run cannot prove
+   the long-run 13:5:1 weights.
+4. Check neutral station/Nexus selection, unavailable placement followed by
+   walking to valid terrain, and no-suitable-habitat feedback if the roster
+   permits that scenario. Verify the fixed waiting choice is not silently replaced.
+5. Exercise OFF/ON, per-location switches, legacy Random matching preference,
+   Last selected and settings persistence after a later normal restart. Record
+   the exact mode, location, visible result and artifact for each observation.
+
+Controller/remapped input, roster edits, save switching and multiplayer require
+their own recorded acceptance; untested cases stay open. This plan is not a
+request to alter or sacrifice the player's normal companions for a test.
+
+## Retained 0.8.7 observations and missing checks
 
 The initial load and exit in 0.8.7 have confirmed visible results; broader
 repeatability and Last selected mode do not. Continue the missing checks in
@@ -148,15 +200,15 @@ saved preferences and the background framework runtime.
 
 Windows x64, Steam NMS build 25442159 / Cosmos 7.04, the exact supported NMS.exe fingerprint, pyMHF 0.2.4 and Python 3.11–3.13 x64. Other stores and operating systems are not prerequisites for the first release. Label the first public release a beta with specific verification limits.
 
-First-release features: automatically summon an owned pet after ship exit or successful local save loading; Last manually selected or Random; optional home-biome preference in Random; location controls; preserved settings; waiting for a suitable place. Candidate 0.4.3 adds one deferred opportunity after loading: an appropriate local-player callback handles it with the same delay and native checks as ship exit. No native summon is called during deserialization. Manual dismissal does not trigger repeated automatic summoning. Do not add further features before completing validation. Native game restrictions, ownership and placement remain authoritative.
+First-release feature candidate: automatically summon an owned pet after ship exit or successful local save loading; Last selected, Random or By habitat; optional exact-biome preference in Random; rotation; location controls; preserved settings; waiting for a suitable place. New 0.5.0 behavior remains pending full validation. Candidate 0.4.3 adds one deferred opportunity after loading: an appropriate local-player callback handles it with the same delay and native checks as ship exit. No native summon is called during deserialization. Manual dismissal does not trigger repeated automatic summoning. Do not add further features before completing validation. Native game restrictions, ownership and placement remain authoritative.
 
-Owner requirement: installation must be as simple and reliable as possible. The target workflow is **extract a ZIP and launch one application**, with its own tested environment and no manual Python, pip commands or system changes. This distribution launcher has not yet been created; source candidate 0.4.9 and combined test package 0.8.7 are development variants. Specific requirements are in `INSTALLATION-REQUIREMENTS.md`.
+Owner requirement: installation must be as simple and reliable as possible. The target workflow is **extract a ZIP and launch one application**, with its own tested environment and no manual Python, pip commands or system changes. This distribution launcher has not yet been created; source candidate 0.5.0 and combined candidate 0.9.0 are development variants; running 0.8.7 is retained. Specific requirements are in `INSTALLATION-REQUIREMENTS.md`.
 
 Work order: prepare portable packaging alongside the next combined 0.8.7 test described above. Historical confirmation of station startup and a separate manual dismissal belongs to 0.4.3 / 0.6.2; it does not replace validation of the new candidate. Second-PC testing must use the final player package.
 
-Other confirmed requirements: all source code, comments and docstrings in English; user translations separate. There are 14 catalogs of 41 keys and nine translated launcher compatibility messages. The native menu and HUD do not yet use translations; static UTF-8 evidence does not validate actual fonts, rendering or safe language switching. The authoritative status and requirements are in `CompanionAutoSummon/LOCALIZATION.md`; ongoing documentation rules are in `CompanionAutoSummon/DEVELOPMENT.md`.
+Other confirmed requirements: all source code, comments and docstrings in English; user translations separate. There are 14 catalogs of 46 keys and nine translated launcher compatibility messages. The native menu and HUD do not yet use translations; static UTF-8 evidence does not validate actual fonts, rendering or safe language switching. The authoritative status and requirements are in `CompanionAutoSummon/LOCALIZATION.md`; ongoing documentation rules are in `CompanionAutoSummon/DEVELOPMENT.md`.
 
-The user also requires natural integration with the original game interface: unobtrusive in-game confirmations and X-menu settings. The direction is recorded in `CompanionAutoSummon/DESIGN.md`. The combined candidate contains six actual settings on a shared native subpage and distinct role icons. The temporary pyMHF panel remains a development fallback until native controls pass acceptance. Lifetime, shortcuts, remapping, controllers and complete visual behavior still require validation against the final package.
+The user also requires natural integration with the original game interface: unobtrusive in-game confirmations and X-menu settings. The direction is recorded in `CompanionAutoSummon/DESIGN.md`. The new combined source contains seven settings on one native subpage; the first six role IDs remain stable, and the new rotation icon is included and checked offline. The temporary pyMHF panel remains a development fallback until native controls pass acceptance. Lifetime, shortcuts, remapping, controllers and complete visual behavior still require validation against the final package.
 
 ## Documented baseline
 
