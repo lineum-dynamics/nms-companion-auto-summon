@@ -144,6 +144,15 @@ them establishes data/source consistency, not linguistic or visual acceptance.
 
 ## Future runtime integration
 
+Offline preparation now exists in `tools/native_text.py`. It consumes one
+validated immutable catalog snapshot and renders complete menu/HUD messages
+within the current byte limits, with explicit whole-message English fallback
+for overflow or unsupported locale IDs. All 1,666 current menu/HUD combinations
+fit without fallback. This is not imported by the native mod or play-trial
+bundle. See [the preparation and static evidence](docs/research/NATIVE-LOCALIZATION-AUDIT.md).
+The static language field is identified, but initialization/readiness and actual
+UTF-8 rendering remain unverified; no automatic game-language reader was added.
+
 - Retain the canonical English catalog with stable English keys and named placeholders.
 - Bind the separate UTF-8 locale values to display paths after verifying native encoding. Do not put translated prose into runtime conditionals or use translated labels as persistence values.
 - Keep stable stored settings such as `last_manual` and `random` independent of translated display text.

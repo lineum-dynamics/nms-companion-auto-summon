@@ -26,6 +26,23 @@ This repository is the canonical development location. Keep installed test copie
 
 ## Current implementation
 
+Repository-only native text preparation now renders the existing catalogs from
+an immutable validated snapshot, preserving whole-message state within the
+127-byte menu / 511-byte HUD payload limits. Fifteen focused tests and the
+1,666-case language/state matrix passed. No catalog meaning, production import
+or prepared play-trial payload changed. The exact-build static language field
+is identified; readiness and actual UTF-8/glyph behavior are not verified.
+See [native localization preparation](docs/research/NATIVE-LOCALIZATION-AUDIT.md).
+
+The repository-only noninteractive host import prototype passed seven focused
+tests and a real console-free pyMHF import comparison, including its negative
+control. Existing hosts do not import it. Target-side initialization, host/game
+lifecycle and a portable dependency bundle remain unverified. See
+[portable runtime preparation](docs/research/PORTABLE-RUNTIME-AUDIT.md).
+The full repository developer suite passed 655 tests with no failures or skips,
+including these 22 new preparation tests. The original 633-test evidence above
+still belongs to the unchanged 0.8.5 bundle, not to newly integrated features.
+
 The earned-technology work is an **offline prototype**, separate from both
 production and the prepared combined trial. Its pure model, pinned native-data
 builder and six additional technology catalog entries do not gate the current

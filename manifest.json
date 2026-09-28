@@ -94,11 +94,11 @@
     },
     {
       "path": "DEVELOPMENT.md",
-      "sha256": "88eaccbff82f2611e1d85de4a489f2b33d6fa4da56047314b5e252f74a0180cc"
+      "sha256": "a5566733dd5d3ab8a5c9f0d889f2a5201845b38590a3b283803d069fab1b9026"
     },
     {
       "path": "LOCALIZATION.md",
-      "sha256": "a6fe290af2cd54a7a2c687112f0938bf07273a6ac478356e2d86d5886ae15976"
+      "sha256": "8c92451a99615fc67a2e9bc1689ac38f14fa06b41b9a0186aaafac39a6d72946"
     },
     {
       "path": "DESIGN.md",
@@ -106,11 +106,11 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "5183ed82056e366ae3424a91d7c989bc93ed0c418a8a28a7c951b1e0ad0cb7af"
+      "sha256": "180d2fe60573eda1475489fa1f1949326ebe3cf6e29f9f2864065fe3fe707597"
     },
     {
       "path": "ROADMAP.md",
-      "sha256": "c7652a4ba5fd492b64e1abdd49f2fad0979cd5fd515bcedb65b914e91056fc5d"
+      "sha256": "e521ee009855edeee50cc126294b7165171fd6f5314330f2fb1434a7eeac4806"
     },
     {
       "path": "QUICK-MENU.md",
@@ -118,7 +118,7 @@
     },
     {
       "path": "docs/release/PRIPRAVA-VYDANI.md",
-      "sha256": "43a0998eb7f83411e47e2e8f6df6a8dd070250b8d58685e04885233219174b84"
+      "sha256": "6f43b7af447a16b942ed002fcc2a80cb09f7bfdc655e86e4409984cdefb0bf92"
     },
     {
       "path": "docs/release/INSTALACE-ZADANI.md",
@@ -147,6 +147,14 @@
     {
       "path": "docs/release/MONETIZATION.md",
       "sha256": "c9e73d95bd3b2085fb462bb8b61e0c217cea3a59b1c724a9e57faef094be1790"
+    },
+    {
+      "path": "docs/research/NATIVE-LOCALIZATION-AUDIT.md",
+      "sha256": "1b0a408128922e97796a0c8860d6d5880ad56d73251b877ffaa3ea238baf4df6"
+    },
+    {
+      "path": "docs/research/PORTABLE-RUNTIME-AUDIT.md",
+      "sha256": "9823baa184b454b826260428563e1aa6e5dd885651936b34182168af1fb90b3c"
     },
     {
       "path": "src/policy.py",
@@ -190,7 +198,7 @@
     },
     {
       "path": "tools/validate_locales.py",
-      "sha256": "1a6aaac55db2963c832c6e649ad20ce9519618da4c703ce6c3d8147d61886d34"
+      "sha256": "475cd971510418c5d2b26122cf04605d9503e9a1f10d98ce39431966d42d09d5"
     },
     {
       "path": "tools/quick_menu_toggle.py",

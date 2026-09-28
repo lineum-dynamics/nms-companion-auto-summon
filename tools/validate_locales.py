@@ -255,8 +255,12 @@ def _check_sources(english, source_root):
              "A new HUD notice is outside the catalog's reviewed source scope")
 
 
-def validate(locales_dir=None, source_root=None):
-    """Read explicit paths and return a bounded report, or raise CatalogError."""
+def validated_catalogs(locales_dir=None, source_root=None):
+    """Return the same owned catalog snapshot whose data and source were checked.
+
+    Preparation tools can reuse these bytes without reopening files after their
+    validation. This reads authored files only, never a running game or settings.
+    """
     source_root = Path(source_root) if source_root is not None else ROOT
     directory = Path(locales_dir) if locales_dir is not None else source_root / "locales"
     _require({path.name for path in directory.glob("*.json")} == {code + ".json" for code in LOCALES},
@@ -273,6 +277,12 @@ def validate(locales_dir=None, source_root=None):
         _require(set(catalog["unchanged_keys"]) == unchanged and unchanged <= UNCHANGED_ALLOWED,
                  f"Untranslated English or incorrect unchanged-key declaration: {code}")
     _check_sources(english, source_root)
+    return catalogs
+
+
+def validate(locales_dir=None, source_root=None):
+    """Read explicit paths and return a bounded report, or raise CatalogError."""
+    validated_catalogs(locales_dir, source_root)
     return {"locales": len(LOCALES), "keys_per_locale": len(KEYS), "translated_drafts": len(LOCALES) - 1,
             "scope": SCOPE, "source_text_verified": True,
             "native_runtime_integrated": False, "language_review_verified": False}

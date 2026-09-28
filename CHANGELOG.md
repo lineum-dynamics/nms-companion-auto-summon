@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased research — native text and portable host preparation
+
+- Add an offline native menu/HUD text renderer using an immutable validated catalog snapshot. Preserve current preference/notice semantics, reject invalid data and use a complete English message with an explicit reason when a translation exceeds byte bounds. No truncation, native calls, automatic language detection or runtime integration.
+- Pass fifteen focused text tests and 1,666 current language/state combinations across all fourteen catalogs without overflow fallback. Record exact-build static language-field evidence separately from still-unverified readiness, decoder and glyph behavior.
+- Add a host-only noninteractive pyMHF import prototype and a bounded real subprocess comparison. Seven focused tests passed; ordinary no-console import reproduced `NoConsoleScreenBufferError`, while the adapted import succeeded without test bypasses. Current launchers/configuration are unchanged; injected-side imports, lifecycle and portable distribution remain unverified.
+- The complete developer suite passed 655 tests with no failures or skips, including the 22 new preparation tests. Retained 0.8.5 bundle validation still describes its original 633-test candidate; these tools do not add live acceptance to that artifact.
+- Locale impact: no player-facing text or meaning changed; all 39 keys and all fourteen catalogs remain unchanged. Running 0.8.4 and prepared 0.8.5 stay unchanged.
+
 ## 0.4.8 / 0.8.5 developer candidate — bounded follow-up after logical activity
 
 - Preserve passive post-queue observation after the first matching active index, until the existing 15-second / 4096-callback limit or cancellation. Deduplicate active/pending transitions, including disappearance, within the existing log cap. Terminal diagnostics distinguish whether activity was ever seen and do not claim rendering or a cause of removal.

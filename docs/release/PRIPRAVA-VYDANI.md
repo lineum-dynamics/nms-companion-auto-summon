@@ -10,6 +10,14 @@ podrobnosti uvádí [záznam 0.8.4](../research/LIVE-084.md). Úplné ověření
 hlášek, přemapování, lokalizace a veřejného přenosného spouštěče stále čeká.
 Monetizaci shrnuje [aktuální přehled pravidel](MONETIZATION.md).
 
+Mimo herní balíček je nově připravené skládání přeložených textů: všech 1 666
+kombinací jazyků a stavů se vejde do stávajících limitů bez zkrácení. Samotné
+vykreslení a automatický výběr jazyka ještě ověřené nejsou. Také prošel skutečný
+test importu pyMHF bez konzole, včetně reprodukce původní chyby a jejího vyřešení
+prototypem. Současný spouštěč ho zatím nepoužívá; přenosná instalace tím není
+hotová. Podrobnosti: [lokalizace](../research/NATIVE-LOCALIZATION-AUDIT.md) a
+[přenosný runtime](../research/PORTABLE-RUNTIME-AUDIT.md).
+
 ## Nejbližší společný test 0.8.5
 
 Prioritou je zachytit občasné selhání po načtení v Anomálii. Běžící 0.8.4 se

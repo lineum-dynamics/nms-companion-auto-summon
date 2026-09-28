@@ -27,6 +27,8 @@ PACKAGE_FILES = (
     "docs/research/TECHNOLOGY-PROTOTYPE.md", "docs/research/TECHNOLOGY-RUNTIME-AUDIT.md",
     "docs/research/COMPATIBILITY-GUARD-AUDIT.md",
     "docs/research/LIVE-084.md", "docs/release/MONETIZATION.md",
+    "docs/research/NATIVE-LOCALIZATION-AUDIT.md",
+    "docs/research/PORTABLE-RUNTIME-AUDIT.md",
     "src/policy.py", "src/persistence.py", "src/settings.py", "src/runtime.py",
     "tests/test_policy.py", "tests/test_persistence.py", "tests/test_settings.py",
     "tests/test_runtime.py", "tests/test_launcher.py",
