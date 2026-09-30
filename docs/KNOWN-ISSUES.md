@@ -18,7 +18,7 @@ This page tracks reports against the current public build. A reported symptom is
 
 **Grouped roster:** One 0.10.1 live check showed the settings entry beside grouped companion rows. That does not cover every roster size, menu rebuild or UI-thread lifecycle.
 
-**Fix status:** A feature-branch change now skips an isolated callback on an unexpected thread and rebinds only at a quiescent menu-builder start. It continues to refuse a handoff during an active builder, append, confirmation or trigger transaction. Twenty-five offline menu fixtures pass. This candidate has not been deployed or tested in game and is not part of public file 49367.
+**Fix status:** A feature-branch change now skips an isolated callback on an unexpected thread and rebinds only at a quiescent menu-builder start. It continues to refuse a handoff during an active builder, append, confirmation or trigger transaction. Twenty-five offline menu fixtures pass. On 30 September 2026, the candidate was installed in the local Steam 7.05 test; its startup log confirmed exact-build acceptance, a verified pre-activation snapshot and activation of twelve game hooks plus the binding guard. The owner then confirmed that the settings menu worked and a pet appeared after loading directly from an expedition into the Space Anomaly. The same session log records a successful local save load, an armed opportunity and an accepted summon queue. This is one successful live scenario; it does not establish recovery after death or reliability across menu rebuilds. Public file 49367 remains unchanged; this candidate is not in the download.
 
 ## Other unconfirmed reports
 

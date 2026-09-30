@@ -114,9 +114,14 @@ this is not full menu-lifecycle coverage.
 A feature-branch candidate now skips an isolated callback from an unexpected
 thread and rebinds only at a quiescent menu-builder start. It still fails closed
 if a builder, append, confirmation or trigger transaction crosses threads. All
-25 offline menu fixtures pass. This does not establish the exact game callback
-order or prove the issue fixed; the candidate has not been installed or tested
-in game, and public file 49367 remains unchanged.
+25 offline menu fixtures pass. On 30 September 2026, this candidate was
+installed in the local Steam 7.05 test. Its startup log confirmed exact-build
+acceptance, a verified pre-activation snapshot, and activation of twelve game
+hooks plus the binding guard. The owner then confirmed the settings menu worked
+and a pet appeared after loading directly from an expedition into the Space
+Anomaly. The log records successful local save load, opportunity armed, and
+queue accepted. This one live case does not establish recovery after death or
+reliability across menu rebuilds. Public file 49367 remains unchanged.
 
 Neither finding changes the released ZIP. Teleport and reliable grouped-roster
 menu recovery remain open until a separately versioned candidate is validated.
