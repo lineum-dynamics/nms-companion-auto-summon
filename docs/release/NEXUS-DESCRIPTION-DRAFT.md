@@ -1,6 +1,6 @@
 # Companion Auto Summon for No Man's Sky - by Lineum Dynamics
 
-**PUBLIC EARLY ALPHA PUBLISHED: 28 September 2026, 18:43 CEST. Version: 0.10.0-native-test.**
+**Current public EARLY ALPHA: 0.10.1-native-test.** Nexus file **49367** is Main / Primary; mod-manager downloads are OFF. The current 0.10.1 version, short summary and full English description were visible in the Nexus editor on 30 September 2026. Exact archive, scan and readback evidence is in the [tester handoff](TESTER-HANDOFF.md). Version 0.10.0 and file 49202 are historical. Keep the following internal notes out of the player description.
 
 The page version and the full Description through Credits were saved and read
 back on 28 September 2026. Native file **49202** was subsequently renamed
@@ -34,13 +34,20 @@ not be copied into the player description.
 
 ## Short summary
 
-EARLY ALPHA: automatically bring an owned companion after save loading or ship exit. Last selected, Random or weighted By habitat, with shuffle and Quick Menu settings. Exact Windows/Steam build only. Bugs are possible; back up saves before testing.
+EARLY ALPHA 0.10.1: automatically bring an owned companion after a local save load or ship exit. Last selected, Random or weighted By habitat, with shuffle and Quick Menu settings. Exact Windows/Steam build only. Teleport/death triggers are not included; a menu rebuild issue is under investigation. Back up saves before testing.
 
 ## Description
 
-**EARLY ALPHA / First Public Test — 0.10.0-native-test. Expect bugs, incomplete behaviour and possible crashes. This is an experimental release for Windows 10/11 x64 and the exact Steam build listed below, not a stable release. Make a separate backup of your saves with the game closed before installing or testing.**
+**EARLY ALPHA / Public Test — 0.10.1-native-test. Expect bugs, incomplete behaviour and possible crashes. This is an experimental release for Windows 10/11 x64 and the exact Steam build listed below, not a stable release. Make a separate backup of your saves with the game closed before installing or testing.**
 
-**Confirmed so far:** one player saw a companion appear after ship exit. Appearance after loading the save remains unconfirmed despite an accepted request in the log. Startup reliability, menu operation, restart repeatability, second-PC installation and multiplayer still need testing. The recorded download and scanner checks do not establish gameplay reliability.
+**Confirmed so far:** In an initial 0.10.1 live smoke check on Windows/Steam Cosmos 7.05, the player reported that a companion appeared and the settings entry was visible beside grouped companion rows. The trigger for that observation is not established. In a later session, the player reported no pet and a missing settings page after death. The current-session log recorded a menu callback-thread safety stop, but no death event; the causal link is unknown. Menu actions, menu rebuild recovery, restart repeatability, second-PC installation and multiplayer remain to be tested. The recovery candidate has only passed offline checks and is not included in this public file.
+
+## Known issues in 0.10.1
+
+- **No automatic summon after teleport or death/respawn.** This build creates an opportunity after a successful local save load or ship exit only.
+- **The custom settings page may stop responding after a menu rebuild.** One report described both the pet and settings page missing after death. A session log recorded a UI-thread safety stop, but not a death event; the cause is unconfirmed. One grouped-roster smoke check succeeded, but other rebuilds remain unverified. A recovery candidate is being tested offline and is not in this download.
+
+See the [current Known Issues and test status](https://github.com/lineum-dynamics/nms-companion-auto-summon/blob/main/docs/KNOWN-ISSUES.md). Please report the exact mod/game version, trigger and result, and whether the custom page still opens.
 
 Keep a companion beside you without opening the companion menu after every landing. When you leave your starship or load your local save, the mod checks your settings and asks the game to summon one of your eligible owned companions.
 
@@ -50,7 +57,7 @@ If your landing platform or surrounding terrain is unsuitable, the request can w
 
 This version runs as a native module loaded during normal Steam startup. It needs no Python installation, separate mod launcher or external settings panel. The package's two game folders are merged into your Steam game installation while the game is closed.
 
-## Settings in 0.10.0-native-test
+## Settings in 0.10.1-native-test
 
 Open **Quick Menu → Companions → Companion Auto Summon**. On PC, the default Quick Menu key is **X**. If you have changed your controls, use your assigned Quick Menu key or the game's controller prompt. The mod uses native menu actions. Its settings entry appears before individual pets.
 
@@ -116,9 +123,9 @@ For Last selected, manually summon an owned companion once. Random and By habita
 
 Dismissal does not create another automatic opportunity. Another successful local save load or ship exit can do so. An already active or queued companion also prevents a duplicate request.
 
-**Does it summon after teleporting or deleting a base?**
+**Does it summon after teleporting, death or deleting a base?**
 
-Teleport arrival and base removal do not create a new summon opportunity. A reported missing pet after teleport and disappearance after base removal do not establish why the game removed it. The mod does not automatically respawn pets simply because they disappear, which preserves manual dismissal.
+This build creates automatic opportunities after a successful local save load or ship exit only. Teleport arrival and death/respawn do not currently trigger a request; base removal does not create one either. Manual dismissal or a missing pet does not automatically trigger a respawn. The reported missing menu and pet after death are being tracked; one UI-thread safety stop appeared in the session log, but the log cannot show that death caused it.
 
 **How much has been tested?**
 
@@ -128,12 +135,12 @@ In one subsequent native r3 startup through Steam, the log confirms that the exa
 
 **Why can the custom settings stop responding?**
 
-The retained menu safety guard stops custom menu handling after an unexpected callback thread or overlapping callback, while keeping native quick-binding protection installed. The underlying thread-change limitation is **not fixed by the C++ port**. Automatic summoning has a separate safety latch. Check the native log and restart normally after a safety stop; a stopped menu must not be described as reliable live operation.
+In 0.10.1, a callback arriving on an unexpected UI thread can trip the menu safety guard and stop the custom settings page for the rest of that game session. The owner reported this after dying, and the current-session log contains the thread-change stop, but it does not record a death event or prove the cause. One grouped-roster check did show the settings entry; other menu rebuilds remain unverified. A recovery change is being tested offline and is not in this download. Until a verified update is released, a normal game restart may be needed if the custom page stops responding. Automatic summoning has a separate safety latch.
 
 ## Selection and shuffle rules
 
 
-**Implemented in the first public test release, 0.10.0-native-test; full live acceptance is pending.** The native port retains the existing selection balance and explicit rules below. Offline comparisons against the previous implementation do not prove visible in-game outcomes.
+**Implemented in the 0.10.1-native-test public build; full live acceptance is pending.** The native port retains the existing selection balance and explicit rules below. Offline comparisons against the previous implementation do not prove visible in-game outcomes.
 
 ### Choose how your companion is selected
 
@@ -190,7 +197,7 @@ Adopting or abandoning companions updates the cycle. Renaming or reordering slot
 
 ### New-install defaults and upgrades
 
-A fresh 0.10.0-native-test configuration uses **By habitat + Shuffle companions ON**, automation ON and all three supported locations ON. The Random biome preference is also ON but only applies if you select Random. Existing 0.8.x preferences retain their previous mode, location and ON/OFF choices; the new shuffle option starts OFF for those upgrades. Existing 0.9.0 settings, including the shuffle choice, remain unchanged. Changing a setting does not immediately summon or dismiss a pet: the next ship exit or successful local save load supplies a new opportunity.
+A fresh 0.10.1-native-test configuration uses **By habitat + Shuffle companions ON**, automation ON and all three supported locations ON. The Random biome preference is also ON but only applies if you select Random. Existing 0.8.x preferences retain their previous mode, location and ON/OFF choices; the new shuffle option starts OFF for those upgrades. Existing 0.9.0 settings, including the shuffle choice, remain unchanged. Changing a setting does not immediately summon or dismiss a pet: the next ship exit or successful local save load supplies a new opportunity.
 
 ## Source and bug reports
 
@@ -220,11 +227,11 @@ The archive includes component and statically linked runtime licence notices. Ge
 
 ## Internal readiness and metadata — do not publish this section
 
-- Current artifact: **0.10.0-native-test**, unchanged and available as the Main / Primary Nexus file and the GitHub prerelease asset. Its immutable ZIP is 3,725,420 bytes with SHA-256 `e00a8818230dba24066fcdc4d75a01d696c9e2573d2538aa6a9b05c5dd14bebb`. Nexus currently shows Safe to use and a Manual download; its linked scan was 0/68. These are bounded file checks, not safety guarantees.
+- Current artifact: **0.10.1-native-test**, available as Nexus file 49367, Main / Primary, and the GitHub prerelease asset. Its immutable ZIP is 3,725,689 bytes with SHA-256 `51cf81c7cc48e835a1f9f14f96ced93d2a32b56200c5c079e23f2b0f17331116`. Nexus says Safe to use and its linked VirusTotal SHA-256 matches the local ZIP; owner manual-download bytes were not read back. These are bounded checks, not safety guarantees.
 - Nexus mod **4579** was published as EARLY ALPHA at **28 September 2026, 18:43 CEST**. The GitHub repository is public with default branch `main`; prerelease `v0.10.0-native-test` and its matching ZIP were read back on **30 September 2026**. Preserve the approved title/byline, author **Lineum Dynamics**, category **Creatures**, media and **AI-Generated Content** / **AI Media** disclosure tags.
 - Installation is the two-folder native overlay described above. The native r3 log records one normal Steam startup, exact-executable acceptance, completed pre-activation backup, twelve hooks plus binding guard enabled, local save load and two accepted queue requests. The player confirms visible appearance after ship exit; startup appearance remains uncertain, not an established failure. The menu remains unconfirmed. Retain the exact package identity, verify startup appearance, and complete restart, controls, placement, second-PC and multiplayer acceptance. Native compiled files are not exempt from Nexus or antivirus review.
 - Earlier upload records are retained in the Nexus archive, not clearance for the native package: **49195** (0.9.1 development trial) had a 0/65 ZIP report despite the Nexus suspicious-file state; **49196** (0.9.2-test) was quarantined with ZIP 3/60 and launcher 8/70; **49197** (0.9.3-test) was quarantined with ZIP 1/58 and later launcher 3/71. Their exact hashes and bounded evidence remain in the scan records and [TESTER-HANDOFF](TESTER-HANDOFF.md). Do not delete or rewrite those uploads or infer a false-positive cause.
 - The unchanged ZIP is available through the public Nexus page and GitHub prerelease. The owner-account download matched its recorded hash. The second Windows/Steam tester has not yet confirmed receipt, installation or gameplay; multiplayer remains unverified.
 - Source: [canonical public repository](https://github.com/lineum-dynamics/nms-companion-auto-summon). Future commits use `core@lineum.io`; historical author metadata remains unchanged. No open-source licence for the original mod is implied by repository visibility.
 - Donation Points eligibility and payment destinations still need checks. No verified company payment URL or in-game donation notice is configured. Do not invent a service, link, revenue promise or request to support staff. Existing external-contact restrictions remain in force.
-- The alpha does not summon on teleport arrival or base removal and does not respawn after manual dismissal. Recent logs confirm a custom-menu safety stop on `menu_unexpected_thread`; whether the owner-reported grouped roster caused the thread change is unconfirmed. Diagnose the callback phase before changing the guard. Rechargeable technology and complete native localization remain future work; habitat weighting stays **13:5:1**.
+- 0.10.1 has no teleport/death trigger and does not respawn after manual dismissal. The owner reported a missing pet and custom page after death; a session log recorded `menu_unexpected_thread`, but no death event, so causality is unknown. A feature-branch recovery candidate passes 25 offline menu scenarios but has not been deployed or tested live. The full distinction between published behavior, report and candidate fix is recorded in [Known Issues](../KNOWN-ISSUES.md). Rechargeable technology and complete native localization remain future work; habitat weighting stays **13:5:1**.

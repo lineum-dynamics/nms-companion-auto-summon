@@ -102,13 +102,25 @@ a large companion list. Recent native logs contain `menu_unexpected_thread`,
 which proves the menu safety guard stopped custom callbacks after a callback
 thread change. Those logs do not identify whether grouped entries caused the
 thread change. The adapter also assumes the original companion-page ordering.
-Do not remove the safety guard based only on this correlation. A candidate must
-record the failing callback phase and inspect the grouped-list shape, then keep
-paired game callbacks on their owning thread and preserve refusal on overlap.
+
+In a later play session the owner reported that after dying, no pet appeared
+and the custom settings page was missing. The current 0.10.1 log also records
+`menu_unexpected_thread`; it contains no death event, so it cannot establish
+that death caused the thread change. No automatic summon opportunity is
+currently created by death/respawn. One earlier 0.10.1 smoke check did show the
+settings entry beside grouped companion rows; the later report makes clear that
+this is not full menu-lifecycle coverage.
+
+A feature-branch candidate now skips an isolated callback from an unexpected
+thread and rebinds only at a quiescent menu-builder start. It still fails closed
+if a builder, append, confirmation or trigger transaction crosses threads. All
+25 offline menu fixtures pass. This does not establish the exact game callback
+order or prove the issue fixed; the candidate has not been installed or tested
+in game, and public file 49367 remains unchanged.
 
 Neither finding changes the released ZIP. Teleport and reliable grouped-roster
-menu support remain unimplemented until a separately versioned candidate is
-validated.
+menu recovery remain open until a separately versioned candidate is validated.
+Track the current player-facing status in [Known Issues](../KNOWN-ISSUES.md).
 
 The ZIP is retained in the originating task's deliverables; publish only the
 filename and hash, never a developer-machine path. Packaging receipts retain
