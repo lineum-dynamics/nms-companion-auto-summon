@@ -11,6 +11,12 @@ downloaded-byte readback and scanner clearance are not established. Retained
 Python versions and observations below are unchanged. See the
 [native implementation and bounds](native/README.md).
 
+The 0.10.1 runtime creates opportunities after successful local save loading
+and ship exit only. It has no automatic trigger after teleport or death/respawn.
+The owner reported that both the pet and settings page were absent after death;
+the session log also contains a menu thread-guard stop, but does not establish
+that death caused it. See the [current issue record](docs/KNOWN-ISSUES.md).
+
 Current packaging candidate: **0.9.3-test**. It extracts the original Python
 standard library to remove the nested ZIP prohibited by Nexus, supplies accurate
 Windows product/company/version metadata and the actual launcher build inputs,
@@ -186,6 +192,8 @@ not start another game, reset preferences or attempt a native HUD notification.
 Loading directly on foot should offer the same automatic-companion behavior as a ship exit. Successful local load completion records one opportunity; it does not call native summoning or prove the world is ready. A later local ownership update waits for a supported enabled location, advancing time and the remembered identity or eligible Random pool. A missing favourite during initial ownership loading is retried at the existing 0.5-second pace. The normal 1.5-second stability delay, ownership rules and placement checks remain unchanged. Random can work session-only with a zero save ID; Last-manual mode never guesses an identity from another save.
 
 Use the existing **Automatically summon companion** toggle for both triggers. OFF, a settings change, accepted manual selection, an active/queued pet, companion preview/emote, ship entry or an invalidated load/application context cancels the opportunity. The load opportunity is consumed before the normal request is armed, so dismissing a summoned pet does not create a recurring respawn. Another successful local load or real ship exit supplies a new opportunity. Network-client loads must not affect the local player's intent. There is no separate startup setting, shorter delay or changed gameplay limit.
+
+Death/respawn is not an opportunity in the current release. Do not infer a death callback from a disappearance, position change or respawn animation; identify a verified local completion event before adding a separate setting. The default-on rule applies if a reversible death trigger is later verified and implemented.
 
 ## Defaults for new automatic-summon options
 

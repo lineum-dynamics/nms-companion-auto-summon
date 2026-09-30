@@ -1,5 +1,20 @@
 # Changelog
 
+## Unreleased follow-up — 30 September 2026
+
+- Record the report that after death the pet was absent and the custom settings
+  page was missing. The published build has no death/respawn opportunity, and
+  the recorded `menu_unexpected_thread` stop does not prove that death caused
+  the UI-thread change.
+- Keep teleport-arrival and death/respawn triggers as separate unimplemented
+  behaviors until each has a verified local completion event.
+- Test a recoverable menu-thread handoff: skip a one-off callback from an
+  unexpected thread and rebind only at a quiescent builder start. Preserve the
+  fail-closed guard during in-flight menu/trigger transactions. All 25 offline
+  menu scenarios pass; no live test or public package is claimed.
+- Add a canonical Known Issues page and require matching current summaries in
+  the repository README and Nexus description.
+
 ## 0.10.1-native-test — 30 September 2026
 
 - Map the native runtime to the exact Steam Cosmos 7.05 executable using a
