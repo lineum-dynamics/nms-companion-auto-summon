@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.10.1-native-test — 30 September 2026
+
+- Map the native runtime to the exact Steam Cosmos 7.05 executable using a
+  separate native profile; retain the legacy Python profile for Cosmos 7.04.
+- Update native gameplay hooks, companion/placement fields, notifications,
+  quick-menu actions, binding filter and texture-resource lookups.
+- Record the static address evidence and reusable game-update mapping process.
+- Pass 403 core regression tests, 790 tooling tests, and the complete native
+  policy, selector, storage, runtime, backup and owned-host validation suite;
+  read back the exact 30-file release archive. The owner confirmed a visible
+  pet and mod-menu entry beside grouped companions in a limited Cosmos 7.05 smoke test;
+  full-menu, long-session, location-matrix, teleport and multiplayer behavior
+  remain unverified. Nexus file **49367** is Main / Primary; the public page says
+  Safe to use and its linked VirusTotal SHA-256 matches the local archive. Edge
+  blocked the owner's manual download, so downloaded bytes were not read back.
+- Plan teleport arrival as a separate follow-up trigger. Use the game's native
+  manual eligibility and placement checks; never force a summon where manual
+  summoning is unavailable. Preserve explicit settings and localize any new
+  setting/feedback across all fourteen game-language catalogs.
+- Follow-up report: one direct load into the Space Anomaly had no visible pet.
+  An Anomaly mission was incomplete beforehand, but no causal link is known;
+  repeat under controlled conditions before treating it as a confirmed defect.
+- Keep this labelled an early test build. The bounded smoke report does not
+  establish broad 7.05 compatibility; see the [tester handoff](docs/release/TESTER-HANDOFF.md)
+  and [compatibility evidence](docs/research/NATIVE-0705-COMPATIBILITY.md).
+
 ## 0.10.0-native-test — 28 September 2026
 
 - Implement native automation, exact policy/selector parity, settings/favorite

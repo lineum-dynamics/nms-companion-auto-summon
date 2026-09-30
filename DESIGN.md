@@ -1,11 +1,14 @@
 # Companion Auto Summon for No Man's Sky — player experience
 
-The **0.10.0-native-test** branch implements the existing controls and summon
-rules in a native plugin. Its two-folder overlay supports normal Steam startup,
-without Python or an external settings panel. Its private backup runs before
-native hooks, with NMS already running; it is not a pre-launch backup. Retained
-Python versions and observations below are unchanged. Offline parity does not
-establish native gameplay, language rendering or scanner clearance. See the
+The **0.10.1-native-test** native release maps the existing controls and summon
+rules to the exact Steam Cosmos 7.05 executable. Its two-folder overlay supports
+normal Steam startup, without Python or an external settings panel. Its private
+backup runs before native hooks, with NMS already running; it is not a pre-launch
+backup. The owner confirmed a visible pet and menu entry in a limited live smoke
+test, then reported one direct Anomaly load without a visible pet; an incomplete
+mission may or may not be related. Nexus file **49367** is Main / Primary; broad gameplay acceptance,
+downloaded-byte readback and scanner clearance are not established. Retained
+Python versions and observations below are unchanged. See the
 [native implementation and bounds](native/README.md).
 
 Current packaging candidate: **0.9.3-test**. It extracts the original Python

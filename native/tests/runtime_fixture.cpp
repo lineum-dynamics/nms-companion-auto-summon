@@ -22,9 +22,9 @@ using Json = nlohmann::json;
 using cas::Address;
 constexpr Address base = 0x10000000, app = 0x20000000, solar = 0x30000000;
 constexpr Address common = 0x40000000, action = 0x50000000, menu = 0x60000000;
-constexpr Address player = app + 0x71C690, owner = app + 0xE10D0;
-constexpr Address active = app + 0x29A1C0, queued = player + 0x6010;
-constexpr Address app_pointer = base + 0x6E7AAE8;
+constexpr Address player = app + 0x72C6F0, owner = app + 0xE10D0;
+constexpr Address active = app + 0x29A1C0, queued = player + 0x6020;
+constexpr Address app_pointer = base + 0x6E89688;
 
 void require(bool condition, const char* message) {
     if (!condition) throw std::runtime_error(message);
@@ -65,15 +65,15 @@ struct Fixture {
         // This is a test-only caller-selected directory; production paths are
         // never discovered. Constructing the runtime itself performs no writes.
         cas::SettingsStore(directory / L"settings.json").save_preferences(prefs);
-        put<Address>(app_pointer, app); put<float>(base+0x52381E0, 12.0f);
-        put<Address>(app+0x71AF70, solar);
+        put<Address>(app_pointer, app); put<float>(base+0x527AB34, 12.0f);
+        put<Address>(app+0x72AFB0, solar);
         put<int>(solar+0x2544, 1); put<int>(solar+0x5196D0, 0);
         put<std::uint32_t>(solar+0x6148, 0); put<std::uint32_t>(solar+0x614C, 0);
         put<int>(app+0x57A584, 3); put<int>(active, -1); put<int>(queued, -1);
         put<int>(owner+0x1B9300, -1); put<std::uint8_t>(owner+0x1B937D, 0);
         put<std::uint64_t>(player+0x2A8, 123); put<std::uint32_t>(app+0x30E7FC, 0);
         put<std::uint64_t>(common+0x8980, 0x42);
-        put<std::uint32_t>(app+0x837B40+0x28C, 0); put<float>(app+0x4BF50C, -1);
+        put<std::uint32_t>(app+0x847BB0+0x28C, 0); put<float>(app+0x4BF50C, -1);
         put<int>(action+4, 46); put<int>(action+0x84, 0);
         for (int slot = 0; slot < 30; ++slot) {
             put<std::uint32_t>(owner+slot*0x24A0+0x2370, 0);
@@ -99,7 +99,7 @@ struct Fixture {
             require(actual == owner+0x1B9140 && one == 12 && two == 12 && hand == 0, "Placement arguments changed");
             ++placements; once(on_placement);
         };
-        services.use_hand = [] { return false; };
+        services.dominant_hand = [] { return 0; };
         services.queue = [this](Address actual,int slot) {
             require(actual == player, "Nonlocal summon service called"); queues.push_back(slot);
             once(on_queue);
@@ -183,7 +183,7 @@ std::vector<std::pair<std::string,Test>> cases() {
     add("control-revision-prevents-stale-replay",[](auto dir) { Fixture f(dir); std::uint64_t rev; require(f.runtime->capture(0,&rev),"Capture failed"); require(f.runtime->change(0,rev),"Initial change failed"); require(!f.runtime->change(0,rev),"Stale menu revision replayed"); f.runtime->afterPlayer(player,.05f); require(!cas::SettingsStore(dir/L"settings.json").load(),"Stale replay undid OFF"); });
     add("control-cycle-and-captions",[](auto dir) { Fixture f(dir); char caption[128]{}; for(int role=-1;role<=6;++role) require(f.runtime->caption(role,caption) && caption[0],"Missing menu caption"); f.toggle(1); require(cas::SettingsStore(dir/L"settings.json").load_preferences().selection_mode=="last_manual","Mode cycle from habitat"); f.toggle(1); require(cas::SettingsStore(dir/L"settings.json").load_preferences().selection_mode=="random","Mode cycle from last"); f.toggle(1); require(cas::SettingsStore(dir/L"settings.json").load_preferences().selection_mode=="by_habitat","Mode cycle from random"); require(!f.runtime->caption(7,caption),"Invalid role accepted"); });
     add("hud-delivery-failure-does-not-stop-automation",[](auto dir) { Fixture f(dir); f.pet(0); f.fail_notice=true; f.toggle(2); require(f.runtime->enabled() && f.notice_calls==1,"Cosmetic native error stopped runtime"); require(!cas::SettingsStore(dir/L"settings.json").load_preferences().prefer_same_biome,"Cosmetic failure lost persisted control"); f.fail_notice=false; f.toggle(6); f.exit(); f.run(); require(f.queues.size()==1 && f.runtime->enabled(),"Cosmetic failure blocked later automatic summon"); require(f.notice_calls==1 && f.notices.empty(),"Disabled HUD retried delivery"); });
-    for (const auto offset: {Address(0x837B40+0x28C),Address(0x4BF50C)}) tests.emplace_back("hud-state-read-failure-"+std::to_string(offset),[offset](auto dir) { Fixture f(dir); f.pet(0); for(Address byte=app+offset;byte<app+offset+4;++byte)f.memory.erase(byte); f.toggle(2); require(f.runtime->enabled(),"Cosmetic readiness read error stopped runtime"); f.put<std::uint32_t>(app+0x837B40+0x28C,0);f.put<float>(app+0x4BF50C,-1);f.toggle(6);f.exit();f.run();require(f.queues.size()==1 && f.notice_calls==0,"Failed HUD readiness path was retried or blocked automation"); });
+    for (const auto offset: {Address(0x847BB0+0x28C),Address(0x4BF50C)}) tests.emplace_back("hud-state-read-failure-"+std::to_string(offset),[offset](auto dir) { Fixture f(dir); f.pet(0); for(Address byte=app+offset;byte<app+offset+4;++byte)f.memory.erase(byte); f.toggle(2); require(f.runtime->enabled(),"Cosmetic readiness read error stopped runtime"); f.put<std::uint32_t>(app+0x847BB0+0x28C,0);f.put<float>(app+0x4BF50C,-1);f.toggle(6);f.exit();f.run();require(f.queues.size()==1 && f.notice_calls==0,"Failed HUD readiness path was retried or blocked automation"); });
     add("queue-rejection-retains-identity",[](auto dir) { Fixture f(dir); f.pet(0); f.pet(1); f.reject_queue=true; f.exit(); f.run(160); require(f.queues.size()>2,"Queue rejection did not retry"); require(std::all_of(f.queues.begin(),f.queues.end(),[&](int s){return s==f.queues[0];}),"Rejection rerolled companion"); auto previous=f.queues.size(); f.reject_queue=false; f.run(); require(f.queues.size()==previous+1,"Accepted retry repeated"); f.clear_pet(); f.run(); require(f.queues.size()==previous+1,"Acceptance was not consumed"); });
     add("unexpected-queued-slot-stops-runtime",[](auto dir) { Fixture f(dir); f.pet(0); f.unexpected_queue=true; f.exit(); f.run(); require(!f.runtime->enabled(),"Unexpected game queue failed open"); });
     add("shuffle-advances-only-accepted",[](auto dir) { Fixture f(dir); f.pet(0); f.pet(1); for(int i=0;i<4;++i){f.clear_pet();f.exit();f.run();} require(f.queues.size()==4,"Four exits did not produce four requests"); for(std::size_t i=1;i<f.queues.size();++i) require(f.queues[i]!=f.queues[i-1],"Two-companion rotation repeated consecutively"); });

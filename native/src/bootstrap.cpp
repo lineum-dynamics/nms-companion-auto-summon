@@ -175,18 +175,18 @@ void resourcesHook(void* menu) { const bool started=active(); resources_original
 struct Hook { std::uint32_t rva; void* callback; void** original; };
 template<class F> void* function(F pointer) { return reinterpret_cast<void*>(pointer); }
 std::vector<Hook> hooks() {
-    return {{0x146AC90,function(queueHook),reinterpret_cast<void**>(&queue_original)},
-            {0x1440CD0,function(playerHook),reinterpret_cast<void**>(&player_original)},
-            {0x5066A0,function(ownerHook),reinterpret_cast<void**>(&owner_original)},
-            {0x17479D0,function(ejectHook),reinterpret_cast<void**>(&eject_original)},
-            {0x1479490,function(enterHook),reinterpret_cast<void**>(&enter_original)},
-            {0x56FA50,function(loadHook),reinterpret_cast<void**>(&load_original)},
-            {0x1526940,function(triggerHook),reinterpret_cast<void**>(&trigger_original)},
-            {0x151ED00,function(builderHook),reinterpret_cast<void**>(&builder_original)},
-            {0x1523220,function(labelHook),reinterpret_cast<void**>(&label_original)},
-            {0x1533980,function(appendHook),reinterpret_cast<void**>(&append_original)},
-            {0x15311C0,function(confirmHook),reinterpret_cast<void**>(&confirm_original)},
-            {0x151AD80,function(resourcesHook),reinterpret_cast<void**>(&resources_original)}};
+    return {{0x14738E0,function(queueHook),reinterpret_cast<void**>(&queue_original)},
+            {0x14494F0,function(playerHook),reinterpret_cast<void**>(&player_original)},
+            {0x508D30,function(ownerHook),reinterpret_cast<void**>(&owner_original)},
+            {0x17521C0,function(ejectHook),reinterpret_cast<void**>(&eject_original)},
+            {0x1481F60,function(enterHook),reinterpret_cast<void**>(&enter_original)},
+            {0x572C40,function(loadHook),reinterpret_cast<void**>(&load_original)},
+            {0x152FEF0,function(triggerHook),reinterpret_cast<void**>(&trigger_original)},
+            {0x15282B0,function(builderHook),reinterpret_cast<void**>(&builder_original)},
+            {0x152C7D0,function(labelHook),reinterpret_cast<void**>(&label_original)},
+            {0x153CF40,function(appendHook),reinterpret_cast<void**>(&append_original)},
+            {0x153A770,function(confirmHook),reinterpret_cast<void**>(&confirm_original)},
+            {0x1524330,function(resourcesHook),reinterpret_cast<void**>(&resources_original)}};
 }
 
 DWORD WINAPI initialize(void*) noexcept {
@@ -209,8 +209,8 @@ DWORD WINAPI initialize(void*) noexcept {
         const auto base = reinterpret_cast<Address>(GetModuleHandleW(nullptr));
         const auto definitions = hooks();
         for (const auto& hook : definitions) prefix(image.h,base,hook.rva);
-        for (const auto rva : {0x146A410u,0x505B70u,0x1438040u,0x60B770u,0x9B8300u,0x1432FC0u,0x150FAC0u,0xEC0670u,0x2D5C890u}) prefix(image.h,base,rva);
-        const auto binding_prefix = prefix(image.h,base,0x2C1DDE0);
+        for (const auto rva : {0x1473060u,0x508200u,0x14407F0u,0x14855F0u,0x9BD8E0u,0x143B720u,0x1518EF0u,0xEC6850u,0x2D65980u}) prefix(image.h,base,rva);
+        const auto binding_prefix = prefix(image.h,base,0x2C25B40);
         wchar_t name[128]{}; std::swprintf(name,128,L"Local\\CompanionAutoSummon.Native.%lu",GetCurrentProcessId());
         instance_mutex = CreateMutexW(nullptr,FALSE,name);
         require(instance_mutex && GetLastError() != ERROR_ALREADY_EXISTS,"Another native CAS instance exists");
@@ -234,17 +234,17 @@ DWORD WINAPI initialize(void*) noexcept {
             do { require(BCryptGenRandom(nullptr,reinterpret_cast<PUCHAR>(&value),sizeof value,BCRYPT_USE_SYSTEM_PREFERRED_RNG) >= 0,"Random provider unavailable"); } while (value >= maximum);
             return static_cast<std::size_t>(value % bound);
         };
-        services.owned = [base](Address owner,int slot) { return reinterpret_cast<bool(*)(void*,int)>(base+0x505B70)(reinterpret_cast<void*>(owner),slot); };
-        services.can_summon = [base](Address player,int slot) { return reinterpret_cast<bool(*)(void*,int)>(base+0x146A410)(reinterpret_cast<void*>(player),slot); };
-        services.use_hand = [base] { return reinterpret_cast<bool(*)()>(base+0x60B770)(); };
-        services.placement = [base](Address arc,float a,float b,std::uint32_t hand) { reinterpret_cast<void(*)(void*,float,float,std::uint32_t)>(base+0x1438040)(reinterpret_cast<void*>(arc),a,b,hand); };
+        services.owned = [base](Address owner,int slot) { return reinterpret_cast<bool(*)(void*,int)>(base+0x508200)(reinterpret_cast<void*>(owner),slot); };
+        services.can_summon = [base](Address player,int slot) { return reinterpret_cast<bool(*)(void*,int)>(base+0x1473060)(reinterpret_cast<void*>(player),slot); };
+        services.dominant_hand = [base] { return reinterpret_cast<std::uint32_t(*)()>(base+0x14855F0)(); };
+        services.placement = [base](Address arc,float a,float b,std::uint32_t hand) { reinterpret_cast<void(*)(void*,float,float,std::uint32_t)>(base+0x14407F0)(reinterpret_cast<void*>(arc),a,b,hand); };
         // This original trampoline bypasses only our own attribution detour.
         services.queue = [](Address player,int slot) { queue_original(reinterpret_cast<void*>(player),slot); };
         services.notice = [base](Address app,const std::string& message) {
             alignas(16) float colour[4]{1,1,1,1};
             std::uint32_t icon = menu_adapter ? menu_adapter->notificationIcon() : 0;
             using Notice = void(*)(void*,void*,float,void*,std::uint32_t,void*,bool,float,bool,bool,bool);
-            reinterpret_cast<Notice>(base+0x9B8300)(reinterpret_cast<void*>(app+0x837B40),const_cast<char*>(message.c_str()),5.5f,colour,0,&icon,false,0.f,false,false,icon == 0);
+            reinterpret_cast<Notice>(base+0x9BD8E0)(reinterpret_cast<void*>(app+0x847BB0),const_cast<char*>(message.c_str()),5.5f,colour,0,&icon,false,0.f,false,false,icon == 0);
         };
         runtime = new cas::Runtime(std::move(services),data);
         binding = new cas::BindingGuard(); menu_adapter = new cas::MenuAdapter();

@@ -13,8 +13,8 @@
 
 namespace cas {
 namespace {
-constexpr std::uintptr_t get_button_rva=0x2C1DDE0;
-[[maybe_unused]] constexpr std::uintptr_t bind_return_rva=0x151DDEB;
+constexpr std::uintptr_t get_button_rva=0x2C25B40;
+[[maybe_unused]] constexpr std::uintptr_t bind_return_rva=0x152739B;
 bool range(std::uintptr_t pointer, std::size_t size) {
     return size && pointer>=0x10000 && pointer<=0x7FFFFFFFFFFFULL-size+1;
 }

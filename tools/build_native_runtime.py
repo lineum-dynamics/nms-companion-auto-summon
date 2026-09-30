@@ -5,9 +5,10 @@ import re
 from pathlib import Path
 from build_native_probe import ROOT, digest, run
 from generate_native_catalog import generate
+from native_compatibility import load_native_profile
 from validate_compatibility import validate
 
-VERSION = "0.10.0-native-test"
+VERSION = "0.10.1-native-test"
 
 
 def main():
@@ -19,11 +20,12 @@ def main():
     if not output.is_relative_to(ROOT / "build") or output.exists():
         raise ValueError("Use a new directory beneath build")
     profile_report = validate(source_root=ROOT, developer=True, generated=True)
-    profile = json.loads((ROOT / "compatibility.json").read_text(encoding="utf-8"))
+    profile = load_native_profile(ROOT / "native_compatibility.json")
     native = ROOT / "native"
     sources = sorted(p for p in native.rglob("*") if p.is_file())
     sources += sorted((ROOT / "locales").glob("*.json"))
-    sources += [ROOT / "compatibility.json", Path(__file__), ROOT / "tools/generate_native_catalog.py"]
+    sources += [ROOT / "compatibility.json", ROOT / "native_compatibility.json",
+                ROOT / "tools/native_compatibility.py", Path(__file__), ROOT / "tools/generate_native_catalog.py"]
     before = {p.relative_to(ROOT).as_posix(): digest(p) for p in sources}
     output.mkdir(parents=True)
     generated = output / "generated"
@@ -52,8 +54,8 @@ def main():
     resource = output / "version.rc"
     resource.write_text('''#include <windows.h>
 1 VERSIONINFO
-FILEVERSION 0,10,0,0
-PRODUCTVERSION 0,10,0,0
+FILEVERSION 0,10,1,0
+PRODUCTVERSION 0,10,1,0
 FILEFLAGSMASK 0x3fL
 FILEFLAGS VS_FF_PRERELEASE
 FILEOS VOS_NT_WINDOWS32
@@ -65,9 +67,9 @@ BEGIN
   BEGIN
    VALUE "CompanyName", "Lineum Dynamics\\0"
    VALUE "FileDescription", "Companion Auto Summon for No Man's Sky - native test\\0"
-   VALUE "FileVersion", "0.10.0-native-test\\0"
+   VALUE "FileVersion", "0.10.1-native-test\\0"
    VALUE "ProductName", "Companion Auto Summon for No Man's Sky - by Lineum Dynamics\\0"
-   VALUE "ProductVersion", "0.10.0-native-test\\0"
+   VALUE "ProductVersion", "0.10.1-native-test\\0"
    VALUE "OriginalFilename", "CompanionAutoSummon.asi\\0"
   END
  END

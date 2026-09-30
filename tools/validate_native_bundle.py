@@ -9,6 +9,7 @@ import subprocess
 import sys
 import tempfile
 from build_native_probe import ROOT, digest
+from native_compatibility import load_native_profile
 
 
 def main():
@@ -17,6 +18,8 @@ def main():
     args = parser.parse_args()
     directory = args.build.resolve(strict=True)
     receipt = json.loads((directory / "build-receipt.json").read_text(encoding="utf-8"))
+    if receipt.get("compatibility") != load_native_profile(ROOT / "native_compatibility.json"):
+        raise ValueError("Native build receipt targets a different executable profile")
     for name, expected in receipt["products"].items():
         if digest(directory/name) != expected["sha256"]:
             raise ValueError("Built product changed: " + name)

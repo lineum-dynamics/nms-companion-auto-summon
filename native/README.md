@@ -1,15 +1,18 @@
-# Native runtime test candidate 0.10.0
+# Native runtime test candidate 0.10.1
 
-`0.10.0-native-test` implements the existing automation path in C++: local-save
+`0.10.1-native-test` implements the existing automation path in C++: local-save
 startup and ship-exit opportunities, deferred native placement, Last selected /
 Random / By habitat selection, session rotation, persisted preferences and
 manual favorites, the seven-control quick-menu page and DDS icons. Normal
 startup uses pinned Ultimate ASI Loader through Steam; no Python host or
 external settings panel is used.
 
-The actual current process executable must match `compatibility.json` before
-game integration. Each native target is compared against the locked verified
-image before hook creation. Unsupported images are refused. Startup errors use
+The native test candidate targets the exact executable in
+`native_compatibility.json`. The owner confirmed a visible pet and mod-menu
+entry beside grouped companion entries in a limited live 7.05 smoke test; full
+compatibility acceptance is not established. Each native target is compared
+against the locked image before hook creation. Unsupported images are refused.
+Startup errors use
 the maintained Windows-language catalogs; in-game menu/HUD remain English.
 Thirteen translation catalogs remain drafts, not verified language support.
 
