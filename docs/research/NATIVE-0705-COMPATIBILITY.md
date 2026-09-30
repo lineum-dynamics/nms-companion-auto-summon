@@ -39,6 +39,20 @@ profile. It does not identify native addresses or validate any hook. The
 published alpha must continue to reject this image until the evidence below is
 complete.
 
+## Preliminary static address check
+
+The PE exception-function table in this exact 7.05 executable was parsed
+read-only and compared with the 22 existing function-entry RVAs: twelve game
+detours, nine direct-call targets, and the `GetButton` filter target. All 22
+fall inside recorded function ranges, and none is the start of its containing
+range. Therefore the 7.04 function-entry map cannot be carried into 7.05; these
+addresses must not be hooked or called as if they were verified entries.
+
+This check establishes boundaries only. It does not identify replacement
+functions or validate their semantics, ABI, object layouts, callback callers,
+or any required memory fields. No replacement addresses have been approved.
+Keep the 7.05 integration disabled while rebuilding and verifying the map.
+
 ## Required 7.05 evidence
 
 1. After Steam finishes updating, record the actual installed executable's full
