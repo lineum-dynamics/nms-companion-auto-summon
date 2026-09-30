@@ -1,4 +1,59 @@
-# 0.10.0-native-test public alpha handoff
+# Native public alpha handoff
+
+## 0.10.1-native-test — public Cosmos 7.05 test build
+
+This version targets only the exact Windows x64 Steam Cosmos 7.05 executable
+with SHA-256
+`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+The readback-verified archive is `CompanionAutoSummon-0.10.1-native-test.zip`
+(30 files, 3,725,689 bytes; SHA-256
+`51cf81c7cc48e835a1f9f14f96ced93d2a32b56200c5c079e23f2b0f17331116`). Its
+module SHA-256 is
+`29f6a18636a379c7d8cfd0d135b4966bdc73df6f53771373ce122ef910aa40a8`.
+
+Offline checks passed: 403 core regression tests, 790 tooling tests; 31,216
+native-policy command/state comparisons; 25,733 selector comparisons;
+333 storage cases / 721 operations;
+59 runtime cases; 16 backup checks; and six owned-host refusal/no-side-effect
+runs. The existing loader and all eight icons matched the package. The old
+0.10.0 module was retained with a verified hash for rollback. A fresh, verified
+closed-game backup contains 52 save files and two preference/state files.
+
+The 0.10.1 module is installed locally and has passed an initial live smoke
+check. On 30 September the owner reported that a pet appeared and the mod
+settings entry stayed visible beside grouped companion entries. This is not a
+full test of menu actions, every location, long-session stability, second-PC
+use or multiplayer. The unchanged ZIP is publicly listed on Nexus as file
+**49367**, Main / Primary, with mod-manager downloads OFF. Its VirusTotal link
+shows the same SHA-256 as the local archive, and the public mod page reports
+**Safe to use**. The file-specific summary was corrected and read back from the
+public listing on 30 September; it identifies 0.10.1-native-test, the exact
+Cosmos 7.05 build, the bounded smoke result and simple install steps. An owner
+manual-download attempt was blocked by Edge (`ERR_BLOCKED_BY_CLIENT`), so a
+downloaded-byte readback is not verified.
+
+| Field | 0.10.1 test candidate |
+| --- | --- |
+| ZIP / SHA-256 | `CompanionAutoSummon-0.10.1-native-test.zip` / `51cf81c7cc48e835a1f9f14f96ced93d2a32b56200c5c079e23f2b0f17331116` |
+| Module SHA-256 | `29f6a18636a379c7d8cfd0d135b4966bdc73df6f53771373ce122ef910aa40a8` |
+| GitHub source commit | `9460855250db58086ebd56ccbe0b71035bf66ee9` on `main` |
+| Game target | Windows 10/11 x64, Steam Cosmos 7.05 / build 25624745, exact executable hash required |
+| Local stage | Installed with NMS closed after verified save/preferences backup; old module retained |
+| Live NMS test | Initial smoke passed: player reports a visible pet and menu entry beside grouped companions |
+| Nexus file / scan / download readback | 49367, Main / Primary; correct summary publicly read back; linked VirusTotal SHA matches local ZIP and page says Safe to use; Edge blocked manual download, so bytes not read back |
+| Second PC / multiplayer | Pending |
+
+### Unconfirmed direct-load observation
+
+In a later test, the player reported no visible pet after loading directly into
+the Space Anomaly. An Anomaly mission had not been completed before the player
+appeared there; whether that is related is unknown. The report does not
+distinguish a missing request from a delayed or unnoticed appearance. Treat it
+as one unresolved observation, not a general Anomaly or mission-related defect;
+repeat under controlled settings before changing behavior or compatibility
+claims.
+
+## Retained 0.10.0-native-test public alpha handoff
 
 The native candidate is packaged, offline-validated and installed for the first
 local test. Its first Steam session logged successful native activation and two
@@ -32,13 +87,15 @@ archived with their own historical scan records.
 ## Issues reported after the public alpha
 
 On 30 September 2026 the owner reported that arriving by teleport does not
-summon a companion and asked for teleport as an optional trigger. The released
-candidate has no teleport-arrival hook. A later candidate should add a separate
-Quick Menu toggle, apply the existing location switches and native summon
-eligibility, and arm only after verified arrival readiness. Recommended fresh
-install default: ON, consistent with the other automatic triggers; an upgrade
-from an existing settings file should preserve prior choices and leave the new
-trigger OFF until the player enables it.
+summon a companion. The released candidate has no teleport-arrival hook. A later
+candidate should add a separate Quick Menu toggle, observe a verified arrival,
+and create an automatic opportunity only where the game's existing manual
+summon eligibility allows it. The implementation must use the native eligibility
+check and normal placement rules; it must never force a summon where manual
+summoning is unavailable. Default the reversible trigger ON for fresh installs
+and set it ON on upgrade only when the new preference is absent; preserve any
+existing explicit player choice. Update all fourteen game-language catalogs
+with the setting and its feedback.
 
 The owner also reported that the settings page disappears when the game groups
 a large companion list. Recent native logs contain `menu_unexpected_thread`,

@@ -9,8 +9,8 @@
 
 namespace cas {
 namespace {
-constexpr Address app_rva = 0x6E7AAE8, local_player = 0x71C690, location_offset = 0x57A584;
-constexpr Address active_pet = 0x29A1C0, queued_pet = 0x6010, pet_table = 0xE10D0;
+constexpr Address app_rva = 0x6E89688, local_player = 0x72C6F0, location_offset = 0x57A584;
+constexpr Address active_pet = 0x29A1C0, queued_pet = 0x6020, pet_table = 0xE10D0;
 constexpr Address pet_stride = 0x24A0, pet_seed = 0x2330, pet_birth = 0x23C0;
 constexpr Address pet_resource = 0x2370, pet_biome = 0x2480, preview = 0x1B9300, emote = 0x1B937D;
 bool supported(int location) { return location == 2 || location == 3 || location == 14; }
@@ -64,7 +64,7 @@ std::optional<int> Runtime::petHabitat(Address app, int slot) const {
     return biome <= 15 && concrete(static_cast<int>(biome)) ? std::optional<int>(biome) : std::nullopt;
 }
 std::optional<int> Runtime::planetHabitat(Address app) const {
-    const auto solar = read<Address>(app + 0x71AF70);
+    const auto solar = read<Address>(app + 0x72AFB0);
     if (!solar) return {};
     const auto count = read<int>(solar + 0x2544), index = read<int>(solar + 0x5196D0);
     if (count < 1 || count > 6 || index < 0 || index >= count) return {};
@@ -227,9 +227,9 @@ bool Runtime::probe(Address app, Address owner, Address player, int location, do
     else for (int slot = 0; slot < 30; ++slot) if (occupied(app,slot) && services_.owned(owner,slot)) candidates.push_back(slot);
     if (candidates.empty()) { resetProbe(now+.5); return false; }
     if (!safe_ || epoch != epoch_ || !policy_.pending() || requested_) return false;
-    const auto range = read<float>(services_.base+0x52381E0);
+    const auto range = read<float>(services_.base+0x527AB34);
     if (!std::isfinite(range) || range <= 0) throw std::runtime_error("Invalid placement range");
-    const auto hand = services_.use_hand() ? read<std::uint32_t>(app+0x30E7FC) : 0;
+    const auto hand = services_.dominant_hand();
     if (!safe_ || epoch != epoch_ || !policy_.pending() || requested_ || appFor(player) != app) return false;
     services_.placement(owner+0x1B9140,range,range,hand);
     if (!safe_ || epoch != epoch_ || !policy_.pending() || requested_) return false;
@@ -440,7 +440,7 @@ void Runtime::afterPlayer(Address player, float dt) noexcept {
         if (notice_disabled_) { notice_.clear(); return; }
         if (notice_.empty() || !std::isfinite(dt) || dt <= 0) return;
         try {
-            if (read<std::uint32_t>(app+0x837B40+0x28C) > 3 || !(read<float>(app+0x4BF50C) < 0)) return;
+            if (read<std::uint32_t>(app+0x847BB0+0x28C) > 3 || !(read<float>(app+0x4BF50C) < 0)) return;
             // Consume before the native call. Cosmetic delivery cannot retry a
             // partially accepted message or stop gameplay automation on failure.
             const auto message = std::move(notice_); notice_.clear(); services_.notice(app,message);

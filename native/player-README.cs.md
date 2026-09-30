@@ -1,6 +1,6 @@
 # Companion Auto Summon for No Man's Sky - by Lineum Dynamics
 
-**0.10.0-native-test — neveřejná testovací verze.** Windows 10/11, 64bit, Steam.
+**0.10.1-native-test — testovací sestavení pro Cosmos 7.05.** Windows 10/11, 64bit, Steam.
 Balíček je připravený k prvnímu běžnému spuštění přes Steam. Spuštění ve hře,
 skutečné objevení peta, multiplayer ani průchod kontrolou Nexusu zatím nejsou
 ověřené. Před prvním testem si ponechte samostatnou zálohu z vypnuté hry.
@@ -72,9 +72,11 @@ herní časovače ani neobchází pravidla běžného vyvolávání.
 
 ## Kompatibilita, ukládání a zálohy
 
-Podporovaný je pouze spustitelný soubor **Steam Cosmos 7.04, build 25442159**,
-SHA-256 `b7913f268dfc62386b6b68f524bfc8ade4a44a9f4fbad39085b7bf51be3680cb`.
-Modul před zapojením svých herních funkcí ověří skutečný spustitelný soubor.
+Tato testovací verze cílí pouze na **Steam Cosmos 7.05, build 25624745**,
+SHA-256 `671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+Kandidát před zapojením herních funkcí ověří skutečný spustitelný soubor. Shoda
+v této kontrole sama o sobě nepotvrzuje kompatibilitu; tato verze ještě čeká
+na řízený test ve hře.
 Neznámou nebo změněnou verzi odmítne a zobrazí lokalizované upozornění. Tím není
 ověřena každá možná kombinace s ostatními módy. Konzole, Game Pass, GOG, macOS
 a Linux/Proton tato testovací verze nepodporuje.

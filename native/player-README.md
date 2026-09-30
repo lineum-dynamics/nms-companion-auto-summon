@@ -1,6 +1,6 @@
 # Companion Auto Summon for No Man's Sky - by Lineum Dynamics
 
-**0.10.0-native-test — private test candidate.** Windows 10/11, 64-bit, Steam.
+**0.10.1-native-test — Cosmos 7.05 test build.** Windows 10/11, 64-bit, Steam.
 This candidate is prepared for its first normal Steam launch. Its live startup,
 pet appearance, multiplayer behavior and Nexus scan clearance are not yet
 verified. Keep a separate closed-game backup before the first test.
@@ -69,9 +69,11 @@ lower gameplay limits, shorten game timers or bypass the native summon rules.
 
 ## Compatibility, settings and backups
 
-The only supported executable is **Steam Cosmos 7.04, build 25442159**, SHA-256
-`b7913f268dfc62386b6b68f524bfc8ade4a44a9f4fbad39085b7bf51be3680cb`.
-The module checks the running executable before installing its gameplay hooks.
+This test candidate targets only **Steam Cosmos 7.05, build 25624745**, SHA-256
+`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+The candidate checks the running executable before installing its gameplay hooks.
+Passing that exact-build check does not prove live compatibility; this build
+still requires the controlled in-game test described above.
 An unknown or changed build is refused with a localized warning. This does not
 verify every possible interaction with other mods. Consoles, Game Pass, GOG,
 macOS and Linux/Proton are not supported by this candidate.

@@ -1,12 +1,20 @@
 # Companion Auto Summon development guide
 
-Current native branch: **0.10.0-native-test** implements automation, selection,
-settings/favorites, native quick menu/icons and guarded direct-Steam startup in
-C++. The Python distribution below is preserved. See [native runtime](native/README.md)
+Current native release: **0.10.1-native-test** implements automation,
+selection, settings/favorites, native quick menu/icons and guarded direct-Steam
+startup in C++. It targets the exact Steam Cosmos 7.05 build/hash profile.
+Offline checks passed. The owner confirmed a pet appeared and the mod menu entry
+remained visible beside a grouped roster; this is a limited smoke test, not full
+compatibility acceptance. Nexus file **49367** is Main / Primary; its page says
+Safe to use and the linked VirusTotal SHA-256 matches the local archive. Edge
+blocked the owner's manual download, so downloaded bytes have not been read
+back. The Python distribution below is preserved. See [native runtime](native/README.md)
 for exact offline checks and pre-hook versus closed-game backup guarantees.
-Live native gameplay and Nexus acceptance remain separate gates. The native
-activation-error message is maintained across all fourteen catalogs (64 keys);
-menu/HUD remain English.
+Long-session, full-menu, location-matrix, teleport and multiplayer behavior
+remain unverified. One later direct load into the Anomaly had no visible pet;
+the player had an incomplete Anomaly mission, but any connection is unknown.
+The native activation-error message is maintained across all fourteen catalogs
+(64 keys); menu/HUD remain English.
 
 Native feasibility milestone 1 is now on `feat/native-runtime-feasibility`:
 an inert x64 DLL and a separate pure C++ policy with 31,216 Python-oracle
@@ -439,6 +447,7 @@ Only the current source and new packages receive the new names. Historical test 
 - `docs/research/LIVE-084.md`: failed Nexus startup, successful later ship exit with another Random pet, and limits of the current evidence.
 - `docs/release/MONETIZATION.md`: dated primary-source policy review, proposed free distribution and unsent clarification drafts.
 - `ROADMAP.md`: canonical unfinished release backlog and explicitly unapproved future proposals; update status and evidence as decisions are made.
+- `docs/research/NATIVE-UPDATE-MAP.md`: repeatable exact-build mapping workflow, evidence levels and worksheet for native game updates.
 - `LOCALIZATION.md`: localization status, target languages and implementation/verification requirements.
 - `CHANGELOG.md`: version-scoped changes; update with each user-visible behavior or distribution change.
 - `TECHNICAL-VERIFICATION.md`: canonical English technical evidence and version-scoped history. Retained private evidence is named as an external record; it is not distributed or linked through nonexistent repository paths.

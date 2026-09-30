@@ -3,6 +3,7 @@
 #include "cas/selection.hpp"
 #include "cas/storage.hpp"
 #include <atomic>
+#include <cstdint>
 #include <functional>
 #include <mutex>
 #include <thread>
@@ -16,7 +17,7 @@ struct RuntimeServices {
     std::function<void(Address, void*, std::size_t)> read;
     std::function<bool(Address,int)> owned, can_summon;
     std::function<void(Address,float,float,std::uint32_t)> placement;
-    std::function<bool()> use_hand;
+    std::function<std::uint32_t()> dominant_hand;
     std::function<void(Address,int)> queue;
     std::function<void(Address,const std::string&)> notice;
     std::function<void(const char*)> log;

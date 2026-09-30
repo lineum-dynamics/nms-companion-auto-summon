@@ -18,10 +18,11 @@ import tempfile
 import zipfile
 
 from quick_menu_assets import ASSET_HASHES, DESTINATION, _checked_path, validate_asset
+from native_compatibility import load_native_profile
 
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.10.0-native-test"
+VERSION = "0.10.1-native-test"
 TITLE = "Companion Auto Summon for No Man's Sky - by Lineum Dynamics"
 LOADER_SHA256 = "fa266e3513d02c08a1b808f28c10538a489eaffaa4b0707f7cc1066e71b5afd7"
 LOADER_BYTES = 3615928
@@ -125,7 +126,7 @@ def payload(build: Path, loader: Path) -> tuple[dict[str, bytes], dict]:
     product = receipt.get("products", {}).get("CompanionAutoSummon.asi")
     if product != {"sha256": digest(asi), "bytes": len(asi)}:
         raise ValueError("Native module does not match its build receipt")
-    profile = read_json(read_file(ROOT / "compatibility.json"))
+    profile = load_native_profile(ROOT / "native_compatibility.json")
     if receipt.get("compatibility") != profile:
         raise ValueError("Native module targets a different compatibility profile")
     sources = receipt.get("sources")
