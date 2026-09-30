@@ -39,6 +39,12 @@ profile. It does not identify native addresses or validate any hook. The
 published alpha must continue to reject this image until the evidence below is
 complete.
 
+After that check, the owner reported that the existing package showed its
+Windows refusal dialog correctly: it said the game version was not verified,
+identified supported build `25442159`, and stated that the mod was not
+activated. This is live evidence for the visible mismatch-warning path only;
+it does not establish 7.05 gameplay or hook compatibility.
+
 ## Preliminary static address check
 
 The PE exception-function table in this exact 7.05 executable was parsed
