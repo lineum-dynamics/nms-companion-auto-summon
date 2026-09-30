@@ -21,6 +21,24 @@ The exact-file guard must continue to refuse unknown executables before hooks or
 native game calls. Do not treat an updated version label or successful process
 startup as proof that the 7.04 addresses still apply.
 
+## Installed Steam snapshot
+
+Checked after the owner reported the Steam update complete, on 30 September
+2026. Steam reports the 275850 app installed (`StateFlags` 4), with all reported
+downloaded and staged byte counts complete. Its manifest BuildID is `25624745`;
+this is Steam depot metadata, not the game's patch number. The installed
+`NMS.exe` reports file/product version `180383`, size `88,545,352` bytes, and
+SHA-256:
+
+`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`
+
+The executable's recorded modification time is `2026-09-30T10:54:00.8767362Z`.
+No NMS process was running during this read-only check. This confirms the local
+Steam update completed and the executable differs from the supported 7.04
+profile. It does not identify native addresses or validate any hook. The
+published alpha must continue to reject this image until the evidence below is
+complete.
+
 ## Required 7.05 evidence
 
 1. After Steam finishes updating, record the actual installed executable's full
