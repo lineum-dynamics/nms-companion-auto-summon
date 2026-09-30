@@ -36,6 +36,7 @@ downloaded-byte readback is not verified.
 | --- | --- |
 | ZIP / SHA-256 | `CompanionAutoSummon-0.10.1-native-test.zip` / `51cf81c7cc48e835a1f9f14f96ced93d2a32b56200c5c079e23f2b0f17331116` |
 | Module SHA-256 | `29f6a18636a379c7d8cfd0d135b4966bdc73df6f53771373ce122ef910aa40a8` |
+| GitHub source commit | `9460855250db58086ebd56ccbe0b71035bf66ee9` on `main` |
 | Game target | Windows 10/11 x64, Steam Cosmos 7.05 / build 25624745, exact executable hash required |
 | Local stage | Installed with NMS closed after verified save/preferences backup; old module retained |
 | Live NMS test | Initial smoke passed: player reports a visible pet and menu entry beside grouped companions |
