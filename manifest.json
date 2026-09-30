@@ -1408,8 +1408,43 @@
     "validation_record": "docs/research/NATIVE-0100-VALIDATION.md",
     "gameplay_verified": false,
     "multiplayer_verified": false,
-    "nexus_acceptance_verified": false,
-    "public_release": false,
+    "nexus_acceptance_verified": true,
+    "nexus": {
+      "mod_id": 4579,
+      "file_id": 49202,
+      "version": "0.10.0-native-test",
+      "mod_status": "Published EARLY ALPHA",
+      "public_test_release_authorized": true,
+      "publication_verified": true,
+      "published_at": "2026-09-28T18:43:00+02:00",
+      "category": "Main",
+      "primary": true,
+      "mod_manager_downloads": false,
+      "retained_older_file_ids": [49195, 49196, 49197],
+      "older_files_archived": true,
+      "individual_file_safe_indicator": true,
+      "virustotal": {
+        "sha256": "e00a8818230dba24066fcdc4d75a01d696c9e2573d2538aa6a9b05c5dd14bebb",
+        "detections": 0,
+        "engines": 68,
+        "analysis_utc": "2026-09-28T16:15:13Z"
+      },
+      "owner_download": {
+        "route": "Manual download / Slow download",
+        "completed": true,
+        "bytes": 3725420,
+        "sha256": "e00a8818230dba24066fcdc4d75a01d696c9e2573d2538aa6a9b05c5dd14bebb",
+        "original_package_match": true
+      },
+      "page_version_and_description_readback": true,
+      "approved_title_summary_and_ai_tags_preserved": true,
+      "overall_page_warning": "Public page shows Safe to use after older uploads were archived; scanner status is not a safety guarantee",
+      "download_template_notice": "Before publication, archived-version notice appeared while file was Miscellaneous and download succeeded; file is now Main / Primary",
+      "second_tester_received_or_installed": false,
+      "scope": "Public EARLY ALPHA page, native Main / Primary file, Safe to use status, 0/68 scan and matching owner download verified; no safety guarantee or gameplay completion claim"
+    },
+    "public_release": true,
+    "public_release_status": "Nexus EARLY ALPHA published and read back; GitHub visibility and prerelease pending verification",
     "scope": "Preserves Python artifacts. See native/README.md and current tester handoff."
   }
 }

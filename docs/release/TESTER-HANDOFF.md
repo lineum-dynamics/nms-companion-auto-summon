@@ -1,13 +1,15 @@
-# 0.10.0-native-test private tester handoff
+# 0.10.0-native-test public alpha handoff
 
 The native candidate is packaged, offline-validated and installed for the first
 local test. Its first Steam session logged successful native activation and two
 accepted summon queues. The player confirmed a visible pet after ship exit.
 **Post-load appearance is uncertain:** the initial report of no pet was
 immediately qualified with the possibility that it was overlooked. No startup
-failure is established. Menu/UI acceptance, normal restart, second-PC use,
-multiplayer and Nexus clearance are not yet established. Keep mod 4579
-Unpublished; older files remain separate history.
+failure is established. Menu/UI acceptance, normal restart, second-PC use and
+multiplayer remain unverified. The exact ZIP is publicly downloadable as Nexus
+file **49202**, with a verified owner-account download matching its hash. The
+public Nexus page and GitHub repository are available. Older files remain
+archived with their own historical scan records.
 
 | Field | Current native candidate |
 | --- | --- |
@@ -22,7 +24,34 @@ Unpublished; older files remain separate history.
 | Installation evidence | Fresh verified closed-game backup; module/loader created; eight existing icons matched |
 | First native session | Actual executable verified, private pre-activation snapshot verified, twelve hooks plus guard active, local load observed, two queues accepted |
 | Player appearance report | Visible pet after ship exit confirmed; post-load appearance uncertain, not an established failure |
-| Remaining player/distribution acceptance | Controlled startup repeat, menu, restart, second PC, multiplayer and Nexus still pending; Python scan results do not apply to this ZIP |
+| Nexus native file | 49202, Main / Primary; mod-manager downloads OFF; public page shows Safe to use |
+| Exact native ZIP scan | Linked VirusTotal 0/68, analysis 28 September 2026 at 16:15:13 UTC |
+| Owner-account download | Manual download → Slow download succeeded; 3,725,420 bytes and SHA-256 matched the frozen ZIP |
+| Remaining player acceptance | Controlled startup repeat, menu, restart, second PC and multiplayer still pending |
+
+## Issues reported after the public alpha
+
+On 30 September 2026 the owner reported that arriving by teleport does not
+summon a companion and asked for teleport as an optional trigger. The released
+candidate has no teleport-arrival hook. A later candidate should add a separate
+Quick Menu toggle, apply the existing location switches and native summon
+eligibility, and arm only after verified arrival readiness. Recommended fresh
+install default: ON, consistent with the other automatic triggers; an upgrade
+from an existing settings file should preserve prior choices and leave the new
+trigger OFF until the player enables it.
+
+The owner also reported that the settings page disappears when the game groups
+a large companion list. Recent native logs contain `menu_unexpected_thread`,
+which proves the menu safety guard stopped custom callbacks after a callback
+thread change. Those logs do not identify whether grouped entries caused the
+thread change. The adapter also assumes the original companion-page ordering.
+Do not remove the safety guard based only on this correlation. A candidate must
+record the failing callback phase and inspect the grouped-list shape, then keep
+paired game callbacks on their owning thread and preserve refusal on overlap.
+
+Neither finding changes the released ZIP. Teleport and reliable grouped-roster
+menu support remain unimplemented until a separately versioned candidate is
+validated.
 
 The ZIP is retained in the originating task's deliverables; publish only the
 filename and hash, never a developer-machine path. Packaging receipts retain
@@ -30,10 +59,24 @@ their pre-deployment false flags; the later controlled installation and live
 log evidence are documented separately in
 [NATIVE-0100-VALIDATION](../research/NATIVE-0100-VALIDATION.md).
 
+The saved page version is 0.10.0-native-test, with the full native description
+read back through Credits. The approved title/byline, updated alpha summary and
+existing AI tags were retained. The mod was published on 28 September 2026 at
+18:43 CEST. Native file 49202 is Main / Primary with mod-manager downloads OFF;
+older files 49195, 49196 and 49197 remain archived. The page shows **Safe to
+use** and offers a Manual download. Before publication, the file was listed as
+Miscellaneous and its download template displayed an archived-version notice;
+the owner still retrieved and hash-verified it. That historical notice does
+not describe the current Main / Primary listing. This does not establish that
+the second tester has received or installed the ZIP.
+
 ## Native tester procedure
 
-1. Use the exact ZIP above and read its English or Czech README. Close the game
-   and retain a separate closed-game save backup for the first installation.
+1. The owner can download **file 49202** from the public Nexus page and
+   pass the unchanged ZIP to the second tester. Verify the hash above and read
+   its English or Czech README. Close the game and retain a separate
+   closed-game save backup for the first installation. The verified download
+   recorded here was performed by the owner, not on the second PC.
 2. Open Steam's **Manage → Browse local files** for No Man's Sky. Extract the
    ZIP and merge its `Binaries` and `GAMEDATA` folders into this game root.
    Do not overwrite a different existing `Binaries/winmm.dll`; the guide gives

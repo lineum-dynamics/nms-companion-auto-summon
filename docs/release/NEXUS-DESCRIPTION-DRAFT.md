@@ -1,12 +1,22 @@
 # Companion Auto Summon for No Man's Sky - by Lineum Dynamics
 
-**UNPUBLISHED NEXUS DRAFT. Current prepared copy: 0.10.0-native-test.**
+**PUBLIC EARLY ALPHA PUBLISHED: 28 September 2026, 18:43 CEST. Version: 0.10.0-native-test.**
 
-This file is the prepared description, not evidence that Nexus has saved it or
-accepted the new archive. Mod **4579** remains the existing unpublished page
-owned by **LineumDynamics**. The exact title above and author field **Lineum
-Dynamics** are unchanged. Preserve the existing approved media and disclosure
-tags. Update this preparation status only after actual page/file readback.
+The page version and the full Description through Credits were saved and read
+back on 28 September 2026. Native file **49202** was subsequently renamed
+**Companion Auto Summon - ALPHA 0.10.0** and set as the **Main / Primary** file,
+with mod-manager downloads OFF. Nexus displays the new file
+as safe; its exact ZIP VirusTotal report showed **0/68** when checked at
+**18:19 CEST** (analysis timestamp **16:15:13 UTC**). An actual manual download
+completed and its SHA-256 matches the uploaded 3,725,420-byte archive:
+`e00a8818230dba24066fcdc4d75a01d696c9e2573d2538aa6a9b05c5dd14bebb`.
+These file results apply to file 49202, not the older retained files. Mod
+**4579** is now **Published**, owned by **LineumDynamics**, with the exact title
+above and author **Lineum Dynamics**. The public page shows its original upload
+at **28 September 2026, 6:43PM**, the updated EARLY ALPHA summary and description,
+one current file, Manual download, and **Safe to use**. All three earlier
+uploads are retained in the archive. Preserve the approved media and disclosure
+tags. Public GitHub source is authorized; its visibility is verified separately.
 
 One native r3 startup through Steam is now recorded: the log confirms exact
 executable acceptance, a completed pre-activation backup, all twelve hooks and
@@ -14,18 +24,22 @@ the binding guard enabled, a successful local save load, and two accepted
 summon queue requests. Subsequent player feedback confirms a visible pet after
 ship exit. **Visible appearance after loading the save is uncertain**, so the
 accepted startup queue does not establish successful visible startup summoning.
-The menu, restart repeatability, second-PC installation, multiplayer and scanner
-clearance remain unverified.
-Keep the page unpublished. The final section contains internal records and
-must not be copied into the player description.
+The menu, restart repeatability, second-PC installation and multiplayer remain
+unverified. Native file 49202's recorded scan and verified download do not
+establish gameplay reliability or permanent scanner acceptance.
+Proceed with the authorized Nexus publication, then public GitHub visibility,
+and verify both. The final section contains internal records and must not be
+copied into the player description.
 
 ## Short summary
 
-Automatically bring along an owned companion after loading your save or leaving your starship. Choose Last selected, Random or weighted By habitat selection, with optional shuffle. Configure it in the native Quick Menu. The game's summoning and placement rules still apply.
+EARLY ALPHA: automatically bring an owned companion after save loading or ship exit. Last selected, Random or weighted By habitat, with shuffle and Quick Menu settings. Exact Windows/Steam build only. Bugs are possible; back up saves before testing.
 
 ## Description
 
-**0.10.0-native-test is a private test candidate, not a stable release. A player confirmed a visible pet after ship exit. Visible appearance after loading the save is not confirmed despite an accepted request in the log. Startup reliability, menu operation, restart repeatability and multiplayer still need testing.**
+**EARLY ALPHA / First Public Test — 0.10.0-native-test. Expect bugs, incomplete behaviour and possible crashes. This is an experimental release for Windows 10/11 x64 and the exact Steam build listed below, not a stable release. Make a separate backup of your saves with the game closed before installing or testing.**
+
+**Confirmed so far:** one player saw a companion appear after ship exit. Appearance after loading the save remains unconfirmed despite an accepted request in the log. Startup reliability, menu operation, restart repeatability, second-PC installation and multiplayer still need testing. The recorded download and scanner checks do not establish gameplay reliability.
 
 Keep a companion beside you without opening the companion menu after every landing. When you leave your starship or load your local save, the mod checks your settings and asks the game to summon one of your eligible owned companions.
 
@@ -118,7 +132,7 @@ The retained menu safety guard stops custom menu handling after an unexpected ca
 ## Selection and shuffle rules
 
 
-**Implemented in 0.10.0-native-test; live acceptance and public release are pending.** The native port retains the existing selection balance and explicit rules below. Offline comparisons against the previous implementation do not prove visible in-game outcomes.
+**Implemented in the first public test release, 0.10.0-native-test; full live acceptance is pending.** The native port retains the existing selection balance and explicit rules below. Offline comparisons against the previous implementation do not prove visible in-game outcomes.
 
 ### Choose how your companion is selected
 
@@ -177,6 +191,21 @@ Adopting or abandoning companions updates the cycle. Renaming or reordering slot
 
 A fresh 0.10.0-native-test configuration uses **By habitat + Shuffle companions ON**, automation ON and all three supported locations ON. The Random biome preference is also ON but only applies if you select Random. Existing 0.8.x preferences retain their previous mode, location and ON/OFF choices; the new shuffle option starts OFF for those upgrades. Existing 0.9.0 settings, including the shuffle choice, remain unchanged. Changing a setting does not immediately summon or dismiss a pet: the next ship exit or successful local save load supplies a new opportunity.
 
+## Source and bug reports
+
+Source repository: [Companion Auto Summon on GitHub](https://github.com/lineum-dynamics/nms-companion-auto-summon).
+
+Reports from this early alpha help establish what works across installations. Please include:
+
+- Mod version, exact game version/build, Windows version and confirmation that the game is the Steam edition.
+- The steps to reproduce the problem, what you expected, what happened and whether it happens again after a normal restart.
+- Your location: planet and habitat if known, space station or Space Anomaly; also whether you had just loaded a save, left a ship or teleported.
+- Selection mode, Shuffle setting, automation/location switches, and whether an eligible companion was already active or could be summoned manually.
+- Other installed mods or ASI loaders, and whether the previous Python/pyMHF launcher was running.
+- A relevant excerpt from the native log in **%LOCALAPPDATA%/NMS-AutoPet/logs**, plus a screenshot or short recording if it helps explain the behaviour. Remove personal paths or identifiers before sharing; do not upload saves or credentials.
+
+An accepted queue entry in a log is useful evidence, but please also say whether the pet actually appeared. For a crash, include the last action before it and any relevant Windows or game error text. Keep your backup until you are satisfied with the result. Close the game before changing installed files; the uninstall instructions above explain how to disable the module without deleting your settings or backups.
+
 ## Credits and disclosure
 
 - [Ultimate ASI Loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader), **9.7.4 x64**, by ThirteenAG. The package includes the unmodified pinned loader and its notices.
@@ -190,11 +219,11 @@ The archive includes component and statically linked runtime licence notices. Ge
 
 ## Internal readiness and metadata — do not publish this section
 
-- Current prepared candidate and description: **0.10.0-native-test**. Copy only the Short summary into Nexus's summary field and the Description through Credits into its description field. This document does not establish that the live form has been saved, a file uploaded, a scan cleared or the owner download verified. Record those only after actual readback.
-- Keep mod **4579 Unpublished**, the exact approved full title/byline, author **Lineum Dynamics**, category **Creatures**, existing approved media and **AI-Generated Content** / **AI Media** disclosure tags. Do not replace the saved tags with AI Assisted. Publication remains unauthorized.
+- Current artifact: **0.10.0-native-test**, unchanged. The prior ALPHA summary, page version and Description through Credits were saved and read back; this stronger EARLY ALPHA warning, source link and bug-report guidance are prepared for the next save. Native file **49202**, now **Companion Auto Summon - ALPHA 0.10.0**, is **Main / Primary**, with mod-manager downloads OFF. Nexus shows this new file as safe. Its linked exact-ZIP VirusTotal report was **0/68**, checked at **18:19 CEST on 28 September 2026**, analysis **16:15:13 UTC**. A completed manual download matched the uploaded **3,725,420-byte** ZIP SHA-256 **e00a8818230dba24066fcdc4d75a01d696c9e2573d2538aa6a9b05c5dd14bebb**. This records file-specific acceptance and successful download, not a clean status for all older files or the whole page, malware-proof status, or completed public release.
+- The owner explicitly authorized publishing the first public **EARLY ALPHA** on Nexus, then making the canonical GitHub repository public, followed by improvements. The temporary pause was revoked by the instruction to continue. Publish had not been clicked at the last readback. Complete the authorized operations in order and record actual public readback; do not claim either visibility change prematurely. Preserve mod **4579**, the exact approved full title/byline, author **Lineum Dynamics**, category **Creatures**, media and **AI-Generated Content** / **AI Media** disclosure tags. Do not replace the saved tags with AI Assisted.
 - Installation is the two-folder native overlay described above. The native r3 log records one normal Steam startup, exact-executable acceptance, completed pre-activation backup, twelve hooks plus binding guard enabled, local save load and two accepted queue requests. The player confirms visible appearance after ship exit; startup appearance remains uncertain, not an established failure. The menu remains unconfirmed. Retain the exact package identity, verify startup appearance, and complete restart, controls, placement, second-PC and multiplayer acceptance. Native compiled files are not exempt from Nexus or antivirus review.
-- Earlier upload records are retained, not clearance for the native package: **49195** (0.9.1 development trial) had a 0/65 ZIP report despite the Nexus suspicious-file state; **49196** (0.9.2-test) was quarantined with ZIP 3/60 and launcher 8/70; **49197** (0.9.3-test) was quarantined with ZIP 1/58 and later launcher 3/71. Their exact hashes and bounded evidence remain in the scan records and [TESTER-HANDOFF](TESTER-HANDOFF.md). Do not delete or rewrite those uploads or infer a false-positive cause.
-- Intended private handoff: the owner downloads the exact cleared test archive from the unpublished page and passes it unchanged to the second Windows/Steam tester. Downloadability, exact downloaded hash and the handoff itself require confirmation; uploading alone is insufficient.
-- Source: [private canonical repository](https://github.com/lineum-dynamics/nms-companion-auto-summon). Do not present it as a publicly accessible source link or change its visibility. Packaging includes licensed third-party notices; it does not assert an open-source licence for the original mod.
+- Earlier upload records are retained in the Nexus archive, not clearance for the native package: **49195** (0.9.1 development trial) had a 0/65 ZIP report despite the Nexus suspicious-file state; **49196** (0.9.2-test) was quarantined with ZIP 3/60 and launcher 8/70; **49197** (0.9.3-test) was quarantined with ZIP 1/58 and later launcher 3/71. Their exact hashes and bounded evidence remain in the scan records and [TESTER-HANDOFF](TESTER-HANDOFF.md). Do not delete or rewrite those uploads or infer a false-positive cause.
+- Intended private handoff: the owner can pass the unchanged, hash-verified native archive from the unpublished page to the second Windows/Steam tester. The manual download and exact downloaded hash are now verified for file **49202**; the handoff, second-PC installation and multiplayer test remain unconfirmed. Uploading or downloading alone does not establish those later steps.
+- Source: [canonical repository](https://github.com/lineum-dynamics/nms-companion-auto-summon). The user has authorized making it public after Nexus publication; that action and public accessibility still require verified readback. The player body includes its intended source link. Packaging includes licensed third-party notices; public repository visibility alone does not assert an open-source licence for the original mod.
 - Donation Points eligibility and payment destinations still need checks. No verified company payment URL or in-game donation notice is configured. Do not invent a service, link, revenue promise or request to support staff. Existing external-contact restrictions remain in force.
 - Preserve the known menu thread/lifecycle limit; no teleport/base-removal trigger or automatic respawn is implemented. Rechargeable technology and complete native in-game localization remain future work. This native port does not change the approved **13:5:1** habitat balance.

@@ -11,8 +11,9 @@ two accepted native summon requests. The player separately confirmed visible
 pet appearance after leaving the ship. Appearance after the initial load is
 **uncertain**: the player first reported that no pet appeared, then immediately
 clarified that it may have been overlooked. This is not an established startup
-regression. Correct menu rendering/controls, normal restart, second-PC use,
-multiplayer and Nexus clearance remain unverified.
+regression. Correct menu rendering/controls, normal restart, second-PC use and
+multiplayer remain unverified. The exact native ZIP has since passed through
+Nexus's owner download route, with its downloaded bytes and hash verified.
 
 ## Frozen artifact
 
@@ -128,10 +129,47 @@ does not introduce teleport/base-removal triggers, automatic respawning after
 manual dismissal, lower game limits or relaxed native summon eligibility.
 
 Still required: a controlled repeat of post-load appearance and ship-exit
-repeatability; correct menu order, icons, captions and persistent controls; normal exit
-and subsequent Steam restart; a second Windows/Steam installation and a
-two-player session; and an actual Nexus scan/download outcome for this exact
-ZIP. The prior 0.9.3 quarantine and scans belong to that older Python package.
-Neither a smaller native package nor successful local initialization proves
-Nexus clearance. No false-positive determination or moderator approval is
-claimed by this checkpoint.
+repeatability; correct menu order, icons, captions and persistent controls;
+normal exit and subsequent Steam restart; a second Windows/Steam installation
+and a two-player session. The native download result below does not extend
+the gameplay acceptance boundary.
+
+## Nexus file 49202 and verified owner download
+
+The exact frozen ZIP was uploaded to the existing Unpublished
+[mod 4579](https://www.nexusmods.com/nomanssky/mods/4579?tab=files) as a **new
+Miscellaneous file 49202**, version **0.10.0-native-test**. Mod-manager download
+is OFF and it is not marked primary. Files 49195, 49196 and 49197 remain
+retained; none was replaced or deleted. The saved page version and complete
+native description were read back through Credits. The approved full title
+and byline, unchanged summary and existing AI tags were preserved.
+
+The new file displayed the site's individual safe/tick indicator. Its linked
+[VirusTotal report for the exact ZIP](https://www.virustotal.com/gui/file/e00a8818230dba24066fcdc4d75a01d696c9e2573d2538aa6a9b05c5dd14bebb/detection)
+reported **0/68**, analyzed at **2026-09-28 16:15:13 UTC** (18:15:13 GMT+0200 in
+the displayed report). This is a bounded scan observation, not a guarantee
+that the file is harmless or a result for every later build.
+
+An actual **Manual download → Slow download** using the owner account
+completed. The downloaded file was independently checked: **3,725,420 bytes**,
+SHA-256 **`e00a8818230dba24066fcdc4d75a01d696c9e2573d2538aa6a9b05c5dd14bebb`**,
+matching the original package. This establishes that the owner can retrieve
+this exact native candidate from Nexus. It does not mean the second tester
+has received, installed or run it.
+
+The overall mod page still displays **Some suspicious files** alongside the
+retained older uploads. Do not describe the entire page as clean or the older
+quarantine as lifted. The download template displayed an archived-version
+notice even though the new file was listed as Miscellaneous; the category was
+not changed to Archived and the successful download was hash-verified. The
+older Python quarantine/scan records remain attached to their original hashes.
+At the following checkpoint, the owner explicitly authorized public alpha
+publication. Mod 4579 was published on 28 September 2026 at 18:43 CEST. File
+49202 is Main / Primary with mod-manager downloads OFF. Files 49195, 49196 and
+49197 were archived rather than deleted. The public page reads **Safe to use**,
+shows the native version and provides a Manual download. This is a current
+page-level readback, not a warranty or a false-positive determination for any
+older file. The frozen package/validation receipts remain unchanged; the later
+publication and owner-download evidence is recorded separately.
+
+Public GitHub source and the matching prerelease remain pending verification.

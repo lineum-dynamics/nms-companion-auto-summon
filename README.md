@@ -1,29 +1,99 @@
-# Companion Auto Summon for No Man's Sky
+# Companion Auto Summon for No Man's Sky - by Lineum Dynamics
 
-by **Lineum Dynamics**
+**EARLY ALPHA — 0.10.0-native-test. Expect bugs and incomplete compatibility.
+Keep a separate backup made while the game is closed before installing.**
 
-Current candidate: **0.10.0-native-test**, a native module loaded during normal
-Steam startup, with no bundled Python or separate player launcher. Its 30-file
-ZIP is built and fully readback-verified. The r3 offline checks passed, including
-59 runtime integration cases, policy/selection parity, persistent storage and
-verified backup fixtures. Existing preferences and per-save favorites remain
-at their established mod-owned paths.
+Automatically summon an owned companion after loading a save or leaving your
+ship, using the game's normal summon checks. Choose **By habitat**, **Random**
+or **Last selected**, with optional **Shuffle**. The current native version
+loads during normal Steam startup: **no Python, pyMHF, separate launcher or
+external settings panel is required**. It does not create companions, reduce
+gameplay limits or bypass unsuitable terrain.
 
-After a verified closed-game backup and controlled installation, the first
-native session logged successful executable verification, a separate verified
-pre-activation snapshot, twelve active hooks plus the binding guard, a local
-save load and two accepted summon requests. The player confirmed a visible pet
-after leaving the ship. **Appearance immediately after load remains uncertain:**
-the player initially reported no pet, then clarified that it may have been
-overlooked. No startup appearance failure is established. Correct menu
-rendering/controls, normal restart, second-PC use, multiplayer and Nexus
-clearance remain unverified. Queue acceptance alone is not visible appearance.
-In-game text remains English; fourteen catalogs do not yet establish full
-in-game localization. See the [native validation checkpoint](docs/research/NATIVE-0100-VALIDATION.md)
-and [current tester handoff](docs/release/TESTER-HANDOFF.md). Use the packaged
-English/Czech native player READMEs for the new installation flow.
+Supported target: **Windows 10/11 x64, Steam Cosmos 7.04, build 25442159 only**.
+The running executable must match SHA-256
+`b7913f268dfc62386b6b68f524bfc8ade4a44a9f4fbad39085b7bf51be3680cb`.
+Unknown game builds refuse activation before this mod enables gameplay hooks.
+Unexpected unsafe runtime state stops automation; restart after resolving the
+problem. Consoles, GOG, Game Pass, macOS and Linux/Proton are not supported by
+this alpha.
+
+[Nexus Mods](https://www.nexusmods.com/nomanssky/mods/4579) ·
+[GitHub releases](https://github.com/lineum-dynamics/nms-companion-auto-summon/releases) ·
+[Report a bug](https://github.com/lineum-dynamics/nms-companion-auto-summon/issues) ·
+[Full alpha release notes](docs/release/ALPHA-0100-RELEASE-NOTES.md)
+
+**The first public alpha is available on Nexus Mods**, verified on 28 September
+2026 at 18:43 CEST. GitHub repository/prerelease publication is still pending
+verification; those links may require owner access until that step completes.
+
+## Install the native alpha
+
+1. Close NMS and retain your closed-game backup. Stop the old CAS Python/pyMHF
+   session if you used an earlier test; never run both versions together.
+2. Extract `CompanionAutoSummon-0.10.0-native-test.zip`. In Steam, open
+   **No Man's Sky → Manage → Browse local files**.
+3. Merge the extracted **Binaries** and **GAMEDATA** folders into this game
+   root. **Do not overwrite another mod's `Binaries/winmm.dll`.** An existing
+   loader may be reused only if it matches the exact hash in the packaged
+   README; stop if it differs. Replace only this mod's own files on an update.
+4. Start NMS normally through **Steam**. Open **Quick Menu → Companions →
+   Companion Auto Summon**. X is the default PC Quick Menu binding; use your
+   configured input or the game's controller prompt if different.
+
+Fresh settings use **By habitat** and **Shuffle ON**; existing preferences are
+preserved. By habitat weighs compatible groups **13:5:1** on planets and uses
+a neutral pool on stations/Anomaly. Random's same-biome preference applies
+only to Random. Last selected uses the last confirmed manual companion for
+that save. Shuffle advances after accepted requests; a blocked placement
+retries the same pet. Manual dismissal alone does not trigger another summon.
+
+The module also verifies a private snapshot before enabling its hooks, while
+the game is already running. This **does not replace the separate closed-game
+backup** above. Original save files are not edited or restored by the mod.
+Preferences and favorites remain in `%LOCALAPPDATA%/NMS-AutoPet`.
+
+To uninstall, close NMS and remove only `Binaries/scripts/CompanionAutoSummon.asi`
+and `GAMEDATA/MODS/CompanionAutoSummon`. Keep `winmm.dll` if another mod uses it;
+remove it only if unused and still identical to this package's loader. Do not
+delete shared game or mod folders. See the packaged English/Czech READMEs for
+the full installation and removal instructions.
+
+## Verified so far and known alpha limits
+
+The r3 offline checks passed, including 59 runtime integration cases, policy
+and selection parity, storage/backup fixtures and native hook tests. A normal
+Steam start activated the module, and the player confirmed a visible pet after
+ship exit. **Post-load appearance remains uncertain** after the player noted
+that the initial pet may have been overlooked; no startup failure is proven.
+Menu rendering/controls, normal restart, a second PC and multiplayer remain
+unverified. In-game text is English; fourteen translation catalogs exist but
+translated native menu/HUD behavior is not implemented or verified.
+
+The unchanged ZIP is **3,725,420 bytes**, SHA-256
+`e00a8818230dba24066fcdc4d75a01d696c9e2573d2538aa6a9b05c5dd14bebb`.
+Nexus file **49202** is the Main, Primary file with mod-manager downloads OFF;
+use Manual download. The public page displays **Safe to use**, and the exact-hash
+VirusTotal result was **0/68**. An owner-account manual download matched the
+original ZIP. The three older Python files are archived and retain their own
+historical scan records. These scan observations are not a safety guarantee.
+No second-tester receipt or installation is claimed.
+
+**Please report reproducible problems**, including the alpha version, game
+build, location/trigger, selection mode and Shuffle state, expected result and
+actual result. Add a short relevant log excerpt or screenshot after removing
+personal paths/account details. Do not upload full saves, private backups,
+credentials or whole user-data folders. The
+[validation checkpoint](docs/research/NATIVE-0100-VALIDATION.md) and
+[tester handoff](docs/release/TESTER-HANDOFF.md) retain the precise evidence.
 
 ## Retained Python candidates and earlier evidence
+
+Everything below is **historical**. The launcher, Python/pyMHF prerequisites,
+old file IDs and old test counts describe their named versions; they are not
+installation instructions or current compatibility claims for the native
+0.10.0 alpha above. Retaining them does not make an older quarantined file
+cleared or make the current alpha fully tested.
 
 Retained packaging candidate: **0.9.3-test**. It extracts the original Python
 standard library to remove the nested ZIP prohibited by Nexus, supplies accurate
@@ -58,9 +128,9 @@ but automated quarantine blocks downloading. See the scan evidence and
 [the tester handoff](docs/release/TESTER-HANDOFF.md). Earlier results do not
 validate this new package.
 
-For the short player procedure, use [Portable quick start](docs/release/PORTABLE-QUICKSTART.md).
-The owner will download the validated ZIP from the unpublished Nexus page and
-pass that unchanged ZIP to the other tester; no public release is implied.
+The 0.9.2 historical tester flow used a Nexus draft and owner-mediated sharing.
+The current native 0.10.0 alpha is publicly downloadable from the Nexus link at
+the top of this README; this older process does not describe the native package.
 
 Retained unlaunched 0.9.1 source **0.5.1-experimental / 0.9.1-play-trial**, with menu
 **0.9.0-selection**, reports each changed setting and its applied value. A batch
@@ -144,7 +214,7 @@ complete language acceptance remain unverified. See [LOCALIZATION.md](LOCALIZATI
 
 [Czech user-guide translation](README.cs.md)
 
-The canonical source is [lineum-dynamics/nms-companion-auto-summon](https://github.com/lineum-dynamics/nms-companion-auto-summon), currently a private repository. Development commands and the maintained documentation map are in [DEVELOPMENT.md](DEVELOPMENT.md). The installed test copy and exported ZIPs are built outputs.
+The canonical source is the public [lineum-dynamics/nms-companion-auto-summon](https://github.com/lineum-dynamics/nms-companion-auto-summon) repository. Development commands and the maintained documentation map are in [DEVELOPMENT.md](DEVELOPMENT.md). The installed test copy and exported ZIPs are built outputs.
 
 The earlier **0.4.7 / 0.8.2-play-trial** candidate improved the development
 launcher. `-CheckOnly` checks the package, supported game and existing runtime
