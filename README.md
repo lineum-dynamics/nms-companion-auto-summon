@@ -68,8 +68,12 @@ the full installation and removal instructions.
   0.10.1 log recorded a UI callback-thread safety stop, but did not record a
   death event; whether death caused the thread change is unknown. One grouped
   roster smoke check did show the settings entry, but other menu rebuilds remain
-  unverified. A recovery change is passing offline tests on a feature branch;
-  it is not in the public download and has not been tested in game.
+  unverified. A feature-branch recovery candidate passed 25 offline menu tests
+  and one live scenario: the owner reports the menu worked and a pet appeared
+  after a direct load from an expedition into the Anomaly. The log confirms a
+  successful local load and accepted summon queue. Recovery after death and
+  other menu rebuilds remain unverified; the candidate is not in the public
+  download.
 - One direct load into the Space Anomaly had no visible pet during an
   incomplete mission; a causal connection has not been established.
 
