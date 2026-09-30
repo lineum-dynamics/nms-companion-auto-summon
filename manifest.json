@@ -1444,7 +1444,22 @@
       "scope": "Public EARLY ALPHA page, native Main / Primary file, Safe to use status, 0/68 scan and matching owner download verified; no safety guarantee or gameplay completion claim"
     },
     "public_release": true,
-    "public_release_status": "Nexus EARLY ALPHA published and read back; GitHub visibility and prerelease pending verification",
+    "github_release": {
+      "repository_visibility": "PUBLIC",
+      "default_branch": "main",
+      "version": "0.10.0-native-test",
+      "prerelease": true,
+      "asset": "CompanionAutoSummon-0.10.0-native-test.zip",
+      "asset_bytes": 3725420,
+      "asset_sha256": "e00a8818230dba24066fcdc4d75a01d696c9e2573d2538aa6a9b05c5dd14bebb",
+      "asset_id": 600661389,
+      "published_at": "2026-09-30T10:36:39Z",
+      "tag_target_commit": "568a2c97e64300874a0ecb020074f9700dd50ae0",
+      "url": "https://github.com/lineum-dynamics/nms-companion-auto-summon/releases/tag/v0.10.0-native-test",
+      "repository_public_verified_at": "2026-09-30",
+      "release_verified": true
+    },
+    "public_release_status": "Nexus EARLY ALPHA and GitHub prerelease published and read back; gameplay remains under alpha acceptance",
     "scope": "Preserves Python artifacts. See native/README.md and current tester handoff."
   }
 }

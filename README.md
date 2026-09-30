@@ -24,8 +24,8 @@ this alpha.
 [Full alpha release notes](docs/release/ALPHA-0100-RELEASE-NOTES.md)
 
 **The first public alpha is available on Nexus Mods**, verified on 28 September
-2026 at 18:43 CEST. GitHub repository/prerelease publication is still pending
-verification; those links may require owner access until that step completes.
+2026 at 18:43 CEST. The canonical GitHub repository is public, verified on
+30 September 2026. Its matching prerelease is published separately.
 
 ## Install the native alpha
 
@@ -69,6 +69,12 @@ that the initial pet may have been overlooked; no startup failure is proven.
 Menu rendering/controls, normal restart, a second PC and multiplayer remain
 unverified. In-game text is English; fourteen translation catalogs exist but
 translated native menu/HUD behavior is not implemented or verified.
+
+Two issues were reported after publication: teleport arrival does not summon
+a pet in this version, and the settings page may disappear with a large grouped
+companion list. The recent log identifies the menu safety stop
+`menu_unexpected_thread`, but does not establish whether grouping caused it.
+Teleport and grouped-roster support are not included in this alpha.
 
 The unchanged ZIP is **3,725,420 bytes**, SHA-256
 `e00a8818230dba24066fcdc4d75a01d696c9e2573d2538aa6a9b05c5dd14bebb`.

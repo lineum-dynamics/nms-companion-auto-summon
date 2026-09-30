@@ -12,8 +12,9 @@ physics and summon-placement checks. It loads during ordinary Steam startup.
 required.** It does not unlock pets, lower game limits or summon where the
 game refuses placement.
 
-**Available publicly on Nexus Mods**, verified on 28 September 2026 at 18:43
-CEST. GitHub repository/prerelease availability is pending verification.
+**Available publicly on Nexus Mods and GitHub.** Nexus publication was verified
+on 28 September 2026 at 18:43 CEST. The public source repository and matching
+GitHub prerelease were verified on 30 September 2026.
 
 - [Nexus Mods page](https://www.nexusmods.com/nomanssky/mods/4579)
 - [GitHub releases](https://github.com/lineum-dynamics/nms-companion-auto-summon/releases)
@@ -115,6 +116,19 @@ in-game localization. Startup warnings use available Windows-language entries
 with English fallback. Cosmetic HUD failures disable notices alone; summoning
 and setting persistence continue.
 
+## Issues reported after publication
+
+- A companion is **not automatically summoned after teleport arrival** in this
+  version. Only successful local save loads and ship exits create opportunities.
+- The owner reported that the settings page disappears when the game groups a
+  large companion roster. Recent logs confirm that the menu safety guard stopped
+  after a callback-thread change (`menu_unexpected_thread`), but do not establish
+  whether the grouped roster caused that change. The native safety guard has not
+  been relaxed. Reliable grouped-roster menu support remains under investigation.
+
+Neither issue is fixed by this alpha package. Please mention these conditions
+when reporting related behavior.
+
 ## Exact download identity
 
 | Item | Value |
@@ -139,7 +153,6 @@ this alpha.
 Report reproducible problems through
 [GitHub Issues](https://github.com/lineum-dynamics/nms-companion-auto-summon/issues)
 or the public [Nexus page](https://www.nexusmods.com/nomanssky/mods/4579).
-GitHub availability is pending verification; Nexus reporting is available now.
 Include:
 
 - Mod version and game build, Windows version, and other relevant mods.

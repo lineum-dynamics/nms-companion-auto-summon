@@ -16,7 +16,8 @@ above and author **Lineum Dynamics**. The public page shows its original upload
 at **28 September 2026, 6:43PM**, the updated EARLY ALPHA summary and description,
 one current file, Manual download, and **Safe to use**. All three earlier
 uploads are retained in the archive. Preserve the approved media and disclosure
-tags. Public GitHub source is authorized; its visibility is verified separately.
+tags. Public source and the prerelease are available at
+https://github.com/lineum-dynamics/nms-companion-auto-summon/releases/tag/v0.10.0-native-test.
 
 One native r3 startup through Steam is now recorded: the log confirms exact
 executable acceptance, a completed pre-activation backup, all twelve hooks and
@@ -27,9 +28,9 @@ accepted startup queue does not establish successful visible startup summoning.
 The menu, restart repeatability, second-PC installation and multiplayer remain
 unverified. Native file 49202's recorded scan and verified download do not
 establish gameplay reliability or permanent scanner acceptance.
-Proceed with the authorized Nexus publication, then public GitHub visibility,
-and verify both. The final section contains internal records and must not be
-copied into the player description.
+Nexus publication, public GitHub visibility and the matching prerelease are
+complete and verified. The final section contains internal records and must
+not be copied into the player description.
 
 ## Short summary
 
@@ -219,11 +220,11 @@ The archive includes component and statically linked runtime licence notices. Ge
 
 ## Internal readiness and metadata — do not publish this section
 
-- Current artifact: **0.10.0-native-test**, unchanged. The prior ALPHA summary, page version and Description through Credits were saved and read back; this stronger EARLY ALPHA warning, source link and bug-report guidance are prepared for the next save. Native file **49202**, now **Companion Auto Summon - ALPHA 0.10.0**, is **Main / Primary**, with mod-manager downloads OFF. Nexus shows this new file as safe. Its linked exact-ZIP VirusTotal report was **0/68**, checked at **18:19 CEST on 28 September 2026**, analysis **16:15:13 UTC**. A completed manual download matched the uploaded **3,725,420-byte** ZIP SHA-256 **e00a8818230dba24066fcdc4d75a01d696c9e2573d2538aa6a9b05c5dd14bebb**. This records file-specific acceptance and successful download, not a clean status for all older files or the whole page, malware-proof status, or completed public release.
-- The owner explicitly authorized publishing the first public **EARLY ALPHA** on Nexus, then making the canonical GitHub repository public, followed by improvements. The temporary pause was revoked by the instruction to continue. Publish had not been clicked at the last readback. Complete the authorized operations in order and record actual public readback; do not claim either visibility change prematurely. Preserve mod **4579**, the exact approved full title/byline, author **Lineum Dynamics**, category **Creatures**, media and **AI-Generated Content** / **AI Media** disclosure tags. Do not replace the saved tags with AI Assisted.
+- Current artifact: **0.10.0-native-test**, unchanged and available as the Main / Primary Nexus file and the GitHub prerelease asset. Its immutable ZIP is 3,725,420 bytes with SHA-256 `e00a8818230dba24066fcdc4d75a01d696c9e2573d2538aa6a9b05c5dd14bebb`. Nexus currently shows Safe to use and a Manual download; its linked scan was 0/68. These are bounded file checks, not safety guarantees.
+- Nexus mod **4579** was published as EARLY ALPHA at **28 September 2026, 18:43 CEST**. The GitHub repository is public with default branch `main`; prerelease `v0.10.0-native-test` and its matching ZIP were read back on **30 September 2026**. Preserve the approved title/byline, author **Lineum Dynamics**, category **Creatures**, media and **AI-Generated Content** / **AI Media** disclosure tags.
 - Installation is the two-folder native overlay described above. The native r3 log records one normal Steam startup, exact-executable acceptance, completed pre-activation backup, twelve hooks plus binding guard enabled, local save load and two accepted queue requests. The player confirms visible appearance after ship exit; startup appearance remains uncertain, not an established failure. The menu remains unconfirmed. Retain the exact package identity, verify startup appearance, and complete restart, controls, placement, second-PC and multiplayer acceptance. Native compiled files are not exempt from Nexus or antivirus review.
 - Earlier upload records are retained in the Nexus archive, not clearance for the native package: **49195** (0.9.1 development trial) had a 0/65 ZIP report despite the Nexus suspicious-file state; **49196** (0.9.2-test) was quarantined with ZIP 3/60 and launcher 8/70; **49197** (0.9.3-test) was quarantined with ZIP 1/58 and later launcher 3/71. Their exact hashes and bounded evidence remain in the scan records and [TESTER-HANDOFF](TESTER-HANDOFF.md). Do not delete or rewrite those uploads or infer a false-positive cause.
-- Intended private handoff: the owner can pass the unchanged, hash-verified native archive from the unpublished page to the second Windows/Steam tester. The manual download and exact downloaded hash are now verified for file **49202**; the handoff, second-PC installation and multiplayer test remain unconfirmed. Uploading or downloading alone does not establish those later steps.
-- Source: [canonical repository](https://github.com/lineum-dynamics/nms-companion-auto-summon). The user has authorized making it public after Nexus publication; that action and public accessibility still require verified readback. The player body includes its intended source link. Packaging includes licensed third-party notices; public repository visibility alone does not assert an open-source licence for the original mod.
+- The unchanged ZIP is available through the public Nexus page and GitHub prerelease. The owner-account download matched its recorded hash. The second Windows/Steam tester has not yet confirmed receipt, installation or gameplay; multiplayer remains unverified.
+- Source: [canonical public repository](https://github.com/lineum-dynamics/nms-companion-auto-summon). Future commits use `core@lineum.io`; historical author metadata remains unchanged. No open-source licence for the original mod is implied by repository visibility.
 - Donation Points eligibility and payment destinations still need checks. No verified company payment URL or in-game donation notice is configured. Do not invent a service, link, revenue promise or request to support staff. Existing external-contact restrictions remain in force.
-- Preserve the known menu thread/lifecycle limit; no teleport/base-removal trigger or automatic respawn is implemented. Rechargeable technology and complete native in-game localization remain future work. This native port does not change the approved **13:5:1** habitat balance.
+- The alpha does not summon on teleport arrival or base removal and does not respawn after manual dismissal. Recent logs confirm a custom-menu safety stop on `menu_unexpected_thread`; whether the owner-reported grouped roster caused the thread change is unconfirmed. Diagnose the callback phase before changing the guard. Rechargeable technology and complete native localization remain future work; habitat weighting stays **13:5:1**.

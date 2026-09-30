@@ -172,4 +172,8 @@ page-level readback, not a warranty or a false-positive determination for any
 older file. The frozen package/validation receipts remain unchanged; the later
 publication and owner-download evidence is recorded separately.
 
-Public GitHub source and the matching prerelease remain pending verification.
+The GitHub repository was changed to public after verifying its owner, default
+branch and synchronized `main` commit. The exact native ZIP was then published
+as a GitHub prerelease; asset size and digest were read back and matched to the
+Nexus ZIP. The release is a prerelease, not a stable tag or an open-source
+license grant for the original mod.
