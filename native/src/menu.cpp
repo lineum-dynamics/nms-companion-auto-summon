@@ -161,6 +161,8 @@ struct MenuAdapter::Impl {
     MenuAppend append{}; MenuConstruct construct{}; MenuSelect select{};
     bool fixture{};
     bool resources_attempted{},icons_disabled{};
+    bool thread_rebound_notice{};
+    bool thread_skip_notice{};
     std::uintptr_t manager{};
     std::array<TextureRecord,8> textures{};
     std::array<Resource,8> resources{};
@@ -178,8 +180,34 @@ struct MenuAdapter::Impl {
         if (stopped.load()) return false;
         if (lock.test_and_set()) { stop("menu_overlapping_callback"); return false; }
         const auto current=GetCurrentThreadId();
-        if (stopped.load() || (thread && thread!=current)) {
-            stop("menu_unexpected_thread"); lock.clear(); return false;
+        if (stopped.load()) { lock.clear(); return false; }
+        if (thread && thread!=current) {
+            const bool quiescent_builder_handoff = phase==Phase::BuildBefore && !building &&
+                !pending && !pending_has_token && !confirmation &&
+                building_menu.load()==0 && building_thread.load()==0;
+            if (!quiescent_builder_handoff) {
+                const bool callback_in_flight = building || pending || pending_has_token || confirmation ||
+                    building_menu.load()!=0 || building_thread.load()!=0;
+                if (callback_in_flight) stop("menu_unexpected_thread");
+                else {
+                    // A one-off label/trigger callback on a replacement UI
+                    // thread is not enough to disable the menu for the rest
+                    // of the process. Drop transient click tokens and wait
+                    // for a quiescent builder boundary before rebinding.
+                    intent=false; confirmation_ready=false; released_menu=0;
+                    if (!thread_skip_notice && callbacks.log) {
+                        callbacks.log(callbacks.context,"menu_unexpected_thread_skipped");
+                        thread_skip_notice=true;
+                    }
+                }
+                lock.clear(); return false;
+            }
+            thread=current;
+            intent=false; confirmation_ready=false; released_menu=0;
+            if (!thread_rebound_notice && callbacks.log) {
+                callbacks.log(callbacks.context,"menu_quiescent_thread_rebound");
+                thread_rebound_notice=true;
+            }
         }
         thread=current;
         if ((confirmation && phase!=Phase::ConfirmAfter) ||

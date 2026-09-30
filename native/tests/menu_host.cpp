@@ -63,12 +63,13 @@ void* append(void* header_pointer,void* incoming) {
     // Deliberately move storage after every append. No stale pre-growth item
     // address may be dereferenced by the adapter's append read-back path.
     std::vector<Item> next;
-    next.reserve(16);
+    const auto capacity=h->count+1>16?h->count+1:16;
+    next.reserve(capacity);
     for (unsigned i=0;i<h->count;++i) next.push_back(h->pointer[i]);
     next.push_back(copy);
     current->retired.push_back(std::move(current->vectors[depth]));
     current->vectors[depth]=std::move(next);
-    h->capacity=16; ++h->count; h->pointer=current->vectors[depth].data();
+    h->capacity=capacity; ++h->count; h->pointer=current->vectors[depth].data();
     if (current->mutate_source_during_append && current->source) (*current->source)[0x30]^=1;
     return h->pointer+h->count-1;
 }
@@ -130,6 +131,18 @@ int main(int argc,char** argv) {
         });
         scenario("no_pet_fallback_parent",[]{Fixture f; f.build_begin(); f.build_end();
             check(!f.adapter.stopped() && f.header(1).count==1 && f.header(2).count==7,"empty roster parent");});
+        scenario("large_native_roster_keeps_settings_discoverable",[]{Fixture f;
+            auto& rows=f.vectors[1]; rows.reserve(64);
+            for (int i=0;i<28;++i) { Item native{}; const std::int32_t action=10+(i%30);
+                std::memcpy(native.data()+4,&action,4); rows.push_back(native); }
+            f.header(1)={64,static_cast<std::uint32_t>(rows.size()),rows.data()};
+            f.build_begin(); f.build_end();
+            check(!f.adapter.stopped() && f.header(1).count==29,"settings parent appended beside large native roster");
+            for (int i=0;i<28;++i) check(f.header(1).pointer[i][4]==10+(i%30),"native roster row preserved");
+            check(std::memcmp(f.header(1).pointer[28].data()+0x88,"CAS_MENU_V1",11)==0,"settings parent remains identifiable");
+            f.selected(1)=28; f.build_begin(); f.build_end();
+            check(!f.adapter.stopped() && f.header(2).count==7,"settings page opens after native roster rows");
+        });
         scenario("repeated_builder_no_duplicates",[]{Fixture f; f.prepare(); f.build_begin(); f.pet(47); f.build_end();
             check(!f.adapter.stopped() && f.header(1).count==3 && f.header(2).count==7,"repeat build");});
         scenario("native_none_opens_settings_and_preserves_caption",[]{Fixture f; f.prepare();
@@ -172,9 +185,18 @@ int main(int argc,char** argv) {
             f.build_begin(); f.build_end(); check(f.adapter.stopped() && f.header(1).count==0,"constructor drift");});
         scenario("changed_incoming_after_native_append_stops",[]{Fixture f; f.mutate_source_during_append=true;
             f.build_begin(); f.pet(); check(f.adapter.stopped(),"incoming mutation");});
-        scenario("unexpected_callback_thread_fails_closed",[]{Fixture f; f.prepare();
-            std::thread other([&]{std::array<char,128> text{}; f.adapter.afterLabel(f.menu.data(),text.data());}); other.join();
-            check(f.adapter.stopped() && f.stop_reason=="menu_unexpected_thread","thread guard");});
+        scenario("replacement_thread_callback_is_skipped_until_safe_rebind",[]{Fixture f; f.prepare();
+            std::thread other([&]{current=&f; std::array<char,128> text{};
+                f.adapter.afterLabel(f.menu.data(),text.data());
+                if (f.adapter.stopped() || f.stop_reason!="menu_unexpected_thread_skipped") return;
+                f.build_begin(); f.build_end(); current=nullptr;}); other.join();
+            check(!f.adapter.stopped() && f.stop_reason=="menu_quiescent_thread_rebound","safe recovery after thread change");});
+        scenario("quiescent_builder_thread_handoff_is_recovered",[]{Fixture f; f.prepare();
+            std::thread other([&]{current=&f; f.build_begin(); f.build_end(); current=nullptr;}); other.join();
+            check(!f.adapter.stopped() && f.stop_reason=="menu_quiescent_thread_rebound","quiescent handoff");});
+        scenario("thread_handoff_during_builder_remains_blocked",[]{Fixture f; f.prepare(); f.build_begin();
+            std::thread other([&]{current=&f; f.adapter.afterBuilder(f.menu.data(),&f); current=nullptr;}); other.join();
+            check(f.adapter.stopped() && f.stop_reason=="menu_unexpected_thread","in-flight handoff guard");});
         scenario("nested_builder_fails_closed",[]{Fixture f; f.build_begin(); f.build_begin();
             check(f.adapter.stopped(),"nested builder");});
         scenario("unexpected_native_true_result_fails_closed",[]{Fixture f; f.prepare(); f.trigger(f.header(1).pointer,true);
