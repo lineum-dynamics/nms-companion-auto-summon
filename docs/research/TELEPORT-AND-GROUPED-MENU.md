@@ -22,6 +22,9 @@ the second needs a menu adapter that tolerates native menu variants.
 - `native/src/runtime.cpp` only records a local load opportunity after a
   successful non-network load. Ship exit arms through `afterExit`. Teleport
   arrival does not arm the current policy.
+- The retained `NMS.py` function-signature dataset identifies spaceship/system
+  warp functions, but no verified base/station/Anomaly teleporter-arrival
+  completion callback. System warp is not a substitute for teleport arrival.
 - `native/src/menu.cpp` recognizes the companion category through native action
   45, looks for pet append actions 46/47, and rejects insertion if those actions
   are already in the vector. A child settings page is limited to depth two and
