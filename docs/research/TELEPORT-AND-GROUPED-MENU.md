@@ -48,9 +48,12 @@ successful completion for the local player, not merely a changed location,
 position, menu state, or network-client update. The existing global automation
 switch, destination-location preferences, native ownership/eligibility checks,
 placement checks, pending-request cancellation rules, and retry behavior still
-apply. Fresh installs may default the new option ON; migrated settings should
-default it OFF so an update does not silently add a trigger. This default remains
-a proposal until implemented and reviewed.
+apply. Default the new option ON for fresh installs and existing preference
+files when upgrading, so existing players receive the new capability. Preserve
+all other saved preferences; the existing global automation and
+destination-location switches remain authoritative. Document the new default in
+the update notes. This is an accepted design direction, not a claim that the
+feature is already implemented.
 
 Make the settings entry discoverable independently of the number, ordering, or
 grouping of owned pets. Anchor it to a verified semantic menu container or a
