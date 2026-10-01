@@ -34,6 +34,10 @@ arrival. The source runtime arms opportunities only after local save load or
 ship exit. This is consistent with an earlier pending opportunity becoming
 eligible at the station, not evidence of a teleport trigger. It also confirms
 this candidate helper runs during teleporter use, so it is not death-specific.
+A negative control opened and closed the teleporter interface without selecting
+a destination; it produced no observer event. The candidate call is therefore
+not caused by opening or backing out of the interface alone. Whether it marks
+destination confirmation, transition start or completed arrival remains open.
 A follow-up offline-validated diagnostic build corrects a stale hook-count log
 message and has not been installed in the active session.
 The separate byte-pattern pass also recorded candidate references to native

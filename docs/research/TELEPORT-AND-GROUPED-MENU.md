@@ -190,6 +190,13 @@ Keep the public teleport/death behavior marked unimplemented. A natural local
 death/respawn observation is still needed to find a distinct, successful
 respawn signal.
 
+In a subsequent negative control, the owner opened and backed out of the
+teleporter interface without selecting a destination. The active log timestamp
+and contents did not change, and no candidate return was recorded. This rules
+out mere interface open/back as the source of the candidate callback in this
+session. It does not distinguish destination confirmation, transition start
+and completed arrival; the successful trip remains the only positive sample.
+
 ## Design direction
 
 Treat teleport arrival as an independent opportunity setting, separate from the

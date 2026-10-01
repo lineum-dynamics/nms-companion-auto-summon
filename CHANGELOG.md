@@ -35,6 +35,11 @@
   trigger. The exact earlier event was not separately witnessed. This also
   confirms the candidate positioning call site runs during a teleporter path,
   so it is not death-specific. Teleport/death triggers remain unimplemented.
+- A follow-up negative control opened and closed the teleporter interface
+  without choosing a destination. The active log did not change and no
+  candidate return was recorded. The call site is not triggered by merely
+  opening/backing out of the interface; destination confirmation or the travel
+  transition remains to be isolated.
 
 ## Unreleased follow-up — 30 September 2026
 
