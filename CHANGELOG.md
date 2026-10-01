@@ -11,6 +11,11 @@
   records the valid instruction addresses and function ranges. None identifies
   a completion callback; see
   [NMS-075-STATIC-XREFS](docs/research/NMS-075-STATIC-XREFS.md).
+- Contextual decoding rejects both remaining teleport-string leads as event
+  hooks: `Teleporting` is a data-field label beside `Remote`, `IsActive`,
+  `Timestamp` and movement/position fields; `gcpersonalteleporter.cpp` is
+  passed as a diagnostic source location with line value `0x4A4`. Teleport
+  completion remains unmapped.
 - Keep automatic summoning after death/respawn as a separate unimplemented
   trigger from save loading and teleport arrival. The 7.05 static scan found a
   shared positioning helper with three direct return sites inside a function

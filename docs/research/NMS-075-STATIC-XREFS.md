@@ -98,11 +98,14 @@ direct RIP-relative instruction starts and containing function ranges are:
 Every raw ModRM-byte candidate above is two bytes after the verified start of
 its corresponding `REX.W + LEA` instruction. This offset pattern is a property
 of those encodings, not a general address correction rule. Always use the
-decoded instruction and its `.pdata` owner. The `Teleporting` instruction
-passes a string value into a shared helper; it does not expose a successful
-local-arrival result. The source-file marker remains a diagnostic/source
-location lead, not a function name or callback. Correcting these byte offsets
-does not identify a teleport trigger.
+decoded instruction and its `.pdata` owner. The `Teleporting` label is one
+field in a repeated data-record path, alongside `Remote`, `IsActive`,
+`Timestamp`, and velocity/position labels; the surrounding function does not
+expose a successful local-arrival result. The `gcpersonalteleporter.cpp`
+marker is passed to a shared helper with source-line value `0x4A4`, so it is a
+diagnostic/source-location lead, not a function name or callback. Correcting
+the byte offsets and decoding these contexts does not identify a teleport
+trigger.
 
 It does **not** yet establish which candidate belongs to the actual successful local teleporter flow. In particular:
 
