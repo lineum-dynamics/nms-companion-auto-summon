@@ -1,6 +1,6 @@
 # Known issues
 
-Status reviewed: 30 September 2026  
+Status reviewed: 1 October 2026  
 Public mod build: **0.10.1-native-test**, Nexus file **49367**  
 Supported game target: Windows x64, Steam Cosmos 7.05 / build 25624745, exact executable hash in the release package.
 
@@ -10,7 +10,14 @@ This page tracks reports against the current public build. A reported symptom is
 
 **Observed/current behavior:** 0.10.1 creates automatic opportunities after a successful local save load or ship exit. It has no verified trigger for teleport arrival or death/respawn, so neither event by itself requests a pet. No game eligibility or placement rule is bypassed.
 
-**Status:** Open. Teleport arrival needs a verified local completion callback. A death/respawn trigger needs a separate exact-build event and safety review; it is not assumed to be the same event as teleport or save loading.
+**Status:** Open. Teleport arrival needs a verified local completion callback. A
+1 October 2026 static pass of the exact Cosmos 7.05 executable found multiple
+RIP-relative candidate references to teleport state and single candidates for
+`Teleporting` and the `gcpersonalteleporter.cpp` marker. These are not yet
+decoded or verified as the successful local completion event. A death/respawn
+trigger needs a separate exact-build event and safety review; it is not assumed
+to be the same event as teleport or save loading. See
+[the static XREF record](research/NMS-075-STATIC-XREFS.md).
 
 ## Settings menu can stop responding after a UI-thread change
 
