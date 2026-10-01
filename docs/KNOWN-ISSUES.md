@@ -25,6 +25,15 @@ An offline-validated, test-only observer was loaded in one local session. Its
 log recorded two candidate call sites during the successful save-load sequence,
 without a reported death. They are not a verified death signal and the observer
 does not request pets; the production trigger remains absent.
+A later feature-branch control teleported from a freighter to a space station;
+the owner saw a pet appear. The observer recorded candidate return
+`0x3302C4` with `reason=11` (`0x0B`) and `flag=1`, then an accepted summon queue
+1.36 seconds later. However, the same session had armed an automatic opportunity
+about fourteen minutes before the teleport and recorded no new opportunity at
+arrival. The source runtime arms opportunities only after local save load or
+ship exit. This is consistent with an earlier pending opportunity becoming
+eligible at the station, not evidence of a teleport trigger. It also confirms
+this candidate helper runs during teleporter use, so it is not death-specific.
 A follow-up offline-validated diagnostic build corrects a stale hook-count log
 message and has not been installed in the active session.
 The separate byte-pattern pass also recorded candidate references to native

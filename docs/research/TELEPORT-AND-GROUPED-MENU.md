@@ -164,6 +164,32 @@ the offline bundle validators and removes the hardcoded count from the
 diagnostic status message. It was not staged while the game was running; the
 currently loaded observer remains unchanged.
 
+## Live teleporter control (1 October 2026)
+
+The owner teleported from a freighter to a space station in the running
+observer session and reported that a companion appeared after arrival. At
+`16:44:22.981Z`, the passive observer recorded return RVA `0x3302C4` with
+`reason=11` (`0x0B`) and `flag=1`; at `16:44:24.345Z`, the native summon queue
+was accepted. The observer records only this return site and two scalar
+arguments; it does not record destination identity or a teleport event.
+
+Crucially, the same log recorded `Automatic summon opportunity armed` at
+`16:30:17.434Z`, roughly fourteen minutes before the teleport, and no new arm
+event at arrival. The live runtime can arm only after a successful local save
+load or ship exit. The opportunity at `16:30Z` therefore most likely came from
+a ship exit, although that action was not independently captured. The observed
+arrival summon is consistent with that older pending opportunity becoming
+eligible at the station; it does not show that teleport arrival created a new
+opportunity. This is delayed eligibility, not verified teleport-trigger
+support.
+
+The `0x3302C4` candidate return also runs during this teleporter sequence, with
+a different reason value from the earlier save-load observation. It is
+therefore not death-specific and cannot be used alone as a respawn trigger.
+Keep the public teleport/death behavior marked unimplemented. A natural local
+death/respawn observation is still needed to find a distinct, successful
+respawn signal.
+
 ## Design direction
 
 Treat teleport arrival as an independent opportunity setting, separate from the

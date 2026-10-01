@@ -24,6 +24,17 @@
   reported death; this is not a death trigger. A follow-up observer build
   corrects the diagnostic hook-count message. The public Nexus file remains
   unchanged.
+- Record a live freighter-to-space-station teleporter control: the owner saw a
+  pet appear after arrival, and the observer recorded return `0x3302C4` with
+  reason `11` (`0x0B`) and flag `1`, followed 1.36 seconds later by an accepted
+  summon queue. The log shows the automatic opportunity had already been armed
+  at `16:30:17Z`, about fourteen minutes before the teleport, with no new
+  opportunity armed at arrival. The runtime arms only after a successful local
+  load or ship exit; this sequence is consistent with a prior pending
+  ship-exit opportunity becoming eligible at the station, not a teleport
+  trigger. The exact earlier event was not separately witnessed. This also
+  confirms the candidate positioning call site runs during a teleporter path,
+  so it is not death-specific. Teleport/death triggers remain unimplemented.
 
 ## Unreleased follow-up — 30 September 2026
 

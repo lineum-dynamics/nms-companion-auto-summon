@@ -44,7 +44,7 @@ EARLY ALPHA 0.10.1: automatically bring an owned companion after a local save lo
 
 ## Known issues in 0.10.1
 
-- **No automatic summon after teleport or death/respawn.** This build creates an opportunity after a successful local save load or ship exit only.
+- **No automatic summon trigger after teleport or death/respawn.** This build creates opportunities after a successful local save load or ship exit only. A pet appearing after teleport can be a delayed earlier opportunity becoming eligible; that does not mean teleport is a trigger.
 - **The custom settings page may stop responding after a menu rebuild.** One report described both the pet and settings page missing after death. A session log recorded a UI-thread safety stop, but not a death event; the cause is unconfirmed. One grouped-roster smoke check succeeded, but other rebuilds remain unverified. A recovery candidate is being tested offline and is not in this download.
 
 See the [current Known Issues and test status](https://github.com/lineum-dynamics/nms-companion-auto-summon/blob/main/docs/KNOWN-ISSUES.md). Please report the exact mod/game version, trigger and result, and whether the custom page still opens.
@@ -125,7 +125,7 @@ Dismissal does not create another automatic opportunity. Another successful loca
 
 **Does it summon after teleporting, death or deleting a base?**
 
-This build creates automatic opportunities after a successful local save load or ship exit only. Teleport arrival and death/respawn do not currently trigger a request; base removal does not create one either. Manual dismissal or a missing pet does not automatically trigger a respawn. The reported missing menu and pet after death are being tracked; one UI-thread safety stop appeared in the session log, but the log cannot show that death caused it. A new exact-build static-analysis pass found native teleporter state references, but no successful local completion callback has been verified yet.
+This build creates automatic opportunities after a successful local save load or ship exit only. Teleport arrival and death/respawn do not currently create a new request; a previously pending opportunity can become eligible after arrival, which is not teleport-trigger support. Base removal does not create an opportunity either. Manual dismissal or a missing pet does not automatically trigger a respawn. The reported missing menu and pet after death are being tracked; one UI-thread safety stop appeared in the session log, but the log cannot show that death caused it. A new exact-build static-analysis pass found native teleporter state references, but no successful local completion callback has been verified yet.
 
 **How much has been tested?**
 
