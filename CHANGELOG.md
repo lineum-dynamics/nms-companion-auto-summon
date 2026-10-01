@@ -16,6 +16,12 @@
   `Timestamp` and movement/position fields; `gcpersonalteleporter.cpp` is
   passed as a diagnostic source location with line value `0x4A4`. Teleport
   completion remains unmapped.
+- Decode the three teleport interaction labels at valid instruction RVAs
+  `0x1002269`, `0x100227A` and `0x100228B`; they feed a shared action-object
+  path and cleanup, not an observed successful-arrival result. Also map case 4
+  of the `cGcApplicationDeathState` update table: it calls the shared position
+  helper, confirming that helper use occurs during death-state processing but
+  not proving completed respawn. Neither candidate is enabled as a trigger.
 - Keep automatic summoning after death/respawn as a separate unimplemented
   trigger from save loading and teleport arrival. The 7.05 static scan found a
   shared positioning helper with three direct return sites inside a function

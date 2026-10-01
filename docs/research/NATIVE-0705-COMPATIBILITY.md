@@ -247,7 +247,7 @@ teleport-related code path was found.
 | Lead | Exact-build evidence | Status |
 |---|---|---|
 | `AngleFromBaseComputerWhenTeleporting` and `DistanceFromBaseComputerWhenTeleporting` | Registration-string references at instruction RVAs `0x136012` and `0x1360AD`, both inside function range `0x131510-0x14AA8E`; additional references occur in larger functions. These are destination-position settings, not a local successful-arrival event. | `REJECTED` as completion hooks; retain only as position-configuration leads. |
-| `INTRCT_TELEPORT_STN_BASE`, `INTRCT_TELEPORT_NEXUS`, `INTRCT_TELEPORT_BASE_STN` | Direct references are inside the large function range `0x1001B30-0x1004700`. Their local control flow routes through a common tail; it does not expose a post-transfer success result or local/network ownership contract. | `CANDIDATE` interaction/dispatch labels; not an arrival callback. |
+| `INTRCT_TELEPORT_BASE_STN`, `INTRCT_TELEPORT_STN_BASE`, `INTRCT_TELEPORT_NEXUS` | Valid string loads occur at `0x1002269`, `0x100227A` and `0x100228B` inside `0x1001B30-0x1004700`. They feed a shared action-object tail at `0x1001FEC` and cleanup/return at `0x10067FE`; no post-transfer result or local/network ownership contract was found. | `REJECTED` as completion hooks; retain as destination/action dispatch leads only. |
 | `Teleporting` | The valid `.pdata`-bounded instruction at RVA `0xAC41A8` is inside `0xAC40FB-0xAC445B`. It is one field label in a repeated data-record path alongside `Remote`, `IsActive`, `Timestamp` and movement/position labels; this is not a transfer-completion callback. | `REJECTED` as a hook. |
 | `gcpersonalteleporter.cpp` | The valid `.pdata`-bounded instruction at RVA `0x14417A2` is inside `0x1441770-0x144181D`; the filename and source line `0x4A4` are passed to a shared diagnostic helper. | `REJECTED` as an event or function entry. |
 | `cGcPlayerRespawn::GetPositionForTeleportEndpointInBase` | Its embedded name is referenced within range `0x150EABB-0x1510430`; the name describes destination-position calculation. A separate rel32 scan found no direct `E8`/`E9` reference to that range's start; indirect references were not ruled out. | `REJECTED` as a success callback; possible destination-position helper only. |
@@ -320,6 +320,13 @@ using the shared positioning helper as an event trigger: returns in the
 teleport and after save loading, with multiple reason values and no death
 reported. See the
 [teleport and live-observation record](TELEPORT-AND-GROUPED-MENU.md).
+
+The `cGcApplicationDeathState` update candidate at vtable slot 3 dispatches a
+13-entry state table using object field `+0xEC4`. Case 4 begins at RVA
+`0x2E097A` and directly calls the same position helper at `0x14F7F60` from
+RVA `0x2E09D4`. The call is part of death-state processing, but neither this
+case nor its helper return has been tied to completed local respawn. This is
+additional evidence that the shared helper must not be treated as the event.
 
 Reproduce the direct-call inventory with:
 
