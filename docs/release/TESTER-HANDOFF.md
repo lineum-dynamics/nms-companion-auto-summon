@@ -111,24 +111,6 @@ currently created by death/respawn. One earlier 0.10.1 smoke check did show the
 settings entry beside grouped companion rows; the later report makes clear that
 this is not full menu-lifecycle coverage.
 
-A 1 October Cosmos 7.05 static pass found a shared player-position helper with
-three direct call-return sites inside a function carrying a `DoPlayerRespawn`
-diagnostic label. Other callers include warp paths, so the helper is not a
-verified death/respawn signal. A test-only observer filtered to those three
-returns passed the offline native validation suite and was staged locally after
-a fresh verified save/preferences and previous-module backup. Its module hash
-is `cc82f7ffc95eacde583b5225dc2a4d530b9dff804a5666644def12e24f197702`. NMS
-has not been restarted with it, and no live respawn or production behavior is
-claimed. The public Nexus file 49367 and its archive remain unchanged.
-
-A local observer session later confirmed exact-build acceptance and recorded
-two of the candidate return sites during a successful save-load sequence,
-without a reported death. This shows the shared helper is not death-specific;
-the observer does not create opportunities or change the mod's behavior. The
-hook-count text in that diagnostic build was a fixed baseline message. An
-offline-validated follow-up build corrects it but is not installed in the
-running session. No production respawn trigger or new public package is ready.
-
 A feature-branch candidate now skips an isolated callback from an unexpected
 thread and rebinds only at a quiescent menu-builder start. It still fails closed
 if a builder, append, confirmation or trigger transaction crosses threads. All
@@ -141,13 +123,8 @@ Anomaly. The log records successful local save load, opportunity armed, and
 queue accepted. This one live case does not establish recovery after death or
 reliability across menu rebuilds. Public file 49367 remains unchanged.
 
-Neither finding changes the released ZIP. A 1 October 2026 read-only static
-analysis pass against the exact Cosmos 7.05 executable now records multiple
-RIP-relative candidate references to native teleport state, plus one candidate
-for `Teleporting` and one for the `gcpersonalteleporter.cpp` marker. The hits
-are not yet decoded into a verified local completion callback. Teleport and
-reliable grouped-roster menu recovery remain open until separately versioned
-candidates are validated. See [NMS-075-STATIC-XREFS](../research/NMS-075-STATIC-XREFS.md).
+Neither finding changes the released ZIP. Teleport and reliable grouped-roster
+menu recovery remain open until a separately versioned candidate is validated.
 Track the current player-facing status in [Known Issues](../KNOWN-ISSUES.md).
 
 The ZIP is retained in the originating task's deliverables; publish only the
