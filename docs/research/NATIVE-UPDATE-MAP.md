@@ -161,6 +161,18 @@ builds.
   structural evidence than a string-only lead, but its state table has not
   been semantically mapped to completed local respawn. Keep it a candidate;
   require natural in-game correlation before any hook or summon opportunity.
+- A second 1 October string pass matching `respawn` found the named
+  `RPCReceivedPlayerRespawned` only in MSVC RPC template/type strings, not as a
+  direct code reference. Treat this as a network-path lead, not proof of a
+  local-player completion callback. `RespawnPlayer` also had no direct
+  RIP-relative reference in this pass; that bounded negative does not prove
+  the function is absent. Record the exact scan and lead dispositions in
+  [NATIVE-0705-COMPATIBILITY](NATIVE-0705-COMPATIBILITY.md).
+- The focused follow-up on `RespawnReason`, `LastKnownPlayerState`,
+  `SpawnLocation` and `PLAYER_RESPAWN` found a mangled lambda type associated
+  with `cGcPlayerRespawn::SpawnAndPositionShip`, but no direct code reference,
+  enum-value mapping or completed-event contract. Keep it as a path candidate;
+  do not infer semantics from its name or the logged scalar values.
 - A full-section linear Capstone sweep can decode embedded data or begin at an
   unaligned byte and manufacture apparent instructions. Use the `.pdata`
   function-bound scan for caller counts and negative xref findings; preserve

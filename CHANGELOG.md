@@ -68,6 +68,18 @@
   trigger. Queue acceptance does not prove visible placement; the owner report
   supplies that confirmation. The Windows event identifies an application
   hang, not a faulting-module crash, and does not establish a mod cause.
+- Extend the exact-build `.pdata`-bounded search across all `respawn` strings:
+  60 printable matches, 52,096,118 decoded runtime-function bytes and no
+  skipped ranges. `RPCReceivedPlayerRespawned` appears in network-RPC type names
+  without a direct code reference; `RespawnPlayer` likewise had no direct
+  RIP-relative reference. Neither result identifies a completed local respawn
+  event. The owner also reports that manual companion summoning is currently
+  unavailable on the freighter; this remains a bounded observation, not a
+  broader freighter compatibility claim. No runtime or public release changed.
+- A focused follow-up found `cGcPlayerRespawn::SpawnAndPositionShip` only in a
+  compiler-generated lambda type name, without a direct code reference; it did
+  not map `RespawnReason` or the logged numeric values. Keep that as a static
+  respawn-path candidate, not a completion trigger.
 
 ## Unreleased follow-up — 30 September 2026
 

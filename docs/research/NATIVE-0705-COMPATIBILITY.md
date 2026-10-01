@@ -328,6 +328,52 @@ RVA `0x2E09D4`. The call is part of death-state processing, but neither this
 case nor its helper return has been tied to completed local respawn. This is
 additional evidence that the shared helper must not be treated as the event.
 
+### Broader respawn-string pass
+
+A second `.pdata`-bounded string-reference scan used the case-insensitive term
+`respawn` against this same executable. It matched 60 printable strings and
+decoded 52,096,118 runtime-function bytes with no skipped ranges. Most matches
+are unrelated creature-spawn or serialized-data labels. The additional leads
+do not identify a completed local respawn callback:
+
+| Lead | Evidence | Status |
+|---|---|---|
+| `RPCReceivedPlayerRespawned` | Its name appears in three MSVC template/type strings for `cGcRpcCall` and its `SendRemoteCall` lambda; the pass found no direct RIP-relative code reference to those type strings. The name indicates a network RPC receiver, but this scan does not establish whether or when it runs for the local player. | `REJECTED` as a standalone local completion hook; retain only as a network-path lead. |
+| `RespawnPlayer` | The printable name has no direct RIP-relative code reference in this pass. Indirect, hashed, dynamically assembled and non-RIP-relative uses are outside its scope. | `UNMAPPED`; not evidence that the function or event is absent. |
+| `PlayerDeathRespawnPositionInSystem`, `PlayerDeathRespawnTransformAt` | The property-like labels have references in four functions; those string references alone reveal no transition, success result or local/network contract. | `REJECTED` as completion hooks. |
+| `DoPlayerRespawn`, `PLAYER_RESPAWN` | The earlier diagnostic-string leads remain as recorded above; both candidate paths also occur during non-death activity. | `REJECTED` as unfiltered hooks. |
+
+Reproduce the string pass with:
+
+```powershell
+py -B tools/native_string_xrefs.py --exe "<path-to-NMS.exe>" --contains respawn
+```
+
+The tool uses Python `3.11.9`, `pefile 2024.8.26` and Capstone `5.0.9` for the
+recorded run. It finds only direct RIP-relative references from decoded
+`.pdata` ranges. The local completed-respawn trigger remains `UNMAPPED`; no
+production behavior is enabled from these leads.
+
+### Respawn-argument follow-up
+
+A focused follow-up searched `RespawnReason`, `LastKnownPlayerState`,
+`SpawnLocation` and `PLAYER_RESPAWN` in the same executable. It matched nine
+printable strings and decoded the same 52,096,118 runtime-function bytes with
+no skipped ranges. It did not locate a standalone `RespawnReason` string or
+map the live observer's numeric `reason=1/9/11` values:
+
+| Lead | Exact-build evidence | Status |
+|---|---|---|
+| `SpawnAndPositionShip` | Present in a compiler-generated lambda type name belonging to `cGcPlayerRespawn::SpawnAndPositionShip`; the string had no direct RIP-relative code reference. The method name makes this a respawn-path lead, not a completion result. | `CANDIDATE`; function and completion semantics still unverified. |
+| `LastKnownPlayerState` | Four field-name references occur in ranges `0x29F7D90-0x29F8512`, `0x2A050D0-0x2A05227`, `0x2A0B700-0x2A0B97E` and `0x2A152D0-0x2A158FA`. They do not expose a successful local-respawn callback. | `REJECTED` as a completion hook. |
+| `RespawnReason` and observed scalar values | No standalone matching name or enumerator-to-value mapping was recovered by this scan. | `UNMAPPED`; do not treat reason values as a trigger. |
+
+Reproduce with:
+
+```powershell
+py -B tools/native_string_xrefs.py --exe "<path-to-NMS.exe>" --contains RespawnReason --contains LastKnownPlayerState --contains SpawnLocation --contains PLAYER_RESPAWN
+```
+
 Reproduce the direct-call inventory with:
 
 ```powershell

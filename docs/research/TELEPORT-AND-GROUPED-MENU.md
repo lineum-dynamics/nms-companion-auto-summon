@@ -218,6 +218,33 @@ possible. The log does not identify the precise placement check or prove that
 the earlier hang had the same cause as the summon delay. Windows reported an
 application hang rather than a faulting-module crash; no cause is established.
 
+The owner reports that a pet cannot currently be summoned manually on the
+freighter. This is a bounded report for the current game session, not a
+freighter-wide compatibility result or evidence that the mod should bypass the
+game's eligibility checks. The mod's current public description does not claim
+freighter support; automatic summoning must remain subject to the same native
+manual summon and placement rules.
+
+## Broader respawn-string pass (1 October 2026)
+
+A follow-up `.pdata`-bounded scan of the exact Cosmos 7.05 executable searched
+all printable strings containing `respawn`. It matched 60 strings and decoded
+52,096,118 runtime-function bytes with no skipped ranges. It found no
+confirmed local completion event. In particular, `RPCReceivedPlayerRespawned`
+appears only in MSVC type/template names for a network RPC receiver; the scan
+cannot show whether it runs for the local player. `RespawnPlayer` has no direct
+RIP-relative reference in this pass, which does not prove it is unused or
+absent. Player-death position labels lead to data/serialization code, not a
+verified completion callback. See the detailed lead table and exact limitations
+in [NATIVE-0705-COMPATIBILITY](NATIVE-0705-COMPATIBILITY.md).
+
+A focused follow-up searched `RespawnReason`, `LastKnownPlayerState`,
+`SpawnLocation` and `PLAYER_RESPAWN`. It did not map the logged numeric reason
+values. A compiler-generated type name links a captured lambda to
+`cGcPlayerRespawn::SpawnAndPositionShip`, but the string has no direct code
+reference and does not identify successful completion. Keep it as a static
+respawn-path candidate only; the exact trigger remains unresolved.
+
 ## Design direction
 
 Treat teleport arrival as an independent opportunity setting, separate from the
