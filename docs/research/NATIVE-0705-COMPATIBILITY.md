@@ -265,6 +265,35 @@ The teleport trigger remains `UNMAPPED`; do not implement a position jump,
 generic warp, destination-selection action, or remote-player RPC as a
 substitute. See [the teleport research record](TELEPORT-AND-GROUPED-MENU.md).
 
+### Broad teleport-string follow-up
+
+A broader case-insensitive `teleport` pass matched 197 printable strings and
+decoded 52,096,118 runtime-function bytes with no skipped ranges in the same
+executable. It produced more data, animation and teleporter-type labels, but no
+verified local arrival callback. `TELEPORT_START`, `TELEPORT_END`,
+`TELEPORT_LOOP_STOP`, `PL_TELEPORT_WARP_START` and
+`PL_TELEPORT_WARP_END` had no direct RIP-relative code reference in this pass.
+`TeleportToPlayer` also had no direct reference; this bounded negative does
+not prove those events or functions are absent.
+
+The additional sequence names are not completion evidence. The
+`cGcMissionSequenceTeleport` references at `0x1F7276C` and `0x1F7278B` occur in
+range `0x1F72640-0x1F7281A`; another reference at `0x1F7582D` is in a
+registration-style call in range `0x1F757F0-0x1F75B6E`. The
+`cGcNotificationSequenceTeleport` reference at `0xAAA446` is in range
+`0xAAA2E8-0xAAA545`; its runtime role remains unverified. These are
+`UNMAPPED`/rejected as success hooks until a caller contract and live local
+arrival timing are established. The previously reviewed teleporter-selection
+and endpoint references remain rejected as recorded above.
+
+Reproduce the broad pass with:
+
+```powershell
+py -B tools/native_string_xrefs.py --exe "<path-to-NMS.exe>" --contains teleport
+```
+
+The recorded run used Python `3.11.9`, `pefile 2024.8.26` and Capstone `5.0.9`.
+
 ## Respawn-path candidate (1 October 2026)
 
 The same exact executable was scanned for `DoPlayerRespawn` and

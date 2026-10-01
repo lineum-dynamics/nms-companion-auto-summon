@@ -85,6 +85,11 @@
   the return value at object offset `+0x620` and forwards it to the shared
   position helper. This is dataflow evidence only; reason names and successful
   completion semantics remain unknown.
+- Broaden the exact-build teleport scan to 197 printable string matches.
+  Teleport animation/warp event labels and `TeleportToPlayer` had no direct
+  RIP-relative code references; mission/notification sequence references did
+  not reveal a verified local arrival callback. The teleport trigger remains
+  unmapped and disabled.
 
 ## Unreleased follow-up — 30 September 2026
 

@@ -184,6 +184,11 @@ builds.
   unaligned byte and manufacture apparent instructions. Use the `.pdata`
   function-bound scan for caller counts and negative xref findings; preserve
   any broad-sweep result only as an explicitly unverified lead.
+- A broad `teleport` string pass can match nearly two hundred unrelated data,
+  animation and sequence names. Audio/warp labels without code references and
+  mission/notification sequence types without a verified caller contract are
+  not local arrival callbacks. Keep the sanitized exact-build classifications
+  in [NATIVE-0705-COMPATIBILITY](NATIVE-0705-COMPATIBILITY.md).
 - A raw RIP-relative ModRM-byte scan can resolve a real LEA target while
   reporting the ModRM byte two bytes into the instruction as its apparent
   address. Label such output as candidate byte offsets, then re-decode from the

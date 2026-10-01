@@ -218,6 +218,18 @@ possible. The log does not identify the precise placement check or prove that
 the earlier hang had the same cause as the summon delay. Windows reported an
 application hang rather than a faulting-module crash; no cause is established.
 
+## Broad teleport-string follow-up (1 October 2026)
+
+A broader `.pdata`-bounded scan matched 197 printable strings containing
+`teleport`. The event-like labels `TELEPORT_START`, `TELEPORT_END`,
+`TELEPORT_LOOP_STOP`, `PL_TELEPORT_WARP_START` and
+`PL_TELEPORT_WARP_END`, plus `TeleportToPlayer`, had no direct RIP-relative
+code reference in this pass. `cGcMissionSequenceTeleport` and
+`cGcNotificationSequenceTeleport` produced code references, but their inspected
+contexts did not establish a local successful-arrival callback. No teleport
+trigger is promoted; the exact ranges and limits are in
+[NATIVE-0705-COMPATIBILITY](NATIVE-0705-COMPATIBILITY.md).
+
 The owner reports that a pet cannot currently be summoned manually on the
 freighter. This is a bounded report for the current game session, not a
 freighter-wide compatibility result or evidence that the mod should bypass the
