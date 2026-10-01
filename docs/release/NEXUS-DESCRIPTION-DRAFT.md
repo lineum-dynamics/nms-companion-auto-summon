@@ -125,7 +125,7 @@ Dismissal does not create another automatic opportunity. Another successful loca
 
 **Does it summon after teleporting, death or deleting a base?**
 
-This build creates automatic opportunities after a successful local save load or ship exit only. Teleport arrival and death/respawn do not currently trigger a request; base removal does not create one either. Manual dismissal or a missing pet does not automatically trigger a respawn. The reported missing menu and pet after death are being tracked; one UI-thread safety stop appeared in the session log, but the log cannot show that death caused it.
+This build creates automatic opportunities after a successful local save load or ship exit only. Teleport arrival and death/respawn do not currently trigger a request; base removal does not create one either. Manual dismissal or a missing pet does not automatically trigger a respawn. The reported missing menu and pet after death are being tracked; one UI-thread safety stop appeared in the session log, but the log cannot show that death caused it. A new exact-build static-analysis pass found native teleporter state references, but no successful local completion callback has been verified yet.
 
 **How much has been tested?**
 
