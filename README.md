@@ -63,7 +63,10 @@ the full installation and removal instructions.
 ## Known issues in 0.10.1-native-test
 
 - There is no automatic summon trigger after teleport arrival or death/respawn.
-  This build triggers after a successful local save load or ship exit.
+  This build triggers after a successful local save load or ship exit. A read-only
+  Cosmos 7.05 static-analysis pass narrowed the teleport search to native state
+  references, but no successful local completion callback is verified yet; the
+  public archive remains unchanged. See [teleport/menu research](docs/research/TELEPORT-AND-GROUPED-MENU.md).
 - The owner reported that the settings menu disappeared after death. The
   0.10.1 log recorded a UI callback-thread safety stop, but did not record a
   death event; whether death caused the thread change is unknown. One grouped
