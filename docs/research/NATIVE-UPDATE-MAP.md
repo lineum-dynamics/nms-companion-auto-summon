@@ -201,6 +201,11 @@ builds.
   already-pending policy request. This confirms one test path can initiate the
   request, but not that the shared return is a completed local teleport event
   or safe for multiplayer. See the exact-build report.
+- A second test used a station-to-planetary-base teleporter without a ship exit.
+  The session had already accepted its separate save-load queue; the filtered
+  helper return later armed and accepted another request, followed by owner-
+  confirmed appearance. This reproduces the experimental hook on another local
+  route, but still leaves the native reason and multiplayer contract unknown.
 - A raw RIP-relative ModRM-byte scan can resolve a real LEA target while
   reporting the ModRM byte two bytes into the instruction as its apparent
   address. Label such output as candidate byte offsets, then re-decode from the

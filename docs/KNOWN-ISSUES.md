@@ -44,6 +44,12 @@ even if save-load waiting had been present. It still does not prove the return
 is a semantically verified successful local teleport event, confirm
 multiplayer isolation, or change the public build. Teleport summoning remains
 an open issue for public 0.10.1.
+In a second local control, the owner tested station-to-planetary-base
+teleportation without a ship exit. The log showed a separate candidate
+opportunity and accepted queue after the session's earlier save-load request
+had already been accepted; the owner again confirmed visible appearance. This
+reproduces the experimental trigger on a second local route, but does not
+verify its game-level meaning, remote-player behavior, or any public fix.
 An earlier negative control opened and closed the teleporter interface without
 selecting a destination; it produced no observer event. The candidate call is
 therefore not caused by opening or backing out of the interface alone. Whether

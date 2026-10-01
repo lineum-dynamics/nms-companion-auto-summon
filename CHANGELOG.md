@@ -69,6 +69,11 @@
   this run. The shared helper's teleport-completion and multiplayer semantics
   remain unverified; the public build is unchanged. See
   [teleport research](docs/research/TELEPORT-AND-GROUPED-MENU.md).
+- A second live control from a station to a planetary base, without entering or
+  exiting a ship, separately armed and accepted a request after the session's
+  save-load queue had already completed. The owner confirmed the pet appeared.
+  This reproduces the test hook on another local route, without establishing
+  the shared helper's completion or multiplayer semantics.
 - After a Windows `AppHangB1` report, the exact executable still matched the
   mapped Cosmos 7.05 hash. The restarted test session logged a successful save
   load, an armed opportunity and an accepted queue; the owner reports that the

@@ -537,3 +537,11 @@ local teleport event or establish multiplayer isolation. Exact build identity,
 trial filters, offline results and the full live log chronology are recorded in
 [TELEPORT-AND-GROUPED-MENU](TELEPORT-AND-GROUPED-MENU.md). The public build
 remains unchanged.
+
+A second local check used a station-to-planetary-base teleporter without a
+ship-exit trigger. A save-load queue had already been accepted earlier in the
+session; the later candidate trial separately logged an opportunity at
+`21:12:59.345Z`, an accepted native queue at `21:13:01.478Z`, and the owner
+confirmed visible appearance after teleporting. This is a second local route
+for the test hook, not proof of the candidate's event semantics or multiplayer
+behavior.

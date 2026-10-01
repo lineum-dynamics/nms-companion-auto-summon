@@ -409,6 +409,17 @@ later, and the owner confirmed visible appearance. This is one live positive
 test of the experimental hook creating a request at this point in the reported
 route.
 
+A second local control used the requested station-to-planetary-base teleporter
+route without entering or exiting a ship. In this new game process, a separate
+save-load opportunity had already been accepted at `21:12:25.593Z`. Later, at
+`21:12:59.345Z`, the candidate trial logged another opportunity at
+`0x3302C4` (`reason=11`, `flag=1`); the native queue accepted it at
+`21:13:01.478Z`, and the owner confirmed that the pet appeared after the
+teleport. The candidate handler's active/queued and pending-request guards were
+therefore satisfied for this later opportunity. This is a second local route
+on which the experimental hook initiated an accepted request, separate from
+the earlier load queue and without a ship-exit trigger in the instructed test.
+
 It does not establish that `reason=11` means successful local teleport
 completion: the positioning helper is shared with warp and respawn paths, and
 the reason value has no verified semantic or multiplayer contract. Arrival
