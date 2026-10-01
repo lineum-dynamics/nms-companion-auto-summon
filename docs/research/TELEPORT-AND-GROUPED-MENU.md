@@ -245,6 +245,14 @@ values. A compiler-generated type name links a captured lambda to
 reference and does not identify successful completion. Keep it as a static
 respawn-path candidate only; the exact trigger remains unresolved.
 
+The reason argument passed to the shared positioning helper is also produced
+by a state-based function at RVA `0x331F60`. A `.pdata`-bounded caller scan
+found one direct caller, at `0x330287` in the `DoPlayerRespawn`-labelled
+function. Its `EAX` result is stored in object field `+0x620` and forwarded to
+the positioning helper. The function returns multiple codes, but their enum
+names and event/success meaning are not mapped. This strengthens the dataflow
+map only; it does not establish a teleport or completed-respawn trigger.
+
 ## Design direction
 
 Treat teleport arrival as an independent opportunity setting, separate from the

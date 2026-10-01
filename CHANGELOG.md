@@ -80,6 +80,11 @@
   compiler-generated lambda type name, without a direct code reference; it did
   not map `RespawnReason` or the logged numeric values. Keep that as a static
   respawn-path candidate, not a completion trigger.
+- Map the argument flow through reason-code producer `0x331F60`: its one direct
+  `.pdata` caller is inside the `DoPlayerRespawn`-labelled function, which stores
+  the return value at object offset `+0x620` and forwards it to the shared
+  position helper. This is dataflow evidence only; reason names and successful
+  completion semantics remain unknown.
 
 ## Unreleased follow-up — 30 September 2026
 

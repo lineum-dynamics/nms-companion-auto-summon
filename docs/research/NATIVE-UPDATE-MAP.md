@@ -173,6 +173,13 @@ builds.
   with `cGcPlayerRespawn::SpawnAndPositionShip`, but no direct code reference,
   enum-value mapping or completed-event contract. Keep it as a path candidate;
   do not infer semantics from its name or the logged scalar values.
+- RVA `0x331F60` is statically corroborated as a state-based reason-code
+  producer: its only direct `.pdata` caller is `0x330287` in the
+  `DoPlayerRespawn`-labelled function, and the returned `EAX` is stored at
+  object offset `+0x620` before being passed to the shared positioning helper.
+  The enum values and completion semantics remain unknown, so this producer is
+  not an approved trigger. Reproduce with `native_call_xrefs.py` as recorded in
+  the build-specific compatibility report.
 - A full-section linear Capstone sweep can decode embedded data or begin at an
   unaligned byte and manufacture apparent instructions. Use the `.pdata`
   function-bound scan for caller counts and negative xref findings; preserve

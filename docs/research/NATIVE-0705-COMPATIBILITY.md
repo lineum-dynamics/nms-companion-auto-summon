@@ -368,6 +368,23 @@ map the live observer's numeric `reason=1/9/11` values:
 | `LastKnownPlayerState` | Four field-name references occur in ranges `0x29F7D90-0x29F8512`, `0x2A050D0-0x2A05227`, `0x2A0B700-0x2A0B97E` and `0x2A152D0-0x2A158FA`. They do not expose a successful local-respawn callback. | `REJECTED` as a completion hook. |
 | `RespawnReason` and observed scalar values | No standalone matching name or enumerator-to-value mapping was recovered by this scan. | `UNMAPPED`; do not treat reason values as a trigger. |
 
+The return value does have a stronger structural lead. Function range
+`0x331F60-0x3321C0` computes multiple integer codes from player/game state.
+The `.pdata`-bounded direct-call scan found one call to its entry, at
+`0x330287` inside `DoPlayerRespawn`'s range `0x32F335-0x33177F`, across
+52,096,118 decoded bytes and with no skipped ranges. The caller stores `EAX`
+in its `+0x620` field at `0x33028C`; that field is then forwarded as `EDX` to
+the shared positioning helper at the previously recorded call sites. This
+corroborates that the helper argument is a state-derived reason code, but the
+enum names, event timing and success semantics remain unknown. It is not a
+verified completion trigger.
+
+Reproduce the caller scan with:
+
+```powershell
+py -B tools/native_call_xrefs.py --exe "<path-to-NMS.exe>" --target-rva 0x331F60 --context 4
+```
+
 Reproduce with:
 
 ```powershell
