@@ -60,6 +60,15 @@
   and a later ordinary queued request have no verified causal link to the
   teleport; no destination or visible pet appearance was captured. The helper
   remains unsuitable as a teleport or death trigger.
+- A later test-only candidate build was live-checked on one reported
+  freighter-to-station trip. At return `0x3302C4` with `reason=11`, `flag=1`,
+  it armed a fresh opportunity; the native queue accepted it 1.66 seconds
+  later, and the owner confirmed that the pet appeared. The candidate handler
+  clears a still-deferred save-load request and does not replace an already
+  pending policy request, so this request is attributable to the test hook in
+  this run. The shared helper's teleport-completion and multiplayer semantics
+  remain unverified; the public build is unchanged. See
+  [teleport research](docs/research/TELEPORT-AND-GROUPED-MENU.md).
 - After a Windows `AppHangB1` report, the exact executable still matched the
   mapped Cosmos 7.05 hash. The restarted test session logged a successful save
   load, an armed opportunity and an accepted queue; the owner reports that the

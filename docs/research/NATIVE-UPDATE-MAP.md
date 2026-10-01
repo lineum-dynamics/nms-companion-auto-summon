@@ -194,6 +194,13 @@ builds.
   new opportunity or queue followed. Keep this the strongest arrival lead,
   not a completion hook, until local/network semantics and success timing are
   proved. See the exact-build report.
+- A later local candidate-trial run armed a new opportunity at this same
+  filtered return, then recorded native queue acceptance and owner-confirmed
+  visible appearance after a reported freighter-to-station trip. The trial
+  clears any deferred save-load request before arming and refuses to replace an
+  already-pending policy request. This confirms one test path can initiate the
+  request, but not that the shared return is a completed local teleport event
+  or safe for multiplayer. See the exact-build report.
 - A raw RIP-relative ModRM-byte scan can resolve a real LEA target while
   reporting the ModRM byte two bytes into the instruction as its apparent
   address. Label such output as candidate byte offsets, then re-decode from the

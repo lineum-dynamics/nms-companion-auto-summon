@@ -527,7 +527,13 @@ The compile-time-only `CAS_TELEPORT_CANDIDATE_TRIAL` build filters the existing
 shared-helper hook to return RVA `0x3302C4`, `reason=11`, `flag=1`; after the
 original helper returns, it tries to arm through the normal Runtime and leaves
 the usual location, native eligibility, and placement checks in place. This
-is not part of a release build and is not yet live-verified. Exact build
-identity, trial filters, offline results and current no-deployment status are
-recorded in
-[TELEPORT-AND-GROUPED-MENU](TELEPORT-AND-GROUPED-MENU.md).
+is not part of a release build. One local freighter-to-station retest recorded
+the candidate opportunity, the matching return values and an accepted native
+queue; the owner confirmed visible appearance. In this trial, the handler only
+arms when no policy request is pending and clears a deferred save-load request
+before creating its own opportunity. This supports the candidate as the source
+of that request, but does not prove the shared helper return is a completed
+local teleport event or establish multiplayer isolation. Exact build identity,
+trial filters, offline results and the full live log chronology are recorded in
+[TELEPORT-AND-GROUPED-MENU](TELEPORT-AND-GROUPED-MENU.md). The public build
+remains unchanged.

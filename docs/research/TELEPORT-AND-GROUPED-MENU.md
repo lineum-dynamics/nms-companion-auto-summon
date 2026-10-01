@@ -384,5 +384,34 @@ refusal runs. Local artifact
 has SHA-256
 `80427266626b7e9c443328d375b6a50c37fd3ffedce130a32e853e932bbe08a3`; its build
 receipt records `live_verified: false`, `deployed: false`. This is test
-preparation only; the currently loaded module and public Nexus file have not
-changed.
+preparation only; those receipt values capture build time. The candidate was
+later installed for the controlled local test below. The public Nexus file has
+not changed.
+
+### Live candidate-trial result (1 October 2026)
+
+The candidate module was installed only in the owner's local Steam test after a
+verified closed-game save/preferences and previous-module backup. On the
+reported freighter-to-station retest, the log recorded a successful local save
+load at `21:01:49.852Z`, then the trial logged a newly armed opportunity at
+`21:02:47.863Z` for the `0x3302C4` candidate. The passive record logged the same
+return with `reason=11`, `flag=1` at `21:02:48.120Z`; the native summon queue was
+accepted at `21:02:49.520Z`. The owner confirmed that a pet appeared, while
+reasonably noting that a request might have been waiting since the freighter.
+
+The trial source resolves that ambiguity for this logged request: the candidate
+handler returns if an ordinary policy request is already pending; otherwise it
+clears any still-deferred save-load request and arms a new ordinary opportunity
+at this candidate return. The new `Teleport candidate trial: opportunity
+armed...` entry therefore records the candidate, rather than a request merely
+surviving from the save load. Queue acceptance followed about 1.66 seconds
+later, and the owner confirmed visible appearance. This is one live positive
+test of the experimental hook creating a request at this point in the reported
+route.
+
+It does not establish that `reason=11` means successful local teleport
+completion: the positioning helper is shared with warp and respawn paths, and
+the reason value has no verified semantic or multiplayer contract. Arrival
+timing, remote-player isolation and other destinations still need validation.
+The public build and Nexus file remain unchanged; do not describe teleport
+summoning as released behavior.

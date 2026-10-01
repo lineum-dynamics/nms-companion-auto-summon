@@ -34,10 +34,21 @@ arrival. The source runtime arms opportunities only after local save load or
 ship exit. This is consistent with an earlier pending opportunity becoming
 eligible at the station, not evidence of a teleport trigger. It also confirms
 this candidate helper runs during teleporter use, so it is not death-specific.
-A negative control opened and closed the teleporter interface without selecting
-a destination; it produced no observer event. The candidate call is therefore
-not caused by opening or backing out of the interface alone. Whether it marks
-destination confirmation, transition start or completed arrival remains open.
+A later private candidate-trial retest produced a different sequence: at the
+filtered return the test-only handler logged a new opportunity, then the native
+queue accepted a request about 1.66 seconds later; the owner confirmed the pet
+appeared. In this trial the handler refuses to run over an already-pending
+policy request, clears a deferred save-load request, and arms a fresh one at the
+candidate. This supports that the experimental hook initiated this request,
+even if save-load waiting had been present. It still does not prove the return
+is a semantically verified successful local teleport event, confirm
+multiplayer isolation, or change the public build. Teleport summoning remains
+an open issue for public 0.10.1.
+An earlier negative control opened and closed the teleporter interface without
+selecting a destination; it produced no observer event. The candidate call is
+therefore not caused by opening or backing out of the interface alone. Whether
+it marks destination confirmation, transition start or completed arrival
+remains open.
 A follow-up offline-validated diagnostic build corrects a stale hook-count log
 message and has not been installed in the active session.
 The separate byte-pattern pass also recorded candidate references to native
