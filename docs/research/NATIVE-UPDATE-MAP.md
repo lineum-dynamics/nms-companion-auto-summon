@@ -189,6 +189,11 @@ builds.
   mission/notification sequence types without a verified caller contract are
   not local arrival callbacks. Keep the sanitized exact-build classifications
   in [NATIVE-0705-COMPATIBILITY](NATIVE-0705-COMPATIBILITY.md).
+- A live freighter-to-station sample correlated helper return `0x3302C4`,
+  `reason=11`, `flag=1` with the owner's reported successful arrival, while no
+  new opportunity or queue followed. Keep this the strongest arrival lead,
+  not a completion hook, until local/network semantics and success timing are
+  proved. See the exact-build report.
 - A raw RIP-relative ModRM-byte scan can resolve a real LEA target while
   reporting the ModRM byte two bytes into the instruction as its apparent
   address. Label such output as candidate byte offsets, then re-decode from the

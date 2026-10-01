@@ -230,6 +230,15 @@ contexts did not establish a local successful-arrival callback. No teleport
 trigger is promoted; the exact ranges and limits are in
 [NATIVE-0705-COMPATIBILITY](NATIVE-0705-COMPATIBILITY.md).
 
+In a live observer check, the owner reported a successful freighter-to-station
+teleport and no visible pet. At `20:01:26.338Z`, the observer recorded
+`0x3302C4`, `reason=11`, `flag=1`, but no new opportunity or accepted queue
+followed. The only preceding opportunity/queue in that log was armed/accepted
+at `19:51:09.946Z` / `19:51:12.011Z`. This is the strongest live lead so far
+for an arrival-related candidate, but the shared helper and reason code still
+lack proven completion timing and local/network semantics. The current
+automatic trigger remains unimplemented.
+
 The owner reports that a pet cannot currently be summoned manually on the
 freighter. This is a bounded report for the current game session, not a
 freighter-wide compatibility result or evidence that the mod should bypass the

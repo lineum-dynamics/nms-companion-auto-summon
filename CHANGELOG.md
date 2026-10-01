@@ -90,6 +90,12 @@
   RIP-relative code references; mission/notification sequence references did
   not reveal a verified local arrival callback. The teleport trigger remains
   unmapped and disabled.
+- Record the latest live freighter-to-station sample: `0x3302C4` returned with
+  `reason=11` and `flag=1` after the owner's reported arrival, but no fresh
+  opportunity or queue followed and no pet appeared. A prior queue was accepted
+  about ten minutes earlier. This is the strongest arrival candidate so far,
+  not a verified completion trigger; the runtime and public release remain
+  unchanged.
 
 ## Unreleased follow-up — 30 September 2026
 

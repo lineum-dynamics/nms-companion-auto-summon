@@ -294,6 +294,24 @@ py -B tools/native_string_xrefs.py --exe "<path-to-NMS.exe>" --contains teleport
 
 The recorded run used Python `3.11.9`, `pefile 2024.8.26` and Capstone `5.0.9`.
 
+### Live freighter-to-station arrival sample (1 October 2026)
+
+In the active native observer session, the owner reported a successful
+freighter-to-station teleport and no visible companion. At `20:01:26.338Z`,
+the observer recorded a return from `0x3302C4` with `reason=11` and `flag=1`.
+The log contains no newly armed opportunity or accepted queue after that
+return. The preceding recorded opportunity was armed at `19:51:09.946Z` and
+its queue was accepted at `19:51:12.011Z`, about ten minutes earlier. The
+arrival therefore did not create a fresh opportunity in the current runtime.
+
+This is a live positive correlation for the shared helper's `reason=11`
+candidate during a reported successful local teleport, and a negative result
+for current automatic behavior. It still does not prove that this return is
+the transfer-completion point, that the reason is teleport-specific, or that
+the path cannot also run for a remote/network transition. Treat it as the
+strongest live teleport lead so far, not an approved production hook. No
+runtime or public package was changed.
+
 ## Respawn-path candidate (1 October 2026)
 
 The same exact executable was scanned for `DoPlayerRespawn` and
