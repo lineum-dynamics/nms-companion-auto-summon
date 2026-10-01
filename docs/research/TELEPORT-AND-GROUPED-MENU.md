@@ -197,6 +197,27 @@ out mere interface open/back as the source of the candidate callback in this
 session. It does not distinguish destination confirmation, transition start
 and completed arrival; the successful trip remains the only positive sample.
 
+The owner later teleported to a freighter. At `17:08:33.960Z`, the observer
+recorded returns `0x3302C4` and `0x33066F`, both with `reason=11` and flags `1`
+and `0`; it recorded no new opportunity at that moment. A later `0x3302C4`
+sample at `17:11:44Z` had `reason=9`. At `17:12:53Z` the normal runtime armed
+an opportunity and accepted a queue at `17:12:56Z`, but the intervening player
+action and visible result were not captured. These samples further show that
+the shared positioning helper runs in the teleport session; they do not
+identify a teleport-completion or respawn event. The current Nexus description
+does not claim freighter support, and no freighter-specific summon result was
+verified in this test.
+
+After a Windows `AppHangB1` report at `19:14:39` local time, the game restarted
+with the same executable SHA-256 and Steam build. The next process logged a
+successful local save load at `17:15:26Z`, armed an opportunity at `17:15:38Z`,
+and accepted the ordinary summon queue at `17:16:53Z`. The owner reports that
+the pet appeared only after moving from a planetary cave to the surface. This
+is consistent with the existing wait for a location where native placement is
+possible. The log does not identify the precise placement check or prove that
+the earlier hang had the same cause as the summon delay. Windows reported an
+application hang rather than a faulting-module crash; no cause is established.
+
 ## Design direction
 
 Treat teleport arrival as an independent opportunity setting, separate from the

@@ -40,6 +40,21 @@
   candidate return was recorded. The call site is not triggered by merely
   opening/backing out of the interface; destination confirmation or the travel
   transition remains to be isolated.
+- Record a second live teleport sample after the owner moved to a freighter:
+  the passive observer captured two returns from the shared positioning
+  helper (`0x3302C4` and `0x33066F`, both with `reason=11`), but no new
+  opportunity was armed at that point. A later candidate call (`reason=9`)
+  and a later ordinary queued request have no verified causal link to the
+  teleport; no destination or visible pet appearance was captured. The helper
+  remains unsuitable as a teleport or death trigger.
+- After a Windows `AppHangB1` report, the exact executable still matched the
+  mapped Cosmos 7.05 hash. The restarted test session logged a successful save
+  load, an armed opportunity and an accepted queue; the owner reports that the
+  pet appeared only after leaving a planetary cave for the surface. This is
+  consistent with the existing placement-wait behavior, not a new respawn
+  trigger. Queue acceptance does not prove visible placement; the owner report
+  supplies that confirmation. The Windows event identifies an application
+  hang, not a faulting-module crash, and does not establish a mod cause.
 
 ## Unreleased follow-up — 30 September 2026
 

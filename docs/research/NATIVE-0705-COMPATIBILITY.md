@@ -299,6 +299,27 @@ module SHA-256 is
 follow-up was not staged into the active game session, so it does not replace
 the module hash recorded above or change the live observation.
 
+### Death-state RTTI lead
+
+The executable also contains the MSVC type descriptor for
+`cGcApplicationDeathState` (RVA `0x5159508`). Its parsed complete-object
+locator is at `0x4B68CA8`; the candidate vtable begins at `0x4A4DC50`. The
+first four entries resolve to RVAs `0x32AAD0`, `0x2DB290`, `0x2DB370` and
+`0x2DBB60`. The first has deleting-destructor behavior, while `0x2DBB60`
+accepts a floating-point update argument and dispatches through a 13-entry
+state table using an object field at offset `0xEC4`. This makes the last entry
+a useful death-state update lead, not a confirmed respawn-completion hook.
+Its state transitions have not yet been mapped to local-player respawn, and no
+natural death observation has been recorded. Do not hook it or create a summon
+opportunity from it without proving the completed local-respawn transition.
+
+The live owner session later supplied two additional observations against
+using the shared positioning helper as an event trigger: returns in the
+`DoPlayerRespawn`-labelled range were observed during successful freighter
+teleport and after save loading, with multiple reason values and no death
+reported. See the
+[teleport and live-observation record](TELEPORT-AND-GROUPED-MENU.md).
+
 Reproduce the direct-call inventory with:
 
 ```powershell

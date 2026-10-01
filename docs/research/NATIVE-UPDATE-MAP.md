@@ -155,6 +155,12 @@ builds.
   caller means. The current position-helper candidate has callers in both a
   function carrying a `DoPlayerRespawn` diagnostic label and warp-related
   functions; only the former's exact return sites are being observed.
+- The 1 October RTTI pass recovered the `cGcApplicationDeathState` type
+  descriptor, candidate vtable and a state-dispatching update method. The
+  method's class ownership and floating-point update argument are stronger
+  structural evidence than a string-only lead, but its state table has not
+  been semantically mapped to completed local respawn. Keep it a candidate;
+  require natural in-game correlation before any hook or summon opportunity.
 - A full-section linear Capstone sweep can decode embedded data or begin at an
   unaligned byte and manufacture apparent instructions. Use the `.pdata`
   function-bound scan for caller counts and negative xref findings; preserve
