@@ -35,6 +35,9 @@ public:
     void beforeLoad(bool network) noexcept;
     void afterLoad(Address common, bool network, bool result) noexcept;
     void afterExit(Address player) noexcept;
+#ifdef CAS_TELEPORT_CANDIDATE_TRIAL
+    void afterTeleportCandidateTrial() noexcept;
+#endif
     void beforeEnter(Address player) noexcept;
     void afterPlayer(Address player, float dt) noexcept;
     void afterOwner(Address owner, float dt) noexcept;

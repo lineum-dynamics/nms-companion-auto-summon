@@ -156,6 +156,39 @@ std::vector<std::pair<std::string,Test>> cases() {
     std::vector<std::pair<std::string,Test>> tests;
     auto add = [&](const char* name, Test test) { tests.emplace_back(name,std::move(test)); };
     add("absence-is-not-an-opportunity",[](auto dir) { Fixture f(dir); f.pet(0); f.run(); require(f.queues.empty(),"Absence armed automation"); });
+#ifdef CAS_TELEPORT_CANDIDATE_TRIAL
+    add("teleport-candidate-trial-waits-for-a-supported-destination",[](auto dir) {
+        Fixture f(dir); f.pet(0); f.exit(); f.runtime->beforeEnter(player);
+        f.put<int>(app+0x57A584,1);
+        f.runtime->afterTeleportCandidateTrial();
+        f.run(10);
+        require(f.queues.empty(),"Teleport candidate summoned at an unsupported location");
+        f.put<int>(app+0x57A584,2);
+        f.run();
+        require(f.queues==std::vector<int>{0},"Teleport candidate did not use native placement at a supported destination");
+    });
+    add("teleport-candidate-trial-does-not-replace-an-active-companion",[](auto dir) {
+        Fixture f(dir); f.pet(0); f.exit(); f.runtime->beforeEnter(player);
+        f.put<int>(active,3);
+        f.runtime->afterTeleportCandidateTrial();
+        f.run();
+        require(f.queues.empty(),"Teleport candidate replaced an active companion");
+    });
+    add("teleport-candidate-trial-respects-automatic-summoning-off",[](auto dir) {
+        cas::Preferences prefs; prefs.enabled=false;
+        Fixture f(dir,prefs); f.pet(0); f.runtime->beforeEnter(player);
+        f.runtime->afterTeleportCandidateTrial();
+        f.run();
+        require(f.queues.empty(),"Teleport candidate bypassed the automation setting");
+    });
+    add("duplicate-teleport-candidate-trial-does-not-duplicate-queue",[](auto dir) {
+        Fixture f(dir); f.pet(0); f.exit(); f.runtime->beforeEnter(player);
+        f.runtime->afterTeleportCandidateTrial();
+        f.runtime->afterTeleportCandidateTrial();
+        f.run();
+        require(f.queues==std::vector<int>{0},"Duplicate candidate created multiple summon requests");
+    });
+#endif
     for (const int location : {2,3,14}) tests.emplace_back("startup-location-"+std::to_string(location),[location](auto dir) {
         Fixture f(dir); f.pet(0); f.put<int>(app+0x57A584,location); f.load();
         require(f.placements==0 && f.queues.empty(),"Load callback performed native placement");

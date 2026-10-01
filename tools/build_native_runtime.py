@@ -17,8 +17,13 @@ def main():
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--respawn-observer", action="store_true",
                         help="Build a test-only passive observer for three exact-build respawn-path candidate returns")
+    parser.add_argument("--teleport-candidate-trial", action="store_true",
+                        help="Build a local test-only summon trial for return 0x3302C4 with reason 11 and flag 1")
     args = parser.parse_args()
-    version = VERSION + ("-respawn-observer" if args.respawn_observer else "")
+    if args.respawn_observer and args.teleport_candidate_trial:
+        parser.error("--respawn-observer and --teleport-candidate-trial are separate build modes")
+    version = VERSION + ("-teleport-candidate-trial" if args.teleport_candidate_trial else
+                         "-respawn-observer" if args.respawn_observer else "")
     output = args.output.resolve()
     if not output.is_relative_to(ROOT / "build") or output.exists():
         raise ValueError("Use a new directory beneath build")
@@ -88,7 +93,9 @@ END
     objects.append(output / "version.o")
     runtime_sources = [native / "src" / (name + ".cpp") for name in
                        ("bootstrap","probe","policy","selection","storage","runtime","backup","menu","binding_guard")]
-    observer_define = ["-DCAS_RESPAWN_OBSERVER"] if args.respawn_observer else []
+    observer_define = (["-DCAS_RESPAWN_OBSERVER", "-DCAS_TELEPORT_CANDIDATE_TRIAL"]
+                       if args.teleport_candidate_trial else
+                       ["-DCAS_RESPAWN_OBSERVER"] if args.respawn_observer else [])
     command = [*common,"-shared","-DCAS_NATIVE_RUNTIME","-DCAS_PROBE_BUILD",*observer_define,*runtime_sources,*objects,
                "-lbcrypt","-ladvapi32","-lshell32","-lole32","-luuid","-luser32","-o",output / "CompanionAutoSummon.asi"]
     commands.append(command)
@@ -103,7 +110,8 @@ END
     }
     for name, paths in hosts.items():
         unicode = ["-municode"] if name == "native_host" else []
-        command = [*common,*unicode,*(ROOT / p for p in paths),"-lbcrypt","-ladvapi32","-o",output / (name+".exe")]
+        trial_define = ["-DCAS_TELEPORT_CANDIDATE_TRIAL"] if name == "runtime_fixture" and args.teleport_candidate_trial else []
+        command = [*common,*unicode,*trial_define,*(ROOT / p for p in paths),"-lbcrypt","-ladvapi32","-o",output / (name+".exe")]
         commands.append(command)
         run(command,output)
     hook_host = output / "hook_host.exe"
@@ -122,9 +130,11 @@ END
     if before != {p.relative_to(ROOT).as_posix(): digest(p) for p in sources}:
         raise RuntimeError("Source changed while compiling; build retained but invalid")
     products = [binary,hook_host,*(output / (name+".exe") for name in hosts)]
-    receipt = {"version":version,"gameplay_implemented":True,"diagnostic_observer":args.respawn_observer,
-               "diagnostic_candidate_rva":0x14F7F60 if args.respawn_observer else None,
-               "diagnostic_return_site_rvas":[0x3302C4,0x33066F,0x330946] if args.respawn_observer else [],
+    receipt = {"version":version,"gameplay_implemented":True,"diagnostic_observer":args.respawn_observer or args.teleport_candidate_trial,
+               "diagnostic_candidate_rva":0x14F7F60 if args.respawn_observer or args.teleport_candidate_trial else None,
+               "diagnostic_return_site_rvas":[0x3302C4,0x33066F,0x330946] if args.respawn_observer or args.teleport_candidate_trial else [],
+               "teleport_candidate_trial":args.teleport_candidate_trial,
+               "teleport_candidate_filter":{"return_rva":0x3302C4,"reason":11,"flag":1} if args.teleport_candidate_trial else None,
                "live_verified":False,"deployed":False,
                "compiler":run([compiler,"--version"],output).strip(),"compiler_sha256":digest(compiler),
                "sources":before,"imports":imports,"compatibility":profile,"profile_validation":profile_report,

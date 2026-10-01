@@ -152,6 +152,24 @@ void Runtime::afterLoad(Address common, bool network, bool result) noexcept {
 void Runtime::afterExit(Address player) noexcept {
     guarded([&] { if (!prefs_.enabled) return; if (const auto app = appFor(player)) { invalidate(); load_pending_ = false; arm(app); } });
 }
+#ifdef CAS_TELEPORT_CANDIDATE_TRIAL
+void Runtime::afterTeleportCandidateTrial() noexcept {
+    guarded([&] {
+        if (!prefs_.enabled || !app_) return;
+        const auto player = app_ + local_player;
+        const auto app = appFor(player);
+        if (!app || policy_.pending()) return;
+        const auto location = read<int>(app + location_offset);
+        if (supported(location) && !allowed(prefs_,location)) return;
+        if (read<int>(app + active_pet) != -1 || read<int>(player + queued_pet) != -1) return;
+        invalidate();
+        load_pending_ = false;
+        arm(app);
+        if (policy_.pending())
+            log("Teleport candidate trial: opportunity armed at return 0x3302C4 (reason=11, flag=1)");
+    });
+}
+#endif
 void Runtime::beforeEnter(Address player) noexcept {
     guarded([&] { if (appFor(player)) { invalidate(); load_pending_ = false; cancel(); } });
 }

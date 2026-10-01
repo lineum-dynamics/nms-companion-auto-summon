@@ -96,6 +96,17 @@
   about ten minutes earlier. This is the strongest arrival candidate so far,
   not a verified completion trigger; the runtime and public release remain
   unchanged.
+- Decode the helper's internal player/ship positioning raycasts and confirm
+  that its return occurs after that helper, not necessarily after the whole
+  teleport. The reason producer can return `11` under more than one state
+  condition, so that value is only a test filter, not a semantic event name.
+- Prepare a compile-time-only local trial for return `0x3302C4`, `reason=11`,
+  `flag=1`. It uses the existing automation preference, local application
+  checks, active/queued guards, supported-location wait and native placement
+  eligibility. The exact-build module passed all offline bundle validators,
+  including 63 runtime cases. It has not been installed or tested live; no
+  production or Nexus release changed. See
+  [teleport research](docs/research/TELEPORT-AND-GROUPED-MENU.md).
 
 ## Unreleased follow-up — 30 September 2026
 

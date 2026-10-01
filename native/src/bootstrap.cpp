@@ -130,6 +130,10 @@ void __declspec(noinline) respawnCandidateHook(void* manager, std::int32_t reaso
                 break;
             }
         }
+#ifdef CAS_TELEPORT_CANDIDATE_TRIAL
+        if (return_rva == 0x3302C4 && reason == 11 && flag && runtime)
+            runtime->afterTeleportCandidateTrial();
+#endif
     }
 }
 #endif

@@ -500,3 +500,34 @@ local archive hash. The file-specific summary was corrected and read back from
 the public listing. Edge blocked the owner manual-download attempt
 (`ERR_BLOCKED_BY_CLIENT`), so the downloaded ZIP bytes were not read back; see
 the tester handoff for the remaining download-verification limit.
+
+## Position-helper and reason-code trial follow-up (1 October 2026)
+
+For the same verified executable, a focused disassembly of helper range
+`0x14F7F60-0x14FA1BA` shows a player positioning raycast call from RVA
+`0x14F9242` to `0x1500410`, and a ship positioning raycast call from RVA
+`0x14F9267` to `0x1500ED0` on another branch. Additional helper work continues
+after these calls. Thus the return at `0x3302C4` is after a shared positioning
+operation, but it is not a verified teleporter-arrival completion event.
+
+The reason producer at `0x331F60-0x3321C0` returns among several small
+integers based on multiple state fields; its branches can yield `11` under
+more than one state condition. No semantic enum name or teleport-only meaning
+was identified for `11`. Treat `reason=11` as a filter for an exact-build
+experiment, not as a proven event label.
+
+A direct decoded-call scan of `0x32F335` across 52,096,118 runtime-function
+bytes found zero direct calls to that function entry and skipped no ranges.
+A separate scan for its absolute VA in file sections also found no raw pointer
+match. These bounded negatives do not cover indirect calls, relative tables,
+or dynamically resolved function pointers, and do not show that the function
+is unused.
+
+The compile-time-only `CAS_TELEPORT_CANDIDATE_TRIAL` build filters the existing
+shared-helper hook to return RVA `0x3302C4`, `reason=11`, `flag=1`; after the
+original helper returns, it tries to arm through the normal Runtime and leaves
+the usual location, native eligibility, and placement checks in place. This
+is not part of a release build and is not yet live-verified. Exact build
+identity, trial filters, offline results and current no-deployment status are
+recorded in
+[TELEPORT-AND-GROUPED-MENU](TELEPORT-AND-GROUPED-MENU.md).

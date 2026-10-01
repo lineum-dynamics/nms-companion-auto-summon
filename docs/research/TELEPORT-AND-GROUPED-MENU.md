@@ -344,3 +344,45 @@ handling stops.
 - Verify the exact supported executable and compare live behavior before
   updating any distribution. The current installed module and public alpha are
   not modified by this investigation.
+
+## Position-helper return trial (1 October 2026)
+
+The additional exact-build decode confirms that the shared helper at
+`0x14F7F60` calls the player positioning raycast at `0x1500410` from RVA
+`0x14F9242`, and the ship positioning raycast at `0x1500ED0` from RVA
+`0x14F9267` on another branch. The helper continues with more placement logic
+after these calls. The filtered observer records only after the original
+helper returns. This is a completed helper call, not proof that the full
+teleporter transition has completed.
+
+The reason producer at `0x331F60` derives its integer from several runtime
+state fields. Its control flow can produce `11`, but the value has no verified
+teleport-specific name or local/network contract. In the latest captured log,
+the candidate returned `reason=11`, `flag=1` once at `20:01:26.338Z`, after the
+owner reported arriving from a freighter teleport; the log had no new
+opportunity or accepted queue at that time. A later ordinary opportunity at
+`20:13:45.420Z` has no captured causal action and is not attributed to the
+teleport.
+
+A separate compile-time-only trial build is ready for a controlled live test.
+It creates a normal summon opportunity only for return RVA `0x3302C4` with
+`reason=11` and `flag=1`. The trial checks the existing local application
+context, the automation preference, active/queued companion state, and the
+current location preference. Unsupported locations retain the ordinary wait
+behavior; the normal native eligibility and placement probes still decide
+whether a pet can be queued. It does not change the released build, add a
+player-facing setting, or establish that this candidate is teleport-specific
+or local-only. Do not publish it until the live multiplayer semantics and
+arrival timing have been checked.
+
+The trial module was built against the verified Cosmos 7.05 executable and
+passed the complete offline bundle validator: 88 policy traces / 31,216
+comparisons, 59 selector traces / 25,733 comparisons, 333 storage cases / 721
+operations, 63 runtime fixture cases, 16 backup checks and six owned-host
+refusal runs. Local artifact
+`build/native-runtime-teleport-candidate-trial-002/CompanionAutoSummon.asi`
+has SHA-256
+`80427266626b7e9c443328d375b6a50c37fd3ffedce130a32e853e932bbe08a3`; its build
+receipt records `live_verified: false`, `deployed: false`. This is test
+preparation only; the currently loaded module and public Nexus file have not
+changed.
