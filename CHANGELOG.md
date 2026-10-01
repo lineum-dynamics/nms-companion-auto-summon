@@ -1,5 +1,18 @@
 # Changelog
 
+## Unreleased follow-up — 1 October 2026
+
+- Record the exact Cosmos 7.05 static XREF pass for teleport-related state:
+  four candidate RIP-relative references each for
+  `AngleFromBaseComputerWhenTeleporting` and
+  `DistanceFromBaseComputerWhenTeleporting`, one for `Teleporting` and one
+  for the `gcpersonalteleporter.cpp` marker. These are candidate byte-pattern
+  references, not yet decoded completion callbacks.
+- Preserve the current public boundary: teleport arrival remains unimplemented,
+  the 0.10.1 archive remains unchanged, and no Nexus feature claim is authorized.
+  Keep the detailed sanitized result in
+  [NMS-075-STATIC-XREFS](docs/research/NMS-075-STATIC-XREFS.md).
+
 ## Unreleased follow-up — 30 September 2026
 
 - Record the report that after death the pet was absent and the custom settings
