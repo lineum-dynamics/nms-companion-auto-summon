@@ -1,5 +1,24 @@
 # Changelog
 
+## Unreleased follow-up — 1 October 2026
+
+- Keep automatic summoning after death/respawn as a separate unimplemented
+  trigger from save loading and teleport arrival. The 7.05 static scan found a
+  shared positioning helper with three direct return sites inside a function
+  carrying a `DoPlayerRespawn` diagnostic label; other callers include warp
+  paths, so this is only a candidate lead.
+- Add a compile-time-only observer filtered to those three return sites. It
+  records bounded scalar call data and does not change summon behavior. Offline
+  validation and any live observation are tracked separately; no death fix or
+  player release is claimed.
+- Offline validation passed and a diagnostic module was staged locally after a
+  fresh verified save/preferences and previous-module backup. One live session
+  captured two candidate calls during successful save loading, without a
+  reported death; this is not a death trigger. The public Nexus file remains
+  unchanged. A follow-up offline-validated observer build removes a hardcoded
+  hook count from the diagnostic status message; it was not deployed during
+  the running session.
+
 ## Unreleased follow-up — 30 September 2026
 
 - Record the report that after death the pet was absent and the custom settings

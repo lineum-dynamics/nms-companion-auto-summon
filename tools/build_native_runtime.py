@@ -15,7 +15,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--toolchain", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
+    parser.add_argument("--respawn-observer", action="store_true",
+                        help="Build a test-only passive observer for three exact-build respawn-path candidate returns")
     args = parser.parse_args()
+    version = VERSION + ("-respawn-observer" if args.respawn_observer else "")
     output = args.output.resolve()
     if not output.is_relative_to(ROOT / "build") or output.exists():
         raise ValueError("Use a new directory beneath build")
@@ -67,9 +70,9 @@ BEGIN
   BEGIN
    VALUE "CompanyName", "Lineum Dynamics\\0"
    VALUE "FileDescription", "Companion Auto Summon for No Man's Sky - native test\\0"
-   VALUE "FileVersion", "0.10.1-native-test\\0"
+   VALUE "FileVersion", "{version}\\0"
    VALUE "ProductName", "Companion Auto Summon for No Man's Sky - by Lineum Dynamics\\0"
-   VALUE "ProductVersion", "0.10.1-native-test\\0"
+   VALUE "ProductVersion", "{version}\\0"
    VALUE "OriginalFilename", "CompanionAutoSummon.asi\\0"
   END
  END
@@ -78,14 +81,15 @@ BEGIN
   VALUE "Translation", 0x0409, 1200
  END
 END
-''',encoding="utf-8")
+'''.format(version=version),encoding="utf-8")
     command = [windres,resource,"-O","coff","-o",output / "version.o"]
     commands.append(command)
     run(command,output)
     objects.append(output / "version.o")
     runtime_sources = [native / "src" / (name + ".cpp") for name in
                        ("bootstrap","probe","policy","selection","storage","runtime","backup","menu","binding_guard")]
-    command = [*common,"-shared","-DCAS_NATIVE_RUNTIME","-DCAS_PROBE_BUILD",*runtime_sources,*objects,
+    observer_define = ["-DCAS_RESPAWN_OBSERVER"] if args.respawn_observer else []
+    command = [*common,"-shared","-DCAS_NATIVE_RUNTIME","-DCAS_PROBE_BUILD",*observer_define,*runtime_sources,*objects,
                "-lbcrypt","-ladvapi32","-lshell32","-lole32","-luuid","-luser32","-o",output / "CompanionAutoSummon.asi"]
     commands.append(command)
     run(command,output)
@@ -118,7 +122,10 @@ END
     if before != {p.relative_to(ROOT).as_posix(): digest(p) for p in sources}:
         raise RuntimeError("Source changed while compiling; build retained but invalid")
     products = [binary,hook_host,*(output / (name+".exe") for name in hosts)]
-    receipt = {"version":VERSION,"gameplay_implemented":True,"live_verified":False,"deployed":False,
+    receipt = {"version":version,"gameplay_implemented":True,"diagnostic_observer":args.respawn_observer,
+               "diagnostic_candidate_rva":0x14F7F60 if args.respawn_observer else None,
+               "diagnostic_return_site_rvas":[0x3302C4,0x33066F,0x330946] if args.respawn_observer else [],
+               "live_verified":False,"deployed":False,
                "compiler":run([compiler,"--version"],output).strip(),"compiler_sha256":digest(compiler),
                "sources":before,"imports":imports,"compatibility":profile,"profile_validation":profile_report,
                "products":{p.name:{"sha256":digest(p),"bytes":p.stat().st_size} for p in products},

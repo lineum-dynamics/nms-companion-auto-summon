@@ -1,9 +1,9 @@
-# Teleport arrival and grouped companion menu
+# Teleport arrival, respawn and grouped companion menu
 
-Status: updated 30 September 2026 against the published 0.10.1-native-test
+Status: updated 1 October 2026 against the published 0.10.1-native-test
 candidate and the exact Steam Cosmos 7.05 executable. The published archive is
-unchanged. Teleport summoning remains unimplemented because no successful local
-teleporter-completion callback has been verified. The current menu candidate
+unchanged. Teleport and respawn summoning remain unimplemented because neither
+successful local completion event has been verified. The current menu candidate
 has passed one owner-confirmed grouped-roster visibility smoke test; broader
 menu lifecycle acceptance remains open.
 
@@ -27,6 +27,11 @@ menu lifecycle acceptance remains open.
 
 These are separate problems: the first needs a trustworthy local-arrival event;
 the second needs a menu adapter that tolerates native menu variants.
+
+The reported death case is a third, independent trigger problem. A respawn
+opportunity must be considered only after the local player's respawn completes;
+death itself, save loading, teleport arrival and generic movement are not
+interchangeable events.
 
 ## Verified source constraints
 
@@ -70,6 +75,86 @@ the second needs a menu adapter that tolerates native menu variants.
 These checks are intentional safety boundaries. Do not remove them or accept an
 unknown menu layout as a workaround.
 
+## Exact-build teleport mapping update (1 October 2026)
+
+The exact Steam 7.05 executable hash remains
+`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`. A
+read-only PE `.pdata`-bounded string-xref pass found teleporter identifiers,
+position helpers and configuration names, but no verified successful local
+arrival callback. The destination CVar names
+`AngleFromBaseComputerWhenTeleporting` and
+`DistanceFromBaseComputerWhenTeleporting` describe placement settings; they do
+not prove arrival. The simple float-getter scan supplied in the latest
+PowerShell result was too narrow to support a negative conclusion because it
+required a `movss [rcx]` read to be followed immediately by `ret`.
+
+The reusable scanner, exact tool versions, reference counts, candidate RVAs,
+false leads and Ghidra limitation are recorded in the
+[Cosmos 7.05 compatibility report](NATIVE-0705-COMPATIBILITY.md) and the
+[native update map](NATIVE-UPDATE-MAP.md). Teleport summoning remains open and
+unimplemented; the current profile stays unchanged until a local completion
+signal and its ABI/network semantics are proven.
+
+## Respawn-path mapping update (1 October 2026)
+
+The exact Cosmos 7.05 executable has a promising but unverified respawn-path
+lead. A `.pdata`-bounded string-reference scan found `DoPlayerRespawn` at
+instruction RVA `0x33026B` inside range `0x32F335-0x33177F`, and
+`PLAYER_RESPAWN` at `0x14FA051` inside range `0x14F7F60-0x14FA1BA`. The latter
+large function is a shared player-positioning helper that includes player/ship
+placement raycasts. Its body reads the first argument object, saves a 32-bit
+second argument and reads the low byte of the third argument.
+
+The reusable direct-call scan found 11 callers for RVA `0x14F7F60`. Three call
+sites lie inside the range carrying the `DoPlayerRespawn` label:
+
+| Call RVA | Return RVA | Exact-build evidence |
+|---:|---:|---|
+| `0x3302BF` | `0x3302C4` | Passes a manager-like pointer in `RCX`, a value loaded from `[rsi + 0x620]` in `EDX`, and a byte-like flag in `R8B`. |
+| `0x33066A` | `0x33066F` | Passes a manager-like pointer in `RCX`, a value loaded from `[rsi + 0x620]` in `EDX`, and zero in `R8D`. |
+| `0x330941` | `0x330946` | Passes a manager-like pointer in `RCX`, a value loaded from `[rsi + 0x620]` in `EDX`, and zero in `R8D`. |
+
+Other callers include functions with warp labels such as `WarpLight`,
+`DIST_WARP`, `WARP_PURE` and `WARP_FREI`; some pass different reason-like
+values, including `8`, `0xE`, `0x11` and `0xB`. Therefore, hooking this helper
+without a return-site filter would confuse unrelated placement/warp work with
+respawn. Even the three narrower call sites are not proof that a death occurred
+or that respawning succeeded; the label and `PLAYER_RESPAWN` string are
+corroborating clues, not a verified event contract.
+
+A test-only observer records only calls returning to
+`0x3302C4`, `0x33066F` or `0x330946`, plus the two scalar argument values. It
+does not request a summon or change runtime policy. This observer is not the
+production trigger and must not be described as a death fix. The callback was
+live-exercised in a save-load sequence, but its relationship to a successful
+death respawn is unknown. Before production behavior is added, the exact local
+respawn completion point, call frequency, local/network semantics and
+cancellation rules must be established.
+
+The observer build `0.10.1-native-test-respawn-observer` passed the offline
+native bundle validators on 1 October: 88 policy traces / 31,216 comparisons,
+59 selector traces / 25,733 comparisons, 333 storage cases / 721 operations,
+59 runtime cases, 16 backup checks and six owned-host refusal runs. Its module
+SHA-256 is
+`cc82f7ffc95eacde583b5225dc2a4d530b9dff804a5666644def12e24f197702`.
+It was staged locally after a fresh verified backup of the current save and
+preference files and the previously installed module. In the next local session,
+the log confirmed exact-build acceptance, the private pre-activation snapshot,
+active native integration and observer initialization. After the successful
+local save-load event at `16:08:47Z`, the log recorded an armed opportunity at
+`16:09:03Z`, then returns `0x3302C4` (`reason=1`, `flag=1`) and `0x330946`
+(`reason=1`, `flag=0`) at `16:09:10Z`; the ordinary summon queue was accepted
+at `16:09:11Z`. No death was reported during this sequence. This is evidence
+that the candidate call sites also occur during a successful save-load
+sequence, so they do not identify death by themselves. No death-specific
+trigger is verified. The log's hook-count wording in this build is a fixed
+baseline message; a follow-up build removes that ambiguous count. The public
+0.10.1 archive and Nexus file 49367 are unchanged. The follow-up module
+`dc2b7356737ae91a114a2113e8877d8acb3644d2f5853ec64e4d25ba6e17212d` passed
+the offline bundle validators and removes the hardcoded count from the
+diagnostic status message. It was not staged while the game was running; the
+currently loaded observer remains unchanged.
+
 ## Design direction
 
 Treat teleport arrival as an independent opportunity setting, separate from the
@@ -86,6 +171,15 @@ destination-location switches remain authoritative. Document the new default in
 the update notes. This is an accepted design direction, not a claim that the
 feature is already implemented.
 
+Treat **Summon after respawn** as a second independent opportunity setting. It
+should default ON for fresh profiles and only be added on upgrade when that
+preference is absent. It becomes eligible only after a completed respawn of the
+local player, then follows the same global switch, destination controls,
+eligibility and placement checks as every other trigger. It must not summon
+during the death/respawn transition, for another player's respawn, or merely
+because a shared position helper ran. This is also an accepted design
+direction, not implemented behavior.
+
 Make the settings entry discoverable independently of the number, ordering, or
 grouping of owned pets. Anchor it to a verified semantic menu container or a
 stable native construction phase, not a pet slot, exact row count, or assumed
@@ -100,11 +194,14 @@ handling stops.
 1. Identify and verify an exact-build successful teleporter-completion callback
    and its local-player/network semantics. Reject generic movement, location,
    ship/system warp or position changes as substitutes.
-2. Repeat the grouped-menu scenario after roster changes and menu rebuilds. If
+2. Identify and verify a separate exact-build completed local respawn event.
+   Correlate any passive candidate observation with an ordinary naturally
+   occurring respawn; do not infer success from the shared positioning helper.
+3. Repeat the grouped-menu scenario after roster changes and menu rebuilds. If
    the page disappears, capture bounded menu depth, vector counts, native action
    classes, callback phase and callback thread at the first safe refusal,
    without pet names, save data, writes or unbounded logging.
-3. Verify the proposed thread recovery in the current game after death/menu
+4. Verify the proposed thread recovery in the current game after death/menu
    rebuilds, and confirm that actions and settings still work. Keep rebinding
    restricted to a quiescent builder start; do not rebind during a transaction.
 
@@ -113,6 +210,8 @@ handling stops.
 - Teleport and current load/ship-exit triggers can be controlled independently.
 - Only a completed local teleport creates one opportunity; a network client's
   arrival does not alter local state or summon for the remote player.
+- Only a completed respawn of the local player creates a respawn opportunity;
+  its control remains independent from the teleport and load/exit triggers.
 - The same location, ownership, eligibility, placement, and no-duplicate rules
   apply after teleport. Unsupported or unsuitable places never bypass game
   checks.

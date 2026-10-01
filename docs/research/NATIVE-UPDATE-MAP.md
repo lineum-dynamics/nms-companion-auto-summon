@@ -17,9 +17,9 @@ Capstone; Ghidra was not required for that first pass.
 A match is only a place to investigate. It does not prove the function's role,
 calling convention, arguments, object layout, lifetime, thread or in-game
 behavior. Those still need independent static corroboration and exact-build
-runtime acceptance. The current 7.05 parser and raw disassembly are private
-research artifacts; no reusable scanner is committed yet. Do not put game
-binaries, raw disassembly or personal save/runtime data in Git.
+runtime acceptance. Reusable bounded string- and call-reference scanners are
+maintained under `tools/`; raw disassembly remains a private research artifact.
+Do not put game binaries or personal save/runtime data in Git.
 
 When the scanner is made reusable, keep a signature catalogue with the symbol
 role, source repository and pinned revision, applicable license, signature or
@@ -47,16 +47,26 @@ rewrite or enable the native profile automatically.
    sections for each retained signature. Record the number of matches, match
    RVA, containing PE exception/function range, and whether the match is at a
    function entry. Zero or multiple matches mean the signature did not uniquely
-   relocate the target. A unique match remains a candidate.
+   relocate the target. A unique match remains a candidate. For x64 code xrefs,
+   decode inside the PE exception-function ranges (`.pdata`) and confirm the
+   target at a decoded instruction boundary. Whole-section linear sweeps may
+   help find leads, but cannot establish caller counts or prove that a reference
+   is absent.
 4. **Re-establish the role from callers.** Find direct callers and compare the
    call-site setup and following control flow with the baseline: registers,
    stack arguments, floating-point registers, return use, branch conditions and
-   subsequent calls. For a call-site or return-address hook, map the exact call
-   instruction and post-call return address; finding the callee is not enough.
+   subsequent calls. `native_call_xrefs.py` reports decoded direct calls to one
+   target RVA inside `.pdata` function ranges. For a call-site or return-address
+   hook, map the exact call instruction and post-call return address; finding
+   the callee is not enough. A shared movement helper may be called by death,
+   teleport and warp flows, so filter and verify the owning event separately.
 5. **Cross-check independent anchors.** Use RTTI/vtable slots, mangled names,
    known strings/resources, repeated call patterns and reads/writes of related
    fields. Prefer two or more independent anchors for a critical mapping. Record
-   contradictions rather than choosing the most convenient interpretation.
+   contradictions rather than choosing the most convenient interpretation. A
+   negative search for one narrow instruction shape (for example, a field read
+   immediately followed by `ret`) rejects only that exact shape; it does not
+   establish that no accessor or callback exists.
 6. **Rebuild the data-layout map.** For every used global and object field,
    verify the new offset in more than one relevant routine where possible.
    Trace how values are produced and consumed. Do not carry old offsets forward
@@ -131,6 +141,28 @@ builds.
 
 ## Lessons preserved from 7.04 to Cosmos 7.05
 
+- The 1 October teleport pass uses the reusable
+  [`native_string_xrefs.py`](../../tools/native_string_xrefs.py) helper with
+  dependencies pinned in `tools/native_research_requirements.txt`. It searches
+  selected printable strings, then checks direct RIP-relative references only
+  inside AMD64 `.pdata` ranges. Its report is bounded evidence: it does not find
+  indirect, hashed, dynamically constructed, or non-RIP-relative references,
+  and it never changes the compatibility profile.
+- The 1 October respawn pass uses
+  [`native_call_xrefs.py`](../../tools/native_call_xrefs.py) to locate direct
+  callers of one exact-build RVA and report their decoded call context and
+  return-site RVA. The helper does not find indirect calls or prove what a
+  caller means. The current position-helper candidate has callers in both a
+  function carrying a `DoPlayerRespawn` diagnostic label and warp-related
+  functions; only the former's exact return sites are being observed.
+- A full-section linear Capstone sweep can decode embedded data or begin at an
+  unaligned byte and manufacture apparent instructions. Use the `.pdata`
+  function-bound scan for caller counts and negative xref findings; preserve
+  any broad-sweep result only as an explicitly unverified lead.
+- A `movss [rcx]` getter scan returned zero for Cosmos 7.05 when requiring the
+  next instruction to be `ret`, but the exact image contains float field reads
+  inside larger functions. The zero only rejects that two-instruction shape;
+  it does not locate or rule out a teleport-completion signal.
 - NMS.py signatures plus PE boundaries quickly relocated several named
   functions. That was discovery, not proof that every old hook remained valid.
 - `GetButton`'s function was found uniquely, but the separate return address

@@ -12,6 +12,7 @@
 #include "compatibility_profile.hpp"
 #include <array>
 #include <chrono>
+#include <cstdint>
 #include <cstring>
 #include <filesystem>
 #include <iomanip>
@@ -30,6 +31,21 @@ cas::BindingGuard* binding = nullptr;
 HANDLE log_file = INVALID_HANDLE_VALUE;
 HANDLE instance_mutex = nullptr; // Process lifetime, prevents a second native CAS.
 std::mutex log_mutex;
+#ifdef CAS_RESPAWN_OBSERVER
+using RespawnCandidate = void(*)(void*, std::int32_t, bool);
+RespawnCandidate respawn_candidate_original{};
+Address observer_image_base{};
+struct RespawnSample {
+    Address return_site_rva{};
+    std::int32_t reason{};
+    bool flag{};
+    std::uint32_t calls{};
+};
+std::array<RespawnSample,64> respawn_samples{};
+std::mutex respawn_samples_mutex;
+ULONGLONG respawn_last_flush{};
+volatile LONG respawn_samples_dropped{};
+#endif
 struct File {
     HANDLE h = INVALID_HANDLE_VALUE;
     explicit File(HANDLE value) : h(value) {}
@@ -45,6 +61,78 @@ void log(const char* text) noexcept {
     } catch (...) {}
 }
 void require(bool result, const char* message) { if (!result) throw std::runtime_error(message); }
+#ifdef CAS_RESPAWN_OBSERVER
+bool active() noexcept;
+void recordRespawnSample(Address return_site, std::int32_t reason, bool flag) noexcept {
+    std::unique_lock<std::mutex> lock(respawn_samples_mutex,std::try_to_lock);
+    if (!lock.owns_lock()) { InterlockedIncrement(&respawn_samples_dropped); return; }
+    RespawnSample* empty = nullptr;
+    for (auto& sample : respawn_samples) {
+        if (sample.calls && sample.return_site_rva == return_site && sample.reason == reason && sample.flag == flag) {
+            if (sample.calls < UINT32_MAX) ++sample.calls;
+            return;
+        }
+        if (!sample.calls && !empty) empty = &sample;
+    }
+    if (!empty) { InterlockedIncrement(&respawn_samples_dropped); return; }
+    *empty = {return_site,reason,flag,1};
+}
+void flushRespawnSamples() noexcept {
+    const auto now = GetTickCount64();
+    if (now - respawn_last_flush < 2000) return;
+    std::array<RespawnSample,64> pending{};
+    std::size_t count = 0;
+    {
+        std::unique_lock<std::mutex> lock(respawn_samples_mutex,std::try_to_lock);
+        if (!lock.owns_lock()) return;
+        respawn_last_flush = now;
+        for (auto& sample : respawn_samples) {
+            if (!sample.calls) continue;
+            pending[count++] = sample;
+            sample.calls = 0;
+        }
+    }
+    for (std::size_t i = 0; i < count; ++i) {
+        char line[256]{};
+        const auto& sample = pending[i];
+        const auto written = std::snprintf(line,sizeof line,
+            "Respawn-path observer: post-call return=0x%08X reason=%d flag=%u calls=%u",
+            static_cast<unsigned>(sample.return_site_rva),sample.reason,
+            sample.flag ? 1u : 0u,sample.calls);
+        if (written > 0 && static_cast<std::size_t>(written) < sizeof line) log(line);
+    }
+    const auto dropped = InterlockedExchange(&respawn_samples_dropped,0);
+    if (dropped > 0) {
+        char line[128]{};
+        const auto written = std::snprintf(line,sizeof line,
+            "Respawn observer: dropped %ld samples because its bounded recorder was busy or full.",
+            dropped);
+        if (written > 0 && static_cast<std::size_t>(written) < sizeof line) log(line);
+    }
+}
+void __declspec(noinline) respawnCandidateHook(void* manager, std::int32_t reason, bool flag) {
+    const auto return_address = reinterpret_cast<Address>(__builtin_return_address(0));
+    const bool started = active();
+    respawn_candidate_original(manager,reason,flag);
+    if (started && active()) {
+        const auto return_rva = return_address >= observer_image_base
+            ? return_address - observer_image_base : 0;
+        // These are the three direct returns inside the exact-build routine
+        // that carries the DoPlayerRespawn diagnostic label. Other callers of
+        // this shared position helper include warp paths and are intentionally
+        // excluded from this observation.
+        constexpr std::array<Address,3> respawn_return_sites{
+            0x3302C4,0x33066F,0x330946
+        };
+        for (const auto site : respawn_return_sites) {
+            if (return_rva == site) {
+                recordRespawnSample(return_rva,reason,flag);
+                break;
+            }
+        }
+    }
+}
+#endif
 void readMemory(Address address, void* out, std::size_t size) {
     require(address >= 0x10000 && size <= 1024*1024 && address <= 0x7FFFFFFFFFFF-size,"Invalid native read range");
     SIZE_T copied{};
@@ -140,7 +228,11 @@ Confirm confirm_original{}; cas::MenuAppend append_original{};
 
 bool active() noexcept { return InterlockedCompareExchange(&status,0,0) == 4; }
 void queueHook(void* player,int slot) { const bool started=active(); queue_original(player,slot); if (started && active() && runtime) runtime->afterQueue(reinterpret_cast<Address>(player),slot); }
-void playerHook(void* player,float dt) { const bool started=active(); player_original(player,dt); if (started && active() && runtime) runtime->afterPlayer(reinterpret_cast<Address>(player),dt); }
+void playerHook(void* player,float dt) { const bool started=active(); player_original(player,dt); if (started && active() && runtime) runtime->afterPlayer(reinterpret_cast<Address>(player),dt);
+#ifdef CAS_RESPAWN_OBSERVER
+    if (started && active()) flushRespawnSamples();
+#endif
+}
 void ownerHook(void* owner,float dt) { const bool started=active(); owner_original(owner,dt); if (started && active() && runtime) runtime->afterOwner(reinterpret_cast<Address>(owner),dt); }
 void ejectHook(void* ship,void* player,bool animate,bool force) { const bool started=active(); eject_original(ship,player,animate,force); if (started && active() && runtime) runtime->afterExit(reinterpret_cast<Address>(player)); }
 void enterHook(void* player) { if (active() && runtime) runtime->beforeEnter(reinterpret_cast<Address>(player)); enter_original(player); }
@@ -175,7 +267,7 @@ void resourcesHook(void* menu) { const bool started=active(); resources_original
 struct Hook { std::uint32_t rva; void* callback; void** original; };
 template<class F> void* function(F pointer) { return reinterpret_cast<void*>(pointer); }
 std::vector<Hook> hooks() {
-    return {{0x14738E0,function(queueHook),reinterpret_cast<void**>(&queue_original)},
+    std::vector<Hook> result{{0x14738E0,function(queueHook),reinterpret_cast<void**>(&queue_original)},
             {0x14494F0,function(playerHook),reinterpret_cast<void**>(&player_original)},
             {0x508D30,function(ownerHook),reinterpret_cast<void**>(&owner_original)},
             {0x17521C0,function(ejectHook),reinterpret_cast<void**>(&eject_original)},
@@ -187,6 +279,11 @@ std::vector<Hook> hooks() {
             {0x153CF40,function(appendHook),reinterpret_cast<void**>(&append_original)},
             {0x153A770,function(confirmHook),reinterpret_cast<void**>(&confirm_original)},
             {0x1524330,function(resourcesHook),reinterpret_cast<void**>(&resources_original)}};
+#ifdef CAS_RESPAWN_OBSERVER
+    result.push_back({0x14F7F60,function(respawnCandidateHook),
+                      reinterpret_cast<void**>(&respawn_candidate_original)});
+#endif
+    return result;
 }
 
 DWORD WINAPI initialize(void*) noexcept {
@@ -207,6 +304,10 @@ DWORD WINAPI initialize(void*) noexcept {
         require(image.h != INVALID_HANDLE_VALUE && hash(image.h) == cas::profile::exe_sha256,"Host changed after inspection");
         require(!GetModuleHandleW(L"python311.dll") && !GetModuleHandleW(L"python312.dll") && !GetModuleHandleW(L"python313.dll"),"Competing Python runtime is present");
         const auto base = reinterpret_cast<Address>(GetModuleHandleW(nullptr));
+#ifdef CAS_RESPAWN_OBSERVER
+        observer_image_base = base;
+        respawn_last_flush = GetTickCount64();
+#endif
         const auto definitions = hooks();
         for (const auto& hook : definitions) prefix(image.h,base,hook.rva);
         for (const auto rva : {0x1473060u,0x508200u,0x14407F0u,0x14855F0u,0x9BD8E0u,0x143B720u,0x1518EF0u,0xEC6850u,0x2D65980u}) prefix(image.h,base,rva);
@@ -222,6 +323,9 @@ DWORD WINAPI initialize(void*) noexcept {
         log_file = CreateFileW(log_path.c_str(),FILE_APPEND_DATA,FILE_SHARE_READ,nullptr,CREATE_NEW,FILE_ATTRIBUTE_NORMAL,nullptr);
         require(log_file != INVALID_HANDLE_VALUE,"Private log unavailable");
         log("Native initialization: actual executable verified; no native hooks active yet");
+#ifdef CAS_RESPAWN_OBSERVER
+    log("Respawn-path observer: passive capture restricted to three candidate returns; no summon behavior changed");
+#endif
         cas::verified_pre_activation_backup(knownFolder(FOLDERID_RoamingAppData)/L"HelloGames"/L"NMS",data,data/L"backups"/stamp);
         log("Verified private pre-activation snapshot completed; this is not a closed-game pre-launch backup");
         cas::RuntimeServices services;
@@ -267,7 +371,12 @@ DWORD WINAPI initialize(void*) noexcept {
         require(menu_adapter->initialize(base,binding,append_original,callbacks),"Native menu initialization failed");
         for (const auto target : created) require(MH_QueueEnableHook(target) == MH_OK,"Native hook enable queue failed");
         require(MH_ApplyQueued() == MH_OK,"Native hook activation failed");
-        InterlockedExchange(&status,4); log("Native CAS active: twelve game hooks and binding guard; menu and automation enabled");
+        InterlockedExchange(&status,4);
+#ifdef CAS_RESPAWN_OBSERVER
+        log("Native CAS active: game hooks, binding guard, menu, automation and diagnostic observer enabled");
+#else
+        log("Native CAS active: twelve game hooks and binding guard; menu and automation enabled");
+#endif
     } catch (const std::exception& error) {
         log(error.what()); InterlockedExchange(&status,3);
         // Keep all code, callback owners and trampolines pinned. Disable only

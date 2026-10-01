@@ -1,6 +1,6 @@
 # Cosmos 7.05 compatibility investigation
 
-Status: 30 September 2026. The exact local 7.05 executable identity and static
+Status: updated 1 October 2026. The exact local 7.05 executable identity and static
 candidate mappings are recorded below. Version 0.10.1 passed an initial live
 smoke check: the owner reports a visible pet and the settings entry beside
 grouped companions. A later direct load into the Anomaly reportedly had no
@@ -206,6 +206,92 @@ six-argument load hook, summon-hand call, texture-handle lifetime and remaining
 memory offsets have been mapped sufficiently for a guarded test build. The
 candidate was subsequently rebuilt and offline-validated as
 `0.10.1-native-test`; the bounded live smoke observation is recorded below.
+
+## Teleport-arrival mapping pass (1 October 2026)
+
+The installed executable was re-read and still matches Steam Cosmos 7.05,
+Steam build `25624745`, file/product version `180383`, size `88,545,352`, and
+SHA-256
+`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+NMS was not running during this read-only pass. The public 7.04 profile remains
+unchanged.
+
+Reproduction used Python `3.11.9`, `pefile 2024.8.26`, and `Capstone 5.0.9`:
+
+```powershell
+py -m pip install -r tools/native_research_requirements.txt
+py -B tools/native_string_xrefs.py --exe "<path-to-NMS.exe>" --contains INTRCT_TELEPORT --contains TELEPORT_END --contains PL_TELEPORT_WARP_END --contains cGcTeleportEndpoint --contains cGcBaseMiniPortalComponent --contains cGcPortalComponent --contains GetPositionForTeleportEndpoint --contains TeleportToPlayer --contains Teleporting --contains gcpersonalteleporter.cpp
+```
+
+The tool found 36 matching printable strings and 22 direct RIP-relative code
+references while scanning 52,096,118 bytes across the PE runtime-function
+ranges; it skipped no ranges. This bounded pass does not establish that every
+teleport-related code path was found.
+
+| Lead | Exact-build evidence | Status |
+|---|---|---|
+| `AngleFromBaseComputerWhenTeleporting` and `DistanceFromBaseComputerWhenTeleporting` | Registration-string references at instruction RVAs `0x136012` and `0x1360AD`, both inside function range `0x131510-0x14AA8E`; additional references occur in larger functions. These are destination-position settings, not a local successful-arrival event. | `REJECTED` as completion hooks; retain only as position-configuration leads. |
+| `INTRCT_TELEPORT_STN_BASE`, `INTRCT_TELEPORT_NEXUS`, `INTRCT_TELEPORT_BASE_STN` | Direct references are inside the large function range `0x1001B30-0x1004700`. Their local control flow routes through a common tail; it does not expose a post-transfer success result or local/network ownership contract. | `CANDIDATE` interaction/dispatch labels; not an arrival callback. |
+| `Teleporting` | One direct reference occurs inside function range `0xAC40FB-0xAC445B`, where string values are passed to a shared helper. No player-arrival result, caller contract, or local/network semantics were established. | `REJECTED` as a hook on current evidence. |
+| `cGcPlayerRespawn::GetPositionForTeleportEndpointInBase` | Its embedded name is referenced within range `0x150EABB-0x1510430`; the name describes destination-position calculation. A separate rel32 scan found no direct `E8`/`E9` reference to that range's start; indirect references were not ruled out. | `REJECTED` as a success callback; possible destination-position helper only. |
+| `TELEPORT_END`, `PL_TELEPORT_WARP_END`, `TeleportToPlayer` | No direct RIP-relative code reference to these selected strings appeared in this pass. | `UNMAPPED`; the negative result is limited to this reference form. |
+| Short float-CVar getter pattern | The supplied scan searched for `movss xmm?, [rcx]` immediately followed by `ret` and found zero. The image contains float reads inside larger functions, so the zero is not evidence that an accessor or teleport signal is absent. | `REJECTED` as a negative proof. |
+
+An automatic Ghidra `12.1.4` analysis was also attempted, but its broad
+`DecompilerSwitchAnalyzer` pass followed invalid/out-of-image flow and never
+reached the targeted audit script; it was stopped. No positive mapping relies
+on that attempt. If needed, the next Ghidra pass should import without broad
+analysis and disassemble only a bounded, independently identified function.
+
+No function in this pass is approved as a local successful-teleport callback.
+The teleport trigger remains `UNMAPPED`; do not implement a position jump,
+generic warp, destination-selection action, or remote-player RPC as a
+substitute. See [the teleport research record](TELEPORT-AND-GROUPED-MENU.md).
+
+## Respawn-path candidate (1 October 2026)
+
+The same exact executable was scanned for `DoPlayerRespawn` and
+`PLAYER_RESPAWN`. The former has a direct RIP-relative reference at instruction
+RVA `0x33026B` inside function range `0x32F335-0x33177F`; the latter is
+referenced at `0x14FA051` inside `0x14F7F60-0x14FA1BA`. These are diagnostic
+labels, not proof of a public C++ method contract.
+
+Using Python `3.11.9`, `pefile 2024.8.26` and `Capstone 5.0.9`, the new
+[`native_call_xrefs.py`](../../tools/native_call_xrefs.py) helper found 11
+direct callers of RVA `0x14F7F60` across `52,096,118` runtime-function bytes,
+with no skipped ranges. Three direct calls occur inside the `DoPlayerRespawn`
+label's containing range: call RVAs `0x3302BF`, `0x33066A` and `0x330941`, with
+post-call return RVAs `0x3302C4`, `0x33066F` and `0x330946`. Their setup is
+consistent with a manager-like first argument, a 32-bit reason-like value and
+a low-byte flag. Other direct callers occur in warp-related functions, so the
+callee is shared and is not a safe unfiltered respawn hook.
+
+The candidate body performs player/ship positioning and raycasts. A compile-
+time-only diagnostic build filters observation to the three post-call return
+addresses above. It logs the return-site RVA and the two scalar arguments only
+after the original function returns; it does not create a summon opportunity.
+In one owner test session, the observer recorded returns at `0x3302C4`
+(`reason=1`, `flag=1`) and `0x330946` (`reason=1`, `flag=0`) during a logged
+successful local save-load sequence; the ordinary load opportunity and queue
+were also logged. No death was reported for this interval. This corroborates
+that the call sites occur in a save-load session and do not identify death by
+themselves. The production death trigger remains unmapped and disabled.
+The loaded module's status line used a fixed hook count. A follow-up
+offline-validated build removes that count from the diagnostic message; its
+module SHA-256 is
+`dc2b7356737ae91a114a2113e8877d8acb3644d2f5853ec64e4d25ba6e17212d`. This
+follow-up was not staged into the active game session, so it does not replace
+the module hash recorded above or change the live observation.
+
+Reproduce the direct-call inventory with:
+
+```powershell
+py -B tools/native_call_xrefs.py --exe "<path-to-NMS.exe>" --target-rva 0x14F7F60 --context 5
+```
+
+The helper reports only decoded direct call instructions inside AMD64 `.pdata`
+function ranges. It cannot find indirect callers and does not establish event
+semantics.
 
 ## Required 7.05 evidence
 

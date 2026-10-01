@@ -1,16 +1,32 @@
 # Known issues
 
-Status reviewed: 30 September 2026  
-Public mod build: **0.10.1-native-test**, Nexus file **49367**  
+Status reviewed: 1 October 2026
+
+Public mod build: **0.10.1-native-test**, Nexus file **49367**
+
 Supported game target: Windows x64, Steam Cosmos 7.05 / build 25624745, exact executable hash in the release package.
 
 This page tracks reports against the current public build. A reported symptom is not proof of its suspected cause. Work-in-progress branch changes are not fixes for players until they are validated, packaged and released.
 
 ## No automatic summon after teleport or death
 
-**Observed/current behavior:** 0.10.1 creates automatic opportunities after a successful local save load or ship exit. It has no verified trigger for teleport arrival or death/respawn, so neither event by itself requests a pet. No game eligibility or placement rule is bypassed.
+**Observed/current behavior:** 0.10.1 creates automatic opportunities after a successful local save load or ship exit. The owner reported no automatic pet after death. The build has no verified trigger for teleport arrival or completed death/respawn, so neither event by itself requests a pet. No game eligibility or placement rule is bypassed.
 
-**Status:** Open. Teleport arrival needs a verified local completion callback. A death/respawn trigger needs a separate exact-build event and safety review; it is not assumed to be the same event as teleport or save loading.
+**Status:** Open. Teleport arrival needs a verified local completion callback. Death/respawn needs a separate exact-build signal after a completed local respawn; it is not assumed to be the same event as teleport or save loading.
+
+**Research update:** A read-only Cosmos 7.05 mapping pass on 1 October found
+teleporter-selection labels and destination-position settings, but no verified
+local successful-arrival callback. The feature remains absent from the public
+build. A shared player-position helper also appears in a function with a
+`DoPlayerRespawn` diagnostic label, but it is called from warp paths too and is
+not verified as a successful-respawn signal. See the
+[exact-build teleport and respawn research](research/TELEPORT-AND-GROUPED-MENU.md).
+An offline-validated, test-only observer was loaded in one local session. Its
+log recorded two candidate call sites during the successful save-load sequence,
+without a reported death. They are not a verified death signal and the observer
+does not request pets; the production trigger remains absent.
+A follow-up offline-validated diagnostic build corrects a stale hook-count log
+message and has not been installed in the active session.
 
 ## Settings menu can stop responding after a UI-thread change
 
