@@ -123,8 +123,13 @@ Anomaly. The log records successful local save load, opportunity armed, and
 queue accepted. This one live case does not establish recovery after death or
 reliability across menu rebuilds. Public file 49367 remains unchanged.
 
-Neither finding changes the released ZIP. Teleport and reliable grouped-roster
-menu recovery remain open until a separately versioned candidate is validated.
+Neither finding changes the released ZIP. A 1 October 2026 read-only static
+analysis pass against the exact Cosmos 7.05 executable now records multiple
+RIP-relative candidate references to native teleport state, plus one candidate
+for `Teleporting` and one for the `gcpersonalteleporter.cpp` marker. The hits
+are not yet decoded into a verified local completion callback. Teleport and
+reliable grouped-roster menu recovery remain open until separately versioned
+candidates are validated. See [NMS-075-STATIC-XREFS](../research/NMS-075-STATIC-XREFS.md).
 Track the current player-facing status in [Known Issues](../KNOWN-ISSUES.md).
 
 The ZIP is retained in the originating task's deliverables; publish only the
