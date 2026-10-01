@@ -27,6 +27,9 @@ without a reported death. They are not a verified death signal and the observer
 does not request pets; the production trigger remains absent.
 A follow-up offline-validated diagnostic build corrects a stale hook-count log
 message and has not been installed in the active session.
+The separate byte-pattern pass also recorded candidate references to native
+teleport state; those hits are not semantic callbacks. See the
+[sanitized static XREF record](research/NMS-075-STATIC-XREFS.md).
 
 ## Settings menu can stop responding after a UI-thread change
 

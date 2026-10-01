@@ -12,6 +12,9 @@ The native test candidate targets the exact executable in
 entry beside grouped companion entries in a limited live 7.05 smoke test; full
 compatibility acceptance is not established. Each native target is compared
 against the locked image before hook creation. Unsupported images are refused.
+A separate 1 October 2026 read-only XREF pass narrowed the teleport search to
+native teleporter state references without identifying a verified completion
+callback; see [NMS-075-STATIC-XREFS](../docs/research/NMS-075-STATIC-XREFS.md).
 Startup errors use
 the maintained Windows-language catalogs; in-game menu/HUD remain English.
 Thirteen translation catalogs remain drafts, not verified language support.

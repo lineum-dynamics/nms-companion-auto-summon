@@ -1,7 +1,8 @@
 # Cosmos 7.05 compatibility investigation
 
-Status: updated 1 October 2026. The exact local 7.05 executable identity and static
-candidate mappings are recorded below. Version 0.10.1 passed an initial live
+Status: updated 1 October 2026. The exact local Cosmos 7.05 executable identity,
+teleport XREF evidence and respawn-path candidate mappings are recorded below.
+Version 0.10.1 passed an initial live
 smoke check: the owner reports a visible pet and the settings entry beside
 grouped companions. A later direct load into the Anomaly reportedly had no
 visible pet; an incomplete Anomaly mission preceded it, but any relationship is
@@ -65,6 +66,21 @@ This check establishes boundaries only. It does not identify replacement
 functions or validate their semantics, ABI, object layouts, callback callers,
 or any required memory fields. No replacement addresses have been approved.
 Keep the 7.05 integration disabled while rebuilding and verifying the map.
+
+## Teleport-related static XREF follow-up
+
+A second read-only pass against the exact 7.05 executable searched RIP-relative
+references to the native teleport-state targets identified during the current
+investigation. It found four candidate references each for
+`AngleFromBaseComputerWhenTeleporting` and
+`DistanceFromBaseComputerWhenTeleporting`, one for `Teleporting`, and
+one for the `gcpersonalteleporter.cpp` marker. These are byte-pattern candidates,
+not yet decoded or semantically verified completion callbacks.
+
+The detailed sanitized address table and scan result are retained in
+[NMS-075-STATIC-XREFS](NMS-075-STATIC-XREFS.md). This evidence narrows the next
+analysis step but does not authorize any new hook, and the published 0.10.1
+archive remains unchanged.
 
 ## NMS.py signature-match candidates
 

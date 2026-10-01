@@ -11,7 +11,14 @@ blocked the owner's manual download, so downloaded bytes have not been read
 back. The Python distribution below is preserved. See [native runtime](native/README.md)
 for exact offline checks and pre-hook versus closed-game backup guarantees.
 Long-session, full-menu, location-matrix, teleport and multiplayer behavior
-remain unverified. One later direct load into the Anomaly had no visible pet;
+remain unverified. A 1 October 2026 read-only scan of the exact Cosmos 7.05
+executable found four RIP-relative candidate references each for
+`AngleFromBaseComputerWhenTeleporting` and
+`DistanceFromBaseComputerWhenTeleporting`, plus one `Teleporting` reference
+and one `gcpersonalteleporter.cpp` marker reference. These are not yet
+decoded completion callbacks; the sanitized evidence is in
+[the static XREF record](docs/research/NMS-075-STATIC-XREFS.md).
+One later direct load into the Anomaly had no visible pet;
 the player had an incomplete Anomaly mission, but any connection is unknown.
 The owner now reports a missing settings page and no visible pet after death.
 The public build has no death/respawn or teleport trigger; its current-session

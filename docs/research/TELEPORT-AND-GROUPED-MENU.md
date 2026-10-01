@@ -95,6 +95,15 @@ false leads and Ghidra limitation are recorded in the
 unimplemented; the current profile stays unchanged until a local completion
 signal and its ABI/network semantics are proven.
 
+A separate byte-pattern scan also found candidate RIP-relative references to
+`AngleFromBaseComputerWhenTeleporting`,
+`DistanceFromBaseComputerWhenTeleporting`, `Teleporting` and the
+`gcpersonalteleporter.cpp` marker. That scan is not a disassembler; its hits
+remain candidates until each instruction is decoded and its containing flow
+identified. The sanitized offsets and exact scan limitations are recorded in
+[NMS-075-STATIC-XREFS](NMS-075-STATIC-XREFS.md). Treat these byte-pattern leads
+separately from the `.pdata`-bounded string-reference scan above.
+
 ## Respawn-path mapping update (1 October 2026)
 
 The exact Cosmos 7.05 executable has a promising but unverified respawn-path

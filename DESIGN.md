@@ -13,6 +13,10 @@ Python versions and observations below are unchanged. See the
 
 The 0.10.1 runtime creates opportunities after successful local save loading
 and ship exit only. It has no automatic trigger after teleport or death/respawn.
+The 1 October 2026 static XREF pass narrowed the exact-build teleport search to
+native teleporter state references, but did not identify a verified completion
+callback. This remains research, not a player-visible feature. See
+[the teleport XREF record](docs/research/NMS-075-STATIC-XREFS.md).
 The owner reported that both the pet and settings page were absent after death;
 the session log also contains a menu thread-guard stop, but does not establish
 that death caused it. See the [current issue record](docs/KNOWN-ISSUES.md).

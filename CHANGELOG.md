@@ -2,6 +2,13 @@
 
 ## Unreleased follow-up — 1 October 2026
 
+- Record the exact Cosmos 7.05 static XREF pass for teleport-related state:
+  four byte-pattern candidate references each for
+  `AngleFromBaseComputerWhenTeleporting` and
+  `DistanceFromBaseComputerWhenTeleporting`, one for `Teleporting`, and one
+  for the `gcpersonalteleporter.cpp` marker. These have not all been decoded
+  into semantic code references or a completion callback; the sanitized
+  addresses are in [NMS-075-STATIC-XREFS](docs/research/NMS-075-STATIC-XREFS.md).
 - Keep automatic summoning after death/respawn as a separate unimplemented
   trigger from save loading and teleport arrival. The 7.05 static scan found a
   shared positioning helper with three direct return sites inside a function
@@ -14,10 +21,9 @@
 - Offline validation passed and a diagnostic module was staged locally after a
   fresh verified save/preferences and previous-module backup. One live session
   captured two candidate calls during successful save loading, without a
-  reported death; this is not a death trigger. The public Nexus file remains
-  unchanged. A follow-up offline-validated observer build removes a hardcoded
-  hook count from the diagnostic status message; it was not deployed during
-  the running session.
+  reported death; this is not a death trigger. A follow-up observer build
+  corrects the diagnostic hook-count message. The public Nexus file remains
+  unchanged.
 
 ## Unreleased follow-up — 30 September 2026
 
