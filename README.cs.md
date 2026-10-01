@@ -4,6 +4,9 @@
 
 by **Lineum Dynamics**
 
+
+> Poznámka k aktuální analýze 1. 10. 2026: veřejný kandidát 0.10.1-native-test se nemění. Čtecí analýza přesného Cosmos 7.05 našla několik RIP-relative referencí na nativní stav teleportu, ale stále nemáme ověřený callback úspěšného dokončení teleportu. Podrobný záznam je v [teleportním výzkumu](docs/research/TELEPORT-AND-GROUPED-MENU.md).
+
 Aktuální kandidát balíčku je **0.9.3-test**. Standardní knihovna Pythonu
 je rozbalená, takže neobsahuje vnořený ZIP zakázaný Nexusem. Spouštěč má
 správný název produktu, firmy a verzi; přiložené jsou i podklady k jeho sestavení.
