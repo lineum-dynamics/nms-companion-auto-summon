@@ -70,6 +70,12 @@ the second needs a menu adapter that tolerates native menu variants.
 These checks are intentional safety boundaries. Do not remove them or accept an
 unknown menu layout as a workaround.
 
+## Latest static teleport XREF pass — 1 October 2026
+
+A read-only scan of the exact Cosmos 7.05 executable found four RIP-relative candidate references to each of `AngleFromBaseComputerWhenTeleporting` and `DistanceFromBaseComputerWhenTeleporting`, plus one candidate reference to `Teleporting` and one to the `gcpersonalteleporter.cpp` marker. These are byte-pattern candidates, not yet semantically decoded code XREFs. The complete sanitized addresses, method and raw result are preserved in [NMS-075-STATIC-XREFS](NMS-075-STATIC-XREFS.md).
+
+This narrows the next reverse-engineering step without changing the public build. No successful local teleporter-completion callback has been identified yet, so teleport summoning remains unimplemented.
+
 ## Design direction
 
 Treat teleport arrival as an independent opportunity setting, separate from the
