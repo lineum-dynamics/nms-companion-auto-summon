@@ -35,7 +35,7 @@ This mapping is only the address-conversion step; it does not prove that a targe
 
 ## RIP-relative candidate references
 
-The scanner walked the `.text` byte range and recognized a five-byte RIP-relative form when the first byte treated as ModRM satisfied `(modrm & 0xC7) == 0x05`. It then resolved the signed 32-bit displacement against the end of that five-byte instruction.
+The discovery scanner walked the `.text` byte range and recognized a five-byte RIP-relative form when the first byte treated as ModRM satisfied `(modrm & 0xC7) == 0x05`. It resolved the signed 32-bit displacement against the end of that ModRM-plus-displacement sequence. The original table below mislabeled the resulting ModRM-byte offsets as instruction starts; they are not instruction boundaries and must not be used as hook addresses.
 
 This is a **candidate-reference scanner, not a disassembler**. A byte-pattern hit must be decoded in context before it can be called a real code XREF.
 
@@ -43,7 +43,7 @@ This is a **candidate-reference scanner, not a disassembler**. A byte-pattern hi
 
 4 candidate references:
 
-| Instruction VA | Instruction RVA | Displacement field file offset |
+| Candidate ModRM-byte VA | Candidate ModRM-byte RVA | Candidate file offset |
 |---:|---:|---:|
 | `0x140136014` | `0x136014` | `0x135414` |
 | `0x14284924E` | `0x284924E` | `0x284864E` |
@@ -54,7 +54,7 @@ This is a **candidate-reference scanner, not a disassembler**. A byte-pattern hi
 
 4 candidate references:
 
-| Instruction VA | Instruction RVA | Displacement field file offset |
+| Candidate ModRM-byte VA | Candidate ModRM-byte RVA | Candidate file offset |
 |---:|---:|---:|
 | `0x1401360AF` | `0x1360AF` | `0x1354AF` |
 | `0x142849264` | `0x2849264` | `0x2848664` |
@@ -65,7 +65,7 @@ This is a **candidate-reference scanner, not a disassembler**. A byte-pattern hi
 
 1 candidate reference:
 
-| Instruction VA | Instruction RVA | Displacement field file offset |
+| Candidate ModRM-byte VA | Candidate ModRM-byte RVA | Candidate file offset |
 |---:|---:|---:|
 | `0x140AC41AA` | `0xAC41AA` | `0xAC35AA` |
 
@@ -73,13 +73,36 @@ This is a **candidate-reference scanner, not a disassembler**. A byte-pattern hi
 
 1 candidate reference:
 
-| Instruction VA | Instruction RVA | Displacement field file offset |
+| Candidate ModRM-byte VA | Candidate ModRM-byte RVA | Candidate file offset |
 |---:|---:|---:|
 | `0x1414417A4` | `0x14417A4` | `0x1440BA4` |
 
 ## What this establishes
 
-The exact 7.05 executable contains four byte-level RIP-relative candidate references to each of the two teleport-distance/angle labels, one candidate reference to `Teleporting`, and one to the `gcpersonalteleporter.cpp` marker.
+The exact 7.05 executable contains four byte-level RIP-relative candidate references to each of the two teleport-distance/angle labels, one candidate reference to `Teleporting`, and one to the `gcpersonalteleporter.cpp` marker. The candidate offsets above are useful search locations only; the instruction starts below were verified by disassembling from `.pdata` function boundaries.
+
+## Decoded instruction-boundary verification
+
+The follow-up used `tools/native_string_xrefs.py` with the exact executable
+SHA-256 above, Python 3.11.9, `pefile 2024.8.26`, and `Capstone 5.0.9`. It
+decoded 52,096,118 runtime-function bytes and skipped zero ranges. The verified
+direct RIP-relative instruction starts and containing function ranges are:
+
+| String target | Instruction RVA(s) | Containing function RVA(s) |
+|---|---|---|
+| `AngleFromBaseComputerWhenTeleporting` | `0x136012`, `0x284924C`, `0x2859238`, `0x285925F` | `0x131510-0x14AA8E`, `0x28484E0-0x284C64A`, `0x28560B0-0x286598C` |
+| `DistanceFromBaseComputerWhenTeleporting` | `0x1360AD`, `0x2849262`, `0x285929D`, `0x28592C4` | `0x131510-0x14AA8E`, `0x28484E0-0x284C64A`, `0x28560B0-0x286598C` |
+| `Teleporting` | `0xAC41A8` | `0xAC40FB-0xAC445B` |
+| `gcpersonalteleporter.cpp` | `0x14417A2` | `0x1441770-0x144181D` |
+
+Every raw ModRM-byte candidate above is two bytes after the verified start of
+its corresponding `REX.W + LEA` instruction. This offset pattern is a property
+of those encodings, not a general address correction rule. Always use the
+decoded instruction and its `.pdata` owner. The `Teleporting` instruction
+passes a string value into a shared helper; it does not expose a successful
+local-arrival result. The source-file marker remains a diagnostic/source
+location lead, not a function name or callback. Correcting these byte offsets
+does not identify a teleport trigger.
 
 It does **not** yet establish which candidate belongs to the actual successful local teleporter flow. In particular:
 
@@ -90,7 +113,7 @@ It does **not** yet establish which candidate belongs to the actual successful l
 
 ## Next analysis step
 
-Decode the surrounding instructions at each candidate reference and walk the enclosing control flow until the owning function can be identified. Then follow calls/branches around the state transition to determine whether a candidate is:
+Walk the enclosing control flow from the verified instruction sites, then follow calls/branches around the state transition to determine whether a candidate is:
 
 1. teleporter setup,
 2. transient teleport-in-progress state,

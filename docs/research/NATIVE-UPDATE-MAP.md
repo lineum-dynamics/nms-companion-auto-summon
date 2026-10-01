@@ -165,6 +165,11 @@ builds.
   unaligned byte and manufacture apparent instructions. Use the `.pdata`
   function-bound scan for caller counts and negative xref findings; preserve
   any broad-sweep result only as an explicitly unverified lead.
+- A raw RIP-relative ModRM-byte scan can resolve a real LEA target while
+  reporting the ModRM byte two bytes into the instruction as its apparent
+  address. Label such output as candidate byte offsets, then re-decode from the
+  `.pdata` function start and record the actual instruction boundary before
+  reasoning about callers or hooks.
 - A `movss [rcx]` getter scan returned zero for Cosmos 7.05 when requiring the
   next instruction to be `ret`, but the exact image contains float field reads
   inside larger functions. The zero only rejects that two-instruction shape;

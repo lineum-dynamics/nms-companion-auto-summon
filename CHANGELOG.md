@@ -6,9 +6,11 @@
   four byte-pattern candidate references each for
   `AngleFromBaseComputerWhenTeleporting` and
   `DistanceFromBaseComputerWhenTeleporting`, one for `Teleporting`, and one
-  for the `gcpersonalteleporter.cpp` marker. These have not all been decoded
-  into semantic code references or a completion callback; the sanitized
-  addresses are in [NMS-075-STATIC-XREFS](docs/research/NMS-075-STATIC-XREFS.md).
+  for the `gcpersonalteleporter.cpp` marker. The raw scan offsets were
+  ModRM-byte positions, not instruction starts; a `.pdata`-bounded decode now
+  records the valid instruction addresses and function ranges. None identifies
+  a completion callback; see
+  [NMS-075-STATIC-XREFS](docs/research/NMS-075-STATIC-XREFS.md).
 - Keep automatic summoning after death/respawn as a separate unimplemented
   trigger from save loading and teleport arrival. The 7.05 static scan found a
   shared positioning helper with three direct return sites inside a function
