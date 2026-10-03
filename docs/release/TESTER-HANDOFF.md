@@ -21,7 +21,7 @@ partner. Death/respawn remains a separate unsupported trigger.
 | Offline verification | Locale validation, 31 focused locale tests, full 790-test tooling suite, 63 native runtime cases, native policy/selection/storage/backup and host checks all passed |
 | Local archive readback | All 30 allowlisted files, manifest hashes and ZIP CRC passed; exact UAL 9.7.4 x64 loader and eight original icons verified |
 | Game start/attach for this exact package | Not performed; build, validation and packaging never launch or attach to NMS |
-| Source commit | Pending release source commit |
+| Runtime source commit | `73987cb04226ebfa0bbd93be172e2832397e7348` |
 | Nexus file ID / status / file-description readback | Pending; current public primary remains file 49367 / 0.10.1 until the next file and page text are saved and read back |
 | Nexus scan status | Pending exact-file readback; do not infer from earlier file IDs |
 | Two-player test | Pending; record the visible outcome on both screens and do not infer success from queue logs |
