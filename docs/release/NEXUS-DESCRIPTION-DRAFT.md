@@ -1,6 +1,6 @@
 # Companion Auto Summon for No Man's Sky - by Lineum Dynamics
 
-**Current public EARLY ALPHA: 0.10.1-native-test.** Nexus file **49367** is Main / Primary; mod-manager downloads are OFF. The current 0.10.1 version, short summary and full English description were visible in the Nexus editor on 30 September 2026. Exact archive, scan and readback evidence is in the [tester handoff](TESTER-HANDOFF.md). Version 0.10.0 and file 49202 are historical. Keep the following internal notes out of the player description.
+**Current public EARLY ALPHA: 0.10.1-native-test.** Nexus file **49367** is Main / Primary; mod-manager downloads are OFF. The current 0.10.1 version, short summary and full English description were visible in the Nexus editor on 30 September 2026. Exact archive, scan and readback evidence is in the [tester handoff](TESTER-HANDOFF.md). The player-facing sections below are prepared for the next ordinary update, **0.10.2-native-test**, and are not yet saved on Nexus. Keep the following internal notes out of the player description.
 
 The page version and the full Description through Credits were saved and read
 back on 28 September 2026. Native file **49202** was subsequently renamed
@@ -34,22 +34,23 @@ not be copied into the player description.
 
 ## Short summary
 
-EARLY ALPHA 0.10.1: automatically bring an owned companion after a local save load or ship exit. Last selected, Random or weighted By habitat, with shuffle and Quick Menu settings. Exact Windows/Steam build only. Teleport/death triggers are not included; a menu rebuild issue is under investigation. Back up saves before testing.
+EARLY ALPHA 0.10.2: summon an owned companion after a local save load or ship exit, with an experimental teleport trigger under multiplayer test. Last selected, Random or weighted By habitat, with shuffle and Quick Menu settings. Exact Windows/Steam build only. Remote-player behavior and death/respawn are unverified. Back up saves and report test results.
 
 ## Description
 
-**EARLY ALPHA / Public Test — 0.10.1-native-test. Expect bugs, incomplete behaviour and possible crashes. This is an experimental release for Windows 10/11 x64 and the exact Steam build listed below, not a stable release. Make a separate backup of your saves with the game closed before installing or testing.**
+**EARLY ALPHA / Public Test — 0.10.2-native-test. Expect bugs, incomplete behaviour and possible crashes. This is an experimental release for Windows 10/11 x64 and the exact Steam build listed below, not a stable release. Make a separate backup of your saves with the game closed before installing or testing.**
 
-**Confirmed so far:** In an initial 0.10.1 live smoke check on Windows/Steam Cosmos 7.05, the player reported that a companion appeared and the settings entry was visible beside grouped companion rows. The trigger for that observation is not established. In a later session, the player reported no pet and a missing settings page after death. The current-session log recorded a menu callback-thread safety stop, but no death event; the causal link is unknown. Menu actions, menu rebuild recovery, restart repeatability, second-PC installation and multiplayer remain to be tested. The recovery candidate has only passed offline checks and is not included in this public file.
+**Confirmed so far:** An earlier build of the experimental teleport candidate produced visible companions after two local routes: freighter-to-station and station-to-planetary-base, without a ship exit for the latter. This does not establish the callback's meaning or whether another player's teleport can summon a pet for the stationary player. That local-versus-remote behavior is the specific multiplayer test for this release. The exact archive still needs a fresh startup check; second-PC installation and multiplayer remain unverified. One 0.10.1 session also recorded a menu callback-thread safety stop after the owner reported a missing settings page following death. No death event appeared in the log, so the cause remains unknown. The current menu recovery candidate passed offline checks and one live load scenario; recovery after death and other menu rebuilds remains unverified.
 
-## Known issues in 0.10.1
+## Known issues in 0.10.2
 
-- **No automatic summon after teleport or death/respawn.** This build creates an opportunity after a successful local save load or ship exit only.
-- **The custom settings page may stop responding after a menu rebuild.** One report described both the pet and settings page missing after death. A session log recorded a UI-thread safety stop, but not a death event; the cause is unconfirmed. One grouped-roster smoke check succeeded, but other rebuilds remain unverified. A recovery candidate is being tested offline and is not in this download.
+- **Teleport summoning is experimental.** An earlier build of the same candidate produced visible pets after two local teleport routes. The callback's meaning and local-versus-remote multiplayer behavior are unknown; this release specifically needs a two-player test. Use the in-game master switch to turn automation OFF if needed.
+- **No automatic summon after death/respawn.** This is a separate unimplemented trigger. Manual dismissal or a missing pet also does not create a new opportunity.
+- **Menu recovery after death and other rebuilds is unverified.** One report described both the pet and settings page missing after death. A session log recorded a UI-thread safety stop, but not a death event; the cause is unconfirmed. A grouped-roster smoke check and one direct-load recovery scenario succeeded, but they do not establish reliability across rebuilds.
 
 See the [current Known Issues and test status](https://github.com/lineum-dynamics/nms-companion-auto-summon/blob/main/docs/KNOWN-ISSUES.md). Please report the exact mod/game version, trigger and result, and whether the custom page still opens.
 
-Keep a companion beside you without opening the companion menu after every landing. When you leave your starship or load your local save, the mod checks your settings and asks the game to summon one of your eligible owned companions.
+Keep a companion beside you without opening the companion menu after every landing. When you leave your starship or load your local save, the mod checks your settings and asks the game to summon one of your eligible owned companions. This test build also includes an experimental teleport callback; see the multiplayer test note below.
 
 Choose a familiar favourite, let Random vary your company, or use By habitat to favour companions suited to the planet under the explicit rules below. The mod does not give you pets, unlock slots, accelerate growth, improve combat values or bypass placement restrictions. You still need to own a companion that the game permits you to summon.
 
@@ -57,13 +58,13 @@ If your landing platform or surrounding terrain is unsuitable, the request can w
 
 This version runs as a native module loaded during normal Steam startup. It needs no Python installation, separate mod launcher or external settings panel. The package's two game folders are merged into your Steam game installation while the game is closed.
 
-## Settings in 0.10.1-native-test
+## Settings in 0.10.2-native-test
 
 Open **Quick Menu → Companions → Companion Auto Summon**. On PC, the default Quick Menu key is **X**. If you have changed your controls, use your assigned Quick Menu key or the game's controller prompt. The mod uses native menu actions. Its settings entry appears before individual pets.
 
 That page has seven controls:
 
-- **Automatic summoning:** ON/OFF. OFF cancels waiting automatic requests without dismissing your current companion. Turning ON waits for your next ship exit or successful local save load.
+- **Automatic summoning:** ON/OFF. OFF cancels waiting automatic requests without dismissing your current companion. Turning ON waits for a subsequent save load, ship exit or experimental teleport callback.
 - **Selection:** Last selected, Random or By habitat. Last selected remembers a successful manual choice for that save; the other modes do not replace your remembered favourite.
 - **Random: prefer matching biome:** favour eligible companions whose stored native habitat exactly matches the planet. If the habitat is unknown or no eligible match exists, use the ordinary eligible random pool. This only affects Random on planets, not Last selected, By habitat, stations or the Space Anomaly.
 - **Planets:** allow automatic summoning on planets.
@@ -77,9 +78,9 @@ Applied changes report the actual value, such as **Selection: By habitat**, **Sh
 
 ## Compatibility
 
-The supported target is **Windows 10/11 x64, Steam build 25442159 / Cosmos 7.04**. The exact executable SHA-256 is:
+The supported target is **Windows 10/11 x64, Steam build 25624745 / Cosmos 7.05**. The exact executable SHA-256 is:
 
-`b7913f268dfc62386b6b68f524bfc8ade4a44a9f4fbad39085b7bf51be3680cb`
+`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`
 
 The module checks the actual running executable before enabling its gameplay hooks and refuses an unknown build. A game update requires renewed compatibility checks. Consoles, GOG, Game Pass, macOS and Linux/Proton are not supported by this candidate. This exact-build target is not proof of compatibility with every other mod.
 
@@ -121,26 +122,26 @@ For Last selected, manually summon an owned companion once. Random and By habita
 
 **Will it keep summoning a pet I dismiss?**
 
-Dismissal does not create another automatic opportunity. Another successful local save load or ship exit can do so. An already active or queued companion also prevents a duplicate request.
+Dismissal does not create another automatic opportunity. Another successful local save load, ship exit or accepted experimental teleport callback can do so. An already active or queued companion also prevents a duplicate request.
 
 **Does it summon after teleporting, death or deleting a base?**
 
-This build creates automatic opportunities after a successful local save load or ship exit only. Teleport arrival and death/respawn do not currently trigger a request; base removal does not create one either. Manual dismissal or a missing pet does not automatically trigger a respawn. The reported missing menu and pet after death are being tracked; one UI-thread safety stop appeared in the session log, but the log cannot show that death caused it.
+This build includes an experimental teleport callback candidate in addition to local save load and ship exit. An earlier build produced visible pets on two local routes, but the callback's exact meaning and remote-player behavior are unknown. In multiplayer, leave one player stationary while the other teleports, then swap roles and observe each screen. The feature still uses the game's normal summon checks and can be disabled with **Automatic summoning: OFF**. Death/respawn and base removal do not create a new request; manual dismissal or a missing pet does not automatically trigger a respawn.
 
 **How much has been tested?**
 
 The native candidate has offline policy and selection comparisons, temporary-file persistence and backup tests, owned-memory runtime/menu scenarios and unsupported-host checks. A separate MinHook fixture checks forwarding and reentry using only functions authored in the test executable.
 
-In one subsequent native r3 startup through Steam, the log confirms that the exact game executable passed its check, the private pre-activation backup completed, all twelve game hooks and the binding guard enabled, and a local save loaded successfully. The log then recorded two accepted summon queue requests. The player subsequently confirmed **a visible pet after ship exit**. **Visible appearance after loading the save remains uncertain:** the accepted startup queue establishes neither a visible success nor a visible failure. Startup reliability, the native menu, restart repeatability, all seven controls, rendered icons, remapped/controller input, placement, second-PC installation and multiplayer remain acceptance work. Historical player reports for the Python versions do not validate this native port.
+Offline policy, selection, storage, runtime, menu and backup checks cover the native candidate, but they do not replace live gameplay. An earlier build of the experimental teleport candidate produced visible pets on two local routes. The exact 0.10.2 archive still needs its own startup check, and the two-player test must establish whether a partner's teleport affects the stationary player's companion. Historical player reports for the Python versions do not validate this native port.
 
 **Why can the custom settings stop responding?**
 
-In 0.10.1, a callback arriving on an unexpected UI thread can trip the menu safety guard and stop the custom settings page for the rest of that game session. The owner reported this after dying, and the session log contains the thread-change stop, but it does not record a death event or prove the cause. One grouped-roster check did show the settings entry; other menu rebuilds remain unverified. A recovery candidate passed 25 offline menu tests and one live scenario: the owner confirmed the settings menu worked and a pet appeared after loading directly from an expedition into the Space Anomaly. The log records a successful local save load and accepted summon queue. Recovery after death and across other menu rebuilds remains unverified; the candidate is not in this download. Until a verified update is released, a normal game restart may be needed if the custom page stops responding. Automatic summoning has a separate safety latch.
+In 0.10.1, a callback arriving on an unexpected UI thread could trip the menu safety guard and stop the custom settings page for the rest of that game session. The owner reported this after dying, and the session log contains the thread-change stop, but it does not record a death event or prove the cause. A recovery candidate passed 25 offline menu tests and one live scenario: the owner confirmed the settings menu worked and a pet appeared after loading directly from an expedition into the Space Anomaly. The log records a successful local save load and accepted summon queue. The recovery code is included in this 0.10.2 candidate, but recovery after death and across other menu rebuilds remains unverified. A normal game restart may still be needed if the custom page stops responding. Automatic summoning has a separate safety latch.
 
 ## Selection and shuffle rules
 
 
-**Implemented in the 0.10.1-native-test public build; full live acceptance is pending.** The native port retains the existing selection balance and explicit rules below. Offline comparisons against the previous implementation do not prove visible in-game outcomes.
+**Implemented in the 0.10.2-native-test candidate; full live acceptance is pending.** The native port retains the existing selection balance and explicit rules below. Offline comparisons against the previous implementation do not prove visible in-game outcomes.
 
 ### Choose how your companion is selected
 
@@ -197,7 +198,7 @@ Adopting or abandoning companions updates the cycle. Renaming or reordering slot
 
 ### New-install defaults and upgrades
 
-A fresh 0.10.1-native-test configuration uses **By habitat + Shuffle companions ON**, automation ON and all three supported locations ON. The Random biome preference is also ON but only applies if you select Random. Existing 0.8.x preferences retain their previous mode, location and ON/OFF choices; the new shuffle option starts OFF for those upgrades. Existing 0.9.0 settings, including the shuffle choice, remain unchanged. Changing a setting does not immediately summon or dismiss a pet: the next ship exit or successful local save load supplies a new opportunity.
+A fresh 0.10.2-native-test configuration uses **By habitat + Shuffle companions ON**, automation ON and all three supported locations ON. The Random biome preference is also ON but only applies if you select Random. Existing preferences are retained. Changing a setting does not immediately summon or dismiss a pet: a later ship exit, successful local save load or experimental teleport callback supplies a new opportunity.
 
 ## Source and bug reports
 

@@ -1,5 +1,33 @@
 # Changelog
 
+## 0.10.2-native-test — multiplayer test release, 3 October 2026
+
+- Continue the existing native EARLY ALPHA as one ordinary next update; do not
+  distribute a parallel multiplayer-only edition.
+- Include the experimental teleport callback candidate in addition to the
+  existing local-save and ship-exit opportunities. The existing master
+  automation switch and destination settings still gate the request, which
+  continues through native ownership, eligibility and placement checks.
+- Earlier builds of this candidate behavior produced visible pets after two
+  local teleport routes. The callback's meaning and remote-player behavior are
+  unverified; the release specifically asks two players to test whether a
+  partner's teleport triggers a pet for the stationary player. Do not claim
+  general teleport support or multiplayer safety from the local observations.
+- Death/respawn remains a separate unsupported trigger. No save-file edits,
+  gameplay-limit reductions, summon-rule bypasses or automatic pet creation
+  are introduced.
+- The native bundle passed 31,216 policy comparisons, 25,733 selection
+  comparisons, 333 storage differential cases / 721 operations, 63 runtime
+  cases, 16 backup checks and six owned-host checks. The full tooling suite
+  passed 790 tests; locale validation passed for 14 catalogs with language
+  review explicitly unverified.
+- The local readback-verified ZIP is 3,728,543 bytes with SHA-256
+  `412ff46f85419387c1206dd18469f42ac1c5d3c381f78059042643fde41fe5ec`; this
+  does not establish an NMS start, multiplayer result or scanner clearance.
+  Exact archive identity, Nexus file/readback and scanner status are recorded in
+  [0.10.2 multiplayer test](docs/release/0.10.2-MULTIPLAYER-TEST.md) and the
+  [tester handoff](docs/release/TESTER-HANDOFF.md).
+
 ## Unreleased follow-up — 1 October 2026
 
 - Record the exact Cosmos 7.05 static XREF pass for teleport-related state:

@@ -1,4 +1,4 @@
-"""Build the native test candidate and owned hosts. Never deploy or run NMS."""
+"""Build the next native player test and owned hosts. Never deploy or run NMS."""
 import argparse
 import json
 import re
@@ -8,7 +8,7 @@ from generate_native_catalog import generate
 from native_compatibility import load_native_profile
 from validate_compatibility import validate
 
-VERSION = "0.10.1-native-test"
+VERSION = "0.10.2-native-test"
 
 
 def main():
@@ -18,12 +18,11 @@ def main():
     parser.add_argument("--respawn-observer", action="store_true",
                         help="Build a test-only passive observer for three exact-build respawn-path candidate returns")
     parser.add_argument("--teleport-candidate-trial", action="store_true",
-                        help="Build a local test-only summon trial for return 0x3302C4 with reason 11 and flag 1")
+                        help="Include the experimental teleport trigger in the next player test build")
     args = parser.parse_args()
     if args.respawn_observer and args.teleport_candidate_trial:
         parser.error("--respawn-observer and --teleport-candidate-trial are separate build modes")
-    version = VERSION + ("-teleport-candidate-trial" if args.teleport_candidate_trial else
-                         "-respawn-observer" if args.respawn_observer else "")
+    version = VERSION + ("-respawn-observer" if args.respawn_observer else "")
     output = args.output.resolve()
     if not output.is_relative_to(ROOT / "build") or output.exists():
         raise ValueError("Use a new directory beneath build")
@@ -62,8 +61,8 @@ def main():
     resource = output / "version.rc"
     resource.write_text('''#include <windows.h>
 1 VERSIONINFO
-FILEVERSION 0,10,1,0
-PRODUCTVERSION 0,10,1,0
+FILEVERSION 0,10,2,0
+PRODUCTVERSION 0,10,2,0
 FILEFLAGSMASK 0x3fL
 FILEFLAGS VS_FF_PRERELEASE
 FILEOS VOS_NT_WINDOWS32

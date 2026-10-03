@@ -1,5 +1,37 @@
 # Native public alpha handoff
 
+## 0.10.2-native-test — prepared ordinary update; publication pending
+
+This is the single next EARLY ALPHA update, not a parallel multiplayer edition.
+It adds the experimental teleport callback candidate to the existing native
+runtime. Earlier builds of the same candidate behavior produced visible pets
+after two local routes. The callback meaning, this exact archive's startup and
+local-versus-remote multiplayer behavior remain unverified. The release is
+intended to test whether one player's teleport summons a pet for a stationary
+partner. Death/respawn remains a separate unsupported trigger.
+
+| Field | 0.10.2 test candidate |
+|---|---|
+| ZIP / size / SHA-256 | `CompanionAutoSummon-0.10.2-native-test.zip` / 3,728,543 bytes / `412ff46f85419387c1206dd18469f42ac1c5d3c381f78059042643fde41fe5ec` |
+| Module SHA-256 | `fd1faad297e52bb672f0f1b2b1e96b4b0e163db3b6c845f850e586e91d87dbb3` |
+| Build receipt SHA-256 | `2e3319fba2e090c532bdf3e49bef55cc6cf41bc665ef0361a0b97216457af862` |
+| Validation receipt SHA-256 | `3cae85af421ccbe46b150d5109bb7de187de56da1d9424e2d209fb844a4de37f` |
+| Package receipt SHA-256 | `594bf8c9835c9fcaf52414e272471a9d40aa52d01e70308bca590aa70dc78b0f` |
+| Game target | Windows 10/11 x64, Steam Cosmos 7.05 / build 25624745; exact executable hash required |
+| Offline verification | Locale validation, 31 focused locale tests, full 790-test tooling suite, 63 native runtime cases, native policy/selection/storage/backup and host checks all passed |
+| Local archive readback | All 30 allowlisted files, manifest hashes and ZIP CRC passed; exact UAL 9.7.4 x64 loader and eight original icons verified |
+| Game start/attach for this exact package | Not performed; build, validation and packaging never launch or attach to NMS |
+| Source commit | Pending release source commit |
+| Nexus file ID / status / file-description readback | Pending; current public primary remains file 49367 / 0.10.1 until the next file and page text are saved and read back |
+| Nexus scan status | Pending exact-file readback; do not infer from earlier file IDs |
+| Two-player test | Pending; record the visible outcome on both screens and do not infer success from queue logs |
+
+The release-specific test sequence and reporting checklist are in
+[0.10.2 multiplayer test](0.10.2-MULTIPLAYER-TEST.md). The exact local package
+is retained at `build/releases/CompanionAutoSummon-0.10.2-native-test.zip` in
+the repository working tree; do not publish a rebuilt or modified copy under
+this identity.
+
 ## 0.10.1-native-test — public Cosmos 7.05 test build
 
 This version targets only the exact Windows x64 Steam Cosmos 7.05 executable

@@ -1,9 +1,11 @@
 # Companion Auto Summon for No Man's Sky - by Lineum Dynamics
 
-**0.10.1-native-test — testovací sestavení pro Cosmos 7.05.** Windows 10/11, 64bit, Steam.
-Balíček je připravený k prvnímu běžnému spuštění přes Steam. Spuštění ve hře,
-skutečné objevení peta, multiplayer ani průchod kontrolou Nexusu zatím nejsou
-ověřené. Před prvním testem si ponechte samostatnou zálohu z vypnuté hry.
+**0.10.2-native-test — EARLY ALPHA pro test multiplayeru.** Windows 10/11,
+64bit, Steam. Dřívější sestavení tohoto pokusného spouštěče vyvolalo viditelného
+peta po dvou místních trasách teleportu. Nepotvrzuje to, kterou herní událost
+spouštěč zachycuje, zda reaguje jen na místního hráče ani co udělá, když se
+teleportuje jiný hráč. Tento přesný archiv ještě potřebuje nový test spuštění.
+Před testem si ponechte samostatnou zálohu vytvořenou při vypnuté hře.
 
 ## Instalace
 
@@ -63,20 +65,35 @@ nastavení se zachová; aktualizace vaše dřívější volby nepřepíná na v�
   ani odmítnutí požadavku nepřelosuje peta; další pokus používá stejného.
 
 Automatika dostane jednu příležitost po úspěšném načtení místního savu nebo
-výstupu z lodi. Čeká na herní kontrolu vlastnictví, fyziky a místa. Z nevhodné
-plošiny nebo terénu se přesuňte na volnou zem: čekající požadavek může pokračovat,
-jakmile hra vyvolání dovolí. Ruční odvolání peta nevytvoří nový požadavek.
-Náhled petů, nástup do lodi, změna nastavení nebo přijaté ruční vyvolání původní
-požadavek zruší. Mód nevytváří nové pety, nesnižuje herní limity, nezkracuje
-herní časovače ani neobchází pravidla běžného vyvolávání.
+výstupu z lodi. Tato testovací verze obsahuje také experimentální callback
+teleportu, který byl pozorován po dvou místních trasách. Jeho přesný význam a
+chování v multiplayeru vůči místním a vzdáleným hráčům nejsou ověřené. Hlavní
+přepínač automatiky a nastavení míst stále určují, zda může dojít k vyvolání.
+Každý požadavek čeká na herní kontrolu vlastnictví, fyziky a místa. Z nevhodného
+terénu se přesuňte na volnou zem; čekající požadavek může pokračovat, jakmile
+hra vyvolání dovolí. Ruční odvolání peta nevytvoří nový požadavek. Náhled petů,
+nástup do lodi, změna nastavení nebo přijaté ruční vyvolání původní požadavek
+zruší. Mód nevytváří nové pety, nesnižuje herní limity, nezkracuje herní
+časovače ani neobchází pravidla běžného vyvolávání.
+
+## Multiplayerový test
+
+Oba hráči mají nainstalovat tentýž archiv a podporovanou verzi hry pro
+Windows/Steam. Nejprve ověřte, že je automatika zapnutá a současné místo
+povolené. V multiplayeru jeden hráč zůstane stát a druhý se teleportuje.
+Sledujte, zda se prvnímu hráči vyvolá jeho vlastní pet, a potom si role
+prohoďte. Pokud je chování rušivé, vypněte automatiku v herním menu. Při
+hlášení uveďte, který hráč se teleportoval, kde se oba nacházeli, zda už byl
+nějaký pet aktivní, režim výběru a co se zobrazilo na každé obrazovce. Test má
+zjistit, zda experimentální spouštěč reaguje i na pohyb druhého hráče.
 
 ## Kompatibilita, ukládání a zálohy
 
 Tato testovací verze cílí pouze na **Steam Cosmos 7.05, build 25624745**,
 SHA-256 `671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
 Kandidát před zapojením herních funkcí ověří skutečný spustitelný soubor. Shoda
-v této kontrole sama o sobě nepotvrzuje kompatibilitu; tato verze ještě čeká
-na řízený test ve hře.
+v této kontrole sama o sobě nepotvrzuje kompatibilitu. Přesný archiv ještě
+potřebuje nový test spuštění a chování teleportu potřebuje popsaný test ve dvou.
 Neznámou nebo změněnou verzi odmítne a zobrazí lokalizované upozornění. Tím není
 ověřena každá možná kombinace s ostatními módy. Konzole, Game Pass, GOG, macOS
 a Linux/Proton tato testovací verze nepodporuje.

@@ -55,11 +55,23 @@ selecting a destination; it produced no observer event. The candidate call is
 therefore not caused by opening or backing out of the interface alone. Whether
 it marks destination confirmation, transition start or completed arrival
 remains open.
-A follow-up offline-validated diagnostic build corrects a stale hook-count log
-message and has not been installed in the active session.
+A follow-up offline-validated diagnostic build corrected a stale hook-count log
+message and was used for the two later local candidate trials. The packaged
+0.10.2 module is a new artifact and has not yet been started in NMS.
 The separate byte-pattern pass also recorded candidate references to native
 teleport state; those hits are not semantic callbacks. See the
 [sanitized static XREF record](research/NMS-075-STATIC-XREFS.md).
+
+**Prepared 0.10.2 test behavior:** The next ordinary update includes this
+filtered teleport candidate, gated by the existing master automation and
+destination settings. The owner saw a pet after two local teleport routes in
+an earlier build of the same candidate behavior. This supports a local test
+trigger but does not establish the callback's game-level meaning or whether a
+remote player's teleport can create an opportunity for the stationary player.
+That local-versus-remote question is the specific multiplayer test for this
+release. The exact new archive still needs a fresh startup check, and no general
+teleport support or multiplayer safety is claimed. Death/respawn remains a
+separate unimplemented trigger.
 
 ## Settings menu can stop responding after a UI-thread change
 

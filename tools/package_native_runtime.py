@@ -22,7 +22,7 @@ from native_compatibility import load_native_profile
 
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.10.1-native-test"
+VERSION = "0.10.2-native-test"
 TITLE = "Companion Auto Summon for No Man's Sky - by Lineum Dynamics"
 LOADER_SHA256 = "fa266e3513d02c08a1b808f28c10538a489eaffaa4b0707f7cc1066e71b5afd7"
 LOADER_BYTES = 3615928
@@ -102,6 +102,10 @@ def payload(build: Path, loader: Path) -> tuple[dict[str, bytes], dict]:
     receipt = read_json(receipt_bytes)
     if receipt.get("version") != VERSION or receipt.get("gameplay_implemented") is not True:
         raise ValueError("Native build receipt has the wrong product/version")
+    expected_teleport_filter = {"return_rva": 0x3302C4, "reason": 11, "flag": 1}
+    if (receipt.get("teleport_candidate_trial") is not True
+            or receipt.get("teleport_candidate_filter") != expected_teleport_filter):
+        raise ValueError("This release requires the reviewed experimental teleport trigger build")
     if receipt.get("live_verified") is not False or receipt.get("deployed") is not False:
         raise ValueError("This packager is for the unverified native test candidate")
     validation_bytes = read_file(build / "validation-receipt.json", 4 * 1024 * 1024)
@@ -176,7 +180,8 @@ def payload(build: Path, loader: Path) -> tuple[dict[str, bytes], dict]:
     manifest = {
         "schema": 1, "product": TITLE, "version": VERSION,
         "platform": "Windows 10/11 x64 / Steam",
-        "candidate_status": "private native test; live startup, appearance, multiplayer and Nexus clearance unverified",
+        "candidate_status": "EARLY ALPHA test build; an earlier build of the experimental teleport trigger produced visible pets on two local routes, but this exact package, callback meaning, multiplayer behavior and Nexus scan status are unverified",
+        "multiplayer_test": "In a two-player session, leave one player stationary with automatic summoning enabled while the other teleports. Record whether the stationary player's companion appears. Local-versus-remote callback behavior is unknown; turn automatic summoning OFF in the in-game menu if needed.",
         "game": {key: profile[key] for key in ("steam_build", "game_release", "exe_sha256")},
         "install": {"method": "merge Binaries and GAMEDATA into the Steam game root while the game is closed",
                     "loader_conflict": "do not replace a different existing winmm.dll",

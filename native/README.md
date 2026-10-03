@@ -1,20 +1,26 @@
-# Native runtime test candidate 0.10.1
+# Native runtime test release 0.10.2
 
-`0.10.1-native-test` implements the existing automation path in C++: local-save
-startup and ship-exit opportunities, deferred native placement, Last selected /
-Random / By habitat selection, session rotation, persisted preferences and
-manual favorites, the seven-control quick-menu page and DDS icons. Normal
-startup uses pinned Ultimate ASI Loader through Steam; no Python host or
-external settings panel is used.
+`0.10.2-native-test` implements the existing automation path in C++: local-save
+startup and ship-exit opportunities, an experimental teleport callback,
+deferred native placement, Last selected / Random / By habitat selection,
+session rotation, persisted preferences and manual favorites, the seven-control
+quick-menu page and DDS icons. Normal startup uses pinned Ultimate ASI Loader
+through Steam; no Python host or external settings panel is used. The existing
+master automation and destination controls still gate all opportunities.
 
 The native test candidate targets the exact executable in
-`native_compatibility.json`. The owner confirmed a visible pet and mod-menu
-entry beside grouped companion entries in a limited live 7.05 smoke test; full
-compatibility acceptance is not established. Each native target is compared
-against the locked image before hook creation. Unsupported images are refused.
-A separate 1 October 2026 read-only XREF pass narrowed the teleport search to
-native teleporter state references without identifying a verified completion
-callback; see [NMS-075-STATIC-XREFS](../docs/research/NMS-075-STATIC-XREFS.md).
+`native_compatibility.json`. The owner confirmed a visible pet after two local
+teleport routes while running an earlier candidate binary. The callback's
+meaning and behavior when a remote player teleports remain unknown, so this
+release specifically needs a two-player test. That observation does not verify
+this exact archive's startup. The owner also confirmed the menu entry beside
+grouped companion entries in a limited live 7.05 smoke test; full compatibility
+acceptance is not established. Each native target is compared against the
+locked image before hook creation. Unsupported images are refused. Research
+has isolated a filtered shared-position return but has not established a
+verified local-only teleport-completion callback or death/respawn event; see
+[teleport research](../docs/research/TELEPORT-AND-GROUPED-MENU.md) and
+[NMS-075-STATIC-XREFS](../docs/research/NMS-075-STATIC-XREFS.md).
 Startup errors use
 the maintained Windows-language catalogs; in-game menu/HUD remain English.
 Thirteen translation catalogs remain drafts, not verified language support.

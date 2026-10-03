@@ -1,9 +1,11 @@
 # Companion Auto Summon for No Man's Sky - by Lineum Dynamics
 
-**0.10.1-native-test — Cosmos 7.05 test build.** Windows 10/11, 64-bit, Steam.
-This candidate is prepared for its first normal Steam launch. Its live startup,
-pet appearance, multiplayer behavior and Nexus scan clearance are not yet
-verified. Keep a separate closed-game backup before the first test.
+**0.10.2-native-test — EARLY ALPHA multiplayer test.** Windows 10/11, 64-bit,
+Steam. An earlier build of this experimental teleport trigger produced a
+visible companion after two local teleport routes. That does not establish
+which game event the trigger represents, whether it is local-only, or what it
+does when another player teleports. This exact archive still needs a fresh
+startup test. Keep a separate closed-game backup before testing.
 
 ## Install
 
@@ -60,20 +62,37 @@ settings are retained; an upgrade does not reset your previous choices.
   placement or queue failure retries the same companion; it does not reroll.
 
 Automation gets one opportunity after a successful local save load or ship
-exit. It waits for the game's ownership, physics and placement checks. On an
-unsuitable building platform or terrain, move to open ground; a pending request
-can continue when summoning becomes possible. Manual dismissal does not create
-a new request. Previewing pets, entering the ship, changing settings or a new
-accepted manual summon cancels the old request. The mod does not create pets,
-lower gameplay limits, shorten game timers or bypass the native summon rules.
+exit. This test build also includes an experimental teleport callback observed
+after two local routes; its exact meaning and local-versus-remote multiplayer
+behavior are not verified. The master automation switch and destination
+settings still control whether an opportunity can summon. Every request waits
+for the game's ownership, physics and placement checks. On unsuitable terrain,
+move to open ground; a pending request can continue when summoning becomes
+possible. Manual dismissal does not create a new request. Previewing pets,
+entering the ship, changing settings or a new accepted manual summon cancels
+the old request. The mod does not create pets, lower gameplay limits, shorten
+game timers or bypass the native summon rules.
+
+## Multiplayer test
+
+Both players should install the same archive and use the supported Windows/Steam
+game build. First make sure automatic summoning is ON and the current destination
+is enabled. In a two-player session, leave one player stationary and have the
+other player teleport. Watch whether the stationary player's own companion is
+summoned, then swap roles. Turn automatic summoning OFF in the in-game menu if
+the behavior becomes disruptive. Report which player teleported, each player's
+location, whether a companion was already active, the selection mode, and what
+appeared on each screen. This test is specifically intended to determine
+whether the experimental trigger reacts to another player's movement.
 
 ## Compatibility, settings and backups
 
 This test candidate targets only **Steam Cosmos 7.05, build 25624745**, SHA-256
 `671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
 The candidate checks the running executable before installing its gameplay hooks.
-Passing that exact-build check does not prove live compatibility; this build
-still requires the controlled in-game test described above.
+Passing that exact-build check does not prove live compatibility. The exact
+archive still requires a fresh startup test, and its teleport behavior requires
+the two-player test described above.
 An unknown or changed build is refused with a localized warning. This does not
 verify every possible interaction with other mods. Consoles, Game Pass, GOG,
 macOS and Linux/Proton are not supported by this candidate.
