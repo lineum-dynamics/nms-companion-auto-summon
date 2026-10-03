@@ -1,9 +1,9 @@
 # Nexus update draft — 0.10.2 multiplayer test
 
-Status: **prepared for the next ordinary EARLY ALPHA update.** It is one
-successor to 0.10.1, not a separate multiplayer edition. The current public
-Nexus file remains 49367 until a new file is published and its page text is
-read back.
+Status: **published on Nexus on 3 October 2026** as the ordinary successor to
+0.10.1, not a separate multiplayer edition. The new file is **49469**
+(Main / Primary), version 0.10.2-native-test; 0.10.1 remains in file history.
+The public summary and English description were saved and read back.
 
 ## What changed
 
@@ -41,8 +41,15 @@ respawn remain separate and are not automatic triggers in this version.
 Do not describe teleport summoning as a verified local-arrival fix, multiplayer
 safe, or stable. The exact 0.10.2 package has passed offline checks and ZIP
 readback but has not been started in NMS. Remote-player behavior, second-PC
-installation, visible appearance from this exact archive and exact-file Nexus
-scan status remain unverified. The detailed candidate map and local evidence
+installation and visible appearance from this exact archive remain unverified.
+Nexus links the exact local ZIP hash to a VirusTotal report with 1/67 detections
+(Kaspersky `VHO:Trojan.Win32.LOADER.gen`, 66 undetected). The bundled `.asi`
+module separately reports 2/71 detections (Kaspersky
+`VHO:Trojan.Win32.LOADER.gen` and Microsoft `Trojan:Win32/Wacatac.C!ml`); the
+bundled loader reports 0/71. The Nexus page-level label says Safe to use, but
+these results do not establish that the files are harmless or that detections
+are false. Nexus download bytes have not been read back.
+The detailed candidate map and local evidence
 are in [TELEPORT-AND-GROUPED-MENU](../research/TELEPORT-AND-GROUPED-MENU.md),
 [Known Issues](../KNOWN-ISSUES.md) and the
 [release test checklist](0.10.2-MULTIPLAYER-TEST.md).

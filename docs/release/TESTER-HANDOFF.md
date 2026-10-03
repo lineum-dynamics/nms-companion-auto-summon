@@ -1,6 +1,6 @@
 # Native public alpha handoff
 
-## 0.10.2-native-test — prepared ordinary update; publication pending
+## 0.10.2-native-test — public multiplayer test build
 
 This is the single next EARLY ALPHA update, not a parallel multiplayer edition.
 It adds the experimental teleport callback candidate to the existing native
@@ -24,8 +24,8 @@ partner. Death/respawn remains a separate unsupported trigger.
 | Offline verification | Locale validation, 31 focused locale tests, full 790-test tooling suite, 63 native runtime cases, native policy/selection/storage/backup and host checks all passed |
 | Local archive readback | All 29 allowlisted files, manifest hashes and ZIP CRC passed; one English `README.md`, exact UAL 9.7.4 x64 loader and eight original icons verified |
 | Game start/attach for this exact package | Not performed; build, validation and packaging never launch or attach to NMS |
-| Nexus file ID / status / file-description readback | Pending; current public primary remains file 49367 / 0.10.1 until the next file and page text are saved and read back |
-| Nexus scan status | Pending exact-file readback; do not infer from earlier file IDs |
+| Nexus file ID / status / description readback | 49469, Main / Primary; manual and mod-manager downloads enabled. Public Files page shows the version and matching local ZIP VirusTotal hash; the public summary and full description were saved and read back. |
+| Nexus / VirusTotal status | Nexus page says Safe to use; exact ZIP report is 1/67 (Kaspersky `VHO:Trojan.Win32.LOADER.gen`, 66 undetected). The bundled `.asi` module independently reports 2/71: Kaspersky `VHO:Trojan.Win32.LOADER.gen` and Microsoft `Trojan:Win32/Wacatac.C!ml`; the bundled loader reports 0/71. These results do not establish a false positive or safety. Nexus download bytes are not read back. |
 | Two-player test | Pending; record the visible outcome on both screens and do not infer success from queue logs |
 
 The release-specific test sequence and reporting checklist are in

@@ -1,8 +1,8 @@
 # Known issues
 
-Status reviewed: 1 October 2026
+Status reviewed: 3 October 2026
 
-Public mod build: **0.10.1-native-test**, Nexus file **49367**
+Public mod build: **0.10.2-native-test**, Nexus file **49469** (Main / Primary; manual and mod-manager downloads enabled).
 
 Supported game target: Windows x64, Steam Cosmos 7.05 / build 25624745, exact executable hash in the release package.
 
@@ -10,14 +10,15 @@ This page tracks reports against the current public build. A reported symptom is
 
 ## No automatic summon after teleport or death
 
-**Observed/current behavior:** 0.10.1 creates automatic opportunities after a successful local save load or ship exit. The owner reported no automatic pet after death. The build has no verified trigger for teleport arrival or completed death/respawn, so neither event by itself requests a pet. No game eligibility or placement rule is bypassed.
+**Observed/current behavior:** 0.10.2 creates automatic opportunities after a successful local save load or ship exit and includes an experimental, filtered teleport callback. Earlier builds of the same candidate produced visible pets after two local teleport routes. The callback's game-level meaning and remote-player behavior are unknown, and the exact published archive has not yet been started in NMS. Death/respawn remains a separate unsupported trigger. No game eligibility or placement rule is bypassed.
 
-**Status:** Open. Teleport arrival needs a verified local completion callback. Death/respawn needs a separate exact-build signal after a completed local respawn; it is not assumed to be the same event as teleport or save loading.
+**Status:** Open. Test whether a teleport by one player can summon a pet for a stationary partner and whether the exact archive starts successfully. Do not call this a verified arrival callback or multiplayer-safe behavior. Death/respawn needs a separate exact-build signal after a completed local respawn; it is not assumed to be the same event as teleport or save loading.
 
 **Research update:** A read-only Cosmos 7.05 mapping pass on 1 October found
 teleporter-selection labels and destination-position settings, but no verified
-local successful-arrival callback. The feature remains absent from the public
-build. A shared player-position helper also appears in a function with a
+local successful-arrival callback. That pass led to a filtered candidate that
+is now included in public 0.10.2 without a semantic claim. A shared
+player-position helper also appears in a function with a
 `DoPlayerRespawn` diagnostic label, but it is called from warp paths too and is
 not verified as a successful-respawn signal. See the
 [exact-build teleport and respawn research](research/TELEPORT-AND-GROUPED-MENU.md).
@@ -41,9 +42,9 @@ appeared. In this trial the handler refuses to run over an already-pending
 policy request, clears a deferred save-load request, and arms a fresh one at the
 candidate. This supports that the experimental hook initiated this request,
 even if save-load waiting had been present. It still does not prove the return
-is a semantically verified successful local teleport event, confirm
-multiplayer isolation, or change the public build. Teleport summoning remains
-an open issue for public 0.10.1.
+is a semantically verified successful local teleport event or confirm
+multiplayer isolation. Public 0.10.2 now includes this experimental candidate;
+its exact archive still needs a live startup check.
 In a second local control, the owner tested station-to-planetary-base
 teleportation without a ship exit. The log showed a separate candidate
 opportunity and accepted queue after the session's earlier save-load request
@@ -62,14 +63,14 @@ The separate byte-pattern pass also recorded candidate references to native
 teleport state; those hits are not semantic callbacks. See the
 [sanitized static XREF record](research/NMS-075-STATIC-XREFS.md).
 
-**Prepared 0.10.2 test behavior:** The next ordinary update includes this
+**Published 0.10.2 test behavior:** The released package includes this
 filtered teleport candidate, gated by the existing master automation and
 destination settings. The owner saw a pet after two local teleport routes in
 an earlier build of the same candidate behavior. This supports a local test
 trigger but does not establish the callback's game-level meaning or whether a
 remote player's teleport can create an opportunity for the stationary player.
 That local-versus-remote question is the specific multiplayer test for this
-release. The exact new archive still needs a fresh startup check, and no general
+release. The exact archive still needs a fresh startup check, and no general
 teleport support or multiplayer safety is claimed. Death/respawn remains a
 separate unimplemented trigger.
 
@@ -77,9 +78,9 @@ separate unimplemented trigger.
 
 **Observed:** The owner reported that after death the pet was absent and the Companion Auto Summon settings menu was missing. The current 0.10.1 session log recorded `menu_unexpected_thread`, which means the menu safety guard permanently stopped custom menu handling after a callback arrived on a different thread. The log contains no death event, so it does not prove that dying caused the thread change.
 
-**Grouped roster:** One 0.10.1 live check showed the settings entry beside grouped companion rows. That does not cover every roster size, menu rebuild or UI-thread lifecycle.
+**Grouped roster:** One 0.10.1 live check showed the settings entry beside grouped companion rows. The 0.10.2 package includes the menu recovery candidate, but the exact archive has not yet been launched. No check covers every roster size, menu rebuild or UI-thread lifecycle.
 
-**Fix status:** A feature-branch change now skips an isolated callback on an unexpected thread and rebinds only at a quiescent menu-builder start. It continues to refuse a handoff during an active builder, append, confirmation or trigger transaction. Twenty-five offline menu fixtures pass. On 30 September 2026, the candidate was installed in the local Steam 7.05 test; its startup log confirmed exact-build acceptance, a verified pre-activation snapshot and activation of twelve game hooks plus the binding guard. The owner then confirmed that the settings menu worked and a pet appeared after loading directly from an expedition into the Space Anomaly. The same session log records a successful local save load, an armed opportunity and an accepted summon queue. This is one successful live scenario; it does not establish recovery after death or reliability across menu rebuilds. Public file 49367 remains unchanged; this candidate is not in the download.
+**Fix status:** The 0.10.2 package includes the candidate that skips an isolated callback on an unexpected thread and rebinds only at a quiescent menu-builder start. It still refuses a handoff during an active builder, append, confirmation or trigger transaction. Twenty-five offline menu fixtures pass. In an earlier live test, the owner confirmed that the settings menu worked and a pet appeared after loading directly from an expedition into the Space Anomaly. That log recorded a successful local save load, an armed opportunity and an accepted summon queue. This is one successful live scenario; it does not establish recovery after death or reliability across menu rebuilds. The exact 0.10.2 archive still needs a startup and menu check.
 
 ## Other unconfirmed reports
 
