@@ -92,7 +92,7 @@ The package contains the native **CompanionAutoSummon.asi**, the pinned **Ultima
 
 1. Close No Man's Sky normally. Exit any previous Companion Auto Summon launcher or pyMHF session. Retain a separate backup made while the game is closed before this first native test.
 2. In Steam, select **No Man's Sky → Manage → Browse local files**. The game folder contains **Binaries** and **GAMEDATA**.
-3. Extract the complete ZIP to a temporary folder and read **README.md** or **README.cs.md**. If the game already has **Binaries/winmm.dll**, do not overwrite a different file: another mod may use it. Reuse it only if its SHA-256 matches the loader hash in this package's README and manifest.
+3. Extract the complete ZIP to a temporary folder and read the English **README.md**. If the game already has **Binaries/winmm.dll**, do not overwrite a different file: another mod may use it. Reuse it only if its SHA-256 matches the loader hash in this package's README and manifest.
 4. Copy the extracted **Binaries** and **GAMEDATA** folders into the game folder, merging them. When updating this mod, close the game first and replace only this mod's own module and icon files. Keep the matching package README, manifest and notices for reference.
 5. Start No Man's Sky normally through **Steam**. Do not start the old Python launcher as well. No administrator command or separate mod settings panel is required.
 

@@ -16,13 +16,16 @@
 - Death/respawn remains a separate unsupported trigger. No save-file edits,
   gameplay-limit reductions, summon-rule bypasses or automatic pet creation
   are introduced.
+- The player package contains one English installation/removal guide;
+  in-game language catalogs remain separate. The earlier 30-file archive was
+  superseded before upload and is retained only as a local historical artifact.
 - The native bundle passed 31,216 policy comparisons, 25,733 selection
   comparisons, 333 storage differential cases / 721 operations, 63 runtime
   cases, 16 backup checks and six owned-host checks. The full tooling suite
   passed 790 tests; locale validation passed for 14 catalogs with language
   review explicitly unverified.
-- The local readback-verified ZIP is 3,728,543 bytes with SHA-256
-  `412ff46f85419387c1206dd18469f42ac1c5d3c381f78059042643fde41fe5ec`; this
+- The current local readback-verified ZIP is 3,724,342 bytes with SHA-256
+  `e8cbffbf558476025bde0c4b619a460265325d73ecbf99fc77b04c176d5f6704`; this
   does not establish an NMS start, multiplayer result or scanner clearance.
   Exact archive identity, Nexus file/readback and scanner status are recorded in
   [0.10.2 multiplayer test](docs/release/0.10.2-MULTIPLAYER-TEST.md) and the

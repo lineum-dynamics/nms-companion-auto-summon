@@ -57,8 +57,8 @@ Preferences and favorites remain in `%LOCALAPPDATA%/NMS-AutoPet`.
 To uninstall, close NMS and remove only `Binaries/scripts/CompanionAutoSummon.asi`
 and `GAMEDATA/MODS/CompanionAutoSummon`. Keep `winmm.dll` if another mod uses it;
 remove it only if unused and still identical to this package's loader. Do not
-delete shared game or mod folders. See the packaged English/Czech READMEs for
-the full installation and removal instructions.
+delete shared game or mod folders. See the packaged English README for the
+full installation and removal instructions.
 
 ## Known issues in 0.10.1-native-test
 
@@ -224,8 +224,6 @@ The portable package is built and offline-checked, while live portability and
 complete language acceptance remain unverified. See [LOCALIZATION.md](LOCALIZATION.md).
 
 0.8.2 startup registered both Mods and 12 native targets at 23:58:46 on 27 September 2026 after a verified 43-file backup. Automation is ON; all 17 payloads and the existing player files matched. The original DDS was staged and hash-verified. Visible icon/HUD, all six controls and gameplay still need the player's check. Validation: 294 production and 519 developer tests, plus real Windows lease and pyMHF checks.
-
-[Czech user-guide translation](README.cs.md)
 
 The canonical source is the public [lineum-dynamics/nms-companion-auto-summon](https://github.com/lineum-dynamics/nms-companion-auto-summon) repository. Development commands and the maintained documentation map are in [DEVELOPMENT.md](DEVELOPMENT.md). The installed test copy and exported ZIPs are built outputs.
 

@@ -36,7 +36,7 @@ LICENSE_FILES = (
 )
 OVERLAY_ICON_DIRECTORY = DESTINATION.rsplit("/", 1)[0]
 ALLOWED_FILES = frozenset({
-    "Binaries/winmm.dll", "Binaries/scripts/CompanionAutoSummon.asi", "README.md", "README.cs.md", "manifest.json",
+    "Binaries/winmm.dll", "Binaries/scripts/CompanionAutoSummon.asi", "README.md", "manifest.json",
     *(f"{OVERLAY_ICON_DIRECTORY}/{name}" for name in ASSET_HASHES),
     *(f"licenses/{name}" for name in LICENSE_FILES),
 })
@@ -153,7 +153,6 @@ def payload(build: Path, loader: Path) -> tuple[dict[str, bytes], dict]:
         "Binaries/winmm.dll": loader_bytes,
         "Binaries/scripts/CompanionAutoSummon.asi": asi,
         "README.md": read_file(ROOT / "native/player-README.md", 128 * 1024),
-        "README.cs.md": read_file(ROOT / "native/player-README.cs.md", 128 * 1024),
     }
     for name in ASSET_HASHES:
         data = read_file(ROOT / "assets/ui" / name)

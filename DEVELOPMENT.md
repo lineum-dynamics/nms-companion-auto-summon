@@ -454,7 +454,7 @@ Only the current source and new packages receive the new names. Historical test 
 ## Documentation map
 
 - `README.md`: canonical English player guide, supported target, behavior, setup and removal.
-- `README.cs.md`: Czech companion guide; keep behavior and status aligned with the English guide.
+- The current native player package contains one English installation and removal guide, `native/player-README.md`. Do not create or package a Czech manual; keep in-game language catalogs separate.
 - `DEVELOPMENT.md`: canonical development rules, architecture and maintenance workflow.
 - `DESIGN.md`: accepted player-experience direction, native menu/notification goals and current implementation limits.
 - `QUICK-MENU.md`: exact-build menu investigation, retained observers, bounded historical six-setting/icon evidence and current seven-row acceptance checks.

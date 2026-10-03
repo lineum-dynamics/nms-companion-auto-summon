@@ -12,25 +12,32 @@ partner. Death/respawn remains a separate unsupported trigger.
 
 | Field | 0.10.2 test candidate |
 |---|---|
-| ZIP / size / SHA-256 | `CompanionAutoSummon-0.10.2-native-test.zip` / 3,728,543 bytes / `412ff46f85419387c1206dd18469f42ac1c5d3c381f78059042643fde41fe5ec` |
+| Build directory | `build/native-runtime-0102-cosmos705-multiplayer-en-only-r2` |
+| Local ZIP path | `build/releases/0.10.2-en-only-r2/CompanionAutoSummon-0.10.2-native-test.zip` |
+| ZIP / size / SHA-256 | `CompanionAutoSummon-0.10.2-native-test.zip` / 3,724,342 bytes / `e8cbffbf558476025bde0c4b619a460265325d73ecbf99fc77b04c176d5f6704` |
 | Module SHA-256 | `fd1faad297e52bb672f0f1b2b1e96b4b0e163db3b6c845f850e586e91d87dbb3` |
-| Build receipt SHA-256 | `2e3319fba2e090c532bdf3e49bef55cc6cf41bc665ef0361a0b97216457af862` |
-| Validation receipt SHA-256 | `3cae85af421ccbe46b150d5109bb7de187de56da1d9424e2d209fb844a4de37f` |
-| Package receipt SHA-256 | `594bf8c9835c9fcaf52414e272471a9d40aa52d01e70308bca590aa70dc78b0f` |
+| Build receipt SHA-256 | `a49c11fa33494ab71217c55146b7b2efd01692b0801a07a1a6e592ec411531c8` |
+| Validation receipt SHA-256 | `c5f1d830886b6a6021e774453cae55fb12629503c96b8ba4fd916567f70a8187` |
+| Package receipt SHA-256 | `e9092292139f3ab58b7a3bc29cf2d791d05e4dc356d153889fce3d53c45bd630` |
 | Game target | Windows 10/11 x64, Steam Cosmos 7.05 / build 25624745; exact executable hash required |
 | Offline verification | Locale validation, 31 focused locale tests, full 790-test tooling suite, 63 native runtime cases, native policy/selection/storage/backup and host checks all passed |
-| Local archive readback | All 30 allowlisted files, manifest hashes and ZIP CRC passed; exact UAL 9.7.4 x64 loader and eight original icons verified |
+| Local archive readback | All 29 allowlisted files, manifest hashes and ZIP CRC passed; one English `README.md`, exact UAL 9.7.4 x64 loader and eight original icons verified |
 | Game start/attach for this exact package | Not performed; build, validation and packaging never launch or attach to NMS |
-| Runtime source commit | `73987cb04226ebfa0bbd93be172e2832397e7348` |
 | Nexus file ID / status / file-description readback | Pending; current public primary remains file 49367 / 0.10.1 until the next file and page text are saved and read back |
 | Nexus scan status | Pending exact-file readback; do not infer from earlier file IDs |
 | Two-player test | Pending; record the visible outcome on both screens and do not infer success from queue logs |
 
 The release-specific test sequence and reporting checklist are in
 [0.10.2 multiplayer test](0.10.2-MULTIPLAYER-TEST.md). The exact local package
-is retained at `build/releases/CompanionAutoSummon-0.10.2-native-test.zip` in
-the repository working tree; do not publish a rebuilt or modified copy under
-this identity.
+is retained at the path above in the repository working tree; do not publish a
+rebuilt or modified copy under this identity.
+
+The first local 0.10.2 candidate archive had 30 members and SHA-256
+`412ff46f85419387c1206dd18469f42ac1c5d3c381f78059042643fde41fe5ec`.
+After the owner chose English-only player instructions, that archive was
+superseded before upload. Keep it unchanged for provenance; upload only the
+29-member archive identified above. Its public version remains
+`0.10.2-native-test`, not a separate edition.
 
 ## 0.10.1-native-test — public Cosmos 7.05 test build
 
