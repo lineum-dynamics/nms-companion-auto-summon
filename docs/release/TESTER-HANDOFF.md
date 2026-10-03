@@ -19,6 +19,7 @@ partner. Death/respawn remains a separate unsupported trigger.
 | Build receipt SHA-256 | `a49c11fa33494ab71217c55146b7b2efd01692b0801a07a1a6e592ec411531c8` |
 | Validation receipt SHA-256 | `c5f1d830886b6a6021e774453cae55fb12629503c96b8ba4fd916567f70a8187` |
 | Package receipt SHA-256 | `e9092292139f3ab58b7a3bc29cf2d791d05e4dc356d153889fce3d53c45bd630` |
+| Runtime source commit | `48b67e1160ac935df1841a193d92610e5a8dc8cd` |
 | Game target | Windows 10/11 x64, Steam Cosmos 7.05 / build 25624745; exact executable hash required |
 | Offline verification | Locale validation, 31 focused locale tests, full 790-test tooling suite, 63 native runtime cases, native policy/selection/storage/backup and host checks all passed |
 | Local archive readback | All 29 allowlisted files, manifest hashes and ZIP CRC passed; one English `README.md`, exact UAL 9.7.4 x64 loader and eight original icons verified |
