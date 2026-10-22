@@ -1,5 +1,19 @@
 # Changelog
 
+## Unreleased — Cosmos 7.06 investigation, 23 October 2026
+
+- Require early read-only runtime evidence during native updates, with one
+  concrete player action, a baseline and an after-state. Record successful
+  methods, failed approaches and intervening actions in both update handoffs.
+- Add an exact-build development reader for bounded resource/menu observations.
+  Corroborate the stock pet-menu copy path, registered texture allocation and
+  missing-data failure byte. This does not validate custom mod rows or an
+  archive; the native profile still supports only Cosmos 7.05.
+- Prepare a bounded read-only lifecycle poller for a later player-assisted
+  load/teleport observation. Its new code has not been executed or validated.
+- Document the existing conservative HUD condition: unordered float values
+  suppress cosmetic notices. The predicate and player-facing text are unchanged.
+
 ## 0.10.2-native-test — multiplayer test release, 3 October 2026
 
 - Continue the existing native EARLY ALPHA as one ordinary next update; do not

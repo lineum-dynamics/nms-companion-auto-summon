@@ -1,15 +1,47 @@
 # Companion Auto Summon development guide
 
-Current native release: **0.10.1-native-test** implements automation,
-selection, settings/favorites, native quick menu/icons and guarded direct-Steam
-startup in C++. It targets the exact Steam Cosmos 7.05 build/hash profile.
-Offline checks passed. The owner confirmed a pet appeared and the mod menu entry
-remained visible beside a grouped roster; this is a limited smoke test, not full
-compatibility acceptance. Nexus file **49367** is Main / Primary; its page says
-Safe to use and the linked VirusTotal SHA-256 matches the local archive. Edge
-blocked the owner's manual download, so downloaded bytes have not been read
-back. The Python distribution below is preserved. See [native runtime](native/README.md)
-for exact offline checks and pre-hook versus closed-game backup guarantees.
+## Required early runtime evidence for native updates
+
+During the first work period of a new game-build port, identify which open
+questions a bounded read-only observation can answer. After one static attempt
+adds no evidence to such a question, prepare that observation and the smallest
+specific player action before another broad scan. Do not defer this until the
+static dependency inventory is complete. Use existing launch authorization and
+the required verified backup; preserve unsupported-build refusal and separate
+read-only analysis from mod deployment.
+
+Capture an exact-build baseline, one player action and the after-state. Ask for
+one short action at a time, record every intervening action and keep the
+interpretation bounded. A stock game's menu observation does not verify custom
+mod rows, a native hook or a release archive. Continue independent work while
+waiting. Persist the tool/command/hash, useful results, failed methods and next
+discriminator in both update handoffs. See the mandatory
+[runtime procedure](docs/research/NATIVE-PATTERN-PLAYBOOK.md#bring-runtime-evidence-forward)
+and [exact 7.06 observations](docs/research/NATIVE-25732212-COMPATIBILITY.md#early-read-only-game-observations-and-development-rule-23-october-2026).
+
+The next prepared observation is
+`tools/native_readonly_lifecycle_trace.py --pid <verified-NMS-pid> --exe <verified-exe> --seconds 30`.
+It reads mapped FSM, local-load reason/phase and session predicate fields for
+at most 45 seconds, reporting changes without interpreting reason codes as
+events. This new poller and the extracted shared reader guard are **NOT CHECKED**;
+the earlier resource/menu observations cover the recorded earlier helper
+hashes. Capture a baseline before requesting a single load or teleport action,
+then check which reason/phase changes were actually observed. A polling zero
+cannot exclude a brief callback. Do not enable the mod from this observation.
+
+Latest Nexus native package: **0.10.2-native-test**, file **49469**, listed as
+uploaded on 3 October 2026. This is the mod package label, not a game version.
+The repository's native profile still targets only Windows/Steam Cosmos 7.05,
+build 25624745 and its recorded executable hash; it does not support Cosmos
+7.06. The limited live smoke note and VirusTotal/archive note below refer to
+the prior 0.10.1 package (file **49367**) and do not automatically verify the
+0.10.2 archive. No 0.10.2 archive readback is recorded here. The Python
+distribution below is preserved. The current native player package is built
+from the C++ implementation under `native/src/` against
+`native_compatibility.json`. The retained `src/runtime.py` Python/pyMHF source
+has a separate Cosmos 7.04 profile and is not an input to the native 0.10.2
+package. See [native runtime](native/README.md) for exact offline checks and
+pre-hook versus closed-game backup guarantees.
 Long-session, full-menu, location-matrix, teleport and multiplayer behavior
 remain unverified. A 1 October 2026 read-only scan of the exact Cosmos 7.05
 executable found four RIP-relative candidate references each for

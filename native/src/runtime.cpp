@@ -458,6 +458,8 @@ void Runtime::afterPlayer(Address player, float dt) noexcept {
         if (notice_disabled_) { notice_.clear(); return; }
         if (notice_.empty() || !std::isfinite(dt) || dt <= 0) return;
         try {
+            // Require an ordered negative condition and suppress NaN. The
+            // reviewed 7.06 native COMISS/JAE path can continue for NaN.
             if (read<std::uint32_t>(app+0x847BB0+0x28C) > 3 || !(read<float>(app+0x4BF50C) < 0)) return;
             // Consume before the native call. Cosmetic delivery cannot retry a
             // partially accepted message or stop gameplay automation on failure.
