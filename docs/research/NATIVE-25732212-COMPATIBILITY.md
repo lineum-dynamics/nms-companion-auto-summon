@@ -1,10 +1,10 @@
 # Cosmos 7.06 compatibility investigation
 
-Status: ongoing port investigation with partial static mapping and bounded
-read-only game observations, updated 23 October 2026.
-The native profile is not approved for this build. Keep the exact 7.05 guard
-and all native integration disabled for the new executable until every
-dependency is remapped and the required offline and in-game gates pass.
+Status: unpublished 0.10.3 native port candidate, updated 23 October 2026.
+The candidate profile selects exact Cosmos 7.06 / Steam 25732212 for controlled
+activation. Static contracts and owned-memory guards are mapped; the candidate
+still needs its own offline build, exact-archive game acceptance and release
+checks. Public 0.10.2 remains a 7.05 package. Unknown identities are refused.
 
 Use the reusable [NATIVE-UPDATE-MAP](NATIVE-UPDATE-MAP.md) for the repeatable
 workflow, evidence labels and handoff requirements.
@@ -42,31 +42,25 @@ newer package does not cover build 25732212.
 
 ## Current gate index, 23 October 2026
 
-The source dependency ledger below now has **81/85 MAPPED (95.3%), 4 PARTIAL,
-0 NOT CHECKED**. This measures static source contracts, not implemented or live
-compatibility. Four newly connected row/identity roles and two newly found
-owner-field producers close six partial roles. Three already recorded return
-sites and the binding-filter return are now reflected consistently as statically
-mapped; this status correction is not four new discoveries. The observer entry
-has recorded leads and is PARTIAL, rather than NOT CHECKED. A subsequent exact
-type-7 factory-to-constructor chain also closes the resource minimum extent.
-The same-object missing-data failure path closes the resource `+0x13A`
-contract; the HUD float gate retains the existing deliberate conservative
-NaN policy. Both are detailed in the final 23 October handoff.
-No dependency was
-removed, including the trial hooks required by the public packager.
+The target source ledger now has **89/89 MAPPED**, with no static PARTIAL or
+NOT CHECKED role. This is a static contract index, not release readiness.
+Four new load-policy inputs expanded the original 85-role inventory; none was
+removed. The last four roles are reconciled as guarded source contracts using
+the complete ABI audit, explicit load policy, known constructor/copy/consumer
+paths and owned-memory refusal checks. This is a scope/status reconciliation,
+not four new signatures or proof of native lifetime/event semantics. The dated
+candidate handoff explains each decision and retains the unresolved live gates.
 
-| Remaining static gate | Bounded next action | Evidence required |
+| Acceptance gate | Next bounded action | Required evidence |
 | --- | --- | --- |
-| Save-load hook semantics | Use the prepared passive trace for one confirmed local-save load to observe the session-linked predicate/class and applied LocalLoadState; retain the proven static DeathState distinction. | A policy tied to the local event, with explicit limits on callback completion and network classification. |
-| Trial positioning observer | Complete the remaining stack-alias audit, then capture reason/phase during a confirmed local load and separately a teleport. The first-callee R9 escape concern is resolved. | Source-compatible forwarding plus reason/flag policy; shared death callers remain excluded. |
-| Custom marker retention | Use the proven source-row-to-frontend-record copy and descriptor-header keys; do not repeat QAM caller discovery. | Exact equality/mutation paths and original-versus-copied-row identity. |
-| Item `+0xD8` source invariant | Follow the two copied-record binding writes and their native UI consumer. | Distinguish copied index updates from original QAM-row writes and bound retention. |
+| Local save load and death exclusion | Exercise the applied-state/local-receiver guard in the exact candidate; retain the opaque zero-only byte veto and deferred readiness. | Actual candidate log and visible behavior; no claim that the byte classifies all network cases. |
+| Experimental teleport policy | Preserve exact return 0x330314, reason 11 and flag 1, with the applied-state check. | Controlled candidate arrival behavior. Native event completion and remote-player behavior remain unverified. |
+| Custom-row retention | Check the settings parent, seven children, labels/icons and a close/reopen cycle in the exact archive. | Real appended rows survive normal rebuilds; stock rows and owned fixtures do not establish this. |
+| Archive and release | Build/validate the 7.06 candidate, package an immutable allowlist, then run the controlled game checks. | Exact source/build/archive identities, functional acceptance and publication/readback. |
 
-Implementation/profile selection, offline validation, exact-archive live
-verification and release are still open. Keep the existing 7.05 profile active
-and 7.06 disabled. The dated handoff at the end records commands, corrections
-and the current source/tool inputs.
+The profile is selected for the unpublished candidate; no installed runtime or
+public package was changed by this source selection. The latest dated handoff
+supersedes earlier 7.05-only source snapshots while retaining their evidence.
 
 ## Tools and bounded method
 
@@ -3380,14 +3374,14 @@ progress index, not a replacement for that evidence.
 | Ownership update hook | `0x508D30` | MAPPED: replacement `0x508DC0`; owner/delta caller and chained body. The old RVA is rejected. | Hook lifecycle and exact-build runtime behavior. |
 | Ship eject hook | `0x17521C0` | MAPPED: candidate `0x1754180`; receiver plus `R8B`/`R9B` Boolean ABI matches source, and ordinary direct callers pass the application local-player pointer in `RDX`. | Confirm exact-process hook lifecycle, thread and live auto-summon timing. |
 | Entered-cockpit hook | `0x1481F60` | MAPPED: candidate `0x1483E20`; one `this` player pointer in `RCX`, three direct callers pass `app+0x72C6F0`. | Confirm exact-process hook lifecycle and live state-reset behavior. |
-| Save-load hook | `0x572C40` | PARTIAL: caller-anchored candidate `0x573500`; all four direct callers use the same constructor-identified `cGcPlayerState` at `app+0xB940`. New state-manager mapping statically connects the LocalLoadState path to this candidate and separates the known DeathState call (`R9D=0`, current state remains DeathState). A current-pointer check against `moduleBase+0x6E8EA40` is a candidate guard. The provider signature has zero matches; `R9` local/network meaning, live timing and completion semantics remain unresolved. | Verify session-byte meaning and a successful local-load callback in the exact build; validate the per-build state guard, lifecycle/thread and live behavior before enabling. Keep the 7.06 profile disabled. |
+| Save-load hook | `0x572C40` | MAPPED for guarded source contract: target `0x573500`, six physical slots with opaque byte slots 4/5 forwarded, slot 6 retained without semantic naming, and Boolean result. The exact applied LocalLoadState/vtable and `app+0xB940` receiver gate excludes the known DeathState caller; source fourth byte must be zero. Deferred readiness remains authoritative. | Exercise the actual candidate; state/receiver identity is not a general network classifier or completed-load event. |
 | Quick-action trigger hook | `0x152FEF0` | MAPPED: QAM `TriggerAction` candidate `0x1531E00` and static callers. | Detour lifecycle and exact-build runtime behavior. |
 | Quick-menu builder hook | `0x15282B0` | MAPPED: builder candidate `0x152A1C0`, item creation and owner path corroborated. | Hook lifecycle and live menu behavior. |
 | Quick-menu label hook | `0x152C7D0` | MAPPED: RTTI-confirmed QAM slot 9 `0x153C0C0` has one direct caller at `0x1529288`; `RCX=QAM`, `RDX=256-byte label buffer`, `R8=adjacent byte at buffer+0x100`. Source callback now forwards all three arguments; its installed RVA is still the 7.05 value. | Add the 7.06 target only in a verified build-specific profile; preserve the opaque byte and verify hook/thread/UI behavior. |
 | Quick-menu append hook | `0x153CF40` | MAPPED: append candidate `0x153EE50`, function entry and vector-header contract corroborated. | Hook lifecycle and live menu behavior. |
 | Quick-menu confirmation hook | `0x153A770` | MAPPED: slot-6 candidate `0x153C680` and selected-item Boolean behavior. | Hook lifecycle and live menu behavior. |
 | Quick-menu resource hook | `0x1524330` | MAPPED: replacement `0x1526240`; QAM child and native resource-handle dataflow corroborated. | Thread, repeat-call, reload/destruction and live texture behavior. |
-| Experimental respawn observer | `0x14F7F60` | PARTIAL: the retained 22 October relocation section identifies entry `0x14F9E20`, eleven direct callers and independent positioning/respawn string anchors. The old RVA is inside an instruction. The ledger's former NOT CHECKED state omitted this recorded evidence. | Reconcile the source's complete physical ABI, reason/flag semantics and exact-build trial policy before porting/enabling. The public packager requires the trial, so this is a required dependency. |
+| Experimental respawn observer | `0x14F7F60` | MAPPED for three physical inputs at `0x14F9E20`, complete stack-home alias audit and exact return filters `0x330314/0x3306BF/0x330996`. The experimental trial retains reason 11/flag 1 at the first return and additionally requires the applied LocalLoadState. | Exact candidate behavior, completion and multiplayer semantics remain open; no death/respawn trigger is introduced. |
 | Respawn return filter 1 | `0x3302C4` | MAPPED statically: LocalLoadState call `0x33030F` returns to `0x330314`; its case-8 path passes third argument 1. Retained 22 October caller/CFG evidence; the old return is not a boundary. | Verify reason 11, event/completion semantics, observer ABI and exact-build live behavior separately; do not infer completed death/respawn from the helper name. |
 | Respawn return filter 2 | `0x33066F` | MAPPED statically: LocalLoadState call `0x3306BA` returns to `0x3306BF`, third argument 0. Retained 22 October decoded-call evidence. | Preserve the intended caller filter; verify observer ABI, event semantics and live behavior. |
 | Respawn return filter 3 | `0x330946` | MAPPED statically: LocalLoadState call `0x330991` returns to `0x330996`, third argument 0. Retained 22 October decoded-call evidence. | Preserve the intended caller filter; verify observer ABI, event semantics and live behavior. |
@@ -3408,6 +3402,10 @@ progress index, not a replacement for that evidence.
 | Stable source role | 7.05 source dependency | 7.06 state and evidence anchor | Remaining gate |
 | --- | ---: | --- | --- |
 | Application pointer global | 7.05 `0x6E89688` | MAPPED: the 7.06 application pointer is at `0x6E8D708`; `0x1474F10` loads it before using `+0xE10D0`, corroborated by the session path at `0x4955AD`. | Port the exact value in a build-specific way and tie every app-relative consumer to its owner. |
+| Load policy: applied-state cell | New 7.06 policy `base+0x6E8D6E0`, 8 bytes | MAPPED: FSM current pointer is manager `+0x10`; the owner-proven Update applies the pending state before dispatch. Passive capture observes the exact LocalLoadState object during a confirmed local save load. | Exercise the actual candidate guard and keep network/event interpretation separate. |
+| Load policy: state object | New 7.06 policy `base+0x6E8EA40` | MAPPED: the constructor/registration chain identifies the application LocalLoadState; the confirmed load trace enters and exits this exact object. | Verify synchronous hook timing and the candidate archive. |
+| Load policy: state vtable | New 7.06 policy `base+0x4A50A30`, 8-byte comparison | MAPPED: RTTI-confirmed LocalLoadState vtable, checked successfully by every accepted lifecycle sample. | Verify candidate refusal on changed/unreadable identity. |
+| Load policy: local receiver | New 7.06 policy `app+0xB940` | MAPPED: constructor-derived cGcPlayerState address matches all four discovered direct load-candidate receivers; the policy checks the incoming receiver against this exact application subobject. | Verify actual hook behavior; this receiver check is not a general multiplayer classification. |
 | Local-player pointer | `app+0x72C6F0` | MAPPED statically: the placement candidate reads it from the exact 7.06 application object. | Confirm local-player identity and behavior in the live path. |
 | Location value | `app+0x57A584` | MAPPED statically: exact helper `0x50A520` reads this from global `0x6E8D708` and branches on the location value. | Confirm exact source enum meanings and live behavior. |
 | Active companion slot | `app+0x29A1C0`, 4 bytes | MAPPED: exact application global `0x6E8D708`; setter stores a 0–29 roster slot, clearer stores `-1`, and a consumer passes the value to the roster-index helper. | Confirm transition timing and behavior in the live local-player path. |
@@ -3450,11 +3448,11 @@ progress index, not a replacement for that evidence.
 | QAM item icon dword | `item+0x0` | MAPPED statically: the selected QAM depth vector is copied into the incoming frontend record at `+0x610` with `0xE0` stride; the generic consumer reads the copied first dword as `R8D` at `0x1542038`, calls resource lookup `0x2E16E20` at `0x1542040`, and applies its output through `0x6DE4F0`. See the dated copy/consumer handoff below. | Verify update/draw index ordering, active depth and custom-row retention, resource lifetime/thread and visible rendering. This is a field/consumer contract, not runtime custom-row proof. |
 | QAM item action | `item+0x4` | MAPPED: trigger/update paths read this action identifier. | Confirm live menu behavior. |
 | QAM item role/slot | `item+0x84` | MAPPED statically: constructor initializes the 4-byte field to `-1`; QAM trigger reads it as a companion slot and passes it to eligibility/queue helpers. | Verify parent sentinel and child-slot behavior in the live menu. |
-| QAM custom marker bytes | `item+0x88`, 16 bytes | PARTIAL: QAM descriptors receive copied `0xE0` source rows, so descriptor qwords `+0x88/+0x90` come from source-row `+0x08/+0x10`; they are not constructor-guaranteed zeros. The marker participates in native comparison data, but actual equality and row retention are unverified. | Trace the copied source values and rebuild lifetime; keep marker checks fail-closed. |
+| QAM custom marker bytes | `item+0x88`, 16 bytes | MAPPED for constructed/checked metadata: constructor clears these 16 bytes, the mod writes its exact sentinel, and the full-row native copy retains the bytes. Copied-row comparisons and descriptor keys have distinct proven bases. Two stock snapshots agree; owned tests refuse changed child markers and a lost parent with native pet rows. | Actual custom-row retention, all rebuild paths and key equality/collisions are live acceptance gates; this is not a universal invariant or writer-absence claim. |
 | QAM row-state byte 1 | `item+0x4C` | MAPPED statically: constructor stores `R9B`; the owner-proven copied-row renderer reads one byte at `0x15420C4` and `0x1542890` for scalar/tint and alternate-branch selection. The alleged original-row dword write at `0x152960B` instead targets a context descriptor field at base `+0x50`; see the 23 October affine-base correction. | Verify live visual meaning, retention and source guard behavior; constructor state is not a lifetime guarantee. |
 | QAM row-state byte 2 | `item+0x4D` | MAPPED statically: constructor stores the fifth argument as one byte. `0x1541FAE` reads the copied row byte and `0x1541FDA-0x1541FEC` writes its Boolean inverse to a selected UI component byte `+0x61`. Current source value 1 produces UI flag 0. | Identify the exact UI child if a semantic name is needed; verify live visual effect and lifecycle. Do not label it background without further evidence. |
 | QAM custom payload span | `item+0x98..0xD7` | MAPPED statically as a 64-byte auxiliary inline-text capacity: constructor `0x143D5D0` copies one NUL from fixed empty-string source `0x4A41320` into `+0x98` and terminates `+0xD7`. Renderer `0x15422EA-0x1542356` uses the copied span as auxiliary text; an empty first byte skips its text update and sets its UI-node flag. The main label uses the separate proven label output. | Verify custom-row retention and live UI behavior; do not describe this constructor path as copying 64 bytes or equate auxiliary text with the main label. |
-| QAM item `+0xD8` | `item+0xD8`, 4 bytes | PARTIAL: constructor initializes the source item to `-1`; Update writes matched descriptor indices to copied frontend rows at `0x1529D87/0x1529E47`. The incoming record owner and explicit vector copy are now proven. Renderer `0x1542A15` uses `-1` to omit binding UI. | Bound original-row mutation and retention separately from copied-record binding updates; preserve the source's fail-closed `-1` check. |
+| QAM item `+0xD8` | `item+0xD8`, 4 bytes | MAPPED as a guarded accepted-state contract: constructor sets original `-1`; native binding loops write indices to copied frontend rows and the renderer treats `-1` as no binding UI. The source continues requiring original `-1`; an owned test refuses a changed original value without overwriting it. | Actual original-row retention and exact-archive behavior remain live gates. No absence of other native writers is claimed. |
 | Resource-manager global | `0x6E1BC10` | MAPPED: `0x6E1FC90`; QAM resource initializer reads it, startup stores the constructor-returned manager pointer, and teardown clears it. | Verify live manager stability and UI/resource lifecycle. |
 | Resource-retain manager global | `0x5910190` | MAPPED: `0x59141E0`; the same constructor stores `this`, and the manager destructor clears it. Startup also stores the same returned pointer at `0x6E1FC90`. | Verify live refcount lifecycle and preserve the exact identity guard. |
 | Resource-manager minimum extent | `0x68` bytes | MAPPED statically: manager allocation is `0x210` bytes; constructor initializes through `+0x1C8`, while source's `0x68` check covers the `+0x5C/+0x60` count/table fields it reads. | Verify live manager and pointed table stability. |
@@ -6112,3 +6110,273 @@ The source runtime.cpp change remains a comment beside the unchanged conservativ
 Local commit `42190cb47df723fa28b96c69ececa4a630305b17` preserves the rules, reports, analysis helpers and comment-only HUD clarification on `compat/cosmos-706-25732212`, authored with `core@lineum.io`. The source baseline under investigation remains `f7d97b61fcf152677d0d30de34f6c1b48675c436`; the pre-existing bootstrap ABI edit remains outside this checkpoint. The staged whitespace inspection passed after removing two whitespace-only lines. No implementation tests, build, package, new deployment, push or publication ran. Personal interpreter paths were replaced with verified-path aliases without changing recorded argument values or input hashes. An initial sandbox Git-index lock denial was resolved using the authorized desktop context; no failed attempt was called a commit.
 
 The current static ledger is **81/85 MAPPED, 4 PARTIAL, 0 NOT CHECKED**, with new lifecycle tooling explicitly NOT CHECKED separately. The public package remains `0.10.2-native-test` for Cosmos 7.05; the target remains Cosmos 7.06 / build 25732212 / exact SHA-256 recorded above. Next is the prepared player-assisted lifecycle observation and the remaining row-retention work, followed by source/profile implementation and the independent offline/live/archive/release gates. This receipt records a local checkpoint, not GitHub synchronization or a supported update.
+
+### Local load, teleport and menu observations, 23 October 2026
+
+Exact target: Cosmos 7.06 / Steam 25732212 / file version 180836 /
+88,560,712 bytes / SHA-256
+`13D5060D4EFB9D2A6A6B1B349BC4257231056CC2A055DF4BB15D816262CC3499`.
+Source work period started at local checkpoint `508526c`; the original
+dependency baseline remains `f7d97b61fcf152677d0d30de34f6c1b48675c436`.
+CPython 3.11.9, pefile 2024.8.26 and Capstone 5.0.7 were verified again;
+interpreter SHA-256 is `5F7B89A612C9B8AF1D6456CDFCD1DBE5CA630849E79AEBCED9BEE9A6694952EC`.
+
+Before launch, a fresh closed-game backup verified 61 save files and two
+preferences, 63 files / 8,612,490 bytes, source/copy SHA-256 equality and
+protected current-user/SYSTEM permissions. No restoration or save edit ran.
+Normal Steam launch was followed by an actual process check. The old native
+mod remained disabled on 7.06; no new DLL, hook or installed runtime was used.
+The owner operated the game UI and confirmed each arrival/control state.
+
+#### Capture revisions and exact scope
+
+- Initial lifecycle revision `A3B7A930FE48E10FC0A78FEF389F41518CC2D15EBFCC9D0F602D6AADACA39D0C`
+  was not executed. Revision `64104B0940A16CE96E930419108DDBA95BC5DC75B03D9687D2968C32627BE6C5`
+  reads an initial sample before printing ready and covers the first three captures.
+- Revision `C785323A3C8B1CEEDCB75F3BD749881B5EDC133A8E3A90AF1A67980D74789D30`
+  extends duration to 1..180 seconds (default 120) and adds
+  `--stop-after-local-load`: three outside-state, phase-zero samples after
+  observing LocalLoadState. The stop is not callback/completion proof.
+- These lifecycle captures used shared reader revision
+  `7A550B94F9DC63FE5C9443A9A607001EC4FD110A79B555F124EF28D02FF36D09`.
+  Its opened-process/image guard was exercised; it is no longer NOT CHECKED.
+- Menu aggregate revision `96DEE154C0FA1E727F2768A85E21A7143A47903350578122518CE7824E28AEBC`
+  adds equality/nonzero counts for 16-byte original/copied markers and counts
+  of signed 4-byte `+0xD8` values. It emits no marker bytes or raw pointers.
+
+All reads use the exact executable hash, opened-process path/module size,
+loaded PE header and three bounded code anchors. Access is only
+`VM_READ|QUERY_LIMITED_INFORMATION`. There are no process writes, native
+calls, hooks, settings/save operations or account-identifier output.
+
+```powershell
+& $python -B tools/native_readonly_lifecycle_trace.py --pid <verified-NMS-pid> --exe $nmsExe --seconds 45
+& $python -B tools/native_readonly_lifecycle_trace.py --pid <verified-NMS-pid> --exe $nmsExe --seconds 2
+& $python -B tools/native_readonly_lifecycle_trace.py --pid <verified-NMS-pid> --exe $nmsExe --seconds 120 --stop-after-local-load
+& $python -B tools/native_readonly_resource_snapshot.py --pid <verified-NMS-pid> --exe $nmsExe --entry-limit 1
+```
+
+#### Named question: what changes during a confirmed local load versus teleport?
+
+| Capture/action | Baseline and observed result | Bound |
+| --- | --- | --- |
+| Main menu -> owner-confirmed local save load | Current FSM `0x6E930A0`, phase 2/reason 0 -> LocalLoadState `0x6E8EA40`, phases 3,5,6,8,10,11,12,13,14,15,17,19,20 -> current `0x6E8F140`, phase 0/reason 1. Reason first became 1 at phase 8. | 45 s, 893 samples, 14 changes, zero omitted unstable samples, 58,117 bytes read. |
+| Confirmed teleport to station | Baseline current `0x6E8F140`, phase 0/reason 1; timed window saw no changes. | 45 s, 893 samples, zero changes/unstable samples, 58,117 bytes. This does not show when/why the transition was missed. |
+| Immediate station after-state | Same current state and phase 0; reason 11, following the owner's arrival/control confirmation. | 2 s, 41 samples, zero changes/unstable samples, 2,737 bytes. Association only; callback timing not captured. |
+| Confirmed return to base | Baseline already reason 11, phase 0/current `0x6E8F140`; repeated longer window saw no changes. | 120,016 ms, 2,378 samples, zero changes/unstable samples, 154,642 bytes; duration limit, not automatic observed-state exit. |
+
+The application was present, source predicate byte `app+0x4BE6A0` was zero,
+and session slot `app+0x941C70+0x1A8` was absent in every accepted sample.
+This does not establish that the byte classifies all network/local cases.
+The save load's first LocalLoadState sample was at 25,735 ms; phase 8/reason 1
+at 37,844 ms; outside state/phase 0 at 44,204 ms. Poll interval is 50 ms.
+Do not request another identical teleport poll after the two bounded misses.
+Use a different event anchor if exact call timing is needed. No death or
+multiplayer action was performed. The owner was told the game could be saved
+and closed after the menu reads; actual shutdown was not claimed.
+
+#### Named question: do original and consumed copied menu fields agree?
+
+At the base with X closed: depth 0, source rows 9 / copied rows 0;
+source `+0xD8` values all -1 and zero nonzero marker fields; 5,548 bytes read.
+This is an inactive after-state, not a failed active-menu copy.
+Then the owner opened X -> summon pets and held it without summoning.
+Two independent accepted snapshots each observed depth 1, write index 0,
+consumed index 1, six original and six copied rows, equal icon/action keys
+and equal marker fields. Two marker fields were nonzero in each vector;
+all six original and six copied `+0xD8` values were -1. Five original icons
+were nonzero, selected index was 3; each snapshot read 6,892 bytes.
+Notice float was finite negative. Resource scope was only the first entry
+of 76,575, not a whole-table readiness result.
+
+These results corroborate the statically established owner/copy contract.
+They do not verify an appended custom marker, arbitrary equality collisions,
+rebuild retention, thread synchronization or an uninstalled mod's behavior.
+
+#### Observer stack-alias audit
+
+Full `0x14F9E20..0x14FC07A` decodes 8,794 bytes. After the proven prologue,
+`RBP=entryRSP-0x448` and body `RSP=entryRSP-0x548`; 330 direct stack operands
+have zero accesses at/crossing fifth-argument start `entryRSP+0x28`.
+The largest home-slot access ends at that boundary, not beyond it.
+Incoming RCX/EDX/low R8 are retained; the already audited first callee
+`0x563060` overwrites R9 before use. The remaining nine LEAs are now bounded:
+
+| LEA sites | Home address | Consumer and extent |
+| --- | --- | --- |
+| `0x14FA092`, `0x14FB331` | entry +0x20 / +0x08 | Leaf `0x1CDAF0..0x1CDB1F` reads four bytes. |
+| `0x14FA7C1`, `0x14FA7DF` | entry +0x10 / +0x20 | Context fields +8/+0x18 passed to complete chained `0x14FC080..0x14FC25A`; first is read as four bytes at `0x14FC0A7`, second receives one byte at `0x14FC24C`. |
+| `0x14FA9D7`, `0x14FAB1E`, `0x14FB995` | entry +0x18 | Tenth argument of complete chained `0x14FEB30..0x14FF308`; forwarded only to byte outputs in `0x15108B0` (sixth argument) / `0x1512370` (fifth). Stores at `0x1510951/0x1511907/0x1511CC3` and `0x15123BE/0x151282A`; the latter register is subsequently redefined. |
+| `0x14FB368` | entry +0x08 | Leaf `0x14F9940..0x14F996C` writes four bytes on both branches. |
+| `0x14FB5F7` | entry +0x20 | Leaf `0x1362600..0x1362666` reads/writes words at +0,+2,+4; caller's separate +6 byte is also inside the home area. |
+
+Reproduce with the recorded disassembly helper and `.pdata` group helper:
+observer `--rva 0x14F9E20 --size 0x225A`; group roots `0x14FC080`,
+`0x14FEB30`, `0x15108B0`, `0x1512370`; inspect the LEAs and exact consumer
+offsets above using instruction boundaries from the group roots.
+The three small leaves have no containing `.pdata` entry; that helper's
+error was followed by bounded entry/branch/return decoding, not absence claims.
+An initial window of the second leaf stopped before its final branch return;
+the corrected window includes `0x14F996B`. No extra stack input is inferred
+from borrowed shadow homes. Physical three-input forwarding is now supported;
+event completion, native meaning of reason 11 and multiplayer policy remain
+separate from this ABI result.
+
+A bounded old-binary inventory (`rg --files --hidden -g '*NMS*.exe'`, excluding
+Git/dependency caches) in the original repository, compatibility worktree and
+Documents/Codex found no old executable filename. This does not prove global
+absence. No depot download or repeated broad search followed.
+
+#### Source preparation and regression checkpoint
+
+`native_mappings.json` is now the single build-specific RVA/return/policy input.
+Generated C++ constants, build receipts, bundle validation and packaging
+expectations use the same exact release/build/hash record. Profile reading
+also rejects a well-formed foreign hash carrying an approved build label.
+7.06 remains `activation_approved=false`; normal build/package and runtime
+activation reject it. The root native profile still selects 7.05.
+
+The prepared 7.06 policy checks the applied FSM state, its vtable and
+`app+0xB940` receiver before and after the original load call, with repeated
+application/state reads. Arguments/results pass through unchanged. The
+existing zero-only fourth-input veto is retained without naming it network.
+The 7.05 callback sequence is preserved. The existing label forwarding of
+the opaque third output is retained. Four new policy-input rows expand the
+inventory to **85/89 MAPPED, 4 PARTIAL**; no old role was removed or promoted.
+
+Owner-authorized offline results: 38 focused tests, 403 production tests,
+805 developer tests; native 7.05 regression build; policy 31,216 commands,
+selector 25,733 commands, storage 333 cases/721 operations, runtime 63 cases,
+backup 16 checks, six unsupported-host runs; menu 25 scenarios and exact
+213-byte filter parity. Counts of comparison commands are not independent tests.
+All final runs passed; initial sandbox runs failed on atomic temp-file writes
+(production 17 failures/134 errors; developer 8 failures/9 errors), then passed
+in an explicit owned temp directory in the authorized desktop context.
+
+Build `build/native-mapping-prep-20261023-r1` used LLVM-MinGW 20260922 archive
+SHA-256 `E3AD77D117A4BEA19A7A3B333341824D79A5A371004A10E25B8504E7B3047666`,
+compiler wrapper SHA-256 `20BA1856942744291A6AAAF9F2C94F6D0CD7CAC5AA9557FCE96471DC7EF25D6F`.
+ASI is 2,637,312 bytes / SHA-256
+`3B4CBCC804CE0D52641435C232111789DBC1500626FA8DD7C40A159F881B0AB6`.
+This build selects 7.05; it is not a 7.06 gameplay test or a new release.
+Menu report is `build/native-menu-mapping-20261023-r1/menu-validation.json`.
+Private build/validation receipts retain exact source/product hashes.
+
+The first native bundle run failed backup before any checks with sharing
+violation 32 while another file-writing suite ran. Later individual directory
+opens passed; a serial rerun passed all 16 backup checks and the full bundle.
+Concurrent ancestor-lock interference is a plausible cause, not a proven
+production defect. No backup permission/sharing/check was weakened. Run this
+denial-of-write fixture separately from other workspace writers.
+
+Next bounded action: exercise the new applied-state policy in owned memory
+and reconcile static guard contracts separately from custom-row retention
+and exact-candidate game acceptance. No package, deployment, push or
+publication occurred. Localization impact: no player-facing text/meaning
+change; only developer diagnostic wording and internal tooling changed.
+
+### Candidate selection, offline acceptance and first deployed trial, 23 October 2026
+
+This supersedes the preceding 85/89 preparation stage. The static inventory is
+**89/89 MAPPED, 0 PARTIAL, 0 NOT CHECKED**. Four reconciliations are explicit
+source contracts, not four newly discovered signatures: the exact load receiver
+and applied-state policy with opaque byte forwarding; the complete observer
+three-input/home-alias audit; constructor/check/full-copy marker fields; and
+original-row D8=-1 checked at acceptance, with ordinal writers in copied rows.
+Custom retention across every rebuild, event completion, network semantics and
+exact-candidate gameplay remain independent acceptance gates. Static mapping
+coverage is not release readiness.
+
+The native profile now selects exact 7.06/build 25732212/hash 13D5060D... for
+unpublished 0.10.3. The mapping entry permits controlled activation, while the
+independent runtime guard continues rejecting unknown executable identities.
+The public 0.10.2 package remains 7.05. Owner-authorized final offline results:
+403 production tests, 807 developer tests; 63 runtime cases, 16 backup checks,
+13 load-context cases, 28 menu scenarios; 31,216 policy /25,733 selector commands,
+333 storage cases/721 operations, hook ABI checks and six unsupported-host runs.
+Exact 213-byte filter parity SHA-256 is
+95D2C565AFFA312A94493072258EBBE9FE531841D65065D71914332999DCE3EF.
+Build directory: build/native-runtime-0103-cosmos706-r1. Its immutable
+build/validation/package receipts and the 29-member archive readback passed.
+
+The [candidate record](../release/0.10.3-COSMOS-706.md) preserves full identities:
+r1 ZIP 3,725,241 bytes / SHA-256
+543EBEB847DBF31C2344FB7D6F3E82AEEE5343CFE2B8CC64D1034DFA6ACC5AAA;
+ASI 2,638,336 bytes /
+A1AB7D0E8F9B6F0580882EA29CF82FF580E89BD436BFEF37E7363FFC94C0B78C.
+No public upload or push occurred. Native source inputs and candidate byte
+receipts are separate from subsequent documentation and live evidence.
+
+The owner explicitly authorized installation and launch. A fresh closed-game
+backup verified 61 save files +2 preferences, 63 files/8,688,127 bytes, with
+protected current-user/SYSTEM permissions. The prior ASI was preserved privately;
+all ten installed overlay hashes matched, and only the ASI changed. Existing
+pinned loader/eight icons were reused. An initial File.Replace call failed
+because PowerShell converted null to an empty backup path. The target remained
+unchanged. Passing Language.NullString.Value completed atomic replacement;
+one exact owned staging file was hash-checked and removed before launch.
+Do not generalize this into bypassing loader-conflict or private-backup checks.
+
+Normal Steam launch was verified as actual PID 70240, exact executable and
+loaded candidate hash. A bounded read of the owned status export and its RIP
+relative four-byte cell used VM_READ|QUERY_LIMITED_INFORMATION: 17 bytes,
+no native call/write, status 4 (active). The fresh fixed process log independently
+confirmed startup, pre-activation snapshot and hooks active at 07:46:40 UTC.
+FileInfo briefly exposed zero log length; the first timestamp-filtered query
+missed the log. Direct reading of its fixed process-specific filename returned
+all lines. Do not interpret cached metadata or mixed DateTime kinds as no
+initialization. Two WINMM modules are expected here: packaged proxy and Windows
+system library; compare full module identity/hash, not the basename alone.
+
+The owner confirmed the X-menu entry, settings/icons and a manual pet. Existing
+Automation OFF was preserved. The owner switched it ON; file readback confirmed
+persistence after menu closure. The immediate pre-closure OFF read was a timing
+observation, not a failed setting change. First ship cycle retained the old pet
+and was inconclusive. After explicit manual dismissal, a second cycle armed an
+opportunity at 07:57:55.535 and accepted the queue at 07:58:01.413 UTC; the owner
+confirmed visible automatic appearance. This is one completed local ship-exit
+check, not location-matrix/multiplayer acceptance.
+
+A separate main-menu reload with Automation ON produced no visible pet while
+the owner was standing outside. The observer recorded reason 1 at returns
+0x330314/0x330996, but no load-completion/opportunity line. The cause is unknown;
+do not attribute it to eligibility, state, result or source byte without evidence.
+The owner saved/closed normally for the next trial. No process was killed.
+r2 now adds bounded check-mask/caller-RVA/Boolean diagnostics to load and filtered
+teleport callbacks while preserving the original policy and forwarding. Its
+build/package/live checks are pending. At most 16 records per path/process;
+never print common-key values, private IDs, pointers or save paths.
+
+Next bounded action: finish r2 offline gates and immutable packaging, fresh
+closed-game backup/deployment, then capture one confirmed load and the filtered
+teleport context if needed. Reconcile the first failed predicate using that
+specific call; do not restart full-image signature discovery. No death,
+multiplayer, second-PC or public-release claim follows. Player text/meaning
+unchanged; developer diagnostics are English.
+
+### Diagnostic r2 offline and startup receipt, 23 October 2026
+
+The bounded diagnostic candidate r2 passed its build and serial full owned-host
+bundle, including 16 context-mask cases, 63 runtime cases, 16 backup checks and
+six unsupported hosts. Policy/selection/storage counts and the unchanged menu
+inputs retain the preceding bounds. Its 29-member ZIP readback passed:
+3,725,794 bytes / SHA-256
+2FF7CB2CD3C4635C1D0B4CD7692090E2C61547CE8BB66E8EF7D5C3D0E9F49759;
+ASI 2,639,360 bytes /
+D631F345099C8E4A67C11C89BF69AD4A0F1CAA7DFFD8AB409E767B5D5037509B.
+Full identities are in the [candidate record](../release/0.10.3-COSMOS-706.md).
+
+After owner-confirmed normal closure, a fresh private closed-game backup
+verified 63 files/8,758,888 bytes. Prior ASI privately retained; ten installed
+overlay files verified, only ASI changed. Normal Steam launch was verified as
+actual process 71332 with the exact r2 module. The native pre-activation receipt
+verified the same file/byte count and protected permissions. Hooks active logged
+at 08:11:09.718 UTC. The owner was asked for one normal load with no ship/manual
+summon action; confirmation/results are pending. No game process was killed.
+
+Policy and original forwarding are unchanged. Diagnostic masks identify the
+first failed predicate; they are not an event/MP classifier. Pending bounded
+action: read that actual callback's caller/masks/result/key-presence predicates,
+then repair only the supported failure and repeat affected gates. Static ledger
+remains 89/89 source contracts with load and teleport gameplay gates open.
+No public push/upload or release, no locale/player-text change.

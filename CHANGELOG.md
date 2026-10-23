@@ -8,11 +8,27 @@
 - Add an exact-build development reader for bounded resource/menu observations.
   Corroborate the stock pet-menu copy path, registered texture allocation and
   missing-data failure byte. This does not validate custom mod rows or an
-  archive; the native profile still supports only Cosmos 7.05.
-- Prepare a bounded read-only lifecycle poller for a later player-assisted
-  load/teleport observation. Its new code has not been executed or validated.
+  archive; the public 0.10.2 package still supports only Cosmos 7.05.
+- Execute bounded read-only load/teleport observations with a ready baseline.
+  Record the observed load phases, reason 1 during one local load, reason 11
+  after a confirmed teleport, and two polling windows that missed transitions.
+  Add aggregate original/copied marker and binding fields; two open pet-menu
+  snapshots agree. Stock observations do not validate custom rows or detours.
+- Prepare a canonical exact-build mapping registry and generated C++ selection,
+  shared with build/validation/package receipts. Reject a correctly formatted
+  foreign hash even when it carries an approved build label. Select exact
+  7.06 / build 25732212 for unpublished candidate 0.10.3 after static mapping
+  and owned-memory guard checks; game/archive acceptance is still required.
+- Prepare a 7.06 load-side-effect guard using the applied LocalLoadState,
+  exact vtable and local receiver identity. Preserve original arguments/results
+  and the existing zero-only veto without naming it a network classifier.
 - Document the existing conservative HUD condition: unordered float values
   suppress cosmetic notices. The predicate and player-facing text are unchanged.
+- Build and read back the unpublished 0.10.3 r1 archive for exact 7.06. Verify
+  local activation, settings/icons, manual summoning and one automatic ship-exit
+  summon. Keep save-load acceptance open after a confirmed outside reload
+  produced no pet or logged load opportunity. Prepare bounded callback-context
+  diagnostics without changing the activation/summon policy or player text.
 
 ## 0.10.2-native-test — multiplayer test release, 3 October 2026
 

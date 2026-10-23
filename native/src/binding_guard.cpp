@@ -7,14 +7,15 @@
 #include <string>
 #include <utility>
 #include "cas/binding_guard.hpp"
+#include "cas/native_mapping.hpp"
 #ifndef CAS_MENU_FIXTURE
 #include "MinHook.h"
 #endif
 
 namespace cas {
 namespace {
-constexpr std::uintptr_t get_button_rva=0x2C25B40;
-[[maybe_unused]] constexpr std::uintptr_t bind_return_rva=0x152739B;
+constexpr std::uintptr_t get_button_rva=mapping::target.functions.get_button;
+[[maybe_unused]] constexpr std::uintptr_t bind_return_rva=mapping::target.binding_return;
 bool range(std::uintptr_t pointer, std::size_t size) {
     return size && pointer>=0x10000 && pointer<=0x7FFFFFFFFFFFULL-size+1;
 }

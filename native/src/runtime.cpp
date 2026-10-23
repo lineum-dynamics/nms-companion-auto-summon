@@ -1,5 +1,6 @@
 #include "cas/runtime.hpp"
 #include "catalog.hpp"
+#include "cas/native_mapping.hpp"
 #include <algorithm>
 #include <cmath>
 #include <cstdio>
@@ -9,7 +10,8 @@
 
 namespace cas {
 namespace {
-constexpr Address app_rva = 0x6E89688, local_player = 0x72C6F0, location_offset = 0x57A584;
+constexpr Address app_rva = mapping::target.globals.application;
+constexpr Address local_player = 0x72C6F0, location_offset = 0x57A584;
 constexpr Address active_pet = 0x29A1C0, queued_pet = 0x6020, pet_table = 0xE10D0;
 constexpr Address pet_stride = 0x24A0, pet_seed = 0x2330, pet_birth = 0x23C0;
 constexpr Address pet_resource = 0x2370, pet_biome = 0x2480, preview = 0x1B9300, emote = 0x1B937D;
@@ -166,7 +168,7 @@ void Runtime::afterTeleportCandidateTrial() noexcept {
         load_pending_ = false;
         arm(app);
         if (policy_.pending())
-            log("Teleport candidate trial: opportunity armed at return 0x3302C4 (reason=11, flag=1)");
+            log("Teleport candidate trial: opportunity armed after the filtered position call (reason=11, flag=1)");
     });
 }
 #endif
@@ -245,7 +247,7 @@ bool Runtime::probe(Address app, Address owner, Address player, int location, do
     else for (int slot = 0; slot < 30; ++slot) if (occupied(app,slot) && services_.owned(owner,slot)) candidates.push_back(slot);
     if (candidates.empty()) { resetProbe(now+.5); return false; }
     if (!safe_ || epoch != epoch_ || !policy_.pending() || requested_) return false;
-    const auto range = read<float>(services_.base+0x527AB34);
+    const auto range = read<float>(services_.base+mapping::target.globals.interaction_range);
     if (!std::isfinite(range) || range <= 0) throw std::runtime_error("Invalid placement range");
     const auto hand = services_.dominant_hand();
     if (!safe_ || epoch != epoch_ || !policy_.pending() || requested_ || appFor(player) != app) return false;

@@ -1,12 +1,31 @@
-# Native runtime test release 0.10.2
+# Native runtime candidate 0.10.3
 
-`0.10.2-native-test` implements the existing automation path in C++: local-save
+`0.10.3-native-test` ports the existing native EARLY ALPHA to exact Steam Cosmos
+7.06 / build 25732212. This is an unpublished candidate awaiting its own game
+and archive acceptance. It implements the existing automation path in C++: local-save
 startup and ship-exit opportunities, an experimental teleport callback,
 deferred native placement, Last selected / Random / By habitat selection,
 session rotation, persisted preferences and manual favorites, the seven-control
 quick-menu page and DDS icons. Normal startup uses pinned Ultimate ASI Loader
 through Steam; no Python host or external settings panel is used. The existing
 master automation and destination controls still gate all opportunities.
+
+## Exact-build mapping inputs
+
+`../native_mappings.json` is the canonical table of native function/global
+RVAs, return filters and the per-build load-state policy. The build generator
+selects an exact game release, Steam build and executable hash and emits
+`native_mapping_profile.hpp`; the C++ runtime, build receipt and packager use
+that same selection. The independent native hash/prefix guards remain in place.
+
+The profile now selects the 7.06 / build 25732212 entry for controlled candidate
+activation after the static contracts and owned-memory guard checks. The
+retained 7.05 mapping stays separate. Unapproved/unknown identities are refused;
+approval is not a claim of gameplay or release acceptance. The 7.06 applied
+LocalLoadState/receiver policy passes 13 owned-memory checks, but has not been
+exercised in a game candidate. Custom-row retention and event/lifecycle
+verification remain open in the [exact-build ledger](../docs/research/NATIVE-25732212-COMPATIBILITY.md).
+The public package remains 0.10.2 for 7.05 until a validated new release.
 
 The native test candidate targets the exact executable in
 `native_compatibility.json`. The owner confirmed a visible pet after two local

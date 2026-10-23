@@ -6,9 +6,10 @@ from pathlib import Path
 from build_native_probe import ROOT, digest, run
 from generate_native_catalog import generate
 from native_compatibility import load_native_profile
+from native_mapping import load_native_mapping, write_mapping_header
 from validate_compatibility import validate
 
-VERSION = "0.10.2-native-test"
+VERSION = "0.10.3-native-test"
 
 
 def main():
@@ -28,11 +29,13 @@ def main():
         raise ValueError("Use a new directory beneath build")
     profile_report = validate(source_root=ROOT, developer=True, generated=True)
     profile = load_native_profile(ROOT / "native_compatibility.json")
+    mapping = load_native_mapping(profile)
     native = ROOT / "native"
     sources = sorted(p for p in native.rglob("*") if p.is_file())
     sources += sorted((ROOT / "locales").glob("*.json"))
-    sources += [ROOT / "compatibility.json", ROOT / "native_compatibility.json",
-                ROOT / "tools/native_compatibility.py", Path(__file__), ROOT / "tools/generate_native_catalog.py"]
+    sources += [ROOT / "compatibility.json", ROOT / "native_compatibility.json", ROOT / "native_mappings.json",
+                ROOT / "tools/native_compatibility.py", ROOT / "tools/native_mapping.py",
+                Path(__file__), ROOT / "tools/generate_native_catalog.py"]
     before = {p.relative_to(ROOT).as_posix(): digest(p) for p in sources}
     output.mkdir(parents=True)
     generated = output / "generated"
@@ -43,6 +46,7 @@ def main():
         f"inline constexpr char exe_sha256[] = {json.dumps(profile['exe_sha256'])};\n"
         f"inline constexpr char steam_build[] = {json.dumps(profile['steam_build'])};\n"
         "}\n", encoding="utf-8")
+    write_mapping_header(mapping, generated / "native_mapping_profile.hpp")
     compiler = args.toolchain.resolve() / "bin/x86_64-w64-mingw32-clang++.exe"
     c_compiler = args.toolchain.resolve() / "bin/x86_64-w64-mingw32-clang.exe"
     inspect = args.toolchain.resolve() / "bin/llvm-readobj.exe"
@@ -61,8 +65,8 @@ def main():
     resource = output / "version.rc"
     resource.write_text('''#include <windows.h>
 1 VERSIONINFO
-FILEVERSION 0,10,2,0
-PRODUCTVERSION 0,10,2,0
+FILEVERSION 0,10,3,0
+PRODUCTVERSION 0,10,3,0
 FILEFLAGSMASK 0x3fL
 FILEFLAGS VS_FF_PRERELEASE
 FILEOS VOS_NT_WINDOWS32
@@ -106,6 +110,7 @@ END
         "storage_driver": ("native/src/storage.cpp","native/tests/storage_driver.cpp"),
         "policy_reference_driver": ("native/src/policy.cpp","native/tests/policy_reference_driver.cpp"),
         "backup_driver": ("native/src/backup.cpp","native/tests/backup_driver.cpp"),
+        "load_context_host": ("native/tests/load_context_host.cpp",),
     }
     for name, paths in hosts.items():
         unicode = ["-municode"] if name == "native_host" else []
@@ -130,13 +135,13 @@ END
         raise RuntimeError("Source changed while compiling; build retained but invalid")
     products = [binary,hook_host,*(output / (name+".exe") for name in hosts)]
     receipt = {"version":version,"gameplay_implemented":True,"diagnostic_observer":args.respawn_observer or args.teleport_candidate_trial,
-               "diagnostic_candidate_rva":0x14F7F60 if args.respawn_observer or args.teleport_candidate_trial else None,
-               "diagnostic_return_site_rvas":[0x3302C4,0x33066F,0x330946] if args.respawn_observer or args.teleport_candidate_trial else [],
+               "diagnostic_candidate_rva":mapping["functions"]["position_observer"] if args.respawn_observer or args.teleport_candidate_trial else None,
+               "diagnostic_return_site_rvas":mapping["position_returns"] if args.respawn_observer or args.teleport_candidate_trial else [],
                "teleport_candidate_trial":args.teleport_candidate_trial,
-               "teleport_candidate_filter":{"return_rva":0x3302C4,"reason":11,"flag":1} if args.teleport_candidate_trial else None,
+               "teleport_candidate_filter":{"return_rva":mapping["position_returns"][0],"reason":11,"flag":1} if args.teleport_candidate_trial else None,
                "live_verified":False,"deployed":False,
                "compiler":run([compiler,"--version"],output).strip(),"compiler_sha256":digest(compiler),
-               "sources":before,"imports":imports,"compatibility":profile,"profile_validation":profile_report,
+               "sources":before,"imports":imports,"compatibility":profile,"native_mapping":mapping,"profile_validation":profile_report,
                "products":{p.name:{"sha256":digest(p),"bytes":p.stat().st_size} for p in products},
                "commands":[[str(x) for x in command] for command in commands]}
     (output / "build-receipt.json").write_text(json.dumps(receipt,indent=2)+"\n",encoding="utf-8")

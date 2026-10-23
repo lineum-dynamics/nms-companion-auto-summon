@@ -5,6 +5,11 @@ import json
 from pathlib import Path
 import re
 
+if __package__:
+    from .native_mapping import load_native_mapping
+else:
+    from native_mapping import load_native_mapping
+
 
 FIELDS = {"schema_version", "runtime", "steam_build", "game_release", "exe_sha256"}
 
@@ -30,6 +35,5 @@ def load_native_profile(path: Path) -> dict:
             or not isinstance(profile["exe_sha256"], str)
             or not re.fullmatch(r"[0-9a-f]{64}", profile["exe_sha256"])):
         raise ValueError("Native compatibility profile contains invalid values")
-    if profile["game_release"] != "Cosmos 7.05" or profile["steam_build"] != "25624745":
-        raise ValueError("Native profile is not the statically verified Cosmos 7.05 target")
+    load_native_mapping(profile)
     return profile

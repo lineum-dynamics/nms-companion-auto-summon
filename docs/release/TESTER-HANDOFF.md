@@ -1,5 +1,14 @@
 # Native public alpha handoff
 
+## Unpublished 0.10.3-native-test — exact Cosmos 7.06 candidates
+
+The [candidate record](0.10.3-COSMOS-706.md) identifies the immutable r1/r2 ZIPs,
+module/manifest hashes, exact game, offline checks and controlled local trials.
+r1 passed startup/menu/manual and one clean automatic ship-exit check. Save-load
+acceptance remains open; r2 adds bounded diagnostics. Neither candidate is a
+public download or a second-PC/multiplayer acceptance result. Public 0.10.2
+below continues to describe its exact 7.05 package.
+
 ## 0.10.2-native-test — public multiplayer test build
 
 This is the single next EARLY ALPHA update, not a parallel multiplayer edition.

@@ -8,12 +8,14 @@
 #include <stdexcept>
 #include <string>
 #include "cas/menu.hpp"
+#include "cas/native_mapping.hpp"
 
 namespace cas {
 namespace {
 constexpr std::size_t depth_offset=0xA050, vectors_offset=0xA058, selections_offset=0xA088;
 constexpr std::size_t icon_offset=0xA104, pending_offset=0xA16C, item_size=224;
-constexpr std::uintptr_t manager_rva=0x6E1BC10, retain_manager_rva=0x5910190;
+constexpr std::uintptr_t manager_rva=mapping::target.globals.resource_manager;
+constexpr std::uintptr_t retain_manager_rva=mapping::target.globals.retain_manager;
 constexpr unsigned max_items=256; // Inspection ceiling, never a gameplay limit.
 bool range(std::uintptr_t pointer,std::size_t length) {
     return length && pointer>=0x10000 && pointer<=0x7FFFFFFFFFFFULL-length+1;
@@ -371,8 +373,8 @@ bool MenuAdapter::initialize(std::uintptr_t base,BindingGuard* guard,
     try {
         auto* state=new Impl;
         state->base=base; state->guard=guard; state->callbacks=callbacks; state->append=append_original;
-        state->construct=reinterpret_cast<MenuConstruct>(base+0x143B720);
-        state->select=reinterpret_cast<MenuSelect>(base+0x1518EF0);
+        state->construct=reinterpret_cast<MenuConstruct>(base+mapping::target.functions.construct_menu_item);
+        state->select=reinterpret_cast<MenuSelect>(base+mapping::target.functions.select_menu_item);
         for (unsigned i=0;i<8;++i) state->textures[i].path=texture_paths[i];
         impl_=state; return true;
     } catch (...) { return false; }
@@ -576,12 +578,12 @@ void MenuAdapter::afterResources(void* menu_pointer) noexcept {
             if (paw.pointer && paw.ready) {
                 require(value<std::uint32_t>(menu+icon_offset)==handle,"paw_changed_before_retain");
                 check_manager(p->base,p->manager); p->paw_handle=handle;
-                reinterpret_cast<void(*)(void*)>(p->base+0x2D65980)(&p->paw_handle);
+                reinterpret_cast<void(*)(void*)>(p->base+mapping::target.functions.retain_resource)(&p->paw_handle);
                 require(resource(p->base,p->manager,handle)==paw,"paw_changed_during_retain"); p->paw=paw;
             }
             for (unsigned i=0;i<8;++i) {
                 check_manager(p->base,p->manager);
-                reinterpret_cast<void(*)(void*)>(p->base+0xEC6850)(&p->textures[i]);
+                reinterpret_cast<void(*)(void*)>(p->base+mapping::target.functions.load_texture)(&p->textures[i]);
                 check_manager(p->base,p->manager);
                 const auto loaded=resource(p->base,p->manager,p->textures[i].handle);
                 if (loaded.pointer && loaded.name==texture_paths[i]) p->resources[i]=loaded;

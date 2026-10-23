@@ -1,6 +1,6 @@
 # Companion Auto Summon for No Man's Sky - by Lineum Dynamics
 
-**0.10.2-native-test — EARLY ALPHA multiplayer test.** Windows 10/11, 64-bit,
+**0.10.3-native-test — EARLY ALPHA multiplayer test.** Windows 10/11, 64-bit,
 Steam. An earlier build of this experimental teleport trigger produced a
 visible companion after two local teleport routes. That does not establish
 which game event the trigger represents, whether it is local-only, or what it
@@ -87,8 +87,8 @@ whether the experimental trigger reacts to another player's movement.
 
 ## Compatibility, settings and backups
 
-This test candidate targets only **Steam Cosmos 7.05, build 25624745**, SHA-256
-`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+This test candidate targets only **Steam Cosmos 7.06, build 25732212**, SHA-256
+`13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499`.
 The candidate checks the running executable before installing its gameplay hooks.
 Passing that exact-build check does not prove live compatibility. The exact
 archive still requires a fresh startup test, and its teleport behavior requires

@@ -2788,3 +2788,126 @@ Next: first verify the prepared passive observation in an authorized game sessio
 Local commit `42190cb47df723fa28b96c69ececa4a630305b17` preserves the rules, reports, analysis helpers and comment-only HUD clarification on `compat/cosmos-706-25732212`, authored with `core@lineum.io`. The source baseline under investigation remains `f7d97b61fcf152677d0d30de34f6c1b48675c436`; the pre-existing bootstrap ABI edit remains outside this checkpoint. The staged whitespace inspection passed after removing two whitespace-only lines. No implementation tests, build, package, new deployment, push or publication ran. Personal interpreter paths were replaced with verified-path aliases without changing recorded argument values or input hashes. An initial sandbox Git-index lock denial was resolved using the authorized desktop context; no failed attempt was called a commit.
 
 The current static ledger is **81/85 MAPPED, 4 PARTIAL, 0 NOT CHECKED**, with new lifecycle tooling explicitly NOT CHECKED separately. The public package remains `0.10.2-native-test` for Cosmos 7.05; the target remains Cosmos 7.06 / build 25732212 / exact SHA-256 recorded above. Next is the prepared player-assisted lifecycle observation and the remaining row-retention work, followed by source/profile implementation and the independent offline/live/archive/release gates. This receipt records a local checkpoint, not GitHub synchronization or a supported update.
+
+### Local load, teleport, menu and source preparation handoff, 23 October 2026
+
+Target remains Cosmos 7.06 / Steam 25732212 / file version 180836 /
+88,560,712 bytes / SHA-256
+`13D5060D4EFB9D2A6A6B1B349BC4257231056CC2A055DF4BB15D816262CC3499`.
+The [exact-build handoff](NATIVE-25732212-COMPATIBILITY.md#local-load-teleport-and-menu-observations-23-october-2026)
+records all commands, hashes, counts and limits. The original source baseline
+is f7d97b61; this work period started at local checkpoint 508526c.
+
+- Fresh closed-game backup: 63 files / 8,612,490 bytes, verified hashes and
+  private ACL, then actual process verification after a normal Steam launch.
+- One confirmed save-load trace: 893 samples/14 changes, applied LocalLoadState
+  `0x6E8EA40`, reason 0 -> 1 at phase 8, then phase 0 outside that state.
+  Source predicate stayed zero; session slot stayed absent. This is not a
+  general local/network classifier or actual hook-completion proof.
+- Confirmed teleport to station: 45-second window missed transitions; immediate
+  after-state reason 11. Confirmed return to base: a longer 120-second window
+  also saw no phase change (2,378 samples). Do not repeat an unchanged third
+  teleport poll; use a different anchor for exact callback timing.
+- Closed X baseline had nine original/zero copied rows. Two open-pet-menu
+  snapshots each had six original/copied rows, equal icon/action and marker
+  fields, two nonzero markers and all `+0xD8=-1`. Only stock rows were read;
+  custom sentinel/rebuild/thread behavior is not validated.
+- Lifecycle revisions: initial A3B7A930... remains unexecuted; 64104B09... covers
+  the first captures; C785323A... extends ready-baseline capture to 1..180 s.
+  Shared reader 7A550B94... actual-process guard was exercised. Aggregate
+  menu reader 96DEE154... covers the last three snapshots. Use the exact
+  report's full hashes; do not attach evidence to a different tool revision.
+- Observer root `0x14F9E20..0x14FC07A` fully decoded: 8,794 bytes, 330 direct
+  stack operands, no access at/crossing fifth argument `entryRSP+0x28`.
+  All nine home-address escapes are now bounded through complete consumers:
+  four-byte scalar leaves, six-byte word object, one-byte output pointers.
+  The first callee overwrites incoming R9 before use. Three physical inputs
+  are supported; reason/event and multiplayer claims remain separate.
+- A bounded filename search found no retained old NMS executable in the named
+  repositories/Documents scope; this is not global absence and no download
+  followed. Missing `.pdata` on the three small leaves was resolved through
+  bounded entry/branch/return decoding, not an absence conclusion.
+
+`native_mappings.json` now supplies exact-build native function/global RVAs,
+return filters and load policies to generated C++, build receipts, validation
+and packaging. A correct build label with a foreign hash is rejected.
+The prepared 7.06 applied-state/vtable/local-receiver guard preserves original
+arguments/results and the existing zero-only veto, whose network meaning
+remains unknown. Its four new native inputs were added to the inventory:
+**85/89 MAPPED, 4 PARTIAL**; this is not release readiness. The native profile
+still selects 7.05 and 7.06 retains activation_approved=false.
+
+Passed: 38 focused tests; final full runs 403 production + 805 developer;
+7.05 regression build/bundle (63 runtime cases, 16 backup checks, six refused
+owned hosts), 25 menu scenarios and 213-byte emitter parity. Initial sandbox
+temp-file failures passed in an explicit owned temp directory. The first
+backup fixture hit sharing violation 32 during concurrent file-writing tests;
+individual opens and a serial full bundle rerun passed. Keep this as bounded
+environment evidence; do not weaken backup locking/ACLs to force a pass.
+Run ancestor-lock backup fixtures separately from workspace writers.
+
+Next: owned-memory checks of the prepared load guard, then reconcile static
+field/guard mapping separately from actual custom-row retention and exact
+candidate game acceptance. No new package/install/push/publication or
+player-facing text change. Do not restart the resolved caller/ABI searches.
+
+### Candidate selection, offline acceptance and first deployed trial, 23 October 2026
+
+Static source contracts are now 89/89 MAPPED (four guard/copy/ABI reconciliations,
+not four new signatures). The unpublished 0.10.3 profile selects exact 7.06 /
+25732212 /13D5060D...; public 0.10.2 still targets 7.05. Passing a guarded static
+contract does not close event or exact-archive gameplay acceptance. See the
+[full handoff](NATIVE-25732212-COMPATIBILITY.md#candidate-selection-offline-acceptance-and-first-deployed-trial-23-october-2026)
+and [immutable candidate identities](../release/0.10.3-COSMOS-706.md).
+
+r1 passed 403 production +807 developer tests, full owned bundle (including 13
+load-context cases), 28 menu scenarios and ZIP readback. The owner approved
+native deployment. Fresh closed-game/private backup: 63 files/8,688,127 bytes.
+Ten overlay files verified; only the owned ASI changed; old runtime preserved,
+correct loader and icons reused. Normal Steam launch, exact loaded module and
+native active status independently verified. The owner confirmed menu/icons,
+manual pet and, after a clean no-pet baseline, automatic ship-exit appearance;
+queue acceptance corroborated that specific event. Existing Automation OFF
+was retained until the owner switched ON through the menu.
+
+A main-menu reload while standing outside produced no pet and no logged load
+opportunity. That acceptance gate remains open; r2 adds bounded predicate masks,
+caller RVAs and Boolean results without changing the guard or original ABI.
+The owner closed normally for the next trial. Next: r2 offline/package gates,
+fresh verified deployment, then one discriminating load, rather than repeated
+broad static scans. No public push/upload, death or multiplayer acceptance.
+
+Reusable lessons: establish no-pet baseline before claiming a new summon;
+queued settings may persist only after menu closure; read the fixed per-process
+log directly if timestamp/metadata filtering misses a newly opened file. Treat
+the Windows system WINMM and pinned proxy as distinct identities. For atomic
+replacement from PowerShell, a null string argument needs Language.NullString
+rather than an empty path; preserve and verify the previous owned file first.
+Do not weaken existing safety checks after a tool/environment failure.
+
+### Diagnostic r2 offline and startup receipt, 23 October 2026
+
+The bounded diagnostic candidate r2 passed its build and serial full owned-host
+bundle, including 16 context-mask cases, 63 runtime cases, 16 backup checks and
+six unsupported hosts. Policy/selection/storage counts and the unchanged menu
+inputs retain the preceding bounds. Its 29-member ZIP readback passed:
+3,725,794 bytes / SHA-256
+2FF7CB2CD3C4635C1D0B4CD7692090E2C61547CE8BB66E8EF7D5C3D0E9F49759;
+ASI 2,639,360 bytes /
+D631F345099C8E4A67C11C89BF69AD4A0F1CAA7DFFD8AB409E767B5D5037509B.
+Full identities are in the [candidate record](../release/0.10.3-COSMOS-706.md).
+
+After owner-confirmed normal closure, a fresh private closed-game backup
+verified 63 files/8,758,888 bytes. Prior ASI privately retained; ten installed
+overlay files verified, only ASI changed. Normal Steam launch was verified as
+actual process 71332 with the exact r2 module. The native pre-activation receipt
+verified the same file/byte count and protected permissions. Hooks active logged
+at 08:11:09.718 UTC. The owner was asked for one normal load with no ship/manual
+summon action; confirmation/results are pending. No game process was killed.
+
+Policy and original forwarding are unchanged. Diagnostic masks identify the
+first failed predicate; they are not an event/MP classifier. Pending bounded
+action: read that actual callback's caller/masks/result/key-presence predicates,
+then repair only the supported failure and repeat affected gates. Static ledger
+remains 89/89 source contracts with load and teleport gameplay gates open.
+No public push/upload or release, no locale/player-text change.

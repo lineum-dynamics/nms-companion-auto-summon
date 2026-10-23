@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "runtime": "native",
-  "steam_build": "25624745",
-  "game_release": "Cosmos 7.05",
-  "exe_sha256": "671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4"
+  "steam_build": "25732212",
+  "game_release": "Cosmos 7.06",
+  "exe_sha256": "13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499"
 }

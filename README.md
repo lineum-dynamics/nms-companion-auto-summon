@@ -1,7 +1,13 @@
 # Companion Auto Summon for No Man's Sky - by Lineum Dynamics
 
-**EARLY ALPHA — 0.10.1-native-test. Expect bugs and incomplete compatibility.
+**Public EARLY ALPHA — 0.10.2-native-test for Cosmos 7.05. Expect bugs and incomplete compatibility.
 Keep a separate backup made while the game is closed before installing.**
+
+**In development:** 0.10.3-native-test targets exact Cosmos 7.06 / Steam
+25732212. Its local candidate starts, displays the settings menu and has one
+confirmed automatic ship-exit summon. Save-load acceptance is still open;
+this candidate has not been published. See the
+[7.06 candidate record](docs/release/0.10.3-COSMOS-706.md).
 
 Automatically summon an owned companion after loading a save or leaving your
 ship, using the game's normal summon checks. Choose **By habitat**, **Random**
@@ -23,16 +29,17 @@ this alpha.
 [Report a bug](https://github.com/lineum-dynamics/nms-companion-auto-summon/issues) ·
 [Full alpha release notes](docs/release/ALPHA-0100-RELEASE-NOTES.md)
 
-**The public alpha is available on Nexus Mods**, verified on 30 September
-2026. Nexus file **49367** is Main / Primary. The canonical GitHub repository
-and 0.10.1 prerelease are public; this exact source/archive pairing is recorded
-in the [tester handoff](docs/release/TESTER-HANDOFF.md).
+**The public alpha is available on Nexus Mods.** The latest recorded public
+file is **49469**, 0.10.2-native-test, Main / Primary, uploaded 3 October 2026.
+The canonical GitHub repository is public; GitHub release tags and Nexus file
+versions have separate histories. Exact source/archive identities and the
+dated listing readback are recorded in the [tester handoff](docs/release/TESTER-HANDOFF.md).
 
 ## Install the native alpha
 
 1. Close NMS and retain your closed-game backup. Stop the old CAS Python/pyMHF
    session if you used an earlier test; never run both versions together.
-2. Extract `CompanionAutoSummon-0.10.1-native-test.zip`. In Steam, open
+2. Extract `CompanionAutoSummon-0.10.2-native-test.zip`. In Steam, open
    **No Man's Sky → Manage → Browse local files**.
 3. Merge the extracted **Binaries** and **GAMEDATA** folders into this game
    root. **Do not overwrite another mod's `Binaries/winmm.dll`.** An existing
@@ -60,20 +67,22 @@ remove it only if unused and still identical to this package's loader. Do not
 delete shared game or mod folders. See the packaged English README for the
 full installation and removal instructions.
 
-## Known issues in 0.10.1-native-test
+## Known issues in public 0.10.2-native-test
 
-- There is no automatic summon trigger after teleport arrival or death/respawn.
-  This build triggers after a successful local save load or ship exit.
+- Save-load and ship-exit opportunities are included. Teleport uses an
+  experimental filtered callback with limited earlier local observations;
+  completion semantics and multiplayer isolation remain unverified.
+  Death/respawn has no separate automatic trigger.
 - The owner reported that the settings menu disappeared after death. The
   0.10.1 log recorded a UI callback-thread safety stop, but did not record a
   death event; whether death caused the thread change is unknown. One grouped
   roster smoke check did show the settings entry, but other menu rebuilds remain
-  unverified. A feature-branch recovery candidate passed 25 offline menu tests
+  unverified. The recovery candidate included in 0.10.2 passed 25 offline menu tests
   and one live scenario: the owner reports the menu worked and a pet appeared
   after a direct load from an expedition into the Anomaly. The log confirms a
   successful local load and accepted summon queue. Recovery after death and
-  other menu rebuilds remain unverified; the candidate is not in the public
-  download.
+  other menu rebuilds remain unverified; the exact public 0.10.2 archive still
+  needs its own startup and menu acceptance.
 - One direct load into the Space Anomaly had no visible pet during an
   incomplete mission; a causal connection has not been established.
 
@@ -83,9 +92,13 @@ player-facing limitations. The 0.10.1 offline suite and limited grouped-menu
 smoke are not broad compatibility acceptance; second-PC and multiplayer
 testing remain open.
 
-The 0.10.1 archive is **3,725,689 bytes**, SHA-256
+The current public 0.10.2 archive is **3,724,342 bytes**, SHA-256
+`e8cbffbf558476025bde0c4b619a460265325d73ecbf99fc77b04c176d5f6704`.
+Its dated Nexus/scan observations are in the tester handoff.
+
+Historical 0.10.1 archive evidence: **3,725,689 bytes**, SHA-256
 `51cf81c7cc48e835a1f9f14f96ced93d2a32b56200c5c079e23f2b0f17331116`.
-Nexus file **49367** is the Main / Primary file, with mod-manager downloads
+Nexus file **49367** was the Main / Primary file, with mod-manager downloads
 OFF. The public page says **Safe to use** and the linked VirusTotal SHA-256
 matches the local archive. Edge blocked the owner's manual download, so its
 downloaded bytes were not read back. These bounded observations are not a safety
@@ -105,7 +118,7 @@ credentials or whole user-data folders. The
 Everything below is **historical**. The launcher, Python/pyMHF prerequisites,
 old file IDs and old test counts describe their named versions; they are not
 installation instructions or current compatibility claims for the native
-0.10.1 alpha above. Retaining them does not make an older quarantined file
+native alpha above. Retaining them does not make an older quarantined file
 cleared or make the current alpha fully tested.
 
 Retained packaging candidate: **0.9.3-test**. It extracts the original Python

@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "builds": {
+    "25624745": {
+      "game_release": "Cosmos 7.05",
+      "exe_sha256": "671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4",
+      "activation_approved": true,
+      "evidence": "native/README.md",
+      "functions": {
+        "queue_pet": "0x14738E0",
+        "player_update": "0x14494F0",
+        "owner_update": "0x508D30",
+        "ship_eject": "0x17521C0",
+        "enter_cockpit": "0x1481F60",
+        "load_player_state": "0x572C40",
+        "trigger_action": "0x152FEF0",
+        "build_menu": "0x15282B0",
+        "label_menu": "0x152C7D0",
+        "append_menu": "0x153CF40",
+        "confirm_menu": "0x153A770",
+        "load_menu_resources": "0x1524330",
+        "position_observer": "0x14F7F60",
+        "can_summon": "0x1473060",
+        "owned_pet_eligible": "0x508200",
+        "refresh_placement": "0x14407F0",
+        "dominant_hand": "0x14855F0",
+        "add_timed_message": "0x9BD8E0",
+        "construct_menu_item": "0x143B720",
+        "select_menu_item": "0x1518EF0",
+        "load_texture": "0xEC6850",
+        "retain_resource": "0x2D65980",
+        "get_button": "0x2C25B40"
+      },
+      "globals": {
+        "application": "0x6E89688",
+        "resource_manager": "0x6E1BC10",
+        "retain_manager": "0x5910190",
+        "interaction_range": "0x527AB34"
+      },
+      "binding_return": "0x152739B",
+      "position_returns": [
+        "0x3302C4",
+        "0x33066F",
+        "0x330946"
+      ],
+      "local_load": {
+        "current_state_cell": "0x0",
+        "state": "0x0",
+        "vtable": "0x0",
+        "player_state_offset": "0x0"
+      }
+    },
+    "25732212": {
+      "game_release": "Cosmos 7.06",
+      "exe_sha256": "13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499",
+      "activation_approved": true,
+      "evidence": "docs/research/NATIVE-25732212-COMPATIBILITY.md",
+      "functions": {
+        "queue_pet": "0x1475790",
+        "player_update": "0x144B3A0",
+        "owner_update": "0x508DC0",
+        "ship_eject": "0x1754180",
+        "enter_cockpit": "0x1483E20",
+        "load_player_state": "0x573500",
+        "trigger_action": "0x1531E00",
+        "build_menu": "0x152A1C0",
+        "label_menu": "0x153C0C0",
+        "append_menu": "0x153EE50",
+        "confirm_menu": "0x153C680",
+        "load_menu_resources": "0x1526240",
+        "position_observer": "0x14F9E20",
+        "can_summon": "0x1474F10",
+        "owned_pet_eligible": "0x508290",
+        "refresh_placement": "0x14426A0",
+        "dominant_hand": "0x14874B0",
+        "add_timed_message": "0x9BF7B0",
+        "construct_menu_item": "0x143D5D0",
+        "select_menu_item": "0x151ADB0",
+        "load_texture": "0xEC8700",
+        "retain_resource": "0x2D69720",
+        "get_button": "0x2C298E0"
+      },
+      "globals": {
+        "application": "0x6E8D708",
+        "resource_manager": "0x6E1FC90",
+        "retain_manager": "0x59141E0",
+        "interaction_range": "0x527EB74"
+      },
+      "binding_return": "0x15292F5",
+      "position_returns": [
+        "0x330314",
+        "0x3306BF",
+        "0x330996"
+      ],
+      "local_load": {
+        "current_state_cell": "0x6E8D6E0",
+        "state": "0x6E8EA40",
+        "vtable": "0x4A50A30",
+        "player_state_offset": "0xB940"
+      }
+    }
+  }
+}

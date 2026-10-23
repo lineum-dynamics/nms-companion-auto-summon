@@ -188,6 +188,12 @@ def quick_menu_observation(reader: Reader, base: int) -> dict:
         return {"status": "menu_changed_during_external_read"}
     source_keys = [source_rows[i:i+8] for i in range(0, len(source_rows), 0xE0)]
     copied_keys = [copied_rows[i:i+8] for i in range(0, len(copied_rows), 0xE0)]
+    source_markers = [source_rows[i+0x88:i+0x98] for i in range(0, len(source_rows), 0xE0)]
+    copied_markers = [copied_rows[i+0x88:i+0x98] for i in range(0, len(copied_rows), 0xE0)]
+    source_bindings = Counter(struct.unpack_from("<i", source_rows, i+0xD8)[0]
+                              for i in range(0, len(source_rows), 0xE0))
+    copied_bindings = Counter(struct.unpack_from("<i", copied_rows, i+0xD8)[0]
+                              for i in range(0, len(copied_rows), 0xE0))
     notice = struct.unpack("<f", reader.read(app + 0x4BF50C, 4))[0]
     notice_class = ("nan" if math.isnan(notice) else
                     "positive_infinity" if notice == math.inf else
@@ -198,6 +204,11 @@ def quick_menu_observation(reader: Reader, base: int) -> dict:
         "depth": depth, "write_index": write_index, "consumed_index": consumed_index,
         "source_row_count": source_count, "copied_row_count": copied_count,
         "selected_index": selected, "source_and_copied_icon_action_keys_equal": source_keys == copied_keys,
+        "source_and_copied_marker_fields_equal": source_markers == copied_markers,
+        "source_nonzero_marker_fields": sum(any(marker) for marker in source_markers),
+        "copied_nonzero_marker_fields": sum(any(marker) for marker in copied_markers),
+        "source_binding_ordinal_counts": dict(sorted(source_bindings.items())),
+        "copied_binding_ordinal_counts": dict(sorted(copied_bindings.items())),
         "rows_with_nonzero_icon": sum(struct.unpack_from("<I", source_rows, i)[0] != 0
                                       for i in range(0, len(source_rows), 0xE0)),
         "notice_float_class": notice_class,

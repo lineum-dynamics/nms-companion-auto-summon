@@ -1,6 +1,7 @@
 // Runs the real Runtime against caller-owned synthetic bytes and native-service
 // doubles. Never dereferences a game address, locates saves, or loads a DLL.
 #include "cas/runtime.hpp"
+#include "cas/native_mapping.hpp"
 #include "json.hpp"
 
 #include <algorithm>
@@ -24,7 +25,7 @@ constexpr Address base = 0x10000000, app = 0x20000000, solar = 0x30000000;
 constexpr Address common = 0x40000000, action = 0x50000000, menu = 0x60000000;
 constexpr Address player = app + 0x72C6F0, owner = app + 0xE10D0;
 constexpr Address active = app + 0x29A1C0, queued = player + 0x6020;
-constexpr Address app_pointer = base + 0x6E89688;
+constexpr Address app_pointer = base + cas::mapping::target.globals.application;
 
 void require(bool condition, const char* message) {
     if (!condition) throw std::runtime_error(message);
@@ -65,7 +66,7 @@ struct Fixture {
         // This is a test-only caller-selected directory; production paths are
         // never discovered. Constructing the runtime itself performs no writes.
         cas::SettingsStore(directory / L"settings.json").save_preferences(prefs);
-        put<Address>(app_pointer, app); put<float>(base+0x527AB34, 12.0f);
+        put<Address>(app_pointer, app); put<float>(base+cas::mapping::target.globals.interaction_range, 12.0f);
         put<Address>(app+0x72AFB0, solar);
         put<int>(solar+0x2544, 1); put<int>(solar+0x5196D0, 0);
         put<std::uint32_t>(solar+0x6148, 0); put<std::uint32_t>(solar+0x614C, 0);

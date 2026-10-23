@@ -10,6 +10,7 @@ import sys
 import tempfile
 from build_native_probe import ROOT, digest
 from native_compatibility import load_native_profile
+from native_mapping import load_native_mapping
 
 
 def main():
@@ -18,8 +19,11 @@ def main():
     args = parser.parse_args()
     directory = args.build.resolve(strict=True)
     receipt = json.loads((directory / "build-receipt.json").read_text(encoding="utf-8"))
-    if receipt.get("compatibility") != load_native_profile(ROOT / "native_compatibility.json"):
+    profile = load_native_profile(ROOT / "native_compatibility.json")
+    if receipt.get("compatibility") != profile:
         raise ValueError("Native build receipt targets a different executable profile")
+    if receipt.get("native_mapping") != load_native_mapping(profile):
+        raise ValueError("Native build receipt has a different exact-build mapping")
     for name, expected in receipt["products"].items():
         if digest(directory/name) != expected["sha256"]:
             raise ValueError("Built product changed: " + name)
@@ -49,6 +53,16 @@ def main():
     if abi.returncode or abi.stderr:
         raise RuntimeError(f"Owned hook ABI smoke failed: {abi.stdout} {abi.stderr}")
     summaries["hook_abi"] = json.loads(abi.stdout)
+    context = subprocess.run([str(directory/"load_context_host.exe")],cwd=directory,capture_output=True,
+                             text=True,encoding="utf-8",timeout=30)
+    if context.returncode or context.stderr:
+        raise RuntimeError(f"Owned load context checks failed: {context.stdout} {context.stderr}")
+    context_report = json.loads(context.stdout)
+    if context_report.get("passed") is not True or context_report.get("game_access") is not False:
+        raise RuntimeError("Owned load context report is invalid")
+    context_path = directory / "load_context-validation.json"
+    context_path.write_text(json.dumps(context_report,indent=2)+"\n",encoding="utf-8")
+    summaries["load_context"] = {"report_sha256":digest(context_path),"summary":context_report}
     stage = Path(tempfile.mkdtemp(prefix="native-host-",dir=ROOT/"build")) / "Káťa 猫"
     stage.mkdir()
     for name in ("native_host.exe","CompanionAutoSummon.asi"):

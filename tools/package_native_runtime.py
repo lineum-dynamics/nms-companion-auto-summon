@@ -19,10 +19,11 @@ import zipfile
 
 from quick_menu_assets import ASSET_HASHES, DESTINATION, _checked_path, validate_asset
 from native_compatibility import load_native_profile
+from native_mapping import load_native_mapping
 
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.10.2-native-test"
+VERSION = "0.10.3-native-test"
 TITLE = "Companion Auto Summon for No Man's Sky - by Lineum Dynamics"
 LOADER_SHA256 = "fa266e3513d02c08a1b808f28c10538a489eaffaa4b0707f7cc1066e71b5afd7"
 LOADER_BYTES = 3615928
@@ -102,7 +103,11 @@ def payload(build: Path, loader: Path) -> tuple[dict[str, bytes], dict]:
     receipt = read_json(receipt_bytes)
     if receipt.get("version") != VERSION or receipt.get("gameplay_implemented") is not True:
         raise ValueError("Native build receipt has the wrong product/version")
-    expected_teleport_filter = {"return_rva": 0x3302C4, "reason": 11, "flag": 1}
+    profile = load_native_profile(ROOT / "native_compatibility.json")
+    mapping = load_native_mapping(profile)
+    if receipt.get("native_mapping") != mapping:
+        raise ValueError("Native build has a different exact-build mapping")
+    expected_teleport_filter = {"return_rva": mapping["position_returns"][0], "reason": 11, "flag": 1}
     if (receipt.get("teleport_candidate_trial") is not True
             or receipt.get("teleport_candidate_filter") != expected_teleport_filter):
         raise ValueError("This release requires the reviewed experimental teleport trigger build")
@@ -113,7 +118,7 @@ def payload(build: Path, loader: Path) -> tuple[dict[str, bytes], dict]:
     if (validation.get("version") != VERSION or validation.get("passed") is not True
             or validation.get("build_receipt_sha256") != digest(receipt_bytes)):
         raise ValueError("Native build does not have a matching successful validation receipt")
-    required_validators = {"policy", "selection", "storage", "runtime", "backup"}
+    required_validators = {"policy", "selection", "storage", "runtime", "backup", "load_context"}
     validators = validation.get("validators")
     if not isinstance(validators, dict) or not required_validators.issubset(validators):
         raise ValueError("Native validation receipt is incomplete")
@@ -130,7 +135,6 @@ def payload(build: Path, loader: Path) -> tuple[dict[str, bytes], dict]:
     product = receipt.get("products", {}).get("CompanionAutoSummon.asi")
     if product != {"sha256": digest(asi), "bytes": len(asi)}:
         raise ValueError("Native module does not match its build receipt")
-    profile = load_native_profile(ROOT / "native_compatibility.json")
     if receipt.get("compatibility") != profile:
         raise ValueError("Native module targets a different compatibility profile")
     sources = receipt.get("sources")

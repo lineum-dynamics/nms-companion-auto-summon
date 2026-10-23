@@ -68,21 +68,28 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--pid", required=True, type=int)
     parser.add_argument("--exe", required=True, type=Path)
-    parser.add_argument("--seconds", type=int, default=30)
+    parser.add_argument("--seconds", type=int, default=120)
+    parser.add_argument("--stop-after-local-load", action="store_true",
+                        help="Stop after observing LocalLoadState and three samples outside it; not completion proof")
     args = parser.parse_args()
-    if not 0 < args.pid < 0x100000000 or not 1 <= args.seconds <= 45:
-        parser.error("--pid must be a positive DWORD; --seconds is 1..45")
+    if not 0 < args.pid < 0x100000000 or not 1 <= args.seconds <= 180:
+        parser.error("--pid must be a positive DWORD; --seconds is 1..180")
     reader = None
     try:
         reader, base, image_size, digest = open_verified_process(args.pid, args.exe)
+        initial = sample(reader, base, image_size)
         print(json.dumps({"status": "ready", "scope": "external_readonly_lifecycle_poll",
                           "exe_sha256": digest, "steam_build": "25732212",
-                          "duration_seconds": args.seconds, "interval_ms": 50}), flush=True)
+                          "duration_seconds": args.seconds, "interval_ms": 50,
+                          "initial_fields": initial}), flush=True)
         started = time.monotonic()
-        previous = None
+        previous = initial
         changes = 0
-        samples = 0
+        samples = 1
         unstable = 0
+        seen_local = initial["fsm_current_is_local_load"]
+        outside_samples = 0
+        stop_reason = "duration_limit"
         while time.monotonic() - started < args.seconds:
             try:
                 observed = sample(reader, base, image_size)
@@ -100,9 +107,20 @@ def main() -> int:
                                   "fields": observed}, sort_keys=True), flush=True)
                 changes += 1
                 previous = observed
+            if observed["fsm_current_is_local_load"]:
+                seen_local = True
+                outside_samples = 0
+            elif seen_local and observed["local_load_phase"] == 0:
+                outside_samples += 1
+            else:
+                outside_samples = 0
+            if args.stop_after_local_load and outside_samples >= 3:
+                stop_reason = "observed_local_load_state_exit"
+                break
             time.sleep(0.05)
         print(json.dumps({"status": "complete", "samples": samples, "changes": changes,
                           "unstable_samples_omitted": unstable, "read_bytes": reader.bytes_read,
+                          "elapsed_ms": round((time.monotonic()-started)*1000), "stop_reason": stop_reason,
                           "limit": "Polling can miss transitions and does not prove callback ABI, completion or local/network semantics."}), flush=True)
         return 0
     except Refusal as exc:

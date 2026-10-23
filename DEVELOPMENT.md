@@ -19,21 +19,42 @@ discriminator in both update handoffs. See the mandatory
 [runtime procedure](docs/research/NATIVE-PATTERN-PLAYBOOK.md#bring-runtime-evidence-forward)
 and [exact 7.06 observations](docs/research/NATIVE-25732212-COMPATIBILITY.md#early-read-only-game-observations-and-development-rule-23-october-2026).
 
-The next prepared observation is
-`tools/native_readonly_lifecycle_trace.py --pid <verified-NMS-pid> --exe <verified-exe> --seconds 30`.
-It reads mapped FSM, local-load reason/phase and session predicate fields for
-at most 45 seconds, reporting changes without interpreting reason codes as
-events. This new poller and the extracted shared reader guard are **NOT CHECKED**;
-the earlier resource/menu observations cover the recorded earlier helper
-hashes. Capture a baseline before requesting a single load or teleport action,
-then check which reason/phase changes were actually observed. A polling zero
-cannot exclude a brief callback. Do not enable the mod from this observation.
+`tools/native_readonly_lifecycle_trace.py --pid <verified-NMS-pid> --exe <verified-exe> --seconds 120 --stop-after-local-load`
+now prints a verified baseline in its ready record, polls every 50 ms for
+1..180 seconds, and can stop after three samples outside an observed local-load
+state. That stop is a state observation, not event-completion proof. On 23 October
+it captured one confirmed local-save load (reason changed from 0 to 1); a
+confirmed teleport had reason 11 in the after-state. A repeated 120-second
+teleport capture saw no phase change, so another unchanged poll is not the next
+step. The exact process guard was exercised. See the dated
+[lifecycle/menu handoff](docs/research/NATIVE-25732212-COMPATIBILITY.md#local-load-teleport-and-menu-observations-23-october-2026)
+for exact tool hashes, capture windows and limits. These reads do not verify
+custom rows, native detours, local/network classification or a mod archive.
+
+Build-specific RVAs and return filters now live in `native_mappings.json`.
+The C++ header and build/validation/package receipts consume the same exact
+game/build/hash selection. The native profile now selects 7.06 for the unpublished
+0.10.3 candidate; approval permits a controlled activation after offline gates,
+and does not establish release or game acceptance. The 7.06 load policy checks the
+applied LocalLoadState, vtable and local player-state receiver before and after
+the original call, while preserving its arguments/result and the existing
+zero-only source veto. It does not assign a network meaning to that byte.
+This adds four explicit dependencies to the target source inventory: current
+state cell, state object, vtable and player-state receiver offset.
+
+The [0.10.3 candidate record](docs/release/0.10.3-COSMOS-706.md) now separates
+immutable r1/r2 archives, offline checks and actual deployment. r1 started and
+passed the owner-confirmed menu/manual/clean ship-exit checks, while an outside
+reload did not produce a pet or logged load opportunity. r2 preserves the policy
+and adds bounded developer-only check masks. A static role marked MAPPED must
+never conceal this open gameplay acceptance failure.
 
 Latest Nexus native package: **0.10.2-native-test**, file **49469**, listed as
 uploaded on 3 October 2026. This is the mod package label, not a game version.
-The repository's native profile still targets only Windows/Steam Cosmos 7.05,
-build 25624745 and its recorded executable hash; it does not support Cosmos
-7.06. The limited live smoke note and VirusTotal/archive note below refer to
+The unpublished source candidate now targets Windows/Steam Cosmos 7.06,
+build 25732212 and its exact recorded hash. It awaits its own runtime/archive
+acceptance; the public 0.10.2 package still targets only 7.05. The limited live
+smoke note and VirusTotal/archive note below refer to
 the prior 0.10.1 package (file **49367**) and do not automatically verify the
 0.10.2 archive. No 0.10.2 archive readback is recorded here. The Python
 distribution below is preserved. The current native player package is built

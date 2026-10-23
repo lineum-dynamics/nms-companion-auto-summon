@@ -10,6 +10,8 @@
 #include "cas/backup.hpp"
 #include "catalog.hpp"
 #include "compatibility_profile.hpp"
+#include "cas/native_mapping.hpp"
+#include "cas/load_context.hpp"
 #include <array>
 #include <chrono>
 #include <cstdint>
@@ -28,6 +30,13 @@ volatile LONG status = 0; // 0 idle, 1 initializing, 2 refused, 3 stopped, 4 act
 cas::Runtime* runtime = nullptr;
 cas::MenuAdapter* menu_adapter = nullptr;
 cas::BindingGuard* binding = nullptr;
+Address runtime_image_base{};
+bool appliedLocalLoadContext(void* player_state) noexcept;
+cas::LoadContextObservation observeLocalLoadContext(void* player_state) noexcept;
+volatile LONG load_diagnostics = 0;
+#ifdef CAS_TELEPORT_CANDIDATE_TRIAL
+volatile LONG teleport_context_diagnostics = 0;
+#endif
 HANDLE log_file = INVALID_HANDLE_VALUE;
 HANDLE instance_mutex = nullptr; // Process lifetime, prevents a second native CAS.
 std::mutex log_mutex;
@@ -121,9 +130,7 @@ void __declspec(noinline) respawnCandidateHook(void* manager, std::int32_t reaso
         // that carries the DoPlayerRespawn diagnostic label. Other callers of
         // this shared position helper include warp paths and are intentionally
         // excluded from this observation.
-        constexpr std::array<Address,3> respawn_return_sites{
-            0x3302C4,0x33066F,0x330946
-        };
+        constexpr auto respawn_return_sites=cas::mapping::target.position_returns;
         for (const auto site : respawn_return_sites) {
             if (return_rva == site) {
                 recordRespawnSample(return_rva,reason,flag);
@@ -131,8 +138,17 @@ void __declspec(noinline) respawnCandidateHook(void* manager, std::int32_t reaso
             }
         }
 #ifdef CAS_TELEPORT_CANDIDATE_TRIAL
-        if (return_rva == 0x3302C4 && reason == 11 && flag && runtime)
-            runtime->afterTeleportCandidateTrial();
+        if (return_rva == respawn_return_sites[0] && reason == 11 && flag && runtime) {
+            const auto context=observeLocalLoadContext(nullptr);
+            if (context.accepted) runtime->afterTeleportCandidateTrial();
+            const auto sequence=InterlockedIncrement(&teleport_context_diagnostics);
+            if (sequence>0 && sequence<=16) {
+                char message[160]{};
+                std::snprintf(message,sizeof message,"Teleport trial context: checks=0x%02x accepted=%u",
+                              context.checks,unsigned(context.accepted));
+                log(message);
+            }
+        }
 #endif
     }
 }
@@ -222,12 +238,13 @@ using Queue = void(*)(void*,int);
 using Eject = void(*)(void*,void*,bool,bool);
 using One = void(*)(void*);
 using Two = void(*)(void*,void*);
+using Three = void(*)(void*,void*,void*);
 using Trigger = bool(*)(void*,void*,bool);
-using Load = bool(*)(void*,void*,void*,bool,bool,std::uint32_t);
+using Load = bool(*)(void*,void*,void*,std::uint8_t,std::uint8_t,std::uint32_t);
 using Confirm = bool(*)(void*);
 Queue queue_original{}; Update player_original{}, owner_original{};
 Eject eject_original{}; One enter_original{}, resources_original{};
-Load load_original{}; Trigger trigger_original{}; Two builder_original{}, label_original{};
+Load load_original{}; Trigger trigger_original{}; Two builder_original{}; Three label_original{};
 Confirm confirm_original{}; cas::MenuAppend append_original{};
 
 bool active() noexcept { return InterlockedCompareExchange(&status,0,0) == 4; }
@@ -240,10 +257,52 @@ void playerHook(void* player,float dt) { const bool started=active(); player_ori
 void ownerHook(void* owner,float dt) { const bool started=active(); owner_original(owner,dt); if (started && active() && runtime) runtime->afterOwner(reinterpret_cast<Address>(owner),dt); }
 void ejectHook(void* ship,void* player,bool animate,bool force) { const bool started=active(); eject_original(ship,player,animate,force); if (started && active() && runtime) runtime->afterExit(reinterpret_cast<Address>(player)); }
 void enterHook(void* player) { if (active() && runtime) runtime->beforeEnter(reinterpret_cast<Address>(player)); enter_original(player); }
-bool loadHook(void* player,void* common,void* state,bool network,bool resetting,std::uint32_t extra) {
+bool appliedLocalLoadContext(void* player_state) noexcept {
+    return cas::applied_local_load_context(runtime_image_base,cas::mapping::target,
+                                           reinterpret_cast<Address>(player_state),readMemory);
+}
+cas::LoadContextObservation observeLocalLoadContext(void* player_state) noexcept {
+    return cas::observe_local_load_context(runtime_image_base,cas::mapping::target,
+                                           reinterpret_cast<Address>(player_state),readMemory);
+}
+bool loadHook(void* player,void* common,void* state,std::uint8_t source_veto,std::uint8_t fifth_flag,std::uint32_t sixth_slot) {
     const bool started=active();
-    if (started && runtime) runtime->beforeLoad(network); const bool result = load_original(player,common,state,network,resetting,extra);
-    if (started && active() && runtime) runtime->afterLoad(reinterpret_cast<Address>(common),network,result); return result;
+    const auto caller=reinterpret_cast<Address>(__builtin_return_address(0));
+    // In 7.06 the native body overwrites the fourth home slot before reading
+    // it. Preserve the argument and its existing zero-only mod veto without
+    // calling it a network classification. The applied state excludes the
+    // known DeathState caller; original arguments/results always pass through.
+    constexpr bool guarded_load=cas::mapping::target.local_load.state!=0;
+    const auto before=started && guarded_load ? observeLocalLoadContext(player) : cas::LoadContextObservation{};
+    const bool eligible=started && source_veto==0 && (!guarded_load || player) &&
+                        (guarded_load ? before.accepted : appliedLocalLoadContext(player));
+    if (started && runtime && (!guarded_load || eligible)) runtime->beforeLoad(source_veto!=0);
+    const bool result=load_original(player,common,state,source_veto,fifth_flag,sixth_slot);
+    if (started && active() && runtime) {
+        const auto after=guarded_load ? observeLocalLoadContext(player) : cas::LoadContextObservation{};
+        if (!guarded_load || (eligible && after.accepted))
+            runtime->afterLoad(reinterpret_cast<Address>(common),source_veto!=0,result);
+        if (guarded_load) {
+            const auto sequence=InterlockedIncrement(&load_diagnostics);
+            if (sequence>0 && sequence<=16) {
+                bool key_readable=false,key_nonzero=false;
+                if (common && result) try {
+                    std::uint64_t key{};
+                    readMemory(reinterpret_cast<Address>(common)+0x8980,&key,sizeof key);
+                    key_readable=true; key_nonzero=key!=0;
+                } catch (...) {}
+                const auto caller_rva=caller>=runtime_image_base && caller-runtime_image_base<0x10000000
+                    ? caller-runtime_image_base : 0;
+                char message[320]{};
+                std::snprintf(message,sizeof message,
+                    "Load callback: caller=0x%08llx source_zero=%u before=0x%02x after=0x%02x result=%u common=%u key_readable=%u key_nonzero=%u",
+                    static_cast<unsigned long long>(caller_rva),unsigned(source_veto==0),before.checks,after.checks,
+                    unsigned(result),unsigned(common!=nullptr),unsigned(key_readable),unsigned(key_nonzero));
+                log(message);
+            }
+        }
+    }
+    return result;
 }
 bool triggerHook(void* menu,void* action,bool called) {
     const bool started=active();
@@ -259,7 +318,7 @@ void builderHook(void* menu,void* render) {
     if (started && menu_adapter) menu_adapter->beforeBuilder(menu,render); builder_original(menu,render);
     if (started && active() && menu_adapter) menu_adapter->afterBuilder(menu,render);
 }
-void labelHook(void* menu,void* out) { const bool started=active(); label_original(menu,out); if (started && active() && menu_adapter) menu_adapter->afterLabel(menu,out); }
+void labelHook(void* menu,void* out,void* opaque_output) { const bool started=active(); label_original(menu,out,opaque_output); if (started && active() && menu_adapter) menu_adapter->afterLabel(menu,out); }
 void* appendHook(void* header,void* incoming) { if (active() && menu_adapter) menu_adapter->beforeAppend(header,incoming); return append_original(header,incoming); }
 bool confirmHook(void* menu) {
     const bool started=active();
@@ -271,20 +330,21 @@ void resourcesHook(void* menu) { const bool started=active(); resources_original
 struct Hook { std::uint32_t rva; void* callback; void** original; };
 template<class F> void* function(F pointer) { return reinterpret_cast<void*>(pointer); }
 std::vector<Hook> hooks() {
-    std::vector<Hook> result{{0x14738E0,function(queueHook),reinterpret_cast<void**>(&queue_original)},
-            {0x14494F0,function(playerHook),reinterpret_cast<void**>(&player_original)},
-            {0x508D30,function(ownerHook),reinterpret_cast<void**>(&owner_original)},
-            {0x17521C0,function(ejectHook),reinterpret_cast<void**>(&eject_original)},
-            {0x1481F60,function(enterHook),reinterpret_cast<void**>(&enter_original)},
-            {0x572C40,function(loadHook),reinterpret_cast<void**>(&load_original)},
-            {0x152FEF0,function(triggerHook),reinterpret_cast<void**>(&trigger_original)},
-            {0x15282B0,function(builderHook),reinterpret_cast<void**>(&builder_original)},
-            {0x152C7D0,function(labelHook),reinterpret_cast<void**>(&label_original)},
-            {0x153CF40,function(appendHook),reinterpret_cast<void**>(&append_original)},
-            {0x153A770,function(confirmHook),reinterpret_cast<void**>(&confirm_original)},
-            {0x1524330,function(resourcesHook),reinterpret_cast<void**>(&resources_original)}};
+    constexpr auto f=cas::mapping::target.functions;
+    std::vector<Hook> result{{f.queue_pet,function(queueHook),reinterpret_cast<void**>(&queue_original)},
+            {f.player_update,function(playerHook),reinterpret_cast<void**>(&player_original)},
+            {f.owner_update,function(ownerHook),reinterpret_cast<void**>(&owner_original)},
+            {f.ship_eject,function(ejectHook),reinterpret_cast<void**>(&eject_original)},
+            {f.enter_cockpit,function(enterHook),reinterpret_cast<void**>(&enter_original)},
+            {f.load_player_state,function(loadHook),reinterpret_cast<void**>(&load_original)},
+            {f.trigger_action,function(triggerHook),reinterpret_cast<void**>(&trigger_original)},
+            {f.build_menu,function(builderHook),reinterpret_cast<void**>(&builder_original)},
+            {f.label_menu,function(labelHook),reinterpret_cast<void**>(&label_original)},
+            {f.append_menu,function(appendHook),reinterpret_cast<void**>(&append_original)},
+            {f.confirm_menu,function(confirmHook),reinterpret_cast<void**>(&confirm_original)},
+            {f.load_menu_resources,function(resourcesHook),reinterpret_cast<void**>(&resources_original)}};
 #ifdef CAS_RESPAWN_OBSERVER
-    result.push_back({0x14F7F60,function(respawnCandidateHook),
+    result.push_back({f.position_observer,function(respawnCandidateHook),
                       reinterpret_cast<void**>(&respawn_candidate_original)});
 #endif
     return result;
@@ -306,16 +366,21 @@ DWORD WINAPI initialize(void*) noexcept {
         }
         File image(CreateFileW(path,GENERIC_READ,FILE_SHARE_READ,nullptr,OPEN_EXISTING,FILE_FLAG_OPEN_REPARSE_POINT,nullptr));
         require(image.h != INVALID_HANDLE_VALUE && hash(image.h) == cas::profile::exe_sha256,"Host changed after inspection");
+        require(cas::mapping::target.activation_approved,"Native mapping is not approved for activation");
         require(!GetModuleHandleW(L"python311.dll") && !GetModuleHandleW(L"python312.dll") && !GetModuleHandleW(L"python313.dll"),"Competing Python runtime is present");
         const auto base = reinterpret_cast<Address>(GetModuleHandleW(nullptr));
+        runtime_image_base=base;
 #ifdef CAS_RESPAWN_OBSERVER
         observer_image_base = base;
         respawn_last_flush = GetTickCount64();
 #endif
         const auto definitions = hooks();
         for (const auto& hook : definitions) prefix(image.h,base,hook.rva);
-        for (const auto rva : {0x1473060u,0x508200u,0x14407F0u,0x14855F0u,0x9BD8E0u,0x143B720u,0x1518EF0u,0xEC6850u,0x2D65980u}) prefix(image.h,base,rva);
-        const auto binding_prefix = prefix(image.h,base,0x2C25B40);
+        constexpr auto f=cas::mapping::target.functions;
+        for (const auto rva : {f.can_summon,f.owned_pet_eligible,f.refresh_placement,f.dominant_hand,
+                              f.add_timed_message,f.construct_menu_item,f.select_menu_item,
+                              f.load_texture,f.retain_resource}) prefix(image.h,base,rva);
+        const auto binding_prefix = prefix(image.h,base,f.get_button);
         wchar_t name[128]{}; std::swprintf(name,128,L"Local\\CompanionAutoSummon.Native.%lu",GetCurrentProcessId());
         instance_mutex = CreateMutexW(nullptr,FALSE,name);
         require(instance_mutex && GetLastError() != ERROR_ALREADY_EXISTS,"Another native CAS instance exists");
@@ -342,17 +407,17 @@ DWORD WINAPI initialize(void*) noexcept {
             do { require(BCryptGenRandom(nullptr,reinterpret_cast<PUCHAR>(&value),sizeof value,BCRYPT_USE_SYSTEM_PREFERRED_RNG) >= 0,"Random provider unavailable"); } while (value >= maximum);
             return static_cast<std::size_t>(value % bound);
         };
-        services.owned = [base](Address owner,int slot) { return reinterpret_cast<bool(*)(void*,int)>(base+0x508200)(reinterpret_cast<void*>(owner),slot); };
-        services.can_summon = [base](Address player,int slot) { return reinterpret_cast<bool(*)(void*,int)>(base+0x1473060)(reinterpret_cast<void*>(player),slot); };
-        services.dominant_hand = [base] { return reinterpret_cast<std::uint32_t(*)()>(base+0x14855F0)(); };
-        services.placement = [base](Address arc,float a,float b,std::uint32_t hand) { reinterpret_cast<void(*)(void*,float,float,std::uint32_t)>(base+0x14407F0)(reinterpret_cast<void*>(arc),a,b,hand); };
+        services.owned = [base](Address owner,int slot) { return reinterpret_cast<bool(*)(void*,int)>(base+cas::mapping::target.functions.owned_pet_eligible)(reinterpret_cast<void*>(owner),slot); };
+        services.can_summon = [base](Address player,int slot) { return reinterpret_cast<bool(*)(void*,int)>(base+cas::mapping::target.functions.can_summon)(reinterpret_cast<void*>(player),slot); };
+        services.dominant_hand = [base] { return reinterpret_cast<std::uint32_t(*)()>(base+cas::mapping::target.functions.dominant_hand)(); };
+        services.placement = [base](Address arc,float a,float b,std::uint32_t hand) { reinterpret_cast<void(*)(void*,float,float,std::uint32_t)>(base+cas::mapping::target.functions.refresh_placement)(reinterpret_cast<void*>(arc),a,b,hand); };
         // This original trampoline bypasses only our own attribution detour.
         services.queue = [](Address player,int slot) { queue_original(reinterpret_cast<void*>(player),slot); };
         services.notice = [base](Address app,const std::string& message) {
             alignas(16) float colour[4]{1,1,1,1};
             std::uint32_t icon = menu_adapter ? menu_adapter->notificationIcon() : 0;
             using Notice = void(*)(void*,void*,float,void*,std::uint32_t,void*,bool,float,bool,bool,bool);
-            reinterpret_cast<Notice>(base+0x9BD8E0)(reinterpret_cast<void*>(app+0x847BB0),const_cast<char*>(message.c_str()),5.5f,colour,0,&icon,false,0.f,false,false,icon == 0);
+            reinterpret_cast<Notice>(base+cas::mapping::target.functions.add_timed_message)(reinterpret_cast<void*>(app+0x847BB0),const_cast<char*>(message.c_str()),5.5f,colour,0,&icon,false,0.f,false,false,icon == 0);
         };
         runtime = new cas::Runtime(std::move(services),data);
         binding = new cas::BindingGuard(); menu_adapter = new cas::MenuAdapter();

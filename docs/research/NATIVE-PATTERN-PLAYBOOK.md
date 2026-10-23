@@ -133,6 +133,33 @@ of a work period, state what evidence changed, what remains blocked or
 authorized and feasible; stop only for a real blocker such as missing input,
 access or required runtime evidence.
 
+## Keep one exact-build mapping input
+
+Use `native_mappings.json` for build-specific function/global RVAs, caller
+returns and load-state policies. The generator selects an exact release,
+Steam build and executable hash; C++ constants and build/validation/package
+receipt expectations consume that same selection. Keep research entries
+unapproved and retain the independent runtime activation refusal. A changed
+profile label or a higher package number cannot select another binary's RVAs.
+When a policy introduces new native fields, add stable dependency rows and
+recount the inventory. Source preparation is separate from game verification.
+
+## Retain missed polling windows as evidence limits
+
+Read and print a baseline before reporting ready and requesting the action.
+Keep capture duration, poll interval, sample/change counts, player confirmation
+and immediate after-state separate. In the 23 October 7.06 run, a 45-second
+capture observed a full local-load sequence; a teleport showed reason 11 only
+after the window. A repeated 120-second poll saw no phase change. These are
+bounded misses, not proof that the callback/state never ran. Do not request a
+third trip with the same unchanged polling method; use a different event
+anchor or evidence source when exact timing is required.
+
+For menu reads, compare original and consumed copied row fields as aggregates
+without printing keys/private pointers. Equal stock marker bytes and `-1`
+binding ordinals corroborate a copy contract; they do not validate a custom
+sentinel, rebuild retention, synchronization or an uninstalled mod.
+
 ## Prove resource extent through the registered factory
 
 For an opaque resource, follow the loader's exact type key into its registered

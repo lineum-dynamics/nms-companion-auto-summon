@@ -8,6 +8,17 @@ Supported game target: Windows x64, Steam Cosmos 7.05 / build 25624745, exact ex
 
 This page tracks reports against the current public build. A reported symptom is not proof of its suspected cause. Work-in-progress branch changes are not fixes for players until they are validated, packaged and released.
 
+## Unpublished Cosmos 7.06 candidate
+
+On 23 October, exact 0.10.3 candidate r1 started on Steam 25732212, completed
+its pre-activation backup, and displayed the menu and icons. The owner
+confirmed a manual pet and one clean automatic ship-exit summon. A separate
+reload while standing outside produced no visible pet and no recorded load
+opportunity. This is an open candidate acceptance failure; its cause is not
+yet established. A bounded callback-context diagnostic is the next step.
+The [candidate record](release/0.10.3-COSMOS-706.md) separates archive identity,
+offline checks and live results. This does not change the public 0.10.2 issues.
+
 ## No automatic summon after teleport or death
 
 **Observed/current behavior:** 0.10.2 creates automatic opportunities after a successful local save load or ship exit and includes an experimental, filtered teleport callback. Earlier builds of the same candidate produced visible pets after two local teleport routes. The callback's game-level meaning and remote-player behavior are unknown, and the exact published archive has not yet been started in NMS. Death/respawn remains a separate unsupported trigger. No game eligibility or placement rule is bypassed.

@@ -207,6 +207,21 @@ int main(int argc,char** argv) {
             f.build_begin(); f.pet(); f.build_end(); check(!f.adapter.stopped() && f.header(1).count==1 && !f.header(2).count,"foreign context");});
         scenario("corrupt_vector_bounds_stops",[]{Fixture f; f.header(1).capacity=257;
             f.build_begin(); f.build_end(); check(f.adapter.stopped(),"vector bounds");});
+        scenario("changed_parent_binding_refuses_custom_handling",[]{Fixture f; f.prepare();
+            const std::int32_t native_binding=3;
+            std::memcpy(f.header(1).pointer[0].data()+0xD8,&native_binding,4);
+            std::array<char,128> text{}; f.adapter.afterLabel(f.menu.data(),text.data());
+            check(f.adapter.stopped() && f.changes==0,"changed original binding accepted");
+            std::int32_t after{}; std::memcpy(&after,f.header(1).pointer[0].data()+0xD8,4);
+            check(after==native_binding,"native binding was overwritten");});
+        scenario("changed_child_marker_refuses_custom_handling",[]{Fixture f; f.prepare();
+            f.trigger(f.header(1).pointer); f.header(2).pointer[0][0x88]^=1;
+            std::array<char,128> text{}; f.adapter.afterLabel(f.menu.data(),text.data());
+            check(f.adapter.stopped() && f.changes==0,"changed child marker accepted");});
+        scenario("lost_parent_marker_with_pet_rows_refuses_rebuild",[]{Fixture f; f.prepare();
+            f.header(1).pointer[0][0x88]^=1; f.build_begin(); f.build_end();
+            check(f.adapter.stopped() && f.changes==0 && f.header(1).count==2,
+                  "lost parent marker duplicated after native pet rows");});
         scenario("fixture_cannot_install_binding_guard",[]{cas::BindingGuard guard;
             check(!guard.install(reinterpret_cast<std::uintptr_t>(GetModuleHandleW(nullptr)),{}) && !guard.active(),"guard fixture disabled");});
         std::printf("{\"scenarios_passed\":%zu,\"game_started_or_attached\":false,\"scenario_names\":[",passed.size());
