@@ -1,111 +1,101 @@
 # Known issues
 
-Status reviewed: 3 October 2026
+Status reviewed: **23 October 2026**.
 
-Public mod build: **0.10.2-native-test**, Nexus file **49469** (Main / Primary; manual and mod-manager downloads enabled).
+Latest uploaded mod: **0.10.3-native-test**, Nexus file **50040**, Main / Primary.
+**Nexus quarantine blocks its download.** The exact ZIP is 3,725,947 bytes,
+SHA-256 `df7cf87276391a9dc9bdf596611563b3787530da5d5c0107f51bb994f580b3f2`.
 
-Supported game target: Windows x64, Steam Cosmos 7.05 / build 25624745, exact executable hash in the release package.
+Supported target: Windows 10/11 x64, Steam **Cosmos 7.06 / build 25732212**,
+NMS.exe SHA-256 `13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499`.
+Unknown executable builds refuse activation before gameplay hooks. Retained
+0.10.2 / file 49469 targets 7.05 / Steam 25624745 only.
 
-This page tracks reports against the current public build. A reported symptom is not proof of its suspected cause. Work-in-progress branch changes are not fixes for players until they are validated, packaged and released.
+Reports are observations, not proof of suspected causes. A source change is
+not a public fix until the exact distributed artifact is validated and accepted.
 
-## Unpublished Cosmos 7.06 candidate
+## Distribution blocked by Nexus quarantine
 
-On 23 October, exact 0.10.3 candidate r1 started on Steam 25732212, completed
-its pre-activation backup, and displayed the menu and icons. The owner
-confirmed a manual pet and one clean automatic ship-exit summon. A separate
-reload while standing outside produced no visible pet and no recorded load
-opportunity. r2 diagnostics established that the successful local-load callback
-arrives before the required applied FSM state; that new guard refused it.
-The corrected exact-caller policy passed r3 and final-r4 gameplay acceptance. One r2
-teleport reached a station with no pet or recorded filtered callback. Broader
-passive sampling did not establish its cause. A later r3 reverse route and
-final-r4 base-to-station trip both produced a fresh opportunity, accepted queue
-and visible pet after manual dismissal. The earlier miss remains bounded
-history, with no general teleport or multiplayer claim.
-The [candidate record](release/0.10.3-COSMOS-706.md) separates archive identity,
-offline checks and live results. This does not change the public 0.10.2 issues.
+**Observed:** Nexus accepted the 0.10.3 upload and displays it as Main / Primary,
+but automated checks quarantine file 50040. The exact ZIP report shows 10/67;
+the ASI report shows 10/71 on 23 October. The older unchanged 0.10.2 ZIP now
+shows 28/68 in its 15 October analysis and is blocked by local Windows
+protection. The earlier 1/67 and Nexus acceptance were historical snapshots.
 
-## No automatic summon after teleport or death
+**Investigation:** same compiler, vendored inputs and loader as 0.10.2; the new
+ASI matches the frozen receipt and an independent rebuild byte for byte.
+No exact detector cause or confirmed false positive is established. Support
+has not been contacted, as requested by the owner. Do not disable protection
+or describe a different download channel as scanner clearance.
+See [the scan/provenance record](research/NATIVE-0103-SCAN.md).
 
-**Observed/current behavior:** 0.10.2 creates automatic opportunities after a successful local save load or ship exit and includes an experimental, filtered teleport callback. Earlier builds of the same candidate produced visible pets after two local teleport routes. The callback's game-level meaning and remote-player behavior are unknown, and the exact published archive has not yet been started in NMS. Death/respawn remains a separate unsupported trigger. No game eligibility or placement rule is bypassed.
+## Experimental teleport: local success, multiplayer unverified
 
-**Status:** Open. Test whether a teleport by one player can summon a pet for a stationary partner and whether the exact archive starts successfully. Do not call this a verified arrival callback or multiplayer-safe behavior. Death/respawn needs a separate exact-build signal after a completed local respawn; it is not assumed to be the same event as teleport or save loading.
+The final 0.10.3 archive passed a clean base-to-station test: after manual
+dismissal, a distinct opportunity and accepted queue were logged and the owner
+confirmed a newly visible companion. An earlier 7.06 candidate passed the
+reverse station-to-base route. An r2 trip had no pet or recorded callback;
+its cause remains unproven and the miss is retained in the release history.
 
-**Research update:** A read-only Cosmos 7.05 mapping pass on 1 October found
-teleporter-selection labels and destination-position settings, but no verified
-local successful-arrival callback. That pass led to a filtered candidate that
-is now included in public 0.10.2 without a semantic claim. A shared
-player-position helper also appears in a function with a
-`DoPlayerRespawn` diagnostic label, but it is called from warp paths too and is
-not verified as a successful-respawn signal. See the
-[exact-build teleport and respawn research](research/TELEPORT-AND-GROUPED-MENU.md).
-An offline-validated, test-only observer was loaded in one local session. Its
-log recorded two candidate call sites during the successful save-load sequence,
-without a reported death. They are not a verified death signal and the observer
-does not request pets; the production trigger remains absent.
-A later feature-branch control teleported from a freighter to a space station;
-the owner saw a pet appear. The observer recorded candidate return
-`0x3302C4` with `reason=11` (`0x0B`) and `flag=1`, then an accepted summon queue
-1.36 seconds later. However, the same session had armed an automatic opportunity
-about fourteen minutes before the teleport and recorded no new opportunity at
-arrival. The source runtime arms opportunities only after local save load or
-ship exit. This is consistent with an earlier pending opportunity becoming
-eligible at the station, not evidence of a teleport trigger. It also confirms
-this candidate helper runs during teleporter use, so it is not death-specific.
-A later private candidate-trial retest produced a different sequence: at the
-filtered return the test-only handler logged a new opportunity, then the native
-queue accepted a request about 1.66 seconds later; the owner confirmed the pet
-appeared. In this trial the handler refuses to run over an already-pending
-policy request, clears a deferred save-load request, and arms a fresh one at the
-candidate. This supports that the experimental hook initiated this request,
-even if save-load waiting had been present. It still does not prove the return
-is a semantically verified successful local teleport event or confirm
-multiplayer isolation. Public 0.10.2 now includes this experimental candidate;
-its exact archive still needs a live startup check.
-In a second local control, the owner tested station-to-planetary-base
-teleportation without a ship exit. The log showed a separate candidate
-opportunity and accepted queue after the session's earlier save-load request
-had already been accepted; the owner again confirmed visible appearance. This
-reproduces the experimental trigger on a second local route, but does not
-verify its game-level meaning, remote-player behavior, or any public fix.
-An earlier negative control opened and closed the teleporter interface without
-selecting a destination; it produced no observer event. The candidate call is
-therefore not caused by opening or backing out of the interface alone. Whether
-it marks destination confirmation, transition start or completed arrival
-remains open.
-A follow-up offline-validated diagnostic build corrected a stale hook-count log
-message and was used for the two later local candidate trials. The packaged
-0.10.2 module is a new artifact and has not yet been started in NMS.
-The separate byte-pattern pass also recorded candidate references to native
-teleport state; those hits are not semantic callbacks. See the
-[sanitized static XREF record](research/NMS-075-STATIC-XREFS.md).
+These are bounded local observations. The callback's exact game-level meaning,
+completed-arrival semantics and remote-player isolation remain unverified.
+The controlled two-player check is still required: one player stays stationary
+while the other teleports, then roles swap, observing both screens independently.
+The master automation switch and destination settings remain authoritative.
+Turn Automatic summoning OFF if unwanted behavior occurs. No general teleport
+or multiplayer-safe claim is made.
 
-**Published 0.10.2 test behavior:** The released package includes this
-filtered teleport candidate, gated by the existing master automation and
-destination settings. The owner saw a pet after two local teleport routes in
-an earlier build of the same candidate behavior. This supports a local test
-trigger but does not establish the callback's game-level meaning or whether a
-remote player's teleport can create an opportunity for the stationary player.
-That local-versus-remote question is the specific multiplayer test for this
-release. The exact archive still needs a fresh startup check, and no general
-teleport support or multiplayer safety is claimed. Death/respawn remains a
-separate unimplemented trigger.
+## No separate automatic death/respawn trigger
 
-## Settings menu can stop responding after a UI-thread change
+Death/respawn is unimplemented as its own trigger. The exact local-load caller
+excludes the known distinct DeathState caller; shared movement helpers are not
+proof of a completed respawn. Manual dismissal or disappearance after base
+removal does not itself create another automatic opportunity. A future respawn
+feature requires its own completed local event and ordinary eligibility checks.
 
-**Observed:** The owner reported that after death the pet was absent and the Companion Auto Summon settings menu was missing. The current 0.10.1 session log recorded `menu_unexpected_thread`, which means the menu safety guard permanently stopped custom menu handling after a callback arrived on a different thread. The log contains no death event, so it does not prove that dying caused the thread change.
+## Menu recovery after death or other rebuilds remains unverified
 
-**Grouped roster:** One 0.10.1 live check showed the settings entry beside grouped companion rows. The 0.10.2 package includes the menu recovery candidate, but the exact archive has not yet been launched. No check covers every roster size, menu rebuild or UI-thread lifecycle.
+An earlier 0.10.1 report described a missing pet and settings menu after death.
+Its log recorded a callback-thread safety stop but no death event; causation
+is unknown. The recovery candidate skips an isolated foreign-thread callback
+and allows rebinding only at a quiescent builder start, refusing active
+transactions. Earlier grouped-roster and direct-load scenarios succeeded.
 
-**Fix status:** The 0.10.2 package includes the candidate that skips an isolated callback on an unexpected thread and rebinds only at a quiescent menu-builder start. It still refuses a handoff during an active builder, append, confirmation or trigger transaction. Twenty-five offline menu fixtures pass. In an earlier live test, the owner confirmed that the settings menu worked and a pet appeared after loading directly from an expedition into the Space Anomaly. That log recorded a successful local save load, an armed opportunity and an accepted summon queue. This is one successful live scenario; it does not establish recovery after death or reliability across menu rebuilds. The exact 0.10.2 archive still needs a startup and menu check.
+The final 0.10.3 archive displayed its settings and icons correctly, and the
+unchanged menu inputs passed 28 offline scenarios. This does not establish
+recovery after death or reliability through every roster/rebuild lifecycle.
+Normal restart remains the practical recovery for a stopped session; do not
+try to override the runtime safety stop.
 
-## Other unconfirmed reports
+## Other scope and reports
 
-- One direct load into the Space Anomaly had no visible pet while an Anomaly mission was incomplete. Whether mission state mattered, or whether the pet was delayed or overlooked, is unknown.
-- A pet disappearing after base removal has been reported, but no causal behavior has been verified. The mod does not automatically respawn pets after manual dismissal or disappearance.
+- One historical direct Space Anomaly load had no visible pet during an
+  incomplete mission. A causal link to mission state has not been established.
+- Broad location/mod coverage, second-PC installation, all selection/control
+  combinations and long-session acceptance remain open.
+- Underwater summoning and freighter support are not added. Native restrictions
+  remain in force. In-game menu/HUD currently use English; maintained catalogs
+  do not establish finished runtime localization.
 
-## Reporting
+## Corrected before the 0.10.3 upload
 
-Please include the mod version, exact game build, location, event immediately before the problem, current summon/selection settings, whether a manual summon works, and whether the issue repeats after a normal restart. For menu reports, include whether the list is grouped and whether the menu was opened or rebuilt after death. Share only a short relevant log excerpt with personal paths and identifiers removed. Do not upload save files or private backups.
+The initial 7.06 candidate rejected a valid save-load callback because a new
+applied-FSM check ran before that state was applied. r2 diagnostics measured
+this timing. The corrected exact caller/receiver/vtable policy passed r3 and
+the final r4 archive, with visible save-load appearance. This was a development
+candidate failure; it is not an assertion that public 0.10.2 had the same bug.
+See [the exact release record](release/0.10.3-COSMOS-706.md).
 
-The [tester handoff](release/TESTER-HANDOFF.md) records the fuller validation history. The [Nexus page](https://www.nexusmods.com/nomanssky/mods/4579) carries the player-facing summary.
+## Reporting and history
+
+Include exact mod/game identity, location, preceding event, selection/Shuffle
+and automation settings, whether a manual summon works, visible result and
+repeatability after normal restart. For menu reports, mention grouped rows and
+whether the page was rebuilt after death. Share only a short sanitized excerpt
+or screenshot; never upload saves, private backups, credentials or whole logs.
+
+The [tester handoff](release/TESTER-HANDOFF.md),
+[retained 0.10.2 issue record](release/KNOWN-ISSUES-0102.md) and
+[teleport/respawn research](research/TELEPORT-AND-GROUPED-MENU.md) preserve
+version-scoped history. [README](../README.md) and the
+[Nexus page](https://www.nexusmods.com/nomanssky/mods/4579) mirror the current scope.

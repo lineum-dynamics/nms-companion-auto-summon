@@ -1,4 +1,16 @@
-# Nexus update draft — 0.10.2 multiplayer test
+# Nexus update status — 0.10.3 for Cosmos 7.06
+
+Reviewed 23 October 2026. Final archive uploaded as **50040**, Main / Primary,
+but quarantined. Updated texts identify exact 7.06 and actual verification.
+See [release record](0.10.3-COSMOS-706.md),
+[current description](NEXUS-0103-DESCRIPTION.bbcode.txt) and
+[scan/provenance investigation](../research/NATIVE-0103-SCAN.md).
+
+## Retained 3 October 0.10.2 update record
+
+The following is the earlier 7.05 release, not the current update.
+
+### Nexus update draft — 0.10.2 multiplayer test
 
 Status: **published on Nexus on 3 October 2026** as the ordinary successor to
 0.10.1, not a separate multiplayer edition. The new file is **49469**

@@ -1,17 +1,39 @@
 # Native public alpha handoff
 
-## Unpublished 0.10.3-native-test — exact Cosmos 7.06 candidates
+## 0.10.3-native-test — Cosmos 7.06, upload quarantined
 
-The [candidate record](0.10.3-COSMOS-706.md) identifies the immutable r1/r2 ZIPs,
-module/manifest hashes, exact game, offline checks and controlled local trials.
-r1 passed startup/menu/manual and one clean automatic ship-exit check. Save-load
-acceptance remains open; r2 adds bounded diagnostics. Neither candidate is a
-public download or a second-PC/multiplayer acceptance result. Public 0.10.2
-below continues to describe its exact 7.05 package.
+Reviewed 23 October 2026. Final functional acceptance passed; distribution
+acceptance remains open. Do not confuse upload/listing with a downloadable file.
 
-## 0.10.2-native-test — public multiplayer test build
+| Field | Exact current record |
+| --- | --- |
+| Game | Windows/Steam Cosmos 7.06, build 25732212; executable SHA-256 `13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499` |
+| Source | `852c5c55458c563a8564090dd31305864483edf3`; remote main and compatibility branch verified before upload |
+| Archive | `CompanionAutoSummon-0.10.3-native-test.zip`, 3,725,947 bytes; SHA-256 `df7cf87276391a9dc9bdf596611563b3787530da5d5c0107f51bb994f580b3f2` |
+| ASI | 2,639,360 bytes; SHA-256 `6474247c07e7659efc6e4fc698a1e7cdf9471c3ec471656675a251ff5fe96652` |
+| Final build | `build/native-runtime-0103-cosmos706-r4`; 29 members / ten overlay files read back |
+| Offline | 808 developer tests, 28 menu scenarios, 21 load-context cases, full native bundle passed |
+| Final local gameplay | Normal startup, visible load companion, settings/icons, clean base-to-station appearance passed |
+| Earlier port trial evidence | Clean ship exit and station-to-base appearance passed; not substituted for final-archive results |
+| Nexus | File **50040**, Main / Primary, 23 October 2026 11:05 CEST; public listing and updated English descriptions read back; **quarantined, no file download** |
+| Exact linked scan | ZIP **10/67**, ASI **10/71**, 23 October; not confirmed false positives |
+| GitHub | Prerelease **421642329**, `v0.10.3-native-test`, exact source above; source/notes published, binary upload on hold |
+| Independent rebuild | Same inputs/compiler reproduced every r4 product exactly; no modified scan candidate uploaded |
+| Wider acceptance | Second PC, multiplayer isolation, long sessions and broad locations/input/selection matrix remain open; no separate death trigger |
 
-This is the single next EARLY ALPHA update, not a parallel multiplayer edition.
+The [release record](0.10.3-COSMOS-706.md) preserves all r1-r4 identities and
+controlled trials. The [scan record](../research/NATIVE-0103-SCAN.md) documents
+old versus new evidence, the blocked old ZIP read, tool/commands and limits.
+Support contact was declined; the prepared request remains unsent. Keep the
+native-test label under the [promotion gates](NATIVE-RELEASE-GATES.md).
+
+## Retained 0.10.2-native-test — 3 October public 7.05 record
+
+The following is the historical 3 October release record. File 49469 is now
+under Old files; its current ZIP scan is 28/68 (15 October analysis),
+superseding the dated 1/67 snapshot below.
+
+This was the single next EARLY ALPHA update, not a parallel multiplayer edition.
 It adds the experimental teleport callback candidate to the existing native
 runtime. Earlier builds of the same candidate behavior produced visible pets
 after two local routes. The callback meaning, this exact archive's startup and

@@ -1,11 +1,12 @@
 # Cosmos 7.06 compatibility investigation
 
-Status: unpublished 0.10.3 native port candidate, updated 23 October 2026.
-The candidate profile selects exact Cosmos 7.06 / Steam 25732212 for controlled
-activation. Static contracts and owned-memory guards are mapped; the candidate
-r1/r2 passed offline checks and activation; r1 passed menu/manual/ship-exit
-checks. r2 identified a load-state timing refusal; corrected r3 acceptance and
-release remain open. Public 0.10.2 remains a 7.05 package. Unknown identities are refused.
+Status: 23 October 2026. Exact 0.10.3 r4 passed final startup, load appearance,
+settings/icons and clean base-to-station acceptance. Earlier port candidates
+passed clean ship exit and reverse teleport. Source is public at
+`852c5c55458c563a8564090dd31305864483edf3`. Nexus file **50040** is uploaded
+as Main / Primary but **quarantined**; download/scanner acceptance remains open.
+Unknown executable identities are refused. See the latest dated handoff and
+[scan investigation](NATIVE-0103-SCAN.md).
 
 Use the reusable [NATIVE-UPDATE-MAP](NATIVE-UPDATE-MAP.md) for the repeatable
 workflow, evidence labels and handoff requirements.
@@ -32,14 +33,15 @@ the [official 7.06 notes](https://www.nomanssky.com/2026/10/cosmos-7-06/).
 | Existing approved executable SHA-256 | 671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4 |
 | Git source baseline under review | `f7d97b61fcf152677d0d30de34f6c1b48675c436` (`main` base) |
 | Research branch | `compat/cosmos-706-25732212`; exact 7.06 candidate enabled for controlled trials |
-| Latest public mod package | `0.10.2-native-test`, Nexus file 49469 |
-| Compatibility currently covered by that package | Windows/Steam Cosmos 7.05, build 25624745 and the 7.05 hash above |
-| Public package listing rechecked | Nexus page still lists `0.10.2-native-test`, last updated 3 October 2026; its description says build 25624745 only (checked 22 October 2026) |
+| Latest uploaded mod | `0.10.3-native-test`, Nexus file 50040, Main / Primary; quarantined |
+| Final package target | Windows/Steam Cosmos 7.06, build 25732212 and exact 7.06 hash above; bounded local acceptance passed |
+| Listing readback | 23 October 2026: 0.10.3 / exact 7.06 description and file 50040; automated quarantine, no file download |
 
 The Steam build ID and executable hash identify different things. The mod's
 public 0.10.2 hash guard rejects this executable before installing native hooks.
-The Git source revision and Nexus package version are separate identities; the
-newer package does not cover build 25732212.
+The Git source revision and Nexus package version are separate identities.
+That rejection statement describes retained 0.10.2; final 0.10.3 targets the
+exact 7.06 executable with separate static, offline and live evidence.
 
 ## Current gate index, 23 October 2026
 
@@ -52,16 +54,17 @@ paths and owned-memory refusal checks. This is a scope/status reconciliation,
 not four new signatures or proof of native lifetime/event semantics. The dated
 candidate handoff explains each decision and retains the unresolved live gates.
 
-| Acceptance gate | Next bounded action | Required evidence |
+| Acceptance gate | Evidence/state | Next bounded action |
 | --- | --- | --- |
-| Local save load and death exclusion | Exercise exact callback return 0x4906C2 with vtable/local receiver and stable identity checks. r2 proved the callback precedes applied LocalLoadState. Retain opaque zero-only veto and deferred readiness. | Exact candidate log and visible behavior; known DeathState return excluded. No general network classifier claim. |
-| Experimental teleport policy | Preserve baseline return 0x330314, reason 11/flag 1; record FSM state diagnostically. Add bounded passive reason-11 records for other returns after r2 captured none on a confirmed trip. | Controlled candidate arrival behavior. Native event completion and remote-player behavior remain unverified. |
-| Custom-row retention | Check the settings parent, seven children, labels/icons and a close/reopen cycle in the exact archive. | Real appended rows survive normal rebuilds; stock rows and owned fixtures do not establish this. |
-| Archive and release | Build/validate the 7.06 candidate, package an immutable allowlist, then run the controlled game checks. | Exact source/build/archive identities, functional acceptance and publication/readback. |
+| Local save load | Final r4 visible appearance passed; exact return 0x4906C2, local receiver/vtable and stable identity checked. Known distinct DeathState return refused statically and in owned fixtures. | Death-trigger behavior remains NOT CHECKED / unimplemented; do not infer general network classification. |
+| Experimental teleport | Final r4 base-to-station and earlier r3 reverse route produced distinct opportunities, accepted queues and visible pets. Temporary other-return sampling removed. | Multiplayer moving/stationary-player control remains NOT CHECKED; completion semantics unverified. |
+| Custom menu | Final r4 settings/icons passed; unchanged menu inputs passed 28 owned scenarios. | Broad rebuild, grouped sizes, death recovery and input matrix remain NOT CHECKED. |
+| Archive/source | Final 29-member archive read back; remote main/branch at 852c5c5 before upload; fresh rebuild reproduces every r4 product. | Preserve immutable bytes and receipts. |
+| Distribution | Nexus 50040 listing/description read back; quarantine blocks download. ZIP 10/67, ASI 10/71; old ZIP now 28/68. | Investigate a concrete source/build defect; no exact detector cause or clearance established. Support contact declined. |
 
-The profile is selected for the unpublished candidate; no installed runtime or
-public package was changed by this source selection. The latest dated handoff
-supersedes earlier 7.05-only source snapshots while retaining their evidence.
+The current profile selects exact 7.06. Earlier source-selection snapshots
+below are historical. Source approval, installed/live observations and host
+acceptance are distinct gates; the latest dated handoff governs current status.
 
 ## Tools and bounded method
 
@@ -6445,3 +6448,82 @@ record file ID/status/readback. No upload/push has occurred yet. Multiplayer,
 second-PC, death/respawn, full location matrix and long-session acceptance remain
 NOT CHECKED; no stable/general event-safety claim. Do not modify active game
 runtime or immutable candidate receipts to record these later observations.
+
+
+## Publication, scan comparison and reproducible build handoff, 23 October 2026
+
+- Exact game remains Windows/Steam Cosmos 7.06 / 25732212, executable SHA-256
+  `13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499`.
+  Static inventory is 90/90 MAPPED; this pass adds no new mapping or live trial.
+- Final source `852c5c55458c563a8564090dd31305864483edf3` was read back on
+  remote main and compatibility branch before upload. Frozen r4 ZIP SHA-256
+  `df7cf87276391a9dc9bdf596611563b3787530da5d5c0107f51bb994f580b3f2`,
+  3,725,947 bytes, was uploaded to Nexus as **50040**, Main / Primary.
+  Public version, target, summary and full description were saved/read back.
+  File 49469 remains under Old files. **Quarantine prevents new download.**
+- GitHub prerelease 421642329 / v0.10.3-native-test points to that exact source.
+  Binary upload is on hold; no binary delivery/readback is claimed.
+- New ZIP/ASI scans are 10/67 and 10/71 (23 October). Rechecking the unchanged
+  old 0.10.2 ZIP found 28/68 in its 15 October report, superseding the dated
+  1/67 snapshot. Earlier Nexus acceptance is not current scanner clearance.
+- Read of the old ZIP failed before decoding: Python Errno 22; independent
+  PowerShell reported an OS malware/PUA block. Record TOOL ERROR / blocked
+  input, not a match result. Explicit CPython 3.11.9 and pefile 2024.8.26 were
+  rechecked. No restore, exclusion, alternate-copy access or protection change.
+- Old/new build receipts have the same compiler hash, dependency lock, vendored
+  input hashes and imported DLL names. New ASI is only 2,048 bytes larger.
+  Source deltas are mapping/load checks, diagnostics and label forwarding;
+  no exact detector cause or verified source defect is established.
+- Fresh `build/native-runtime-0103-provenance-20261023` from unchanged r4 inputs
+  reproduced **all products exactly**. ASI remains
+  `6474247c07e7659efc6e4fc698a1e7cdf9471c3ec471656675a251ff5fe96652`.
+  Receipt SHA-256 `4e8d132e64c8244da7f7e717c1e3c38387001e264bb3dcbb877da42dab1fe18a`.
+  This corroborates provenance, not antivirus clearance.
+- The reusable read-only comparison is `tools/audit_native_archives.py`;
+  `docs/research/NATIVE-0103-SCAN.md` records commands, identities, blocked-read
+  correction, results and limits. README/Known Issues/Nexus mirrors separate
+  actual final gameplay, candidate history, publication and availability.
+- Owner declined support contact and requested internal diagnosis. The request
+  remains unsent. No modified artifact was packaged/uploaded to change a scan.
+  Death trigger, multiplayer isolation, second PC, broad input/location matrix
+  and long-session acceptance remain NOT CHECKED / unsupported as documented.
+- Next bounded step: establish a concrete unintended source/build behavior or
+  packaging defect before changing native code. If no defect is found, a local
+  rebuild cannot change the host verdict. Preserve hashes and accurately keep
+  Nexus distribution open until actual clearance/download readback. Recheck
+  current versus old exact-file scans before drawing a regression conclusion.
+
+
+### Final description and provenance follow-up, 23 October 2026
+
+Public Nexus file 50040 was rechecked later the same day and remains
+quarantined. The current description was read back with exact 7.06/build,
+actual local acceptance, scan findings, current Known Issues and complete
+selection/install/removal/credit text. Legacy release tags and Translation
+were removed; English, functional tags and AI disclosures were retained and
+publicly read back. GitHub About remains accurate. GitHub prerelease body
+now states quarantine and absent binary assets, and matched API readback.
+
+The exact ASI Behavior report uses non-NMS DLL harness hosts. Two displayed
+URLs are memory-pattern strings: the redistributable address is retained
+catalog text in `.rdata`; the LLVM address is compiler/debug metadata.
+Neither is proof of an executed download. The bounded Activity Summary has
+no sandbox detection or dropped-file result, with one UDP observation whose
+module attribution is unproven. Antivirus verdicts remain unresolved; do not
+promote this to clearance or a confirmed false positive.
+
+Read-only audit tool SHA-256:
+`1e8caca258913e9a92e0f6a80e44f77ae822f00302305333e70fe5b6f0725e82`.
+Audit JSON SHA-256:
+`1eddd1f7dbc10a666175d91fd183323fee06e563265c4372f6758f830493df50`.
+COFF symbols/string table account for the 647,168-byte PE overlay, with only
+zero alignment padding after it. No exact detector source or concrete native
+regression was established by this pass. Source input hashes remain identical
+to the accepted r4 receipt; all documentation links resolve. No native code,
+package bytes or installed runtime changed during this publication audit.
+
+The remaining gate is distribution/scanner acceptance, separate from the
+completed bounded local functional checks. Support contact remains declined.
+Keep the exact artifact and findings; change native/build code only for a
+substantiated defect, and read back actual host/download acceptance before
+claiming completion. Wider runtime gates remain explicitly NOT CHECKED.

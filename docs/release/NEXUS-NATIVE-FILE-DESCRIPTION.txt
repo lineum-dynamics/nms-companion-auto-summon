@@ -1,1 +1,1 @@
-EARLY ALPHA 0.10.0-native-test. Windows/Steam only. Back up saves first. Copy Binaries + GAMEDATA; start via Steam. Bugs possible; startup, menu and multiplayer under test. Read README. Never run with the old launcher. Remove the ASI to disable.
+EARLY ALPHA for Windows/Steam Cosmos 7.06, build 25732212 only. Save load, menu/icons and local teleport checked. Teleport experimental; multiplayer unverified. Back up saves with NMS closed, merge Binaries/GAMEDATA, then start through Steam.

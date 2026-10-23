@@ -1,0 +1,1 @@
+Nexus download quarantined. EARLY ALPHA 0.10.3 for Steam Cosmos 7.06 / build 25732212. Automatically summon an owned companion after save load or ship exit, with experimental teleport support. Last selected, Random or weighted By habitat, Shuffle and Quick Menu settings. Local checks passed; multiplayer unverified. Back up saves.

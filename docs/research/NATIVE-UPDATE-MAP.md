@@ -2,12 +2,12 @@
 
 This guide records a repeatable way to investigate a new No Man's Sky executable
 before changing Companion Auto Summon's native compatibility profile. It is a
-research workflow, not permission to reuse candidate addresses. The verified
-baseline remains the Cosmos 7.05 case study in
-[NATIVE-0705-COMPATIBILITY](NATIVE-0705-COMPATIBILITY.md). The newer local
-Cosmos 7.06 executable is tracked separately in
-[NATIVE-25732212-COMPATIBILITY](NATIVE-25732212-COMPATIBILITY.md); no 7.06
-native mapping has been approved. Pattern discovery and its required evidence
+research workflow, not permission to reuse candidate addresses. The retained
+Cosmos 7.05 case study is in [NATIVE-0705-COMPATIBILITY](NATIVE-0705-COMPATIBILITY.md).
+Exact Cosmos 7.06 is now mapped and final r4 has bounded local acceptance in
+[NATIVE-25732212-COMPATIBILITY](NATIVE-25732212-COMPATIBILITY.md). Source
+checkpoint 852c5c5 is public; Nexus upload 50040 is quarantined, so distribution
+acceptance remains open. Pattern discovery and its required evidence
 ledger are governed by the [NATIVE-PATTERN-PLAYBOOK](NATIVE-PATTERN-PLAYBOOK.md).
 
 ## Keep game and mod versions separate
@@ -2974,3 +2974,82 @@ record file ID/status/readback. No upload/push has occurred yet. Multiplayer,
 second-PC, death/respawn, full location matrix and long-session acceptance remain
 NOT CHECKED; no stable/general event-safety claim. Do not modify active game
 runtime or immutable candidate receipts to record these later observations.
+
+
+## Publication, scan comparison and reproducible build handoff, 23 October 2026
+
+- Exact game remains Windows/Steam Cosmos 7.06 / 25732212, executable SHA-256
+  `13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499`.
+  Static inventory is 90/90 MAPPED; this pass adds no new mapping or live trial.
+- Final source `852c5c55458c563a8564090dd31305864483edf3` was read back on
+  remote main and compatibility branch before upload. Frozen r4 ZIP SHA-256
+  `df7cf87276391a9dc9bdf596611563b3787530da5d5c0107f51bb994f580b3f2`,
+  3,725,947 bytes, was uploaded to Nexus as **50040**, Main / Primary.
+  Public version, target, summary and full description were saved/read back.
+  File 49469 remains under Old files. **Quarantine prevents new download.**
+- GitHub prerelease 421642329 / v0.10.3-native-test points to that exact source.
+  Binary upload is on hold; no binary delivery/readback is claimed.
+- New ZIP/ASI scans are 10/67 and 10/71 (23 October). Rechecking the unchanged
+  old 0.10.2 ZIP found 28/68 in its 15 October report, superseding the dated
+  1/67 snapshot. Earlier Nexus acceptance is not current scanner clearance.
+- Read of the old ZIP failed before decoding: Python Errno 22; independent
+  PowerShell reported an OS malware/PUA block. Record TOOL ERROR / blocked
+  input, not a match result. Explicit CPython 3.11.9 and pefile 2024.8.26 were
+  rechecked. No restore, exclusion, alternate-copy access or protection change.
+- Old/new build receipts have the same compiler hash, dependency lock, vendored
+  input hashes and imported DLL names. New ASI is only 2,048 bytes larger.
+  Source deltas are mapping/load checks, diagnostics and label forwarding;
+  no exact detector cause or verified source defect is established.
+- Fresh `build/native-runtime-0103-provenance-20261023` from unchanged r4 inputs
+  reproduced **all products exactly**. ASI remains
+  `6474247c07e7659efc6e4fc698a1e7cdf9471c3ec471656675a251ff5fe96652`.
+  Receipt SHA-256 `4e8d132e64c8244da7f7e717c1e3c38387001e264bb3dcbb877da42dab1fe18a`.
+  This corroborates provenance, not antivirus clearance.
+- The reusable read-only comparison is `tools/audit_native_archives.py`;
+  `docs/research/NATIVE-0103-SCAN.md` records commands, identities, blocked-read
+  correction, results and limits. README/Known Issues/Nexus mirrors separate
+  actual final gameplay, candidate history, publication and availability.
+- Owner declined support contact and requested internal diagnosis. The request
+  remains unsent. No modified artifact was packaged/uploaded to change a scan.
+  Death trigger, multiplayer isolation, second PC, broad input/location matrix
+  and long-session acceptance remain NOT CHECKED / unsupported as documented.
+- Next bounded step: establish a concrete unintended source/build behavior or
+  packaging defect before changing native code. If no defect is found, a local
+  rebuild cannot change the host verdict. Preserve hashes and accurately keep
+  Nexus distribution open until actual clearance/download readback. Recheck
+  current versus old exact-file scans before drawing a regression conclusion.
+
+
+### Final description and provenance follow-up, 23 October 2026
+
+Public Nexus file 50040 was rechecked later the same day and remains
+quarantined. The current description was read back with exact 7.06/build,
+actual local acceptance, scan findings, current Known Issues and complete
+selection/install/removal/credit text. Legacy release tags and Translation
+were removed; English, functional tags and AI disclosures were retained and
+publicly read back. GitHub About remains accurate. GitHub prerelease body
+now states quarantine and absent binary assets, and matched API readback.
+
+The exact ASI Behavior report uses non-NMS DLL harness hosts. Two displayed
+URLs are memory-pattern strings: the redistributable address is retained
+catalog text in `.rdata`; the LLVM address is compiler/debug metadata.
+Neither is proof of an executed download. The bounded Activity Summary has
+no sandbox detection or dropped-file result, with one UDP observation whose
+module attribution is unproven. Antivirus verdicts remain unresolved; do not
+promote this to clearance or a confirmed false positive.
+
+Read-only audit tool SHA-256:
+`1e8caca258913e9a92e0f6a80e44f77ae822f00302305333e70fe5b6f0725e82`.
+Audit JSON SHA-256:
+`1eddd1f7dbc10a666175d91fd183323fee06e563265c4372f6758f830493df50`.
+COFF symbols/string table account for the 647,168-byte PE overlay, with only
+zero alignment padding after it. No exact detector source or concrete native
+regression was established by this pass. Source input hashes remain identical
+to the accepted r4 receipt; all documentation links resolve. No native code,
+package bytes or installed runtime changed during this publication audit.
+
+The remaining gate is distribution/scanner acceptance, separate from the
+completed bounded local functional checks. Support contact remains declined.
+Keep the exact artifact and findings; change native/build code only for a
+substantiated defect, and read back actual host/download acceptance before
+claiming completion. Wider runtime gates remain explicitly NOT CHECKED.

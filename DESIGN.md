@@ -1,27 +1,26 @@
 # Companion Auto Summon for No Man's Sky — player experience
 
-The **0.10.1-native-test** native release maps the existing controls and summon
-rules to the exact Steam Cosmos 7.05 executable. Its two-folder overlay supports
-normal Steam startup, without Python or an external settings panel. Its private
-backup runs before native hooks, with NMS already running; it is not a pre-launch
-backup. The owner confirmed a visible pet and menu entry in a limited live smoke
-test, then reported one direct Anomaly load without a visible pet; an incomplete
-mission may or may not be related. Nexus file **49367** is Main / Primary; broad gameplay acceptance,
-downloaded-byte readback and scanner clearance are not established. Retained
-Python versions and observations below are unchanged. See the
-[native implementation and bounds](native/README.md).
+Current native artifact: **0.10.3-native-test**, exact Windows/Steam **Cosmos
+7.06 / 25732212**. The two-folder overlay uses normal Steam startup, without
+Python or an external settings panel. Selection rules, seven controls,
+preferences and native eligibility/placement remain intact.
 
-The 0.10.1 runtime creates opportunities after successful local save loading
-and ship exit only. It has no automatic trigger after teleport or death/respawn.
-The 1 October 2026 static XREF pass narrowed the exact-build teleport search to
-native teleporter state references, but did not identify a verified completion
-callback. This remains research, not a player-visible feature. See
-[the teleport XREF record](docs/research/NMS-075-STATIC-XREFS.md).
-The owner reported that both the pet and settings page were absent after death;
-the session log also contains a menu thread-guard stop, but does not establish
-that death caused it. See the [current issue record](docs/KNOWN-ISSUES.md).
+Final local acceptance covers startup, visible save-load companion, settings/
+icons and clean base-to-station appearance. Earlier port trials cover clean
+ship exit and reverse teleport. Teleport semantics and multiplayer isolation,
+death/respawn and menu recovery after death remain open or unsupported.
+Nexus **50040** is uploaded but quarantined; functional acceptance is separate
+from scanner/download acceptance. See the
+[release record](docs/release/0.10.3-COSMOS-706.md),
+[Known Issues](docs/KNOWN-ISSUES.md) and
+[promotion gates](docs/release/NATIVE-RELEASE-GATES.md).
 
-Current packaging candidate: **0.9.3-test**. It extracts the original Python
+## Retained Python experience and proposals
+
+The versioned observations below describe their named legacy artifacts;
+current native installation and compatibility are recorded above.
+
+Retained packaging candidate: **0.9.3-test**. It extracts the original Python
 standard library to remove the nested ZIP prohibited by Nexus, supplies accurate
 Windows product/company/version metadata and the actual launcher build inputs,
 and fixes Steam discovery failing on an unrelated inaccessible process. Gameplay

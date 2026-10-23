@@ -19,6 +19,15 @@
 - Final ZIP: 3,725,947 bytes, SHA-256
   `df7cf87276391a9dc9bdf596611563b3787530da5d5c0107f51bb994f580b3f2`.
   Publication/readback is tracked in the [release record](docs/release/0.10.3-COSMOS-706.md).
+- Upload that exact ZIP as Nexus file 50040 and update public compatibility,
+  descriptions and Known Issues. Automated quarantine blocks downloading;
+  distribution is not complete. Rechecking old 0.10.2 found a later 28/68 scan,
+  superseding the dated 1/67 snapshot. New ZIP/ASI reports are 10/67 and 10/71.
+- Add a read-only archive/PE/provenance comparison and reproduce all r4 products
+  from unchanged source. Record the OS-blocked old-input read and sandbox
+  interpretation limits. No confirmed detector cause or false positive is claimed.
+- Separate current player instructions from archived Python/native history and
+  document concrete gates for a future release without the test label.
 
 ### Retained 7.06 development history
 

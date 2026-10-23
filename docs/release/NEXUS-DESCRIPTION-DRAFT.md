@@ -1,6 +1,21 @@
 # Companion Auto Summon for No Man's Sky - by Lineum Dynamics
 
-**Current public EARLY ALPHA: 0.10.2-native-test.** Nexus file **49469** is Main / Primary; manual and mod-manager downloads are enabled. The public short summary and full English description were saved and read back on 3 October 2026. The player-facing sections below are the preparation draft and may differ from the final saved copy; use the live [Nexus page](https://www.nexusmods.com/nomanssky/mods/4579) as the current source. Exact artifact and scan evidence is in the [tester handoff](TESTER-HANDOFF.md). Keep the following internal notes out of the player description.
+**Current, 23 October 2026:** 0.10.3-native-test targets exact Cosmos 7.06 /
+Steam 25732212. Nexus file **50040** is Main / Primary but quarantined.
+Public texts were saved/read back. Use the exact
+[summary](NEXUS-0103-SUMMARY.txt), [full BBCode](NEXUS-0103-DESCRIPTION.bbcode.txt),
+[release record](0.10.3-COSMOS-706.md) and [Known Issues](../KNOWN-ISSUES.md).
+GitHub About was checked; its generic experimental-native description has no
+stale build label.
+Selected legacy game-release tags NEXT, Atlas Rises, Pathfinder and Foundation,
+and the Translation tag, were removed. English, functional tags and AI
+disclosures remain. Current compatibility is the exact build stated in the text.
+
+## Archived 0.10.0–0.10.2 description preparation
+
+The following is historical. Old scan counts refer to their recorded dates;
+the old unchanged 0.10.2 ZIP now reports 28/68. Do not copy these earlier
+compatibility, scan or availability statements into the current description.
 
 The page version and the full Description through Credits were saved and read
 back on 28 September 2026. Native file **49202** was subsequently renamed

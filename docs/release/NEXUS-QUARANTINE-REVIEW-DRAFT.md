@@ -1,5 +1,11 @@
 # Unsent Nexus quarantine review draft
 
+**Historical portable-package draft, 28 September 2026.** This is not the
+current native 0.10.3 review request. The current
+[native draft](NEXUS-0103-REVIEW-DRAFT.md) is also unsent: the owner declined
+support contact on 23 October and requested internal investigation. Use the
+[current scan record](../research/NATIVE-0103-SCAN.md) for present findings.
+
 Status: prepared for owner review only. Do not send without explicit authority.
 The owner previously declined external contact; a general request to fix
 packaging does not authorize emailing a provider or making the private repository

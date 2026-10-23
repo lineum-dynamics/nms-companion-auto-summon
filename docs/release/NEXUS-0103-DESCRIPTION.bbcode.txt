@@ -1,0 +1,104 @@
+[b]EARLY ALPHA / PUBLIC TEST — 0.10.3-native-test. Expect bugs, incomplete behaviour and possible crashes.[/b] This experimental release is for Windows 10/11 x64 and the exact Steam build below. It is not a stable release. Close the game and make a separate backup of your saves before installing or testing.
+
+[b]Download status, 23 October 2026:[/b] Nexus file 50040 has been quarantined by automated checks and is currently unavailable to download. Its exact ZIP report showed 10/67 detections; the ASI module showed 10/71. The unchanged previous 0.10.2 ZIP now reports 28/68 in its 15 October analysis; its earlier acceptance is not current scan clearance. An independent rebuild reproduced the submitted ASI byte for byte. The detector cause remains under investigation, and these findings have not been confirmed as false positives. Do not disable security protection to install this file.
+
+[b]What is confirmed and what needs testing[/b]
+
+The native module asks the game to summon one of your eligible owned companions after a local save load or ship exit, and includes an experimental filtered teleport trigger. The final 0.10.3 archive was started in the game: the owner confirmed visible companion appearance after a save load, correct Quick Menu settings and icons, and a clean base-to-station teleport after manually dismissing the previous pet. Earlier 7.06 port candidates also passed a clean ship-exit check and station-to-base teleport. These are bounded local checks, not broad compatibility or multiplayer acceptance.
+
+Offline validation passed 808 developer tests, 28 menu scenarios, 21 load-context cases and the full native validation bundle. Second-PC installation, long sessions, broad location coverage, death/respawn and menu recovery after death remain unverified. The teleport callback's exact game-level meaning and whether a remote player's teleport can affect a stationary player are still unknown.
+
+[b]What changed in 0.10.3[/b]
+
+- Ported the native integration to the exact Cosmos 7.06 executable and corrected local save-load callback timing.
+- Preserved selection rules, existing preferences and the game's ownership, eligibility and placement checks.
+- Kept the EARLY ALPHA / native-test label because wider runtime and multiplayer acceptance is still pending. The package number and game release are separate identities.
+
+Current archive: [b]CompanionAutoSummon-0.10.3-native-test.zip[/b], 3,725,947 bytes.
+SHA-256: df7cf87276391a9dc9bdf596611563b3787530da5d5c0107f51bb994f580b3f2
+See the [url=https://github.com/lineum-dynamics/nms-companion-auto-summon/blob/main/docs/release/0.10.3-COSMOS-706.md]exact archive and verification record[/url].
+
+[b]What the mod does[/b]
+
+Keep an owned companion nearby without opening the companion menu after every landing. The mod follows your chosen selection rules and asks the game's own summon system to handle the request. It does not give you a pet, unlock companion slots, accelerate growth, change combat values or bypass ownership, eligibility or placement restrictions. If the ground is unsuitable, a request may wait until the game allows a summon. Queue acceptance does not guarantee that a pet visibly appeared.
+
+This is a native module loaded by the normal Steam game startup. It needs no Python installation, separate launcher or external settings panel. Do not run the older Python/pyMHF test and this native package at the same time.
+
+[b]In-game settings[/b]
+
+Open [b]Quick Menu → Companions → Companion Auto Summon[/b]. On PC, the default Quick Menu key is [b]X[/b]. If you changed your controls, use your assigned key or the controller prompt. The entry appears before the individual pets. Controls are native game menu actions; they do not use a number-key binding.
+
+The page contains seven settings:
+- [b]Automatic summoning:[/b] ON/OFF. OFF cancels waiting automatic requests without dismissing your current pet. Turning it ON waits for a later save load, ship exit or experimental teleport callback.
+- [b]Selection:[/b] Last selected, Random or By habitat. Last selected remembers a successful manual companion choice for that save.
+- [b]Random: prefer matching biome:[/b] only affects Random on planets. It favours eligible companions whose stored native habitat matches the planet; if none match or the habitat is unknown, it uses the ordinary eligible Random pool. It does not affect Last selected, By habitat, stations or the Space Anomaly.
+- [b]Planets, Space stations, Space Anomaly:[/b] independently allow or block automatic requests in those places. This mod does not add freighter summoning.
+- [b]Shuffle companions:[/b] uses a shuffled cycle in Random, or within the weighted group selected by By habitat. It does not affect Last selected.
+
+Fresh-install defaults are [b]By habitat[/b], [b]Shuffle companions ON[/b], automation ON, all three supported locations ON, and the Random biome preference ON. Existing settings are preserved. A setting change does not immediately summon or dismiss a pet; it takes effect for a later opportunity. Turning automation OFF is the quickest way to stop automatic requests during testing.
+
+[b]Selection and habitat weights[/b]
+
+- [b]Last selected:[/b] uses the remembered manual choice. Habitat preferences and shuffle do not change it.
+- [b]Random:[/b] chooses from the eligible owned pool. With shuffle off, each eligible pet in that pool has an equal chance and repeats are possible. The separate matching-biome option can narrow the pool to exact habitat matches when any are eligible.
+- [b]By habitat:[/b] on a planet, first forms eligible exact-match, related and acceptable groups. It then chooses among the nonempty groups using weights [b]13:5:1[/b], and selects a companion within the chosen group. If all groups exist, this is about 68.4%, 26.3% and 5.3%. Empty groups are removed and weights renormalized; owning more pets in a group does not increase that group's chance. Unlisted combinations are excluded; the system does not fall back to an unrelated pet such as Frozen on Lava.
+
+Habitat rules are the mod's selection preferences, not official creature survival rules. Each row reads planet → companion habitats; listed relations are directional:
+- Lush: related Swamp; acceptable Barren, Frozen.
+- Toxic: related Swamp; acceptable Radioactive.
+- Scorched: related Lava; acceptable Barren, Dead.
+- Radioactive: acceptable Toxic, Barren, Dead; no related group.
+- Frozen: acceptable Barren, Dead; no related group.
+- Barren: related Dead; acceptable Lush, Scorched, Radioactive, Frozen.
+- Dead: related Barren; acceptable Scorched, Radioactive, Frozen.
+- Weird/anomalous: exact match only; recognized Weird variants share this category.
+- Swamp: related Lush, Toxic; acceptable Radioactive, Barren.
+- Lava/volcanic: related Scorched; acceptable Barren, Dead.
+- Waterworld: exact match only. Water-bound companions can be owned, but the game may still forbid summoning underwater; this mod does not enable underwater summoning.
+- Gas giant: a native adoptable companion pool has not been established by the primary evidence reviewed. By habitat accepts an already-owned exact match only and otherwise skips that opportunity.
+
+A pet's stored native habitat determines its category, not its name, colour or fiery appearance. Scorched and Lava are separate categories. An aquatic pet adopted underwater on a Frozen planet is categorized by its stored habitat, not by the water where it was adopted. On stations and in the Space Anomaly, By habitat uses the ordinary eligible owned pool because there is no planet habitat to favour.
+
+[b]How shuffle works[/b]
+
+Random keeps a shuffled eligible cycle. By habitat first chooses its weighted group, then uses a separate cycle within that planet habitat and group. Stations and the Anomaly share the ordinary Random cycle. Only a request accepted by the game's summon queue consumes a turn; a rejected placement, retry or cancelled request does not. A cycle round avoids immediately repeating the previous accepted choice when another eligible companion exists in that group; a sole eligible pet can repeat. Adoption or abandonment updates the cycle. Renaming or reordering slots between opportunities does not reset it. Cycles are temporary and reset on local save load or a new game session; the saved manual favourite is separate.
+
+[b]Known issues in 0.10.3[/b]
+
+- [b]Teleport summoning is experimental.[/b] The final archive passed a clean base-to-station appearance check and an earlier port candidate passed the reverse route, but callback meaning and local-versus-remote multiplayer behaviour are unknown. This release needs a two-player test: leave one player stationary while the other teleports, then swap roles and observe both screens. Report who moved, both locations, any active pet, selection mode and whether each player saw a pet. Turn Automatic summoning OFF if the behaviour is disruptive.
+- [b]No automatic summon after death/respawn.[/b] Death is a separate unimplemented trigger. Manual dismissal or base removal does not create a new opportunity or cause the mod to respawn a dismissed pet.
+- [b]Menu recovery after death and other rebuilds is unverified.[/b] One report described a missing pet and settings page after death. A session log recorded a UI-thread safety stop but no death event, so the cause is unknown. Earlier grouped-roster visibility and a direct-load recovery scenario succeeded; the final 0.10.3 menu and icons also passed. Recovery after death and reliability through every rebuild remain unverified.
+- One historical direct load into the Space Anomaly had no visible pet during an incomplete mission. No causal link to mission state has been established. Broad Anomaly acceptance remains open.
+- Second-PC installation, long sessions and broad location/mod coverage remain unverified.
+- Underwater summoning and freighter support are not added. Normal game restrictions remain in force.
+
+See [url=https://github.com/lineum-dynamics/nms-companion-auto-summon/blob/main/docs/KNOWN-ISSUES.md]current Known Issues and test status[/url]. Please report the exact mod/game version, trigger, result, location, settings and whether the custom page still opens. Say whether the pet visibly appeared; an accepted queue entry alone is not enough.
+
+[b]Compatibility[/b]
+
+Supported target: [b]Windows 10/11 x64, Steam build 25732212 / Cosmos 7.06[/b]. The supported NMS.exe SHA-256 is:
+13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499
+
+The module checks the running executable and refuses an unknown build. A game update requires new compatibility checks. The retained 0.10.2 file targets Cosmos 7.05 / Steam build 25624745; it is not the 7.06 update. Consoles, GOG, Game Pass, macOS and Linux/Proton are not supported by this test build. Exact-build support does not prove compatibility with every other mod. In-game menu and HUD text currently use English; other maintained language catalogs are unreviewed drafts, not finished localization.
+
+[b]Install and start[/b]
+
+1. Close No Man's Sky normally and exit any old Companion Auto Summon Python/pyMHF session. Make a separate backup with the game closed.
+2. In Steam, open No Man's Sky → Manage → Browse local files. The game folder contains Binaries and GAMEDATA.
+3. Extract the complete ZIP and read the English README.md. If Binaries/winmm.dll already exists, do not overwrite another mod's loader. Reuse it only if its SHA-256 matches this package's manifest.
+4. Copy the ZIP's Binaries and GAMEDATA folders into the game folder, merging them. For updates, replace only this mod's files while the game is closed.
+5. Start the game normally through Steam. Do not start the old Python launcher as well. No administrator command or settings panel is needed.
+
+The package adds Binaries/winmm.dll, Binaries/scripts/CompanionAutoSummon.asi and eight icons under GAMEDATA/MODS/CompanionAutoSummon/. This is a native module with companion icon assets, not a standalone PAK installed only in GAMEDATA/MODS.
+
+[b]Saves, settings and uninstall[/b]
+
+Preferences, per-save manual favourites, logs and mod-created backups stay under %LOCALAPPDATA%/NMS-AutoPet/. The module does not directly edit or overwrite the original NMS save files. Before enabling gameplay hooks, it makes and verifies a private snapshot while the game process is already running. That is a pre-activation snapshot, not a substitute for the separate backup made with the game closed.
+
+To disable or uninstall, close the game and remove Binaries/scripts/CompanionAutoSummon.asi. You may also remove GAMEDATA/MODS/CompanionAutoSummon/. Keep Binaries/winmm.dll if another ASI mod uses it; remove it only when no other mod needs it and it matches this package's loader. Never delete the game's Binaries, scripts or GAMEDATA folders. Settings and backups are deliberately retained.
+
+[b]Source, credits and disclosure[/b]
+
+Source repository: [url=https://github.com/lineum-dynamics/nms-companion-auto-summon]Companion Auto Summon on GitHub[/url]. Please report all problems encountered while testing, including the exact steps and whether they repeat after restart. Remove personal paths or identifiers from logs; do not upload saves or credentials.
+
+This package includes Ultimate ASI Loader 9.7.4 x64 by ThirteenAG, MinHook 1.3.4 by Tsuda Kageyu and contributors, and JSON for Modern C++ 3.12.0 by Niels Lohmann and contributors, with their required notices. pyMHF and NMS.py by monkeyman192 informed the original Python runtime and research; Python/pyMHF are not dependencies of this native package. Generative AI was used extensively for code, interface work, translations and this description. This is an unofficial mod, not an official Hello Games product.

@@ -1,5 +1,20 @@
 # Companion Auto Summon for No Man's Sky - by Lineum Dynamics
 
+## Current native checkpoint, 23 October 2026
+
+0.10.3-native-test targets exact Cosmos 7.06 / Steam 25732212 and passed the
+named final local checks. Source is public. Nexus 50040 and updated English
+texts were read back; **quarantine blocks download**. See
+[release record](0.10.3-COSMOS-706.md), [handoff](TESTER-HANDOFF.md),
+[promotion gates](NATIVE-RELEASE-GATES.md) and
+[scan investigation](../research/NATIVE-0103-SCAN.md).
+
+## Historical preparation snapshots
+
+Status and publication restrictions below describe their named earlier
+checkpoints. Later owner authorization and dated release records supersede
+them; do not reuse them as current compatibility or verification claims.
+
 ## Native candidate: 0.10.0-native-test
 
 The feature branch now implements native automation/menu/persistence and a

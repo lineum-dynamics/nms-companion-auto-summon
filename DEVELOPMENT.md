@@ -31,60 +31,45 @@ step. The exact process guard was exercised. See the dated
 for exact tool hashes, capture windows and limits. These reads do not verify
 custom rows, native detours, local/network classification or a mod archive.
 
-Build-specific RVAs and return filters now live in `native_mappings.json`.
-The C++ header and build/validation/package receipts consume the same exact
-game/build/hash selection. The native profile now selects 7.06 for the unpublished
-0.10.3 candidate; approval permits a controlled activation after offline gates,
-and does not establish release or game acceptance. r2 showed a successful load
-callback at return 0x4906C2 before LocalLoadState was applied. The corrected
-7.06 load policy checks that exact caller, state vtable, local receiver and
-stable repeated identities before/after the original call. The current FSM
-state remains diagnostic for this callback. Arguments/results, the opaque
-zero-only source veto and deferred readiness are preserved. There are five
-explicit policy dependencies: current-state cell, state object, vtable,
-receiver offset and callback return. The known DeathState return is distinct.
+## Current native checkpoint, 23 October 2026
 
-The [0.10.3 candidate record](docs/release/0.10.3-COSMOS-706.md) now separates
-immutable r1/r2 archives, offline checks and actual deployment. r1 started and
-passed the owner-confirmed menu/manual/clean ship-exit checks, while an outside
-reload did not produce a pet or logged load opportunity. r2 preserves the policy
-and added bounded developer-only check masks; corrected r3 is being checked.
-A static role marked MAPPED must
-never conceal this open gameplay acceptance failure.
+Final **0.10.3-native-test** targets exact Windows/Steam **Cosmos 7.06 /
+25732212**. Build-specific RVAs, return filters and load policies live in
+`native_mappings.json`; generated C++ and build/validation/package receipts
+consume that same exact game/build/hash entry. The source inventory has
+90 mapped roles; this is static coverage, not runtime or distribution acceptance.
 
-Latest Nexus native package: **0.10.2-native-test**, file **49469**, listed as
-uploaded on 3 October 2026. This is the mod package label, not a game version.
-The unpublished source candidate now targets Windows/Steam Cosmos 7.06,
-build 25732212 and its exact recorded hash. It awaits its own runtime/archive
-acceptance; the public 0.10.2 package still targets only 7.05. The limited live
-smoke note and VirusTotal/archive note below refer to
-the prior 0.10.1 package (file **49367**) and do not automatically verify the
-0.10.2 archive. No 0.10.2 archive readback is recorded here. The Python
-distribution below is preserved. The current native player package is built
-from the C++ implementation under `native/src/` against
-`native_compatibility.json`. The retained `src/runtime.py` Python/pyMHF source
-has a separate Cosmos 7.04 profile and is not an input to the native 0.10.2
-package. See [native runtime](native/README.md) for exact offline checks and
-pre-hook versus closed-game backup guarantees.
-Long-session, full-menu, location-matrix, teleport and multiplayer behavior
-remain unverified. A 1 October 2026 read-only scan of the exact Cosmos 7.05
-executable found four RIP-relative candidate references each for
-`AngleFromBaseComputerWhenTeleporting` and
-`DistanceFromBaseComputerWhenTeleporting`, plus one `Teleporting` reference
-and one `gcpersonalteleporter.cpp` marker reference. These are not yet
-decoded completion callbacks; the sanitized evidence is in
-[the static XREF record](docs/research/NMS-075-STATIC-XREFS.md).
-One later direct load into the Anomaly had no visible pet;
-the player had an incomplete Anomaly mission, but any connection is unknown.
-The owner now reports a missing settings page and no visible pet after death.
-The public build has no death/respawn or teleport trigger; its current-session
-log also records a permanent `menu_unexpected_thread` safety stop. This is
-consistent with a UI-thread change but does not prove death caused it. One
-grouped-roster smoke check succeeded; broader rebuild behavior is open. See
-[known issues](docs/KNOWN-ISSUES.md). A recoverable thread-handoff candidate is
-offline-tested only and is not deployed.
-The native activation-error message is maintained across all fourteen catalogs
-(64 keys); menu/HUD remain English.
+The successful callback at return 0x4906C2 precedes applied LocalLoadState.
+The corrected policy checks exact caller, state vtable, local receiver and
+stable repeated identities before/after forwarding. FSM state is diagnostic
+for that callback. The opaque zero-only veto, native argument/result forwarding,
+known distinct DeathState exclusion and deferred readiness are preserved.
+
+Final r4 passed startup, visible load appearance, settings/icons and clean
+base-to-station appearance. Earlier port candidates passed clean ship exit and
+reverse teleport. Offline validation passed 808 developer tests, 28 menu
+scenarios, 21 load-context cases and the full native bundle. See the
+[release record](docs/release/0.10.3-COSMOS-706.md) and
+[exact-build ledger](docs/research/NATIVE-25732212-COMPATIBILITY.md).
+
+Source 852c5c5 was verified on remote main before the immutable ZIP was uploaded
+as Nexus **50040**, Main / Primary. **Quarantine blocks download**; ZIP/ASI scans
+are 10/67 and 10/71. The old 0.10.2 ZIP now reports 28/68; its earlier 1/67
+snapshot is stale. A fresh build reproduced all r4 products exactly. No exact
+detector cause or verified source defect is established; support contact was
+declined. The [scan record](docs/research/NATIVE-0103-SCAN.md) documents the
+comparison tool, blocked old-input read and reproducible commands.
+
+Retained 0.10.2/file 49469 targets 7.05/25624745. Native builds use `native/src/`,
+`native_compatibility.json` and `native_mappings.json`. Python/pyMHF sources
+and root manifests describe the separate retained 7.04 runtime. Native menu/HUD
+remain English; fourteen startup-warning catalogs retain 64 keys each.
+Multiplayer isolation, death trigger/recovery, second PC, broad input/location/
+selection checks and long sessions remain open or unsupported as documented in
+[Known Issues](docs/KNOWN-ISSUES.md). Changing the test label requires the
+[promotion gates](docs/release/NATIVE-RELEASE-GATES.md).
+
+## Retained native feasibility history
 
 Native feasibility milestone 1 is now on `feat/native-runtime-feasibility`:
 an inert x64 DLL and a separate pure C++ policy with 31,216 Python-oracle
