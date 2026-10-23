@@ -6569,3 +6569,38 @@ claiming completion. Wider runtime gates remain explicitly NOT CHECKED.
   fill alone left Save disabled; an actual keyboard edit restored to exact
   source text enabled it. Preserve that failed-method correction in the release
   gates; visible editor contents alone do not prove persistence.
+
+### Audit completeness and query-error handoff, 23 October 2026
+
+- Source base 73a9f6e273ebdecbe4d74323b2f1b56cf9cb0b38; exact game remains
+  7.06 / 25732212 / `13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499`.
+  The 90 mapped roles and frozen r4 native inputs/receipts are unchanged. No
+  player module, mapping, vendored source, package, deployment or live test changed.
+- Technical analysis is not exhausted. Current file-set check has 9,053 files,
+  zero extra/missing and eighteen compiler override controls absent/empty.
+  Historical environment and independent clean-host reproduction remain open.
+- Clang 23.1.2 default analysis completed nine C++ and four MinHook C units:
+  two diagnostics, reviewed as a dead initialization and a modeled null patch
+  path not reproduced in CAS. No broad safety or detector-clearance claim.
+  Analysis receipt SHA-256
+  `d28d7e5f9e01729befff1832e2110c6c0436671cbff1d8c01c5958db640775fd`.
+- Follow-up review found a separate real error contract issue: MinHook's
+  IsExecutableAddress ignores a failed VirtualQuery before reading its output.
+  Owned fixture `tools/research/minhook_query_failure_host.cpp` demonstrates
+  failed-query/stale-executable output incorrectly accepted by unchanged code;
+  both ordinary success controls behave as expected. Baseline exits 1.
+  Canonical LF fixture SHA-256 `4124e7f87bde52b7b8f07d7066a9ec5ffaa7945264e1fd80b600aa4d7d2ff046`;
+  the scan record also retains the line-ending-equivalent executed-copy hash.
+- Minimal return-size guard in a separate buffer.c copy passes all three cases.
+  Prototype receipt `ef3131003d11525b215e4dd818b189acfa205b5b804f4fb0816bdeaa48cbf0ef`.
+  First aggregate-initializer prototype failed strict C++ fixture compilation;
+  record it as a build/tool error. No production patch has been applied.
+- This is a pre-existing robustness defect, not evidence that NMS encountered
+  the error, an exact detector rule or a 7.06 regression. The scan record now
+  preserves the API contracts, commands, source/receipt hashes and bounded
+  completed/open table. Do not treat a discovered defect as scan clearance.
+- Next: integrate a provenance-tracked guard only as a distinct candidate with
+  real C-build and owned-hook/runtime regression validation; obtain a clean-host
+  r4 reproduction and inspect available per-process sandbox attribution.
+  Exact detector cause and distribution acceptance remain open. Support contact
+  remains declined; wider game/multiplayer/second-PC gates remain NOT CHECKED.

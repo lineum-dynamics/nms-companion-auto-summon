@@ -57,12 +57,23 @@ as Nexus **50040**, Main / Primary. **Quarantine blocks download**; ZIP/ASI scan
 were 10/67 and 10/71 at upload; a later unchanged-ASI reanalysis is 15/63
 (14:33 UTC). The old 0.10.2 ZIP reports 28/68; its earlier 1/67
 snapshot is stale. A fresh build reproduced all r4 products exactly. No exact
-detector cause or verified source defect is established; support contact was
-declined. The [scan record](docs/research/NATIVE-0103-SCAN.md) documents the
+detector cause is established; support contact was declined. A later source
+audit reproduced a pre-existing MinHook query-error defect and validated a
+minimal offline prototype. That prototype is not integrated into the player
+module and has no established connection to the antivirus verdicts.
+The [scan record](docs/research/NATIVE-0103-SCAN.md) documents the
 comparison tool, blocked old-input read and reproducible commands. A further
 read-only audit matched all 9,053 installed toolchain files to the official
 archive. The unchanged 0.10.1 ZIP's 15 October report is also flagged (22/60).
 Both 7.05 files are now correctly retained under Old files.
+
+The audit is not exhausted: Clang's default analyzer now covered all thirteen
+active native translation units, but an independent clean-host build and
+per-process attribution of the sandbox's observed activity remain open.
+Current toolchain inventory has no extra/missing file and the inspected
+compiler environment overrides are unset; historical build environment remains
+unverified. Preserve the distinction between source defects, detector cause
+and the host's separate quarantine decision.
 
 Retained 0.10.2/file 49469 targets 7.05/25624745. Native builds use `native/src/`,
 `native_compatibility.json` and `native_mappings.json`. Python/pyMHF sources

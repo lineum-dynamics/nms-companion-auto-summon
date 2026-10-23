@@ -35,6 +35,17 @@
   official archive. Distribution remains blocked; no native fix or clearance
   is claimed from these checks.
 
+### Post-upload diagnostics — no player module change
+
+- Extend the security investigation with a current toolchain file-set and
+  compiler-environment check and Clang default static analysis of all thirteen
+  active native translation units. Record both diagnostics and their limits.
+- Add an owned fault fixture that reproduces pre-existing MinHook acceptance
+  of stale output after a failed VirtualQuery. A minimal guard prototype passes
+  all three fixture cases; it is not integrated into the player module and
+  has no demonstrated connection to the antivirus detections. Preserve the
+  original final archive and the remaining clean-host/behavior-attribution gates.
+
 ### Retained 7.06 development history
 
 - Require early read-only runtime evidence during native updates, with one

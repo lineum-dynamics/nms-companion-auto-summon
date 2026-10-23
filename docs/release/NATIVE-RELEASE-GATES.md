@@ -45,6 +45,17 @@ rename/rebuild files to change scan results, weaken security settings, suggest
 antivirus exclusions or present an alternate binary download as scanner
 clearance. Public descriptions must say when the upload is not downloadable.
 
+Quarantine does not establish that technical analysis is exhausted. Keep a
+bounded completed/open audit table: artifact and source provenance, build
+environment, systematic static diagnostics, owned-host fault cases, independent
+clean-host reproduction and attribution of actual sandbox events. Review each
+diagnostic against its real API/integration contract before calling it a bug.
+Distinguish a reproduced engineering defect from a demonstrated antivirus rule;
+validate a proposed repair separately and retain the submitted bytes. The
+23 October MinHook query-error fixture in the scan record is an example of new
+evidence obtained after the initial provenance checks. It does not establish
+the detector cause or clear Nexus quarantine.
+
 ## Reusable publication checks
 
 - Resolve the exact archive hash/size, Nexus mod ID and GitHub repository before

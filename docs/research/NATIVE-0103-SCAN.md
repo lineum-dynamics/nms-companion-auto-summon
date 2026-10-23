@@ -4,6 +4,13 @@ Reviewed: 23 October 2026. This is a bounded investigation, **not scanner
 clearance or a confirmed false-positive finding**. The owner declined support
 contact and asked for an internal comparison; no support message was sent.
 
+**Latest scope correction:** technical analysis is not exhausted. A later
+same-day systematic pass reproduced an unchecked MinHook API-error path and
+validated a minimal offline prototype. This is a pre-existing robustness defect,
+not an established detector cause. Production sources and the submitted r4
+package remain unchanged; independent clean-host reproduction and sandbox-event
+attribution are still open. See the final audit section below.
+
 ## Exact artifacts and observations
 
 | Artifact | Identity and current observation |
@@ -134,7 +141,7 @@ against the frozen ASI. These observations explain some visible report text,
 not the detector's exact rule. No precise attribution of the sandbox's UDP
 traffic to our module was established. The remaining cause is unresolved.
 
-### Interpretation
+### Earlier interpretation, before the API-error audit
 
 The premise "the old file passed, only the new port is detected" is not
 supported by current evidence: the old unchanged ZIP now has more detections
@@ -279,7 +286,161 @@ format/nested/password defects, none found in this exact allowlisted ZIP.
 No owner-side control was found in the file editor to clear this verdict.
 The owner has declined support contact, so that action remains unperformed.
 No new local source/build defect was demonstrated that would justify changing
-the accepted artifact. Preserve the bytes and the unresolved verdict; do not
+the accepted artifact at that stage. The later audit below identifies a
+pre-existing error-handling defect without establishing an antivirus connection.
+Preserve the bytes and the unresolved verdict; do not
 substitute renaming, repeated recompilation or another download channel for
 host clearance. Further code changes need a substantiated engineering defect;
 actual release availability still needs a cleared file and download readback.
+
+## Audit limits and newly reproduced API-error defect, 23 October 2026
+
+Base revision: `73a9f6e273ebdecbe4d74323b2f1b56cf9cb0b38`, branch
+`compat/cosmos-706-25732212`. This work adds analysis and a reusable fixture;
+it does not modify native production sources, mappings, the vendored original,
+the r4 archive or deployment. It corrects any impression that provenance
+verification had exhausted technical analysis. Source correctness, detector
+attribution and Nexus quarantine are separate gates.
+
+### Supplemental current build-context audit
+
+Compared the installed file set with all 9,053 original archive members:
+9,053 installed, zero extra and zero missing files. Installed config files
+are already part of the matched archive. The eighteen inspected compiler
+environment override/include/library/config variables were absent or empty
+in the current authorized desktop context; no values were recorded or printed.
+The historical r4 build environment, external config search locations and a
+separate clean-host build remain **NOT CHECKED**. A current-context check
+cannot retroactively prove a historical process environment.
+
+Local receipt: `build/release-0103-publication/toolchain-context-audit-20261023.json`.
+SHA-256: `fb4dd623a0baa64235c23fcbb26b8c1bd8cfee66cca68b1d502bc28a6551ca92`.
+Method: compare relative file-name sets from the prior pinned-archive receipt
+with `Path.rglob` regular files; inspect presence/nonempty status, not values,
+for `CCC_OVERRIDE_OPTIONS`, `CCC_ADD_ARGS`, `CL`, `_CL_`, `INCLUDE`, `LIB`,
+`LIBPATH`, `COMPILER_PATH`, `LIBRARY_PATH`, `CPATH`, `CPLUS_INCLUDE_PATH`,
+`C_INCLUDE_PATH`, `OBJC_INCLUDE_PATH`, `RC_INCLUDE_PATH`, `SDKROOT`,
+`GCC_EXEC_PREFIX`, `CLANG_CONFIG_FILE_USER_DIR` and
+`CLANG_CONFIG_FILE_SYSTEM_DIR`. The receipt preserves the exact queried set.
+
+### Systematic default Clang analyzer pass
+
+Clang 23.1.2 completed all thirteen active translation units: nine runtime
+C++ files and the four MinHook C files selected by the player build. All
+analysis commands returned zero. Default checkers produced two diagnostics;
+this is not an exhaustive security, concurrency or whole-program proof.
+
+- `storage.cpp:45`, dead initialization of `point`: ASCII continues before use;
+  every valid multibyte branch overwrites it. This is a redundant initialization,
+  not an established memory-safety fault or detector explanation.
+- `hook.c:425`, possible null destination in a rollback copy: the modeled path
+  assumes null after the patch-above subtraction and assumes VirtualProtect
+  succeeds. The CAS caller supplies checked image-base/RVA targets and MinHook
+  checks executable addresses before recording hooks. A null patch target was
+  not reproduced in CAS. This warning alone does not prove a reachable fault.
+
+Follow-up review of the latter path found the separate API-error issue below.
+The Windows contracts were checked against Microsoft's
+[VirtualQuery](https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualquery)
+and [VirtualProtect](https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualprotect)
+documentation; a failed query does not provide a successful output result.
+
+Output directory: `build/native-security-analysis-20261023`.
+Analysis receipt SHA-256:
+`d28d7e5f9e01729befff1832e2110c6c0436671cbff1d8c01c5958db640775fd`.
+Compiler wrapper remains the pinned
+`20ba1856942744291a6aaaf9f2c94f6d0cd7cac5aa9557fce96471dc7ef25d6f`.
+Generated catalog/profile/mapping headers matched the prior byte-identical
+rebuild. CPython remains 3.11.9 as identified above.
+
+Reproduce per translation unit with the correct C/C++ compiler from the pinned
+toolchain; run from a new private output directory and use explicit repository
+paths for the following aliases. The receipt preserves all thirteen commands.
+
+```powershell
+& $compiler --analyze -O2 -Wall -Wextra -DUNICODE -D_UNICODE -D_WIN32_WINNT=0x0A00 -I $nativeInclude -I $thirdParty -I $minhookInclude -I $r4Generated -Xclang -analyzer-output=plist @unitDefines $source -o $plist
+```
+
+For C++ units, `unitDefines` is `-std=c++17 -DCAS_NATIVE_RUNTIME
+-DCAS_PROBE_BUILD -DCAS_RESPAWN_OBSERVER -DCAS_TELEPORT_CANDIDATE_TRIAL`;
+C units use an empty array. No link, gameplay module execution or game access
+was performed by this analyzer pass.
+
+### Reproduced MinHook query-error case and bounded repair prototype
+
+Pinned `native/third_party/minhook/src/buffer.c`, `IsExecutableAddress`, calls
+VirtualQuery without checking its return before reading `mi.State/Protect`.
+When that call fails, this helper can consume output that has no successful
+query contract. This is pre-existing shared dependency code, not a demonstrated
+7.06 port regression or antivirus signature explanation.
+
+The owned fixture
+[`tools/research/minhook_query_failure_host.cpp`](../../tools/research/minhook_query_failure_host.cpp)
+includes unchanged upstream `buffer.c` and substitutes only its query call.
+It uses a constant mock address and performs no real page query or patch.
+Three cases distinguish failed-query handling from ordinary executable-page
+classification:
+
+| Query case | Expected executable | Original helper | Guard prototype |
+| --- | --- | --- | --- |
+| Failure with executable-looking stale output | false | **true: reproduced failure** | false |
+| Success, committed executable/read | true | true | true |
+| Success, committed read/write | false | false | false |
+
+Baseline exits 1 with exactly the first case failing. The prototype exits 0.
+This proves the helper's error-contract defect in the injected-fault scenario;
+it does not prove that Windows hit this failure in NMS or that a scanner uses
+it as a detection rule. The shipped CAS path's existing valid-target checks
+remain relevant to reachability.
+
+The minimal prototype replaces the unchecked query with:
+
+```c
+if (VirtualQuery(pAddress, &mi, sizeof(mi)) != sizeof(mi))
+    return FALSE;
+```
+
+It exists only in `build/native-security-analysis-20261023/query-guard-prototype-r2/buffer.c`.
+The first prototype used aggregate zero initialization and failed the C++
+fixture's `-Wextra -Werror` field-initializer warning. That is a build/tool
+failure, not a behavioral result. r2 checks the return before any output read;
+the ordinary success cases remain unchanged. The vendored original is untouched.
+
+Committed LF fixture source SHA-256:
+`4124e7f87bde52b7b8f07d7066a9ec5ffaa7945264e1fd80b600aa4d7d2ff046`.
+The originally executed Windows-text copy SHA-256 is
+`02d0ed98301d56c42dcb35e20ee90d3d70b5e880fa61d3d15d8ae4054f04d907`.
+Their decoded C++ contents are identical after line-ending normalization;
+the original receipts retain the actually executed copy's hash.
+Baseline receipt SHA-256:
+`72bcfe497040e6a3affd7af7463fe345b7cbcd36ea54d2e6cb1c68f8ea6b9c14`.
+r2 modified buffer source SHA-256:
+`f6b1036d59316db806e0b16a6592c60f6f199b7289434968764816cc886ee3a5`.
+r2 receipt SHA-256:
+`ef3131003d11525b215e4dd818b189acfa205b5b804f4fb0816bdeaa48cbf0ef`.
+
+Reproduce the baseline with the unchanged vendored source include directory;
+prepend the prototype directory to the include paths for the guard case.
+Keep output binaries in a new build directory. The fixture deliberately exits
+1 against the unguarded source; do not count that as an unexplained tooling
+failure or add it to the production suite without its expected-baseline policy.
+
+```powershell
+& $cxx -std=c++17 -O2 -Wall -Wextra -Werror -static -I $minhookSource $fixture '-Wl,--no-insert-timestamp,--dynamicbase,--nxcompat' -o $ownedHost
+& $ownedHost
+```
+
+### Remaining bounded analysis gates
+
+| Gate | Current evidence / next discriminator |
+| --- | --- |
+| Query-error repair integration | Offline three-case prototype only. Before a changed player artifact, preserve upstream/local-patch provenance and licenses; exercise the real C build and owned-hook/runtime regression checks. No new game mapping is inferred from this helper test. |
+| Independent clean-host reproduction | NOT CHECKED. Reproduce frozen r4 source and pinned toolchain in a separate clean Windows environment, compare the artifact and selected inputs, explain any difference before publishing. Same-PC reproduction is already complete. No clean CI workflow is configured in this checkout. |
+| Sandbox event attribution | PARTIAL. Harness hosts and memory-pattern URLs were explained, but the UDP observation lacks module/call-chain attribution. Inspect available per-process report evidence; if absent, record that limit rather than rerunning generic tag summaries. |
+| Detector-rule explanation | Unresolved. Neither the API defect nor a static analyzer diagnostic identifies the private antivirus rule. Vendor analysis may still be needed. |
+| Host distribution acceptance | File 50040 remains quarantined in the last direct readback. Technical audit progress does not establish host clearance; contact is still declined and unperformed. |
+
+No changed player package was built, deployed, uploaded or rescanned in this
+pass. Native UI text and localization meanings are unchanged. Current exact
+7.06 mapping and bounded game acceptance remain as previously recorded;
+multiplayer, second PC and broader lifecycle/location acceptance remain open.
