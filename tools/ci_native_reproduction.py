@@ -40,9 +40,9 @@ def main():
               "platform": platform.platform(), "commands": [], "passed": False,
               "game_access": False, "deployed": False, "binary_upload": False}
 
-    def run(arguments):
+    def run(arguments, *, cwd=root):
         command = [str(value) for value in arguments]
-        result = subprocess.run(command, cwd=root, capture_output=True,
+        result = subprocess.run(command, cwd=cwd, capture_output=True,
                                 text=True, encoding="utf-8", errors="replace", timeout=900)
         report["commands"].append({"arguments": command, "exit_code": result.returncode,
                                     "stdout": result.stdout, "stderr": result.stderr})
@@ -78,11 +78,15 @@ def main():
         report["generated_headers"] = {p.name: digest(p) for p in sorted((output / "generated").glob("*.hpp"))}
         module = receipt["products"]["CompanionAutoSummon.asi"]["sha256"]
         report["module_matches_expected"] = module == expected_module if expected_module else None
+        report["owned_hook_abi"] = json.loads(run([output / "hook_host.exe"]))
+        if (output / "minhook_query_host.exe").exists():
+            report["owned_query_cases"] = json.loads(run([output / "minhook_query_host.exe"]))
+        report["owned_load_context"] = json.loads(run([output / "load_context_host.exe"]))
+        run([sys.executable, "-B", "tools/validate_native_menu.py", "--toolchain", toolchain,
+             "--output", root / "build/native-clean-menu"])
         run([sys.executable, "-B", "tools/validate_native_bundle.py", "--build", output])
         report["validation"] = json.loads((output / "validation-receipt.json").read_bytes())
         report["validation_receipt_sha256"] = digest(output / "validation-receipt.json")
-        run([sys.executable, "-B", "tools/validate_native_menu.py", "--toolchain", toolchain,
-             "--output", root / "build/native-clean-menu"])
         if run(["git", "status", "--porcelain"]).strip():
             raise ValueError("Tracked source changed during reproduction")
         report["passed"] = True
@@ -90,6 +94,33 @@ def main():
         report["error"] = type(exc).__name__ + ": " + str(exc)
         print(report["error"], file=sys.stderr)
     finally:
+        output = root / "build/native-clean-reproduction"
+        partial = {}
+        for path in sorted(output.glob("*-validation.json")):
+            value = json.loads(path.read_bytes())
+            if "failure" in value:
+                # ACL diagnostics can contain the ephemeral runner's account SID.
+                value["failure"] = re.sub(r"S-1-\d+(?:-\d+)+", "<SID>", value["failure"])
+            partial[path.name] = value
+        report["component_reports"] = partial
+        # Distinguish source-path effects without changing submitted/local bytes.
+        # This second build is confined to an ephemeral GitHub runner.
+        if os.environ.get("GITHUB_ACTIONS") == "true" and report.get("build"):
+            try:
+                mirror = Path("C:/Projects/nms-companion-auto-summon-compat-cosmos-706")
+                if mirror.exists():
+                    raise ValueError("Refuse an existing mirror directory")
+                mirror.parent.mkdir(parents=True, exist_ok=True)
+                run(["git", "worktree", "add", "--detach", mirror, expected_revision])
+                mirror_output = mirror / "build/native-prefix-reproduction"
+                run([sys.executable, "-B", mirror / "tools/build_native_runtime.py", "--toolchain", toolchain,
+                     "--output", mirror_output, "--teleport-candidate-trial"], cwd=mirror)
+                mirror_receipt = json.loads((mirror_output / "build-receipt.json").read_bytes())
+                report["source_prefix_control"] = {"products": mirror_receipt["products"],
+                    "sources": mirror_receipt["sources"],
+                    "matches_frozen_module": mirror_receipt["products"]["CompanionAutoSummon.asi"]["sha256"] == expected_module if expected_module else None}
+            except Exception as exc:
+                report["source_prefix_control_error"] = type(exc).__name__ + ": " + str(exc)
         report["finished_utc"] = datetime.now(timezone.utc).isoformat()
         args.report.write_bytes((json.dumps(report, indent=2)+"\n").encode())
     return 0 if report["passed"] else 1
