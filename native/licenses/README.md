@@ -32,8 +32,12 @@ rebuilt from those inputs.
 ## Components compiled into Companion Auto Summon
 
 - `MinHook-1.3.4-BSD-HDE.txt`: complete MinHook v1.3.4 notice, including both
-  HDE notices. The retained source files match commit
-  `c3fcafdc10146beb5919319d0683e44e3c30d537`.
+  HDE notices. Source is based on commit
+  `c3fcafdc10146beb5919319d0683e44e3c30d537`. Companion Auto Summon 0.10.4
+  adds one local change to `buffer.c`: reject failed or incomplete VirtualQuery
+  results before reading their output. Other retained files are unchanged.
+  Original and patched identities are pinned in the dependency lock; this is
+  a local robustness fix, not a new upstream MinHook release or scan clearance.
 - `json-3.12.0-MIT.txt`: complete JSON for Modern C++ v3.12.0 notice. The
   single header matches commit `55f93686c01528224f448c19128836e7df245f72`.
 

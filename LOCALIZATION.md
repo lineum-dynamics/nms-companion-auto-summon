@@ -1,5 +1,9 @@
 # Companion Auto Summon localization
 
+The unreleased **0.10.4-native-test** query-error guard changes no player-facing
+text, setting meaning or language selection. All fourteen catalogs retain
+64 keys and existing review status; no translation rewrite is required.
+
 The **0.10.3-native-test** source retains **64 keys in each of fourteen catalogs**.
 The 7.06 port changes no player-facing wording or meaning; no catalog rewrite
 was required. Catalog coverage does not establish finished localization.

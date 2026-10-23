@@ -47,6 +47,17 @@ def main():
             raise RuntimeError(f"{name} validation failed: {result.stdout}\n{result.stderr}")
         summaries[name] = {"report_sha256":digest(report_path),"summary":json.loads(result.stdout)}
         print(json.dumps({"validation":name,"result":summaries[name]["summary"]}),flush=True)
+    query = subprocess.run([str(directory/"minhook_query_host.exe")], cwd=directory, capture_output=True,
+                           text=True, encoding="utf-8", timeout=30)
+    if query.returncode or query.stderr:
+        raise RuntimeError(f"Owned MinHook query checks failed: {query.stdout} {query.stderr}")
+    query_report = json.loads(query.stdout)
+    if (query_report.get("passed") is not True or query_report.get("game_access") is not False
+            or query_report.get("cases") != 16 or query_report.get("failed") != 0):
+        raise RuntimeError("Owned MinHook query report is invalid")
+    query_path = directory / "minhook_query-validation.json"
+    query_path.write_text(json.dumps(query_report, indent=2)+"\n", encoding="utf-8")
+    summaries["minhook_query"] = {"report_sha256":digest(query_path),"summary":query_report}
     host_results = []
     abi = subprocess.run([str(directory/"hook_host.exe")],cwd=directory,capture_output=True,
                          text=True,encoding="utf-8",timeout=30)

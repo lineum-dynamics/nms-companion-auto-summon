@@ -1,11 +1,16 @@
 # Companion Auto Summon for No Man's Sky - by Lineum Dynamics
 
-**0.10.3-native-test — EARLY ALPHA multiplayer test.** Windows 10/11, 64-bit,
-Steam. An earlier build of this experimental teleport trigger produced a
-visible companion after two local teleport routes. That does not establish
-which game event the trigger represents, whether it is local-only, or what it
-does when another player teleports. This exact archive still needs a fresh
-startup test. Keep a separate closed-game backup before testing.
+**0.10.4-native-test — EARLY ALPHA candidate.** Windows 10/11, 64-bit,
+Steam Cosmos **7.06 / build 25732212** only. This candidate adds a defensive
+query-error check to MinHook, the library connecting the mod to game functions.
+It keeps the existing automation, selection, settings and experimental teleport
+behavior. No player setting or language meaning changes.
+
+The earlier 0.10.3 artifact passed limited local startup, save-load, menu and
+teleport checks. This exact 0.10.4 archive needs its own game acceptance and
+scanner review. Multiplayer isolation is unverified. Keep a separate
+closed-game backup before testing. The internal fix does not establish why
+antivirus products flagged earlier artifacts or that those detections are fixed.
 
 ## Install
 

@@ -6604,3 +6604,34 @@ claiming completion. Wider runtime gates remain explicitly NOT CHECKED.
   r4 reproduction and inspect available per-process sandbox attribution.
   Exact detector cause and distribution acceptance remain open. Support contact
   remains declined; wider game/multiplayer/second-PC gates remain NOT CHECKED.
+
+### MinHook guard integration handoff, 23 October 2026
+
+- Base `760f74db2a5fbc709d4103304efa917a55c4a98f`, branch
+  `fix/native-query-guard`, distinct candidate 0.10.4-native-test. Installed game
+  rehash is unchanged: 7.06 / 25732212 / 88,560,712 bytes /
+  `13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499`.
+  Native mappings, 90 source-derived role entries and game consumers are unchanged;
+  reuse their exact-hash evidence. The affected dependency is MinHook's query
+  error path; no new game RVA/pattern claim is needed or made.
+- Integrate only the proven full-result guard; patched buffer.c SHA-256
+  `3a9b2f7a1fb084e72897acd8095d4325ab03545669b5b43d89d13ea71d113035`.
+  Keep upstream and local identities and packaged notice disclosure. New
+  dependency validator reverses the patch to upstream before build/package.
+- Local r1 build receipt `e2b32cb1cac41c175b8d76e7f8ba4cfac9399914157dc8107e18f812b9e76f1e`;
+  ASI `765cdbdf0e99aea433fd977048b38f0cd28ccbe6c26902c511310a3ee9523ffa`.
+  Sixteen real-C query cases and ten owned-hook ABI groups pass; 403 production,
+  820 developer tests and 28 menu cases pass. Full bundle pending: unchanged
+  backup driver refused its first directory hold with Windows error 32 before
+  any completed backup check. Preserve that failure and retry once on fresh
+  isolated fixtures; never weaken source/destination locks or ACL checks.
+- New clean Windows workflow compares frozen r4 source and the candidate using
+  commit-pinned official actions and hash-checked compiler, retaining JSON only.
+  Actual independent run/readback is pending; same-PC results are not independent.
+- Full methods/commands/source identity and failures are retained in
+  NATIVE-0103-SCAN.md and docs/release/0.10.4-QUERY-GUARD.md. Next: complete
+  bounded backup discrimination, independent CI comparison, then allowlisted
+  candidate packaging. Fresh exact-candidate game acceptance and scanner status
+  remain NOT CHECKED. No player wording, meaning or catalog values changed.
+  Frozen 0.10.3 bytes/status remain intact; detector attribution, sandbox UDP
+  attribution, multiplayer/second-PC/wider live gates remain open. No contact.

@@ -444,3 +444,57 @@ No changed player package was built, deployed, uploaded or rescanned in this
 pass. Native UI text and localization meanings are unchanged. Current exact
 7.06 mapping and bounded game acceptance remain as previously recorded;
 multiplayer, second PC and broader lifecycle/location acceptance remain open.
+
+## Guard integration candidate, 23 October 2026
+
+Source base `760f74db2a5fbc709d4103304efa917a55c4a98f`, branch
+`fix/native-query-guard`. Distinct mod candidate **0.10.4-native-test** retains
+exact game 7.06 / 25732212. Rehashed installed executable: 88,560,712 bytes,
+SHA-256 `13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499`.
+No game process was observed in the preparatory check; no deployment occurred.
+
+The production C delta is the same minimal return-size guard proven by the
+prototype. The LF vendored file is 9,854 bytes, SHA-256
+`3a9b2f7a1fb084e72897acd8095d4325ab03545669b5b43d89d13ea71d113035`.
+The earlier CRLF prototype hash differs because the line endings differ.
+`tools/validate_native_dependencies.py` verifies 29 retained source/notice files
+and reverses the exact patch to the pinned 9,814-byte original hash. The lock
+and packaged notices declare the local modification; BSD/HDE notices are intact.
+Twelve new provenance tests reject tampered files/notices, wrong original hash,
+undeclared/extra changes, absent guard, duplicate and escaping paths.
+
+Local first candidate build: `build/native-runtime-0104-query-guard-r1`.
+Compiler wrapper unchanged. Build receipt SHA-256
+`e2b32cb1cac41c175b8d76e7f8ba4cfac9399914157dc8107e18f812b9e76f1e`.
+ASI: 2,639,360 bytes, SHA-256
+`765cdbdf0e99aea433fd977048b38f0cd28ccbe6c26902c511310a3ee9523ffa`.
+88 source inputs: three added (C fixture, patch notes, dependency validator),
+six changed (lock, notice index, native/player READMEs, buffer.c and builder),
+zero removed. All nine production C++ files, other MinHook C files, native
+mapping/profile inputs and locale values are unchanged from frozen r4.
+
+Completed: 403 production and 820 developer tests; sixteen real-C query cases;
+ten owned-hook ABI groups; 28 menu scenarios with exact binding-filter parity.
+The first bundle pass also passed policy 31,216/88 traces, selection 25,733/59
+traces, storage 333 cases/721 operations and runtime 63 cases. Backup validation
+stopped before its first completed check: `Cannot hold backup directory
+(Windows error 32)`. The backup driver hash and backup source are byte-identical
+to frozen r4; this is not evidence that the MinHook change caused the refusal.
+Preserve the failed report and make one fresh isolated attempt to distinguish
+a transient sharing conflict. Never remove locking or weaken snapshot rules.
+
+A bounded clean Windows workflow now builds frozen source
+`852c5c55458c563a8564090dd31305864483edf3` and the candidate on separate
+Windows-2022 jobs. Official actions are commit-pinned; the 190,725,905-byte
+compiler archive requires SHA-256
+`e3ad77d117a4bea19a7a3b333341824d79a5a371004a10e25b8504e7b3047666`.
+Only JSON evidence is retained, without binary publication, game access, cached
+build inputs or private credentials. Run/readback pending at this checkpoint.
+Any byte difference must be explained before a reproduction claim.
+
+Mapping cache: the game's hash, native game consumers, 90 role entries and
+mapping/profile hashes remain unchanged. This library error-path change needs
+C/owned-hook regression evidence, not invented replacement RVAs. No new game
+build compatibility or live acceptance is inferred. Candidate archive, exact
+new-artifact game trial and scan review remain pending. The immutable 0.10.3
+Nexus/GitHub status is unchanged; no support contact or rescan was performed.

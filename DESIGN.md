@@ -1,5 +1,10 @@
 # Companion Auto Summon for No Man's Sky — player experience
 
+Development candidate **0.10.4-native-test** adds an internal query-error
+refusal to MinHook. It keeps the current 0.10.3 player experience and exact
+7.06 mappings. This candidate has no transferred live acceptance; the current
+public artifact/status below remains 0.10.3 until a separately validated release.
+
 Current native artifact: **0.10.3-native-test**, exact Windows/Steam **Cosmos
 7.06 / 25732212**. The two-folder overlay uses normal Steam startup, without
 Python or an external settings panel. Selection rules, seven controls,

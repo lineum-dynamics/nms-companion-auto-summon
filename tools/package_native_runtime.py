@@ -20,10 +20,11 @@ import zipfile
 from quick_menu_assets import ASSET_HASHES, DESTINATION, _checked_path, validate_asset
 from native_compatibility import load_native_profile
 from native_mapping import load_native_mapping
+from validate_native_dependencies import validate as validate_native_dependencies
 
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.10.3-native-test"
+VERSION = "0.10.4-native-test"
 TITLE = "Companion Auto Summon for No Man's Sky - by Lineum Dynamics"
 LOADER_SHA256 = "fa266e3513d02c08a1b808f28c10538a489eaffaa4b0707f7cc1066e71b5afd7"
 LOADER_BYTES = 3615928
@@ -96,6 +97,7 @@ def native_x64_dll(data: bytes) -> None:
 
 
 def payload(build: Path, loader: Path) -> tuple[dict[str, bytes], dict]:
+    validate_native_dependencies(source_root=ROOT)
     build = _checked_path(build.absolute(), directory=True)
     if not build.is_relative_to(ROOT / "build"):
         raise ValueError("Native build must be an explicit repository build directory")
@@ -118,7 +120,7 @@ def payload(build: Path, loader: Path) -> tuple[dict[str, bytes], dict]:
     if (validation.get("version") != VERSION or validation.get("passed") is not True
             or validation.get("build_receipt_sha256") != digest(receipt_bytes)):
         raise ValueError("Native build does not have a matching successful validation receipt")
-    required_validators = {"policy", "selection", "storage", "runtime", "backup", "load_context"}
+    required_validators = {"policy", "selection", "storage", "runtime", "backup", "load_context", "minhook_query"}
     validators = validation.get("validators")
     if not isinstance(validators, dict) or not required_validators.issubset(validators):
         raise ValueError("Native validation receipt is incomplete")
@@ -183,7 +185,7 @@ def payload(build: Path, loader: Path) -> tuple[dict[str, bytes], dict]:
     manifest = {
         "schema": 1, "product": TITLE, "version": VERSION,
         "platform": "Windows 10/11 x64 / Steam",
-        "candidate_status": "EARLY ALPHA test build; an earlier build of the experimental teleport trigger produced visible pets on two local routes, but this exact package, callback meaning, multiplayer behavior and Nexus scan status are unverified",
+        "candidate_status": "EARLY ALPHA 0.10.4 candidate for exact Steam Cosmos 7.06/build 25732212; adds a documented MinHook query-error guard to the locally accepted 0.10.3 behavior. This exact package has no live acceptance or scanner clearance. Teleport remains experimental; multiplayer isolation is unverified",
         "multiplayer_test": "In a two-player session, leave one player stationary with automatic summoning enabled while the other teleports. Record whether the stationary player's companion appears. Local-versus-remote callback behavior is unknown; turn automatic summoning OFF in the in-game menu if needed.",
         "game": {key: profile[key] for key in ("steam_build", "game_release", "exe_sha256")},
         "install": {"method": "merge Binaries and GAMEDATA into the Steam game root while the game is closed",

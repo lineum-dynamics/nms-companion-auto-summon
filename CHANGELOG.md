@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.10.4-native-test — unreleased query-error guard candidate
+
+- Keep the exact Windows/Steam Cosmos 7.06 / 25732212 game profile and native
+  mappings. This is a distinct engineering candidate; frozen 0.10.3 bytes,
+  tag, acceptance and quarantine evidence remain unchanged.
+- Require a complete successful VirtualQuery before MinHook classifies an
+  address as executable. Preserve successful-query classification. An owned
+  injected-fault test reproduced the original error; no NMS failure or
+  antivirus-rule connection has been established.
+- Pin original/patched dependency identities, document the local change in
+  packaged notices and verify the exact reversible patch before builds and
+  packaging. Add sixteen C fault/classification cases and provenance tests.
+- Prepare a clean Windows CI comparison of frozen 0.10.3 source and this
+  candidate using the pinned official compiler. Results, candidate packaging,
+  game acceptance and scanner status are tracked separately in the
+  [candidate record](docs/release/0.10.4-QUERY-GUARD.md).
+- No player setting, translation meaning, native RVA or gameplay policy change.
+
 ## 0.10.3-native-test — Cosmos 7.06, 23 October 2026
 
 - Port the native EARLY ALPHA to exact Windows/Steam Cosmos 7.06, build

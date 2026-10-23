@@ -1,0 +1,85 @@
+name: Native clean Windows reproduction
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [fix/native-query-guard]
+    paths:
+      - .github/workflows/native-clean-reproduction.yml
+      - tools/ci_native_reproduction.py
+      - native/**
+      - locales/**
+      - native_compatibility.json
+      - native_mappings.json
+      - tools/build_native_runtime.py
+      - tools/validate_native_dependencies.py
+      - tools/validate_native_bundle.py
+
+permissions:
+  contents: read
+
+concurrency:
+  group: native-clean-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  reproduce:
+    name: ${{ matrix.label }}
+    runs-on: windows-2022
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: frozen-0103
+            source: 852c5c55458c563a8564090dd31305864483edf3
+            expected_module: 6474247c07e7659efc6e4fc698a1e7cdf9471c3ec471656675a251ff5fe96652
+          - label: candidate-0104
+            source: ${{ github.sha }}
+            expected_module: ''
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      PYTHONUTF8: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Check out orchestration
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          path: controller
+          persist-credentials: false
+      - name: Check out exact source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ matrix.source }}
+          path: subject
+          persist-credentials: false
+      - name: Set up Python 3.11.9
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.11.9'
+      - name: Fetch and verify pinned official compiler
+        run: |
+          $archive = Join-Path $env:RUNNER_TEMP 'llvm-mingw-20260922-ucrt-x86_64.zip'
+          Invoke-WebRequest -Uri 'https://github.com/mstorsjo/llvm-mingw/releases/download/20260922/llvm-mingw-20260922-ucrt-x86_64.zip' -OutFile $archive
+          if ((Get-Item -LiteralPath $archive).Length -ne 190725905) { throw 'Compiler archive size mismatch' }
+          if ((Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash.ToLowerInvariant() -ne 'e3ad77d117a4bea19a7a3b333341824d79a5a371004a10e25b8504e7b3047666') { throw 'Compiler archive digest mismatch' }
+          Expand-Archive -LiteralPath $archive -DestinationPath $env:RUNNER_TEMP
+      - name: Build and validate owned hosts without the game
+        env:
+          SOURCE_REVISION: ${{ matrix.source }}
+          EXPECTED_MODULE: ${{ matrix.expected_module }}
+          REPRODUCTION_LABEL: ${{ matrix.label }}
+        run: |
+          $toolchain = Join-Path $env:RUNNER_TEMP 'llvm-mingw-20260922-ucrt-x86_64'
+          python -B controller/tools/ci_native_reproduction.py --source subject --toolchain $toolchain --report reproduction-summary.json
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Retain JSON evidence only
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: native-reproduction-${{ matrix.label }}
+          path: reproduction-summary.json
+          if-no-files-found: error
+          retention-days: 14

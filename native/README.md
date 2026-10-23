@@ -1,82 +1,57 @@
-# Native runtime candidate 0.10.3
+# Native runtime candidate 0.10.4
 
-`0.10.3-native-test` ports the existing native EARLY ALPHA to exact Steam Cosmos
-7.06 / build 25732212. This is an unpublished candidate awaiting its own game
-and archive acceptance. It implements the existing automation path in C++: local-save
-startup and ship-exit opportunities, an experimental teleport callback,
-deferred native placement, Last selected / Random / By habitat selection,
-session rotation, persisted preferences and manual favorites, the seven-control
-quick-menu page and DDS icons. Normal startup uses pinned Ultimate ASI Loader
-through Steam; no Python host or external settings panel is used. The existing
-master automation and destination controls still gate all opportunities.
+`0.10.4-native-test` is an unreleased engineering candidate for exact Steam
+Cosmos 7.06 / build 25732212 / executable SHA-256
+`13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499`.
+It adds a guarded VirtualQuery result check to MinHook 1.3.4. The local patch,
+original identity and limitations are recorded in
+[CAS-PATCHES](third_party/minhook/CAS-PATCHES.md) and the dependency lock.
+No observed game failure or antivirus-rule attribution is claimed.
 
-## Exact-build mapping inputs
+The automation path, selection rules, seven-control quick menu, icons,
+preferences, pinned loader and native eligibility checks remain as in 0.10.3.
+Native mappings stay in `../native_mappings.json`; the build/profile/packager
+select the same exact release/build/hash. Unknown identities refuse activation.
+Normal startup uses Steam with the two-folder overlay, without a Python player
+host. Startup errors use Windows-language catalogs; menu/HUD remain English.
+Catalog draft and rendering limitations remain unchanged.
 
-`../native_mappings.json` is the canonical table of native function/global
-RVAs, return filters and the per-build load-state policy. The build generator
-selects an exact game release, Steam build and executable hash and emits
-`native_mapping_profile.hpp`; the C++ runtime, build receipt and packager use
-that same selection. The independent native hash/prefix guards remain in place.
+The public 0.10.3 artifact has bounded local game acceptance but Nexus file
+50040 is quarantined. Its acceptance does not validate this candidate. Teleport
+remains experimental, multiplayer isolation is unverified, death/respawn is
+unsupported, and broader location/lifecycle acceptance remains open. See the
+[0.10.3 record](../docs/release/0.10.3-COSMOS-706.md),
+[0.10.4 record](../docs/release/0.10.4-QUERY-GUARD.md),
+[scan investigation](../docs/research/NATIVE-0103-SCAN.md) and
+[exact-build ledger](../docs/research/NATIVE-25732212-COMPATIBILITY.md).
 
-The profile now selects the 7.06 / build 25732212 entry for controlled candidate
-activation after the static contracts and owned-memory guard checks. The
-retained 7.05 mapping stays separate. Unapproved/unknown identities are refused;
-approval is not a claim of gameplay or release acceptance. The 7.06 policy
-requires verified load return 0x4906C2, exact state vtable/local receiver and
-stable identity reads. Twenty-one owned-memory cases cover its refusal paths.
-r2 showed that the callback precedes applied LocalLoadState; requiring that
-state at this earlier boundary incorrectly suppressed load opportunities.
-Corrected r3 produced an owner-confirmed pet after a station load and a separate
-station-to-base teleport, with distinct accepted queues. The final archive has
-its own acceptance record. See the [candidate record](../docs/release/0.10.3-COSMOS-706.md)
-and [exact-build ledger](../docs/research/NATIVE-25732212-COMPATIBILITY.md).
-The public package remains 0.10.2 for 7.05 until a validated new release.
+Activation still requires a protected, verified pre-activation snapshot while
+the game is running, before gameplay hooks. The first new live trial also
+needs a fresh verified closed-game backup. Never edit/restore original saves,
+replace a conflicting loader or modify an installed runtime while NMS runs.
 
-The native test candidate targets the exact executable in
-`native_compatibility.json`. The owner confirmed a visible pet after two local
-teleport routes while running an earlier candidate binary. The callback's
-meaning and behavior when a remote player teleports remain unknown, so this
-release specifically needs a two-player test. That observation does not verify
-this exact archive's startup. The owner also confirmed the menu entry beside
-grouped companion entries in a limited live 7.05 smoke test; full compatibility
-acceptance is not established. Each native target is compared against the
-locked image before hook creation. Unsupported images are refused. Research
-has isolated a filtered shared-position return but has not established a
-verified local-only teleport-completion callback or death/respawn event; see
-[teleport research](../docs/research/TELEPORT-AND-GROUPED-MENU.md) and
-[NMS-075-STATIC-XREFS](../docs/research/NMS-075-STATIC-XREFS.md).
-Startup errors use
-the maintained Windows-language catalogs; in-game menu/HUD remain English.
-Thirteen translation catalogs remain drafts, not verified language support.
-
-Initialization creates a private verified snapshot **before native hooks**.
-The game process is already running: this is not a closed-game/pre-launch
-backup. The first controlled deployment additionally uses a closed-game backup.
-Snapshots contain saves and external preferences, hold read-only handles denying
-concurrent writes/deletion, verify source/copy/source bytes and file inventory,
-and retain `INCOMPLETE` on failure. An existing writer refuses activation.
-Snapshots use a protected current-user/SYSTEM ACL. No save is edited or restored.
-
-One shared TriggerAction detour serves menu activation and manual attribution;
-original arguments/results are forwarded. Callbacks and the binding filter stay
-pinned through process exit. Concurrent automation callbacks stop automation;
-the retained menu thread guard still stops custom handling after an unexpected
-callback thread. The C++ conversion does not establish a fix for that limitation.
-
-Offline checks cover 31,216 policy comparisons, 25,733 selector comparisons,
-333 storage cases / 721 operations, 59 owned-memory runtime cases, 22 menu
-scenarios, 16 backup checks and six unsupported-host DLL runs. Comparison steps
-are not independent tests. Native gameplay, rendered icons, second-PC use,
-multiplayer and scanner acceptance require separate evidence.
+## Offline build and validation
 
 ```powershell
-python -B tools/build_native_runtime.py --toolchain <compiler-directory> --output build/native-runtime-local
+python -B tools/validate_native_dependencies.py
+python -B tools/validate_locales.py
+python -B tools/validate_compatibility.py --developer --generated
+python -B tools/build_native_runtime.py --toolchain <compiler-directory> --output build/native-runtime-local --teleport-candidate-trial
 python -B tools/validate_native_bundle.py --build build/native-runtime-local
 ```
 
-The separately allowlisted player archive is built by
-`tools/package_native_runtime.py`. Build/package tools do not deploy or launch
-NMS. Never ship fixture executables or private build receipts and user data.
+The owned bundle includes the real-C MinHook query fixture (sixteen error and
+success classifications), real owned-hook ABI checks, load-context refusal,
+policy/selection comparisons, storage/runtime/backup checks and six foreign-host
+DLL runs. These do not start or attach NMS. Menu validation is separate:
+`tools/validate_native_menu.py --toolchain <compiler-directory> --output <new-build-directory>`.
+
+`tools/package_native_runtime.py` accepts only the reviewed player allowlist,
+matching build/validation/source receipts, documented dependency bytes and the
+pinned unmodified loader. It does not deploy, launch or publish. Never ship
+fixture executables, private receipts, settings, logs or saves. Frozen earlier
+packages and receipts remain immutable. Subsequent live/scan facts go in the
+candidate record rather than editing offline receipts.
 
 ## Retained milestone 1
 

@@ -8,8 +8,9 @@ from generate_native_catalog import generate
 from native_compatibility import load_native_profile
 from native_mapping import load_native_mapping, write_mapping_header
 from validate_compatibility import validate
+from validate_native_dependencies import validate as validate_native_dependencies
 
-VERSION = "0.10.3-native-test"
+VERSION = "0.10.4-native-test"
 
 
 def main():
@@ -27,6 +28,7 @@ def main():
     output = args.output.resolve()
     if not output.is_relative_to(ROOT / "build") or output.exists():
         raise ValueError("Use a new directory beneath build")
+    dependency_report = validate_native_dependencies(source_root=ROOT)
     profile_report = validate(source_root=ROOT, developer=True, generated=True)
     profile = load_native_profile(ROOT / "native_compatibility.json")
     mapping = load_native_mapping(profile)
@@ -35,7 +37,7 @@ def main():
     sources += sorted((ROOT / "locales").glob("*.json"))
     sources += [ROOT / "compatibility.json", ROOT / "native_compatibility.json", ROOT / "native_mappings.json",
                 ROOT / "tools/native_compatibility.py", ROOT / "tools/native_mapping.py",
-                Path(__file__), ROOT / "tools/generate_native_catalog.py"]
+                Path(__file__), ROOT / "tools/generate_native_catalog.py", ROOT / "tools/validate_native_dependencies.py"]
     before = {p.relative_to(ROOT).as_posix(): digest(p) for p in sources}
     output.mkdir(parents=True)
     generated = output / "generated"
@@ -65,8 +67,8 @@ def main():
     resource = output / "version.rc"
     resource.write_text('''#include <windows.h>
 1 VERSIONINFO
-FILEVERSION 0,10,3,0
-PRODUCTVERSION 0,10,3,0
+FILEVERSION 0,10,4,0
+PRODUCTVERSION 0,10,4,0
 FILEFLAGSMASK 0x3fL
 FILEFLAGS VS_FF_PRERELEASE
 FILEOS VOS_NT_WINDOWS32
@@ -122,6 +124,12 @@ END
     command = [*common,native/"tests/hook_host.cpp",*objects[:-1],"-o",hook_host]
     commands.append(command)
     run(command,output)
+    query_host = output / "minhook_query_host.exe"
+    command = [c_compiler, "-std=c11", "-O2", "-Wall", "-Wextra", "-Werror", "-static",
+               "-Wl,--no-insert-timestamp,--dynamicbase,--nxcompat",
+               native / "tests/minhook_query_host.c", "-o", query_host]
+    commands.append(command)
+    run(command, output)
     binary = output / "CompanionAutoSummon.asi"
     pe = run([inspect,"--file-header","--coff-imports","--coff-exports",binary],output)
     (output / "native-pe.txt").write_text(pe,encoding="utf-8")
@@ -133,7 +141,7 @@ END
         raise RuntimeError("Unexpected external language runtime")
     if before != {p.relative_to(ROOT).as_posix(): digest(p) for p in sources}:
         raise RuntimeError("Source changed while compiling; build retained but invalid")
-    products = [binary,hook_host,*(output / (name+".exe") for name in hosts)]
+    products = [binary,hook_host,query_host,*(output / (name+".exe") for name in hosts)]
     receipt = {"version":version,"gameplay_implemented":True,"diagnostic_observer":args.respawn_observer or args.teleport_candidate_trial,
                "diagnostic_candidate_rva":mapping["functions"]["position_observer"] if args.respawn_observer or args.teleport_candidate_trial else None,
                "diagnostic_return_site_rvas":mapping["position_returns"] if args.respawn_observer or args.teleport_candidate_trial else [],
@@ -141,7 +149,7 @@ END
                "teleport_candidate_filter":{"return_rva":mapping["position_returns"][0],"reason":11,"flag":1} if args.teleport_candidate_trial else None,
                "live_verified":False,"deployed":False,
                "compiler":run([compiler,"--version"],output).strip(),"compiler_sha256":digest(compiler),
-               "sources":before,"imports":imports,"compatibility":profile,"native_mapping":mapping,"profile_validation":profile_report,
+               "sources":before,"imports":imports,"compatibility":profile,"native_mapping":mapping,"profile_validation":profile_report,"dependency_validation":dependency_report,
                "products":{p.name:{"sha256":digest(p),"bytes":p.stat().st_size} for p in products},
                "commands":[[str(x) for x in command] for command in commands]}
     (output / "build-receipt.json").write_text(json.dumps(receipt,indent=2)+"\n",encoding="utf-8")

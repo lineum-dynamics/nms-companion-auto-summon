@@ -1,5 +1,27 @@
 # Companion Auto Summon development guide
 
+## Unreleased 0.10.4 query-error guard candidate
+
+Branch `fix/native-query-guard` starts at
+`760f74db2a5fbc709d4103304efa917a55c4a98f`. The game target remains exact Steam
+Cosmos 7.06 / 25732212 / SHA-256
+`13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499`.
+The locally accepted and quarantined public artifact remains 0.10.3; no 0.10.4
+acceptance or clearance follows from it. See the
+[candidate record](docs/release/0.10.4-QUERY-GUARD.md).
+
+The only production C/C++ behavior delta is the documented MinHook query
+return-size guard. `tools/validate_native_dependencies.py` checks retained
+source/notices and reverses the guard to the original upstream digest. Run it
+before building; build/package also enforce it. The bundle requires the
+sixteen-case real-C fixture and ordinary owned-hook/ABI regression checks.
+
+The bounded clean-host workflow uses pinned official actions, a SHA-256 checked
+compiler archive and Windows runners. It builds frozen 0.10.3 and the candidate
+without NMS, caches, private data or player uploads. It retains only JSON
+provenance and validation receipts. A hash difference needs explanation;
+passing owned hosts is not game acceptance or scanner approval.
+
 ## Required early runtime evidence for native updates
 
 During the first work period of a new game-build port, identify which open
