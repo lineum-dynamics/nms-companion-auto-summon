@@ -4,7 +4,8 @@
 
 **Download status, 23 October 2026:** the update is uploaded to Nexus as file
 **50040**, Main / Primary, but automated quarantine currently blocks its download.
-The exact ZIP scan reports **10/67** and the ASI **10/71**. The cause is under
+The exact ZIP scan reports **10/67** (09:06 UTC); a later ASI reanalysis reports
+**15/63** (14:33 UTC). The cause is under
 investigation; these are not confirmed false positives. The GitHub prerelease
 currently records source and release notes, with binary upload on hold.
 Do not disable security protection to install the file. See the
@@ -42,7 +43,9 @@ combat values.
   Native menu/HUD currently use English; other catalogs remain unreviewed drafts.
 
 The retained **0.10.2-native-test**, Nexus file **49469**, targets **7.05 /
-Steam 25624745**. It is not the 7.06 update. Game release/build/hash, Git revision
+Steam 25624745**. Files 49469 (0.10.2) and 49367 (0.10.1) are under **Old files**;
+that category preserves release history and is separate from scan status.
+Game release/build/hash, Git revision
 and mod package version are separate identities. The test label remains until
 the [promotion gates](docs/release/NATIVE-RELEASE-GATES.md) are evidenced; it is
 not a permanent name or an automatic consequence of using native C++.

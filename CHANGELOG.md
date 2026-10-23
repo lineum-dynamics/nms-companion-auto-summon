@@ -28,6 +28,12 @@
   interpretation limits. No confirmed detector cause or false positive is claimed.
 - Separate current player instructions from archived Python/native history and
   document concrete gates for a future release without the test label.
+- Correct retained file 49367 / 0.10.1 from Main to Old on Nexus, alongside
+  0.10.2; preserve both binaries and their visible historical download links.
+  Record the older 0.10.1 ZIP's 22/60 report and the unchanged 0.10.3 ASI's
+  later 15/63 reanalysis. Verify every installed toolchain file against the
+  official archive. Distribution remains blocked; no native fix or clearance
+  is claimed from these checks.
 
 ### Retained 7.06 development history
 

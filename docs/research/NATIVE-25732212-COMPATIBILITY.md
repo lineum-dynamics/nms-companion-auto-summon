@@ -6527,3 +6527,45 @@ completed bounded local functional checks. Support contact remains declined.
 Keep the exact artifact and findings; change native/build code only for a
 substantiated defect, and read back actual host/download acceptance before
 claiming completion. Wider runtime gates remain explicitly NOT CHECKED.
+
+### Retained-file correction and security audit handoff, 23 October 2026
+
+- Base source e007688349dec1c63e2adc9ab01759c65b92d7e8, branch
+  compat/cosmos-706-25732212. Exact 7.06 / 25732212 executable remains
+  `13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499`;
+  mapping coverage remains 90/90 MAPPED. No game, mapping, native input,
+  immutable r4 artifact/receipt or deployment changed in this work period.
+- The owner noticed 0.10.1 in Main while 0.10.2 was Old. The latter was moved
+  automatically by the update replacement; the former was an overlooked Main
+  entry. File 49367 was changed to Old and public categories read back:
+  Main only 50040; Old 49469, 49367, 49202. Both 7.05 releases still show
+  download links; no downloaded-byte verification or new old-file read occurred.
+- Exact 0.10.1 ZIP report is also flagged: 22/60, analysis 15 October
+  11:37:05 UTC. Its attempted reanalysis did not yield a new date/result.
+  Do not treat a download link, green historical Nexus icon or Old category
+  as current scanner clearance or infer a 7.06 source regression from them.
+- The unchanged final ASI's accepted reanalysis completed at 23 October
+  14:33:20 UTC as 15/63, superseding 10/71 at 09:09:51. No new upload/rebuild.
+  ZIP reanalysis NOT CHECKED; its separate 09:06:05 report remains 10/67.
+- Reviewed initialization/rollback, host guard, binding/MinHook memory and
+  storage/backup I/O, plus 0.10.1-to-0.10.2 source delta. No demonstrated
+  new payload, concrete unintended behavior or exact detector cause found.
+  All 9,053 installed toolchain files match the original official archive;
+  current GitHub asset digest matches the pinned ZIP. Receipt SHA-256
+  `713d2aa6d2ec398ea1834b013c2778963f0bbc0f3a4a23e5df91f49aef55bacd`.
+  Extra installed files, environment and independent compiler/source rebuild
+  NOT CHECKED. Provenance is not clearance. The scan record preserves the
+  standard-library algorithm, interpreter hash, exact source/API commands,
+  completed versus unsuccessful scan attempts, and interpretation limits.
+- Current Nexus official procedure requires moderator review to clear an
+  already quarantined file; no owner control was found. Contact remains
+  declined and unperformed. Next actual distribution evidence needs host
+  clearance and a verified download. A future native/build change needs a
+  substantiated engineering defect; repeated byte changes are not a remedy.
+  Wider game acceptance remains NOT CHECKED as previously documented.
+- Public Nexus description was updated and read back with 15/63, the toolchain
+  result and retained-file targets/categories. GitHub prerelease body matched
+  API readback with the frozen source target and zero binary assets. SCEditor
+  fill alone left Save disabled; an actual keyboard edit restored to exact
+  source text enabled it. Preserve that failed-method correction in the release
+  gates; visible editor contents alone do not prove persistence.

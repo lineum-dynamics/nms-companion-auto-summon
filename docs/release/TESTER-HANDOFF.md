@@ -16,9 +16,11 @@ acceptance remains open. Do not confuse upload/listing with a downloadable file.
 | Final local gameplay | Normal startup, visible load companion, settings/icons, clean base-to-station appearance passed |
 | Earlier port trial evidence | Clean ship exit and station-to-base appearance passed; not substituted for final-archive results |
 | Nexus | File **50040**, Main / Primary, 23 October 2026 11:05 CEST; public listing and updated English descriptions read back; **quarantined, no file download** |
-| Exact linked scan | ZIP **10/67**, ASI **10/71**, 23 October; not confirmed false positives |
+| Exact linked scan | ZIP **10/67**, 23 October 09:06 UTC; ASI reanalysis **15/63**, 23 October 14:33 UTC (earlier 10/71 superseded); not confirmed false positives |
 | GitHub | Prerelease **421642329**, `v0.10.3-native-test`, exact source above; source/notes published, binary upload on hold |
 | Independent rebuild | Same inputs/compiler reproduced every r4 product exactly; no modified scan candidate uploaded |
+| Toolchain integrity | All 9,053 installed files match the original official archive; current upstream release-asset digest matches the pin |
+| Retained file categories | 49469 / 0.10.2 and 49367 / 0.10.1 are Old files; public links remain visible, without new download-byte verification |
 | Wider acceptance | Second PC, multiplayer isolation, long sessions and broad locations/input/selection matrix remain open; no separate death trigger |
 
 The [release record](0.10.3-COSMOS-706.md) preserves all r1-r4 identities and
@@ -71,7 +73,13 @@ superseded before upload. Keep it unchanged for provenance; upload only the
 29-member archive identified above. Its public version remains
 `0.10.2-native-test`, not a separate edition.
 
-## 0.10.1-native-test — public Cosmos 7.05 test build
+## Retained 0.10.1-native-test — 30 September public Cosmos 7.05 record
+
+The observations below are the historical 30 September record. On 23 October,
+file 49367 was corrected from Main to Old files; its download link remains
+visible. Its exact ZIP's current report is 22/60, analysed 15 October at
+11:37:05 UTC. Earlier acceptance is not current clearance. A reanalysis
+button attempt did not yield a new analysis or date; no fresh scan is claimed.
 
 This version targets only the exact Windows x64 Steam Cosmos 7.05 executable
 with SHA-256

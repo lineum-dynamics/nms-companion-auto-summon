@@ -12,9 +12,10 @@ contact and asked for an internal comparison; no support message was sent.
 | New native ASI | 2,639,360 bytes; SHA-256 `6474247c07e7659efc6e4fc698a1e7cdf9471c3ec471656675a251ff5fe96652` |
 | New Nexus file | **50040**, Main / Primary, uploaded 23 October 2026 at 11:05 CEST; public Files page shows automated quarantine and no file download |
 | New ZIP scan | **10/67**, analysis 23 October 2026 at 09:06:05 UTC |
-| New ASI scan | **10/71**, analysis 23 October 2026 at 09:09:51 UTC |
+| New ASI scan | Earlier **10/71**, 23 October 2026 09:09:51 UTC; unchanged-file reanalysis **15/63**, 23 October 2026 14:33:20 UTC |
 | Retained ZIP | 0.10.2-native-test, known 3,724,342 bytes; SHA-256 `e8cbffbf558476025bde0c4b619a460265325d73ecbf99fc77b04c176d5f6704`, Nexus file 49469 retained under Old files |
 | Retained ZIP current scan | **28/68**, analysis **15 October 2026 at 13:13:12 UTC**, read on 23 October. This supersedes the 3 October snapshot of 1/67; it does not rewrite that historical observation |
+| Retained 0.10.1 ZIP | SHA-256 `51cf81c7cc48e835a1f9f14f96ced93d2a32b56200c5c079e23f2b0f17331116`; **22/60**, analysis **15 October 2026 at 11:37:05 UTC**, read 23 October |
 | Pinned loader | Unchanged official UAL 9.7.4 bytes, SHA-256 `fa266e3513d02c08a1b808f28c10538a489eaffaa4b0707f7cc1066e71b5afd7`; new ZIP's relation page showed 0/49 with an earlier 22 October analysis date |
 
 Sources: [new ZIP report](https://www.virustotal.com/gui/file/df7cf87276391a9dc9bdf596611563b3787530da5d5c0107f51bb994f580b3f2),
@@ -147,3 +148,138 @@ or packaging defect with evidence before changing the artifact. If none is
 found, only the host/vendor can change its own verdict; a successful local
 build does not clear Nexus quarantine. The support draft remains unsent at the
 owner's request. Maintain the accurate download status and preserve all hashes.
+
+## Older release, toolchain and unchanged-file reanalysis, 23 October 2026
+
+### Listing categories are separate from scanner acceptance
+
+Public Files readback initially showed 50040 / 0.10.3 and 49367 / 0.10.1 in
+Main, with 49469 / 0.10.2 in Old. The 0.10.3 update form replaced 0.10.2 and
+automatically moved that replaced file to Old; the independently retained
+0.10.1 Main entry was an overlooked listing inconsistency. On 23 October,
+49367 was changed through Edit -> File category -> Old -> Save file.
+Public readback then showed only 50040 in Main, and 49469, 49367 and 49202 in
+Old. Both 0.10.2 and 0.10.1 still expose manual download links. No binary was
+downloaded, removed, restored or changed in this pass. Visible links are not
+a downloaded-byte readback, scanner clearance or 7.06 compatibility.
+
+The exact 0.10.1 ZIP report, reached through its own Nexus icon, shows 22/60
+with analysis 15 October 11:37:05 UTC. It includes the same AhnLab
+`Trojan/Win.Loader.C5957161` label, plus other generic labels. A reanalysis
+button attempt did not produce a new date or analysis; do not call it a fresh
+scan. The report's generated Code insights description incorrectly says the
+package has no executable code; it is not authoritative evidence about the
+known native ASI/loader payload.
+
+Sources: [0.10.1 report](https://www.virustotal.com/gui/file/51cf81c7cc48e835a1f9f14f96ced93d2a32b56200c5c079e23f2b0f17331116),
+[Nexus Files](https://www.nexusmods.com/nomanssky/mods/4579?tab=files).
+No evidence now supports treating either accepted 7.05 release as a clean
+current control. Counts from different dates and engine sets are not a
+controlled regression experiment.
+
+### Additional source and dependency audit
+
+Reviewed initialization/rollback, exported host inspection, generated binding
+code, MinHook patching and storage/backup file operations. The actual-host
+hash/PE/name guard precedes gameplay access; native DllMain is inert and
+InitializeASI creates only its one own-process initializer. The custom binding
+code is prepared RW, made RX and checked for RX plus exact bytes before use.
+Vendored MinHook uses RWX trampoline blocks and a temporary writable patch
+window as part of its ordinary implementation. These are understood hooking
+operations, not an identified added payload or an exact antivirus rule.
+No modified hook implementation was produced as a scan experiment.
+
+Compared source revisions 9460855250db58086ebd56ccbe0b71035bf66ee9 (0.10.1)
+and 48b67e1160ac935df1841a193d92610e5a8dc8cd (0.10.2). The relevant delta is
+the bounded teleport observer/trigger and quiescent menu-thread handoff.
+The vendored sources, dependency lock and toolchain lock have no diff.
+No new network/download/remote-process/persistence API was found in that
+delta. This audit did not establish a concrete source defect or the detector
+cause; it is not a comprehensive malware-proof claim.
+
+Reproducible source commands:
+
+```powershell
+git diff 9460855250db58086ebd56ccbe0b71035bf66ee9 48b67e1160ac935df1841a193d92610e5a8dc8cd -- native/src native/include tools/build_native_runtime.py
+git diff --name-only 9460855250db58086ebd56ccbe0b71035bf66ee9 48b67e1160ac935df1841a193d92610e5a8dc8cd -- native/third_party native/dependencies-lock.json native/toolchain-lock.json
+```
+
+### Full installed toolchain comparison
+
+GitHub's release API returned the official 20260922 x64 UCRT asset size
+190,725,905 and digest
+`e3ad77d117a4bea19a7a3b333341824d79a5a371004a10e25b8504e7b3047666`,
+matching `native/toolchain-lock.json` and the retained original archive.
+Streaming SHA-256 comparison of **all 9,053 regular archive members** against
+their corresponding installed files passed. No extraction, compiler execution,
+installation, game access or protection change occurred. Extra installed files,
+the global environment and independent binary-to-upstream-source rebuilding
+were **NOT CHECKED** by this comparison.
+
+Tools: CPython 3.11.9, standard-library hashlib/zipfile/pathlib/json;
+interpreter SHA-256
+`5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec`.
+The local complete relative-member/hash receipt is
+`build/release-0103-publication/toolchain-provenance-audit.json`, SHA-256
+`713d2aa6d2ec398ea1834b013c2778963f0bbc0f3a4a23e5df91f49aef55bacd`.
+It confirms the installation matches this official archive; it does not
+establish antivirus clearance or audit the operating system.
+
+Upstream metadata command:
+
+```powershell
+gh api repos/mstorsjo/llvm-mingw/releases/tags/20260922 --jq '.assets[] | select(.name == "llvm-mingw-20260922-ucrt-x86_64.zip") | {name, size, digest, browser_download_url}'
+```
+
+The comparison used the following standard-library algorithm, after hashing
+the complete ZIP and checking its size against the lock. `archive` is the
+original official ZIP and `installed` its extracted directory. Absolute
+developer paths remain private. Each result records relative path, original
+size/hash, installed hash and equality; the receipt above retains every row.
+
+```python
+def sha(stream):
+    h = hashlib.sha256()
+    for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+        h.update(chunk)
+    return h.hexdigest()
+
+with zipfile.ZipFile(archive) as z:
+    for member in z.infolist():
+        if member.is_dir():
+            continue
+        parts = PurePosixPath(member.filename).parts
+        if len(parts) < 2 or parts[0] != installed.name or ".." in parts:
+            raise ValueError("Unexpected original archive member path")
+        local = installed.joinpath(*parts[1:])
+        with z.open(member) as stream:
+            original = sha(stream)
+        with local.open("rb") as stream:
+            current = sha(stream)
+        assert original == current, str(PurePosixPath(*parts[1:]))
+```
+
+### Reanalysis and the remaining host gate
+
+The same unchanged 0.10.3 ASI was submitted through its existing report's
+Reanalyze action; no file was uploaded or rebuilt. Queue/in-progress states
+were observed separately from completion. The completed report now shows
+**15/63**, analysis **23 October 2026 14:33:20 UTC**, superseding 10/71 at
+09:09:51. The original ten labels persist; additional verdicts include
+Microsoft `Trojan:Win32/Wacatac.B!ml`, McAfee `Ti!6474247C07E7`,
+Palo Alto `Generic.ml`, Sophos `Mal/Generic-S` and TrendMicro-HouseCall
+`TROJ_GEN.R002H09JN26`. The ZIP was not reanalysed; its separate dated
+09:06:05 observation remains 10/67. Do not combine these counts or imply that
+reanalysis cleared Nexus. File 50040 remains quarantined.
+
+[Nexus's current official quarantine procedure](https://help.nexusmods.com/article/117-why-has-my-mod-been-quarantined)
+(updated 19 October, read 23 October) says an already quarantined file needs
+moderator review for removal from quarantine. It documents remedies for archive
+format/nested/password defects, none found in this exact allowlisted ZIP.
+No owner-side control was found in the file editor to clear this verdict.
+The owner has declined support contact, so that action remains unperformed.
+No new local source/build defect was demonstrated that would justify changing
+the accepted artifact. Preserve the bytes and the unresolved verdict; do not
+substitute renaming, repeated recompilation or another download channel for
+host clearance. Further code changes need a substantiated engineering defect;
+actual release availability still needs a cleared file and download readback.

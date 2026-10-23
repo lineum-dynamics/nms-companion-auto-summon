@@ -56,7 +56,20 @@ clearance. Public descriptions must say when the upload is not downloadable.
 - Set the full package version explicitly and verify Main / Primary. Read back
   the old file's retained category/history; in the 0.10.3 update Nexus moved
   0.10.2 to Old files even with the Archive checkbox unchecked.
+- Inspect every remaining Main file, not only the replacement pair. A prior
+  release can remain in Main independently: 0.10.1 did so until corrected on
+  23 October. Retain superseded releases under Old without changing bytes or
+  scan state; keep game-target text explicit. Old files can still expose
+  download links. Visible links are not a downloaded-byte readback or clearance.
+- Date every scan count and distinguish an accepted reanalysis from a button
+  click or an in-progress count. Preserve the earlier observation as history;
+  never combine denominators or claim that a reanalysis changes Nexus quarantine.
 - Verify current public text and tag choices after saving. Legacy release tags
   and Translation can conflict with an exact-build English-only native alpha.
+- In the current SCEditor source field, programmatic fill alone can leave Save
+  disabled. Switching view showed the new text but still did not notify the
+  form. A real source-field keyboard edit followed by restoring the exact text
+  and leaving the field enabled Save. Compare the full source before saving;
+  never force-enable the button or assume visible editor text was persisted.
 - Preserve the source tag, immutable package receipt and separate publication
   receipt. A successful save/upload is not a successful file download or scan.

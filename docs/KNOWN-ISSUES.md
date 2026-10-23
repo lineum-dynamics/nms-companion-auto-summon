@@ -17,17 +17,29 @@ not a public fix until the exact distributed artifact is validated and accepted.
 ## Distribution blocked by Nexus quarantine
 
 **Observed:** Nexus accepted the 0.10.3 upload and displays it as Main / Primary,
-but automated checks quarantine file 50040. The exact ZIP report shows 10/67;
-the ASI report shows 10/71 on 23 October. The older unchanged 0.10.2 ZIP now
+but automated checks quarantine file 50040. The exact ZIP report shows 10/67
+(23 October, 09:06 UTC); a later ASI reanalysis shows 15/63
+(23 October, 14:33 UTC), superseding its earlier 10/71 snapshot.
+The older unchanged 0.10.2 ZIP now
 shows 28/68 in its 15 October analysis and is blocked by local Windows
 protection. The earlier 1/67 and Nexus acceptance were historical snapshots.
+The unchanged 0.10.1 ZIP also shows 22/60 in its 15 October analysis. Nexus
+still displays download links for the older files; no new download-byte
+verification was attempted. Their acceptance is not current scanner clearance.
 
 **Investigation:** same compiler, vendored inputs and loader as 0.10.2; the new
 ASI matches the frozen receipt and an independent rebuild byte for byte.
+All 9,053 installed toolchain files match the original official archive;
+GitHub's current release-asset digest matches the recorded archive pin.
 No exact detector cause or confirmed false positive is established. Support
 has not been contacted, as requested by the owner. Do not disable protection
 or describe a different download channel as scanner clearance.
 See [the scan/provenance record](research/NATIVE-0103-SCAN.md).
+
+**Listing correction:** 0.10.2 moved to Old files when replaced by 0.10.3;
+0.10.1 had been left in Main. File 49367 was moved to Old on 23 October and
+the public categories were read back. This metadata correction does not
+resolve quarantine or make either 7.05 package compatible with 7.06.
 
 ## Experimental teleport: local success, multiplayer unverified
 

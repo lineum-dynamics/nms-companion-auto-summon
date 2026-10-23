@@ -2,7 +2,8 @@
 
 Status: prepared on 23 October 2026; **not sent**. The owner declined support
 contact and requested internal investigation. The retained scan snapshot below
-predates the later 0.10.2 comparison; use the current scan record for findings.
+predates the later older-file comparisons and unchanged-ASI reanalysis
+(15/63 at 14:33 UTC); use the current scan record for findings.
 Sending requires new explicit authorization. This draft concerns only the
 public file and public source below; it contains no private logs or saves.
 

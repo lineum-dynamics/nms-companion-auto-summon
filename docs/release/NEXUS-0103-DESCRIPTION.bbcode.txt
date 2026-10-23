@@ -1,6 +1,8 @@
 [b]EARLY ALPHA / PUBLIC TEST — 0.10.3-native-test. Expect bugs, incomplete behaviour and possible crashes.[/b] This experimental release is for Windows 10/11 x64 and the exact Steam build below. It is not a stable release. Close the game and make a separate backup of your saves before installing or testing.
 
-[b]Download status, 23 October 2026:[/b] Nexus file 50040 has been quarantined by automated checks and is currently unavailable to download. Its exact ZIP report showed 10/67 detections; the ASI module showed 10/71. The unchanged previous 0.10.2 ZIP now reports 28/68 in its 15 October analysis; its earlier acceptance is not current scan clearance. An independent rebuild reproduced the submitted ASI byte for byte. The detector cause remains under investigation, and these findings have not been confirmed as false positives. Do not disable security protection to install this file.
+[b]Download status, 23 October 2026:[/b] Nexus file 50040 has been quarantined by automated checks and is currently unavailable to download. Its exact ZIP report showed 10/67 detections at 09:06 UTC; unchanged-ASI reanalysis showed 15/63 at 14:33 UTC (earlier 10/71). The unchanged 0.10.2 and 0.10.1 ZIPs also have flagged reports, 28/68 and 22/60 respectively, analysed 15 October; earlier acceptance is not current scan clearance. An independent rebuild reproduced the submitted ASI byte for byte, and all 9,053 installed toolchain files match the official archive. The detector cause remains under investigation, and these findings have not been confirmed as false positives. Do not disable security protection to install this file.
+
+Retained 0.10.2 and 0.10.1 are under [b]Old files[/b] and target Cosmos 7.05 / Steam build 25624745. That category preserves older releases and is separate from their scanner status. Neither is the 7.06 update. Current file 50040 remains quarantined.
 
 [b]What is confirmed and what needs testing[/b]
 
