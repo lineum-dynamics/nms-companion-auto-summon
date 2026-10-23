@@ -160,6 +160,24 @@ without printing keys/private pointers. Equal stock marker bytes and `-1`
 binding ordinals corroborate a copy contract; they do not validate a custom
 sentinel, rebuild retention, synchronization or an uninstalled mod.
 
+## Verify filters at the callback boundary
+
+Before relying on a new event predicate, capture it before/after the actual
+native callback with its exact caller. Use bounded masks and Boolean presence
+predicates; keep private identifiers and pointers out of output. In the 7.06
+r2 trial, successful load return 0x4906C2 had matching receiver/source byte and
+nonzero common key, while applied-state masks stopped at 0x0f. The later
+LocalLoadState trace did not justify requiring that state at the earlier call.
+The corrected exact-return/vtable/receiver policy passed 21 owned cases and
+produced a visible pet in r3. The distinct known DeathState caller stays
+excluded. Revalidate the return and owner chain for every executable hash.
+
+Separate a failed predicate from an event that was never recorded. One r2
+teleport produced no filtered record; the later successful r3 opposite route
+had a fully accepted state mask. This does not prove the earlier failure was
+caused by that predicate. Keep direction, clean no-pet baseline, foreground
+play, accepted requests and visible outcome in the handoff.
+
 ## Prove resource extent through the registered factory
 
 For an opaque resource, follow the loader's exact type key into its registered

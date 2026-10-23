@@ -17,7 +17,7 @@ FUNCTIONS = tuple("queue_pet player_update owner_update ship_eject enter_cockpit
                   "owned_pet_eligible refresh_placement dominant_hand add_timed_message "
                   "construct_menu_item select_menu_item load_texture retain_resource get_button".split())
 GLOBALS = ("application", "resource_manager", "retain_manager", "interaction_range")
-LOCAL_LOAD = ("current_state_cell", "state", "vtable", "player_state_offset")
+LOCAL_LOAD = ("current_state_cell", "state", "vtable", "player_state_offset", "callback_return")
 BUILD_FIELDS = {"game_release", "exe_sha256", "activation_approved", "evidence", "functions",
                 "globals", "binding_return", "position_returns", "local_load"}
 

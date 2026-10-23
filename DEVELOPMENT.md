@@ -35,18 +35,21 @@ Build-specific RVAs and return filters now live in `native_mappings.json`.
 The C++ header and build/validation/package receipts consume the same exact
 game/build/hash selection. The native profile now selects 7.06 for the unpublished
 0.10.3 candidate; approval permits a controlled activation after offline gates,
-and does not establish release or game acceptance. The 7.06 load policy checks the
-applied LocalLoadState, vtable and local player-state receiver before and after
-the original call, while preserving its arguments/result and the existing
-zero-only source veto. It does not assign a network meaning to that byte.
-This adds four explicit dependencies to the target source inventory: current
-state cell, state object, vtable and player-state receiver offset.
+and does not establish release or game acceptance. r2 showed a successful load
+callback at return 0x4906C2 before LocalLoadState was applied. The corrected
+7.06 load policy checks that exact caller, state vtable, local receiver and
+stable repeated identities before/after the original call. The current FSM
+state remains diagnostic for this callback. Arguments/results, the opaque
+zero-only source veto and deferred readiness are preserved. There are five
+explicit policy dependencies: current-state cell, state object, vtable,
+receiver offset and callback return. The known DeathState return is distinct.
 
 The [0.10.3 candidate record](docs/release/0.10.3-COSMOS-706.md) now separates
 immutable r1/r2 archives, offline checks and actual deployment. r1 started and
 passed the owner-confirmed menu/manual/clean ship-exit checks, while an outside
 reload did not produce a pet or logged load opportunity. r2 preserves the policy
-and adds bounded developer-only check masks. A static role marked MAPPED must
+and added bounded developer-only check masks; corrected r3 is being checked.
+A static role marked MAPPED must
 never conceal this open gameplay acceptance failure.
 
 Latest Nexus native package: **0.10.2-native-test**, file **49469**, listed as

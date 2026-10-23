@@ -14,8 +14,14 @@ On 23 October, exact 0.10.3 candidate r1 started on Steam 25732212, completed
 its pre-activation backup, and displayed the menu and icons. The owner
 confirmed a manual pet and one clean automatic ship-exit summon. A separate
 reload while standing outside produced no visible pet and no recorded load
-opportunity. This is an open candidate acceptance failure; its cause is not
-yet established. A bounded callback-context diagnostic is the next step.
+opportunity. r2 diagnostics established that the successful local-load callback
+arrives before the required applied FSM state; that new guard refused it.
+The corrected exact-caller policy passed r3 and final-r4 gameplay acceptance. One r2
+teleport reached a station with no pet or recorded filtered callback. Broader
+passive sampling did not establish its cause. A later r3 reverse route and
+final-r4 base-to-station trip both produced a fresh opportunity, accepted queue
+and visible pet after manual dismissal. The earlier miss remains bounded
+history, with no general teleport or multiplayer claim.
 The [candidate record](release/0.10.3-COSMOS-706.md) separates archive identity,
 offline checks and live results. This does not change the public 0.10.2 issues.
 

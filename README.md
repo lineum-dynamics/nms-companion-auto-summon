@@ -4,9 +4,9 @@
 Keep a separate backup made while the game is closed before installing.**
 
 **In development:** 0.10.3-native-test targets exact Cosmos 7.06 / Steam
-25732212. Its local candidate starts, displays the settings menu and has one
-confirmed automatic ship-exit summon. Save-load acceptance is still open;
-this candidate has not been published. See the
+25732212. Its final local archive passed startup, save-load appearance,
+settings/icons and base-to-station teleport appearance; earlier port candidates
+also passed ship exit and the reverse teleport. Publication is pending. See the
 [7.06 candidate record](docs/release/0.10.3-COSMOS-706.md).
 
 Automatically summon an owned companion after loading a save or leaving your

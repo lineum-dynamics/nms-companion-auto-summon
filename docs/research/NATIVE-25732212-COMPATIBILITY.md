@@ -3,8 +3,9 @@
 Status: unpublished 0.10.3 native port candidate, updated 23 October 2026.
 The candidate profile selects exact Cosmos 7.06 / Steam 25732212 for controlled
 activation. Static contracts and owned-memory guards are mapped; the candidate
-still needs its own offline build, exact-archive game acceptance and release
-checks. Public 0.10.2 remains a 7.05 package. Unknown identities are refused.
+r1/r2 passed offline checks and activation; r1 passed menu/manual/ship-exit
+checks. r2 identified a load-state timing refusal; corrected r3 acceptance and
+release remain open. Public 0.10.2 remains a 7.05 package. Unknown identities are refused.
 
 Use the reusable [NATIVE-UPDATE-MAP](NATIVE-UPDATE-MAP.md) for the repeatable
 workflow, evidence labels and handoff requirements.
@@ -30,21 +31,21 @@ the [official 7.06 notes](https://www.nomanssky.com/2026/10/cosmos-7-06/).
 | Existing approved profile | Cosmos 7.05, Steam build 25624745 |
 | Existing approved executable SHA-256 | 671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4 |
 | Git source baseline under review | `f7d97b61fcf152677d0d30de34f6c1b48675c436` (`main` base) |
-| Research branch | `compat/cosmos-706-25732212`; 7.06 native mappings/profile not enabled |
+| Research branch | `compat/cosmos-706-25732212`; exact 7.06 candidate enabled for controlled trials |
 | Latest public mod package | `0.10.2-native-test`, Nexus file 49469 |
 | Compatibility currently covered by that package | Windows/Steam Cosmos 7.05, build 25624745 and the 7.05 hash above |
 | Public package listing rechecked | Nexus page still lists `0.10.2-native-test`, last updated 3 October 2026; its description says build 25624745 only (checked 22 October 2026) |
 
 The Steam build ID and executable hash identify different things. The mod's
-current hash guard rejects this executable before installing native hooks.
+public 0.10.2 hash guard rejects this executable before installing native hooks.
 The Git source revision and Nexus package version are separate identities; the
 newer package does not cover build 25732212.
 
 ## Current gate index, 23 October 2026
 
-The target source ledger now has **89/89 MAPPED**, with no static PARTIAL or
+The target source ledger now has **90/90 MAPPED**, with no static PARTIAL or
 NOT CHECKED role. This is a static contract index, not release readiness.
-Four new load-policy inputs expanded the original 85-role inventory; none was
+Five new load-policy inputs expanded the original 85-role inventory; none was
 removed. The last four roles are reconciled as guarded source contracts using
 the complete ABI audit, explicit load policy, known constructor/copy/consumer
 paths and owned-memory refusal checks. This is a scope/status reconciliation,
@@ -53,8 +54,8 @@ candidate handoff explains each decision and retains the unresolved live gates.
 
 | Acceptance gate | Next bounded action | Required evidence |
 | --- | --- | --- |
-| Local save load and death exclusion | Exercise the applied-state/local-receiver guard in the exact candidate; retain the opaque zero-only byte veto and deferred readiness. | Actual candidate log and visible behavior; no claim that the byte classifies all network cases. |
-| Experimental teleport policy | Preserve exact return 0x330314, reason 11 and flag 1, with the applied-state check. | Controlled candidate arrival behavior. Native event completion and remote-player behavior remain unverified. |
+| Local save load and death exclusion | Exercise exact callback return 0x4906C2 with vtable/local receiver and stable identity checks. r2 proved the callback precedes applied LocalLoadState. Retain opaque zero-only veto and deferred readiness. | Exact candidate log and visible behavior; known DeathState return excluded. No general network classifier claim. |
+| Experimental teleport policy | Preserve baseline return 0x330314, reason 11/flag 1; record FSM state diagnostically. Add bounded passive reason-11 records for other returns after r2 captured none on a confirmed trip. | Controlled candidate arrival behavior. Native event completion and remote-player behavior remain unverified. |
 | Custom-row retention | Check the settings parent, seven children, labels/icons and a close/reopen cycle in the exact archive. | Real appended rows survive normal rebuilds; stock rows and owned fixtures do not establish this. |
 | Archive and release | Build/validate the 7.06 candidate, package an immutable allowlist, then run the controlled game checks. | Exact source/build/archive identities, functional acceptance and publication/readback. |
 
@@ -3374,7 +3375,7 @@ progress index, not a replacement for that evidence.
 | Ownership update hook | `0x508D30` | MAPPED: replacement `0x508DC0`; owner/delta caller and chained body. The old RVA is rejected. | Hook lifecycle and exact-build runtime behavior. |
 | Ship eject hook | `0x17521C0` | MAPPED: candidate `0x1754180`; receiver plus `R8B`/`R9B` Boolean ABI matches source, and ordinary direct callers pass the application local-player pointer in `RDX`. | Confirm exact-process hook lifecycle, thread and live auto-summon timing. |
 | Entered-cockpit hook | `0x1481F60` | MAPPED: candidate `0x1483E20`; one `this` player pointer in `RCX`, three direct callers pass `app+0x72C6F0`. | Confirm exact-process hook lifecycle and live state-reset behavior. |
-| Save-load hook | `0x572C40` | MAPPED for guarded source contract: target `0x573500`, six physical slots with opaque byte slots 4/5 forwarded, slot 6 retained without semantic naming, and Boolean result. The exact applied LocalLoadState/vtable and `app+0xB940` receiver gate excludes the known DeathState caller; source fourth byte must be zero. Deferred readiness remains authoritative. | Exercise the actual candidate; state/receiver identity is not a general network classifier or completed-load event. |
+| Save-load hook | `0x572C40` | MAPPED for guarded source contract: target `0x573500`, six physical slots with opaque byte slots 4/5 forwarded, slot 6 retained without semantic naming, Boolean result. Exact return `0x4906C2`, vtable and `app+0xB940` receiver exclude the known DeathState caller; source fourth byte must be zero. Applied-state gating was rejected by r2 timing evidence. Deferred readiness remains authoritative. | Exercise corrected candidate; callback identity is not a general network classifier or completed-load event. |
 | Quick-action trigger hook | `0x152FEF0` | MAPPED: QAM `TriggerAction` candidate `0x1531E00` and static callers. | Detour lifecycle and exact-build runtime behavior. |
 | Quick-menu builder hook | `0x15282B0` | MAPPED: builder candidate `0x152A1C0`, item creation and owner path corroborated. | Hook lifecycle and live menu behavior. |
 | Quick-menu label hook | `0x152C7D0` | MAPPED: RTTI-confirmed QAM slot 9 `0x153C0C0` has one direct caller at `0x1529288`; `RCX=QAM`, `RDX=256-byte label buffer`, `R8=adjacent byte at buffer+0x100`. Source callback now forwards all three arguments; its installed RVA is still the 7.05 value. | Add the 7.06 target only in a verified build-specific profile; preserve the opaque byte and verify hook/thread/UI behavior. |
@@ -3406,6 +3407,7 @@ progress index, not a replacement for that evidence.
 | Load policy: state object | New 7.06 policy `base+0x6E8EA40` | MAPPED: the constructor/registration chain identifies the application LocalLoadState; the confirmed load trace enters and exits this exact object. | Verify synchronous hook timing and the candidate archive. |
 | Load policy: state vtable | New 7.06 policy `base+0x4A50A30`, 8-byte comparison | MAPPED: RTTI-confirmed LocalLoadState vtable, checked successfully by every accepted lifecycle sample. | Verify candidate refusal on changed/unreadable identity. |
 | Load policy: local receiver | New 7.06 policy `app+0xB940` | MAPPED: constructor-derived cGcPlayerState address matches all four discovered direct load-candidate receivers; the policy checks the incoming receiver against this exact application subobject. | Verify actual hook behavior; this receiver check is not a general multiplayer classification. |
+| Load policy: callback return | New 7.06 policy `base+0x4906C2` | MAPPED: return after the verified call at `0x4906BD` in root `0x48FA60`; r2 recorded this exact caller, matching receiver, zero source byte, success and readable nonzero common key during owner-confirmed load. The distinct known DeathState return is rejected. | Corrected candidate must produce a deferred load opportunity and visible pet; general network semantics remain open. |
 | Local-player pointer | `app+0x72C6F0` | MAPPED statically: the placement candidate reads it from the exact 7.06 application object. | Confirm local-player identity and behavior in the live path. |
 | Location value | `app+0x57A584` | MAPPED statically: exact helper `0x50A520` reads this from global `0x6E8D708` and branches on the location value. | Confirm exact source enum meanings and live behavior. |
 | Active companion slot | `app+0x29A1C0`, 4 bytes | MAPPED: exact application global `0x6E8D708`; setter stores a 0–29 roster slot, clearer stores `-1`, and a consumer passes the value to the roster-index helper. | Confirm transition timing and behavior in the live local-player path. |
@@ -6380,3 +6382,66 @@ action: read that actual callback's caller/masks/result/key-presence predicates,
 then repair only the supported failure and repeat affected gates. Static ledger
 remains 89/89 source contracts with load and teleport gameplay gates open.
 No public push/upload or release, no locale/player-text change.
+
+### Measured load-timing correction and final r4 acceptance, 23 October 2026
+
+This supersedes the pending r2 action. Static source inventory is now 90/90
+MAPPED: exact local-load return 0x4906C2 is the fifth added policy input. r2
+recorded a successful call at that return, zero source byte, matching receiver,
+readable nonzero common key, and masks 0x0f before/after. The applied FSM state
+was the first refusal. Position reason 1 followed later. Requiring a state seen
+later in the load at this earlier callback was a new source-policy error.
+
+The corrected guard requires the exact verified return, app+0xB940 receiver,
+state vtable and stable identities, preserving original arguments/result,
+opaque zero-only veto and deferred native readiness. The distinct known death
+return cannot pass. The source/helper policy and schema include callback_return;
+21 owned cases include the pre-applied-state positive control and foreign
+caller/receiver/vtable/unstable-state negatives. Never reuse this RVA across a
+new executable hash without revalidation. AGENTS and the mandatory playbook
+now require actual callback-boundary timing evidence before adding predicates.
+
+r3 passed 808 developer tests, full native bundle and 28 menu scenarios. The
+owner saw a pet on station load: successful callback 08:33:29.895 UTC, deferred
+opportunity 08:33:44.138, accepted queue 08:33:45.751. After manual dismissal,
+station-to-base teleport created a distinct opportunity at 08:36:11.368 and
+accepted queue at 08:36:12.948; visible appearance confirmed. Teleport's applied
+state mask was 0x7f. This does not prove that the earlier unrecorded r2 trip was
+refused by the state guard. r2 after-state reads independently established a
+station, reason 11/phase 0, no active/queued pet; they did not capture a callback.
+The extra unverified FSM restriction on experimental teleport was removed to
+preserve its baseline filter. Temporary other-return sampling added no new
+caller evidence and was removed from final r4.
+
+Final r4 ZIP dist/CompanionAutoSummon-0.10.3-native-test.zip is 3,725,947 bytes /
+SHA-256 DF7CF87276391A9DC9BDF596611563B3787530DA5D5C0107F51BB994F580B3F2.
+ASI is 2,639,360 bytes /
+6474247C07E7659EFC6E4FC698A1E7CDF9471C3EC471656675A251FF5FE96652.
+Full 29-member/ten-overlay readback passed; its immutable r4 build/bundle
+receipts passed, including 21 context cases, 63 runtime cases, 16 backup checks,
+hook ABI and six unsupported hosts. The unchanged menu input hashes match the
+passing r3 report: 28 scenarios/213-byte filter parity. No player UI/catalog
+meaning changed. Full artifact/receipt hashes are in the release record.
+
+After owner-confirmed normal closure, a fresh private closed-game backup
+verified 63 files/8,783,300 bytes, protected current user/SYSTEM. Previous ASI
+privately retained; only ASI changed; all ten installed hashes matched.
+Actual process 36728 loaded the exact final ASI, completed a matching private
+pre-activation snapshot and logged hooks active at 08:42:44.348 UTC. The owner
+confirmed final load appearance and settings/icons, then manually dismissed the
+pet before base-to-station teleport and confirmed a new pet. Final native log:
+load 08:43:43.684 with masks 0x16f/0x16f, deferred opportunity 08:43:57.706,
+accepted queue 08:44:24.417; distinct teleport opportunity 08:46:27.944 with
+mask 0x7f, queue accepted 08:46:29.560. Queue logs corroborate the named owner
+confirmations; they do not alone prove appearance.
+
+Local checkpoint 63236a1 retained r1/r2 source/evidence with core@lineum.io;
+corrected source and final receipts still await release checkpoint/synchronization.
+Canonical remote main was freshly read as f7d97b61; no open port PR was returned.
+Fresh authenticated Nexus readback still showed 49469/0.10.2 Main Primary.
+Next: commit corrected source/release identity, fast-forward remote main and
+branch without rewriting, verify remote heads, upload this exact archive, then
+record file ID/status/readback. No upload/push has occurred yet. Multiplayer,
+second-PC, death/respawn, full location matrix and long-session acceptance remain
+NOT CHECKED; no stable/general event-safety claim. Do not modify active game
+runtime or immutable candidate receipts to record these later observations.

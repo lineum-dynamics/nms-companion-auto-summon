@@ -32,7 +32,7 @@ cas::MenuAdapter* menu_adapter = nullptr;
 cas::BindingGuard* binding = nullptr;
 Address runtime_image_base{};
 bool appliedLocalLoadContext(void* player_state) noexcept;
-cas::LoadContextObservation observeLocalLoadContext(void* player_state) noexcept;
+cas::LoadContextObservation observeLocalLoadContext(void* player_state,Address caller_return=0) noexcept;
 volatile LONG load_diagnostics = 0;
 #ifdef CAS_TELEPORT_CANDIDATE_TRIAL
 volatile LONG teleport_context_diagnostics = 0;
@@ -140,7 +140,9 @@ void __declspec(noinline) respawnCandidateHook(void* manager, std::int32_t reaso
 #ifdef CAS_TELEPORT_CANDIDATE_TRIAL
         if (return_rva == respawn_return_sites[0] && reason == 11 && flag && runtime) {
             const auto context=observeLocalLoadContext(nullptr);
-            if (context.accepted) runtime->afterTeleportCandidateTrial();
+            // Preserve the experimental 7.05 source filter. Applied FSM state
+            // was an additional unverified 7.06 restriction; record it only.
+            runtime->afterTeleportCandidateTrial();
             const auto sequence=InterlockedIncrement(&teleport_context_diagnostics);
             if (sequence>0 && sequence<=16) {
                 char message[160]{};
@@ -261,25 +263,26 @@ bool appliedLocalLoadContext(void* player_state) noexcept {
     return cas::applied_local_load_context(runtime_image_base,cas::mapping::target,
                                            reinterpret_cast<Address>(player_state),readMemory);
 }
-cas::LoadContextObservation observeLocalLoadContext(void* player_state) noexcept {
+cas::LoadContextObservation observeLocalLoadContext(void* player_state,Address caller_return) noexcept {
     return cas::observe_local_load_context(runtime_image_base,cas::mapping::target,
-                                           reinterpret_cast<Address>(player_state),readMemory);
+                                           reinterpret_cast<Address>(player_state),readMemory,caller_return);
 }
 bool loadHook(void* player,void* common,void* state,std::uint8_t source_veto,std::uint8_t fifth_flag,std::uint32_t sixth_slot) {
     const bool started=active();
     const auto caller=reinterpret_cast<Address>(__builtin_return_address(0));
     // In 7.06 the native body overwrites the fourth home slot before reading
     // it. Preserve the argument and its existing zero-only mod veto without
-    // calling it a network classification. The applied state excludes the
-    // known DeathState caller; original arguments/results always pass through.
+    // calling it a network classification. The verified local-load return
+    // excludes the known DeathState caller. The callback can precede applied
+    // LocalLoadState; original arguments/results always pass through.
     constexpr bool guarded_load=cas::mapping::target.local_load.state!=0;
-    const auto before=started && guarded_load ? observeLocalLoadContext(player) : cas::LoadContextObservation{};
+    const auto before=started && guarded_load && caller ? observeLocalLoadContext(player,caller) : cas::LoadContextObservation{};
     const bool eligible=started && source_veto==0 && (!guarded_load || player) &&
                         (guarded_load ? before.accepted : appliedLocalLoadContext(player));
     if (started && runtime && (!guarded_load || eligible)) runtime->beforeLoad(source_veto!=0);
     const bool result=load_original(player,common,state,source_veto,fifth_flag,sixth_slot);
     if (started && active() && runtime) {
-        const auto after=guarded_load ? observeLocalLoadContext(player) : cas::LoadContextObservation{};
+        const auto after=guarded_load && caller ? observeLocalLoadContext(player,caller) : cas::LoadContextObservation{};
         if (!guarded_load || (eligible && after.accepted))
             runtime->afterLoad(reinterpret_cast<Address>(common),source_veto!=0,result);
         if (guarded_load) {

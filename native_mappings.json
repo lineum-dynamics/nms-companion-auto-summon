@@ -47,7 +47,8 @@
         "current_state_cell": "0x0",
         "state": "0x0",
         "vtable": "0x0",
-        "player_state_offset": "0x0"
+        "player_state_offset": "0x0",
+        "callback_return": "0x0"
       }
     },
     "25732212": {
@@ -96,7 +97,8 @@
         "current_state_cell": "0x6E8D6E0",
         "state": "0x6E8EA40",
         "vtable": "0x4A50A30",
-        "player_state_offset": "0xB940"
+        "player_state_offset": "0xB940",
+        "callback_return": "0x4906C2"
       }
     }
   }

@@ -1,6 +1,26 @@
 # Changelog
 
-## Unreleased — Cosmos 7.06 investigation, 23 October 2026
+## 0.10.3-native-test — Cosmos 7.06, 23 October 2026
+
+- Port the native EARLY ALPHA to exact Windows/Steam Cosmos 7.06, build
+  25732212, executable SHA-256
+  `13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499`.
+  Unknown game identities still refuse activation before gameplay hooks.
+- Select every build-specific native mapping from one validated registry.
+  Fix load timing with the verified return/receiver/vtable contract, keeping
+  the distinct known death caller excluded and native readiness authoritative.
+- Final archive passed owner-confirmed startup, save-load appearance, menu/icons
+  and base-to-station teleport appearance. Earlier port candidates also passed
+  clean ship-exit and station-to-base checks. Teleport remains experimental;
+  multiplayer isolation, death/respawn and second-PC acceptance remain open.
+- Pass 808 developer tests, 21 load-context cases, 28 menu scenarios and the full
+  native bundle. Preserve player preferences, native ownership/placement rules
+  and existing UI wording. No language-catalog meaning change.
+- Final ZIP: 3,725,947 bytes, SHA-256
+  `df7cf87276391a9dc9bdf596611563b3787530da5d5c0107f51bb994f580b3f2`.
+  Publication/readback is tracked in the [release record](docs/release/0.10.3-COSMOS-706.md).
+
+### Retained 7.06 development history
 
 - Require early read-only runtime evidence during native updates, with one
   concrete player action, a baseline and an after-state. Record successful

@@ -21,10 +21,15 @@ that same selection. The independent native hash/prefix guards remain in place.
 The profile now selects the 7.06 / build 25732212 entry for controlled candidate
 activation after the static contracts and owned-memory guard checks. The
 retained 7.05 mapping stays separate. Unapproved/unknown identities are refused;
-approval is not a claim of gameplay or release acceptance. The 7.06 applied
-LocalLoadState/receiver policy passes 13 owned-memory checks, but has not been
-exercised in a game candidate. Custom-row retention and event/lifecycle
-verification remain open in the [exact-build ledger](../docs/research/NATIVE-25732212-COMPATIBILITY.md).
+approval is not a claim of gameplay or release acceptance. The 7.06 policy
+requires verified load return 0x4906C2, exact state vtable/local receiver and
+stable identity reads. Twenty-one owned-memory cases cover its refusal paths.
+r2 showed that the callback precedes applied LocalLoadState; requiring that
+state at this earlier boundary incorrectly suppressed load opportunities.
+Corrected r3 produced an owner-confirmed pet after a station load and a separate
+station-to-base teleport, with distinct accepted queues. The final archive has
+its own acceptance record. See the [candidate record](../docs/release/0.10.3-COSMOS-706.md)
+and [exact-build ledger](../docs/research/NATIVE-25732212-COMPATIBILITY.md).
 The public package remains 0.10.2 for 7.05 until a validated new release.
 
 The native test candidate targets the exact executable in

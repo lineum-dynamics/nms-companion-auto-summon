@@ -32,6 +32,12 @@ class NativeMappingTests(unittest.TestCase):
         self.assertEqual(candidate["globals"]["application"], 0x6E8D708)
         self.assertEqual(candidate["position_returns"], [0x330314, 0x3306BF, 0x330996])
         self.assertEqual(candidate["local_load"]["state"], 0x6E8EA40)
+        self.assertEqual(candidate["local_load"]["callback_return"], 0x4906C2)
+
+    def test_rejects_missing_callback_policy(self):
+        self.registry["builds"]["25732212"]["local_load"]["callback_return"] = "0x0"
+        with self.assertRaisesRegex(ValueError, "complete or all zero"):
+            read_native_mappings(self.write())
 
     def test_rejects_mismatched_release_label(self):
         record = read_native_mappings()["25624745"]

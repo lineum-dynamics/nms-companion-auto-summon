@@ -17,9 +17,9 @@ struct Globals {
     std::uint32_t application, resource_manager, retain_manager, interaction_range;
 };
 struct LocalLoadPolicy {
-    // All zero for the retained 7.05 policy. The 7.06 candidate additionally
-    // requires the applied FSM state and its exact vtable/receiver identity.
-    std::uint32_t current_state_cell, state, vtable, player_state_offset;
+    // All zero for the retained 7.05 policy. The 7.06 load callback requires
+    // its exact return site and vtable/receiver; FSM reads remain diagnostic.
+    std::uint32_t current_state_cell, state, vtable, player_state_offset, callback_return;
 };
 struct Build {
     std::string_view steam_build, exe_sha256;

@@ -2911,3 +2911,66 @@ action: read that actual callback's caller/masks/result/key-presence predicates,
 then repair only the supported failure and repeat affected gates. Static ledger
 remains 89/89 source contracts with load and teleport gameplay gates open.
 No public push/upload or release, no locale/player-text change.
+
+### Measured load-timing correction and final r4 acceptance, 23 October 2026
+
+This supersedes the pending r2 action. Static source inventory is now 90/90
+MAPPED: exact local-load return 0x4906C2 is the fifth added policy input. r2
+recorded a successful call at that return, zero source byte, matching receiver,
+readable nonzero common key, and masks 0x0f before/after. The applied FSM state
+was the first refusal. Position reason 1 followed later. Requiring a state seen
+later in the load at this earlier callback was a new source-policy error.
+
+The corrected guard requires the exact verified return, app+0xB940 receiver,
+state vtable and stable identities, preserving original arguments/result,
+opaque zero-only veto and deferred native readiness. The distinct known death
+return cannot pass. The source/helper policy and schema include callback_return;
+21 owned cases include the pre-applied-state positive control and foreign
+caller/receiver/vtable/unstable-state negatives. Never reuse this RVA across a
+new executable hash without revalidation. AGENTS and the mandatory playbook
+now require actual callback-boundary timing evidence before adding predicates.
+
+r3 passed 808 developer tests, full native bundle and 28 menu scenarios. The
+owner saw a pet on station load: successful callback 08:33:29.895 UTC, deferred
+opportunity 08:33:44.138, accepted queue 08:33:45.751. After manual dismissal,
+station-to-base teleport created a distinct opportunity at 08:36:11.368 and
+accepted queue at 08:36:12.948; visible appearance confirmed. Teleport's applied
+state mask was 0x7f. This does not prove that the earlier unrecorded r2 trip was
+refused by the state guard. r2 after-state reads independently established a
+station, reason 11/phase 0, no active/queued pet; they did not capture a callback.
+The extra unverified FSM restriction on experimental teleport was removed to
+preserve its baseline filter. Temporary other-return sampling added no new
+caller evidence and was removed from final r4.
+
+Final r4 ZIP dist/CompanionAutoSummon-0.10.3-native-test.zip is 3,725,947 bytes /
+SHA-256 DF7CF87276391A9DC9BDF596611563B3787530DA5D5C0107F51BB994F580B3F2.
+ASI is 2,639,360 bytes /
+6474247C07E7659EFC6E4FC698A1E7CDF9471C3EC471656675A251FF5FE96652.
+Full 29-member/ten-overlay readback passed; its immutable r4 build/bundle
+receipts passed, including 21 context cases, 63 runtime cases, 16 backup checks,
+hook ABI and six unsupported hosts. The unchanged menu input hashes match the
+passing r3 report: 28 scenarios/213-byte filter parity. No player UI/catalog
+meaning changed. Full artifact/receipt hashes are in the release record.
+
+After owner-confirmed normal closure, a fresh private closed-game backup
+verified 63 files/8,783,300 bytes, protected current user/SYSTEM. Previous ASI
+privately retained; only ASI changed; all ten installed hashes matched.
+Actual process 36728 loaded the exact final ASI, completed a matching private
+pre-activation snapshot and logged hooks active at 08:42:44.348 UTC. The owner
+confirmed final load appearance and settings/icons, then manually dismissed the
+pet before base-to-station teleport and confirmed a new pet. Final native log:
+load 08:43:43.684 with masks 0x16f/0x16f, deferred opportunity 08:43:57.706,
+accepted queue 08:44:24.417; distinct teleport opportunity 08:46:27.944 with
+mask 0x7f, queue accepted 08:46:29.560. Queue logs corroborate the named owner
+confirmations; they do not alone prove appearance.
+
+Local checkpoint 63236a1 retained r1/r2 source/evidence with core@lineum.io;
+corrected source and final receipts still await release checkpoint/synchronization.
+Canonical remote main was freshly read as f7d97b61; no open port PR was returned.
+Fresh authenticated Nexus readback still showed 49469/0.10.2 Main Primary.
+Next: commit corrected source/release identity, fast-forward remote main and
+branch without rewriting, verify remote heads, upload this exact archive, then
+record file ID/status/readback. No upload/push has occurred yet. Multiplayer,
+second-PC, death/respawn, full location matrix and long-session acceptance remain
+NOT CHECKED; no stable/general event-safety claim. Do not modify active game
+runtime or immutable candidate receipts to record these later observations.
