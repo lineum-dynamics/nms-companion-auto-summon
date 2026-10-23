@@ -63,8 +63,106 @@ def dacl_sddl(path):
         kernel.LocalFree(ctypes.cast(text, ctypes.c_void_p))
 
 
-def validate(driver):
-    root = Path(tempfile.mkdtemp(prefix="native-backup-", dir=ROOT / "build"))
+def _sid_string(sid):
+    advapi = ctypes.WinDLL("advapi32", use_last_error=True)
+    kernel = ctypes.WinDLL("kernel32", use_last_error=True)
+    convert = advapi.ConvertSidToStringSidW
+    convert.argtypes = [ctypes.c_void_p, ctypes.POINTER(wintypes.LPWSTR)]
+    convert.restype = wintypes.BOOL
+    kernel.LocalFree.argtypes = [ctypes.c_void_p]
+    kernel.LocalFree.restype = ctypes.c_void_p
+    text = wintypes.LPWSTR()
+    if not convert(sid, ctypes.byref(text)):
+        raise OSError("Cannot decode fixture ACL trustee")
+    try:
+        return text.value
+    finally:
+        kernel.LocalFree(ctypes.cast(text, ctypes.c_void_p))
+
+
+def current_user_sid():
+    """Return the token SID for comparison only; never print or retain it."""
+    advapi = ctypes.WinDLL("advapi32", use_last_error=True)
+    kernel = ctypes.WinDLL("kernel32", use_last_error=True)
+    kernel.GetCurrentProcess.restype = wintypes.HANDLE
+    kernel.CloseHandle.argtypes = [wintypes.HANDLE]
+    open_token = advapi.OpenProcessToken
+    open_token.argtypes = [wintypes.HANDLE, wintypes.DWORD, ctypes.POINTER(wintypes.HANDLE)]
+    open_token.restype = wintypes.BOOL
+    token_info = advapi.GetTokenInformation
+    token_info.argtypes = [wintypes.HANDLE, ctypes.c_int, ctypes.c_void_p, wintypes.DWORD,
+                          ctypes.POINTER(wintypes.DWORD)]
+    token_info.restype = wintypes.BOOL
+    token = wintypes.HANDLE()
+    if not open_token(kernel.GetCurrentProcess(), 8, ctypes.byref(token)):
+        raise OSError("Cannot inspect fixture token")
+    try:
+        size = wintypes.DWORD()
+        token_info(token, 1, None, 0, ctypes.byref(size))
+        if not size.value:
+            raise OSError("Cannot size fixture token")
+        buffer = ctypes.create_string_buffer(size.value)
+        if not token_info(token, 1, buffer, size.value, ctypes.byref(size)):
+            raise OSError("Cannot read fixture token")
+        return _sid_string(ctypes.c_void_p.from_buffer(buffer).value)
+    finally:
+        kernel.CloseHandle(token)
+
+
+def private_dacl_matches_current_user(sddl, *, require_protected):
+    """Compare binary ACL trustees, types and masks; SDDL aliases are equivalent."""
+    advapi = ctypes.WinDLL("advapi32", use_last_error=True)
+    kernel = ctypes.WinDLL("kernel32", use_last_error=True)
+    pointer = ctypes.c_void_p
+    convert = advapi.ConvertStringSecurityDescriptorToSecurityDescriptorW
+    convert.argtypes = [wintypes.LPCWSTR, wintypes.DWORD, ctypes.POINTER(pointer), ctypes.c_void_p]
+    convert.restype = wintypes.BOOL
+    get_control = advapi.GetSecurityDescriptorControl
+    get_control.argtypes = [pointer, ctypes.POINTER(wintypes.WORD), ctypes.POINTER(wintypes.DWORD)]
+    get_control.restype = wintypes.BOOL
+    get_dacl = advapi.GetSecurityDescriptorDacl
+    get_dacl.argtypes = [pointer, ctypes.POINTER(wintypes.BOOL), ctypes.POINTER(pointer), ctypes.POINTER(wintypes.BOOL)]
+    get_dacl.restype = wintypes.BOOL
+    get_ace = advapi.GetAce
+    get_ace.argtypes = [pointer, wintypes.DWORD, ctypes.POINTER(pointer)]
+    get_ace.restype = wintypes.BOOL
+    kernel.LocalFree.argtypes = [pointer]
+    kernel.LocalFree.restype = pointer
+    descriptor = pointer()
+    if not convert(sddl, 1, ctypes.byref(descriptor), None):
+        return False
+    try:
+        control, revision = wintypes.WORD(), wintypes.DWORD()
+        if not get_control(descriptor, ctypes.byref(control), ctypes.byref(revision)):
+            return False
+        if require_protected and not control.value & 0x1000:
+            return False
+        present, defaulted, dacl = wintypes.BOOL(), wintypes.BOOL(), pointer()
+        if not get_dacl(descriptor, ctypes.byref(present), ctypes.byref(dacl), ctypes.byref(defaulted)):
+            return False
+        if not present.value or not dacl.value or ctypes.c_ushort.from_address(dacl.value+4).value != 2:
+            return False
+        trustees = []
+        for index in range(2):
+            ace = pointer()
+            if not get_ace(dacl, index, ctypes.byref(ace)) or not ace.value:
+                return False
+            # ACCESS_ALLOWED_ACE: header/type at 0, mask at 4, SidStart at 8.
+            if ctypes.c_ubyte.from_address(ace.value).value != 0:
+                return False
+            if ctypes.c_uint32.from_address(ace.value+4).value != 0x1F01FF:
+                return False
+            trustees.append(_sid_string(ace.value+8))
+        return sorted(trustees) == sorted(["S-1-5-18", current_user_sid()])
+    finally:
+        kernel.LocalFree(descriptor)
+
+
+def validate(driver, *, fixture_parent=None):
+    parent = Path(fixture_parent) if fixture_parent is not None else ROOT / "build"
+    if not parent.is_absolute() or not parent.is_dir():
+        raise ValueError("Backup fixture parent must be an existing absolute directory")
+    root = Path(tempfile.mkdtemp(prefix="native-backup-", dir=parent))
     report = {"schema": 1, "scope": "isolated before-native-hooks snapshot fixtures",
               "game_access": False, "live_user_data_access": False, "native_hooks": False,
               "fixture_root": str(root), "started_utc": datetime.now(timezone.utc).isoformat(),
@@ -105,9 +203,9 @@ def validate(driver):
         assert snapshot(saves) == before_saves and snapshot(prefs) == before_prefs
         checks.append("recursive_unicode_byte_hash_receipt_and_source_immutability")
         acl = dacl_sddl(target)
-        assert acl.startswith("D:P") and acl.count("(") == 2 and ";;;SY)" in acl and ";;;S-1-5-21-" in acl, acl
+        assert private_dacl_matches_current_user(acl, require_protected=True), "Snapshot root ACL differs"
         child_acl = dacl_sddl(target / "saves" / "save.hg")
-        assert child_acl.count("(") == 2 and ";;;SY)" in child_acl and ";;;S-1-5-21-" in child_acl, child_acl
+        assert private_dacl_matches_current_user(child_acl, require_protected=False), "Snapshot child ACL differs"
         checks.append("protected_current_user_system_acl_and_child_inheritance")
 
         # Existing snapshots are never replaced, even if apparently incomplete.
@@ -203,11 +301,12 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--driver", required=True, type=Path)
     parser.add_argument("--report", required=True, type=Path)
+    parser.add_argument("--fixture-parent", type=Path, help="Optional owned fixture volume; never changes production backup paths or locking")
     args = parser.parse_args()
     driver, destination = args.driver.resolve(strict=True), args.report.resolve()
     if destination == driver or destination in {ROOT / name for name in SOURCES}:
         parser.error("Report must not overwrite a validation input")
-    report = validate(driver)
+    report = validate(driver, fixture_parent=args.fixture_parent)
     destination.parent.mkdir(parents=True, exist_ok=True)
     destination.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(json.dumps({"passed": report["passed"], "checks": len(report["checks"]), "report": str(destination)}))

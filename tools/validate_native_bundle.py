@@ -16,6 +16,7 @@ from native_mapping import load_native_mapping
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--build", required=True, type=Path)
+    parser.add_argument("--backup-fixture-parent", type=Path, help="Explicit owned backup-fixture directory on a separate test volume")
     args = parser.parse_args()
     directory = args.build.resolve(strict=True)
     receipt = json.loads((directory / "build-receipt.json").read_text(encoding="utf-8"))
@@ -40,8 +41,10 @@ def main():
     summaries = {}
     for name, script, option, executable in validators:
         report_path = directory / (name+"-validation.json")
+        fixture_options = (["--fixture-parent", str(args.backup_fixture_parent)]
+                           if name == "backup" and args.backup_fixture_parent is not None else [])
         result = subprocess.run([sys.executable,"-X","utf8","-B",str(ROOT/"tools"/script),option,
-                                 str(directory/executable),"--report",str(report_path)],
+                                 str(directory/executable),"--report",str(report_path),*fixture_options],
                                 cwd=ROOT,capture_output=True,text=True,encoding="utf-8",timeout=120)
         if result.returncode:
             raise RuntimeError(f"{name} validation failed: {result.stdout}\n{result.stderr}")

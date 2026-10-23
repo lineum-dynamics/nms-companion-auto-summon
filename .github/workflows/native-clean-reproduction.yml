@@ -14,6 +14,7 @@ on:
       - tools/build_native_runtime.py
       - tools/validate_native_dependencies.py
       - tools/validate_native_bundle.py
+      - tools/validate_native_backup.py
 
 permissions:
   contents: read
@@ -36,7 +37,7 @@ jobs:
             expected_module: 6474247c07e7659efc6e4fc698a1e7cdf9471c3ec471656675a251ff5fe96652
           - label: candidate-0104
             source: ${{ github.sha }}
-            expected_module: ''
+            expected_module: 765cdbdf0e99aea433fd977048b38f0cd28ccbe6c26902c511310a3ee9523ffa
     defaults:
       run:
         shell: pwsh
