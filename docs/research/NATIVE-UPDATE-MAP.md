@@ -3272,3 +3272,14 @@ claiming completion. Wider runtime gates remain explicitly NOT CHECKED.
   Nexus file50040's last direct readback was still quarantined on 23 October;
   no newer listing, actual download, 0.10.4 live acceptance or detector cause is
   established. The backup collision and antivirus quarantine are separate gates.
+
+### Scope correction: park backup work, 24 October 2026
+
+The owner explicitly prioritizes antivirus detections/Nexus upload and asked
+why backup work had taken over. Backup correctness and file-host quarantine are
+separate gates. The backup-root prototype passed sixteen existing owned cases,
+but lacks new binding/race review and is parked on fix/native-backup-volume-root;
+it is not integrated into any player archive. Its source/receipt and limits are
+recorded in NATIVE-BACKUP-VOLUME-ROOT.md. No additional backup work or desktop
+control is authorized by this continuation. Continue the antivirus attribution
+from the frozen 0.10.4 source/package and preserve all submitted bytes.

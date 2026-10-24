@@ -132,25 +132,82 @@ DWORD attributes(const fs::path& path) {
     if (result & FILE_ATTRIBUTE_REPARSE_POINT) fail("Reparse paths are forbidden in backups");
     return result;
 }
-Handle open_directory(const fs::path& path) {
+Handle open_directory(const fs::path& path, DWORD sharing = FILE_SHARE_READ) {
     Handle result(CreateFileW(path.c_str(),FILE_READ_ATTRIBUTES|FILE_LIST_DIRECTORY,
-        FILE_SHARE_READ,nullptr,OPEN_EXISTING,FILE_FLAG_BACKUP_SEMANTICS|FILE_FLAG_OPEN_REPARSE_POINT,nullptr));
+        sharing,nullptr,OPEN_EXISTING,FILE_FLAG_BACKUP_SEMANTICS|FILE_FLAG_OPEN_REPARSE_POINT,nullptr));
     if (result.get() == INVALID_HANDLE_VALUE) io_error("Cannot hold backup directory");
     if (!(information(result.get()).dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) fail("Expected a backup directory");
     return result;
 }
-// Keep all existing ancestors open without delete sharing. Their names cannot
-// be replaced by a junction after validation. Leaf file handles deny writes too.
-bool hold_chain(const fs::path& path, std::vector<Handle>& handles, bool allow_absent) {
-    auto current = path.root_path();
-    handles.push_back(open_directory(current));
-    for (const auto& part : path.relative_path()) {
+bool is_volume_guid_root(const std::wstring& value) {
+    if (value.size() != 49 || value.compare(0,11,L"\\\\?\\Volume{") != 0 || value.compare(47,2,L"}\\") != 0)
+        return false;
+    for (std::size_t i = 0; i < 36; ++i) {
+        const auto ch = value[11+i];
+        if (i == 8 || i == 13 || i == 18 || i == 23) { if (ch != L'-') return false; }
+        else if (!((ch >= L'0' && ch <= L'9') || (ch >= L'a' && ch <= L'f') || (ch >= L'A' && ch <= L'F')))
+            return false;
+    }
+    return true;
+}
+fs::path final_guid_path(HANDLE handle) {
+    std::array<wchar_t,32768> buffer{};
+    const auto count = GetFinalPathNameByHandleW(handle,buffer.data(),static_cast<DWORD>(buffer.size()),VOLUME_NAME_GUID);
+    if (!count || count >= buffer.size()) io_error("Cannot verify physical backup path");
+    return fs::path(std::wstring(buffer.data(),count));
+}
+struct VolumePath {
+    fs::path requested, root, relative, full;
+    Handle held_root;
+    bool ntfs;
+};
+VolumePath volume_path(const fs::path& requested) {
+    const auto original = absolute_local(requested);
+    std::array<wchar_t,64> name{};
+    if (!GetVolumeNameForVolumeMountPointW(original.root_path().c_str(),name.data(),static_cast<DWORD>(name.size())))
+        io_error("Cannot resolve physical backup volume");
+    if (std::find(name.begin(),name.end(),L'\0') == name.end() || !is_volume_guid_root(name.data()))
+        fail("Unverified backup volume identifier");
+    auto held = open_directory(original.root_path(),FILE_SHARE_READ|FILE_SHARE_WRITE);
+    const fs::path root(name.data());
+    if (folded(final_guid_path(held.get())) != folded(root)) fail("Drive root is not the expected physical volume root");
+    std::array<wchar_t,32> filesystem{};
+    if (!GetVolumeInformationByHandleW(held.get(),nullptr,0,nullptr,nullptr,nullptr,
+                                       filesystem.data(),static_cast<DWORD>(filesystem.size())))
+        io_error("Cannot inspect backup filesystem");
+    const auto relative = original.relative_path();
+    const fs::path full(root.native()+relative.native());
+    return {original,root,relative,full,std::move(held),folded(fs::path(filesystem.data())) == L"ntfs"};
+}
+void verify_volume_root(const VolumePath& path) {
+    const auto info = information(path.held_root.get());
+    if (!(info.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) || folded(final_guid_path(path.held_root.get())) != folded(path.root))
+        fail("Physical backup volume identity changed");
+}
+// All filesystem operations use the pinned physical volume GUID, not a mutable
+// drive-letter alias. On NTFS, a strictly held first child keeps the root
+// nonempty, so a reparse point cannot be installed there. Only that verified
+// root may share writes; every actual ancestor/source/destination retains the
+// original write/delete refusal. Empty/absent-first-child cases stay strict.
+bool hold_chain(const VolumePath& path, std::vector<Handle>& handles, bool allow_absent, bool parent_only = false) {
+    const auto relative = parent_only ? path.relative.parent_path() : path.relative;
+    auto current = path.root;
+    if (!path.ntfs || relative.empty()) handles.push_back(open_directory(current));
+    bool first = true;
+    for (const auto& part : relative) {
         current /= part;
         if (attributes(current) == INVALID_FILE_ATTRIBUTES) {
+            if (first && path.ntfs) handles.push_back(open_directory(path.root));
             if (allow_absent) return false;
             fail("Required backup parent directory is missing");
         }
-        handles.push_back(open_directory(current));
+        auto held = open_directory(current);
+        if (first) {
+            if (folded(final_guid_path(held.get())) != folded(current)) fail("Backup first-child volume binding changed");
+            verify_volume_root(path);
+        }
+        handles.push_back(std::move(held));
+        first = false;
     }
     return true;
 }
@@ -291,15 +348,19 @@ Snapshot collect(const fs::path& saves, const fs::path& prefs, bool saves_presen
 BackupReport verified_pre_activation_backup(const fs::path& save_root, const fs::path& preference_root,
                                            const fs::path& requested_destination) {
     try {
-        const auto saves = absolute_local(save_root), prefs = absolute_local(preference_root),
-                   destination = absolute_local(requested_destination);
+        const auto save_path = volume_path(save_root), preference_path = volume_path(preference_root),
+                   destination_path = volume_path(requested_destination);
+        const auto& saves = save_path.full;
+        const auto& prefs = preference_path.full;
+        const auto& destination = destination_path.full;
         if (inside(destination,saves) || inside(saves,destination) || inside(prefs,destination) || saves == prefs)
             fail("Snapshot source and destination paths overlap");
         std::vector<Handle> ancestor_handles, destination_handles;
-        const bool saves_present = hold_chain(saves,ancestor_handles,true);
-        const bool prefs_present = hold_chain(prefs,ancestor_handles,true);
-        hold_chain(destination.parent_path(),ancestor_handles,false);
+        const bool saves_present = hold_chain(save_path,ancestor_handles,true);
+        const bool prefs_present = hold_chain(preference_path,ancestor_handles,true);
+        hold_chain(destination_path,ancestor_handles,false,true);
         if (attributes(destination) != INVALID_FILE_ATTRIBUTES) fail("Snapshot destination already exists");
+        verify_volume_root(save_path); verify_volume_root(preference_path); verify_volume_root(destination_path);
         PrivateSecurity security;
         new_directory(destination,destination_handles,security.get());
         auto incomplete = new_file(destination/L"INCOMPLETE");
@@ -340,6 +401,7 @@ BackupReport verified_pre_activation_backup(const fs::path& save_root, const fs:
             if (first.relative != again.relative || first.directory != again.directory ||
                 !same_file(first.info,again.info)) fail("Source listing or identity changed during snapshot");
         }
+        verify_volume_root(save_path); verify_volume_root(preference_path); verify_volume_root(destination_path);
         SYSTEMTIME time{}; GetSystemTime(&time);
         char timestamp[32]{};
         std::snprintf(timestamp,sizeof timestamp,"%04u-%02u-%02uT%02u:%02u:%02uZ",
@@ -353,7 +415,7 @@ BackupReport verified_pre_activation_backup(const fs::path& save_root, const fs:
         text_file(receipt_file.get(),receipt.dump(2)+"\n");
         incomplete.close();
         if (!DeleteFileW((destination/L"INCOMPLETE").c_str())) io_error("Cannot finalize snapshot marker");
-        return {destination,static_cast<std::uint64_t>(snapshot.files),snapshot.bytes,saves_present,prefs_present};
+        return {destination_path.requested,static_cast<std::uint64_t>(snapshot.files),snapshot.bytes,saves_present,prefs_present};
     } catch (const BackupError&) { throw; }
       catch (const std::exception& error) { throw BackupError(std::string("Snapshot failed: ")+error.what()); }
 }
