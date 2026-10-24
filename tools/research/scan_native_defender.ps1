@@ -52,8 +52,17 @@ try {
     if ($report.input_sha256 -ne $ExpectedSha256) { $report.result = 'INPUT_MISMATCH'; throw 'Frozen module hash mismatch before scan' }
     $report.input_bytes = (Get-Item -LiteralPath $target).Length
     $platform = Join-Path $env:ProgramData 'Microsoft/Windows Defender/Platform'
-    $tools = @(Get-ChildItem -LiteralPath $platform -Filter MpCmdRun.exe -File -Recurse | Where-Object {
-        $_.VersionInfo.FileVersion -match ('^'+[regex]::Escape($report.engine_before.AMProductVersion)+'(?:\s|$)')
+    $allTools = @(Get-ChildItem -LiteralPath $platform -Directory | ForEach-Object {
+        $candidate = Join-Path $_.FullName 'MpCmdRun.exe'
+        if (Test-Path -LiteralPath $candidate -PathType Leaf) { Get-Item -LiteralPath $candidate }
+    })
+    $report.scanner_inventory = @($allTools | ForEach-Object {
+        $info = $_.VersionInfo
+        [pscustomobject]@{platform_directory=$_.Directory.Name;file_version=$info.FileVersion;numeric_version=('{0}.{1}.{2}.{3}' -f $info.FileMajorPart,$info.FileMinorPart,$info.FileBuildPart,$info.FilePrivatePart)}
+    })
+    $tools = @($allTools | Where-Object {
+        $info = $_.VersionInfo
+        ('{0}.{1}.{2}.{3}' -f $info.FileMajorPart,$info.FileMinorPart,$info.FileBuildPart,$info.FilePrivatePart) -eq $report.engine_before.AMProductVersion
     })
     if ($tools.Count -ne 1) { throw 'A unique scanner matching the active platform version was not found' }
     $scanner = $tools[0].FullName

@@ -2,6 +2,12 @@ name: Native exact-module Defender audit
 
 on:
   workflow_dispatch:
+    inputs:
+      scan_modules:
+        description: Reproduce and scan both frozen modules after reviewing engine readiness
+        type: boolean
+        required: true
+        default: false
   push:
     branches: [research/native-antivirus-attribution]
     paths:
@@ -42,6 +48,16 @@ jobs:
             $report.status = $status | Select-Object AMServiceEnabled,AntivirusEnabled,RealTimeProtectionEnabled,AMRunningMode,AMProductVersion,AMEngineVersion,AntivirusSignatureVersion,AntivirusSignatureLastUpdated,AntivirusSignatureAge
             $service = Get-Service -Name WinDefend -ErrorAction Stop
             $report.service_status = [string]$service.Status
+            $platform = Join-Path $env:ProgramData 'Microsoft/Windows Defender/Platform'
+            $report.platform_scanners = @(Get-ChildItem -LiteralPath $platform -Directory | ForEach-Object {
+              $candidate = Join-Path $_.FullName 'MpCmdRun.exe'
+              if (Test-Path -LiteralPath $candidate -PathType Leaf) {
+                $file = Get-Item -LiteralPath $candidate
+                $fileVersion = $file.VersionInfo
+                $numeric = '{0}.{1}.{2}.{3}' -f $fileVersion.FileMajorPart,$fileVersion.FileMinorPart,$fileVersion.FileBuildPart,$fileVersion.FilePrivatePart
+                [pscustomobject]@{platform_directory=$_.Name;file_version=$fileVersion.FileVersion;numeric_version=$numeric;active_version_match=($numeric -eq $status.AMProductVersion)}
+              }
+            })
             $scanner = Join-Path $env:ProgramFiles 'Windows Defender/MpCmdRun.exe'
             if (Test-Path -LiteralPath $scanner -PathType Leaf) {
               $signature = Get-AuthenticodeSignature -LiteralPath $scanner
@@ -70,7 +86,7 @@ jobs:
 
   exact-module-scan:
     needs: engine-readiness
-    if: needs.engine-readiness.outputs.ready == 'true'
+    if: needs.engine-readiness.outputs.ready == 'true' && github.event_name == 'workflow_dispatch' && inputs.scan_modules
     runs-on: windows-2022
     timeout-minutes: 20
     strategy:
