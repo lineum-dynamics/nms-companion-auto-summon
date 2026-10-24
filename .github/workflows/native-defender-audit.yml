@@ -1,0 +1,64 @@
+name: Native Defender engine readiness
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [research/native-antivirus-attribution]
+    paths:
+      - .github/workflows/native-defender-audit.yml
+
+permissions:
+  contents: read
+
+jobs:
+  engine-readiness:
+    runs-on: windows-2022
+    timeout-minutes: 5
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Read stock engine state without changing protection
+        run: |
+          $report = [ordered]@{
+            schema = 1
+            kind = 'stock-defender-readiness-only'
+            source_revision = '${{ github.sha }}'
+            observed_utc = [DateTime]::UtcNow.ToString('o')
+            image = $env:ImageOS
+            image_version = $env:ImageVersion
+            scan_performed = $false
+            game_access = $false
+            security_configuration_changed = $false
+            binary_uploaded = $false
+            ready = $false
+          }
+          try {
+            $status = Get-MpComputerStatus -ErrorAction Stop
+            $report.status = $status | Select-Object AMServiceEnabled,AntivirusEnabled,RealTimeProtectionEnabled,AMRunningMode,AMProductVersion,AMEngineVersion,AntivirusSignatureVersion,AntivirusSignatureLastUpdated,AntivirusSignatureAge
+            $service = Get-Service -Name WinDefend -ErrorAction Stop
+            $report.service_status = [string]$service.Status
+            $scanner = Join-Path $env:ProgramFiles 'Windows Defender/MpCmdRun.exe'
+            if (Test-Path -LiteralPath $scanner -PathType Leaf) {
+              $signature = Get-AuthenticodeSignature -LiteralPath $scanner
+              $report.scanner = [ordered]@{
+                sha256 = (Get-FileHash -LiteralPath $scanner -Algorithm SHA256).Hash.ToLowerInvariant()
+                version = (Get-Item -LiteralPath $scanner).VersionInfo.FileVersion
+                signature_status = [string]$signature.Status
+                signer = $signature.SignerCertificate.Subject
+              }
+              $report.ready = $status.AMServiceEnabled -and $status.AntivirusEnabled -and $service.Status -eq 'Running' -and $signature.Status -eq 'Valid' -and $signature.SignerCertificate.Subject -match 'Microsoft'
+            }
+          } catch {
+            $report.tool_error = [ordered]@{type = $_.Exception.GetType().FullName; hresult = $_.Exception.HResult}
+          }
+          New-Item -ItemType Directory -Force -Path build | Out-Null
+          $report | ConvertTo-Json -Depth 7 | Set-Content -LiteralPath build/defender-readiness.json -Encoding utf8
+          [pscustomobject]@{ready = $report.ready;scan_performed = $false;security_configuration_changed = $false} | ConvertTo-Json -Compress
+      - name: Retain readiness evidence only
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: native-defender-readiness
+          path: build/defender-readiness.json
+          if-no-files-found: error
+          retention-days: 14
