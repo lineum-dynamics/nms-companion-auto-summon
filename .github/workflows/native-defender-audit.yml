@@ -1,4 +1,4 @@
-name: Native Defender engine readiness
+name: Native exact-module Defender audit
 
 on:
   workflow_dispatch:
@@ -6,6 +6,7 @@ on:
     branches: [research/native-antivirus-attribution]
     paths:
       - .github/workflows/native-defender-audit.yml
+      - tools/research/scan_native_defender.ps1
 
 permissions:
   contents: read
@@ -14,11 +15,14 @@ jobs:
   engine-readiness:
     runs-on: windows-2022
     timeout-minutes: 5
+    outputs:
+      ready: ${{ steps.engine.outputs.ready }}
     defaults:
       run:
         shell: pwsh
     steps:
       - name: Read stock engine state without changing protection
+        id: engine
         run: |
           $report = [ordered]@{
             schema = 1
@@ -54,6 +58,7 @@ jobs:
           }
           New-Item -ItemType Directory -Force -Path build | Out-Null
           $report | ConvertTo-Json -Depth 7 | Set-Content -LiteralPath build/defender-readiness.json -Encoding utf8
+          Add-Content -LiteralPath $env:GITHUB_OUTPUT -Value ('ready='+$report.ready.ToString().ToLowerInvariant())
           [pscustomobject]@{ready = $report.ready;scan_performed = $false;security_configuration_changed = $false} | ConvertTo-Json -Compress
       - name: Retain readiness evidence only
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -61,4 +66,72 @@ jobs:
           name: native-defender-readiness
           path: build/defender-readiness.json
           if-no-files-found: error
+          retention-days: 14
+
+  exact-module-scan:
+    needs: engine-readiness
+    if: needs.engine-readiness.outputs.ready == 'true'
+    runs-on: windows-2022
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: frozen-0103
+            source: 852c5c55458c563a8564090dd31305864483edf3
+            sha256: 6474247c07e7659efc6e4fc698a1e7cdf9471c3ec471656675a251ff5fe96652
+          - label: candidate-0104
+            source: 7fd4bc09a3185a214a808052da61f2223999619b
+            sha256: 765cdbdf0e99aea433fd977048b38f0cd28ccbe6c26902c511310a3ee9523ffa
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      PYTHONUTF8: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+      SUBJECT_REVISION: ${{ matrix.source }}
+    steps:
+      - name: Check out orchestration
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          path: controller
+          persist-credentials: false
+      - name: Check out frozen source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ matrix.source }}
+          path: subject
+          persist-credentials: false
+      - name: Set up pinned Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.11.9'
+      - name: Fetch and verify the original compiler
+        run: |
+          $archive = Join-Path $env:RUNNER_TEMP 'llvm-mingw-20260922-ucrt-x86_64.zip'
+          Invoke-WebRequest -Uri 'https://github.com/mstorsjo/llvm-mingw/releases/download/20260922/llvm-mingw-20260922-ucrt-x86_64.zip' -OutFile $archive
+          if ((Get-Item -LiteralPath $archive).Length -ne 190725905 -or (Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash.ToLowerInvariant() -ne 'e3ad77d117a4bea19a7a3b333341824d79a5a371004a10e25b8504e7b3047666') { throw 'Pinned compiler archive mismatch' }
+          Expand-Archive -LiteralPath $archive -DestinationPath $env:RUNNER_TEMP
+      - name: Reproduce exact module bytes at the original source prefix
+        run: |
+          $mirror = 'C:/Projects/nms-companion-auto-summon-compat-cosmos-706'
+          if (Test-Path -LiteralPath $mirror) { throw 'Refuse an existing mirror directory' }
+          New-Item -ItemType Directory -Force -Path C:/Projects | Out-Null
+          git -C subject worktree add --detach $mirror $env:SUBJECT_REVISION
+          if ($LASTEXITCODE -ne 0) { throw 'Frozen source mirror failed' }
+          $toolchain = Join-Path $env:RUNNER_TEMP 'llvm-mingw-20260922-ucrt-x86_64'
+          python -B "$mirror/tools/build_native_runtime.py" --toolchain $toolchain --output "$mirror/build/defender-exact-module" --teleport-candidate-trial
+          if ($LASTEXITCODE -ne 0) { throw 'Frozen module reproduction failed' }
+          if ((Get-FileHash -LiteralPath "$mirror/build/defender-exact-module/CompanionAutoSummon.asi" -Algorithm SHA256).Hash.ToLowerInvariant() -ne '${{ matrix.sha256 }}') { throw 'Reproduced module differs from frozen bytes; refuse scan comparison' }
+      - name: Scan the non-excluded exact module without changing protection
+        run: |
+          & controller/tools/research/scan_native_defender.ps1 -InputPath 'C:/Projects/nms-companion-auto-summon-compat-cosmos-706/build/defender-exact-module/CompanionAutoSummon.asi' -ExpectedSha256 '${{ matrix.sha256 }}' -ReportPath defender-scan.json
+          exit $LASTEXITCODE
+      - name: Retain scanner evidence only
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: native-defender-${{ matrix.label }}
+          path: defender-scan.json
+          if-no-files-found: warn
           retention-days: 14
