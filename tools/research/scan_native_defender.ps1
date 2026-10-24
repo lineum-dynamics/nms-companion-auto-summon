@@ -4,8 +4,9 @@ param(
     [Parameter(Mandatory = $true)][string]$ReportPath
 )
 
-# This reads an exact reproduced module on an ephemeral runner. It never
-# changes protection, restores a blocked input, executes the module or deploys.
+# This scans exact reproduced bytes on an ephemeral runner. Matching stock
+# scan exclusions may be removed to increase coverage; protection is never
+# weakened. A blocked input is never restored, executed or deployed.
 $ErrorActionPreference = 'Stop'
 if ($env:GITHUB_ACTIONS -ne 'true' -or $env:GITHUB_REPOSITORY -ne 'lineum-dynamics/nms-companion-auto-summon') {
     throw 'Run only in the repository isolated GitHub Actions workflow'
@@ -20,7 +21,8 @@ $report = [ordered]@{
     source_revision = $env:SUBJECT_REVISION; controller_revision = $env:GITHUB_SHA
     started_utc = [DateTime]::UtcNow.ToString('o'); input_name = 'CompanionAutoSummon.asi'
     result = 'TOOL_ERROR'; scan_performed = $false; scan_completed = $false
-    protection_configuration_changed = $false; game_access = $false; binary_uploaded = $false
+    protection_configuration_changed = $false; game_access = $false; explicit_binary_upload_performed = $false
+    automatic_cloud_transmission = 'NOT CHECKED'
     global_clearance_established = $false; other_vendor_verdict_established = $false
 }
 
@@ -75,7 +77,34 @@ try {
     $check = (& $scanner -CheckExclusion -Path $target 2>&1 | Out-String)
     $report.exclusion_check_exit_code = $LASTEXITCODE
     $report.exclusion_check_output = $check.Replace($target,'<exact-module>').Trim()
-    if ($LASTEXITCODE -ne 1 -or $check -notmatch 'is not excluded') { $report.result = 'EXCLUDED_OR_CHECK_FAILED'; throw 'No verified non-excluded input; refuse a clean-scan claim' }
+    if ($report.exclusion_check_exit_code -eq 0 -and $check -match 'is excluded') {
+        # GitHub's stock image excludes build volumes. Remove only entries
+        # covering this exact input, then verify effective coverage again.
+        $preference = Get-MpPreference
+        $coveringPaths = @($preference.ExclusionPath | Where-Object {
+            $expanded = [Environment]::ExpandEnvironmentVariables([string]$_).Replace('/','\').TrimEnd('\')
+            $target -like $expanded -or $target -like ($expanded+'\*')
+        })
+        $extension = [IO.Path]::GetExtension($target).TrimStart('.')
+        $coveringExtensions = @($preference.ExclusionExtension | Where-Object {
+            $extension -like ([string]$_).TrimStart('.')
+        })
+        $report.removed_exclusions = [ordered]@{paths=$coveringPaths;extensions=$coveringExtensions;reason='Increase scan coverage on an ephemeral owned runner'}
+        if (-not $coveringPaths.Count -and -not $coveringExtensions.Count) { throw 'The effective exclusion could not be resolved to a visible covering entry' }
+        if ($coveringPaths.Count) { Remove-MpPreference -ExclusionPath $coveringPaths; $report.protection_configuration_changed = $true }
+        if ($coveringExtensions.Count) { Remove-MpPreference -ExclusionExtension $coveringExtensions; $report.protection_configuration_changed = $true }
+        $check = (& $scanner -CheckExclusion -Path $target 2>&1 | Out-String)
+        $report.coverage_check_exit_code = $LASTEXITCODE
+        $report.coverage_check_output = $check.Replace($target,'<exact-module>').Trim()
+    } else {
+        $report.coverage_check_exit_code = $report.exclusion_check_exit_code
+        $report.coverage_check_output = $report.exclusion_check_output
+    }
+    if ($report.coverage_check_exit_code -ne 1 -or $check -notmatch 'is not excluded') { $report.result = 'EXCLUDED_OR_CHECK_FAILED'; throw 'No verified non-excluded input; refuse a clean-scan claim' }
+    $report.scan_policy_sha256 = Get-PreferenceDigest
+    try { Update-MpSignature -ErrorAction Stop; $report.signature_update = 'completed' }
+    catch { $report.signature_update = 'failed-existing-dated-signatures-retained'; $report.signature_update_hresult = $_.Exception.HResult }
+    $report.scan_engine_before = Get-EngineEvidence
     $report.detections_before = @(Get-MatchingDetections)
     if ($report.detections_before.Count) { $report.result = 'DETECTED_BEFORE_CUSTOM_SCAN'; $exitCode = 2; throw 'A detection already applies to this exact input; do not restore or rescan another copy' }
     $report.scan_performed = $true
@@ -85,7 +114,7 @@ try {
     $report.detections_after = @(Get-MatchingDetections)
     $report.engine_after = Get-EngineEvidence
     $report.preference_sha256_after = Get-PreferenceDigest
-    if ($report.preference_sha256_before -ne $report.preference_sha256_after) { throw 'Protection configuration changed during the observation' }
+    if ($report.scan_policy_sha256 -ne $report.preference_sha256_after) { throw 'Protection configuration changed during the scan' }
     if ($report.detections_after.Count) {
         $report.result = 'DETECTED'; $exitCode = 2
     } elseif ($report.scan_exit_code -ne 0 -or $output -notmatch 'Scan finished') {
