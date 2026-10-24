@@ -90,7 +90,7 @@ referenced validation JSON matches its receipt hash. The sanitized durable
 [evidence summary](NATIVE-0104-MSVC-EVIDENCE.json) preserves the CI identity,
 tool signatures, receipt digests, diagnostics and validation results without
 publishing raw logs or machine paths. Its SHA-256 is
-`d3ef6c766b5c14ba4f54dd9fe05b2f7b4cefbeb843fe28f2d128132168ebc949`.
+`1ae44da169bcaf8b0b7494487dd85a969420a01213935204be4f7936793a2aaa`.
 
 Passed owned checks: 31,216 policy comparisons / 88 traces; 25,733 selection
 comparisons / 59 traces; 333 storage cases / 721 operations; 63 runtime cases;

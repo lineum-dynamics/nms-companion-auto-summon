@@ -3309,7 +3309,7 @@ remain unresolved; no global safety or false-positive claim is made.
   C units. All sixteen build/inspection commands and the full owned bundle
   passed. Verified all 88 source input hashes and the compiler/build/validator
   receipt chain. Sanitized durable evidence is `NATIVE-0104-MSVC-EVIDENCE.json`,
-  SHA-256 `d3ef6c766b5c14ba4f54dd9fe05b2f7b4cefbeb843fe28f2d128132168ebc949`.
+  SHA-256 `1ae44da169bcaf8b0b7494487dd85a969420a01213935204be4f7936793a2aaa`.
 - Triaged eighteen distinct diagnostics/six codes: guaranteed first decoder
   assignment, deliberate byte/bitfield representations and zero fill, explicit
   texture alignment, local shadowing, and 64 KiB buffer/path stack use. General
