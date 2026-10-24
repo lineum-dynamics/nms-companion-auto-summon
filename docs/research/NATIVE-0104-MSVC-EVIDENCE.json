@@ -1,0 +1,223 @@
+{
+  "schema": 1,
+  "kind": "sanitized-cross-compiler-audit-readback",
+  "readback_date": "2026-10-24",
+  "source_revision": "1f08e37df8d046d02f193cb05b245cbd8a3189a9",
+  "branch": "research/native-antivirus-attribution",
+  "ci": {
+    "run_id": 40083974784,
+    "job_id": 120843032853,
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/lineum-dynamics/nms-companion-auto-summon/actions/runs/40083974784",
+    "artifact_id": 12555923174,
+    "artifact_sha256_reported_by_github": "fa51d4a12ac517bbdbfa423f7ba4f489afac13926c5cca0b2e1259281a70ea6f"
+  },
+  "toolchain": {
+    "image": "win22",
+    "imageVersion": "20261012.333.1",
+    "tools": [
+      {
+        "name": "cl.exe",
+        "sha256": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+        "signatureStatus": "Valid",
+        "signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+        "version": "19.44.35229.0"
+      },
+      {
+        "name": "rc.exe",
+        "sha256": "43da1503c262c30894c851589bf0155f8365d77e63a5f7bc13982320e3a6b42d",
+        "signatureStatus": "Valid",
+        "signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+        "version": "10.0.26100.7705 (WinBuild.160101.0800)"
+      },
+      {
+        "name": "dumpbin.exe",
+        "sha256": "cfee7ed764b7b0866aae0be12f9c0ad2a7f5aecc4046ba2b7de26335827ca815",
+        "signatureStatus": "Valid",
+        "signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+        "version": "14.44.35229.0"
+      }
+    ],
+    "sourceRevision": "1f08e37df8d046d02f193cb05b245cbd8a3189a9",
+    "gameAccess": false
+  },
+  "receipt_sha256": {
+    "compiler_audit": "9a6a1da962a42eff675c96b7df49b4e8aad0c8acd4a3c9c71ce8eddff8c3078d",
+    "build": "001bdbdc47ea0c5f7646fa4cd96d4eaa6d0d45ad0f3e49d8f23a4068c9363ccf",
+    "validation": "ee87d8d60463c087af9f84d55c07e1aa648402e01f4aa43b57f44ca3e994d1a5",
+    "toolchain_signatures": "669090d673ab59bc81e67660b1f0cd74fec075de7a4c60cfe38d1ce561411365"
+  },
+  "source_receipt_checks": {
+    "exact_bytes": 88
+  },
+  "successful_commands": 16,
+  "diagnostic_version": "0.10.4-msvc-audit",
+  "diagnostic_module": {
+    "sha256": "14d53f23f005f05e0ad696a00268c28cda8ca1e5198447dd833050dcedc7639b",
+    "bytes": 747520
+  },
+  "cpp_analysis": "MSVC /analyze on the nine active C++ translation units; vendored C compiled with /W4",
+  "warnings": {
+    "distinct_diagnostics": 18,
+    "distinct_counts_by_code": {
+      "C4244": 8,
+      "C4310": 1,
+      "C4324": 1,
+      "C4459": 1,
+      "C4701": 1,
+      "C6262": 6
+    },
+    "diagnostics": [
+      "<msvc>/include/xutility(5264): warning C4244: 'initializing': conversion from 'const _Ty' to 'unsigned char', possible loss of data",
+      "<msvc>/include/xutility(5310): warning C4244: '=': conversion from 'const _Ty' to '_Ty', possible loss of data",
+      "native/include/cas/load_context.hpp(42): warning C4459: declaration of 'app' hides global declaration",
+      "native/src/backup.cpp(194) : warning C6262: Function uses '65604' bytes of stack.  Consider moving some data to heap.",
+      "native/src/backup.cpp(291) : warning C6262: Function uses '66116' bytes of stack.  Consider moving some data to heap.",
+      "native/src/bootstrap.cpp(167) : warning C6262: Function uses '65840' bytes of stack.  Consider moving some data to heap.",
+      "native/src/bootstrap.cpp(356) : warning C6262: Function uses '67112' bytes of stack.  Consider moving some data to heap.",
+      "native/src/menu.cpp(134): warning C4324: 'cas::`anonymous-namespace'::TextureRecord': structure was padded due to alignment specifier",
+      "native/src/probe.cpp(71) : warning C6262: Function uses '65620' bytes of stack.  Consider moving some data to heap.",
+      "native/src/probe.cpp(96) : warning C6262: Function uses '65620' bytes of stack.  Consider moving some data to heap.",
+      "native/third_party/minhook/src/hde/hde64.c(59) : warning C4701: potentially uninitialized local variable 'c' used",
+      "native/third_party/minhook/src/hook.c(419): warning C4310: cast truncates constant value",
+      "native/third_party/minhook/src/hook.c(435): warning C4244: '=': conversion from 'BOOL' to 'UINT8', possible loss of data",
+      "native/third_party/minhook/src/hook.c(436): warning C4244: '=': conversion from 'BOOL' to 'UINT8', possible loss of data",
+      "native/third_party/minhook/src/hook.c(612): warning C4244: '=': conversion from 'BOOL' to 'UINT8', possible loss of data",
+      "native/third_party/minhook/src/hook.c(796): warning C4244: '=': conversion from 'BOOL' to 'UINT8', possible loss of data",
+      "native/third_party/minhook/src/hook.c(803): warning C4244: '=': conversion from 'BOOL' to 'UINT8', possible loss of data",
+      "native/third_party/minhook/src/trampoline.c(286): warning C4244: '+=': conversion from 'UINT' to 'UINT8', possible loss of data"
+    ]
+  },
+  "validators": {
+    "policy": {
+      "summary": {
+        "passed": true,
+        "traces": 88,
+        "commands": 31216
+      },
+      "report_sha256": "f564e7b1c460ad3b80b696589cbab0572c3ca68a0f9427c43098fb57cc34882a"
+    },
+    "selection": {
+      "summary": {
+        "passed": true,
+        "traces": 59,
+        "commands": 25733
+      },
+      "report_sha256": "6a4c3a04b8213da7fd626d1c62e6943dd28a9a0fb9e1b209e207699d9f8b5b58"
+    },
+    "storage": {
+      "summary": {
+        "status": "passed",
+        "differential_cases": 333,
+        "differential_operations": 721,
+        "checks_by_group": {
+          "differential": 11,
+          "legacy_and_current_migration": 24,
+          "settings_matrix": 384,
+          "invalid_existing_retained": 229,
+          "byte_limits": 12,
+          "invalid_arguments": 23,
+          "favorite_lifecycle": 9,
+          "unicode_paths_and_keys": 21,
+          "entry_limit_and_preservation": 6,
+          "reread_before_write": 1,
+          "locked_file_retained": 1,
+          "intentional_lone_surrogate_rejection": 1
+        }
+      },
+      "report_sha256": "54cbe380613b64b9bb3d718b40e83862ba1e106748c047cbfad46a7e285b5859"
+    },
+    "runtime": {
+      "summary": {
+        "status": "passed",
+        "cases": 63,
+        "failures": []
+      },
+      "report_sha256": "10205b2ddc3894befe689fb2e65a3b82ffd612d7dccb7270118c3927a5c55215"
+    },
+    "backup": {
+      "summary": {
+        "passed": true,
+        "checks": 16
+      },
+      "report_sha256": "0ca09f5db849bd67627f30a0532164152ff3e1082fea90c49b769ada80e57e5e"
+    },
+    "minhook_query": {
+      "summary": {
+        "passed": true,
+        "cases": 16,
+        "failed": 0,
+        "game_access": false
+      },
+      "report_sha256": "85a07626eb0827feab056ce85b5f95e78e0ca7993e4b5c2d94358dc3d8cc3796"
+    },
+    "hook_abi": {
+      "summary": {
+        "authored_hook_targets": 10,
+        "native_calls_per_pass": 17,
+        "detours_per_enabled_pass": 14,
+        "checks_passed": 10,
+        "argument_and_result_forwarding": true,
+        "mixed_float_stack_arguments": true,
+        "shared_trigger_order": true,
+        "same_thread_reentry": true,
+        "activation_gate": true,
+        "batch_enable_disable": true,
+        "original_bytes_restored": true,
+        "game_started_or_attached": false,
+        "nms_abi_proven": false
+      }
+    },
+    "load_context": {
+      "summary": {
+        "passed": true,
+        "cases": 21,
+        "game_access": false
+      },
+      "report_sha256": "58ebf7bef03cc3e4d01b0eeeb737c6770d0481d86c801aff7da113a07569d6c6"
+    }
+  },
+  "foreign_host_runs": 6,
+  "imports": [
+    "ADVAPI32.dll",
+    "KERNEL32.dll",
+    "SHELL32.dll",
+    "USER32.dll",
+    "bcrypt.dll",
+    "ole32.dll"
+  ],
+  "frozen_player_candidate": {
+    "version": "0.10.4-native-test",
+    "zip": {
+      "bytes": 3726390,
+      "sha256": "70d85b240e90b8bafa524036bd4fccc7f58684d10bc93b13c2d0369e6e8d1c39"
+    },
+    "module": {
+      "bytes": 2639360,
+      "sha256": "765cdbdf0e99aea433fd977048b38f0cd28ccbe6c26902c511310a3ee9523ffa"
+    },
+    "loader": {
+      "bytes": 3615928,
+      "sha256": "fa266e3513d02c08a1b808f28c10538a489eaffaa4b0707f7cc1066e71b5afd7"
+    },
+    "members": 29,
+    "game": {
+      "exe_sha256": "13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499",
+      "game_release": "Cosmos 7.06",
+      "steam_build": "25732212"
+    },
+    "all_manifest_members_verified": true
+  },
+  "limits": {
+    "antivirus_scan_performed": false,
+    "scanner_clearance_established": false,
+    "detector_cause_established": false,
+    "game_started_or_attached": false,
+    "gameplay_verified": false,
+    "deployed": false,
+    "player_binary_uploaded": false,
+    "new_game_compatibility_claimed": false,
+    "support_contact_sent": false
+  }
+}

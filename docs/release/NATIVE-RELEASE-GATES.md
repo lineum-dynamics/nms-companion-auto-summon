@@ -1,6 +1,6 @@
 # Native release status and promotion gates
 
-Reviewed: 23 October 2026.
+Reviewed: 24 October 2026.
 
 ## Current label
 
@@ -19,6 +19,12 @@ library error path and has local/clean-runner offline evidence. It remains
 unreleased; candidate scans and exact-package game acceptance are separate.
 Keep the 0.10.3 submission/scan history intact. See the
 [guard candidate](0.10.4-QUERY-GUARD.md).
+
+The independent Microsoft source audit and owned bundle also passed on
+24 October. Its warning triage and current direct quarantine readback are in
+[the investigation](../research/NATIVE-0104-SCAN.md). Compiler/fixture success
+does not satisfy the scanner or moderator-review gate. A current
+[review request](NEXUS-QUARANTINE-REVIEW-20261024.md) is prepared and unsent.
 
 ## Evidence required before dropping the test label
 

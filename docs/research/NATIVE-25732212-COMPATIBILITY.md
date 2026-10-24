@@ -6769,3 +6769,48 @@ rejects the diagnostic identity. It is not an AV-evasion rebuild, scan result,
 new game mapping or new player release. Read back compilation/static diagnostics
 and owned tests before drawing conclusions. Scanner cause and Nexus acceptance
 remain unresolved; no global safety or false-positive claim is made.
+
+
+### Microsoft audit, artifact integrity and current quarantine handoff, 24 October 2026
+
+- Source base/research branch: `1f08e37df8d046d02f193cb05b245cbd8a3189a9`,
+  `research/native-antivirus-attribution`. No native/gameplay, profile, locale,
+  dependency or package byte was changed. The recorded exact game is 7.06 /
+  25732212 / `13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499`;
+  no installed-executable inspection or new game-compatibility claim occurred.
+- Read back successful isolated Windows run40083974784/job120843032853. Signed
+  MSVC19.44.35229.0 compiled/analyzed nine C++ units and compiled four vendored
+  C units. All sixteen build/inspection commands and the full owned bundle
+  passed. Verified all 88 source input hashes and the compiler/build/validator
+  receipt chain. Sanitized durable evidence is `NATIVE-0104-MSVC-EVIDENCE.json`,
+  SHA-256 `d3ef6c766b5c14ba4f54dd9fe05b2f7b4cefbeb843fe28f2d128132168ebc949`.
+- Triaged eighteen distinct diagnostics/six codes: guaranteed first decoder
+  assignment, deliberate byte/bitfield representations and zero fill, explicit
+  texture alignment, local shadowing, and 64 KiB buffer/path stack use. General
+  stack headroom and all arbitrary decoder inputs are NOT CHECKED. No new
+  concrete AV cause or general safety proof was established. Preserve the
+  separate diagnostic identity; do not substitute its smaller binary for a
+  player release. See `NATIVE-0104-SCAN.md` for the bounded dispositions.
+- Rehashed the complete frozen 0.10.4 ZIP, all 29 members, manifest, module and
+  loader against their original receipts. ZIP remains
+  `70d85b240e90b8bafa524036bd4fccc7f58684d10bc93b13c2d0369e6e8d1c39`;
+  ASI `765cdbdf0e99aea433fd977048b38f0cd28ccbe6c26902c511310a3ee9523ffa`.
+  Source/mapping cache inputs and the 90-role denominator are unchanged.
+- Direct current Nexus readback: file50040 / 0.10.3 remains quarantined and the
+  sole Main file; 49469,49367,49202 are Old. The public search snapshot returned
+  stale 0.10.2 data; plain HTTPS was challenged. A hidden in-app browser supplied
+  the actual current listing after the owner conditionally reauthorized computer
+  control when another route is insufficient and it will not disturb them.
+- Existing 0.10.3 ZIP report still shows 10/67, completed 23 October09:06:05UTC.
+  New 0.10.4 ASI hash lookup returns Item not found. No new scan, upload, CAPTCHA,
+  installed-runtime change or support/vendor message occurred. The earlier
+  support-contact refusal remains effective; computer-control authorization
+  does not authorize messages.
+- Next bounded action: submit the current source-backed moderator-review draft
+  only after explicit owner authorization. Official Nexus policy requires staff
+  review to remove an existing quarantine. Draft:
+  `../release/NEXUS-QUARANTINE-REVIEW-20261024.md`. Keep the submitted bytes and
+  request the specific failed gate/review requirements. Scanner acceptance,
+  private detector-rule/UDP attribution and exact 0.10.4 NMS gameplay remain
+  separate unresolved/NOT CHECKED gates. Backup work remains parked; do not
+  confuse that runtime gate with antivirus quarantine.

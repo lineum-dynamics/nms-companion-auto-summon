@@ -17,6 +17,11 @@
   game acceptance and scanner status are tracked separately in the
   [candidate record](docs/release/0.10.4-QUERY-GUARD.md).
 - No player setting, translation meaning, native RVA or gameplay policy change.
+- Read back the successful independent Microsoft compiler audit and owned
+  validation bundle on 24 October; verify its 88 source inputs and receipt
+  chain, retain and triage all eighteen distinct warning messages. Recheck the
+  immutable candidate archive and the existing Nexus quarantine. These checks
+  do not establish a completed new-file antivirus scan or distribution approval.
 
 ## 0.10.3-native-test — Cosmos 7.06, 23 October 2026
 

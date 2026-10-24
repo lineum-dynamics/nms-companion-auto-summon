@@ -100,17 +100,20 @@ were 10/67 and 10/71 at upload; a later unchanged-ASI reanalysis is 15/63
 snapshot is stale. A fresh build reproduced all r4 products exactly. No exact
 detector cause is established; support contact was declined. A later source
 audit reproduced a pre-existing MinHook query-error defect and validated a
-minimal offline prototype. That prototype is not integrated into the player
-module and has no established connection to the antivirus verdicts.
+minimal offline prototype. The distinct unreleased 0.10.4 candidate integrates
+that repair; submitted 0.10.3 does not. Its connection to the antivirus verdicts
+is not established.
 The [scan record](docs/research/NATIVE-0103-SCAN.md) documents the
 comparison tool, blocked old-input read and reproducible commands. A further
 read-only audit matched all 9,053 installed toolchain files to the official
 archive. The unchanged 0.10.1 ZIP's 15 October report is also flagged (22/60).
 Both 7.05 files are now correctly retained under Old files.
 
-The audit is not exhausted: Clang's default analyzer now covered all thirteen
-active native translation units, but an independent clean-host build and
-per-process attribution of the sandbox's observed activity remain open.
+The audit is not exhausted: Clang's default analyzer covered all thirteen
+active native translation units. Independent clean-host byte reproduction,
+the Microsoft source audit and its owned bundle have since passed. Per-process
+attribution of the sandbox's observed activity remains open; see the
+[current audit](docs/research/NATIVE-0104-SCAN.md).
 Current toolchain inventory has no extra/missing file and the inspected
 compiler environment overrides are unset; historical build environment remains
 unverified. Preserve the distinction between source defects, detector cause
