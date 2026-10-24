@@ -3161,3 +3161,114 @@ claiming completion. Wider runtime gates remain explicitly NOT CHECKED.
   remain NOT CHECKED. No player wording, meaning or catalog values changed.
   Frozen 0.10.3 bytes/status remain intact; detector attribution, sandbox UDP
   attribution, multiplayer/second-PC/wider live gates remain open. No contact.
+
+### Independent reproduction and completed offline guard handoff, 23 October 2026
+
+- Candidate source checkpoint `7fd4bc09a3185a214a808052da61f2223999619b`;
+  branch `fix/native-query-guard`; module/native input checkpoint
+  `55164191f11168cce31cc05b558498925b14c630`. Exact game/mappings and 90-role
+  evidence are unchanged. Preserve the explicit cache/input scope above.
+- Completed 403 production and 828 developer tests, 28 menu cases, sixteen real-C
+  query cases, ten owned-hook ABI groups and the full native bundle. Backup
+  passed all sixteen refusal/integrity cases on an explicit owned temporary
+  volume with unchanged production locks/ACLs. The original C: root sharing
+  conflict and both failed receipts remain recorded; this does not verify a
+  current real-save/pre-activation backup on that original volume.
+- Clean GitHub Windows run 39982338490 reproduced every frozen-r4 and candidate
+  product byte at the historical source prefix. Initial differing hashes were
+  traced to the JSON assertion's UTF-16 absolute source path; source receipt
+  differences were exactly CRLF/LF. Never treat a raw cross-machine hash mismatch
+  as a payload change without resolving paths/line endings and generated inputs.
+- The clean run also exposed a test-only literal-SID assertion rejecting valid
+  LA alias rendering. Corrected validator compares actual token/trustee SIDs,
+  exact allowed/full-access ACEs and root protection; eight new tests pass.
+  Production backup is unchanged. Final corrected CI run is pending readback;
+  frozen old-validator failure must stay explicit, not rewritten as a pass.
+- Frozen new ZIP: 3,726,390 bytes /
+  `70d85b240e90b8bafa524036bd4fccc7f58684d10bc93b13c2d0369e6e8d1c39`,
+  29 members / ten overlay files. ASI remains
+  `765cdbdf0e99aea433fd977048b38f0cd28ccbe6c26902c511310a3ee9523ffa`.
+  Full receipts, commands and environment limits are indexed in
+  docs/release/0.10.4-QUERY-GUARD.md. Preserve all frozen 0.10.3 bytes and status.
+- New ASI hash-only VirusTotal lookup returned Item not found, not a clean scan.
+  New ZIP/ASI upload awaits explicit browser-upload confirmation. No deployment,
+  new-artifact game acceptance, upload or support contact occurred. Next bounded
+  steps: corrected CI readback and, if authorized, exact-candidate scan; then
+  fresh verified real backup before any player-assisted game trial. Detector and
+  sandbox UDP attribution, Nexus acceptance and broader live gates remain open.
+
+### Final clean-runner and archive handoff, 23 October 2026
+
+- Corrected clean Windows run 39983965743 succeeded for both source jobs at
+  `7fd4bc09a3185a214a808052da61f2223999619b`. Candidate standard bundle passed;
+  both exact ASIs reproduce byte-for-byte at the historical source prefix.
+  Frozen-r4's original SID-string assertion remains explicitly false, followed
+  by sixteen corrected identity/ACL checks on byte-identical backup code and
+  six foreign-host checks. This is not second-PC NMS gameplay acceptance.
+- Independent summary hashes: candidate
+  `b7135fedd34a778d072a15dca91cde8e553112c5b3ea87d7e230ef3d483e2c23`;
+  r4 `b3c1308f6c806d5f86e74072b801eba21faf65fcfa717c59e9117e3e6fb10ba2`.
+  Archive delta receipt `b934bf91c280c3fea327f1420d967f0a515302eca3648d1a1b5f0f63c169538a`
+  confirms unchanged loader/compiler/imports/exports and no W+X image sections;
+  four expected package members changed, none added/removed.
+- Exact new ZIP/ASI upload and service terms are now explicitly authorized.
+  Upload/result readback is pending, not scanner clearance. Prepare the upload
+  form and bundle foreseeable file/sharing/terms confirmations before asking
+  next time; the first premature question caused an avoidable second prompt.
+- Latest direct Nexus readback still shows 0.10.3/file50040 quarantined, with
+  0.10.2 and 0.10.1 under Old. No Nexus replacement, game deployment or support
+  contact occurred. Temporary owned R: mapping was verified and removed.
+  Next: finish exact-file scan readback, then require fresh real backup and
+  player-assisted exact-package acceptance before any publication claim.
+
+### Repository-only continuation and backup collision, 24 October 2026
+
+- Source code base `7fd4bc09a3185a214a808052da61f2223999619b`, branch
+  `fix/native-query-guard`; pending changes at this checkpoint are documentation
+  and an original read-only metadata helper. Rehashed game remains 7.06 /
+  25732212 / 88,560,712 bytes /
+  `13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499`.
+  Frozen 0.10.4 ZIP/ASI still match their existing receipts; no native mapping
+  or 90-role cache input changed in this resumed pass.
+- Manual VirusTotal attempts did not establish server acceptance or a completed
+  scan. Both exact hashes initially returned Item not found. The UI showed
+  failed reCAPTCHA connectivity and then a checkbox; the owner reports five
+  failed challenges. Stop this optional route; use the release host's own file
+  review after a functional candidate, without treating a queued upload as a
+  clean scan. The ZIP UI also warns that the 3 MB/multiple-member condition
+  prevents its stated inner-file scan. Do not repackage merely to change that.
+- The prior reload was not executed: automatic approval review failed because
+  account usage was exhausted, not because it classified the action unsafe.
+  Browser access worked again on 24 October. No scan outcome was obtained.
+- A read-only root-lock preflight still failed with Windows error 32. Original
+  helper `tools/research/native_root_handle_audit.py` used extended handle
+  metadata, matched volume/file identity and reported only matching process
+  basenames. It read no target contents/process memory and closed no source
+  handles. One accessible matching writer was Lenovo-signed VaultPlugin.exe,
+  parent SmartConnect, in Lenovo Ready For Assistant. 119 inaccessible processes
+  remain an attribution limit; one match does not prove there is no other holder.
+  Helper SHA-256 `21b41afe5ab302010a4aa32685a69f8e7465f41c17923dcc3913f528f329f150`.
+  Layout reference: MIT-licensed winsiderss/phnt commit
+  `53fbbdc5b5d2b08761db1c7b26bfa8c820924356`, ntexapi.h; no phnt code is compiled
+  into the player package. The native backup's read-only ancestor hold denies
+  existing write sharing even at the entire volume root.
+- The owner briefly authorized normal Smart Connect closure; opening its UI was
+  confirmed, but the close action returned a foreground-process-id error.
+  Closure was NOT verified. The owner then explicitly withdrew desktop control.
+  **Current constraint: repository code/documentation and owned offline fixtures
+  only. Do not control browser/native apps, close processes, deploy or start NMS
+  without a new direct instruction.** Do not repeat CAPTCHA requests.
+- For the backup code remedy, Microsoft documents NTFS's requirement that a
+  directory be empty before attaching a reparse point. An isolated owned fixture
+  confirmed empty-directory mount-point creation and nonempty refusal/error145;
+  no real volume root was changed. Receipt SHA-256
+  `a8828c258c3fb4d6b2444aa43df4c1920dbd4d24b4c425d5673ce6c02911f7c6`.
+  This is a bounded NTFS observation, not permission to relax all ancestor locks.
+- Next bounded implementation: test a volume-GUID-anchored NTFS root guard with
+  a strictly held first child; preserve actual source/destination ancestor and
+  file write/delete refusal, ACL, inventory and hash checks. Unknown/empty-root
+  cases retain strict refusal. Do not overwrite the frozen 0.10.4 candidate;
+  any changed production artifact needs a distinct identity and its own checks.
+  Nexus file50040's last direct readback was still quarantined on 23 October;
+  no newer listing, actual download, 0.10.4 live acceptance or detector cause is
+  established. The backup collision and antivirus quarantine are separate gates.

@@ -22,6 +22,25 @@ without NMS, caches, private data or player uploads. It retains only JSON
 provenance and validation receipts. A hash difference needs explanation;
 passing owned hosts is not game acceptance or scanner approval.
 
+### Legacy declaration output during a native build
+
+`tools/validate_compatibility.py --developer --generated` still checks the
+retained Python 7.04 declarations; its printed game label is scoped to that
+archived runtime. The native builder separately validates/selects
+`native_compatibility.json` and `native_mappings.json`, currently exact 7.06 /
+25732212 / `13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499`.
+Do not present the legacy validator's label as the native package target.
+
+### Portable owned backup fixtures
+
+Use `--backup-fixture-parent <explicit-owned-absolute-directory>` only for
+offline fixtures when another process prevents an ancestor lock on the normal
+test volume. The native driver retains its production locks, ACLs and all
+refusal cases. This is not proof that a real save backup can currently run on
+the original volume. Preserve the original failure and test-volume identity.
+Parse ACL trustee identities rather than searching SDDL for literal numeric
+SIDs: Windows can render the same account as an alias such as LA.
+
 ## Required early runtime evidence for native updates
 
 During the first work period of a new game-build port, identify which open
@@ -340,7 +359,7 @@ Python probe regression covers legacy PowerShell argument quoting; target-path
 tests count UTF-16 units, including non-BMP characters. No new live behavior
 has been verified by these checks.
 
-The current registered source is **0.5.1-experimental**, paired with menu **0.9.1-diagnostics** for **0.9.2-play-trial**; its first packaged background start is recorded in [LIVE-092](docs/research/LIVE-092.md). The prior **0.5.0 / 0.9.0 / 090-r2** was closed normally before that launch. The retained **0.8.7-play-trial** has production **0.4.9** and menu **0.8.5-branding**. Retained **0.8.4-play-trial** has production **0.4.7** and menu **0.8.3-settings-trial**. Earlier artifacts remain unchanged. The target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The development launcher accepts Python 3.11–3.13 x64.
+The current registered source is **0.5.1-experimental**, paired with menu **0.9.1-diagnostics** for **0.9.2-play-trial**; its first packaged background start is recorded in [LIVE-092](docs/research/LIVE-092.md). The prior **0.5.0 / 0.9.0 / 090-r2** was closed normally before that launch. The retained **0.8.7-play-trial** has production **0.4.9** and menu **0.8.5-branding**. Retained **0.8.4-play-trial** has production **0.4.7** and menu **0.8.3-settings-trial**. Earlier artifacts remain unchanged. The target remains Windows x64, Steam build 25442159 / Cosmos 7.04, the exact executable hash in `manifest.json`, and pyMHF 0.2.4. The development launcher accepts Python 3.11â€“3.13 x64.
 
 The PowerShell launcher's `-CheckOnly` path validates package integrity, the
 supported game and the existing runtime without creating files/directories,
@@ -360,12 +379,12 @@ native registration are observed; interactive/visible quiet startup, shutdown,
 restart and native localization remain unverified; this revision does not change native hooks, summon rules or input.
 
 The 0.9.0 menu opts into seven tagged None children on one flat page. Existing
-roles 0–5 remain `enabled`, `selection_mode`, `prefer_same_biome`, `planets`,
+roles 0â€“5 remain `enabled`, `selection_mode`, `prefer_same_biome`, `planets`,
 `space_stations` and `nexus`; role 6 appends `rotate_companions`. Explicit legacy
 six-role and one-child helper contracts remain supported.
 The bridge resolves the existing production instance, captures one selected
 preference and queues only that key under its existing lock. Other queued keys
-and the manual favourite are preserved. Mode cycles last_manual → random → by_habitat;
+and the manual favourite are preserved. Mode cycles last_manual â†’ random â†’ by_habitat;
 the other controls flip Booleans. All three locations may be disabled. Pending
 and session-only captions retain their existing meaning. Legacy trials keep
 their one-child default. Full-page navigation and preference application remain

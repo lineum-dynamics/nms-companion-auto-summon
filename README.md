@@ -19,10 +19,19 @@ through Steam; no Python, pyMHF, separate launcher or external settings panel is
 required. It does not create pets, unlock slots, accelerate growth or change
 combat values.
 
-[Nexus page](https://www.nexusmods.com/nomanssky/mods/4579) ·
-[GitHub prerelease](https://github.com/lineum-dynamics/nms-companion-auto-summon/releases/tag/v0.10.3-native-test) ·
-[Report a bug](https://github.com/lineum-dynamics/nms-companion-auto-summon/issues) ·
+[Nexus page](https://www.nexusmods.com/nomanssky/mods/4579) Â·
+[GitHub prerelease](https://github.com/lineum-dynamics/nms-companion-auto-summon/releases/tag/v0.10.3-native-test) Â·
+[Report a bug](https://github.com/lineum-dynamics/nms-companion-auto-summon/issues) Â·
 [Release notes and exact evidence](docs/release/0.10.3-COSMOS-706.md)
+
+## Development candidate
+
+Branch `fix/native-query-guard` prepares **0.10.4-native-test**, still for exact
+Steam Cosmos 7.06 / 25732212. It adds a reproduced MinHook error-path guard,
+passes local offline checks and independent clean Windows byte reproduction,
+and retains the current game behavior. Exact-candidate game acceptance and
+scanner/distribution gates are separate. See the
+[candidate record](docs/release/0.10.4-QUERY-GUARD.md).
 
 ## Compatibility and verification
 
@@ -58,12 +67,12 @@ Nexus upload remains quarantined.
 1. Close NMS normally and make a separate backup while the game is closed.
    Exit any old CAS Python/pyMHF session; never run both runtimes together.
 2. Extract `CompanionAutoSummon-0.10.3-native-test.zip` and read its English
-   README. In Steam, open **No Man's Sky → Manage → Browse local files**.
+   README. In Steam, open **No Man's Sky â†’ Manage â†’ Browse local files**.
 3. Merge the extracted **Binaries** and **GAMEDATA** folders into that game root.
    Replace only this mod's owned files, with the game closed. Do not overwrite
    another mod's `Binaries/winmm.dll`; reuse an existing loader only if it matches
    the package's exact pinned hash.
-4. Start normally through **Steam**. Open **Quick Menu → Companions → Companion
+4. Start normally through **Steam**. Open **Quick Menu â†’ Companions â†’ Companion
    Auto Summon**. X is the default PC binding; use your configured input or the
    controller prompt if different.
 

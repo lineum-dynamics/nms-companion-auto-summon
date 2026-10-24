@@ -14,6 +14,12 @@ base-to-station checks. Earlier port candidates passed clean ship exit and the
 reverse teleport. This evidence does not complete the wider gates below.
 See [the exact release record](0.10.3-COSMOS-706.md).
 
+The separate **0.10.4-native-test** development candidate repairs a reproduced
+library error path and has local/clean-runner offline evidence. It remains
+unreleased; candidate scans and exact-package game acceptance are separate.
+Keep the 0.10.3 submission/scan history intact. See the
+[guard candidate](0.10.4-QUERY-GUARD.md).
+
 ## Evidence required before dropping the test label
 
 For a future, newly versioned artifact, record an explicit result and evidence
