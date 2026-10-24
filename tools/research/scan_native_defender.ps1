@@ -62,6 +62,9 @@ try {
     })
     $tools = @($allTools | Where-Object {
         $info = $_.VersionInfo
+        # CurrentVersion is an alias of the versioned directory on the runner.
+        # Select the explicit active platform directory, not both representations.
+        $_.Directory.Name -match ('^'+[regex]::Escape($report.engine_before.AMProductVersion)+'(?:-\d+)?$') -and
         ('{0}.{1}.{2}.{3}' -f $info.FileMajorPart,$info.FileMinorPart,$info.FileBuildPart,$info.FilePrivatePart) -eq $report.engine_before.AMProductVersion
     })
     if ($tools.Count -ne 1) { throw 'A unique scanner matching the active platform version was not found' }
