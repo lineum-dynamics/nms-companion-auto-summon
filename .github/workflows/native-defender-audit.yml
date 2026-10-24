@@ -139,7 +139,7 @@ jobs:
           python -B "$mirror/tools/build_native_runtime.py" --toolchain $toolchain --output "$mirror/build/defender-exact-module" --teleport-candidate-trial
           if ($LASTEXITCODE -ne 0) { throw 'Frozen module reproduction failed' }
           if ((Get-FileHash -LiteralPath "$mirror/build/defender-exact-module/CompanionAutoSummon.asi" -Algorithm SHA256).Hash.ToLowerInvariant() -ne '${{ matrix.sha256 }}') { throw 'Reproduced module differs from frozen bytes; refuse scan comparison' }
-      - name: Scan exact bytes after removing only covering stock CI exclusions
+      - name: Read-only exact-byte scan with a harmless positive engine control
         run: |
           & controller/tools/research/scan_native_defender.ps1 -InputPath 'C:/Projects/nms-companion-auto-summon-compat-cosmos-706/build/defender-exact-module/CompanionAutoSummon.asi' -ExpectedSha256 '${{ matrix.sha256 }}' -ReportPath defender-scan.json
           exit $LASTEXITCODE

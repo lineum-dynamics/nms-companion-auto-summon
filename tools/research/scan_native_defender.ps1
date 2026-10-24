@@ -4,9 +4,9 @@ param(
     [Parameter(Mandatory = $true)][string]$ReportPath
 )
 
-# This scans exact reproduced bytes on an ephemeral runner. Matching stock
-# scan exclusions may be removed to increase coverage; protection is never
-# weakened. A blocked input is never restored, executed or deployed.
+# Use the documented read-only custom-scan mode on an ephemeral runner so
+# stock file exclusions cannot skip the input. A harmless EICAR control must
+# be detected in that same mode. No machine-wide protection setting changes.
 $ErrorActionPreference = 'Stop'
 if ($env:GITHUB_ACTIONS -ne 'true' -or $env:GITHUB_REPOSITORY -ne 'lineum-dynamics/nms-companion-auto-summon') {
     throw 'Run only in the repository isolated GitHub Actions workflow'
@@ -77,38 +77,27 @@ try {
     $check = (& $scanner -CheckExclusion -Path $target 2>&1 | Out-String)
     $report.exclusion_check_exit_code = $LASTEXITCODE
     $report.exclusion_check_output = $check.Replace($target,'<exact-module>').Trim()
-    if ($report.exclusion_check_exit_code -eq 0 -and $check -match 'is excluded') {
-        # GitHub's stock image excludes build volumes. Remove only entries
-        # covering this exact input, then verify effective coverage again.
-        $preference = Get-MpPreference
-        $coveringPaths = @($preference.ExclusionPath | Where-Object {
-            $expanded = [Environment]::ExpandEnvironmentVariables([string]$_).Replace('/','\').TrimEnd('\')
-            $target -like $expanded -or $target -like ($expanded+'\*')
-        })
-        $extension = [IO.Path]::GetExtension($target).TrimStart('.')
-        $coveringExtensions = @($preference.ExclusionExtension | Where-Object {
-            $extension -like ([string]$_).TrimStart('.')
-        })
-        $report.removed_exclusions = [ordered]@{paths=$coveringPaths;extensions=$coveringExtensions;reason='Increase scan coverage on an ephemeral owned runner'}
-        if (-not $coveringPaths.Count -and -not $coveringExtensions.Count) { throw 'The effective exclusion could not be resolved to a visible covering entry' }
-        if ($coveringPaths.Count) { Remove-MpPreference -ExclusionPath $coveringPaths; $report.protection_configuration_changed = $true }
-        if ($coveringExtensions.Count) { Remove-MpPreference -ExclusionExtension $coveringExtensions; $report.protection_configuration_changed = $true }
-        $check = (& $scanner -CheckExclusion -Path $target 2>&1 | Out-String)
-        $report.coverage_check_exit_code = $LASTEXITCODE
-        $report.coverage_check_output = $check.Replace($target,'<exact-module>').Trim()
-    } else {
-        $report.coverage_check_exit_code = $report.exclusion_check_exit_code
-        $report.coverage_check_output = $report.exclusion_check_output
-    }
-    if ($report.coverage_check_exit_code -ne 1 -or $check -notmatch 'is not excluded') { $report.result = 'EXCLUDED_OR_CHECK_FAILED'; throw 'No verified non-excluded input; refuse a clean-scan claim' }
+    if ($report.exclusion_check_exit_code -notin @(0,1)) { throw 'Effective stock exclusion check failed' }
+    $report.scan_mode = [ordered]@{type='read-only custom scan';switch='-DisableRemediation';machine_wide_preferences_changed=$false;file_exclusions_ignored_by_documented_mode=$true;detections_reported_in='command output, not UI or event log'}
     $report.scan_policy_sha256 = Get-PreferenceDigest
     try { Update-MpSignature -ErrorAction Stop; $report.signature_update = 'completed' }
     catch { $report.signature_update = 'failed-existing-dated-signatures-retained'; $report.signature_update_hresult = $_.Exception.HResult }
     $report.scan_engine_before = Get-EngineEvidence
+    $controlDirectory = Join-Path ([IO.Path]::GetDirectoryName($target)) 'owned-engine-control'
+    if (Test-Path -LiteralPath $controlDirectory) { throw 'Refuse an existing positive-control directory' }
+    New-Item -ItemType Directory -Path $controlDirectory | Out-Null
+    $control = Join-Path $controlDirectory 'engine-control.asi'
+    Invoke-WebRequest -Uri 'https://secure.eicar.org/eicar.com.txt' -OutFile $control
+    if ((Get-Item -LiteralPath $control).Length -ne 68) { throw 'Official harmless EICAR control size differs; do not substitute another input' }
+    $controlHash = (Get-FileHash -LiteralPath $control -Algorithm SHA256).Hash.ToLowerInvariant()
+    $controlOutput = (& $scanner -Scan -ScanType 3 -File $control -DisableRemediation 2>&1 | Out-String)
+    $controlExit = $LASTEXITCODE
+    $report.positive_control = [ordered]@{source='https://secure.eicar.org/eicar.com.txt';bytes=68;sha256=$controlHash;exit_code=$controlExit;output=$controlOutput.Replace($control,'<harmless-engine-control>').Trim();passed=($controlExit -eq 2 -and $controlOutput -match 'EICAR')}
+    if (-not $report.positive_control.passed) { throw 'Positive engine detection was not established; refuse a no-detection claim' }
     $report.detections_before = @(Get-MatchingDetections)
     if ($report.detections_before.Count) { $report.result = 'DETECTED_BEFORE_CUSTOM_SCAN'; $exitCode = 2; throw 'A detection already applies to this exact input; do not restore or rescan another copy' }
     $report.scan_performed = $true
-    $output = (& $scanner -Scan -ScanType 3 -File $target 2>&1 | Out-String)
+    $output = (& $scanner -Scan -ScanType 3 -File $target -DisableRemediation 2>&1 | Out-String)
     $report.scan_exit_code = $LASTEXITCODE
     $report.scan_output = $output.Replace($target,'<exact-module>').Trim()
     $report.detections_after = @(Get-MatchingDetections)
@@ -118,7 +107,8 @@ try {
     if ($report.detections_after.Count) {
         $report.result = 'DETECTED'; $exitCode = 2
     } elseif ($report.scan_exit_code -ne 0 -or $output -notmatch 'Scan finished') {
-        throw 'Scanner did not report a completed successful custom scan'
+        $report.result = 'DETECTION_OR_SCAN_ERROR'
+        throw 'Nonzero or incomplete read-only scan; inspect command output rather than treating it as clean'
     } else {
         $report.input_sha256_after = (Get-FileHash -LiteralPath $target -Algorithm SHA256).Hash.ToLowerInvariant()
         if ($report.input_sha256_after -ne $ExpectedSha256) { throw 'Input changed during scan' }
