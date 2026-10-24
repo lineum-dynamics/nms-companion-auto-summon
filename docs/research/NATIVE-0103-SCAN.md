@@ -7,9 +7,9 @@ contact and asked for an internal comparison; no support message was sent.
 **Latest scope correction:** technical analysis is not exhausted. A later
 same-day systematic pass reproduced an unchecked MinHook API-error path and
 validated a minimal offline prototype. This is a pre-existing robustness defect,
-not an established detector cause. Production sources and the submitted r4
-package remain unchanged; independent clean-host reproduction and sandbox-event
-attribution are still open. See the final audit section below.
+not an established detector cause. The submitted r4 package remains unchanged. Independent clean-host byte
+reproduction was completed in later recorded checks; sandbox-event attribution
+remains open. Current 0.10.4 antivirus-priority work is in NATIVE-0104-SCAN.md. See the final audit section below.
 
 ## Exact artifacts and observations
 

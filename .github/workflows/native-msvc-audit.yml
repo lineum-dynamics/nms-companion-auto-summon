@@ -1,0 +1,70 @@
+name: Native Microsoft compiler audit
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [research/native-antivirus-attribution]
+    paths:
+      - .github/workflows/native-msvc-audit.yml
+      - tools/build_native_msvc_audit.py
+
+permissions:
+  contents: read
+
+concurrency:
+  group: native-msvc-audit-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  source-audit:
+    runs-on: windows-2022
+    timeout-minutes: 25
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      PYTHONUTF8: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Check out exact audit source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Set up Python 3.11.9
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.11.9'
+      - name: Compile and analyze with the installed Microsoft x64 toolchain
+        run: |
+          $locator = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio/Installer/vswhere.exe'
+          $installation = & $locator -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          if (-not $installation) { throw 'Official x64 C++ toolchain not found' }
+          $module = Join-Path $installation 'Common7/Tools/Microsoft.VisualStudio.DevShell.dll'
+          Import-Module $module
+          Enter-VsDevShell -VsInstallPath $installation -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
+          New-Item -ItemType Directory -Force -Path build | Out-Null
+          $identities = @()
+          foreach ($name in @('cl.exe','rc.exe','dumpbin.exe')) {
+            $tool = (Get-Command $name -ErrorAction Stop).Source
+            $signature = Get-AuthenticodeSignature -LiteralPath $tool
+            if ($signature.Status -ne 'Valid' -or $signature.SignerCertificate.Subject -notmatch 'Microsoft') { throw "Unverified Microsoft tool: $name" }
+            $identities += [pscustomobject]@{name=$name;sha256=(Get-FileHash -LiteralPath $tool -Algorithm SHA256).Hash.ToLowerInvariant();signatureStatus=[string]$signature.Status;signer=$signature.SignerCertificate.Subject;version=(Get-Item -LiteralPath $tool).VersionInfo.FileVersion}
+          }
+          [pscustomobject]@{image=$env:ImageOS;imageVersion=$env:ImageVersion;tools=$identities;sourceRevision='${{ github.sha }}';gameAccess=$false} | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath build/msvc-toolchain-signatures.json -Encoding utf8
+          python -B tools/build_native_msvc_audit.py --output build/native-msvc-audit
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -B tools/validate_native_bundle.py --build build/native-msvc-audit
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Retain JSON audit evidence only
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: native-msvc-audit-evidence
+          path: |
+            build/msvc-toolchain-signatures.json
+            build/native-msvc-audit/compiler-audit.json
+            build/native-msvc-audit/build-receipt.json
+            build/native-msvc-audit/*-validation.json
+            build/native-msvc-audit/validation-receipt.json
+          if-no-files-found: error
+          retention-days: 14

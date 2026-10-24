@@ -6746,3 +6746,26 @@ claiming completion. Wider runtime gates remain explicitly NOT CHECKED.
   Nexus file50040's last direct readback was still quarantined on 23 October;
   no newer listing, actual download, 0.10.4 live acceptance or detector cause is
   established. The backup collision and antivirus quarantine are separate gates.
+
+### Antivirus-priority cross-compiler handoff, 24 October 2026
+
+The owner redirected work to antivirus/Nexus publication. Backup prototype
+c23b417 is parked separately and is not part of the active source; current
+research/native-antivirus-attribution starts at a55a362. Native 0.10.4 inputs,
+exact game hash, 90 game-specific roles and address mappings are unchanged.
+Desktop/app/browser control remains withdrawn; code, documentation and owned
+isolated checks only. No support/vendor message is authorized.
+
+Public primary-source review found reports about different historical compiler
+DLLs and a wrongly downloaded UAL source archive, not a detector explanation
+for this ASI. Nexus explicitly separates file-type, archive and scan gates;
+quarantine clearance needs host review. Manual VT attempts remain unconfirmed.
+See NATIVE-0104-SCAN.md for precise artifact identities, sources and limits.
+
+Next bounded action is a signed-Microsoft-toolchain source audit on an isolated
+GitHub runner. It uses a distinct diagnostic version, records the two-site
+return-address adapter and retains only JSON evidence. The production packager
+rejects the diagnostic identity. It is not an AV-evasion rebuild, scan result,
+new game mapping or new player release. Read back compilation/static diagnostics
+and owned tests before drawing conclusions. Scanner cause and Nexus acceptance
+remain unresolved; no global safety or false-positive claim is made.
