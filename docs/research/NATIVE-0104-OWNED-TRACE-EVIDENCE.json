@@ -1,0 +1,749 @@
+{
+  "schema": 1,
+  "kind": "sanitized-owned-host-runtime-attribution",
+  "observed_date": "2026-10-27",
+  "ci": {
+    "run_id": 40579107862,
+    "url": "https://github.com/lineum-dynamics/nms-companion-auto-summon/actions/runs/40579107862",
+    "controller_revision": "fd532ac1e30a0f2249e49a70b4210f744b848ddf",
+    "both_jobs": "success"
+  },
+  "controller_source_sha256": {
+    ".github/workflows/native-behavior-audit.yml": "e34a060bc8992edc160f72a95b5b07648331595eac1ee3509020e62214a96831",
+    "tools/research/native_behavior_host.cpp": "d1f6c8973f3ac9a90a9954fab1b0551306c690ab14a8ebe560813b4f20f32d8d",
+    "tools/research/native_behavior_agent.js": "ce8c49ddce541e818041c23f8a155cb65af53cd3c8177a309a0f117d52f4beb7",
+    "tools/research/trace_native_behavior.py": "88d7f28366cc7732256d246d124837ef83236b5b027bd51f02185b23191bef0c",
+    "tools/research/native-trace-requirements.txt": "707c4ee585ab038846bb9c0f956d5104c84ab862fdace8f05cc514e2fc2a7405"
+  },
+  "instrumentation": {
+    "frida": "17.24.3",
+    "official_wheel_sha256": "61f5a53b146e0e7755d6c2bfa5405e14fe2373818ae5d98105c4eeca3face7d1",
+    "python_setup_pin": "3.11.9",
+    "installed_on_owner_pc": false
+  },
+  "successful_results": [
+    {
+      "package": "0.10.4-native-test",
+      "source_revision": "7fd4bc09a3185a214a808052da61f2223999619b",
+      "module_sha256": "765cdbdf0e99aea433fd977048b38f0cd28ccbe6c26902c511310a3ee9523ffa",
+      "post_module_sha256": "765cdbdf0e99aea433fd977048b38f0cd28ccbe6c26902c511310a3ee9523ffa",
+      "host_sha256": "2f52c30cf2618ffc90d4740b60925842a8c6c7a04c0443c81ef8f377ed0f3ce4",
+      "agent_sha256": "ce8c49ddce541e818041c23f8a155cb65af53cd3c8177a309a0f117d52f4beb7",
+      "raw_receipt_sha256": "e6a6f4c15fef426b312efe6a7f747143b0c999d92a8403a169426abfe6a1aa85",
+      "toolchain_receipt_sha256": "b66ab2d2bf47148cb626607fb0b325f70e6acbb155fdbec3ef0a574d82b03ab9",
+      "runner": {
+        "image": "win22",
+        "image_version": "20261022.344.1",
+        "compiler_version": "19.44.35229.0",
+        "compiler_sha256": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+        "compiler_signature": "Valid",
+        "host_source_sha256": "d1f6c8973f3ac9a90a9954fab1b0551306c690ab14a8ebe560813b4f20f32d8d"
+      },
+      "plain_initialization_repeats": 16,
+      "plain_initialization_repeats_successful": 16,
+      "caller_mode": "direct-return-address-cached-module-map",
+      "full_backtraces_requested": false,
+      "cases": [
+        {
+          "mode": "baseline",
+          "status": "CAPTURE_COMPLETED",
+          "plain_exit": 0,
+          "instrumented_os_exit": 0,
+          "phase_records_match": true,
+          "final_host_record": {
+            "phase": "complete",
+            "native_status": 0,
+            "hooks_active": false
+          },
+          "known_host_controls": [
+            "CreateThread",
+            "Sleep",
+            "WriteProcessMemory"
+          ],
+          "required_hook_points": [
+            "CreateProcessA",
+            "CreateProcessW",
+            "CreateThread",
+            "DnsQueryEx",
+            "DnsQuery_W",
+            "GetThreadContext",
+            "NtCreateThreadEx",
+            "NtCreateUserProcess",
+            "NtDelayExecution",
+            "ReadProcessMemory",
+            "ResumeThread",
+            "SetThreadContext",
+            "Sleep",
+            "SuspendThread",
+            "WSAConnect",
+            "WSASendTo",
+            "WriteProcessMemory",
+            "connect",
+            "sendto"
+          ],
+          "hook_installation_failures": [],
+          "unknown_direct_callers": 0,
+          "all_returned_api_observations": {
+            "NtDelayExecution": 2,
+            "Sleep": 4,
+            "WriteProcessMemory": 2,
+            "NtCreateThreadEx": 1,
+            "CreateThread": 1
+          },
+          "direct_target_entered": {},
+          "direct_target_returned": {},
+          "selected_target_events": []
+        },
+        {
+          "mode": "load",
+          "status": "CAPTURE_COMPLETED",
+          "plain_exit": 0,
+          "instrumented_os_exit": 0,
+          "phase_records_match": true,
+          "final_host_record": {
+            "phase": "complete",
+            "native_status": 0,
+            "hooks_active": false
+          },
+          "known_host_controls": [
+            "CreateThread",
+            "Sleep",
+            "WriteProcessMemory"
+          ],
+          "required_hook_points": [
+            "CreateProcessA",
+            "CreateProcessW",
+            "CreateThread",
+            "DnsQueryEx",
+            "DnsQuery_W",
+            "GetThreadContext",
+            "NtCreateThreadEx",
+            "NtCreateUserProcess",
+            "NtDelayExecution",
+            "ReadProcessMemory",
+            "ResumeThread",
+            "SetThreadContext",
+            "Sleep",
+            "SuspendThread",
+            "WSAConnect",
+            "WSASendTo",
+            "WriteProcessMemory",
+            "connect",
+            "sendto"
+          ],
+          "hook_installation_failures": [],
+          "unknown_direct_callers": 0,
+          "all_returned_api_observations": {
+            "NtDelayExecution": 2,
+            "Sleep": 4,
+            "WriteProcessMemory": 2,
+            "NtCreateThreadEx": 1,
+            "CreateThread": 1
+          },
+          "direct_target_entered": {},
+          "direct_target_returned": {},
+          "selected_target_events": []
+        },
+        {
+          "mode": "inspect",
+          "status": "CAPTURE_COMPLETED",
+          "plain_exit": 0,
+          "instrumented_os_exit": 0,
+          "phase_records_match": true,
+          "final_host_record": {
+            "phase": "complete",
+            "native_status": 4,
+            "hooks_active": false
+          },
+          "known_host_controls": [
+            "CreateThread",
+            "Sleep",
+            "WriteProcessMemory"
+          ],
+          "required_hook_points": [
+            "CreateProcessA",
+            "CreateProcessW",
+            "CreateThread",
+            "DnsQueryEx",
+            "DnsQuery_W",
+            "GetThreadContext",
+            "NtCreateThreadEx",
+            "NtCreateUserProcess",
+            "NtDelayExecution",
+            "ReadProcessMemory",
+            "ResumeThread",
+            "SetThreadContext",
+            "Sleep",
+            "SuspendThread",
+            "WSAConnect",
+            "WSASendTo",
+            "WriteProcessMemory",
+            "connect",
+            "sendto"
+          ],
+          "hook_installation_failures": [],
+          "unknown_direct_callers": 0,
+          "all_returned_api_observations": {
+            "NtDelayExecution": 2,
+            "Sleep": 4,
+            "WriteProcessMemory": 2,
+            "NtCreateThreadEx": 1,
+            "CreateThread": 1
+          },
+          "direct_target_entered": {},
+          "direct_target_returned": {},
+          "selected_target_events": []
+        },
+        {
+          "mode": "initialize",
+          "status": "CAPTURE_COMPLETED",
+          "plain_exit": 0,
+          "instrumented_os_exit": 0,
+          "phase_records_match": true,
+          "final_host_record": {
+            "phase": "complete",
+            "native_status": 2,
+            "hooks_active": false
+          },
+          "known_host_controls": [
+            "CreateThread",
+            "Sleep",
+            "WriteProcessMemory"
+          ],
+          "required_hook_points": [
+            "CreateProcessA",
+            "CreateProcessW",
+            "CreateThread",
+            "DnsQueryEx",
+            "DnsQuery_W",
+            "GetThreadContext",
+            "NtCreateThreadEx",
+            "NtCreateUserProcess",
+            "NtDelayExecution",
+            "ReadProcessMemory",
+            "ResumeThread",
+            "SetThreadContext",
+            "Sleep",
+            "SuspendThread",
+            "WSAConnect",
+            "WSASendTo",
+            "WriteProcessMemory",
+            "connect",
+            "sendto"
+          ],
+          "hook_installation_failures": [],
+          "unknown_direct_callers": 0,
+          "all_returned_api_observations": {
+            "NtDelayExecution": 3,
+            "Sleep": 6,
+            "WriteProcessMemory": 2,
+            "NtCreateThreadEx": 2,
+            "CreateThread": 2
+          },
+          "direct_target_entered": {
+            "CreateThread": 1
+          },
+          "direct_target_returned": {
+            "CreateThread": 1
+          },
+          "selected_target_events": [
+            {
+              "api": "CreateThread",
+              "caller_rva": "0x140e",
+              "details": {
+                "creation_flags": 0
+              },
+              "succeeded": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": "0.10.3-native-test",
+      "source_revision": "852c5c55458c563a8564090dd31305864483edf3",
+      "module_sha256": "6474247c07e7659efc6e4fc698a1e7cdf9471c3ec471656675a251ff5fe96652",
+      "post_module_sha256": "6474247c07e7659efc6e4fc698a1e7cdf9471c3ec471656675a251ff5fe96652",
+      "host_sha256": "62904deeea425ec2122911c892e895bd2dac3b95381ae7b4d3ee4a1dd51d56c9",
+      "agent_sha256": "ce8c49ddce541e818041c23f8a155cb65af53cd3c8177a309a0f117d52f4beb7",
+      "raw_receipt_sha256": "e8cb10a8f08d58b153fa1b9a0e3f7f2dcaadace243116ff47bead43f07e8d95d",
+      "toolchain_receipt_sha256": "e2fd6f9375426a4c267510720225cb59d660f5421f2a06e7e08c101138a7b6b6",
+      "runner": {
+        "image": "win22",
+        "image_version": "20261022.344.1",
+        "compiler_version": "19.44.35229.0",
+        "compiler_sha256": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+        "compiler_signature": "Valid",
+        "host_source_sha256": "d1f6c8973f3ac9a90a9954fab1b0551306c690ab14a8ebe560813b4f20f32d8d"
+      },
+      "plain_initialization_repeats": 16,
+      "plain_initialization_repeats_successful": 16,
+      "caller_mode": "direct-return-address-cached-module-map",
+      "full_backtraces_requested": false,
+      "cases": [
+        {
+          "mode": "baseline",
+          "status": "CAPTURE_COMPLETED",
+          "plain_exit": 0,
+          "instrumented_os_exit": 0,
+          "phase_records_match": true,
+          "final_host_record": {
+            "phase": "complete",
+            "native_status": 0,
+            "hooks_active": false
+          },
+          "known_host_controls": [
+            "CreateThread",
+            "Sleep",
+            "WriteProcessMemory"
+          ],
+          "required_hook_points": [
+            "CreateProcessA",
+            "CreateProcessW",
+            "CreateThread",
+            "DnsQueryEx",
+            "DnsQuery_W",
+            "GetThreadContext",
+            "NtCreateThreadEx",
+            "NtCreateUserProcess",
+            "NtDelayExecution",
+            "ReadProcessMemory",
+            "ResumeThread",
+            "SetThreadContext",
+            "Sleep",
+            "SuspendThread",
+            "WSAConnect",
+            "WSASendTo",
+            "WriteProcessMemory",
+            "connect",
+            "sendto"
+          ],
+          "hook_installation_failures": [],
+          "unknown_direct_callers": 0,
+          "all_returned_api_observations": {
+            "NtDelayExecution": 2,
+            "Sleep": 4,
+            "WriteProcessMemory": 2,
+            "NtCreateThreadEx": 1,
+            "CreateThread": 1
+          },
+          "direct_target_entered": {},
+          "direct_target_returned": {},
+          "selected_target_events": []
+        },
+        {
+          "mode": "load",
+          "status": "CAPTURE_COMPLETED",
+          "plain_exit": 0,
+          "instrumented_os_exit": 0,
+          "phase_records_match": true,
+          "final_host_record": {
+            "phase": "complete",
+            "native_status": 0,
+            "hooks_active": false
+          },
+          "known_host_controls": [
+            "CreateThread",
+            "Sleep",
+            "WriteProcessMemory"
+          ],
+          "required_hook_points": [
+            "CreateProcessA",
+            "CreateProcessW",
+            "CreateThread",
+            "DnsQueryEx",
+            "DnsQuery_W",
+            "GetThreadContext",
+            "NtCreateThreadEx",
+            "NtCreateUserProcess",
+            "NtDelayExecution",
+            "ReadProcessMemory",
+            "ResumeThread",
+            "SetThreadContext",
+            "Sleep",
+            "SuspendThread",
+            "WSAConnect",
+            "WSASendTo",
+            "WriteProcessMemory",
+            "connect",
+            "sendto"
+          ],
+          "hook_installation_failures": [],
+          "unknown_direct_callers": 0,
+          "all_returned_api_observations": {
+            "NtDelayExecution": 2,
+            "Sleep": 4,
+            "WriteProcessMemory": 2,
+            "NtCreateThreadEx": 1,
+            "CreateThread": 1
+          },
+          "direct_target_entered": {},
+          "direct_target_returned": {},
+          "selected_target_events": []
+        },
+        {
+          "mode": "inspect",
+          "status": "CAPTURE_COMPLETED",
+          "plain_exit": 0,
+          "instrumented_os_exit": 0,
+          "phase_records_match": true,
+          "final_host_record": {
+            "phase": "complete",
+            "native_status": 4,
+            "hooks_active": false
+          },
+          "known_host_controls": [
+            "CreateThread",
+            "Sleep",
+            "WriteProcessMemory"
+          ],
+          "required_hook_points": [
+            "CreateProcessA",
+            "CreateProcessW",
+            "CreateThread",
+            "DnsQueryEx",
+            "DnsQuery_W",
+            "GetThreadContext",
+            "NtCreateThreadEx",
+            "NtCreateUserProcess",
+            "NtDelayExecution",
+            "ReadProcessMemory",
+            "ResumeThread",
+            "SetThreadContext",
+            "Sleep",
+            "SuspendThread",
+            "WSAConnect",
+            "WSASendTo",
+            "WriteProcessMemory",
+            "connect",
+            "sendto"
+          ],
+          "hook_installation_failures": [],
+          "unknown_direct_callers": 0,
+          "all_returned_api_observations": {
+            "NtDelayExecution": 2,
+            "Sleep": 4,
+            "WriteProcessMemory": 2,
+            "NtCreateThreadEx": 1,
+            "CreateThread": 1
+          },
+          "direct_target_entered": {},
+          "direct_target_returned": {},
+          "selected_target_events": []
+        },
+        {
+          "mode": "initialize",
+          "status": "CAPTURE_COMPLETED",
+          "plain_exit": 0,
+          "instrumented_os_exit": 0,
+          "phase_records_match": true,
+          "final_host_record": {
+            "phase": "complete",
+            "native_status": 2,
+            "hooks_active": false
+          },
+          "known_host_controls": [
+            "CreateThread",
+            "Sleep",
+            "WriteProcessMemory"
+          ],
+          "required_hook_points": [
+            "CreateProcessA",
+            "CreateProcessW",
+            "CreateThread",
+            "DnsQueryEx",
+            "DnsQuery_W",
+            "GetThreadContext",
+            "NtCreateThreadEx",
+            "NtCreateUserProcess",
+            "NtDelayExecution",
+            "ReadProcessMemory",
+            "ResumeThread",
+            "SetThreadContext",
+            "Sleep",
+            "SuspendThread",
+            "WSAConnect",
+            "WSASendTo",
+            "WriteProcessMemory",
+            "connect",
+            "sendto"
+          ],
+          "hook_installation_failures": [],
+          "unknown_direct_callers": 0,
+          "all_returned_api_observations": {
+            "NtDelayExecution": 3,
+            "Sleep": 6,
+            "WriteProcessMemory": 2,
+            "NtCreateThreadEx": 2,
+            "CreateThread": 2
+          },
+          "direct_target_entered": {
+            "CreateThread": 1
+          },
+          "direct_target_returned": {
+            "CreateThread": 1
+          },
+          "selected_target_events": [
+            {
+              "api": "CreateThread",
+              "caller_rva": "0x140e",
+              "details": {
+                "creation_flags": 0
+              },
+              "succeeded": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "prior_attempts": [
+    {
+      "run_id": 40576805956,
+      "controller_revision": "8cca0d9ccd2133eaa0ebf710b94de32af58245ec",
+      "module_sha256": "765cdbdf0e99aea433fd977048b38f0cd28ccbe6c26902c511310a3ee9523ffa",
+      "receipt_sha256": "c15d6dbc0e44a5e46c690125168665045fb691f79025969a40a20eaab75dd349",
+      "status": "TOOL_ERROR",
+      "tool_error": {
+        "type": "RuntimeError",
+        "reason": "Incomplete instrumented capture"
+      },
+      "cases": [
+        {
+          "mode": "baseline",
+          "status": "TOOL_ERROR",
+          "plain_exit": 0,
+          "instrumented_exit": null,
+          "positive_controls": [
+            "CreateThread",
+            "Sleep",
+            "WriteProcessMemory"
+          ],
+          "target_module_observed": false,
+          "partial_stdout_retained": true
+        }
+      ]
+    },
+    {
+      "run_id": 40576805956,
+      "controller_revision": "8cca0d9ccd2133eaa0ebf710b94de32af58245ec",
+      "module_sha256": "6474247c07e7659efc6e4fc698a1e7cdf9471c3ec471656675a251ff5fe96652",
+      "receipt_sha256": "0377f86e78c1fa1c1c772e10adef9b010dee35bd81053a35d1789d3fe7f05bcc",
+      "status": "TOOL_ERROR",
+      "tool_error": {
+        "type": "RuntimeError",
+        "reason": "Incomplete instrumented capture"
+      },
+      "cases": [
+        {
+          "mode": "baseline",
+          "status": "TOOL_ERROR",
+          "plain_exit": 0,
+          "instrumented_exit": null,
+          "positive_controls": [
+            "CreateThread",
+            "Sleep",
+            "WriteProcessMemory"
+          ],
+          "target_module_observed": false,
+          "partial_stdout_retained": true
+        }
+      ]
+    },
+    {
+      "run_id": 40577586888,
+      "controller_revision": "e503c29c6f0e255eea5e0ad09b2598fcb7ee2340",
+      "module_sha256": "765cdbdf0e99aea433fd977048b38f0cd28ccbe6c26902c511310a3ee9523ffa",
+      "receipt_sha256": "05929a2e09e7de5c60654d36432b725ed3d6ea9b278d4b98cd0b27404f812bf8",
+      "status": "CAPTURES_COMPLETED",
+      "tool_error": null,
+      "cases": [
+        {
+          "mode": "baseline",
+          "status": "CAPTURE_COMPLETED",
+          "plain_exit": 0,
+          "instrumented_exit": 0,
+          "positive_controls": [
+            "CreateThread",
+            "Sleep",
+            "WriteProcessMemory"
+          ],
+          "target_module_observed": false,
+          "partial_stdout_retained": true
+        },
+        {
+          "mode": "load",
+          "status": "CAPTURE_COMPLETED",
+          "plain_exit": 0,
+          "instrumented_exit": 0,
+          "positive_controls": [
+            "CreateThread",
+            "Sleep",
+            "WriteProcessMemory"
+          ],
+          "target_module_observed": true,
+          "partial_stdout_retained": true
+        },
+        {
+          "mode": "inspect",
+          "status": "CAPTURE_COMPLETED",
+          "plain_exit": 0,
+          "instrumented_exit": 0,
+          "positive_controls": [
+            "CreateThread",
+            "Sleep",
+            "WriteProcessMemory"
+          ],
+          "target_module_observed": true,
+          "partial_stdout_retained": true
+        },
+        {
+          "mode": "initialize",
+          "status": "CAPTURE_COMPLETED",
+          "plain_exit": 0,
+          "instrumented_exit": 0,
+          "positive_controls": [
+            "CreateThread",
+            "Sleep",
+            "WriteProcessMemory"
+          ],
+          "target_module_observed": true,
+          "partial_stdout_retained": true
+        }
+      ]
+    },
+    {
+      "run_id": 40577586888,
+      "controller_revision": "e503c29c6f0e255eea5e0ad09b2598fcb7ee2340",
+      "module_sha256": "6474247c07e7659efc6e4fc698a1e7cdf9471c3ec471656675a251ff5fe96652",
+      "receipt_sha256": "5ca3648927a26c989a0e5e022e698b7a58775ab314102c3a096296a6edd5a041",
+      "status": "TOOL_ERROR",
+      "tool_error": {
+        "type": "RuntimeError",
+        "reason": "Owned instrumented host timed out; possible instrumentation interference"
+      },
+      "cases": [
+        {
+          "mode": "baseline",
+          "status": "CAPTURE_COMPLETED",
+          "plain_exit": 0,
+          "instrumented_exit": 0,
+          "positive_controls": [
+            "CreateThread",
+            "Sleep",
+            "WriteProcessMemory"
+          ],
+          "target_module_observed": false,
+          "partial_stdout_retained": true
+        },
+        {
+          "mode": "load",
+          "status": "CAPTURE_COMPLETED",
+          "plain_exit": 0,
+          "instrumented_exit": 0,
+          "positive_controls": [
+            "CreateThread",
+            "Sleep",
+            "WriteProcessMemory"
+          ],
+          "target_module_observed": true,
+          "partial_stdout_retained": true
+        },
+        {
+          "mode": "inspect",
+          "status": "CAPTURE_COMPLETED",
+          "plain_exit": 0,
+          "instrumented_exit": 0,
+          "positive_controls": [
+            "CreateThread",
+            "Sleep",
+            "WriteProcessMemory"
+          ],
+          "target_module_observed": true,
+          "partial_stdout_retained": true
+        },
+        {
+          "mode": "initialize",
+          "status": "TOOL_ERROR",
+          "plain_exit": 0,
+          "instrumented_exit": null,
+          "positive_controls": null,
+          "target_module_observed": true,
+          "partial_stdout_retained": false
+        }
+      ]
+    }
+  ],
+  "artifact_manifests": [
+    {
+      "run_id": 40576805956,
+      "artifacts": [
+        {
+          "id": 12768495127,
+          "name": "native-behavior-frozen-0103",
+          "digest_reported_by_github": "sha256:14b2ef4f8732237e6be370e1ee058de7fd10b177b647c99361b5ee6e1eed90e0",
+          "bytes": 2381
+        },
+        {
+          "id": 12767607802,
+          "name": "native-behavior-candidate-0104",
+          "digest_reported_by_github": "sha256:61ecac6727cb5092a1c5ad84d8429d51b2068219def9ee45c538e995cb974083",
+          "bytes": 2278
+        }
+      ]
+    },
+    {
+      "run_id": 40577586888,
+      "artifacts": [
+        {
+          "id": 12768291706,
+          "name": "native-behavior-frozen-0103",
+          "digest_reported_by_github": "sha256:141b6dec28685b437855504dfdae978526702dd2315f4817e97d94bb2982e1ef",
+          "bytes": 3467
+        },
+        {
+          "id": 12767843219,
+          "name": "native-behavior-candidate-0104",
+          "digest_reported_by_github": "sha256:5e1b70da91117757f0d2e1cd678972daa3ee97d5fb5010de2e6dc5d5401346f5",
+          "bytes": 3297
+        }
+      ]
+    },
+    {
+      "run_id": 40579107862,
+      "artifacts": [
+        {
+          "id": 12769440645,
+          "name": "native-behavior-frozen-0103",
+          "digest_reported_by_github": "sha256:651635de9f83dd960dd8b85d1fe1a8a88294c6144f73ad42f1f04ffbe1c02f33",
+          "bytes": 3522
+        },
+        {
+          "id": 12769220898,
+          "name": "native-behavior-candidate-0104",
+          "digest_reported_by_github": "sha256:be9a443ee1c93c40f7bbebcf70615e04082db5ae2334f346d64ded5a5e0f2cac",
+          "bytes": 3493
+        }
+      ]
+    }
+  ],
+  "interpretation": {
+    "new_source_defect_established": false,
+    "previous_timeout_cause_established": false,
+    "minhook_guard_antivirus_benefit_established": false,
+    "confirmed_false_positive": false,
+    "game_acceptance_established": false,
+    "private_antivirus_rule_identified": false,
+    "scope": "Selected direct API callers in an owned unsupported host; actual game hooks are outside this capture."
+  },
+  "limits": [
+    "Two wrapper hooks may observe one logical API call; counts are observations.",
+    "Cached return-address ownership does not provide an indirect causal call stack.",
+    "Unwatched APIs, direct syscalls, indirect library behavior, packet traffic and actual NMS behavior are not excluded.",
+    "The host hooks_active false field is its guard/report contract, not an independent enumeration of installed hooks.",
+    "Instrumentation changes process state and timing; uninstrumented controls remain separate.",
+    "Earlier terminal-callback failures and the single full-backtrace timeout remain incomplete attempts, not clean runs."
+  ],
+  "owner_pc_game_or_security_change": false,
+  "support_contact_sent": false
+}

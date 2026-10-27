@@ -1,15 +1,16 @@
 # Owned-host runtime attribution — 27 October 2026
 
-Status: **prepared, runtime result NOT CHECKED**. Earlier static and functional
-checks do not exhaust available internal analysis. No support/vendor message
-has been authorized or sent. The held review draft is not the next action
-while this bounded independent runtime observation remains actionable.
+Status: **owned-host runtime captures completed**, with the limits below.
+Earlier static and functional checks did not exhaust available internal
+analysis. Further independent analysis remains available. No support/vendor
+message has been authorized or sent; the held review draft remains a
+last-resort option.
 
 ## Question and controls
 
 Can the exact frozen ASI's actual API calls be distinguished from its host and
 instrumentation during DLL load, inspection and unsupported-host initialization?
-Specifically inspect caller/stack provenance, requested sleep intervals,
+Specifically inspect direct caller provenance, requested sleep intervals,
 thread creation flags and current-process memory handles. This can investigate
 public sandbox labels without claiming access to private antivirus rules.
 
@@ -38,7 +39,7 @@ Only an entirely completed capture gets CAPTURES_COMPLETED; it is not a safety v
 
 Reproduce at the original source prefix with the original pinned compiler and
 --teleport-candidate-trial. Validate the exact hash before execution and after
-each audit. The game target stays Windows/Steam Cosmos7.06 / build25732212 /
+each audit. The game target stays Windows/Steam Cosmos 7.06 / build25732212 /
 SHA-256 13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499.
 No game image is loaded or changed, and no game acceptance is inferred.
 
@@ -49,7 +50,7 @@ No game image is loaded or changed, and no game acceptance is inferred.
   reproduces the frozen modules. No candidate bytes are varied for a score.
 - Signed installed Microsoft x64 cl builds only the diagnostic host. Record
   compiler version/hash/signature, source hash and actual host SHA-256.
-- Python3.11.9; Frida17.24.3 official PyPI Windows x64 ABI3 wheel, SHA-256
+- Python 3.11.9; Frida 17.24.3 official PyPI Windows x64 ABI3 wheel, SHA-256
   61f5a53b146e0e7755d6c2bfa5405e14fe2373818ae5d98105c4eeca3face7d1.
   pip requires this exact hash and a binary wheel, without dependencies.
 - The controller refuses execution outside this repository's Windows CI and
@@ -63,8 +64,9 @@ No game image is loaded or changed, and no game acceptance is inferred.
 
 ## Limits
 
-Instrumentation changes the controlled process and timing. Accurate stack
-unwinding may fail; unknown frames stay unknown. Forwarded exports sharing
+Instrumentation changes the controlled process and timing. The final method
+attributes direct return addresses only, without indirect call stacks;
+unknown owners stay unknown. Forwarded exports sharing
 an address are deduplicated; different wrapper points can produce multiple
 observations. This is selected API coverage, not complete system-call or
 network-packet coverage. An unsupported owned host does not exercise native
@@ -75,17 +77,17 @@ Primary method references:
 [Frida API](https://frida.re/docs/javascript-api/) and
 [pinned wheel metadata](https://pypi.org/project/frida/17.24.3/#files).
 
-## Current verification
+## Initial preparation verification
 
 Local syntax checks passed for Python and JavaScript. A negative control
-confirmed that running the controller on the owner's PC is refused before
-input access or importing Frida. The actual CI builds, plain cases,
-instrumentation readiness and runtime captures are **NOT CHECKED** until the
-workflow result is read back. No runtime result is promoted from preparation.
+confirmed that running the controller on the owner's PC was refused before
+input access or importing Frida. At preparation time, actual CI builds, plain
+cases, instrumentation readiness and runtime captures were not checked. The
+attempts and completed runtime readback below supersede that initial state.
 
 ### First method attempt
 
-Run40576805956 at controller8cca0d9 reproduced both frozen modules, compiled
+Run 40576805956 at controller 8cca0d9 reproduced both frozen modules, compiled
 both owned hosts with signed Microsoft tools and installed the hash-verified
 instrumentation wheel. Both jobs stopped at baseline before loading any ASI.
 Plain and traced host phases matched, all three positive API controls appeared,
@@ -101,11 +103,11 @@ down. Retain the first attempt; do not relabel it a successful capture.
 
 ### Second method attempt and lower-interference follow-up
 
-Run40577586888 at e503c29 completed all four candidate modes, plain and
+Run 40577586888 at e503c29 completed all four candidate modes, plain and
 instrumented, with zero OS exit codes and known host/module positive controls.
 The candidate's observed direct API contribution in these modes was one
-InitializeASI CreateThread call, caller RVA0x140E, creation flags0. Its worker
-then reached the unsupported-host status2. No game hooks were exercised.
+InitializeASI CreateThread call, caller RVA 0x140E, creation flags 0. Its worker
+then reached the unsupported-host status 2. No game hooks were exercised.
 
 The original completed baseline/load/inspect captures and all four plain
 cases, but its instrumented initialize case timed out. That case remains
@@ -124,6 +126,76 @@ promotion of the incomplete full-backtrace result. It cannot attribute an
 indirect system-library call to the ASI through an uncaptured stack.
 
 Sixteen additional plain initialization repetitions per exact ASI precede the
-traced cases, each requiring exit0, status2 and hooks inactive. This is a
+traced cases, each requiring exit 0, status 2 and hooks inactive. This is a
 bounded check for an ordinary startup failure independent of the probe; it
 does not prove the absence of a rarer fault or identify an earlier timeout.
+
+## Completed direct-caller readback
+
+[Run 40579107862](https://github.com/lineum-dynamics/nms-companion-auto-summon/actions/runs/40579107862),
+controller `fd532ac1e30a0f2249e49a70b4210f744b848ddf`: **both jobs succeeded**.
+All input/post-run module hashes match the frozen ASIs. Both jobs use the
+same Windows image 20261022.344.1 and signed cl 19.44.35229.0, compiler SHA-256
+fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619.
+The official Frida 17.24.3 wheel hash was required by pip and the runtime
+version checked. Nothing was installed on the owner's PC.
+
+For **each** exact ASI, all 16 additional plain initialization repetitions
+returned exit 0/status 2. Baseline/load/inspect/initialize also completed both
+plain and instrumented: eight matched phase-record pairs across the two
+modules, with actual Windows exit 0, known host API controls and positive
+observation of the target image and its initialization worker where expected.
+
+| Mode | Direct selected ASI API observations, both inputs | Host outcome |
+| --- | --- | --- |
+| Baseline without ASI | None; target image absent as required | Exit0 |
+| Load unchanged ASI | None | Exit0, completed load |
+| Correct CasInspectHost | None | Exit0, unsupported-host status 4 |
+| Correct InitializeASI | One successful CreateThread, caller RVA 0x140E, creation flags 0 | Exit0, unsupported-host status 2 |
+
+Entered and returned selected direct ASI call counts agree. No selected direct
+ASI Sleep, WriteProcessMemory, SuspendThread or process-creation call was
+observed in these owned-host modes. Host controls account for the recorded
+memory write and sleeps; additional initializer polling also belongs to the
+host. Identical API wrappers can produce multiple observations per logical
+call. The direct caller map has zero unknown owners in these captures.
+
+The initial instrumented baseline already has ws2_32/dnsapi instrumentation
+points before the ASI is loaded. Library presence in a sandbox is therefore
+not evidence that the ASI initiated network communication. No packet-origin
+conclusion is made; watched API capture is not full network coverage.
+
+This new bounded runtime evidence was available without support contact.
+It does not identify the proprietary detector rule, establish a confirmed
+false positive, or validate active hooks in NMS. The host's hooks_active=false
+field follows its guard/report contract; this is not an independent hook-table
+or whole-image patch inspection. Calls delegated through system libraries
+cannot be attributed via a stack that this lower-interference mode does not
+collect. The earlier full-stack timeout remains unresolved; later successful
+plain repetitions/direct captures do not prove its cause.
+
+Sanitized durable results, exact receipt/tool digests and all incomplete
+attempts are in [the runtime evidence](NATIVE-0104-OWNED-TRACE-EVIDENCE.json),
+SHA-256 `4d15608c308c8b2d059f716d27765ec254d0cd51f829126bb890e29544e24b8f`.
+Raw trace logs and binaries are not committed. The CI uploaded JSON only.
+
+## Remaining independent scope
+
+The available internal analysis is not declared exhausted. These captures
+exercise unsupported-host startup, not the following independent gates:
+
+- Dynamic API attribution while MinHook changes **owned fixture targets**.
+  The existing ABI fixture passes functional checks, but tracing must account
+  for MinHook suspending injected instrumentation threads. A passive or
+  explicitly instrumented fixture method is needed before assigning a hang.
+- The complete UAL-to-ASI load lifecycle in an owned host, including teardown
+  and error paths. This is distinct from direct LoadLibraryEx/InitializeASI.
+- Active game/runtime observations for the exact candidate. This requires
+  separate authorized game-test conditions and does not follow from CI.
+- The exact antivirus matching rule remains undisclosed. Runtime evidence
+  can reveal real behavior defects, but cannot itself classify a private rule.
+
+The next bounded internal question is the owned active-hook transition, with
+a separate host baseline and without blindly attaching a thread-owning probe
+to a stop-the-world hook operation. No new player source repair is inferred
+from the current observations. The support draft remains unsent.

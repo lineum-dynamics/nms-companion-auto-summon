@@ -3480,3 +3480,33 @@ remain unresolved; no global safety or false-positive claim is made.
   the refreshed NEXUS-QUARANTINE-REVIEW-20261027.md. The public procedure
   requires moderator review of existing quarantine; concrete failing-check /
   affected-member data remains missing. No automatic support authorization.
+
+### Owned-host runtime attribution handoff, 27 October 2026
+
+- Game target/ledger unchanged: Cosmos 7.06 / Steam 25732212 / executable SHA-256
+  13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499.
+  No NMS process, executable or save was accessed; no native mapping changed.
+- New internal method: exact frozen ASIs reproduced on Windows-2022, then
+  owned Microsoft-built host baseline/load/inspect/initialize, plain versus
+  instrumented. Tooling and hash-first CI/process gates are in
+  NATIVE-0104-OWNED-TRACE.md and native-behavior-audit.yml. Frida 17.24.3 official
+  wheel 61f5a53b...; no local installation or security preference change.
+- Run 40579107862/controller fd532ac succeeded for both ASIs. Sources852c5c55 /
+  7fd4bc09 and hashes 6474247c / 765cdbdf remain distinct. Each passed 16 extra
+  plain initialization repetitions and four matched plain/instrumented modes,
+  with actual OS exit 0, known host API controls and verified input/post hashes.
+- Observed direct selected ASI API contribution: successful CreateThread from
+  RVA 0x140E, flags 0, in initialize only; unsupported-host status 2 followed.
+  Sleeps/memory writes in the selected direct-caller scope were host activity.
+  This is not indirect-call/packet coverage, game acceptance or AV clearance.
+- Preserve failed methods: run 40576805956 stopped at both baselines because a
+  final-exit callback was absent; independent OS exit handles replace it.
+  Run 40577586888 completed the candidate and three original captures; original
+  full-stack initialize timed out. Later direct/no-stack captures and 16 plain
+  repeats passed, but the prior timeout's cause remains unresolved.
+- Durable sanitized evidence NATIVE-0104-OWNED-TRACE-EVIDENCE.json, SHA-256
+  `4d15608c308c8b2d059f716d27765ec254d0cd51f829126bb890e29544e24b8f`.
+  Do not equate unresolved private rules with exhausted internal analysis.
+  Next bounded scope is active transitions on owned hook targets with a
+  method that accounts for suspended instrumentation threads; UAL lifecycle
+  and exact-candidate game acceptance remain NOT CHECKED. Support stays unsent.

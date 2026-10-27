@@ -6948,3 +6948,32 @@ remain unresolved; no global safety or false-positive claim is made.
   The remaining private rule/event data, exact-candidate game acceptance and
   Nexus download acceptance are open. A refreshed review request is local and
   unsent; the owner must explicitly authorize the last-resort contact step.
+
+### Owned-host runtime attribution handoff, 27 October 2026
+
+- Target remains Cosmos 7.06 / Steam 25732212 / executable SHA-256
+  13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499.
+  This pass runs exact owned ASIs in isolated CI, not a game executable. No
+  mapping, profile, player source/locale, installed file or save changed.
+- Run 40579107862/controller fd532ac reproduced source 852c5c55/ASI 6474247c and
+  source 7fd4bc09/ASI 765cdbdf unchanged. Both passed 16 extra plain initialization
+  repeats and four paired plain/instrumented modes. Compiler signature/hash,
+  Frida 17.24.3 wheel pin, exact disk hashes and actual OS exit 0 are recorded.
+  The controller and host independently refuse unrelated execution contexts.
+- Exact direct selected caller evidence: CreateThread from ASI RVA 0x140E,
+  creation flags 0, returns success; host reports unsupported status 2. Other
+  selected direct ASI dangerous-operation labels were not observed in these
+  modes. Indirect/system-library behavior and active game hooks are outside
+  this scope; host hooks_active=false is a contract, not an independent hook scan.
+- Both baseline terminal-callback failures from run 40576805956 and the single
+  original full-stack initialize timeout from run 40577586888 remain incomplete.
+  Direct cached-module-map attribution avoids stack walking/module enumeration
+  in critical callbacks. Later success does not identify the earlier timeout.
+- Evidence: NATIVE-0104-OWNED-TRACE-EVIDENCE.json, SHA-256
+  `4d15608c308c8b2d059f716d27765ec254d0cd51f829126bb890e29544e24b8f`;
+  method/commands/pins/limitations in NATIVE-0104-OWNED-TRACE.md. No binaries or
+  raw logs are committed; no owner-PC tool install, protection change or contact.
+- Internal analysis is not declared exhausted. Next bounded independent step:
+  owned active-hook transitions with appropriate instrumentation controls.
+  Full UAL lifecycle, active exact-candidate game acceptance, private detector
+  explanation and Nexus download acceptance remain separate open gates.

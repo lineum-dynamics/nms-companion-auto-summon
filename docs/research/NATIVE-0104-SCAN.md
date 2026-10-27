@@ -11,6 +11,11 @@ The candidate ZIP was selected but its submission was rejected by automatic
 approval review; no archive scan or acceptance is established. See the dated
 paired results and candidate-specific sandbox attribution at the end.
 
+A later internal [owned-host runtime pass](NATIVE-0104-OWNED-TRACE.md) completed
+for both exact ASIs:16 plain initialization repetitions each plus four
+plain/instrumented modes each. This adds actual caller/flag observations
+without changing the frozen bytes or establishing antivirus clearance.
+
 Priority: the owner requests resolution of antivirus detections and Nexus
 publication. Backup work is parked separately on fix/native-backup-volume-root
 at c23b417. Current branch research/native-antivirus-attribution starts from
@@ -547,3 +552,33 @@ for the owner's last-resort decision; it remains unsent. Nexus's official
 [quarantine procedure](https://help.nexusmods.com/article/117-why-has-my-mod-been-quarantined),
 rechecked today, requires moderator review to remove existing quarantine.
 That procedural fact does not convert any unresolved scan result into safety.
+
+## Further internal runtime evidence, 27 October 2026
+
+The conclusion that public/static reports leave a private rule unresolved is
+not a conclusion that independent internal work is exhausted. After the owner
+challenged that boundary, we prepared and ran a differential owned-host audit.
+See [the complete method and readback](NATIVE-0104-OWNED-TRACE.md).
+
+Run 40579107862 at controller fd532ac completed both exact frozen ASIs. Each
+passed 16 plain initialization repetitions and baseline/load/inspect/initialize
+with and without instrumentation. Known host APIs, actual OS exit codes,
+target image size and the source-known initialization worker are positive
+method controls. Earlier baseline terminal-callback failures and a single
+original-module full-stack timeout are retained as incomplete attempts.
+
+In the completed direct-caller scope, the only selected direct ASI API call
+was one successful CreateThread at RVA 0x140E with creation flags 0, followed
+by unsupported-host status 2. Selected sleeps and memory writes in this trace
+belong to the host controls/polling. No complete indirect call stack, packet
+coverage, active NMS-hook behavior or proprietary rule explanation is implied.
+The lower-interference method and 16 successful plain repetitions do not
+establish the cause of the earlier instrumented timeout.
+
+Durable [runtime evidence](NATIVE-0104-OWNED-TRACE-EVIDENCE.json), SHA-256
+`4d15608c308c8b2d059f716d27765ec254d0cd51f829126bb890e29544e24b8f`,
+records 32 successful plain repeats and eight matched plain/instrumented mode
+pairs, tool/receipt hashes and failed methods. No player behavior, mapping,
+installed file, save or antivirus preference changed. No support message was
+sent. Further owned active-hook/loader lifecycle work remains distinct and
+NOT CHECKED; it must use controls appropriate to each question.
