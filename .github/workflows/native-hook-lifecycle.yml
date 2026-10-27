@@ -22,8 +22,10 @@ jobs:
         include:
           - label: original
             source: 852c5c55458c563a8564090dd31305864483edf3
+            buffer_sha256: 0ab484d7870c3a8e7a3a1ee61e2070072cf445ed85b619d4c4207fed34356d99
           - label: query-guard
             source: 7fd4bc09a3185a214a808052da61f2223999619b
+            buffer_sha256: 3a9b2f7a1fb084e72897acd8095d4325ab03545669b5b43d89d13ea71d113035
     defaults:
       run:
         shell: pwsh
@@ -45,8 +47,17 @@ jobs:
           python-version: '3.11.9'
       - name: Compile and observe owned active-hook transitions
         run: |
-          python -B subject/tools/validate_native_dependencies.py
-          if ($LASTEXITCODE -ne 0) { throw 'Dependency provenance failed' }
+          # The original snapshot predates the patch-specific validator.
+          # Verify retained MinHook bytes against that snapshot's lock instead.
+          $lock = Get-Content -LiteralPath subject/native/dependencies-lock.json -Raw | ConvertFrom-Json
+          $components = @($lock.components | Where-Object name -eq 'MinHook')
+          if ($components.Count -ne 1) { throw 'Expected one pinned MinHook component' }
+          foreach ($entry in $components[0].retained_files) {
+            if (-not $entry.path.StartsWith('native/third_party/minhook/') -or $entry.path.Contains('..')) { throw 'Unexpected dependency path' }
+            $path = Join-Path 'subject' $entry.path
+            if ((Get-Item -LiteralPath $path).Length -ne $entry.bytes -or (Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash.ToLowerInvariant() -ne $entry.sha256) { throw 'Pinned dependency bytes differ' }
+          }
+          if ((Get-FileHash -LiteralPath subject/native/third_party/minhook/src/buffer.c -Algorithm SHA256).Hash.ToLowerInvariant() -ne '${{ matrix.buffer_sha256 }}') { throw 'Frozen buffer identity differs' }
           $locator = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio/Installer/vswhere.exe'
           $installation = & $locator -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
           Import-Module (Join-Path $installation 'Common7/Tools/Microsoft.VisualStudio.DevShell.dll')

@@ -82,6 +82,18 @@ jobs:
           $expected = (Get-FileHash -LiteralPath $module -Algorithm SHA256).Hash.ToLowerInvariant()
           & "$mirror/tools/research/scan_native_defender.ps1" -InputPath $module -ExpectedSha256 $expected -ReportPath build/msvc-candidate-defender.json
           if ($LASTEXITCODE -ne 0) { throw 'Candidate scan is not a completed no-detection result' }
+      - name: Collect reports on the artifact workspace volume
+        if: always()
+        run: |
+          $mirror = 'C:/Projects/nms-companion-auto-summon-compat-cosmos-706'
+          foreach ($label in @('a','b')) {
+            $source = "$mirror/build/msvc-0105-$label"
+            if (Test-Path -LiteralPath $source -PathType Container) {
+              $destination = "build/evidence/msvc-$label"
+              New-Item -ItemType Directory -Force -Path $destination | Out-Null
+              Get-ChildItem -LiteralPath $source -Filter '*.json' -File | ForEach-Object { Copy-Item -LiteralPath $_.FullName -Destination $destination }
+            }
+          }
       - name: Retain diagnostic evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -89,19 +101,26 @@ jobs:
           name: native-msvc-0105-evidence
           path: |
             build/msvc-candidate-*.json
-            C:/Projects/nms-companion-auto-summon-compat-cosmos-706/build/msvc-0105-a/*receipt.json
-            C:/Projects/nms-companion-auto-summon-compat-cosmos-706/build/msvc-0105-a/*validation.json
-            C:/Projects/nms-companion-auto-summon-compat-cosmos-706/build/msvc-0105-a/compiler-audit.json
-            C:/Projects/nms-companion-auto-summon-compat-cosmos-706/build/msvc-0105-b/build-receipt.json
+            build/evidence/**/*.json
           if-no-files-found: warn
           retention-days: 14
+      - name: Stage checked candidate on the artifact workspace volume
+        if: success()
+        run: |
+          $source = 'C:/Projects/nms-companion-auto-summon-compat-cosmos-706/build/msvc-0105-a'
+          $destination = 'build/candidate'
+          New-Item -ItemType Directory -Path $destination | Out-Null
+          foreach ($name in @('CompanionAutoSummon.asi','CompanionAutoSummon.pdb')) {
+            Copy-Item -LiteralPath "$source/$name" -Destination "$destination/$name"
+            if ((Get-FileHash -LiteralPath "$source/$name").Hash -ne (Get-FileHash -LiteralPath "$destination/$name").Hash) { throw 'Staged candidate bytes changed' }
+          }
       - name: Retain validated unreleased candidate for exact-file analysis
         if: success()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: native-msvc-0105-unreleased-candidate
           path: |
-            C:/Projects/nms-companion-auto-summon-compat-cosmos-706/build/msvc-0105-a/CompanionAutoSummon.asi
-            C:/Projects/nms-companion-auto-summon-compat-cosmos-706/build/msvc-0105-a/CompanionAutoSummon.pdb
+            build/candidate/CompanionAutoSummon.asi
+            build/candidate/CompanionAutoSummon.pdb
           if-no-files-found: error
           retention-days: 7
