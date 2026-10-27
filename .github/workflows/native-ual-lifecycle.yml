@@ -1,0 +1,70 @@
+name: Native owned UAL lifecycle audit
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [research/native-antivirus-attribution]
+    paths:
+      - .github/workflows/native-ual-lifecycle.yml
+      - tools/research/ual_lifecycle_host.cpp
+      - tools/research/audit_ual_lifecycle.py
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  lifecycle:
+    runs-on: windows-2022
+    timeout-minutes: 10
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      PYTHONUTF8: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Check out owned controller
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Set up Python 3.11.9
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.11.9'
+      - name: Fetch exact checked candidate and official pinned loader
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          New-Item -ItemType Directory -Path build | Out-Null
+          gh run download 40585107104 --repo lineum-dynamics/nms-companion-auto-summon --name native-msvc-0105-unreleased-candidate --dir build/candidate
+          if ($LASTEXITCODE -ne 0) { throw 'Checked candidate artifact is unavailable' }
+          if ((Get-FileHash -LiteralPath build/candidate/CompanionAutoSummon.asi -Algorithm SHA256).Hash.ToLowerInvariant() -ne '8e6dd664c1fc0982a435b5932d0c9f006f1522926aa28b9556b7f2ce7dcb4695') { throw 'Exact candidate identity mismatch' }
+          Invoke-WebRequest -Uri 'https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases/download/v9.7.4/Ultimate-ASI-Loader_x64.zip' -OutFile build/ual-official.zip
+          if ((Get-Item -LiteralPath build/ual-official.zip).Length -ne 2762703 -or (Get-FileHash -LiteralPath build/ual-official.zip -Algorithm SHA256).Hash.ToLowerInvariant() -ne '8272d83b2692662098746f2d0ad0e2d85f3c8358ab1d63f75fbe835c2c8135fd') { throw 'Pinned official loader archive differs' }
+          Expand-Archive -LiteralPath build/ual-official.zip -DestinationPath build/ual-official
+          if ((Get-FileHash -LiteralPath build/ual-official/dinput8.dll -Algorithm SHA256).Hash.ToLowerInvariant() -ne 'fa266e3513d02c08a1b808f28c10538a489eaffaa4b0707f7cc1066e71b5afd7') { throw 'Pinned loader DLL differs' }
+      - name: Build owned host using signed installed Microsoft tools
+        run: |
+          $locator = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio/Installer/vswhere.exe'
+          $installation = & $locator -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          Import-Module (Join-Path $installation 'Common7/Tools/Microsoft.VisualStudio.DevShell.dll')
+          Enter-VsDevShell -VsInstallPath $installation -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
+          $compiler = (Get-Command cl.exe -ErrorAction Stop).Source
+          $signature = Get-AuthenticodeSignature -LiteralPath $compiler
+          if ($signature.Status -ne 'Valid' -or $signature.SignerCertificate.Subject -notmatch 'Microsoft') { throw 'Unverified host compiler' }
+          & $compiler /nologo /std:c++17 /EHsc /O2 /W4 /WX /MT tools/research/ual_lifecycle_host.cpp /Fe:build/cas-ual-host.exe /link /INCREMENTAL:NO /DYNAMICBASE /NXCOMPAT /Brepro
+          if ($LASTEXITCODE -ne 0) { throw 'Owned UAL host compile failed' }
+          [ordered]@{schema=1;controller_revision='${{ github.sha }}';candidate_source_revision='085838cc3ef87ee98b935c2a6774a479df3343f4';candidate_run=40585107104;image=$env:ImageOS;image_version=$env:ImageVersion;compiler_sha256=(Get-FileHash -LiteralPath $compiler -Algorithm SHA256).Hash.ToLowerInvariant();compiler_signature=[string]$signature.Status;host_source_sha256=(Get-FileHash -LiteralPath tools/research/ual_lifecycle_host.cpp -Algorithm SHA256).Hash.ToLowerInvariant();host_sha256=(Get-FileHash -LiteralPath build/cas-ual-host.exe -Algorithm SHA256).Hash.ToLowerInvariant();game_access=$false;protection_settings_changed=$false} | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath build/ual-lifecycle-toolchain.json -Encoding utf8
+      - name: Observe no-plugin baseline and automatic ASI loading
+        run: |
+          python -B tools/research/audit_ual_lifecycle.py --host build/cas-ual-host.exe --module build/candidate/CompanionAutoSummon.asi --loader build/ual-official/dinput8.dll --output build/ual-lifecycle.json
+          exit $LASTEXITCODE
+      - name: Retain aggregate observations only
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: native-ual-lifecycle
+          path: build/ual-lifecycle*.json
+          if-no-files-found: warn
+          retention-days: 14

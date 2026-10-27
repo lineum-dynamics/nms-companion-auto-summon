@@ -70,3 +70,21 @@ This is an instrumented **source fixture**, not a trace of the exact frozen
 ASI or a full-game test. It can explain hook-library operations under active
 transitions without attributing an unrelated sandbox event. Both results are
 NOT CHECKED until the actual CI output is read back.
+
+## Exact-candidate UAL lifecycle fixture
+
+`native-ual-lifecycle.yml` downloads the retained checked candidate from
+run40585107104 and the official hash-pinned UAL9.7.4 archive. It verifies ASI
+8e6dd664c1fc0982a435b5932d0c9f006f1522926aa28b9556b7f2ce7dcb4695 and loader
+fa266e3513d02c08a1b808f28c10538a489eaffaa4b0707f7cc1066e71b5afd7 before use.
+An authored host dynamically loads the loader after its CI/context gate and
+invokes ordinary IAT-trigger APIs plus one forwarded winmm export. It never
+calls InitializeASI itself. Three no-plugin baselines and three ASI cases
+must observe the expected module/status, restored working directory, unchanged
+input hashes and successful OS process exit. Child environments omit CI tokens.
+
+This tests the normal process-exit lifecycle, not an unsupported ASI-unload API,
+active NMS hooks, all loader exports or a universal antivirus classification.
+UAL's pinned source at6b440669 documents its automatic InitializeASI call in
+source/dllmain.cpp and defers plugin loading through ordinary host IAT calls.
+Results remain NOT CHECKED until actual CI readback.
