@@ -199,3 +199,11 @@ The next bounded internal question is the owned active-hook transition, with
 a separate host baseline and without blindly attaching a thread-owning probe
 to a stop-the-world hook operation. No new player source repair is inferred
 from the current observations. The support draft remains unsent.
+
+### Later independent gates
+
+The owned active-hook source fixture and exact new-candidate UAL lifecycle
+have now completed in the separate
+[0.10.5 investigation](NATIVE-0105-MSVC-CANDIDATE.md). They retain their own
+source/binary scope and controls; the original direct-call captures above
+are not retroactively promoted to active-game or indirect-stack evidence.

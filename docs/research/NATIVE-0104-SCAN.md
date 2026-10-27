@@ -582,3 +582,14 @@ pairs, tool/receipt hashes and failed methods. No player behavior, mapping,
 installed file, save or antivirus preference changed. No support message was
 sent. Further owned active-hook/loader lifecycle work remains distinct and
 NOT CHECKED; it must use controls appropriate to each question.
+
+## Maintained Microsoft candidate and completed lifecycle fixtures
+
+The subsequent independent work is recorded in
+[NATIVE-0105-MSVC-CANDIDATE.md](NATIVE-0105-MSVC-CANDIDATE.md). The distinct
+0.10.5-native-test ASI8e6dd664 passed reproducible DLL builds, owned functional
+validation, a positively controlled Defender scan, owned MinHook transition
+fixtures and its exact official-UAL unsupported-host startup/normal exit.
+These results do not rewrite the frozen 0.10.3/0.10.4 bytes or transfer a
+multivendor classification. Exact-file VirusTotal upload confirmation is
+pending; no support message or Nexus candidate upload was sent.

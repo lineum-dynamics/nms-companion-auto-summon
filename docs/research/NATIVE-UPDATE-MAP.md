@@ -3532,3 +3532,44 @@ remain unresolved; no global safety or false-positive claim is made.
 - Reproducible commands and remaining gates: NATIVE-0105-MSVC-CANDIDATE.md.
   The next bounded action is CI build/readback, then exact-file multivendor
   comparison if the build and functional gates pass. No support contact.
+
+### Microsoft candidate and owned-lifecycle readback, 27 October 2026
+
+- Target remains Windows/Steam Cosmos 7.06 / build 25732212 / executable SHA-256
+  13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499.
+  No game image, mapping, save, installed mod or owner-PC protection preference
+  changed. Native caller roles use a level-zero intrinsic at the existing two
+  callback sites; this adds no native role or new executable compatibility.
+- Maintained Microsoft build candidate 0.10.5-native-test at source085838cc /
+  run40585107104 passed two-directory DLL byte identity, full owned functional
+  validation and a positively controlled Defender custom scan. ASI747,520 bytes,
+  SHA-2568e6dd664c1fc0982a435b5932d0c9f006f1522926aa28b9556b7f2ce7dcb4695.
+  All89 recorded source digests match Git blobs at that commit and all referenced
+  validation receipts match. The first PDB matches DLL GUID/age; PDB bytes differ
+  between builds, so full-build/PDB byte reproducibility is not established.
+- Original/query-guard owned MinHook source fixtures passed in run40585107247:
+  two owned-worker suspends/resumes and two temporary code-protection changes /
+  restores each; no foreign handles/failures, original bytes restored. This
+  explains operations in authored functions, not exact-ASI/game sandbox events.
+- Exact candidate plus unchanged official UAL9.7.4 passed run40586261812:
+  three no-plugin baselines and three automatically initialized unsupported-host
+  cases, restored cwd, unchanged hashes, actual OS exit0. No manual InitializeASI
+  call was used; normal process exit is distinct from arbitrary DLL unloading.
+- Static helper audit_msvc_candidate_artifact.py checked all1,872 table entries,
+  460 chain steps, bounds/sorting/no cycles, maximum depth5 and PDB identity.
+  Fifteen pefile chained-function warnings remain recorded. Its initial V1-only
+  attempt refused three V2 headers; only common V1/V2 structural fields were
+  subsequently reviewed. Opcode/prologue/handler semantics remain NOT CHECKED.
+- Preserve incomplete CI methods:40583926085 failed cross-volume artifact upload
+  after build/functional/scan success;40584515831 original stopped before compile
+  at a missing historical validator, while query-guard passed. Later success
+  does not relabel these overall failed runs. No frozen player bytes changed.
+- Sanitized evidence NATIVE-0105-EVIDENCE.json, SHA-256
+  a26468a906116e34f7ab4f4f77c5b6cff8f208a90c60347f641249df7e441670.
+  Detailed methods, exact artifacts and gates: NATIVE-0105-MSVC-CANDIDATE.md.
+- Multivendor submission is NOT CHECKED: new hash lookup is Item not found;
+  the exact 747,520-byte ASI and displayed VirusTotal sharing/terms form are
+  prepared, awaiting explicit upload confirmation. The next detection gate is
+  this exact-file comparison. Game acceptance, packaging and Nexus download
+  acceptance remain separate open gates; private-rule attribution and a
+  confirmed-false-positive classification are not established. Support unsent.

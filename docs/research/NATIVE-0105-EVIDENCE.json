@@ -1,0 +1,599 @@
+{
+  "schema": 1,
+  "kind": "microsoft-candidate-and-owned-lifecycle-readback",
+  "observed_date": "2026-10-27",
+  "candidate": {
+    "version": "0.10.5-native-test",
+    "source_revision": "085838cc3ef87ee98b935c2a6774a479df3343f4",
+    "ci_run": 40585107104,
+    "ci_url": "https://github.com/lineum-dynamics/nms-companion-auto-summon/actions/runs/40585107104",
+    "ci_conclusion": "success",
+    "module": {
+      "sha256": "8e6dd664c1fc0982a435b5932d0c9f006f1522926aa28b9556b7f2ce7dcb4695",
+      "bytes": 747520
+    },
+    "symbols": {
+      "CompanionAutoSummon.pdb": {
+        "sha256": "568376af58a3d4475cb6ceaea02b495e602a001bc8875d09734dc84abb183b6d",
+        "bytes": 11210752
+      }
+    },
+    "second_symbols": {
+      "CompanionAutoSummon.pdb": {
+        "sha256": "0dac6888b8f46a9bda973ab78baf43d991fccbc48d23f48dd022f3e3a3290427",
+        "bytes": 11218944
+      }
+    },
+    "symbol_byte_identity": false,
+    "symbol_byte_identity_gate": false,
+    "source_inputs_verified_against_git_commit": 89,
+    "reproduction": {
+      "schema": 1,
+      "source_revision": "085838cc3ef87ee98b935c2a6774a479df3343f4",
+      "version": "0.10.5-native-test",
+      "first_sha256": "8e6dd664c1fc0982a435b5932d0c9f006f1522926aa28b9556b7f2ce7dcb4695",
+      "second_sha256": "8e6dd664c1fc0982a435b5932d0c9f006f1522926aa28b9556b7f2ce7dcb4695",
+      "byte_identical": true,
+      "game_access": false,
+      "av_clearance": false,
+      "packaging_approved": false
+    },
+    "toolchain": {
+      "schema": 1,
+      "source_revision": "085838cc3ef87ee98b935c2a6774a479df3343f4",
+      "image": "win22",
+      "image_version": "20261022.344.1",
+      "tools": [
+        {
+          "name": "cl.exe",
+          "sha256": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+          "signature": "Valid",
+          "version": "19.44.35229.0"
+        },
+        {
+          "name": "rc.exe",
+          "sha256": "43da1503c262c30894c851589bf0155f8365d77e63a5f7bc13982320e3a6b42d",
+          "signature": "Valid",
+          "version": "10.0.26100.7705 (WinBuild.160101.0800)"
+        },
+        {
+          "name": "dumpbin.exe",
+          "sha256": "cfee7ed764b7b0866aae0be12f9c0ad2a7f5aecc4046ba2b7de26335827ca815",
+          "signature": "Valid",
+          "version": "14.44.35229.0"
+        }
+      ],
+      "game_access": false,
+      "protection_settings_changed": false
+    },
+    "functional_validation": {
+      "version": "0.10.5-native-test",
+      "passed": true,
+      "native_host_runs": [
+        {
+          "native_status": 2,
+          "host_sha256": "a0deb49029f08694248a8f4b02bbb243b7341fbc938aa564b4bc847aab071fac",
+          "hooks_active": false,
+          "concurrent_calls": 8
+        },
+        {
+          "native_status": 2,
+          "host_sha256": "a0deb49029f08694248a8f4b02bbb243b7341fbc938aa564b4bc847aab071fac",
+          "hooks_active": false,
+          "concurrent_calls": 8
+        },
+        {
+          "native_status": 2,
+          "host_sha256": "a0deb49029f08694248a8f4b02bbb243b7341fbc938aa564b4bc847aab071fac",
+          "hooks_active": false,
+          "concurrent_calls": 8
+        },
+        {
+          "native_status": 2,
+          "host_sha256": "a0deb49029f08694248a8f4b02bbb243b7341fbc938aa564b4bc847aab071fac",
+          "hooks_active": false,
+          "concurrent_calls": 8
+        },
+        {
+          "native_status": 2,
+          "host_sha256": "a0deb49029f08694248a8f4b02bbb243b7341fbc938aa564b4bc847aab071fac",
+          "hooks_active": false,
+          "concurrent_calls": 8
+        },
+        {
+          "native_status": 2,
+          "host_sha256": "a0deb49029f08694248a8f4b02bbb243b7341fbc938aa564b4bc847aab071fac",
+          "hooks_active": false,
+          "concurrent_calls": 8
+        }
+      ],
+      "validators": {
+        "policy": {
+          "report_sha256": "d7fc68bffaea737f20fc557b8e1092e308cadab4d21ffb6c8af3a1e87070fdd4",
+          "summary": {
+            "passed": true,
+            "traces": 88
+          }
+        },
+        "selection": {
+          "report_sha256": "c482674e6bfc6d81ab8e08c1957d61e14ac78bc96efab67347874f178d694622",
+          "summary": {
+            "passed": true,
+            "traces": 59
+          }
+        },
+        "storage": {
+          "report_sha256": "77adec2b2835f30cc201bf0212643852a9957880d21eeac17c6d21b0111646d8",
+          "summary": {
+            "status": "passed",
+            "differential_cases": 333,
+            "differential_operations": 721,
+            "checks_by_group": {
+              "differential": 11,
+              "legacy_and_current_migration": 24,
+              "settings_matrix": 384,
+              "invalid_existing_retained": 229,
+              "byte_limits": 12,
+              "invalid_arguments": 23,
+              "favorite_lifecycle": 9,
+              "unicode_paths_and_keys": 21,
+              "entry_limit_and_preservation": 6,
+              "reread_before_write": 1,
+              "locked_file_retained": 1,
+              "intentional_lone_surrogate_rejection": 1
+            }
+          }
+        },
+        "runtime": {
+          "report_sha256": "7fd2c334efd23c7af3639a51cee8162f0ab791291f389e9fb5b0104a08075a18",
+          "summary": {
+            "status": "passed",
+            "cases": 63,
+            "failures": []
+          }
+        },
+        "backup": {
+          "report_sha256": "50da5356b491a6159ec7016c87cc340f3eafd17d60dc924b5b2c4c903f2cd4c5",
+          "summary": {
+            "passed": true,
+            "checks": 16
+          }
+        },
+        "minhook_query": {
+          "report_sha256": "85a07626eb0827feab056ce85b5f95e78e0ca7993e4b5c2d94358dc3d8cc3796",
+          "summary": {
+            "passed": true,
+            "cases": 16,
+            "failed": 0,
+            "game_access": false
+          }
+        },
+        "hook_abi": {
+          "authored_hook_targets": 10,
+          "native_calls_per_pass": 17,
+          "detours_per_enabled_pass": 14,
+          "checks_passed": 10,
+          "argument_and_result_forwarding": true,
+          "mixed_float_stack_arguments": true,
+          "shared_trigger_order": true,
+          "same_thread_reentry": true,
+          "activation_gate": true,
+          "batch_enable_disable": true,
+          "original_bytes_restored": true,
+          "game_started_or_attached": false,
+          "nms_abi_proven": false
+        },
+        "load_context": {
+          "report_sha256": "58ebf7bef03cc3e4d01b0eeeb737c6770d0481d86c801aff7da113a07569d6c6",
+          "summary": {
+            "passed": true,
+            "cases": 21,
+            "game_access": false
+          }
+        }
+      },
+      "build_receipt_sha256": "356d9b96fd9c287f552411303252eab7957ed8c85a7e267bdff149317cf5b8cc",
+      "game_started_or_attached": false,
+      "gameplay_verified": false,
+      "deployed": false
+    },
+    "static_artifact_checks": {
+      "status": "SELECTED_STATIC_CHECKS_COMPLETED",
+      "module_sha256": "8e6dd664c1fc0982a435b5932d0c9f006f1522926aa28b9556b7f2ce7dcb4695",
+      "bytes": 747520,
+      "pdb_sha256": "568376af58a3d4475cb6ceaea02b495e602a001bc8875d09734dc84abb183b6d",
+      "pdb_guid_and_age_match": true,
+      "sections": [
+        ".text",
+        ".rdata",
+        ".data",
+        ".pdata",
+        ".fptable",
+        ".rsrc",
+        ".reloc"
+      ],
+      "imports": [
+        "bcrypt.dll",
+        "ADVAPI32.dll",
+        "SHELL32.dll",
+        "ole32.dll",
+        "USER32.dll",
+        "KERNEL32.dll"
+      ],
+      "exports": [
+        "CasInspectHost",
+        "CasRuntimeStatus",
+        "InitializeASI"
+      ],
+      "overlay_present": false,
+      "unwind": {
+        "runtime_function_entries": 1872,
+        "unique_chained_entries": 1872,
+        "chain_steps": 460,
+        "max_depth": 5,
+        "bounds_sorted_and_no_cycles": true,
+        "table_header_versions": {
+          "1": 1869,
+          "2": 3
+        }
+      },
+      "pefile_version": "2024.8.26",
+      "pefile_warnings": [
+        "Failed parsing FunctionEntry of UNWIND_INFO at aee48: 'Chained function entry cannot be changed'",
+        "Failed parsing FunctionEntry of UNWIND_INFO at aee84: 'Chained function entry cannot be changed'",
+        "Failed parsing FunctionEntry of UNWIND_INFO at af184: 'Chained function entry cannot be changed'",
+        "Failed parsing FunctionEntry of UNWIND_INFO at af190: 'Chained function entry cannot be changed'",
+        "Failed parsing FunctionEntry of UNWIND_INFO at af340: 'Chained function entry cannot be changed'",
+        "Failed parsing FunctionEntry of UNWIND_INFO at afe8c: 'Chained function entry cannot be changed'",
+        "Failed parsing FunctionEntry of UNWIND_INFO at afeec: 'Chained function entry cannot be changed'",
+        "Failed parsing FunctionEntry of UNWIND_INFO at b0498: 'Chained function entry cannot be changed'",
+        "Failed parsing FunctionEntry of UNWIND_INFO at b057c: 'Chained function entry cannot be changed'",
+        "Failed parsing FunctionEntry of UNWIND_INFO at b0ce4: 'Chained function entry cannot be changed'",
+        "Failed parsing FunctionEntry of UNWIND_INFO at b0d68: 'Chained function entry cannot be changed'",
+        "Failed parsing FunctionEntry of UNWIND_INFO at b0e34: 'Chained function entry cannot be changed'",
+        "Failed parsing FunctionEntry of UNWIND_INFO at b12d8: 'Chained function entry cannot be changed'",
+        "Failed parsing FunctionEntry of UNWIND_INFO at b13ec: 'Chained function entry cannot be changed'",
+        "Failed parsing FunctionEntry of UNWIND_INFO at b31bc: 'Chained function entry cannot be changed'"
+      ],
+      "limits": [
+        "Unwind opcode/prologue semantics and all handler data are not validated.",
+        "Parser warnings are retained, not converted to a zero-warning claim.",
+        "PDB identity matching is not complete symbol-content validation.",
+        "These structural checks are not an antivirus or gameplay verdict."
+      ]
+    },
+    "static_check_tool_sha256": "67588ad46e2d94aea076c3304d08eb748348c4e0a4690a3d119028556d547e6a",
+    "receipt_sha256": {
+      "first_build": "356d9b96fd9c287f552411303252eab7957ed8c85a7e267bdff149317cf5b8cc",
+      "second_build": "4cf60311ef25d2085502590502bc5e5a1b9d8cc0221888ce174aa9cf8ff5e3f2",
+      "validation": "1635cd4de14dc937654ec77268748aa54092cde9e45f8370cdbe1f8fbfba5af6",
+      "engine_scan": "3d4eae0f22cbaad629f634f634155629c251ea34f656c601c31d53d8117fd189",
+      "reproduction": "de50c10a256c9d6e67af45a2b45a1564dd2beae0b5d2ace88507d39e63c0a21d"
+    },
+    "defender": {
+      "result": "NO_DETECTION_RECORDED",
+      "scan_performed": true,
+      "scan_completed": true,
+      "expected_sha256": "8e6dd664c1fc0982a435b5932d0c9f006f1522926aa28b9556b7f2ce7dcb4695",
+      "input_sha256_after": "8e6dd664c1fc0982a435b5932d0c9f006f1522926aa28b9556b7f2ce7dcb4695",
+      "scan_mode": {
+        "type": "read-only custom scan",
+        "switch": "-DisableRemediation",
+        "machine_wide_preferences_changed": false,
+        "file_exclusions_ignored_by_documented_mode": true,
+        "detections_reported_in": "command output, not UI or event log"
+      },
+      "scan_engine_before": {
+        "AMServiceEnabled": true,
+        "AntivirusEnabled": true,
+        "RealTimeProtectionEnabled": false,
+        "AMRunningMode": "Normal",
+        "AMProductVersion": "4.18.26090.9",
+        "AMEngineVersion": "1.1.26090.9",
+        "AntivirusSignatureVersion": "1.461.231.0",
+        "AntivirusSignatureLastUpdated": "2026-10-27T13:01:07+00:00"
+      },
+      "engine_after": {
+        "AMServiceEnabled": true,
+        "AntivirusEnabled": true,
+        "RealTimeProtectionEnabled": false,
+        "AMRunningMode": "Normal",
+        "AMProductVersion": "4.18.26090.9",
+        "AMEngineVersion": "1.1.26090.9",
+        "AntivirusSignatureVersion": "1.461.231.0",
+        "AntivirusSignatureLastUpdated": "2026-10-27T13:01:07+00:00"
+      },
+      "positive_control": {
+        "source": "https://secure.eicar.org/eicar.com.txt",
+        "bytes": 68,
+        "sha256": "275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f",
+        "exit_code": 2,
+        "output": "Scan starting...\r\nScan finished.\r\nScanning <harmless-engine-control> found 1 threats.\r\n\r\n<===========================LIST OF DETECTED THREATS==========================>\r\n----------------------------- Threat information ------------------------------\r\nThreat                  : Virus:DOS/EICAR_Test_File\r\nResources               : 1 total\r\n    file                : <harmless-engine-control>\r\n-------------------------------------------------------------------------------",
+        "passed": true
+      },
+      "protection_configuration_changed": false,
+      "global_clearance_established": false,
+      "other_vendor_verdict_established": false,
+      "automatic_cloud_transmission": "NOT CHECKED"
+    }
+  },
+  "hook_lifecycle": {
+    "ci_run": 40585107247,
+    "ci_conclusion": "success",
+    "inputs": [
+      {
+        "receipt_sha256": "e039d5ed1545659a9ed1334efbdbe8f5be7b686c3736d7f812c557df7c4372ae",
+        "observations": {
+          "passed": true,
+          "game_access": false,
+          "scope": "source-instrumented owned hook fixture",
+          "thread_opened": 4,
+          "suspended": 2,
+          "resumed": 2,
+          "get_context": 2,
+          "set_context": 0,
+          "own_worker_suspends": 2,
+          "allocations": 1,
+          "executable_allocations": 1,
+          "writable_code": 2,
+          "protection_restores": 2,
+          "cache_flushes": 2,
+          "foreign_threads": 0,
+          "foreign_process_handles": 0,
+          "failed_operations": 0,
+          "worker_exited": true,
+          "target_bytes_restored": true
+        },
+        "toolchain_receipt_sha256": "6a5948d74362d9c7d4354c8a90945e37cb583ba5690eb350f8497002d94e79f9",
+        "toolchain": {
+          "schema": 1,
+          "controller_revision": "085838cc3ef87ee98b935c2a6774a479df3343f4",
+          "dependency_revision": "852c5c55458c563a8564090dd31305864483edf3",
+          "image": "win22",
+          "image_version": "20261022.344.1",
+          "compiler_sha256": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+          "compiler_signature": "Valid",
+          "host_sha256": "6eef2663717b2b7623101f6c507a8cec6cd0c284877b8d78ee0a3fb3cf6594da",
+          "host_source_sha256": "aadeddeb94744d34612f43bfc230363f93b583889315fd9e0580df45a657f04c",
+          "wrapper_header_sha256": "dd75e021923f5b152aa17cb30c24dea4497b9492e83a390a9a5a80bf6d58ac84",
+          "dependency_sources": [
+            {
+              "name": "buffer.c",
+              "sha256": "0ab484d7870c3a8e7a3a1ee61e2070072cf445ed85b619d4c4207fed34356d99"
+            },
+            {
+              "name": "hook.c",
+              "sha256": "edcce4c81985d7dd5b73feae96d6498c8f749b1bca4c3d2d9926ea9a17a84755"
+            },
+            {
+              "name": "trampoline.c",
+              "sha256": "f13a169f803ff5a8e45c58ce668b4377a9878c0fc4452369b8a1325065186b2b"
+            },
+            {
+              "name": "hde/hde64.c",
+              "sha256": "824eafa315322e6da105a7ce4ec1fc0e0adeee0106d32152fbb0b59e709bd15c"
+            }
+          ],
+          "game_access": false,
+          "exact_player_binary_trace": false,
+          "protection_settings_changed": false
+        }
+      },
+      {
+        "receipt_sha256": "e039d5ed1545659a9ed1334efbdbe8f5be7b686c3736d7f812c557df7c4372ae",
+        "observations": {
+          "passed": true,
+          "game_access": false,
+          "scope": "source-instrumented owned hook fixture",
+          "thread_opened": 4,
+          "suspended": 2,
+          "resumed": 2,
+          "get_context": 2,
+          "set_context": 0,
+          "own_worker_suspends": 2,
+          "allocations": 1,
+          "executable_allocations": 1,
+          "writable_code": 2,
+          "protection_restores": 2,
+          "cache_flushes": 2,
+          "foreign_threads": 0,
+          "foreign_process_handles": 0,
+          "failed_operations": 0,
+          "worker_exited": true,
+          "target_bytes_restored": true
+        },
+        "toolchain_receipt_sha256": "fe4c3ca421bb30c4149a7513ffe56611ead48571c7cae00e0f334ea4c4ce9462",
+        "toolchain": {
+          "schema": 1,
+          "controller_revision": "085838cc3ef87ee98b935c2a6774a479df3343f4",
+          "dependency_revision": "7fd4bc09a3185a214a808052da61f2223999619b",
+          "image": "win22",
+          "image_version": "20261022.344.1",
+          "compiler_sha256": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+          "compiler_signature": "Valid",
+          "host_sha256": "4ec2f51080da916cf10bc65a2a08a5e295dac96fbfcbe59573f36f9560f4a741",
+          "host_source_sha256": "aadeddeb94744d34612f43bfc230363f93b583889315fd9e0580df45a657f04c",
+          "wrapper_header_sha256": "dd75e021923f5b152aa17cb30c24dea4497b9492e83a390a9a5a80bf6d58ac84",
+          "dependency_sources": [
+            {
+              "name": "buffer.c",
+              "sha256": "3a9b2f7a1fb084e72897acd8095d4325ab03545669b5b43d89d13ea71d113035"
+            },
+            {
+              "name": "hook.c",
+              "sha256": "edcce4c81985d7dd5b73feae96d6498c8f749b1bca4c3d2d9926ea9a17a84755"
+            },
+            {
+              "name": "trampoline.c",
+              "sha256": "f13a169f803ff5a8e45c58ce668b4377a9878c0fc4452369b8a1325065186b2b"
+            },
+            {
+              "name": "hde/hde64.c",
+              "sha256": "824eafa315322e6da105a7ce4ec1fc0e0adeee0106d32152fbb0b59e709bd15c"
+            }
+          ],
+          "game_access": false,
+          "exact_player_binary_trace": false,
+          "protection_settings_changed": false
+        }
+      }
+    ],
+    "scope": "Source-instrumented original/query-guard MinHook; authored functions and waiting worker, not exact ASI traces"
+  },
+  "ual_lifecycle": {
+    "ci_run": 40586261812,
+    "ci_conclusion": "success",
+    "inputs": [
+      {
+        "receipt_sha256": "2c49b20c3a8b86d2b147e16320fe7a4f456950cff8862faeb12e923571000ee5",
+        "observations": {
+          "schema": 1,
+          "controller_revision": "f928e39fc7bdc19b32872cc8d98de0d66313eb0b",
+          "module_sha256": "8e6dd664c1fc0982a435b5932d0c9f006f1522926aa28b9556b7f2ce7dcb4695",
+          "loader_sha256": "fa266e3513d02c08a1b808f28c10538a489eaffaa4b0707f7cc1066e71b5afd7",
+          "host_sha256": "96b8fa5fb07baf86840b4d22ed8cf4fc34086be9da6f21a18898c27d03faf7ae",
+          "game_access": false,
+          "security_settings_changed": false,
+          "cases": [
+            {
+              "mode": "baseline",
+              "index": 0,
+              "os_exit_code": 0,
+              "records": {
+                "passed": true,
+                "game_access": false,
+                "asi_present": false,
+                "native_status": 0,
+                "manual_initialize_call": false,
+                "winmm_export_called": true,
+                "working_directory_restored": true
+              }
+            },
+            {
+              "mode": "baseline",
+              "index": 1,
+              "os_exit_code": 0,
+              "records": {
+                "passed": true,
+                "game_access": false,
+                "asi_present": false,
+                "native_status": 0,
+                "manual_initialize_call": false,
+                "winmm_export_called": true,
+                "working_directory_restored": true
+              }
+            },
+            {
+              "mode": "baseline",
+              "index": 2,
+              "os_exit_code": 0,
+              "records": {
+                "passed": true,
+                "game_access": false,
+                "asi_present": false,
+                "native_status": 0,
+                "manual_initialize_call": false,
+                "winmm_export_called": true,
+                "working_directory_restored": true
+              }
+            },
+            {
+              "mode": "with-asi",
+              "index": 0,
+              "os_exit_code": 0,
+              "records": {
+                "passed": true,
+                "game_access": false,
+                "asi_present": true,
+                "native_status": 2,
+                "manual_initialize_call": false,
+                "winmm_export_called": true,
+                "working_directory_restored": true
+              }
+            },
+            {
+              "mode": "with-asi",
+              "index": 1,
+              "os_exit_code": 0,
+              "records": {
+                "passed": true,
+                "game_access": false,
+                "asi_present": true,
+                "native_status": 2,
+                "manual_initialize_call": false,
+                "winmm_export_called": true,
+                "working_directory_restored": true
+              }
+            },
+            {
+              "mode": "with-asi",
+              "index": 2,
+              "os_exit_code": 0,
+              "records": {
+                "passed": true,
+                "game_access": false,
+                "asi_present": true,
+                "native_status": 2,
+                "manual_initialize_call": false,
+                "winmm_export_called": true,
+                "working_directory_restored": true
+              }
+            }
+          ],
+          "passed": true,
+          "scope": "Exact candidate and official UAL; unsupported owned host, normal process-exit teardown"
+        },
+        "toolchain_receipt_sha256": "395a004652caec7ad046371c1ab3567096c39b67066823057a1eb428dbad43b7",
+        "toolchain": {
+          "schema": 1,
+          "controller_revision": "f928e39fc7bdc19b32872cc8d98de0d66313eb0b",
+          "candidate_source_revision": "085838cc3ef87ee98b935c2a6774a479df3343f4",
+          "candidate_run": 40585107104,
+          "image": "win22",
+          "image_version": "20261022.344.1",
+          "compiler_sha256": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+          "compiler_signature": "Valid",
+          "host_source_sha256": "2418ab8996514705b7190adc8ad34d36605933d1b7ab650606966164dfd8c51c",
+          "host_sha256": "96b8fa5fb07baf86840b4d22ed8cf4fc34086be9da6f21a18898c27d03faf7ae",
+          "game_access": false,
+          "protection_settings_changed": false
+        }
+      }
+    ],
+    "scope": "Exact candidate and pinned official loader in owned unsupported host; ordinary whole-process exit"
+  },
+  "incomplete_methods": [
+    {
+      "run": 40583926085,
+      "source": "55e1ccb764db7831ce2e556b3af6b978bab80407",
+      "state": "Build/reproduction/functional/Defender steps passed; cross-volume artifact retention failed; candidate retention skipped"
+    },
+    {
+      "run": 40584515831,
+      "source": "ff88cf0253f8ac67cd654836afae50807c598f0e",
+      "state": "Original stopped before compiling at absent historical validator; query-guard fixture passed; later lock verification fixed method"
+    },
+    {
+      "tool": "static artifact check",
+      "state": "Initial V1-only check refused three V2 headers; common V1/V2 structural fields reviewed; opcode semantics remain outside scope"
+    }
+  ],
+  "multivendor": {
+    "new_candidate_uploaded": false,
+    "hash_lookup": "Item not found",
+    "upload_confirmation": "pending",
+    "confirmed_false_positive": false,
+    "private_matching_rule_identified": false
+  },
+  "game_acceptance_established": false,
+  "nexus_candidate_uploaded": false,
+  "support_contact_sent": false,
+  "local_native_execution": false,
+  "owner_pc_protection_settings_changed": false,
+  "limits": [
+    "DLL byte identity is established; PDB byte identity is not required or established.",
+    "Fifteen pefile chained-function warnings remain recorded; selected raw header/chain bounds do not prove all unwind semantics.",
+    "Owned source fixtures and unsupported-host startup are separate from exact-candidate game acceptance.",
+    "One engine scan with a positive control is not multivendor clearance or Nexus acceptance."
+  ]
+}
