@@ -1,0 +1,107 @@
+name: Native Microsoft release candidate
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [research/native-antivirus-attribution]
+    paths:
+      - .github/workflows/native-msvc-candidate.yml
+      - tools/build_native_msvc_audit.py
+      - native/include/cas/caller_address.hpp
+      - native/src/bootstrap.cpp
+
+permissions:
+  contents: read
+
+concurrency:
+  group: native-msvc-candidate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  candidate:
+    runs-on: windows-2022
+    timeout-minutes: 25
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      PYTHONUTF8: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+      SUBJECT_REVISION: ${{ github.sha }}
+    steps:
+      - name: Check out candidate source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Set up Python 3.11.9
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.11.9'
+      - name: Verify installed Microsoft tools and create owned source mirror
+        run: |
+          $locator = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio/Installer/vswhere.exe'
+          $installation = & $locator -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          if (-not $installation) { throw 'Official x64 C++ tools not found' }
+          Import-Module (Join-Path $installation 'Common7/Tools/Microsoft.VisualStudio.DevShell.dll')
+          Enter-VsDevShell -VsInstallPath $installation -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
+          $identities = @()
+          foreach ($name in @('cl.exe','rc.exe','dumpbin.exe')) {
+            $tool = (Get-Command $name -ErrorAction Stop).Source
+            $signature = Get-AuthenticodeSignature -LiteralPath $tool
+            if ($signature.Status -ne 'Valid' -or $signature.SignerCertificate.Subject -notmatch 'Microsoft') { throw "Unverified Microsoft tool: $name" }
+            $identities += [ordered]@{name=$name;sha256=(Get-FileHash -LiteralPath $tool -Algorithm SHA256).Hash.ToLowerInvariant();signature=[string]$signature.Status;version=(Get-Item -LiteralPath $tool).VersionInfo.FileVersion}
+          }
+          $mirror = 'C:/Projects/nms-companion-auto-summon-compat-cosmos-706'
+          if (Test-Path -LiteralPath $mirror) { throw 'Refuse existing source mirror' }
+          New-Item -ItemType Directory -Force -Path C:/Projects | Out-Null
+          git worktree add --detach $mirror $env:SUBJECT_REVISION
+          if ($LASTEXITCODE -ne 0) { throw 'Exact candidate checkout failed' }
+          New-Item -ItemType Directory -Force -Path build | Out-Null
+          [ordered]@{schema=1;source_revision=$env:SUBJECT_REVISION;image=$env:ImageOS;image_version=$env:ImageVersion;tools=$identities;game_access=$false;protection_settings_changed=$false} | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath build/msvc-candidate-toolchain.json -Encoding utf8
+      - name: Build twice and validate the candidate in owned hosts
+        run: |
+          $locator = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio/Installer/vswhere.exe'
+          $installation = & $locator -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          Import-Module (Join-Path $installation 'Common7/Tools/Microsoft.VisualStudio.DevShell.dll')
+          Enter-VsDevShell -VsInstallPath $installation -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
+          $mirror = 'C:/Projects/nms-companion-auto-summon-compat-cosmos-706'
+          python -B "$mirror/tools/build_native_msvc_audit.py" --release-candidate --output "$mirror/build/msvc-0105-a"
+          if ($LASTEXITCODE -ne 0) { throw 'First candidate build failed' }
+          python -B "$mirror/tools/validate_native_bundle.py" --build "$mirror/build/msvc-0105-a"
+          if ($LASTEXITCODE -ne 0) { throw 'Candidate functional validation failed' }
+          python -B "$mirror/tools/build_native_msvc_audit.py" --release-candidate --output "$mirror/build/msvc-0105-b"
+          if ($LASTEXITCODE -ne 0) { throw 'Second candidate build failed' }
+          $first = (Get-FileHash -LiteralPath "$mirror/build/msvc-0105-a/CompanionAutoSummon.asi" -Algorithm SHA256).Hash.ToLowerInvariant()
+          $second = (Get-FileHash -LiteralPath "$mirror/build/msvc-0105-b/CompanionAutoSummon.asi" -Algorithm SHA256).Hash.ToLowerInvariant()
+          [ordered]@{schema=1;source_revision=$env:SUBJECT_REVISION;version='0.10.5-native-test';first_sha256=$first;second_sha256=$second;byte_identical=($first -eq $second);game_access=$false;av_clearance=$false;packaging_approved=$false} | ConvertTo-Json | Set-Content -LiteralPath build/msvc-candidate-reproduction.json -Encoding utf8
+          if ($first -ne $second) { throw 'Candidate build reproducibility failed; preserve both receipts' }
+      - name: Scan exact candidate with a positive engine control
+        run: |
+          $mirror = 'C:/Projects/nms-companion-auto-summon-compat-cosmos-706'
+          $module = "$mirror/build/msvc-0105-a/CompanionAutoSummon.asi"
+          $expected = (Get-FileHash -LiteralPath $module -Algorithm SHA256).Hash.ToLowerInvariant()
+          & "$mirror/tools/research/scan_native_defender.ps1" -InputPath $module -ExpectedSha256 $expected -ReportPath build/msvc-candidate-defender.json
+          if ($LASTEXITCODE -ne 0) { throw 'Candidate scan is not a completed no-detection result' }
+      - name: Retain diagnostic evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: native-msvc-0105-evidence
+          path: |
+            build/msvc-candidate-*.json
+            C:/Projects/nms-companion-auto-summon-compat-cosmos-706/build/msvc-0105-a/*receipt.json
+            C:/Projects/nms-companion-auto-summon-compat-cosmos-706/build/msvc-0105-a/*validation.json
+            C:/Projects/nms-companion-auto-summon-compat-cosmos-706/build/msvc-0105-a/compiler-audit.json
+            C:/Projects/nms-companion-auto-summon-compat-cosmos-706/build/msvc-0105-b/build-receipt.json
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Retain validated unreleased candidate for exact-file analysis
+        if: success()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: native-msvc-0105-unreleased-candidate
+          path: |
+            C:/Projects/nms-companion-auto-summon-compat-cosmos-706/build/msvc-0105-a/CompanionAutoSummon.asi
+            C:/Projects/nms-companion-auto-summon-compat-cosmos-706/build/msvc-0105-a/CompanionAutoSummon.pdb
+          if-no-files-found: error
+          retention-days: 7

@@ -1,5 +1,10 @@
 # Companion Auto Summon for No Man's Sky — player experience
 
+The **0.10.5-native-test** Microsoft build candidate is a build/distribution
+investigation. It introduces no player-experience or native-mapping change.
+Its own validation, scanner and game acceptance gates must pass separately;
+the public artifact below remains unchanged.
+
 Development candidate **0.10.4-native-test** adds an internal query-error
 refusal to MinHook. It keeps the current 0.10.3 player experience and exact
 7.06 mappings. This candidate has no transferred live acceptance; the current

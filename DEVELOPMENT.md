@@ -1,5 +1,16 @@
 # Companion Auto Summon development guide
 
+## Unreleased 0.10.5 Microsoft build candidate
+
+The explicit `--release-candidate` mode of `tools/build_native_msvc_audit.py`
+uses the signed installed Microsoft toolchain in isolated CI. It emits the
+distinct 0.10.5-native-test identity with separate PDB symbols, and the workflow
+requires two-directory DLL byte identity, owned functional checks and an
+active, positively controlled Defender scan. The default diagnostic audit is
+still separate. See [the candidate gates](docs/research/NATIVE-0105-MSVC-CANDIDATE.md).
+The existing player packager refuses this candidate version. No new game
+compatibility, live acceptance, scanner clearance or release is claimed.
+
 ## Unreleased 0.10.4 query-error guard candidate
 
 Branch `fix/native-query-guard` starts at

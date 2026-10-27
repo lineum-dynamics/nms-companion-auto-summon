@@ -12,6 +12,7 @@
 #include "compatibility_profile.hpp"
 #include "cas/native_mapping.hpp"
 #include "cas/load_context.hpp"
+#include "cas/caller_address.hpp"
 #include <array>
 #include <chrono>
 #include <cstdint>
@@ -120,7 +121,7 @@ void flushRespawnSamples() noexcept {
     }
 }
 void __declspec(noinline) respawnCandidateHook(void* manager, std::int32_t reason, bool flag) {
-    const auto return_address = reinterpret_cast<Address>(__builtin_return_address(0));
+    const auto return_address = reinterpret_cast<Address>(CAS_CALLER_ADDRESS());
     const bool started = active();
     respawn_candidate_original(manager,reason,flag);
     if (started && active()) {
@@ -269,7 +270,7 @@ cas::LoadContextObservation observeLocalLoadContext(void* player_state,Address c
 }
 bool loadHook(void* player,void* common,void* state,std::uint8_t source_veto,std::uint8_t fifth_flag,std::uint32_t sixth_slot) {
     const bool started=active();
-    const auto caller=reinterpret_cast<Address>(__builtin_return_address(0));
+    const auto caller=reinterpret_cast<Address>(CAS_CALLER_ADDRESS());
     // In 7.06 the native body overwrites the fourth home slot before reading
     // it. Preserve the argument and its existing zero-only mod veto without
     // calling it a network classification. The verified local-load return

@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.10.5-native-test — unreleased Microsoft build candidate
+
+- Add a maintained Microsoft compiler candidate mode with separate full PDB
+  symbols and a two-directory, byte-identical DLL reproduction gate.
+- Use a compiler-specific call-site intrinsic for the two existing native
+  caller filters. Preserve all exact-build mappings, guards and player behavior.
+- Require owned functional validation and a positive-control Defender scan
+  before retaining the candidate for exact-file multivendor analysis.
+- Keep packaging, game acceptance, multivendor verdicts and Nexus acceptance
+  separate. No translation meaning changed; frozen 0.10.3/0.10.4 bytes remain.
+- See [the candidate investigation](docs/research/NATIVE-0105-MSVC-CANDIDATE.md).
+
 ## 0.10.4-native-test — unreleased query-error guard candidate
 
 - Keep the exact Windows/Steam Cosmos 7.06 / 25732212 game profile and native

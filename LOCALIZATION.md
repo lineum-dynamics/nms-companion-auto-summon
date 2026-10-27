@@ -1,5 +1,10 @@
 # Companion Auto Summon localization
 
+The unreleased **0.10.5-native-test** Microsoft build candidate changes the
+compiler/call-site intrinsic and debug-symbol storage only. No player-facing
+text, setting meaning or language selection changes; all fourteen 64-key
+catalogs and their existing review status remain authoritative.
+
 The unreleased **0.10.4-native-test** query-error guard changes no player-facing
 text, setting meaning or language selection. All fourteen catalogs retain
 64 keys and existing review status; no translation rewrite is required.

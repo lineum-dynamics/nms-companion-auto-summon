@@ -3510,3 +3510,25 @@ remain unresolved; no global safety or false-positive claim is made.
   Next bounded scope is active transitions on owned hook targets with a
   method that accounts for suspended instrumentation threads; UAL lifecycle
   and exact-candidate game acceptance remain NOT CHECKED. Support stays unsent.
+
+### Microsoft build candidate handoff, 27 October 2026
+
+- Autonomous antivirus-blocker work now includes a maintained Microsoft build
+  path, not only interpretation of public sandbox reports. Source base is
+  3ea3eff plus the two-call-site intrinsic/header and candidate CI/tooling diff.
+- New package candidate is 0.10.5-native-test. Frozen original source852c5c55 /
+  ASI6474247c and candidate source7fd4bc09 / ASI765cdbdf stay unchanged.
+- Target stays Windows/Steam Cosmos 7.06 / build25732212 / executable SHA-256
+  13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499.
+  No game image is decoded and no mapping or gameplay policy changes. The two
+  caller-filter roles keep the same level-zero call-site semantics.
+- Candidate CI uses signed Microsoft tools, external full PDBs and two distinct
+  build directories with a byte-identical DLL gate. Owned functional validation
+  and a positive-control Defender scan precede binary retention. Local Python
+  syntax, dependency provenance and fourteen 64-key locale checks passed.
+- Compilation/reproduction/runtime/scan results are NOT CHECKED until actual CI
+  readback. Multivendor attribution, active hook/UAL lifecycle, exact-candidate
+  game acceptance and Nexus acceptance remain separate unresolved gates.
+- Reproducible commands and remaining gates: NATIVE-0105-MSVC-CANDIDATE.md.
+  The next bounded action is CI build/readback, then exact-file multivendor
+  comparison if the build and functional gates pass. No support contact.

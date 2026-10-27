@@ -1,4 +1,4 @@
-"""Cross-compiler source audit on an isolated Windows CI runner, not a release build.
+"""Microsoft compiler audit or explicitly selected pre-release build in Windows CI.
 
 No installer, game process, save discovery, deployment or binary upload is used.
 The player packager rejects this distinct audit version. Frozen release bytes
@@ -27,8 +27,11 @@ from validate_locales import validate as validate_locales
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--release-candidate", action="store_true",
+                        help="Build the distinct 0.10.5 candidate with separate PDB symbols; packaging stays blocked")
     args = parser.parse_args()
-    if os.environ.get("GITHUB_ACTIONS") != "true":
+    if (os.name != "nt" or os.environ.get("GITHUB_ACTIONS") != "true"
+            or os.environ.get("GITHUB_REPOSITORY") != "lineum-dynamics/nms-companion-auto-summon"):
         raise ValueError("This audit runs only on an isolated GitHub Actions runner")
     output = args.output.resolve()
     if not output.is_relative_to(ROOT/"build") or output.exists():
@@ -43,9 +46,8 @@ def main():
     mapping = load_native_mapping(profile)
     native = ROOT/"native"
     bootstrap = (native/"src/bootstrap.cpp").read_text(encoding="utf-8")
-    callers = re.findall(r"__builtin_return_address\s*\(\s*(\d+)\s*\)",bootstrap)
-    if callers != ["0","0"] or bootstrap.count("__builtin_return_address") != 2:
-        raise ValueError("Review the diagnostic return-address adapter before use")
+    if bootstrap.count("CAS_CALLER_ADDRESS()") != 2 or "__builtin_return_address" in bootstrap:
+        raise ValueError("Review native caller attribution at both callback sites")
     sources = sorted(p for p in native.rglob("*") if p.is_file())
     sources += sorted((ROOT/"locales").glob("*.json"))
     sources += [ROOT/p for p in ("compatibility.json","native_compatibility.json","native_mappings.json",
@@ -60,13 +62,14 @@ def main():
         f"inline constexpr char exe_sha256[] = {json.dumps(profile['exe_sha256'])};\n"
         f"inline constexpr char steam_build[] = {json.dumps(profile['steam_build'])};\n}}\n",encoding="utf-8")
     write_mapping_header(mapping,generated/"native_mapping_profile.hpp")
-    adapter = generated/"msvc_audit_compat.hpp"
-    adapter.write_text("#pragma once\n#include <intrin.h>\n#pragma intrinsic(_ReturnAddress)\n"
-                       "#define __builtin_return_address(level) _ReturnAddress()\n",encoding="utf-8")
-    version = BASE_VERSION.split("-")[0]+"-msvc-audit"
-    numeric_version = ",".join(BASE_VERSION.split("-")[0].split(".")+["0"])
+    version = "0.10.5-native-test" if args.release_candidate else BASE_VERSION.split("-")[0]+"-msvc-audit"
+    numeric_version = ",".join(version.split("-")[0].split(".")+["0"])
     resource = output/"version.rc"
     resource.write_text('#include <windows.h>\n1 VERSIONINFO\nFILEVERSION NUMERIC_VERSION_VALUE\nPRODUCTVERSION NUMERIC_VERSION_VALUE\nFILEFLAGSMASK 0x3fL\nFILEFLAGS VS_FF_PRERELEASE\nFILEOS VOS_NT_WINDOWS32\nFILETYPE VFT_DLL\nBEGIN\n BLOCK "StringFileInfo"\n BEGIN\n  BLOCK "040904b0"\n  BEGIN\n   VALUE "CompanyName", "Lineum Dynamics\\0"\n   VALUE "FileDescription", "Companion Auto Summon - isolated compiler audit\\0"\n   VALUE "FileVersion", "VERSION_VALUE\\0"\n   VALUE "ProductName", "Companion Auto Summon compiler audit\\0"\n   VALUE "ProductVersion", "VERSION_VALUE\\0"\n   VALUE "OriginalFilename", "CompanionAutoSummon.asi\\0"\n  END\n END\n BLOCK "VarFileInfo"\n BEGIN\n  VALUE "Translation", 0x0409, 1200\n END\nEND\n'.replace("NUMERIC_VERSION_VALUE",numeric_version).replace("VERSION_VALUE",version),encoding="utf-8")
+    if args.release_candidate:
+        resource.write_text(resource.read_text(encoding="utf-8").replace(
+            "Companion Auto Summon - isolated compiler audit", "Companion Auto Summon for No Man's Sky - native test").replace(
+            "Companion Auto Summon compiler audit", "Companion Auto Summon for No Man's Sky - by Lineum Dynamics"),encoding="utf-8")
     commands = []
 
     def run(command, timeout=300):
@@ -77,24 +80,31 @@ def main():
             raise RuntimeError("Compiler audit command failed: "+result.stdout+result.stderr)
         return result.stdout
 
-    log = {"kind":"cross-compiler-audit","version":version,"base_player_version":BASE_VERSION,
+    kind = "msvc-release-candidate" if args.release_candidate else "cross-compiler-audit"
+    log = {"kind":kind,"version":version,"base_player_version":BASE_VERSION,
            "game_access":False,"deployed":False,"binary_uploaded":False,"sources":before,"commands":commands,
            "compatibility":profile,"native_mapping":mapping,"completed":False,
-           "adapter":{"call_sites":2,"level":0,"intrinsic":"_ReturnAddress","diagnostic_only":True}}
+           "caller_attribution":{"call_sites":2,"level":0,"intrinsic":"_ReturnAddress","call_site_macro":True},
+           "packaging_approved":False,"av_clearance":False}
     try:
         includes = ["/I"+str(p) for p in (native/"include",native/"third_party",native/"third_party/minhook/include",generated)]
         cpp = [tools["cl.exe"],"/nologo","/std:c++17","/permissive-","/Zc:__cplusplus","/O2","/W4","/EHsc","/MT","/utf-8",
-               "/DUNICODE","/D_UNICODE","/D_WIN32_WINNT=0x0A00","/D_CRT_SECURE_NO_WARNINGS",*includes,"/FI"+str(adapter)]
+               "/DUNICODE","/D_UNICODE","/D_WIN32_WINNT=0x0A00","/D_CRT_SECURE_NO_WARNINGS",*includes]
+        symbol_options = (["/Z7", "/pathmap:"+str(output)+"=C:\\cas-build,"+str(ROOT)+"=C:\\cas-source"]
+                          if args.release_candidate else [])
+        cpp += symbol_options
         objects = []
         for name in ("buffer.c","hook.c","trampoline.c","hde/hde64.c"):
             obj = output/(Path(name).stem+".obj")
-            run([tools["cl.exe"],"/nologo","/TC","/std:c11","/O2","/W4","/MT","/c",native/"third_party/minhook/src"/name,"/Fo"+str(obj)])
+            run([tools["cl.exe"],"/nologo","/TC","/std:c11","/O2","/W4","/MT",*symbol_options,"/c",native/"third_party/minhook/src"/name,"/Fo"+str(obj)])
             objects.append(obj)
         res = output/"version.res"
         run([tools["rc.exe"],"/nologo","/fo",res,resource])
         runtime = [native/"src"/(n+".cpp") for n in
                    ("bootstrap","probe","policy","selection","storage","runtime","backup","menu","binding_guard")]
         link = ["/link","/DYNAMICBASE","/NXCOMPAT","/INCREMENTAL:NO","/Brepro"]
+        if args.release_candidate:
+            link += ["/DEBUG:FULL", "/PDBALTPATH:%_PDB%", "/OPT:REF", "/OPT:ICF"]
         binary = output/"CompanionAutoSummon.asi"
         run([*cpp,"/analyze","/LD","/DCAS_NATIVE_RUNTIME","/DCAS_PROBE_BUILD","/DCAS_RESPAWN_OBSERVER",
              "/DCAS_TELEPORT_CANDIDATE_TRIAL",*runtime,*objects,res,"bcrypt.lib","advapi32.lib","shell32.lib",
@@ -127,13 +137,21 @@ def main():
         if before != {p.relative_to(ROOT).as_posix():digest(p) for p in sources}:
             raise RuntimeError("Source changed during the compiler audit")
         tool_identity = {name:{"sha256":digest(path),"path":str(path)} for name,path in tools.items()}
-        receipt = {"version":version,"kind":"cross-compiler-audit","gameplay_implemented":True,
+        receipt = {"version":version,"kind":kind,"gameplay_implemented":True,
                    "live_verified":False,"deployed":False,"compiler":"Microsoft MSVC - isolated source audit",
                    "compiler_sha256":digest(tools["cl.exe"]),"tool_identities":tool_identity,"sources":before,
                    "imports":imports,"compatibility":profile,"native_mapping":mapping,
                    "profile_validation":legacy,"locale_validation":locale,"dependency_validation":dependency,
                    "teleport_candidate_trial":True,"products":{p.name:{"sha256":digest(p),"bytes":p.stat().st_size} for p in products},
                    "generated":{p.name:digest(p) for p in generated.glob("*.hpp")}}
+        receipt.update(packaging_approved=False,av_clearance=False,
+                       caller_attribution=log["caller_attribution"],
+                       debug_symbols_separate=args.release_candidate)
+        if args.release_candidate:
+            pdb = output/"CompanionAutoSummon.pdb"
+            if not pdb.is_file():
+                raise RuntimeError("Separate candidate PDB is missing")
+            receipt["symbols"] = {pdb.name:{"sha256":digest(pdb),"bytes":pdb.stat().st_size}}
         (output/"build-receipt.json").write_text(json.dumps(receipt,indent=2)+"\n",encoding="utf-8")
         log.update(completed=True,products=receipt["products"],tool_identities=tool_identity,
                    build_receipt_sha256=digest(output/"build-receipt.json"),imports=imports)
