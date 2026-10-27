@@ -1,0 +1,1661 @@
+{
+  "schema": 1,
+  "kind": "bounded-iat-source-and-vendor-report-attribution",
+  "observed_date": "2026-10-27",
+  "tool": {
+    "path": "tools/research/audit_native_import_refs.py",
+    "sha256": "93a6015492baf1b969c9e540e7637dde9acbcf6dc558743e14ebbbfdf86a6ce6",
+    "python": "3.11.9",
+    "pefile": "2024.8.26",
+    "capstone": "5.0.7",
+    "python_executable_sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec"
+  },
+  "inputs": [
+    {
+      "package": "0.10.3-native-test",
+      "source_revision": "852c5c55458c563a8564090dd31305864483edf3",
+      "sha256": "6474247c07e7659efc6e4fc698a1e7cdf9471c3ec471656675a251ff5fe96652",
+      "bytes": 2639360,
+      "coverage": {
+        "exception_ranges": 2384,
+        "bytes_in_exception_ranges": 942036,
+        "decoded_bytes": 942036,
+        "instructions": 243496,
+        "incomplete_ranges": []
+      }
+    },
+    {
+      "package": "0.10.4-native-test",
+      "source_revision": "7fd4bc09a3185a214a808052da61f2223999619b",
+      "sha256": "765cdbdf0e99aea433fd977048b38f0cd28ccbe6c26902c511310a3ee9523ffa",
+      "bytes": 2639360,
+      "coverage": {
+        "exception_ranges": 2384,
+        "bytes_in_exception_ranges": 942047,
+        "decoded_bytes": 942047,
+        "instructions": 243500,
+        "incomplete_ranges": []
+      }
+    }
+  ],
+  "comparison": {
+    "named_imports_identical": true,
+    "selected_iat_references_identical": true,
+    "antivirus_causality_established": false
+  },
+  "shared_named_imports": [
+    {
+      "dll": "ADVAPI32.dll",
+      "name": "ConvertSidToStringSidW"
+    },
+    {
+      "dll": "ADVAPI32.dll",
+      "name": "ConvertStringSecurityDescriptorToSecurityDescriptorW"
+    },
+    {
+      "dll": "ADVAPI32.dll",
+      "name": "GetTokenInformation"
+    },
+    {
+      "dll": "ADVAPI32.dll",
+      "name": "OpenProcessToken"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "AcquireSRWLockExclusive"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "AreFileApisANSI"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "CloseHandle"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "CreateDirectoryW"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "CreateFileW"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "CreateHardLinkW"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "CreateMutexW"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "CreateSymbolicLinkW"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "CreateThread"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "CreateToolhelp32Snapshot"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "DeleteCriticalSection"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "DeleteFileW"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "DeviceIoControl"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "EnterCriticalSection"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "FindClose"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "FindFirstFileW"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "FindNextFileW"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "FlsAlloc"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "FlsGetValue"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "FlsSetValue"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "FlushFileBuffers"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "FlushInstructionCache"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "FormatMessageA"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "GetACP"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "GetActiveProcessorCount"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "GetCurrentDirectoryW"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "GetCurrentProcess"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "GetCurrentProcessId"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "GetCurrentThreadId"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "GetDiskFreeSpaceExW"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "GetFileAttributesW"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "GetFileInformationByHandle"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "GetFileInformationByHandleEx"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "GetFileSizeEx"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "GetFinalPathNameByHandleW"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "GetLastError"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "GetLocaleInfoEx"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "GetModuleFileNameW"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "GetModuleHandleExW"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "GetModuleHandleW"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "GetProcAddress"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "GetSystemInfo"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "GetSystemTime"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "GetSystemTimeAsFileTime"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "GetTempPathW"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "GetThreadContext"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "GetThreadId"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "GetTickCount64"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "GetUserDefaultLocaleName"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "HeapAlloc"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "HeapCreate"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "HeapDestroy"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "HeapFree"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "HeapReAlloc"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "InitOnceExecuteOnce"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "InitializeCriticalSection"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "LeaveCriticalSection"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "LocalFree"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "MoveFileExW"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "MultiByteToWideChar"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "OpenThread"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "QueryPerformanceCounter"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "QueryPerformanceFrequency"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "RaiseException"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "ReadFile"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "ReadProcessMemory"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "ReleaseSRWLockExclusive"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "ReplaceFileW"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "ResumeThread"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "RtlCaptureContext"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "RtlLookupFunctionEntry"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "RtlRestoreContext"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "RtlUnwindEx"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "RtlVirtualUnwind"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "SetCurrentDirectoryW"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "SetEndOfFile"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "SetFileAttributesW"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "SetFileInformationByHandle"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "SetFilePointerEx"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "SetFileTime"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "SetLastError"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "SetThreadContext"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "Sleep"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "SleepConditionVariableSRW"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "SuspendThread"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "SwitchToThread"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "Thread32First"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "Thread32Next"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "TryAcquireSRWLockExclusive"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "TryEnterCriticalSection"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "VirtualAlloc"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "VirtualFree"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "VirtualProtect"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "VirtualQuery"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "WaitForSingleObjectEx"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "WakeAllConditionVariable"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "WakeConditionVariable"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "WideCharToMultiByte"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "WriteFile"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "WriteProcessMemory"
+    },
+    {
+      "dll": "SHELL32.dll",
+      "name": "SHGetKnownFolderPath"
+    },
+    {
+      "dll": "USER32.dll",
+      "name": "MessageBoxW"
+    },
+    {
+      "dll": "api-ms-win-crt-convert-l1-1-0.dll",
+      "name": "_strtod_l"
+    },
+    {
+      "dll": "api-ms-win-crt-convert-l1-1-0.dll",
+      "name": "mbrtowc"
+    },
+    {
+      "dll": "api-ms-win-crt-convert-l1-1-0.dll",
+      "name": "mbsrtowcs"
+    },
+    {
+      "dll": "api-ms-win-crt-convert-l1-1-0.dll",
+      "name": "strtod"
+    },
+    {
+      "dll": "api-ms-win-crt-convert-l1-1-0.dll",
+      "name": "strtof"
+    },
+    {
+      "dll": "api-ms-win-crt-convert-l1-1-0.dll",
+      "name": "strtol"
+    },
+    {
+      "dll": "api-ms-win-crt-convert-l1-1-0.dll",
+      "name": "strtoll"
+    },
+    {
+      "dll": "api-ms-win-crt-convert-l1-1-0.dll",
+      "name": "strtoul"
+    },
+    {
+      "dll": "api-ms-win-crt-convert-l1-1-0.dll",
+      "name": "strtoull"
+    },
+    {
+      "dll": "api-ms-win-crt-convert-l1-1-0.dll",
+      "name": "wcrtomb"
+    },
+    {
+      "dll": "api-ms-win-crt-convert-l1-1-0.dll",
+      "name": "wcrtomb_s"
+    },
+    {
+      "dll": "api-ms-win-crt-convert-l1-1-0.dll",
+      "name": "wcstod"
+    },
+    {
+      "dll": "api-ms-win-crt-convert-l1-1-0.dll",
+      "name": "wcstol"
+    },
+    {
+      "dll": "api-ms-win-crt-convert-l1-1-0.dll",
+      "name": "wcstoll"
+    },
+    {
+      "dll": "api-ms-win-crt-convert-l1-1-0.dll",
+      "name": "wcstoul"
+    },
+    {
+      "dll": "api-ms-win-crt-convert-l1-1-0.dll",
+      "name": "wcstoull"
+    },
+    {
+      "dll": "api-ms-win-crt-environment-l1-1-0.dll",
+      "name": "getenv"
+    },
+    {
+      "dll": "api-ms-win-crt-filesystem-l1-1-0.dll",
+      "name": "_lock_file"
+    },
+    {
+      "dll": "api-ms-win-crt-filesystem-l1-1-0.dll",
+      "name": "_unlock_file"
+    },
+    {
+      "dll": "api-ms-win-crt-heap-l1-1-0.dll",
+      "name": "_aligned_free"
+    },
+    {
+      "dll": "api-ms-win-crt-heap-l1-1-0.dll",
+      "name": "_aligned_malloc"
+    },
+    {
+      "dll": "api-ms-win-crt-heap-l1-1-0.dll",
+      "name": "calloc"
+    },
+    {
+      "dll": "api-ms-win-crt-heap-l1-1-0.dll",
+      "name": "free"
+    },
+    {
+      "dll": "api-ms-win-crt-heap-l1-1-0.dll",
+      "name": "malloc"
+    },
+    {
+      "dll": "api-ms-win-crt-heap-l1-1-0.dll",
+      "name": "realloc"
+    },
+    {
+      "dll": "api-ms-win-crt-locale-l1-1-0.dll",
+      "name": "___lc_codepage_func"
+    },
+    {
+      "dll": "api-ms-win-crt-locale-l1-1-0.dll",
+      "name": "___mb_cur_max_func"
+    },
+    {
+      "dll": "api-ms-win-crt-locale-l1-1-0.dll",
+      "name": "__pctype_func"
+    },
+    {
+      "dll": "api-ms-win-crt-locale-l1-1-0.dll",
+      "name": "_configthreadlocale"
+    },
+    {
+      "dll": "api-ms-win-crt-locale-l1-1-0.dll",
+      "name": "_create_locale"
+    },
+    {
+      "dll": "api-ms-win-crt-locale-l1-1-0.dll",
+      "name": "_free_locale"
+    },
+    {
+      "dll": "api-ms-win-crt-locale-l1-1-0.dll",
+      "name": "localeconv"
+    },
+    {
+      "dll": "api-ms-win-crt-locale-l1-1-0.dll",
+      "name": "setlocale"
+    },
+    {
+      "dll": "api-ms-win-crt-math-l1-1-0.dll",
+      "name": "_fdopen"
+    },
+    {
+      "dll": "api-ms-win-crt-multibyte-l1-1-0.dll",
+      "name": "_mbtowc_l"
+    },
+    {
+      "dll": "api-ms-win-crt-private-l1-1-0.dll",
+      "name": "memchr"
+    },
+    {
+      "dll": "api-ms-win-crt-private-l1-1-0.dll",
+      "name": "memcmp"
+    },
+    {
+      "dll": "api-ms-win-crt-private-l1-1-0.dll",
+      "name": "memcpy"
+    },
+    {
+      "dll": "api-ms-win-crt-private-l1-1-0.dll",
+      "name": "memmove"
+    },
+    {
+      "dll": "api-ms-win-crt-private-l1-1-0.dll",
+      "name": "wcsrchr"
+    },
+    {
+      "dll": "api-ms-win-crt-runtime-l1-1-0.dll",
+      "name": "__sys_nerr"
+    },
+    {
+      "dll": "api-ms-win-crt-runtime-l1-1-0.dll",
+      "name": "_assert"
+    },
+    {
+      "dll": "api-ms-win-crt-runtime-l1-1-0.dll",
+      "name": "_beginthreadex"
+    },
+    {
+      "dll": "api-ms-win-crt-runtime-l1-1-0.dll",
+      "name": "_errno"
+    },
+    {
+      "dll": "api-ms-win-crt-runtime-l1-1-0.dll",
+      "name": "_execute_onexit_table"
+    },
+    {
+      "dll": "api-ms-win-crt-runtime-l1-1-0.dll",
+      "name": "_initialize_onexit_table"
+    },
+    {
+      "dll": "api-ms-win-crt-runtime-l1-1-0.dll",
+      "name": "_initterm"
+    },
+    {
+      "dll": "api-ms-win-crt-runtime-l1-1-0.dll",
+      "name": "_initterm_e"
+    },
+    {
+      "dll": "api-ms-win-crt-runtime-l1-1-0.dll",
+      "name": "_register_onexit_function"
+    },
+    {
+      "dll": "api-ms-win-crt-runtime-l1-1-0.dll",
+      "name": "_wassert"
+    },
+    {
+      "dll": "api-ms-win-crt-runtime-l1-1-0.dll",
+      "name": "abort"
+    },
+    {
+      "dll": "api-ms-win-crt-runtime-l1-1-0.dll",
+      "name": "strerror"
+    },
+    {
+      "dll": "api-ms-win-crt-runtime-l1-1-0.dll",
+      "name": "strerror_s"
+    },
+    {
+      "dll": "api-ms-win-crt-stdio-l1-1-0.dll",
+      "name": "__acrt_iob_func"
+    },
+    {
+      "dll": "api-ms-win-crt-stdio-l1-1-0.dll",
+      "name": "__stdio_common_vfprintf"
+    },
+    {
+      "dll": "api-ms-win-crt-stdio-l1-1-0.dll",
+      "name": "__stdio_common_vfwprintf"
+    },
+    {
+      "dll": "api-ms-win-crt-stdio-l1-1-0.dll",
+      "name": "__stdio_common_vsprintf"
+    },
+    {
+      "dll": "api-ms-win-crt-stdio-l1-1-0.dll",
+      "name": "__stdio_common_vswprintf"
+    },
+    {
+      "dll": "api-ms-win-crt-stdio-l1-1-0.dll",
+      "name": "_close"
+    },
+    {
+      "dll": "api-ms-win-crt-stdio-l1-1-0.dll",
+      "name": "_fseeki64"
+    },
+    {
+      "dll": "api-ms-win-crt-stdio-l1-1-0.dll",
+      "name": "_ftelli64"
+    },
+    {
+      "dll": "api-ms-win-crt-stdio-l1-1-0.dll",
+      "name": "_get_osfhandle"
+    },
+    {
+      "dll": "api-ms-win-crt-stdio-l1-1-0.dll",
+      "name": "_wfopen"
+    },
+    {
+      "dll": "api-ms-win-crt-stdio-l1-1-0.dll",
+      "name": "_wopen"
+    },
+    {
+      "dll": "api-ms-win-crt-stdio-l1-1-0.dll",
+      "name": "fclose"
+    },
+    {
+      "dll": "api-ms-win-crt-stdio-l1-1-0.dll",
+      "name": "fflush"
+    },
+    {
+      "dll": "api-ms-win-crt-stdio-l1-1-0.dll",
+      "name": "fopen"
+    },
+    {
+      "dll": "api-ms-win-crt-stdio-l1-1-0.dll",
+      "name": "fputc"
+    },
+    {
+      "dll": "api-ms-win-crt-stdio-l1-1-0.dll",
+      "name": "fputwc"
+    },
+    {
+      "dll": "api-ms-win-crt-stdio-l1-1-0.dll",
+      "name": "fread"
+    },
+    {
+      "dll": "api-ms-win-crt-stdio-l1-1-0.dll",
+      "name": "fseek"
+    },
+    {
+      "dll": "api-ms-win-crt-stdio-l1-1-0.dll",
+      "name": "fwrite"
+    },
+    {
+      "dll": "api-ms-win-crt-stdio-l1-1-0.dll",
+      "name": "getc"
+    },
+    {
+      "dll": "api-ms-win-crt-stdio-l1-1-0.dll",
+      "name": "setbuf"
+    },
+    {
+      "dll": "api-ms-win-crt-stdio-l1-1-0.dll",
+      "name": "ungetc"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "_iswalpha_l"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "_iswcntrl_l"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "_iswdigit_l"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "_iswlower_l"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "_iswprint_l"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "_iswpunct_l"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "_iswspace_l"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "_iswupper_l"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "_iswxdigit_l"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "_strcoll_l"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "_strdup"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "_strxfrm_l"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "_tolower_l"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "_toupper_l"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "_towlower_l"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "_towupper_l"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "_wcscoll_l"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "_wcsicmp"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "_wcsxfrm_l"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "isdigit"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "isspace"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "isxdigit"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "mbrlen"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "memset"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "strcmp"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "strlen"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "strnlen"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "tolower"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "toupper"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "towlower"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "towupper"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "wcscmp"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "wcscpy"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "wcslen"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "wcsncmp"
+    },
+    {
+      "dll": "api-ms-win-crt-string-l1-1-0.dll",
+      "name": "wcsnlen"
+    },
+    {
+      "dll": "api-ms-win-crt-time-l1-1-0.dll",
+      "name": "_strftime_l"
+    },
+    {
+      "dll": "bcrypt.dll",
+      "name": "BCryptCloseAlgorithmProvider"
+    },
+    {
+      "dll": "bcrypt.dll",
+      "name": "BCryptCreateHash"
+    },
+    {
+      "dll": "bcrypt.dll",
+      "name": "BCryptDestroyHash"
+    },
+    {
+      "dll": "bcrypt.dll",
+      "name": "BCryptFinishHash"
+    },
+    {
+      "dll": "bcrypt.dll",
+      "name": "BCryptGenRandom"
+    },
+    {
+      "dll": "bcrypt.dll",
+      "name": "BCryptGetProperty"
+    },
+    {
+      "dll": "bcrypt.dll",
+      "name": "BCryptHashData"
+    },
+    {
+      "dll": "bcrypt.dll",
+      "name": "BCryptOpenAlgorithmProvider"
+    },
+    {
+      "dll": "ole32.dll",
+      "name": "CoTaskMemFree"
+    }
+  ],
+  "shared_selected_iat_references": {
+    "_beginthreadex": {
+      "iat_rva": "0x13ed58",
+      "references": [
+        {
+          "instruction_rva": "0x9f7c0",
+          "instruction": "call qword ptr [rip + 0x9f592]",
+          "physical_range": [
+            "0x9f780",
+            "0x9f7e6"
+          ],
+          "root_begin": "0x9f780",
+          "exact_root_symbols": [
+            "_ZNSt3__122__libcpp_thread_createEPPvPFS0_S0_ES0_"
+          ],
+          "exact_range_symbols": [
+            "_ZNSt3__122__libcpp_thread_createEPPvPFS0_S0_ES0_"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        }
+      ]
+    },
+    "CreateThread": {
+      "iat_rva": "0x13f020",
+      "references": [
+        {
+          "instruction_rva": "0x1408",
+          "instruction": "call qword ptr [rip + 0x13dc12]",
+          "physical_range": [
+            "0x13b0",
+            "0x1432"
+          ],
+          "root_begin": "0x13b0",
+          "exact_root_symbols": [
+            "InitializeASI"
+          ],
+          "exact_range_symbols": [
+            "InitializeASI"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        }
+      ]
+    },
+    "GetProcAddress": {
+      "iat_rva": "0x13f120",
+      "references": [
+        {
+          "instruction_rva": "0x41de8",
+          "instruction": "call qword ptr [rip + 0xfd332]",
+          "physical_range": [
+            "0x41dc0",
+            "0x41e28"
+          ],
+          "root_begin": "0x41dc0",
+          "exact_root_symbols": [
+            "MH_CreateHookApiEx"
+          ],
+          "exact_range_symbols": [
+            "MH_CreateHookApiEx"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        },
+        {
+          "instruction_rva": "0x41e51",
+          "instruction": "call qword ptr [rip + 0xfd2c9]",
+          "physical_range": [
+            "0x41e30",
+            "0x41e85"
+          ],
+          "root_begin": "0x41e30",
+          "exact_root_symbols": [
+            "MH_CreateHookApi"
+          ],
+          "exact_range_symbols": [
+            "MH_CreateHookApi"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        },
+        {
+          "instruction_rva": "0xb7a0b",
+          "instruction": "call qword ptr [rip + 0x8770f]",
+          "physical_range": [
+            "0xb79f0",
+            "0xb7a29"
+          ],
+          "root_begin": "0xb79f0",
+          "exact_root_symbols": [
+            "_GLOBAL__I_000100"
+          ],
+          "exact_range_symbols": [
+            "_GLOBAL__I_000100"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        }
+      ]
+    },
+    "GetThreadContext": {
+      "iat_rva": "0x13f148",
+      "references": [
+        {
+          "instruction_rva": "0x41549",
+          "instruction": "call qword ptr [rip + 0xfdbf9]",
+          "physical_range": [
+            "0x41360",
+            "0x41756"
+          ],
+          "root_begin": "0x41360",
+          "exact_root_symbols": [
+            "Freeze"
+          ],
+          "exact_range_symbols": [
+            "Freeze"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        }
+      ]
+    },
+    "ReadProcessMemory": {
+      "iat_rva": "0x13f1e8",
+      "references": [
+        {
+          "instruction_rva": "0x4f29",
+          "instruction": "call qword ptr [rip + 0x13a2b9]",
+          "physical_range": [
+            "0x4ed0",
+            "0x4fa8"
+          ],
+          "root_begin": "0x4ed0",
+          "exact_root_symbols": [
+            "_ZN12_GLOBAL__N_110readMemoryEyPvy"
+          ],
+          "exact_range_symbols": [
+            "_ZN12_GLOBAL__N_110readMemoryEyPvy"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        },
+        {
+          "instruction_rva": "0x3da55",
+          "instruction": "call qword ptr [rip + 0x10178d]",
+          "physical_range": [
+            "0x3da00",
+            "0x3dab4"
+          ],
+          "root_begin": "0x3da00",
+          "exact_root_symbols": [
+            "_ZN3cas12_GLOBAL__N_14copyEyPvy"
+          ],
+          "exact_range_symbols": [
+            "_ZN3cas12_GLOBAL__N_14copyEyPvy"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        },
+        {
+          "instruction_rva": "0x3fa5e",
+          "instruction": "call qword ptr [rip + 0xff784]",
+          "physical_range": [
+            "0x3fa00",
+            "0x3fa7c"
+          ],
+          "root_begin": "0x3fa00",
+          "exact_root_symbols": [
+            "_ZN3cas12_GLOBAL__N_14readEyPvy"
+          ],
+          "exact_range_symbols": [
+            "_ZN3cas12_GLOBAL__N_14readEyPvy"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        },
+        {
+          "instruction_rva": "0x3fad6",
+          "instruction": "call qword ptr [rip + 0xff70c]",
+          "physical_range": [
+            "0x3fa80",
+            "0x3fb09"
+          ],
+          "root_begin": "0x3fa80",
+          "exact_root_symbols": [
+            "_ZN3cas12_GLOBAL__N_18equal_atILy16EEEbyRKNSt3__15arrayIhXT_EEE"
+          ],
+          "exact_range_symbols": [
+            "_ZN3cas12_GLOBAL__N_18equal_atILy16EEEbyRKNSt3__15arrayIhXT_EEE"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        },
+        {
+          "instruction_rva": "0x3fb6e",
+          "instruction": "call qword ptr [rip + 0xff674]",
+          "physical_range": [
+            "0x3fb10",
+            "0x3fbb4"
+          ],
+          "root_begin": "0x3fb10",
+          "exact_root_symbols": [
+            "_ZN3cas12_GLOBAL__N_18equal_atILy19EEEbyRKNSt3__15arrayIhXT_EEE"
+          ],
+          "exact_range_symbols": [
+            "_ZN3cas12_GLOBAL__N_18equal_atILy19EEEbyRKNSt3__15arrayIhXT_EEE"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        },
+        {
+          "instruction_rva": "0x3fc1e",
+          "instruction": "call qword ptr [rip + 0xff5c4]",
+          "physical_range": [
+            "0x3fbc0",
+            "0x3fc52"
+          ],
+          "root_begin": "0x3fbc0",
+          "exact_root_symbols": [
+            "_ZN3cas12_GLOBAL__N_18equal_atILy14EEEbyRKNSt3__15arrayIhXT_EEE"
+          ],
+          "exact_range_symbols": [
+            "_ZN3cas12_GLOBAL__N_18equal_atILy14EEEbyRKNSt3__15arrayIhXT_EEE"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        },
+        {
+          "instruction_rva": "0x3fcee",
+          "instruction": "call qword ptr [rip + 0xff4f4]",
+          "physical_range": [
+            "0x3fc60",
+            "0x3ffe3"
+          ],
+          "root_begin": "0x3fc60",
+          "exact_root_symbols": [
+            "_ZN3cas12BindingGuard7installEyRKNSt3__15arrayIhLy16EEE"
+          ],
+          "exact_range_symbols": [
+            "_ZN3cas12BindingGuard7installEyRKNSt3__15arrayIhLy16EEE"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        }
+      ]
+    },
+    "ResumeThread": {
+      "iat_rva": "0x13f200",
+      "references": [
+        {
+          "instruction_rva": "0x40e67",
+          "instruction": "mov r13, qword ptr [rip + 0xfe392]",
+          "physical_range": [
+            "0x40d90",
+            "0x40ed5"
+          ],
+          "root_begin": "0x40d90",
+          "exact_root_symbols": [
+            "EnableAllHooksLL"
+          ],
+          "exact_range_symbols": [
+            "EnableAllHooksLL"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        },
+        {
+          "instruction_rva": "0x41306",
+          "instruction": "call qword ptr [rip + 0xfdef4]",
+          "physical_range": [
+            "0x41130",
+            "0x41352"
+          ],
+          "root_begin": "0x41130",
+          "exact_root_symbols": [
+            "MH_RemoveHook"
+          ],
+          "exact_range_symbols": [
+            "MH_RemoveHook"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        },
+        {
+          "instruction_rva": "0x41982",
+          "instruction": "mov r13, qword ptr [rip + 0xfd877]",
+          "physical_range": [
+            "0x41870",
+            "0x419ef"
+          ],
+          "root_begin": "0x41870",
+          "exact_root_symbols": [
+            "EnableHook"
+          ],
+          "exact_range_symbols": [
+            "EnableHook"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        },
+        {
+          "instruction_rva": "0x41d43",
+          "instruction": "mov r13, qword ptr [rip + 0xfd4b6]",
+          "physical_range": [
+            "0x41c00",
+            "0x41dbd"
+          ],
+          "root_begin": "0x41c00",
+          "exact_root_symbols": [
+            "MH_ApplyQueued"
+          ],
+          "exact_range_symbols": [
+            "MH_ApplyQueued"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        }
+      ]
+    },
+    "SetThreadContext": {
+      "iat_rva": "0x13f268",
+      "references": [
+        {
+          "instruction_rva": "0x416cd",
+          "instruction": "call qword ptr [rip + 0xfdb95]",
+          "physical_range": [
+            "0x41360",
+            "0x41756"
+          ],
+          "root_begin": "0x41360",
+          "exact_root_symbols": [
+            "Freeze"
+          ],
+          "exact_range_symbols": [
+            "Freeze"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        }
+      ]
+    },
+    "Sleep": {
+      "iat_rva": "0x13f270",
+      "references": [
+        {
+          "instruction_rva": "0x106c",
+          "instruction": "mov r15, qword ptr [rip + 0x13e1fd]",
+          "physical_range": [
+            "0x1000",
+            "0x12d6"
+          ],
+          "root_begin": "0x1000",
+          "exact_root_symbols": [
+            "_CRT_INIT"
+          ],
+          "exact_range_symbols": [
+            "_CRT_INIT"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        },
+        {
+          "instruction_rva": "0x1144",
+          "instruction": "mov r15, qword ptr [rip + 0x13e125]",
+          "physical_range": [
+            "0x1000",
+            "0x12d6"
+          ],
+          "root_begin": "0x1000",
+          "exact_root_symbols": [
+            "_CRT_INIT"
+          ],
+          "exact_range_symbols": [
+            "_CRT_INIT"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        },
+        {
+          "instruction_rva": "0x40c5a",
+          "instruction": "mov rbx, qword ptr [rip + 0xfe60f]",
+          "physical_range": [
+            "0x40c40",
+            "0x40ccd"
+          ],
+          "root_begin": "0x40c40",
+          "exact_root_symbols": [
+            "MH_Initialize"
+          ],
+          "exact_range_symbols": [
+            "MH_Initialize"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        },
+        {
+          "instruction_rva": "0x40cea",
+          "instruction": "mov rbx, qword ptr [rip + 0xfe57f]",
+          "physical_range": [
+            "0x40cd0",
+            "0x40d85"
+          ],
+          "root_begin": "0x40cd0",
+          "exact_root_symbols": [
+            "MH_Uninitialize"
+          ],
+          "exact_range_symbols": [
+            "MH_Uninitialize"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        },
+        {
+          "instruction_rva": "0x40f09",
+          "instruction": "mov r15, qword ptr [rip + 0xfe360]",
+          "physical_range": [
+            "0x40ee0",
+            "0x4112e"
+          ],
+          "root_begin": "0x40ee0",
+          "exact_root_symbols": [
+            "MH_CreateHook"
+          ],
+          "exact_range_symbols": [
+            "MH_CreateHook"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        },
+        {
+          "instruction_rva": "0x41156",
+          "instruction": "mov r14, qword ptr [rip + 0xfe113]",
+          "physical_range": [
+            "0x41130",
+            "0x41352"
+          ],
+          "root_begin": "0x41130",
+          "exact_root_symbols": [
+            "MH_RemoveHook"
+          ],
+          "exact_range_symbols": [
+            "MH_RemoveHook"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        },
+        {
+          "instruction_rva": "0x41899",
+          "instruction": "mov r15, qword ptr [rip + 0xfd9d0]",
+          "physical_range": [
+            "0x41870",
+            "0x419ef"
+          ],
+          "root_begin": "0x41870",
+          "exact_root_symbols": [
+            "EnableHook"
+          ],
+          "exact_range_symbols": [
+            "EnableHook"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        },
+        {
+          "instruction_rva": "0x41a1f",
+          "instruction": "mov r14, qword ptr [rip + 0xfd84a]",
+          "physical_range": [
+            "0x41a00",
+            "0x41afa"
+          ],
+          "root_begin": "0x41a00",
+          "exact_root_symbols": [
+            "MH_QueueEnableHook"
+          ],
+          "exact_range_symbols": [
+            "MH_QueueEnableHook"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        },
+        {
+          "instruction_rva": "0x41b1f",
+          "instruction": "mov r14, qword ptr [rip + 0xfd74a]",
+          "physical_range": [
+            "0x41b00",
+            "0x41bfa"
+          ],
+          "root_begin": "0x41b00",
+          "exact_root_symbols": [
+            "MH_QueueDisableHook"
+          ],
+          "exact_range_symbols": [
+            "MH_QueueDisableHook"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        },
+        {
+          "instruction_rva": "0x41c23",
+          "instruction": "mov rbx, qword ptr [rip + 0xfd646]",
+          "physical_range": [
+            "0x41c00",
+            "0x41dbd"
+          ],
+          "root_begin": "0x41c00",
+          "exact_root_symbols": [
+            "MH_ApplyQueued"
+          ],
+          "exact_range_symbols": [
+            "MH_ApplyQueued"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        },
+        {
+          "instruction_rva": "0xed2dc",
+          "instruction": "mov rdi, qword ptr [rip + 0x51f8d]",
+          "physical_range": [
+            "0xed290",
+            "0xed3e8"
+          ],
+          "root_begin": "0xed290",
+          "exact_root_symbols": [
+            "__Balloc_D2A"
+          ],
+          "exact_range_symbols": [
+            "__Balloc_D2A"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        },
+        {
+          "instruction_rva": "0xed45a",
+          "instruction": "mov rdi, qword ptr [rip + 0x51e0f]",
+          "physical_range": [
+            "0xed3f0",
+            "0xed4e8"
+          ],
+          "root_begin": "0xed3f0",
+          "exact_root_symbols": [
+            "__Bfree_D2A"
+          ],
+          "exact_range_symbols": [
+            "__Bfree_D2A"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        },
+        {
+          "instruction_rva": "0xed972",
+          "instruction": "mov rbx, qword ptr [rip + 0x518f7]",
+          "physical_range": [
+            "0xed7d0",
+            "0xedb13"
+          ],
+          "root_begin": "0xed7d0",
+          "exact_root_symbols": [
+            "__pow5mult_D2A"
+          ],
+          "exact_range_symbols": [
+            "__pow5mult_D2A"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        },
+        {
+          "instruction_rva": "0xeda1d",
+          "instruction": "mov rbp, qword ptr [rip + 0x5184c]",
+          "physical_range": [
+            "0xed7d0",
+            "0xedb13"
+          ],
+          "root_begin": "0xed7d0",
+          "exact_root_symbols": [
+            "__pow5mult_D2A"
+          ],
+          "exact_range_symbols": [
+            "__pow5mult_D2A"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        }
+      ]
+    },
+    "SleepConditionVariableSRW": {
+      "iat_rva": "0x13f278",
+      "references": [
+        {
+          "instruction_rva": "0x9f63d",
+          "instruction": "call qword ptr [rip + 0x9fc35]",
+          "physical_range": [
+            "0x9f630",
+            "0x9f64a"
+          ],
+          "root_begin": "0x9f630",
+          "exact_root_symbols": [
+            "_ZNSt3__121__libcpp_condvar_waitEPPvS1_"
+          ],
+          "exact_range_symbols": [
+            "_ZNSt3__121__libcpp_condvar_waitEPPvS1_"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        },
+        {
+          "instruction_rva": "0x9f6bd",
+          "instruction": "call qword ptr [rip + 0x9fbb5]",
+          "physical_range": [
+            "0x9f650",
+            "0x9f6e6"
+          ],
+          "root_begin": "0x9f650",
+          "exact_root_symbols": [
+            "_ZNSt3__126__libcpp_condvar_timedwaitEPPvS1_P8timespec"
+          ],
+          "exact_range_symbols": [
+            "_ZNSt3__126__libcpp_condvar_timedwaitEPPvS1_P8timespec"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        }
+      ]
+    },
+    "SuspendThread": {
+      "iat_rva": "0x13f280",
+      "references": [
+        {
+          "instruction_rva": "0x4152e",
+          "instruction": "call qword ptr [rip + 0xfdd4c]",
+          "physical_range": [
+            "0x41360",
+            "0x41756"
+          ],
+          "root_begin": "0x41360",
+          "exact_root_symbols": [
+            "Freeze"
+          ],
+          "exact_range_symbols": [
+            "Freeze"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        }
+      ]
+    },
+    "WriteProcessMemory": {
+      "iat_rva": "0x13f2f8",
+      "references": [
+        {
+          "instruction_rva": "0x3bfd5",
+          "instruction": "call qword ptr [rip + 0x10331d]",
+          "physical_range": [
+            "0x3bf80",
+            "0x3c034"
+          ],
+          "root_begin": "0x3bf80",
+          "exact_root_symbols": [
+            "_ZN3cas12_GLOBAL__N_15writeEyPKvy"
+          ],
+          "exact_range_symbols": [
+            "_ZN3cas12_GLOBAL__N_15writeEyPKvy"
+          ],
+          "reference_kind": "rip_relative_memory_operand"
+        }
+      ]
+    }
+  },
+  "source_contracts": [
+    {
+      "api": "WriteProcessMemory",
+      "symbol": "_ZN3cas12_GLOBAL__N_15writeEyPKvy",
+      "source": "native/src/menu.cpp",
+      "meaning": "Writes bounded game-menu data; explicit process handle is GetCurrentProcess(); full byte count required"
+    },
+    {
+      "api": "SuspendThread/GetThreadContext/SetThreadContext",
+      "symbol": "Freeze",
+      "source": "native/third_party/minhook/src/hook.c",
+      "meaning": "MinHook hook installation/update; enumeration requires current owner process ID and excludes current thread"
+    },
+    {
+      "api": "Sleep",
+      "source": "native/third_party/minhook/src/hook.c",
+      "meaning": "MinHook spinlock yields with Sleep(0)/Sleep(1); other selected references are CRT initialization and gdtoa allocator functions; duration/runtime execution not inferred from static references"
+    },
+    {
+      "api": "CreateThread",
+      "symbol": "InitializeASI",
+      "source": "native/src/bootstrap.cpp",
+      "meaning": "Initialization worker; source creation flags are zero, not CREATE_SUSPENDED"
+    },
+    {
+      "api": "GetProcAddress",
+      "symbol": "_GLOBAL__I_000100",
+      "physical_range": [
+        "0xb79f0",
+        "0xb7a29"
+      ],
+      "meaning": "Constructor loads kernel32.dll and resolves GetSystemTimePreciseAsFileTime; fallback is imported GetSystemTimeAsFileTime",
+      "module_literal_rva": "0x133262",
+      "function_literal_rva": "0x13327c"
+    }
+  ],
+  "kaspersky_opentip": {
+    "candidate": {
+      "sha256": "765cdbdf0e99aea433fd977048b38f0cd28ccbe6c26902c511310a3ee9523ffa",
+      "url": "https://opentip.kaspersky.com/765cdbdf0e99aea433fd977048b38f0cd28ccbe6c26902c511310a3ee9523ffa/results?tab=lookup",
+      "result": "No search results",
+      "interpretation": "No public report found; not clean or zero detections"
+    },
+    "baseline": {
+      "sha256": "6474247c07e7659efc6e4fc698a1e7cdf9471c3ec471656675a251ff5fe96652",
+      "url": "https://opentip.kaspersky.com/6474247c07e7659efc6e4fc698a1e7cdf9471c3ec471656675a251ff5fe96652/results?tab=lookup",
+      "status": "Malware",
+      "size": 2639360,
+      "md5": "D047D38034C4C1C96FC3C7C7D99922C4",
+      "detection_names": [
+        "Trojan.Win32.Loader.sb",
+        "Trojan.Win32.Loader.tvv"
+      ],
+      "dynamic_analysis_summary": "No data found",
+      "packed_by_displayed": "\u2014",
+      "signature_or_matching_offset_disclosed": false
+    },
+    "exact_threat_description": {
+      "requested_url": "https://threats.kaspersky.com/en/threat/Trojan.Win32.Loader.tvv",
+      "redirected_url": "https://threats.kaspersky.com/en/class/Trojan/?orig=Trojan.Win32.Loader.tvv",
+      "interpretation": "Generic class description only, not technical evidence of this sample behavior"
+    },
+    "transmission": "Public hash lookups only; no file upload, account registration, feedback, support contact or rescan request"
+  },
+  "limits": [
+    "Physical exception ranges only; standalone import stubs and code outside them are not coverage.",
+    "Records IAT memory references including register loads; does not establish a complete call graph.",
+    "No propagation of API arguments, arbitrary dynamic lookup targets or runtime execution.",
+    "No matching antivirus rule or false-positive classification is inferred.",
+    "Public scanner/report omissions do not identify a private detection rule.",
+    "Current source/PE attribution does not establish NMS runtime acceptance or a confirmed false positive."
+  ]
+}

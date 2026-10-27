@@ -29,7 +29,9 @@ The independent Microsoft source audit and owned bundle also passed on
 24 October. Its warning triage and current direct quarantine readback are in
 [the investigation](../research/NATIVE-0104-SCAN.md). Compiler/fixture success
 does not satisfy the scanner or moderator-review gate. A current
-[review request](NEXUS-QUARANTINE-REVIEW-20261024.md) is prepared and unsent.
+[review request](NEXUS-QUARANTINE-REVIEW-20261027.md) is prepared locally and
+unsent. The further 27 October IAT/source audit and public vendor lookup add
+attribution evidence but establish no new repair or private detection rule.
 
 ## Evidence required before dropping the test label
 

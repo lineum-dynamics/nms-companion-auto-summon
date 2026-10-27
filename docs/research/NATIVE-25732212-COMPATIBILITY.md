@@ -6918,3 +6918,33 @@ remain unresolved; no global safety or false-positive claim is made.
   repair follows from generic labels alone. Exact-candidate game acceptance
   and Nexus/download acceptance remain open. Two GitHub label searches timed
   out (TOOL ERROR); broad web label searches found no attributable rule.
+
+### Further IAT/source and vendor-report handoff, 27 October 2026
+
+- Cosmos7.06 / Steam25732212 / executable SHA-256
+  `13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499`
+  remains the target. No game binary decode, mapping/locale/source behavior
+  change, game launch or new compatibility claim occurred. Frozen package
+  identities remain distinct: 0.10.3/source852c5c55/ASI6474247c and
+  0.10.4/source7fd4bc09/ASI765cdbdf.
+- tools/research/audit_native_import_refs.py now provides hash-first static
+  IAT-reference attribution with exact COFF symbols and chained unwind roots.
+  Tool SHA-256 `93a6015492baf1b969c9e540e7637dde9acbcf6dc558743e14ebbbfdf86a6ce6`;
+  CPython3.11.9 / pefile2024.8.26 / Capstone5.0.7. Use --image,
+  --expected-sha256, --output. Correct-hash reproduction, known CreateThread
+  reference and incorrect-hash refusal before decoding/output all passed.
+- All 2,384 physical exception ranges decode for both ASIs. Selected IAT
+  reference records and named imports match exactly. Memory writes map to
+  current-process menu data; MinHook supplies thread freeze/context operations
+  and lock yields; CRT/libc++ supplies other waits. The dynamic constructor
+  resolves GetSystemTimePreciseAsFileTime. No arbitrary dynamic-call or runtime
+  argument/execution inference is made. No new concrete defect was found.
+- Original hash's public Kaspersky report says Malware, Loader.sb/tvv,
+  dynamic summary No data found. Candidate lookup has No search results.
+  The exact tvv link redirects to generic Trojan class text. No attribution
+  follows from either missing public data or premium example tables.
+- Full sanitized receipts: NATIVE-0104-IMPORT-ATTRIBUTION-20261027.json,
+  SHA-256 `112cf488d0bdf033ffceb769b8a91c39e046ddda84ed80f03e80cf0c87a99e7d`.
+  The remaining private rule/event data, exact-candidate game acceptance and
+  Nexus download acceptance are open. A refreshed review request is local and
+  unsent; the owner must explicitly authorize the last-resort contact step.

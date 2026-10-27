@@ -471,3 +471,79 @@ moderator/download acceptance remain separate open gates. No source, native
 mapping, installed file, save, locale value or protection setting changed.
 The held support draft remains unsent; contact still requires an explicit
 owner instruction after internal analysis, not an automatic follow-up.
+
+## Further import and vendor-report attribution, 27 October 2026
+
+The next bounded internal pass followed the memory/thread-related imports
+back to exact functions in both frozen ASIs. It did not rebuild or execute
+either module, touch NMS, or repeat the completed multivendor scans.
+`tools/research/audit_native_import_refs.py` verifies the requested SHA-256
+before PE decoding and uses pefile 2024.8.26 / Capstone 5.0.7 on CPython 3.11.9.
+
+Both files contain 2,384 physical exception ranges, all decoded completely:
+the original has 942,036 bytes / 243,496 instructions in those ranges; the
+candidate has 942,047 bytes / 243,500 instructions. This is method coverage,
+not release readiness. Chained unwind roots are resolved before reporting
+exact COFF symbol matches. The named import tables and **all selected IAT
+reference records are identical**, including their instruction RVAs.
+
+| Selected import | References in either module | Exact attribution |
+| --- | --- | --- |
+| WriteProcessMemory | 1 | cas anonymous-namespace write helper in native/src/menu.cpp; bounded menu-data write using GetCurrentProcess and exact transferred-byte count |
+| ReadProcessMemory | 7 | Owned bootstrap, menu and binding-guard readers/checks |
+| SuspendThread / GetThreadContext / SetThreadContext | 1 each | MinHook Freeze; source enumeration requires the current process ID and excludes the current thread |
+| ResumeThread | 4 | MinHook hook enable/remove/queued-update paths |
+| Sleep | 14 | MinHook lock paths and CRT initialization/gdtoa allocator functions; MinHook's source lock yields with Sleep(0)/Sleep(1) |
+| SleepConditionVariableSRW | 2 | libc++ condition-variable wait/timed-wait helpers |
+| CreateThread | 1 | InitializeASI worker; source creation flags are zero |
+| _beginthreadex | 1 | libc++ thread-create helper |
+| GetProcAddress | 3 | MH_CreateHookApi, MH_CreateHookApiEx, and one linked static constructor |
+
+The constructor at RVA 0xB79F0..0xB7A29 loads kernel32.dll and resolves
+**GetSystemTimePreciseAsFileTime**, with the imported GetSystemTimeAsFileTime
+as fallback. Its module/function literal RVAs are 0x133262/0x13327C. Those
+observed argument-producing instructions explain this particular dynamic
+lookup; the two MinHook wrappers still accept caller-provided API names.
+
+Positive method control: the known InitializeASI source call is found under
+the exact same COFF symbol. Negative control: an incorrect expected input
+hash is rejected before decoding. Sanitized complete import/reference data,
+source contracts, tool hash and both input identities are in
+[the further attribution evidence](NATIVE-0104-IMPORT-ATTRIBUTION-20261027.json),
+SHA-256 `112cf488d0bdf033ffceb769b8a91c39e046ddda84ed80f03e80cf0c87a99e7d`.
+
+The tool records RIP-relative IAT memory operands, including function-pointer
+loads. It does not propagate arbitrary indirect targets, prove API arguments,
+record runtime execution, or cover standalone import thunks/code outside
+exception ranges. The above counts are **references**, not a claimed complete
+call graph. No long sleep, foreign-process injection or suspended-process
+creation is attributed to the ASI from these static references. This pass
+found no new concrete source defect and identifies no private AV rule.
+
+### Public Kaspersky report lookup
+
+Plain web access could not retrieve the exact reports. Hidden IAB lookup of
+the already public candidate hash returned **No search results** after the
+lookup finished. This is no public report found, not a clean verdict. The
+original hash does have a report:
+https://opentip.kaspersky.com/6474247c07e7659efc6e4fc698a1e7cdf9471c3ec471656675a251ff5fe96652/results?tab=lookup
+
+It identifies the exact original 2,639,360-byte ASI and MD5 D047D38034C4C1C96FC3C7C7D99922C4,
+classifies it **Malware**, and lists Trojan.Win32.Loader.sb and
+Trojan.Win32.Loader.tvv. Dynamic analysis summary says **No data found**.
+No matching byte offset, source function, or detector method is exposed.
+The premium tables explicitly say they are example data; none was treated
+as sample evidence. The exact tvv threat link redirects to the generic Trojan
+class page, which does not establish the behavior of our file. No new file,
+account registration, rescan, feedback or support message was submitted.
+
+The current available source/compiler, exact-file, static diagnostic,
+owned-host and public-report checks provide a reviewable technical dossier.
+They have not established another repair or resolved the private verdict.
+The next useful missing data is the concrete failing Nexus check/member or
+vendor rule/event attribution. A refreshed
+[review draft](../release/NEXUS-QUARANTINE-REVIEW-20261027.md) is prepared locally
+for the owner's last-resort decision; it remains unsent. Nexus's official
+[quarantine procedure](https://help.nexusmods.com/article/117-why-has-my-mod-been-quarantined),
+rechecked today, requires moderator review to remove existing quarantine.
+That procedural fact does not convert any unresolved scan result into safety.

@@ -3446,3 +3446,37 @@ remain unresolved; no global safety or false-positive claim is made.
   for unchanged bytes; those are absent from these public reports. No further
   source correction is justified by generic labels alone. Contact remains
   an unsent last-resort contingency requiring explicit owner authorization.
+
+### Further IAT/source and vendor-report handoff, 27 October 2026
+
+- Exact game identity and native mapping ledger are unchanged. This pass reads
+  owned frozen ASIs only: 0.10.3/source852c5c55/hash6474247c and
+  0.10.4/source7fd4bc09/hash765cdbdf. No NMS executable, save or installed file
+  was accessed; no compatibility or game-acceptance claim was added.
+- New reusable tool: tools/research/audit_native_import_refs.py, SHA-256
+  `93a6015492baf1b969c9e540e7637dde9acbcf6dc558743e14ebbbfdf86a6ce6`.
+  Require --image, --expected-sha256, --output. CPython3.11.9 / pefile2024.8.26 /
+  Capstone5.0.7. Hash validation precedes decoding; chained roots and exact COFF
+  symbols identify RIP-relative IAT operands within physical exception ranges.
+  Positive CreateThread/InitializeASI control and bad-hash refusal both pass.
+- Both inputs' 2,384 ranges decode completely. Named imports and all selected
+  IAT-reference records are identical. WriteProcessMemory maps to the owned
+  menu writer using GetCurrentProcess; thread suspension/context APIs map to
+  MinHook Freeze with current-process thread enumeration. Sleep references map
+  to MinHook and CRT/gdtoa; libc++ owns condition-variable waits. The linked
+  constructor's dynamic lookup is GetSystemTimePreciseAsFileTime. No new
+  engineering defect or private detection rule is established by this pass.
+- Public Kaspersky lookup finds the original exact ASI classified Malware,
+  names Loader.sb/tvv, dynamic summary No data found. Candidate lookup returns
+  No search results, not clearance. Exact tvv description redirects to a
+  generic class page. Premium example tables are not sample evidence. No file
+  upload, account registration, feedback or support message was sent.
+- Sanitized receipts: NATIVE-0104-IMPORT-ATTRIBUTION-20261027.json, SHA-256
+  `112cf488d0bdf033ffceb769b8a91c39e046ddda84ed80f03e80cf0c87a99e7d`.
+  This is static reference coverage, not a complete call graph or runtime trace.
+  Foreign-process injection, long-sleep execution and private rule attribution
+  remain unproven. Exact-candidate game acceptance and Nexus download remain open.
+- Next consequential step is the owner's last-resort review decision against
+  the refreshed NEXUS-QUARANTINE-REVIEW-20261027.md. The public procedure
+  requires moderator review of existing quarantine; concrete failing-check /
+  affected-member data remains missing. No automatic support authorization.
