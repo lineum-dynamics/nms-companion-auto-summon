@@ -54,3 +54,19 @@ Primary references: [Microsoft DLL guidance](https://learn.microsoft.com/en-us/w
 [separate full debug symbols](https://learn.microsoft.com/en-us/cpp/build/reference/debug-generate-debug-info),
 and [basename PDB references](https://learn.microsoft.com/en-us/cpp/build/reference/pdbaltpath-use-alternate-pdb-path).
 Support contact remains unsent.
+
+## Independent active-hook source fixture
+
+`native-hook-lifecycle.yml` builds the pinned original and query-guard MinHook
+sources with compile-time recorder substitutions for selected Windows APIs.
+All targets and one waiting worker are authored in the owned CI executable.
+Enable/disable/remove must forward the expected function result, resume each
+suspended thread, restore code bytes/protection and let the worker exit.
+API ownership checks reject foreign thread/process handles. Fixed counters
+replace in-process injected instrumentation and do not allocate or print while
+other threads are frozen. Recorder sources do not change player dependencies.
+
+This is an instrumented **source fixture**, not a trace of the exact frozen
+ASI or a full-game test. It can explain hook-library operations under active
+transitions without attributing an unrelated sandbox event. Both results are
+NOT CHECKED until the actual CI output is read back.

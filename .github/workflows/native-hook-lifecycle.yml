@@ -1,0 +1,84 @@
+name: Native owned hook lifecycle audit
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [research/native-antivirus-attribution]
+    paths:
+      - .github/workflows/native-hook-lifecycle.yml
+      - tools/research/hook_audit_api.h
+      - tools/research/hook_lifecycle_host.cpp
+
+permissions:
+  contents: read
+
+jobs:
+  lifecycle:
+    runs-on: windows-2022
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: original
+            source: 852c5c55458c563a8564090dd31305864483edf3
+          - label: query-guard
+            source: 7fd4bc09a3185a214a808052da61f2223999619b
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Check out controller
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          path: controller
+          persist-credentials: false
+      - name: Check out pinned dependency source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ matrix.source }}
+          path: subject
+          persist-credentials: false
+      - name: Set up Python 3.11.9
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.11.9'
+      - name: Compile and observe owned active-hook transitions
+        run: |
+          python -B subject/tools/validate_native_dependencies.py
+          if ($LASTEXITCODE -ne 0) { throw 'Dependency provenance failed' }
+          $locator = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio/Installer/vswhere.exe'
+          $installation = & $locator -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          Import-Module (Join-Path $installation 'Common7/Tools/Microsoft.VisualStudio.DevShell.dll')
+          Enter-VsDevShell -VsInstallPath $installation -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
+          $compiler = (Get-Command cl.exe -ErrorAction Stop).Source
+          $signature = Get-AuthenticodeSignature -LiteralPath $compiler
+          if ($signature.Status -ne 'Valid' -or $signature.SignerCertificate.Subject -notmatch 'Microsoft') { throw 'Unverified Microsoft tool' }
+          $dependency = Join-Path $PWD.Path 'subject/native/third_party/minhook'
+          $recorder = Join-Path $PWD.Path 'controller/tools/research'
+          New-Item -ItemType Directory -Path build | Out-Null
+          $objects = @()
+          $sources = @()
+          foreach ($name in @('buffer.c','hook.c','trampoline.c','hde/hde64.c')) {
+            $source = Join-Path $dependency "src/$name"
+            $object = Join-Path $PWD.Path ('build/'+[IO.Path]::GetFileNameWithoutExtension($name)+'.obj')
+            $sources += [ordered]@{name=$name;sha256=(Get-FileHash -LiteralPath $source -Algorithm SHA256).Hash.ToLowerInvariant()}
+            & $compiler /nologo /TC /std:c11 /O2 /W4 /MT /DCAS_AUDIT_WRAP_APIS "/FI$recorder/hook_audit_api.h" /c $source "/Fo$object"
+            if ($LASTEXITCODE -ne 0) { throw 'Owned source-instrumented dependency compile failed' }
+            $objects += $object
+          }
+          & $compiler /nologo /std:c++17 /EHsc /O2 /W4 /WX /MT "/I$dependency/include" "$recorder/hook_lifecycle_host.cpp" @objects /Fe:build/cas-hook-lifecycle-host.exe /link /INCREMENTAL:NO /DYNAMICBASE /NXCOMPAT /Brepro
+          if ($LASTEXITCODE -ne 0) { throw 'Owned lifecycle host compile failed' }
+          $raw = & ./build/cas-hook-lifecycle-host.exe
+          $exit = $LASTEXITCODE
+          $raw | Set-Content -LiteralPath build/hook-lifecycle.json -Encoding utf8
+          if ($exit -ne 0 -or -not ($raw | ConvertFrom-Json).passed) { throw 'Owned lifecycle observations failed their controls' }
+          [ordered]@{schema=1;controller_revision='${{ github.sha }}';dependency_revision='${{ matrix.source }}';image=$env:ImageOS;image_version=$env:ImageVersion;compiler_sha256=(Get-FileHash -LiteralPath $compiler -Algorithm SHA256).Hash.ToLowerInvariant();compiler_signature=[string]$signature.Status;host_sha256=(Get-FileHash -LiteralPath build/cas-hook-lifecycle-host.exe -Algorithm SHA256).Hash.ToLowerInvariant();host_source_sha256=(Get-FileHash -LiteralPath "$recorder/hook_lifecycle_host.cpp" -Algorithm SHA256).Hash.ToLowerInvariant();wrapper_header_sha256=(Get-FileHash -LiteralPath "$recorder/hook_audit_api.h" -Algorithm SHA256).Hash.ToLowerInvariant();dependency_sources=$sources;game_access=$false;exact_player_binary_trace=$false;protection_settings_changed=$false} | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath build/hook-lifecycle-toolchain.json -Encoding utf8
+      - name: Retain aggregate observations only
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: native-hook-lifecycle-${{ matrix.label }}
+          path: build/hook-lifecycle*.json
+          if-no-files-found: warn
+          retention-days: 14
