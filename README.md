@@ -2,10 +2,10 @@
 
 **EARLY ALPHA / prerelease: 0.10.3-native-test for Steam Cosmos 7.06.**
 
-**Download status, 23 October 2026:** the update is uploaded to Nexus as file
+**Download status, 27 October 2026:** the update is uploaded to Nexus as file
 **50040**, Main / Primary, but automated quarantine currently blocks its download.
-The exact ZIP scan reports **10/67** (09:06 UTC); a later ASI reanalysis reports
-**15/63** (14:33 UTC). The cause is under
+The exact ZIP scan reports **10/67** (23 October 09:06 UTC); the unchanged ASI's
+latest completed reanalysis reports **30/70** (27 October 07:50:46 UTC). The cause is under
 investigation; these are not confirmed false positives. The GitHub prerelease
 currently records source and release notes, with binary upload on hold.
 Do not disable security protection to install the file. See the
@@ -29,8 +29,9 @@ combat values.
 Branch `fix/native-query-guard` prepares **0.10.4-native-test**, still for exact
 Steam Cosmos 7.06 / 25732212. It adds a reproduced MinHook error-path guard,
 passes local offline checks and independent clean Windows byte reproduction,
-and retains the current game behavior. Exact-candidate game acceptance and
-scanner/distribution gates are separate. See the
+and retains the current game behavior. Its exact ASI reports **17/70**
+(27 October 07:47:26 UTC); scanner findings, exact-candidate game acceptance
+and distribution remain unresolved. See the
 [candidate record](docs/release/0.10.4-QUERY-GUARD.md).
 
 ## Compatibility and verification

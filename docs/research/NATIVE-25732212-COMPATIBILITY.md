@@ -6873,3 +6873,48 @@ remain unresolved; no global safety or false-positive claim is made.
   reporting detections through an available authorized scan route; do not
   repeat failed CAPTCHA flows or vary artifact bytes merely to reduce alerts.
   No support contact is currently the next action.
+
+### Paired antivirus evidence and candidate attribution handoff, 27 October 2026
+
+- Target remains Cosmos 7.06 / Steam build 25732212 / executable SHA-256
+  `13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499`.
+  Existing native ledger states are unchanged. This period adds scanner
+  evidence, not executable mappings, runtime verification or activation approval.
+- Exact frozen 0.10.4 ASI, source 7fd4bc09..., hash 765cdbdf..., completed its
+  prior authorized VirusTotal upload: 17/70 at 27 October 07:47:26 UTC.
+  Submitted 0.10.3 ASI, source 852c5c55..., hash 6474247c..., completed
+  reanalysis: 30/70 at 07:50:46 UTC. Same 75 vendor rows include one timeout
+  and four unsupported results. No claim of identical engine definitions,
+  repair-caused improvement, confirmed false positive or scanner clearance.
+- Candidate CAPE All table: 358 nonempty API rows; first callers 344 inside
+  rundll32, nine outside both known images, five zero and zero inside the ASI.
+  Positive export resolution is ordinal 1 -> sample RVA 0x90E0/CasInspectHost,
+  not ordinary InitializeASI activation at ordinal 3. Token-query callers
+  resolve to rundll32 RVAs 0x62E5/0x6339/0x6435/0x6282. Four CryptoAPI HTTP
+  requests lack module attribution. Zero logged sample callers does not prove
+  that no sample instruction executed or that ordinary NMS use is safe.
+- Exact candidate PE rechecked with CPython 3.11.9 / pefile 2024.8.26:
+  no certificate table, first TLS callback qword zero, no parser warnings.
+  Method: capture the visible All table, verify input SHA-256, then compare
+  each first caller to host/sample image ranges using exact PE SizeOfImage.
+  No module execution or game access was involved. Durable evidence:
+  NATIVE-0104-VT-EVIDENCE-20261027.json, SHA-256
+  `d3eaab4e3546af9ae56ff826097c252f72ef34a6a84d494b33ce4b2f69173237`.
+- Candidate ZIP selected but submission rejected by automatic approval review
+  after the archive-scan-limit warning; scan is NOT CHECKED. Existing loader
+  0/49 report is dated 22 October and has timeouts/failures. Nexus 50040 is
+  still the sole Main file and quarantined. No source/profile/locale/installed
+  file/security-policy change, game launch, deployment or support contact.
+- Zenbox subsequently completed with 4/100 Non Malicious for the exact
+  candidate, timestamp 27/10/2026 07:55:35, timezone unspecified. It invokes
+  InitializeASI as well; CAPE's ordinal-1 limitation is not a Zenbox conclusion.
+  Ten per-process Extra Info entries show None. Filename mismatch follows
+  provider renaming; seven of the 15 PE sections are debug sections. Overlay
+  bytes are fully accounted for by COFF symbols/string table/zero padding.
+  URLs map to VC runtime diagnostic text and LLVM debug metadata. The private
+  Yogi/Loader rule and UDP/suspended-process attribution remain unresolved.
+- Next useful attribution evidence needs actual rule/offset or module-resolved
+  events for the unchanged hash, beyond these public reports. No production
+  repair follows from generic labels alone. Exact-candidate game acceptance
+  and Nexus/download acceptance remain open. Two GitHub label searches timed
+  out (TOOL ERROR); broad web label searches found no attributable rule.

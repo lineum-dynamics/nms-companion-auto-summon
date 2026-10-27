@@ -1,6 +1,6 @@
 # Native 0.10.3 distribution and provenance investigation
 
-Reviewed: 23 October 2026. This is a bounded investigation, **not scanner
+Reviewed: 27 October 2026. This is a bounded investigation, **not scanner
 clearance or a confirmed false-positive finding**. The owner declined support
 contact and asked for an internal comparison; no support message was sent.
 
@@ -10,6 +10,15 @@ validated a minimal offline prototype. This is a pre-existing robustness defect,
 not an established detector cause. The submitted r4 package remains unchanged. Independent clean-host byte
 reproduction was completed in later recorded checks; sandbox-event attribution
 remains open. Current 0.10.4 antivirus-priority work is in NATIVE-0104-SCAN.md. See the final audit section below.
+
+**27 October readback:** the exact unchanged 0.10.3 ASI now reports **30/70**,
+completed07:50:46 UTC. This supersedes the historical ASI snapshots below,
+without changing their archived observations. File50040 remains the only
+Main file and quarantined. The separate frozen 0.10.4 ASI reports 17/70 at
+07:47:26 UTC. The complete comparison and candidate-specific sandbox analysis
+are in [the current investigation](NATIVE-0104-SCAN.md) and
+[dated vendor evidence](NATIVE-0104-VT-EVIDENCE-20261027.json). Neither scan
+establishes a confirmed false positive, repair causality or Nexus acceptance.
 
 ## Exact artifacts and observations
 

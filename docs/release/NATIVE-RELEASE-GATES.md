@@ -1,6 +1,6 @@
 # Native release status and promotion gates
 
-Reviewed: 24 October 2026.
+Reviewed: 27 October 2026.
 
 ## Current label
 
@@ -16,7 +16,12 @@ See [the exact release record](0.10.3-COSMOS-706.md).
 
 The separate **0.10.4-native-test** development candidate repairs a reproduced
 library error path and has local/clean-runner offline evidence. It remains
-unreleased; candidate scans and exact-package game acceptance are separate.
+unreleased. Its exact ASI now reports **17/70** in the completed 27 October
+07:47:26 UTC VirusTotal scan; the original 0.10.3 ASI reports **30/70** at
+07:50:46 UTC. These unresolved results keep the scanner gate open. Exact-package
+game acceptance is separate. Candidate ZIP submission was rejected by automatic
+approval review after the service warned that the stated inner-file scan would
+not run; selecting that ZIP establishes no upload or scan.
 Keep the 0.10.3 submission/scan history intact. See the
 [guard candidate](0.10.4-QUERY-GUARD.md).
 

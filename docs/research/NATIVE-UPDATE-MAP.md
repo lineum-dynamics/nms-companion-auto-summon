@@ -3399,3 +3399,50 @@ remain unresolved; no global safety or false-positive claim is made.
   reporting detections through an available authorized scan route; do not
   repeat failed CAPTCHA flows or vary artifact bytes merely to reduce alerts.
   No support contact is currently the next action.
+
+### Paired antivirus evidence and candidate attribution handoff, 27 October 2026
+
+- Exact game target is unchanged: Windows/Steam Cosmos 7.06 / build 25732212,
+  NMS.exe SHA-256 `13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499`.
+  No executable decode, mapping edit or new compatibility claim occurred.
+  Frozen candidate source remains `7fd4bc09a3185a214a808052da61f2223999619b`;
+  package is 0.10.4-native-test, distinct from the existing 0.10.3 submission.
+- Prior authorized exact-candidate ASI upload now completed: hash 765cdbdf...
+  reports 17/70 at 27 October 07:47:26 UTC. The unchanged 0.10.3 ASI,
+  hash 6474247c..., completed reanalysis at 07:50:46 UTC with 30/70.
+  Same 75 vendor rows; one confirmed timeout and four unsupported per table.
+  Candidate flagged vendors are a subset of the original's, but engine
+  definition equality and repair causality are NOT CHECKED, not established.
+- New candidate-specific CAPE evidence: All mode exposes 358 API rows,
+  first callers 344 rundll32 / 9 outside both images / 5 zero / 0 sample.
+  The trace resolves sample ordinal 1 to RVA 0x90E0, CasInspectHost;
+  InitializeASI is ordinal 3. Wrong-ABI sandbox invocation is not game
+  initialization proof. Four CryptoAPI HTTP requests lack PID/module
+  attribution. Candidate PE Security directory is 0/0; the TLS callback
+  table's first qword is zero. No generic-label-based payload inference.
+- Tools: hidden IAB visible DOM and CPython 3.11.9 / pefile 2024.8.26;
+  read only the exact module after SHA-256 verification, classify each
+  captured first caller against recorded image base/size and exact SizeOfImage.
+  Complete sanitized receipts are in NATIVE-0104-VT-EVIDENCE-20261027.json,
+  SHA-256 `d3eaab4e3546af9ae56ff826097c252f72ef34a6a84d494b33ce4b2f69173237`.
+  Raw report logs, machine paths and signed report URLs are not published.
+- Main file 50040 remains quarantined. Candidate ZIP was selected only;
+  automatic approval review rejected upload after the service's archive
+  scan-limit warning. Do not retry through another route or transform bytes.
+  Loader report readback is historical 22 October 0/49, with non-results,
+  not a new comparable scan. No local security setting or installed file changed.
+- Zenbox subsequently completed: exact candidate 4/100 Non Malicious, provider
+  timestamp 27/10/2026 07:55:35 (timezone unspecified). It also invokes
+  InitializeASI; do not extend CAPE's ordinal-1-only scope to Zenbox. Ten
+  per-process Extra Info records are None. Its filename mismatch is the
+  provider's attachment.dll versus PE CompanionAutoSummon.asi; 15 sections
+  include seven debug sections. Entire 647,168-byte overlay is COFF symbols,
+  declared string table and 287 zero padding bytes. Memory URLs map to the
+  VC runtime diagnostic and LLVM debug producer metadata. These explain
+  particular features, not the private 17 antivirus flags or general safety.
+- Remaining: private detector-rule attribution, UDP/suspended-process module
+  attribution, exact-candidate NMS acceptance and Nexus/download acceptance.
+  Next useful evidence needs a rule/offset or a module-resolved event trace
+  for unchanged bytes; those are absent from these public reports. No further
+  source correction is justified by generic labels alone. Contact remains
+  an unsent last-resort contingency requiring explicit owner authorization.

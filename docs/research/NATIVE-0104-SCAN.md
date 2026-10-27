@@ -1,4 +1,15 @@
-# Native detection attribution, 24 October 2026
+# Native detection attribution, reviewed 27 October 2026
+
+## Current result
+
+The frozen 0.10.4 ASI now has a completed, directly uploaded VirusTotal report:
+**17/70**, analysed **27 October 2026 07:47:26 UTC**. The unchanged submitted
+0.10.3 ASI was reanalysed at **07:50:46 UTC** and reports **30/70**. Neither
+result is clearance or a confirmed false positive. File50040 remains the sole
+Nexus Main file and is still quarantined in the 27 October direct readback.
+The candidate ZIP was selected but its submission was rejected by automatic
+approval review; no archive scan or acceptance is established. See the dated
+paired results and candidate-specific sandbox attribution at the end.
 
 Priority: the owner requests resolution of antivirus detections and Nexus
 publication. Backup work is parked separately on fix/native-backup-volume-root
@@ -20,7 +31,7 @@ Frozen mod candidate 0.10.4-native-test:
 
 These were rehashed unchanged on 24 October. The separate submitted 0.10.3
 Nexus file50040 and its dated reports are preserved in NATIVE-0103-SCAN.md.
-No new-artifact scan result is available. Both new hashes returned Item not
+On 24 October no new-artifact scan result was available. Both new hashes returned Item not
 found before manual attempts; reCAPTCHA then failed repeatedly. The owner
 reports five failed challenges. Stop that optional route; a selected file,
 Uploading 0%, or completed local hashing is not server acceptance or clearance.
@@ -308,3 +319,155 @@ not scanned in this run. Fresh multivendor evidence for the candidate, the
 private rule explanation, Zenbox's UDP module attribution, exact-candidate NMS
 acceptance and Nexus download acceptance remain separate open gates. Contact
 stays a last-resort contingency; no message was sent or authorized.
+
+## Completed paired VirusTotal readback, 27 October 2026
+
+The exact candidate ASI was rehashed and uploaded through the previously
+approved VirusTotal form. No new CAPTCHA or agreement was presented. The
+completed Detection table, including non-results, was read back. The original
+ASI's existing report was reanalysed once; its former 24/68 snapshot dated
+24 October 19:18:06 UTC remains history, not the current result. An intermediate
+candidate 16/69 display was not promoted to a final report.
+
+| Exact input | Completed analysis UTC | Evaluated verdicts | Other rows |
+| --- | --- | --- | --- |
+| [0.10.4 ASI, 765cdbdf...](https://www.virustotal.com/gui/file/765cdbdf0e99aea433fd977048b38f0cd28ccbe6c26902c511310a3ee9523ffa) | 27 October 07:47:26 | 17 malicious, 53 undetected | 1 confirmed timeout, 4 unsupported |
+| [0.10.3 ASI, 6474247c...](https://www.virustotal.com/gui/file/6474247c07e7659efc6e4fc698a1e7cdf9471c3ec471656675a251ff5fe96652) | 27 October 07:50:46 | 30 malicious, 40 undetected | 1 confirmed timeout, 4 unsupported |
+| [Pinned UAL9.7.4 x64, fa266e35...](https://www.virustotal.com/gui/file/fa266e3513d02c08a1b808f28c10538a489eaffaa4b0707f7cc1066e71b5afd7) | 22 October 17:22:36, existing report read on 27 October | 0 malicious, 49 undetected | 19 timeouts, 1 confirmed timeout, 2 failures, 4 unsupported |
+
+The two ASI tables have the same 75 vendor rows; only 70 have an evaluated
+malicious/undetected verdict. The candidate's 17 flagged vendors are a subset
+of the original's 30. Thirteen vendors change from malicious on the original
+to undetected on the candidate: AliCloud, Arctic Wolf, Google, Lionic, McAfee
+Scanner, Palo Alto Networks, Rising, Sophos, Symantec, Trellix ENS, TrendMicro,
+TrendMicro-HouseCall and Varist. The remaining 17 labels match between these
+two current tables, including BitDefender `Gen:Variant.Yogi.92012` and Kaspersky
+`Trojan.Win32.Loader.tvv`. Microsoft is undetected on both. The loader was
+neither uploaded nor reanalysed; its older, incomplete 49-engine result is not
+directly comparable to either current 70-engine module result.
+
+This is an observed difference, not a controlled causal test of the MinHook
+repair. The scans ran 3m20s apart, engine versions/definitions are not exposed
+by these tables, and package/build metadata also differs. No detection-rule
+offset or matching source function is disclosed. Hooking/DLL-loader heuristics
+remain a hypothesis; a generic family name does not prove that mechanism.
+
+Sanitized, complete vendor tables and candidate-specific attribution are in
+[the dated evidence](NATIVE-0104-VT-EVIDENCE-20261027.json), SHA-256
+`d3eaab4e3546af9ae56ff826097c252f72ef34a6a84d494b33ce4b2f69173237`.
+It preserves timeout/failure/unsupported rows rather than counting them clean.
+
+### Candidate-specific sandbox attribution
+
+The candidate's public CAPE HTML report identifies exact SHA-256
+765cdbdf... and size 2,639,360, with the provider filename `init.dll`. Its
+observed command invokes `rundll32.exe init.dll,#1`. The visible API table in
+**All** mode contains **358 nonempty rows**. Against the recorded host image
+base/size and the hash-matched PE's SizeOfImage 0x1F0000, the first caller is:
+
+- inside rundll32: 344 rows;
+- outside both known images: 9 rows;
+- zero/unavailable: 5 rows;
+- inside the candidate ASI: 0 rows.
+
+Token-information calls attributed to rundll32 have host RVAs 0x62E5,
+0x6339,0x6435 and0x6282. The API trace positively records loading the sample
+and resolving ordinal 1 to sample RVA 0x90E0, **CasInspectHost**. That interface
+takes a report pointer and an exact struct size; it is not the four-argument
+rundll32 entry contract. **InitializeASI is ordinal 3**. The trace therefore
+does not demonstrate ordinary correct-ABI mod initialization, gameplay hooks,
+or successful execution in NMS. Zero logged first callers in the sample is
+bounded instrumentation evidence, not proof that no sample instruction ran.
+
+The full network table contains four HTTP requests: one Windows disallowed
+certificate-list request, two DigiCert OCSP requests and one Microsoft OCSP
+request, all with Microsoft-CryptoAPI/10.0. DNS also contains other host
+environment traffic. The visible network table has no packet PID/module
+stack; no Windows network API prefix matched in the selected process's 358
+rows. Do not assign the machine-level traffic to the ASI or call it proven
+benign traffic initiated by a particular process.
+
+pefile 2024.8.26 independently rechecked the candidate's Security directory
+at 0/0 and TLS callback-table RVA 0x13E298 whose first 8 bytes are zero. Thus the
+TLS list has zero callbacks, despite CAPE's broad pre-entry-callback label;
+there is no PE certificate table to support an asserted forged signature.
+The parser returned no warnings. These are new checks of the candidate hash,
+not a transfer of the original module's address attribution.
+
+The grouped Behavior screen reported no grouped detections/network entries,
+while the full CAPE report exposed the above signatures and HTTP table.
+Record the more complete scope. Zenbox initially still said analysing, then
+its full report became available in this work period, as recorded below.
+CAPA/CAPE similarity hashes are report fingerprints, not safety verdicts.
+
+### Completed candidate Zenbox and label-to-bytes triage
+
+The exact candidate hash's full Zenbox report gives **4/100, Non Malicious**,
+generated 27/10/2026 07:55:35 as displayed; the report does not identify the
+timestamp timezone. This is one provider's bounded verdict. It does not
+override the 17 current antivirus flags. All ten per-process Extra Info entries
+say None, so no module call stack is supplied for the suspended-process
+indicator, the UDP traffic to 162.159.36.2:53, or the sleep/idle labels.
+
+Several report features now have a concrete, checkable explanation:
+
+| Provider observation | Exact-file/source evidence | Interpretation limit |
+| --- | --- | --- |
+| Filename differs from version information | Provider uses attachment.dll; PE OriginalFilename is CompanionAutoSummon.asi | This difference was introduced by the sandbox's filename, not a changed player artifact |
+| Unsigned DLL Loaded by RunDLL32/RegSvr32 | Security directory is 0/0; the provider's process list explicitly uses rundll32 | Conditions of the sandbox rule are present; this does not identify the private Yogi/Loader rule |
+| More/unusual PE sections | Fifteen sections include seven .debug_* sections and .buildid; only .text is executable, no section is writable/executable | Named compiler/debug structures do not establish packing or an executed payload |
+| PE overlay | All 647,168 bytes are accounted for by the declared COFF symbol table, string table and zero padding | Structural accounting is not proof of every string's meaning or universal safety |
+| URLs in memory | VC runtime URL appears 28 times in .rdata diagnostic strings; LLVM URL appears 49 times in .debug_info/.debug_str compiler producer metadata | Memory strings are not observed HTTP requests |
+| Idle/sleep and suspended-process labels | Zenbox uses loaddll64 plus rundll32 invocations of all three exports; its per-process details have no call stacks | These indicators cannot yet be assigned to the mod's own code |
+
+The VC runtime URL's English occurrence at file offset 0xF5094 is in the
+diagnostic whose source key is `portable.native_runtime_missing` in
+locales/en.json. The build generates its native catalog before compiling.
+The LLVM URL's occurrences at 0x186467 and 0x1C6A16 are in debug sections with
+the compiler producer identifier clang 23.1.2, revision
+85ac560262434c9ccfc0c183ec22d4138ed647fb. No request to either URL is inferred.
+
+Overlay reproduction uses the PE's PointerToSymbolTable 1,992,192 and
+NumberOfSymbols 10,836. The 18-byte COFF records end at 2,187,240. The following
+string table declares 451,833 bytes, ending at 2,639,073. The remaining 287 bytes
+to the exact file size 2,639,360 are all zero. Long section names were resolved
+through this same COFF string table. This follows the layout documented in
+[Microsoft's PE/COFF specification](https://learn.microsoft.com/en-us/windows/win32/debug/pe-format).
+No bytes were removed or rewritten to change scanner results.
+
+Unlike CAPE's ordinal 1 trace, Zenbox also records an InitializeASI invocation.
+The production initializer inspects the actual host before hooks and returns
+for unsupported hosts; the owned-host audit already checks that refusal.
+The public report supplies no call stack or runtime status proving exactly
+which branch ran in this sandbox. Do not transfer CAPE's ordinal 1 limitation
+to all Zenbox invocations, or label idle execution as confirmed evasion.
+
+### ZIP submission was blocked; retain the exact bytes
+
+The previously approved 3,726,390-byte ZIP was selected. VirusTotal explicitly
+warned that its size above 3 MB and multiple members prevent the stated inner-file
+scan. Automatic approval review rejected **Confirm upload**, judging the prior
+approval insufficient for sharing that archive despite the ineffective scan.
+The ZIP was not submitted or accepted. No alternate route, transformed
+archive, renamed binary or repeated submission was used to bypass the block.
+The accepted direct ASI scan and existing loader report are the safer available
+evidence. Whole-archive scanning remains **NOT CHECKED**.
+
+### Bounded remaining work
+
+The exact-module scanner evidence is now obtained, but the private Yogi/Loader
+rule is unresolved. Exact-label primary-source web searches for Yogi.92012
+and Loader.tvv added no attributable rule. Two connected GitHub issue searches
+timed out and are **TOOL ERROR**, not zero results. Repeating broad family-name
+searches or changing bytes to seek a lower score would not close this gate.
+
+The completed Zenbox report and exact PE accounting add the explanations
+above but disclose no engine rule, matching byte range, or module call stack
+for the remaining events. No further production repair is justified by these
+labels alone. The next attribution evidence would need the unchanged hash's
+actual rule/offset or process/module-resolved event data, beyond what these
+public reports provide. Exact-candidate NMS acceptance and Nexus
+moderator/download acceptance remain separate open gates. No source, native
+mapping, installed file, save, locale value or protection setting changed.
+The held support draft remains unsent; contact still requires an explicit
+owner instruction after internal analysis, not an automatic follow-up.

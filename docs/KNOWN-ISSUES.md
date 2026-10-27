@@ -1,6 +1,6 @@
 # Known issues
 
-Status reviewed: **23 October 2026**.
+Status reviewed: **27 October 2026**.
 
 Latest uploaded mod: **0.10.3-native-test**, Nexus file **50040**, Main / Primary.
 **Nexus quarantine blocks its download.** The exact ZIP is 3,725,947 bytes,
@@ -18,8 +18,9 @@ not a public fix until the exact distributed artifact is validated and accepted.
 
 **Observed:** Nexus accepted the 0.10.3 upload and displays it as Main / Primary,
 but automated checks quarantine file 50040. The exact ZIP report shows 10/67
-(23 October, 09:06 UTC); a later ASI reanalysis shows 15/63
-(23 October, 14:33 UTC), superseding its earlier 10/71 snapshot.
+(23 October, 09:06 UTC); the unchanged ASI's latest completed reanalysis shows
+**30/70** (27 October, 07:50:46 UTC). The earlier 15/63 and 10/71 are retained
+historical snapshots, not its current verdict.
 The older unchanged 0.10.2 ZIP now
 shows 28/68 in its 15 October analysis and is blocked by local Windows
 protection. The earlier 1/67 and Nexus acceptance were historical snapshots.
@@ -35,6 +36,13 @@ No exact detector cause or confirmed false positive is established. Support
 has not been contacted, as requested by the owner. Do not disable protection
 or describe a different download channel as scanner clearance.
 See [the scan/provenance record](research/NATIVE-0103-SCAN.md).
+
+The separate, unreleased **0.10.4-native-test** candidate fixes a reproduced
+MinHook error path but still reports **17/70** for its exact ASI
+(27 October, 07:47:26 UTC). No detector-rule explanation or causal improvement
+from that repair is established. The candidate's full CAPE trace exercised
+rundll32 ordinal1/CasInspectHost rather than ordinary InitializeASI game
+activation. See [the paired scan and attribution](research/NATIVE-0104-SCAN.md).
 
 **Listing correction:** 0.10.2 moved to Old files when replaced by 0.10.3;
 0.10.1 had been left in Main. File 49367 was moved to Old on 23 October and
