@@ -122,3 +122,8 @@ are recorded separately, and partial stdout is retained on failed cases.
 This is a less intrusive method with narrower attribution, not a silent
 promotion of the incomplete full-backtrace result. It cannot attribute an
 indirect system-library call to the ASI through an uncaptured stack.
+
+Sixteen additional plain initialization repetitions per exact ASI precede the
+traced cases, each requiring exit0, status2 and hooks inactive. This is a
+bounded check for an ordinary startup failure independent of the probe; it
+does not prove the absence of a rarer fault or identify an earlier timeout.

@@ -79,6 +79,18 @@ def main():
                          'No antivirus detection cause or safety classification follows from a zero.']}
     try:
         device = frida.get_local_device()
+        result['plain_initialization_repeats'] = []
+        # Independent repetition distinguishes a plain-host failure from a
+        # failure seen only after attaching instrumentation.
+        for index in range(16):
+            plain = subprocess.run([str(host), 'initialize', str(module)], text=True,
+                                   capture_output=True, timeout=30, env=child_environment)
+            records = [json.loads(line) for line in plain.stdout.splitlines() if line.startswith('{')]
+            complete = next((x for x in records if x.get('phase') == 'complete'), None)
+            result['plain_initialization_repeats'].append({'index': index, 'exit_code': plain.returncode,
+                                                           'complete': complete})
+            if plain.returncode != 0 or complete != {'phase': 'complete', 'native_status': 2, 'hooks_active': False}:
+                raise RuntimeError('Uninstrumented repeated initialization failed')
         for mode in ('baseline', 'load', 'inspect', 'initialize'):
             if digest(module) != args.expected_sha256 or digest(host) != args.expected_host_sha256:
                 raise RuntimeError('Input identity changed')
