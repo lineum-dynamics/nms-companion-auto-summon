@@ -82,3 +82,19 @@ confirmed that running the controller on the owner's PC is refused before
 input access or importing Frida. The actual CI builds, plain cases,
 instrumentation readiness and runtime captures are **NOT CHECKED** until the
 workflow result is read back. No runtime result is promoted from preparation.
+
+### First method attempt
+
+Run40576805956 at controller8cca0d9 reproduced both frozen modules, compiled
+both owned hosts with signed Microsoft tools and installed the hash-verified
+instrumentation wheel. Both jobs stopped at baseline before loading any ASI.
+Plain and traced host phases matched, all three positive API controls appeared,
+and detach reported normal process termination without a crash. The required
+RtlExitUserProcess event was absent, however, so both reports remain TOOL_ERROR.
+No candidate runtime behavior or zero-threat finding follows from that attempt.
+
+The next controller observes exit independently through a held Windows process
+handle with query/synchronize rights, waits for process termination and reads
+the actual exit code. A normal zero exit remains mandatory. This avoids relying
+on an in-process final-exit callback after the instrumentation session tears
+down. Retain the first attempt; do not relabel it a successful capture.
