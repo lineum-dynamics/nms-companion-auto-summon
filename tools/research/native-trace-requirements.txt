@@ -1,0 +1,2 @@
+# CI-only instrumentation, official PyPI Windows x64 wheel. Never packaged.
+frida==17.24.3 --hash=sha256:61f5a53b146e0e7755d6c2bfa5405e14fe2373818ae5d98105c4eeca3face7d1

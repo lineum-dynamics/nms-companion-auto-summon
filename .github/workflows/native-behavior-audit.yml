@@ -1,0 +1,107 @@
+name: Native exact-module behavior audit
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [research/native-antivirus-attribution]
+    paths:
+      - .github/workflows/native-behavior-audit.yml
+      - tools/research/native_behavior_host.cpp
+      - tools/research/native_behavior_agent.js
+      - tools/research/trace_native_behavior.py
+      - tools/research/native-trace-requirements.txt
+
+permissions:
+  contents: read
+
+concurrency:
+  group: native-behavior-audit-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  behavior:
+    runs-on: windows-2022
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: frozen-0103
+            source: 852c5c55458c563a8564090dd31305864483edf3
+            sha256: 6474247c07e7659efc6e4fc698a1e7cdf9471c3ec471656675a251ff5fe96652
+          - label: candidate-0104
+            source: 7fd4bc09a3185a214a808052da61f2223999619b
+            sha256: 765cdbdf0e99aea433fd977048b38f0cd28ccbe6c26902c511310a3ee9523ffa
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      PYTHONUTF8: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+      SUBJECT_REVISION: ${{ matrix.source }}
+    steps:
+      - name: Check out audit controller
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          path: controller
+          persist-credentials: false
+      - name: Check out exact frozen source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ matrix.source }}
+          path: subject
+          persist-credentials: false
+      - name: Set up Python 3.11.9
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.11.9'
+      - name: Verify and unpack pinned original compiler
+        run: |
+          $archive = Join-Path $env:RUNNER_TEMP 'llvm-mingw-20260922-ucrt-x86_64.zip'
+          Invoke-WebRequest -Uri 'https://github.com/mstorsjo/llvm-mingw/releases/download/20260922/llvm-mingw-20260922-ucrt-x86_64.zip' -OutFile $archive
+          if ((Get-Item -LiteralPath $archive).Length -ne 190725905 -or (Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash.ToLowerInvariant() -ne 'e3ad77d117a4bea19a7a3b333341824d79a5a371004a10e25b8504e7b3047666') { throw 'Pinned compiler archive mismatch' }
+          Expand-Archive -LiteralPath $archive -DestinationPath $env:RUNNER_TEMP
+      - name: Reproduce frozen bytes at original source prefix
+        run: |
+          $mirror = 'C:/Projects/nms-companion-auto-summon-compat-cosmos-706'
+          if (Test-Path -LiteralPath $mirror) { throw 'Refuse an existing source mirror' }
+          New-Item -ItemType Directory -Force -Path C:/Projects | Out-Null
+          git -C subject worktree add --detach $mirror $env:SUBJECT_REVISION
+          if ($LASTEXITCODE -ne 0) { throw 'Frozen source checkout failed' }
+          $toolchain = Join-Path $env:RUNNER_TEMP 'llvm-mingw-20260922-ucrt-x86_64'
+          python -B "$mirror/tools/build_native_runtime.py" --toolchain $toolchain --output "$mirror/build/behavior-exact-module" --teleport-candidate-trial
+          if ($LASTEXITCODE -ne 0) { throw 'Exact-module reproduction failed' }
+          if ((Get-FileHash -LiteralPath "$mirror/build/behavior-exact-module/CompanionAutoSummon.asi" -Algorithm SHA256).Hash.ToLowerInvariant() -ne '${{ matrix.sha256 }}') { throw 'Frozen module identity mismatch' }
+      - name: Compile owned host with signed Microsoft tools
+        run: |
+          $locator = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio/Installer/vswhere.exe'
+          $installation = & $locator -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          if (-not $installation) { throw 'Official x64 C++ tools not found' }
+          Import-Module (Join-Path $installation 'Common7/Tools/Microsoft.VisualStudio.DevShell.dll')
+          Enter-VsDevShell -VsInstallPath $installation -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
+          $compiler = (Get-Command cl.exe -ErrorAction Stop).Source
+          $signature = Get-AuthenticodeSignature -LiteralPath $compiler
+          if ($signature.Status -ne 'Valid' -or $signature.SignerCertificate.Subject -notmatch 'Microsoft') { throw 'Unverified host compiler' }
+          New-Item -ItemType Directory -Force -Path build | Out-Null
+          & $compiler /nologo /std:c++17 /EHsc /W4 /WX /O2 /Zi /DUNICODE /D_UNICODE /I C:/Projects/nms-companion-auto-summon-compat-cosmos-706/native/include controller/tools/research/native_behavior_host.cpp /Fe:build/cas-behavior-host.exe
+          if ($LASTEXITCODE -ne 0) { throw 'Owned host compilation failed' }
+          [ordered]@{schema=1;source_revision='${{ github.sha }}';subject_revision=$env:SUBJECT_REVISION;image=$env:ImageOS;image_version=$env:ImageVersion;compiler_sha256=(Get-FileHash -LiteralPath $compiler -Algorithm SHA256).Hash.ToLowerInvariant();compiler_version=(Get-Item -LiteralPath $compiler).VersionInfo.FileVersion;compiler_signature=[string]$signature.Status;host_sha256=(Get-FileHash -LiteralPath build/cas-behavior-host.exe -Algorithm SHA256).Hash.ToLowerInvariant();host_source_sha256=(Get-FileHash -LiteralPath controller/tools/research/native_behavior_host.cpp -Algorithm SHA256).Hash.ToLowerInvariant();game_access=$false;security_configuration_changed=$false} | ConvertTo-Json | Set-Content -LiteralPath build/behavior-toolchain.json -Encoding utf8
+      - name: Install exact official instrumentation wheel in CI only
+        run: |
+          python -m pip install --disable-pip-version-check --only-binary=:all: --no-deps --require-hashes --index-url https://pypi.org/simple -r controller/tools/research/native-trace-requirements.txt
+          if ($LASTEXITCODE -ne 0) { throw 'Pinned instrumentation installation failed' }
+      - name: Compare plain and instrumented owned-host cases
+        run: |
+          $hostHash = (Get-FileHash -LiteralPath build/cas-behavior-host.exe -Algorithm SHA256).Hash.ToLowerInvariant()
+          python -B controller/tools/research/trace_native_behavior.py --module C:/Projects/nms-companion-auto-summon-compat-cosmos-706/build/behavior-exact-module/CompanionAutoSummon.asi --expected-sha256 '${{ matrix.sha256 }}' --host build/cas-behavior-host.exe --expected-host-sha256 $hostHash --output build/behavior-trace.json
+          exit $LASTEXITCODE
+      - name: Retain JSON evidence only
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: native-behavior-${{ matrix.label }}
+          path: |
+            build/behavior-toolchain.json
+            build/behavior-trace.json
+          if-no-files-found: warn
+          retention-days: 14
