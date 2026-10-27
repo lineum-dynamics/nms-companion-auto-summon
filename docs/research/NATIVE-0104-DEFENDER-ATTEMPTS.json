@@ -1,0 +1,90 @@
+{
+  "schema": 1,
+  "kind": "failed-scan-attempts-not-clean-results",
+  "observed_date": "2026-10-24",
+  "attempts": [
+    {
+      "run_id": 40087854670,
+      "case": "native-defender-candidate-0104",
+      "report_sha256": "c807e393fb00d3258b10bc521c6f5a10bae3c68a88de4f4038a5794afbd13861",
+      "input_sha256": "765cdbdf0e99aea433fd977048b38f0cd28ccbe6c26902c511310a3ee9523ffa",
+      "result": "TOOL_ERROR",
+      "scan_performed": false,
+      "error": "A unique scanner matching the active platform version was not found",
+      "removed_exclusions": null,
+      "effective_coverage_after_attempt": null
+    },
+    {
+      "run_id": 40087854670,
+      "case": "native-defender-frozen-0103",
+      "report_sha256": "c157653f814e203fcb524f170c3a0a5b462a05f1c4e1d674dfa755e693811c03",
+      "input_sha256": "6474247c07e7659efc6e4fc698a1e7cdf9471c3ec471656675a251ff5fe96652",
+      "result": "TOOL_ERROR",
+      "scan_performed": false,
+      "error": "A unique scanner matching the active platform version was not found",
+      "removed_exclusions": null,
+      "effective_coverage_after_attempt": null
+    },
+    {
+      "run_id": 40088417931,
+      "case": "native-defender-candidate-0104",
+      "report_sha256": "7cb1dba858340caf135f1ce9059b4ba77f4fcfdc70d0326922b030a9b2e6793c",
+      "input_sha256": "765cdbdf0e99aea433fd977048b38f0cd28ccbe6c26902c511310a3ee9523ffa",
+      "result": "EXCLUDED_OR_CHECK_FAILED",
+      "scan_performed": false,
+      "error": "No verified non-excluded input; refuse a clean-scan claim",
+      "removed_exclusions": null,
+      "effective_coverage_after_attempt": null
+    },
+    {
+      "run_id": 40088417931,
+      "case": "native-defender-frozen-0103",
+      "report_sha256": "a69d7032d6a01d775de1da529457c272713135f60fe81736cbe9cc33b4cdcfca",
+      "input_sha256": "6474247c07e7659efc6e4fc698a1e7cdf9471c3ec471656675a251ff5fe96652",
+      "result": "EXCLUDED_OR_CHECK_FAILED",
+      "scan_performed": false,
+      "error": "No verified non-excluded input; refuse a clean-scan claim",
+      "removed_exclusions": null,
+      "effective_coverage_after_attempt": null
+    },
+    {
+      "run_id": 40088735176,
+      "case": "native-defender-candidate-0104",
+      "report_sha256": "676bf3bc6f01758e0d9df24eac982320ce2220fe01c1e97e94bf8b8b86e35884",
+      "input_sha256": "765cdbdf0e99aea433fd977048b38f0cd28ccbe6c26902c511310a3ee9523ffa",
+      "result": "EXCLUDED_OR_CHECK_FAILED",
+      "scan_performed": false,
+      "error": "No verified non-excluded input; refuse a clean-scan claim",
+      "removed_exclusions": {
+        "paths": [
+          "C:\\"
+        ],
+        "extensions": [],
+        "reason": "Increase scan coverage on an ephemeral owned runner"
+      },
+      "effective_coverage_after_attempt": 0
+    },
+    {
+      "run_id": 40088735176,
+      "case": "native-defender-frozen-0103",
+      "report_sha256": "cdfbc5ae2829611d52936357bfede887b9036d60c2bd09270d008fb1d3abf2d7",
+      "input_sha256": "6474247c07e7659efc6e4fc698a1e7cdf9471c3ec471656675a251ff5fe96652",
+      "result": "EXCLUDED_OR_CHECK_FAILED",
+      "scan_performed": false,
+      "error": "No verified non-excluded input; refuse a clean-scan claim",
+      "removed_exclusions": {
+        "paths": [
+          "C:\\"
+        ],
+        "extensions": [],
+        "reason": "Increase scan coverage on an ephemeral owned runner"
+      },
+      "effective_coverage_after_attempt": 0
+    }
+  ],
+  "limits": {
+    "scan_clearance_established": false,
+    "no_detection_count_established": false,
+    "local_machine_security_changed": false
+  }
+}

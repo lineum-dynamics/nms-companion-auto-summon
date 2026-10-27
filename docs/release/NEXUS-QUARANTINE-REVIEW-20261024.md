@@ -2,6 +2,8 @@
 
 Status: **prepared, not sent**. Sending requires the owner's explicit
 authorization; the earlier refusal of support contact remains effective.
+The owner reaffirmed that contact is a last resort after available internal
+analysis. This draft is held as a contingency, not an active request for approval.
 This draft contains public artifact identities and source/build evidence only.
 It does not attach a binary or disclose private logs, saves or machine paths.
 

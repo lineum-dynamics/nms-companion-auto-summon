@@ -1,0 +1,122 @@
+{
+  "schema": 1,
+  "kind": "completed-exact-module-defender-readback",
+  "run_id": 40089173239,
+  "url": "https://github.com/lineum-dynamics/nms-companion-auto-summon/actions/runs/40089173239",
+  "controller_revision": "74056977e3d0e8fc30be2e60e481343355665f2d",
+  "readback_date": "2026-10-24",
+  "cases": [
+    {
+      "case": "native-defender-frozen-0103",
+      "raw_receipt_sha256": "be230c65a2ff711dad864a46440798e449be92729bf30749a1fd1870bd8a5bad",
+      "source_revision": "852c5c55458c563a8564090dd31305864483edf3",
+      "input_sha256": "6474247c07e7659efc6e4fc698a1e7cdf9471c3ec471656675a251ff5fe96652",
+      "input_bytes": 2639360,
+      "started_utc": "2026-10-24T11:17:15.7752671Z",
+      "finished_utc": "2026-10-24T11:17:38.3950280Z",
+      "result": "NO_DETECTION_RECORDED",
+      "scan_performed": true,
+      "scan_completed": true,
+      "input_unchanged_after": true,
+      "scanner": {
+        "version": "4.18.26090.9 (4df2f7dd1ad7282fa3437667daf210904670b7f3)",
+        "sha256": "c0c9670d63a8a7de9c0ef5ba58231826b0abee03c2b3ba6f858114d96ea12315",
+        "signature_status": "Valid",
+        "signer": "CN=Microsoft Windows Publisher, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+      },
+      "engine": {
+        "AMServiceEnabled": true,
+        "AntivirusEnabled": true,
+        "RealTimeProtectionEnabled": false,
+        "AMRunningMode": "Normal",
+        "AMProductVersion": "4.18.26090.9",
+        "AMEngineVersion": "1.1.26090.9",
+        "AntivirusSignatureVersion": "1.461.181.0",
+        "AntivirusSignatureLastUpdated": "2026-10-24T05:51:57+00:00"
+      },
+      "positive_control": {
+        "source": "https://secure.eicar.org/eicar.com.txt",
+        "bytes": 68,
+        "sha256": "275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f",
+        "exit_code": 2,
+        "output": "Scan starting...\r\nScan finished.\r\nScanning <harmless-engine-control> found 1 threats.\r\n\r\n<===========================LIST OF DETECTED THREATS==========================>\r\n----------------------------- Threat information ------------------------------\r\nThreat                  : Virus:DOS/EICAR_Test_File\r\nResources               : 1 total\r\n    file                : <harmless-engine-control>\r\n-------------------------------------------------------------------------------",
+        "passed": true
+      },
+      "scan_exit_code": 0,
+      "scan_output": "Scan starting...\r\nScan finished.\r\nScanning <exact-module> found no threats.",
+      "stock_exclusion_check_exit_code": 0,
+      "mode": {
+        "type": "read-only custom scan",
+        "switch": "-DisableRemediation",
+        "machine_wide_preferences_changed": false,
+        "file_exclusions_ignored_by_documented_mode": true,
+        "detections_reported_in": "command output, not UI or event log"
+      },
+      "policy_sha256": "dfb9a81097c126eede6c564ebdc753c049b004e6d0de06b7b7c904192f3bb51e",
+      "machine_wide_policy_unchanged": true,
+      "automatic_cloud_transmission": "NOT CHECKED"
+    },
+    {
+      "case": "native-defender-candidate-0104",
+      "raw_receipt_sha256": "729c72573d05f2029a30c6c5c931091903bd5632bc9df36c7e195d3be693bcb2",
+      "source_revision": "7fd4bc09a3185a214a808052da61f2223999619b",
+      "input_sha256": "765cdbdf0e99aea433fd977048b38f0cd28ccbe6c26902c511310a3ee9523ffa",
+      "input_bytes": 2639360,
+      "started_utc": "2026-10-24T11:17:18.5408861Z",
+      "finished_utc": "2026-10-24T11:17:28.4386832Z",
+      "result": "NO_DETECTION_RECORDED",
+      "scan_performed": true,
+      "scan_completed": true,
+      "input_unchanged_after": true,
+      "scanner": {
+        "version": "4.18.26090.9 (4df2f7dd1ad7282fa3437667daf210904670b7f3)",
+        "sha256": "c0c9670d63a8a7de9c0ef5ba58231826b0abee03c2b3ba6f858114d96ea12315",
+        "signature_status": "Valid",
+        "signer": "CN=Microsoft Windows Publisher, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+      },
+      "engine": {
+        "AMServiceEnabled": true,
+        "AntivirusEnabled": true,
+        "RealTimeProtectionEnabled": false,
+        "AMRunningMode": "Normal",
+        "AMProductVersion": "4.18.26090.9",
+        "AMEngineVersion": "1.1.26090.9",
+        "AntivirusSignatureVersion": "1.461.181.0",
+        "AntivirusSignatureLastUpdated": "2026-10-24T05:51:57+00:00"
+      },
+      "positive_control": {
+        "source": "https://secure.eicar.org/eicar.com.txt",
+        "bytes": 68,
+        "sha256": "275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f",
+        "exit_code": 2,
+        "output": "Scan starting...\r\nScan finished.\r\nScanning <harmless-engine-control> found 1 threats.\r\n\r\n<===========================LIST OF DETECTED THREATS==========================>\r\n----------------------------- Threat information ------------------------------\r\nThreat                  : Virus:DOS/EICAR_Test_File\r\nResources               : 1 total\r\n    file                : <harmless-engine-control>\r\n-------------------------------------------------------------------------------",
+        "passed": true
+      },
+      "scan_exit_code": 0,
+      "scan_output": "Scan starting...\r\nScan finished.\r\nScanning <exact-module> found no threats.",
+      "stock_exclusion_check_exit_code": 0,
+      "mode": {
+        "type": "read-only custom scan",
+        "switch": "-DisableRemediation",
+        "machine_wide_preferences_changed": false,
+        "file_exclusions_ignored_by_documented_mode": true,
+        "detections_reported_in": "command output, not UI or event log"
+      },
+      "policy_sha256": "dfb9a81097c126eede6c564ebdc753c049b004e6d0de06b7b7c904192f3bb51e",
+      "machine_wide_policy_unchanged": true,
+      "automatic_cloud_transmission": "NOT CHECKED"
+    }
+  ],
+  "limits": {
+    "single_engine_only": true,
+    "whole_zip_scanned": false,
+    "loader_scanned": false,
+    "private_detection_rule_explained": false,
+    "repair_detection_improvement_established": false,
+    "nexus_quarantine_cleared": false,
+    "multivendor_candidate_scan_established": false,
+    "gameplay_verified": false,
+    "explicit_binary_upload_performed": false,
+    "support_message_sent": false
+  }
+}

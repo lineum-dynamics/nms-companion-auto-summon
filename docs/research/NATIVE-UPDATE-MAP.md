@@ -3340,3 +3340,62 @@ remain unresolved; no global safety or false-positive claim is made.
   private detector-rule/UDP attribution and exact 0.10.4 NMS gameplay remain
   separate unresolved/NOT CHECKED gates. Backup work remains parked; do not
   confuse that runtime gate with antivirus quarantine.
+
+
+### Internal-first antivirus attribution and actual scanner evidence, 24 October 2026
+
+- The owner corrected the proposed next step: support/vendor contact is a last
+  resort after available internal analysis. No email was sent. The review draft
+  remains a contingency; AGENTS.md and release gates now preserve this direction.
+- Research base before this continuation was 3783eeb. Scanner orchestration is
+  at 74056977e3d0e8fc30be2e60e481343355665f2d; no native source/profile,
+  localization, game mapping or frozen player package changed. Exact recorded
+  game target remains Windows/Steam 7.06 / 25732212 /
+  `13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499`.
+  The 90-role mapping cache is unchanged; no installed game was inspected.
+- Full CAPE/Zenbox reports supplied evidence absent from the grouped summary.
+  Of 357 nonempty CAPE API records, 344 first caller addresses fall in the
+  reported rundll32 image; thirteen are other modules, zero are the target.
+  Exception-filter and token API callers were positively assigned to the host
+  executable. Five HTTP requests use CryptoAPI and certificate CTL/OCSP endpoints;
+  no packet PID/call stack ties them to the ASI. Zenbox UDP still lacks module
+  attribution, and its per-process details are None. The full Zenbox report
+  says Non Malicious 4/100 and includes an unsigned-rundll32 Sigma label; the
+  earlier grouped no-Sigma statement is explicitly bounded/corrected.
+- Hash-matched submitted ASI has Security directory0/0 and Windows status
+  NotSigned. Its TLS callback list begins with a null qword at RVA0x13E298,
+  so the displayed pre-entry-callback label does not prove an executed callback.
+  Preserve the static fields, report ranges and interpretation limits in
+  NATIVE-0104-BEHAVIOR-EVIDENCE.json, SHA-256
+  `a28d6c1bf0076ba6c9c1e1da726716b8ec7c13de187b1b35e8d22113e8fc7049`.
+- Actual completed scanner run40089173239 reproduced each exact ASI, then used
+  the signed active Defender scanner4.18.26090.9 / engine1.1.26090.9 /
+  definitions1.461.181.0 (24 October05:51:57UTC). Both original6474247c... and
+  candidate765cdbdf... returned no threats/exit0 with unchanged post-scan bytes.
+  Each runner first detected the official harmless EICAR control in the same
+  documented read-only custom-scan mode. Global policy digests were unchanged;
+  no game, customer data or local-PC security setting was accessed/changed.
+  Automatic antivirus cloud transmission is NOT CHECKED; no explicit workflow
+  binary upload occurred. Durable sanitized evidence:
+  NATIVE-0104-DEFENDER-EVIDENCE.json, SHA-256
+  `a12dce3dc3c9a361721714f1ba0c7979e21f6ccaf4b5c6d4caf916d67bcfdb84`.
+- Retain all six failed attempt receipts: ambiguous CurrentVersion alias, stock
+  path exclusion, and exclusion-removal attempt whose effective check still
+  said excluded. None scanned an input. The final method uses documented
+  read-only custom scanning, whose findings are in stdout and whose file
+  exclusions are ignored, plus a real positive engine control. Never promote
+  an excluded input, zero process error, or absent UI/event result to clearance.
+- Tools: CPython3.11.9 executable SHA-256
+  `5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec`;
+  pefile2024.8.26; PowerShell AST validation passed. Exact source pins, commands,
+  scanner hash, receipt digests and failed methods are in NATIVE-0104-SCAN.md
+  and the dedicated Defender workflow/script. Raw logs and signed report URLs
+  are not published. No player UI meaning changed.
+- These results do not identify the private Yogi/Loader rule or demonstrate an
+  antivirus benefit from the MinHook repair: both inputs have the same bounded
+  Defender result. Whole ZIP/loader scan, fresh candidate multivendor verdict,
+  exact-candidate NMS acceptance and Nexus download acceptance remain open.
+  Next bounded gate is comparable exact-candidate evidence from the engines
+  reporting detections through an available authorized scan route; do not
+  repeat failed CAPTCHA flows or vary artifact bytes merely to reduce alerts.
+  No support contact is currently the next action.

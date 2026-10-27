@@ -1,0 +1,157 @@
+{
+  "schema": 1,
+  "kind": "bounded-public-sandbox-and-static-pe-attribution",
+  "readback_date": "2026-10-24",
+  "module": {
+    "version": "0.10.3-native-test",
+    "sha256": "6474247c07e7659efc6e4fc698a1e7cdf9471c3ec471656675a251ff5fe96652",
+    "bytes": 2639360,
+    "source_revision": "852c5c55458c563a8564090dd31305864483edf3",
+    "size_of_image": 2031616
+  },
+  "sources": {
+    "behavior": "https://www.virustotal.com/gui/file/6474247c07e7659efc6e4fc698a1e7cdf9471c3ec471656675a251ff5fe96652/behavior",
+    "cape_full_report": "https://www.virustotal.com/ui/file_behaviours/6474247c07e7659efc6e4fc698a1e7cdf9471c3ec471656675a251ff5fe96652_CAPE%20Sandbox/html",
+    "zenbox_full_report": "https://www.virustotal.com/ui/file_behaviours/6474247c07e7659efc6e4fc698a1e7cdf9471c3ec471656675a251ff5fe96652_Zenbox/html"
+  },
+  "cape": {
+    "nonempty_visible_api_records": 357,
+    "ignored_empty_table_row": 1,
+    "host_image_base": "0x7ff6e8b00000",
+    "host_image_size": "0x17000",
+    "target_image_base": "0x7ffe59dd0000",
+    "first_caller_address_classification": {
+      "other-module": 13,
+      "rundll32-host": 344
+    },
+    "selected_positive_attributions": [
+      {
+        "api": "SetUnhandledExceptionFilter",
+        "first_caller_owner": "rundll32-host",
+        "first_caller_rva": "0x6d01",
+        "vm_time": "16:10:34,421"
+      },
+      {
+        "api": "NtOpenProcessToken",
+        "first_caller_owner": "rundll32-host",
+        "first_caller_rva": "0x62e5",
+        "vm_time": "16:10:34,452"
+      },
+      {
+        "api": "NtQueryInformationToken",
+        "first_caller_owner": "rundll32-host",
+        "first_caller_rva": "0x6339",
+        "vm_time": "16:10:34,452"
+      },
+      {
+        "api": "NtOpenProcessToken",
+        "first_caller_owner": "rundll32-host",
+        "first_caller_rva": "0x6435",
+        "vm_time": "16:10:34,452"
+      },
+      {
+        "api": "LdrLoadDll",
+        "first_caller_owner": "rundll32-host",
+        "first_caller_rva": "0x3bfb",
+        "vm_time": "16:10:34,530"
+      },
+      {
+        "api": "LdrLoadDll",
+        "first_caller_owner": "rundll32-host",
+        "first_caller_rva": "0x6282",
+        "vm_time": "16:10:34,530"
+      },
+      {
+        "api": "NtQueryInformationToken",
+        "first_caller_owner": "rundll32-host",
+        "first_caller_rva": "0x6282",
+        "vm_time": "16:10:34,530"
+      },
+      {
+        "api": "NtQueryInformationToken",
+        "first_caller_owner": "rundll32-host",
+        "first_caller_rva": "0x6282",
+        "vm_time": "16:10:34,546"
+      }
+    ],
+    "selected_process_network_api_filter_records": 0,
+    "http_requests": {
+      "count": 5,
+      "user_agent": "Microsoft-CryptoAPI/10.0",
+      "destinations": [
+        {
+          "host": "ctldl.windowsupdate.com",
+          "path": "/msdownload/update/v3/static/trustedr/en/disallowedcertstl.cab",
+          "count": 2
+        },
+        {
+          "host": "ocsp.digicert.com",
+          "purpose": "OCSP certificate status",
+          "count": 2
+        },
+        {
+          "host": "oneocsp.microsoft.com",
+          "purpose": "OCSP certificate status",
+          "count": 1
+        }
+      ]
+    },
+    "network_packet_pid_or_call_stack_attribution_available": false
+  },
+  "zenbox": {
+    "verdict": "Non Malicious",
+    "score": 4,
+    "scale": 100,
+    "generated_as_displayed": "23/10/2026 09:17:59",
+    "displayed_time_zone": "NOT ESTABLISHED",
+    "sigma_label": "Unsigned DLL Loaded by RunDLL32/RegSvr32",
+    "udp_address": "162.159.36.2",
+    "udp_port": 53,
+    "udp_module_attribution": "NOT ESTABLISHED",
+    "per_process_extra_information": "None for every listed harness process"
+  },
+  "static_checks": {
+    "pefile_version": "2024.8.26",
+    "parser_warnings": [],
+    "security_directory_file_offset": 0,
+    "security_directory_bytes": 0,
+    "windows_authenticode_status": "NotSigned",
+    "tls_directory_rva": "0x13e2a0",
+    "tls_directory_bytes": 40,
+    "first_callback_slot_rva": "0x13e298",
+    "first_callback_slot_hex": "0000000000000000",
+    "callback_count_before_null_terminator": 0,
+    "exports": [
+      {
+        "ordinal": 1,
+        "name": "CasInspectHost",
+        "rva": "0x90e0"
+      },
+      {
+        "ordinal": 2,
+        "name": "CasRuntimeStatus",
+        "rva": "0x13a0"
+      },
+      {
+        "ordinal": 3,
+        "name": "InitializeASI",
+        "rva": "0x13b0"
+      }
+    ]
+  },
+  "captured_input_sha256": {
+    "cape-api-rows-20261024.json": "8ba4af16c1a666652a20731642f964ef6e55b9b2c1d4ca0d184e11480c850ebd",
+    "cape-network-dns-20261024.txt": "f762d8f3824f097956326026f6fae25479b62d2cc24132ff65215bf24b1ad62e",
+    "cape-network-http-20261024.txt": "122bbacd12d4f06449d5d2c44efe436f1bd87dfc318da1004340535497a610d8",
+    "zenbox-full-report-20261024.txt": "96a91e155e936700c81c45409236e07eb89a810354e6139c4fe7073f437ddd87"
+  },
+  "limits": {
+    "antivirus_rule_attribution_established": false,
+    "global_malware_clearance_established": false,
+    "new_candidate_scan_established": false,
+    "new_game_compatibility_claimed": false,
+    "address_attribution_is_a_complete_call_stack": false,
+    "raw_sandbox_logs_published": false,
+    "support_message_sent": false
+  }
+}

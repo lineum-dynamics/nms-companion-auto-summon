@@ -17,6 +17,11 @@
   game acceptance and scanner status are tracked separately in the
   [candidate record](docs/release/0.10.4-QUERY-GUARD.md).
 - No player setting, translation meaning, native RVA or gameplay policy change.
+- Continue internal antivirus attribution before any support contact. Inspect
+  complete provider reports and exact PE structures; complete hash-matched
+  Defender scans of both original and corrected ASIs with the same definitions
+  and a detected harmless engine control. Neither module was flagged by that
+  engine; multivendor clearance and the detector cause remain unresolved.
 - Read back the successful independent Microsoft compiler audit and owned
   validation bundle on 24 October; verify its 88 source inputs and receipt
   chain, retain and triage all eighteen distinct warning messages. Recheck the

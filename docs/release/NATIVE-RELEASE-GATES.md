@@ -57,6 +57,13 @@ rename/rebuild files to change scan results, weaken security settings, suggest
 antivirus exclusions or present an alternate binary download as scanner
 clearance. Public descriptions must say when the upload is not downloadable.
 
+The owner reaffirmed on 24 October that support/vendor contact is a last resort
+after available internal technical analysis. The moderator rule concerns
+removal of an existing host quarantine; it does not establish that engineering
+analysis is exhausted or make support the current next action. The prepared
+review draft stays unsent. Continue concrete bounded technical checks and
+record their outcomes before revisiting contact.
+
 Quarantine does not establish that technical analysis is exhausted. Keep a
 bounded completed/open audit table: artifact and source provenance, build
 environment, systematic static diagnostics, owned-host fault cases, independent
