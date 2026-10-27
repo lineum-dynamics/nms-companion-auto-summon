@@ -68,6 +68,8 @@ def main():
               'source_revision': os.environ.get('GITHUB_SHA'),
               'module_sha256': args.expected_sha256, 'host_sha256': args.expected_host_sha256,
               'agent_sha256': digest(agent_path), 'frida': frida.__version__,
+              'caller_mode': 'direct-return-address-cached-module-map',
+              'full_backtraces_requested': False,
               'game_access': False, 'security_settings_changed': False, 'binary_uploaded': False,
               'cases': [], 'status': 'TOOL_ERROR',
               'limits': ['Owned unsupported host only; no active game hooks are exercised.',
@@ -150,8 +152,13 @@ def main():
                     except frida.InvalidOperationError: pass
                 if process_handle:
                     kernel.CloseHandle(process_handle)
-            case['output_records'] = [json.loads(line) for line in output.decode('utf-8').splitlines()
-                                      if line.startswith('{')]
+                # Preserve partial stdout even when an instrumented case times out.
+                records = []
+                for line in output.decode('utf-8', errors='replace').splitlines():
+                    if line.startswith('{'):
+                        try: records.append(json.loads(line))
+                        except json.JSONDecodeError: case['partial_stdout_record'] = True
+                case['output_records'] = records
             api_events = [x for x in case['events'] if x.get('kind') == 'api']
             controls = {x['api'] for x in api_events if x.get('direct_host_caller')}
             case['positive_control_apis'] = sorted(controls)

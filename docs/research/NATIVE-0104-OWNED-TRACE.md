@@ -98,3 +98,27 @@ handle with query/synchronize rights, waits for process termination and reads
 the actual exit code. A normal zero exit remains mandatory. This avoids relying
 on an in-process final-exit callback after the instrumentation session tears
 down. Retain the first attempt; do not relabel it a successful capture.
+
+### Second method attempt and lower-interference follow-up
+
+Run40577586888 at e503c29 completed all four candidate modes, plain and
+instrumented, with zero OS exit codes and known host/module positive controls.
+The candidate's observed direct API contribution in these modes was one
+InitializeASI CreateThread call, caller RVA0x140E, creation flags0. Its worker
+then reached the unsupported-host status2. No game hooks were exercised.
+
+The original completed baseline/load/inspect captures and all four plain
+cases, but its instrumented initialize case timed out. That case remains
+TOOL_ERROR. One full-backtrace timeout cannot be assigned to a source defect,
+an antivirus rule or a benefit from the query guard; the guard's changed path
+was not being exercised in this unsupported host. The failed controller did
+not retain its partial stdout on the exception path, a diagnostic limitation.
+
+The next agent uses the direct API return address and a module map populated
+by load notifications, avoiding stack walking/live module enumeration inside
+loader/thread callbacks. It removes the unnecessary final-exit interception;
+the independent OS exit check remains mandatory. Entered and returned calls
+are recorded separately, and partial stdout is retained on failed cases.
+This is a less intrusive method with narrower attribution, not a silent
+promotion of the incomplete full-backtrace result. It cannot attribute an
+indirect system-library call to the ASI through an uncaptured stack.
