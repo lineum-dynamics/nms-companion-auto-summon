@@ -1,4 +1,4 @@
-# Fixed inactive startup comparison â€” 28 October 2026
+# Fixed inactive startup comparison — 28 October 2026
 
 All four approved matched-export inspection/core probes completed. Each has
 one Cynet label, including the inert baseline. All eight earlier Yogi-positive

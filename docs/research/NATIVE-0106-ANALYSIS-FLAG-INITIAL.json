@@ -1,0 +1,89 @@
+{
+  "schema": 1,
+  "date": "2026-10-28",
+  "controller_revision": "873b1a626cec7cf93761f57a349ab73416d25772",
+  "initial_comparison_run": 40714275447,
+  "state": "INCONCLUSIVE: frozen baseline gate failed; flag-off build not attempted",
+  "initial_report_sha256": "b0c7d4cf3fb0b8f68b67ed9b3961675ca30e2cfd0c5f9b9661eb2f85bf2f1c63",
+  "old_image": "20261022.344.1",
+  "new_image": "20261026.347.1",
+  "frozen_module_sha256": "30cc9542a2af3529fd4f3a2299d6331bddf51b61f8213a0a1a779b472789de3d",
+  "current_image_module": {
+    "sha256": "a41fc094e98332682200d6c70857cc21be327843734127c092fc7484e1b583f7",
+    "bytes": 749568,
+    "pdb_sha256": "c84b145a0e3c222b4b901a2d01b350bebfe2206b2c0e02c6902664a9d2730283",
+    "receipt_sha256": "eded5c97aaba42af89297c135b1397cd50e1dc3dd57c3150b85cafcf5a66baee",
+    "dll_static_analysis_included": true
+  },
+  "recorded_compiler_tools_unchanged": true,
+  "changed_recorded_source_inputs": [
+    "tools/build_native_msvc_audit.py"
+  ],
+  "generated_inputs_unchanged": true,
+  "exact_dll_command_unchanged": true,
+  "image_change_is_correlation_not_identified_binary_cause": true,
+  "independent_current_image_run": 40714275407,
+  "current_image_reproduction": {
+    "schema": 1,
+    "source_revision": "873b1a626cec7cf93761f57a349ab73416d25772",
+    "version": "0.10.6-native-test",
+    "first_sha256": "a41fc094e98332682200d6c70857cc21be327843734127c092fc7484e1b583f7",
+    "second_sha256": "a41fc094e98332682200d6c70857cc21be327843734127c092fc7484e1b583f7",
+    "byte_identical": true,
+    "game_access": false,
+    "av_clearance": false,
+    "packaging_approved": false
+  },
+  "owned_validation": {
+    "passed": true,
+    "receipt_sha256": "ed0fd1b0700340e44f39dd5d5c2363f247294c097ccdec6faae7dda461bb8fb5",
+    "host_runs": 6,
+    "validator_names": [
+      "policy",
+      "selection",
+      "storage",
+      "runtime",
+      "backup",
+      "minhook_query",
+      "hook_abi",
+      "load_context"
+    ]
+  },
+  "scan": {
+    "state": "TOOL_ERROR",
+    "module_scan_performed": false,
+    "module_scan_completed": false,
+    "positive_control_passed": false,
+    "positive_control_rpc_error": "0x800106ba",
+    "engine_before": {
+      "AMServiceEnabled": true,
+      "AntivirusEnabled": true,
+      "RealTimeProtectionEnabled": false,
+      "AMRunningMode": "Normal",
+      "AMProductVersion": "4.18.26090.9",
+      "AMEngineVersion": "1.1.26100.4",
+      "AntivirusSignatureVersion": "1.463.10.0",
+      "AntivirusSignatureLastUpdated": "2026-10-28T10:14:03+00:00"
+    },
+    "engine_at_control": {
+      "AMServiceEnabled": false,
+      "AntivirusEnabled": false,
+      "RealTimeProtectionEnabled": false,
+      "AMRunningMode": "Not running",
+      "AMProductVersion": "4.18.26100.4",
+      "AMEngineVersion": "0.0.0.0",
+      "AntivirusSignatureVersion": null,
+      "AntivirusSignatureLastUpdated": null
+    },
+    "platform_version_changed_during_update": true,
+    "protection_configuration_changed": false,
+    "scanner_was_resolved_before_update": true,
+    "module_av_verdict_established": false
+  },
+  "source_audit_run": 40714275317,
+  "source_audit_conclusion": "success",
+  "module_retained": false,
+  "local_native_execution": false,
+  "game_access": false,
+  "av_clearance": false
+}

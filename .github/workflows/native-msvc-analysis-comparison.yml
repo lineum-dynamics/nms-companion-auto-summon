@@ -58,15 +58,11 @@ jobs:
           [ordered]@{schema=1;source_revision=$env:SUBJECT_REVISION;image=$env:ImageOS;image_version=$env:ImageVersion;tools=$identities;game_access=$false;protection_settings_changed=$false} | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath build/msvc-analysis-toolchain.json -Encoding utf8
           python -B "$mirror/tools/research/compare_msvc_analysis_flag.py"
           if ($LASTEXITCODE -ne 0) { throw 'Compiler comparison failed; preserve incomplete evidence' }
-      - name: Scan a distinct fully checked comparison module
+      - name: Scan the checked current-image comparison module
         run: |
           $mirror = 'C:/Projects/nms-companion-auto-summon-compat-cosmos-706'
           $report = Get-Content -LiteralPath "$mirror/build/msvc-analysis-comparison.json" -Raw | ConvertFrom-Json
-          if ($report.dll_byte_identical) {
-            'No distinct module: existing exact-file antivirus reports apply.'
-            exit 0
-          }
-          if (-not $report.completed -or -not $report.comparison_reproduced) { throw 'Incomplete comparison' }
+          if (-not $report.completed -or (-not $report.dll_byte_identical -and -not $report.comparison_reproduced)) { throw 'Incomplete comparison' }
           & "$mirror/tools/research/scan_native_defender.ps1" -InputPath "$mirror/build/msvc-0106-b/CompanionAutoSummon.asi" -ExpectedSha256 $report.analysis_omitted.sha256 -ReportPath build/msvc-analysis-defender.json
           if ($LASTEXITCODE -ne 0) { throw 'Comparison scan is not a completed no-detection result' }
       - name: Collect reports on the artifact workspace volume
@@ -75,6 +71,9 @@ jobs:
           $mirror = 'C:/Projects/nms-companion-auto-summon-compat-cosmos-706'
           if (Test-Path -LiteralPath "$mirror/build/msvc-analysis-comparison.json" -PathType Leaf) {
             Copy-Item -LiteralPath "$mirror/build/msvc-analysis-comparison.json" -Destination build/
+          }
+          if (Test-Path -LiteralPath "$mirror/build/msvc-analysis-input-inventory.json" -PathType Leaf) {
+            Copy-Item -LiteralPath "$mirror/build/msvc-analysis-input-inventory.json" -Destination build/
           }
           foreach ($label in @('a','b','c')) {
             $source = "$mirror/build/msvc-0106-$label"
@@ -94,24 +93,23 @@ jobs:
             build/evidence/**/*.json
           if-no-files-found: warn
           retention-days: 14
-      - name: Stage a distinct checked research artifact
+      - name: Stage the checked current-image research artifact
         if: success()
         run: |
           $mirror = 'C:/Projects/nms-companion-auto-summon-compat-cosmos-706'
           $report = Get-Content -LiteralPath "$mirror/build/msvc-analysis-comparison.json" -Raw | ConvertFrom-Json
-          if ($report.dll_byte_identical) { exit 0 }
-          if (-not $report.completed -or -not $report.comparison_reproduced) { throw 'Incomplete comparison' }
+          if (-not $report.completed -or (-not $report.dll_byte_identical -and -not $report.comparison_reproduced)) { throw 'Incomplete comparison' }
           $destination = 'build/comparison-module'
           New-Item -ItemType Directory -Path $destination | Out-Null
           foreach ($name in @('CompanionAutoSummon.asi','CompanionAutoSummon.pdb')) {
             Copy-Item -LiteralPath "$mirror/build/msvc-0106-b/$name" -Destination "$destination/$name"
             if ((Get-FileHash -LiteralPath "$mirror/build/msvc-0106-b/$name").Hash -ne (Get-FileHash -LiteralPath "$destination/$name").Hash) { throw 'Staged comparison bytes changed' }
           }
-      - name: Retain only a distinct fully checked research module
+      - name: Retain the fully checked research module
         if: success()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: native-msvc-analysis-distinct-module
+          name: native-msvc-analysis-research-module
           path: build/comparison-module/*
           if-no-files-found: ignore
           retention-days: 7

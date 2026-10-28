@@ -67,3 +67,50 @@ Target remains Windows/Steam Cosmos 7.06, build 25732212, executable SHA-256
 Source revision, artifact identity, game compatibility and distribution status
 remain separate. The next action is one controlled CI comparison and readback;
 support remains unsent.
+
+
+## Initial gate result and revised current-image comparison
+
+[Initial run 40714275447](https://github.com/lineum-dynamics/nms-companion-auto-summon/actions/runs/40714275447)
+correctly stopped before building B. Image 20261026.347.1 produced A SHA-256
+`a41fc094e98332682200d6c70857cc21be327843734127c092fc7484e1b583f7`, not
+frozen 30cc9542 from image 20261022.344.1. All recorded native/locale/profile/
+generator inputs and generated hashes match. Only the Python builder's recorded
+source hash differs; its actual DLL command is byte-for-byte identical. The
+three recorded Microsoft executables also match. The image change is observed,
+not an identified explanation of the binary difference. Header/library hashes
+were not captured on the earlier image, so they remain NOT CHECKED historically.
+
+Independent ordinary candidate run 40714275407 built the same a41fc094 bytes
+twice, passed the complete owned bundle and factory-failure control, then failed
+its scanner gate. Signature updating changed the platform from 4.18.26090.9 to
+4.18.26100.4 while the service/engine became unavailable. The EICAR positive
+control returned RPC error 0x800106ba; no exact-module scan ran and no binary
+was retained. Source-audit run 40714275317 succeeded. This is a scanner-tool
+failure, not a detection or an AV improvement. Sanitized readback:
+[NATIVE-0106-ANALYSIS-FLAG-INITIAL.json](NATIVE-0106-ANALYSIS-FLAG-INITIAL.json),
+SHA-256 `6af29ff96b797f1cfc3a68a487d7e02f906e01effd77ebda75d89f020d8518d9`.
+
+The scanner helper now waits at most 55 seconds after update for a running
+service, nonzero engine and available signatures, then selects and verifies the
+active signed scanner. It neither changes service settings nor weakens endpoint
+protection. A failed readiness/control still stops retention. The actual fix's
+remote behavior is NOT CHECKED until readback.
+
+The revised experiment is registered before its next run: use only image
+20261026.347.1 and the independently double-reproduced a41fc094 baseline, with
+its passed owned-validation receipt ed0fd1b0700340e44f39dd5d5c2363f247294c097ccdec6faae7dda461bb8fb5.
+Keep the exact same native sources, resource and normalized DLL command; build
+A with /analyze and B without it. A must reproduce a41fc094, and no other
+argument/input difference is permitted. Inventory the configured include,
+library and native compiler directories to support later image comparisons;
+this inventory does not prove every file was consumed. Historical original-image
+flag attribution remains inconclusive regardless of this new result.
+
+If A equals B, /analyze has no output-byte effect on this current recipe; reuse
+the existing passed functional evidence for identical a41fc094 and do not repeat
+it or a third build. If B differs, run the complete owned suite and reproduce
+B as C. In both cases a new positively controlled exact-module scan is required
+before retaining ASI/PDB for independent PE comparison. Existing 30cc9542 VT
+verdicts do not transfer to a41fc094. No automatic VT upload, player version
+bump, source/guard change or release is authorized by this protocol.

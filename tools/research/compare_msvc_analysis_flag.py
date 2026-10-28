@@ -1,4 +1,4 @@
-"""Compare only DLL /analyze after reproducing the frozen 0.10.6 bytes in owned CI."""
+"""Compare only DLL /analyze against an independently reproduced, image-specific baseline."""
 import hashlib
 import json
 import os
@@ -9,6 +9,8 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[2]
 FROZEN_SHA256 = "30cc9542a2af3529fd4f3a2299d6331bddf51b61f8213a0a1a779b472789de3d"
+COMPARISON_BASELINE = "a41fc094e98332682200d6c70857cc21be327843734127c092fc7484e1b583f7"
+COMPARISON_IMAGE = "20261026.347.1"
 
 
 def digest(path):
@@ -28,6 +30,10 @@ def main():
     report_path = ROOT / "build/msvc-analysis-comparison.json"
     report = {"schema": 1, "source_revision": os.environ["SUBJECT_REVISION"],
               "version": "0.10.6-native-test", "frozen_sha256": FROZEN_SHA256,
+              "comparison_baseline_sha256": COMPARISON_BASELINE,
+              "image_version": os.environ.get("ImageVersion"),
+              "baseline_owned_validation_ci": 40714275407,
+              "baseline_owned_validation_receipt_sha256": "ed0fd1b0700340e44f39dd5d5c2363f247294c097ccdec6faae7dda461bb8fb5",
               "game_access": False, "local_native_execution": False,
               "packaging_approved": False, "av_clearance": False,
               "completed": False, "commands": []}
@@ -76,12 +82,43 @@ def main():
             raise ValueError("The exact DLL compiler command is ambiguous")
         return [arg.replace(str(directory), "<OUTPUT>") for arg in matches[0]]
 
+    def record_toolchain_inputs():
+        roots = []
+        for variable in ("INCLUDE", "LIB"):
+            roots += [(variable, Path(value)) for value in os.environ[variable].split(";") if value]
+        roots.append(("COMPILER", Path(os.environ["VCToolsInstallDir"]) / "bin/Hostx64/x64"))
+        inventory, seen = [], set()
+        for kind, root in roots:
+            if not root.is_dir():
+                raise ValueError("Configured compiler input directory is unavailable: " + str(root))
+            files = []
+            for path in sorted(root.rglob("*")):
+                if not path.is_file() or str(path).lower() in seen:
+                    continue
+                seen.add(str(path).lower())
+                with path.open("rb") as stream:
+                    checksum = hashlib.file_digest(stream, "sha256").hexdigest()
+                files.append({"path": path.relative_to(root).as_posix(), "bytes": path.stat().st_size,
+                              "sha256": checksum})
+            inventory.append({"kind": kind, "root": str(root), "files": files})
+        path = ROOT / "build/msvc-analysis-input-inventory.json"
+        path.write_text(json.dumps({"schema": 1, "image_version": report["image_version"],
+                                    "roots": inventory, "file_count": len(seen),
+                                    "scope": "Configured include/library trees and native x64 compiler directory; not proof every file was consumed"},
+                                   indent=2) + "\n", encoding="utf-8", newline="\n")
+        report["toolchain_input_inventory_sha256"] = digest(path)
+        report["toolchain_inventory_file_count"] = len(seen)
+
     try:
+        if report["image_version"] != COMPARISON_IMAGE:
+            raise ValueError("The registered image-specific comparison baseline does not cover this runner image")
+        record_toolchain_inputs()
         a = build("a")
         receipt_a = record("analysis_enabled", a)
-        report["baseline_reproduced"] = report["analysis_enabled"]["sha256"] == FROZEN_SHA256
+        report["original_frozen_reproduced"] = report["analysis_enabled"]["sha256"] == FROZEN_SHA256
+        report["baseline_reproduced"] = report["analysis_enabled"]["sha256"] == COMPARISON_BASELINE
         if not report["baseline_reproduced"]:
-            raise RuntimeError("Frozen baseline did not reproduce; do not interpret the flag comparison")
+            raise RuntimeError("Registered image-specific baseline did not reproduce; do not interpret the flag comparison")
         b = build("b", omit=True, failure=True)
         receipt_b = record("analysis_omitted", b)
         for field in ("sources", "generated", "compatibility", "native_mapping", "version"):
@@ -95,10 +132,10 @@ def main():
         if not (report["resource_source_identical"]
                 and report["only_dll_compiler_argument_difference_is_analyze"]):
             raise ValueError("The single-flag comparison is not controlled")
-        report["dll_byte_identical"] = report["analysis_omitted"]["sha256"] == FROZEN_SHA256
+        report["dll_byte_identical"] = report["analysis_omitted"]["sha256"] == COMPARISON_BASELINE
         if report["dll_byte_identical"]:
-            report["interpretation"] = "No output-byte difference; /analyze cannot explain the frozen-file detection difference"
-            report["functional_retest"] = "NOT REPEATED: same frozen DLL already validated; factory-failure control ran during build B"
+            report["interpretation"] = "No /analyze output-byte difference on the registered current image; the older frozen-image comparison remains inconclusive"
+            report["functional_retest"] = "NOT REPEATED: identical current-image baseline passed owned full bundle in CI 40714275407; factory-failure control ran during build B"
             report["third_build"] = "NOT REPEATED: A and B are byte-identical"
         else:
             run(ROOT / "tools/validate_native_bundle.py", "--build", b)

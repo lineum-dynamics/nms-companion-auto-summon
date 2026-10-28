@@ -29,6 +29,24 @@ $report = [ordered]@{
 function Get-EngineEvidence {
     Get-MpComputerStatus | Select-Object AMServiceEnabled,AntivirusEnabled,RealTimeProtectionEnabled,AMRunningMode,AMProductVersion,AMEngineVersion,AntivirusSignatureVersion,AntivirusSignatureLastUpdated
 }
+function Wait-ReadyEngine {
+    $report.engine_readiness_checks = @()
+    for ($attempt = 0; $attempt -lt 12; $attempt++) {
+        try {
+            $state = Get-EngineEvidence
+            $running = (Get-Service WinDefend -ErrorAction Stop).Status -eq 'Running'
+            $ready = $running -and $state.AMServiceEnabled -and $state.AntivirusEnabled -and
+                $state.AMEngineVersion -and $state.AMEngineVersion -ne '0.0.0.0' -and
+                $state.AntivirusSignatureVersion
+            $report.engine_readiness_checks += [ordered]@{attempt=$attempt;ready=[bool]$ready;state=$state}
+            if ($ready) { return $state }
+        } catch {
+            $report.engine_readiness_checks += [ordered]@{attempt=$attempt;ready=$false;error_hresult=$_.Exception.HResult}
+        }
+        if ($attempt -lt 11) { Start-Sleep -Seconds 5 }
+    }
+    throw 'Active scan engine did not become ready within the bounded post-update wait'
+}
 function Get-PreferenceDigest {
     $json = Get-MpPreference | Select-Object DisableRealtimeMonitoring,DisableBehaviorMonitoring,DisableIOAVProtection,ExclusionPath,ExclusionExtension,ExclusionProcess,MAPSReporting,SubmitSamplesConsent | ConvertTo-Json -Compress -Depth 5
     [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($json))).ToLowerInvariant()
@@ -53,6 +71,12 @@ try {
     $report.input_sha256 = (Get-FileHash -LiteralPath $target -Algorithm SHA256).Hash.ToLowerInvariant()
     if ($report.input_sha256 -ne $ExpectedSha256) { $report.result = 'INPUT_MISMATCH'; throw 'Frozen module hash mismatch before scan' }
     $report.input_bytes = (Get-Item -LiteralPath $target).Length
+    try { Update-MpSignature -ErrorAction Stop; $report.signature_update = 'completed' }
+    catch { $report.signature_update = 'failed-check-active-engine-evidence'; $report.signature_update_hresult = $_.Exception.HResult }
+    # A signature update can replace the platform and temporarily stop its RPC
+    # service. Wait without changing service/protection settings, then resolve
+    # the active scanner again instead of retaining the pre-update executable.
+    $report.scan_engine_before = Wait-ReadyEngine
     $platform = Join-Path $env:ProgramData 'Microsoft/Windows Defender/Platform'
     $allTools = @(Get-ChildItem -LiteralPath $platform -Directory | ForEach-Object {
         $candidate = Join-Path $_.FullName 'MpCmdRun.exe'
@@ -66,8 +90,8 @@ try {
         $info = $_.VersionInfo
         # CurrentVersion is an alias of the versioned directory on the runner.
         # Select the explicit active platform directory, not both representations.
-        $_.Directory.Name -match ('^'+[regex]::Escape($report.engine_before.AMProductVersion)+'(?:-\d+)?$') -and
-        ('{0}.{1}.{2}.{3}' -f $info.FileMajorPart,$info.FileMinorPart,$info.FileBuildPart,$info.FilePrivatePart) -eq $report.engine_before.AMProductVersion
+        $_.Directory.Name -match ('^'+[regex]::Escape($report.scan_engine_before.AMProductVersion)+'(?:-\d+)?$') -and
+        ('{0}.{1}.{2}.{3}' -f $info.FileMajorPart,$info.FileMinorPart,$info.FileBuildPart,$info.FilePrivatePart) -eq $report.scan_engine_before.AMProductVersion
     })
     if ($tools.Count -ne 1) { throw 'A unique scanner matching the active platform version was not found' }
     $scanner = $tools[0].FullName
@@ -80,9 +104,10 @@ try {
     if ($report.exclusion_check_exit_code -notin @(0,1)) { throw 'Effective stock exclusion check failed' }
     $report.scan_mode = [ordered]@{type='read-only custom scan';switch='-DisableRemediation';machine_wide_preferences_changed=$false;file_exclusions_ignored_by_documented_mode=$true;detections_reported_in='command output, not UI or event log'}
     $report.scan_policy_sha256 = Get-PreferenceDigest
-    try { Update-MpSignature -ErrorAction Stop; $report.signature_update = 'completed' }
-    catch { $report.signature_update = 'failed-existing-dated-signatures-retained'; $report.signature_update_hresult = $_.Exception.HResult }
-    $report.scan_engine_before = Get-EngineEvidence
+    if ($report.preference_sha256_before -ne $report.scan_policy_sha256) {
+        $report.protection_configuration_changed = $true
+        throw 'Protection configuration changed during the platform/signature update'
+    }
     $controlDirectory = Join-Path ([IO.Path]::GetDirectoryName($target)) 'owned-engine-control'
     if (Test-Path -LiteralPath $controlDirectory) { throw 'Refuse an existing positive-control directory' }
     New-Item -ItemType Directory -Path $controlDirectory | Out-Null
@@ -103,7 +128,10 @@ try {
     $report.detections_after = @(Get-MatchingDetections)
     $report.engine_after = Get-EngineEvidence
     $report.preference_sha256_after = Get-PreferenceDigest
-    if ($report.scan_policy_sha256 -ne $report.preference_sha256_after) { throw 'Protection configuration changed during the scan' }
+    if ($report.scan_policy_sha256 -ne $report.preference_sha256_after) {
+        $report.protection_configuration_changed = $true
+        throw 'Protection configuration changed during the scan'
+    }
     if ($report.detections_after.Count) {
         $report.result = 'DETECTED'; $exitCode = 2
     } elseif ($report.scan_exit_code -ne 0 -or $output -notmatch 'Scan finished') {

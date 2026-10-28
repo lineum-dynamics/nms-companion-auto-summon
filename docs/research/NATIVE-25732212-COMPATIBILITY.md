@@ -7302,3 +7302,40 @@ remain unresolved; no global safety or false-positive claim is made.
   meaning changed; no local native execution, game launch, deployment, release
   or Nexus acceptance. Support remains unsent. Next: publish and read the one
   authorized controlled CI run, preserving failed gates as inconclusive.
+
+
+### Image drift and scanner-control correction, 28 October 2026
+
+- Original frozen-byte /analyze experiment 40714275447 at 873b1a6 stopped
+  before B: image 20261026.347.1 builds a41fc094 (749,568 B), not the old image
+  20261022.344.1/30cc9542. All recorded native/locale/profile/generator inputs,
+  generated hashes and the exact DLL command match; only the Python builder's
+  source checksum changed. cl/rc/dumpbin hashes match. The image changed,
+  but the specific byte cause is NOT CHECKED; do not blame /analyze or assert
+  a full toolchain match from three executable hashes.
+- Independent ordinary run 40714275407 reproduced a41fc094 twice and passed
+  the owned full suite/factory refusal. Its scanner gate failed: signature
+  updating changed the platform, engine/service were unavailable, EICAR
+  returned RPC 0x800106ba, and no module scan or ASI retention occurred. Source
+  audit 40714275317 succeeded. Sanitized initial evidence SHA-256
+  6af29ff96b797f1cfc3a68a487d7e02f906e01effd77ebda75d89f020d8518d9 in
+  NATIVE-0106-ANALYSIS-FLAG-INITIAL.json. This is TOOL ERROR, never clean/positive.
+- Correct scanner orchestration: after update, bounded read-only readiness
+  wait (up to 55 seconds), then resolve/signature-check the active platform
+  executable. No service/preference/exclusion change. Actual behavior of the
+  correction is NOT CHECKED until the next CI control runs.
+- Preregistered revision in NATIVE-0106-ANALYSIS-FLAG.md compares only current
+  image 20261026.347.1, gate a41fc094, /analyze on/off and identical other DLL
+  inputs. Record include/library/compiler-directory hashes for future image
+  comparisons. Equality rules out the current-image byte effect only; the
+  older-image flag experiment stays inconclusive. Difference needs full owned
+  validation/C reproduction. Both require the exercised scanner before module
+  retention/PE review. No new VT upload approval is implied.
+- Selected static frozen 30cc9542 versus inactive 62388dce metadata has identical
+  imports/export names and section RVAs; diagnostic .text is 48 bytes larger.
+  Metadata/debug/adapter/layout differences remain; no behavioral equivalence.
+  NATIVE-0106-STARTUP-PE-COMPARISON.json SHA-256
+  786f09ffb0b75597759a922ceff91fb8f5c95af5948f4412548ee5ad834ce545.
+  No game image/mapping/profile/player/localization edit, local native execution
+  or NMS/Nexus acceptance. Target remains exact Cosmos 7.06/25732212/exe
+  13d5060d. Support unsent. Next: one corrected same-image CI comparison/readback.

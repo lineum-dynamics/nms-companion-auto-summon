@@ -2,6 +2,11 @@
 
 ## 0.10.6-native-test — unreleased CRT-thread candidate
 
+- Wait for a ready Defender engine after signature/platform updates, then
+  resolve the active signed scanner. Preserve the positive-control gate;
+  engine errors remain inconclusive. Record the newly observed CI image drift
+  separately from source/flag effects; no frozen-file verdict transfers.
+
 - Complete all six approved inactive startup scans. No completed row reports
   Yogi; three full cases have all eight earlier Yogi vendors Undetected, while
   other cases have timeouts. Cynet remains on every case and Rising on four.
