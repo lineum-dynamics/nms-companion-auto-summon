@@ -7174,3 +7174,30 @@ remain unresolved; no global safety or false-positive claim is made.
   verify against actual owned three-export dump before repeating CI. TOOL ERROR,
   not a zero-export/module finding. First overall run remains failed and DLL
   retention skipped. Other diagnostic results still NOT CHECKED.
+
+### Fixed inspection/core build completion, 28 October 2026
+
+- Corrected run 40659776218 / source 75bb5e59d2f40bbf371261f67959e9aa6e4c62ba
+  passed all four diagnostic builds, shared-resource/exact-two-export controls
+  and owned status/invalid-argument/current-EXE-inspection-or-stub/unload checks.
+  All 93 recorded source digests match that Git source. Actual host hash
+  e471945b962aa32995928033d3da52e3ce7db78e525f2f67080f0ba94760bb8e is returned
+  by production inspection only; stub hashes empty. Status 4/inactive hooks;
+  core methods never invoked. No local native execution or game process.
+- Freeze CASInspectionProbe.dll cases: baseline 8d042d49, 494,592 B;
+  inspection 15a591f0, 497,664 B; core 7aac8e34, 1,452,032 B;
+  inspection-core e823bf9a, 1,455,616 B. Full hashes and identities are in
+  NATIVE-0106-INSPECTION-IDENTITIES.json, SHA-256
+  94dcebcf3f7962d696771f159b91031f139bc6529582b0f818c766a19bc269dc.
+  Initial-review state is preserved separately from any later upload outcome.
+- Local selected PE metadata confirms x64, both required exports and no overlay.
+  Initial local collector refused a wrong flat artifact path; inspected nested
+  metadata layout before any source/byte check. This and the failed annotated-
+  export reader remain TOOL ERRORs, not absent exports or module defects.
+- Actual VT form inspected; no new diagnostic selected/uploaded. Next is one
+  specific approval for all four exact files and displayed terms/sample sharing.
+  All previous module/probe approvals have been completed. Keep player bytes,
+  exact Cosmos 7.06/Steam 25732212/exe 13d5060d guard/profile/RVAs and locale
+  meanings unchanged; no fresh game acceptance, AV clearance or Nexus promise.
+  Do not send the held support draft. If scans are approved, record all vendor
+  statuses (including timeouts/failures), timestamps and the four-cell outcome.

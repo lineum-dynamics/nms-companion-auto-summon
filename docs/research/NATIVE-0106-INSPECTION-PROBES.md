@@ -82,3 +82,29 @@ preserving the exact two-name assertion. It was checked against that owned
 three-export production dump before another CI attempt. This is a TOOL ERROR,
 not evidence of absent exports or a diagnostic/module defect. The initial
 overall run is not a passed build and no DLL artifact was retained from it.
+
+## Completed owned build readback
+
+Run 40659776218 at 75bb5e59d2f40bbf371261f67959e9aa6e4c62ba completed successfully.
+All 93 source digests were checked against that Git revision. All four have the
+same resource hash and exactly the two required exports. The owned status,
+invalid-argument, unsupported-host/hash and unload checks passed in every case.
+Production inspection cases returned the authored host hash e471945b962aa32995928033d3da52e3ce7db78e525f2f67080f0ba94760bb8e;
+stub cases returned no image hash. No core method or game was invoked.
+
+| Case | Bytes | SHA-256 |
+| --- | ---: | --- |
+| baseline | 494,592 | `8d042d4994b99feca64d45210b09d4063aa6b7ec5a8aef3dad7d47cfc57f4add` |
+| inspection | 497,664 | `15a591f00db466527e33eefb0ece2dbbaa7fd78bc75f4f21442f1afb4bafaa86` |
+| core | 1,452,032 | `7aac8e34c245e5e6058dc11c3195f734d407777a7d96e4b91fb62204118a397e` |
+| inspection-core | 1,455,616 | `e823bf9af6cbe2d533eef365fe42529a60c120bdfad305542fd73e0eb2988b1b` |
+
+Independent local read-only PE metadata confirms x64, the same two exports
+and no overlay for all four. This does not validate complete unwind semantics
+or classify the files. The frozen initial review is
+[NATIVE-0106-INSPECTION-IDENTITIES.json](NATIVE-0106-INSPECTION-IDENTITIES.json),
+SHA-256 `94dcebcf3f7962d696771f159b91031f139bc6529582b0f818c766a19bc269dc`. It retains tool/source/generated identities and both method
+errors. No new diagnostic file has been selected or submitted to VirusTotal.
+The actual form has been inspected: Terms of Service, Privacy Notice and
+sample sharing. The next action requires approval for these exact four files.
+The player ASIs, game mapping/profile and support-contact state are unchanged.

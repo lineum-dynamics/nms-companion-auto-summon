@@ -1,0 +1,368 @@
+{
+  "schema": 1,
+  "kind": "frozen-inspection-upload-review",
+  "date": "2026-10-28",
+  "ci_run": 40659776218,
+  "source_revision": "75bb5e59d2f40bbf371261f67959e9aa6e4c62ba",
+  "receipt_sha256": "57b9ae01ec16b74d02263e0bd8d51bfd6dd8ded48a45f729e92349196b32e096",
+  "toolchain_receipt_sha256": "fd05fca7efff150c1197354be9c166338a548416fd30c85fa5f3c0cfa8a94aba",
+  "source_input_count": 93,
+  "all_recorded_source_inputs_match_git_blobs": true,
+  "toolchain": {
+    "schema": 1,
+    "controller_revision": "75bb5e59d2f40bbf371261f67959e9aa6e4c62ba",
+    "image": "win22",
+    "image_version": "20261022.344.1",
+    "tools": [
+      {
+        "name": "cl.exe",
+        "sha256": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+        "signature": "Valid",
+        "version": "19.44.35229.0"
+      },
+      {
+        "name": "rc.exe",
+        "sha256": "43da1503c262c30894c851589bf0155f8365d77e63a5f7bc13982320e3a6b42d",
+        "signature": "Valid",
+        "version": "10.0.26100.7705 (WinBuild.160101.0800)"
+      },
+      {
+        "name": "dumpbin.exe",
+        "sha256": "cfee7ed764b7b0866aae0be12f9c0ad2a7f5aecc4046ba2b7de26335827ca815",
+        "signature": "Valid",
+        "version": "14.44.35229.0"
+      }
+    ],
+    "game_access": false,
+    "protection_settings_changed": false
+  },
+  "generated": {
+    "catalog.hpp": "ca4424151d7e9971e62fc2df50ed9245cc905df5b9fe8bfc115424c4fda86b53",
+    "compatibility_profile.hpp": "798f665050b15a48cd3b52e53ef23bc61d4f070f568e9eb3b92a801b6d60f0b2",
+    "native_mapping_profile.hpp": "c5e124acaaa9492160f5bfe746ea9183b0fd9507c990941e8370cbfe05529363"
+  },
+  "diagnostic_only": true,
+  "player_artifact": false,
+  "local_native_execution": false,
+  "uploaded_to_virustotal": false,
+  "sharing_terms_approval": "NOT YET REQUESTED",
+  "cases": [
+    {
+      "label": "baseline",
+      "production_inspection": false,
+      "core_included": false,
+      "production_cpp_sources": [],
+      "minhook_included": false,
+      "sha256": "8d042d4994b99feca64d45210b09d4063aa6b7ec5a8aef3dad7d47cfc57f4add",
+      "bytes": 494592,
+      "resource_sha256": "953799ffcb0e25fc38760a9ee29f1c5be4bc9e9bf37425333851b74f2a3b90f2",
+      "exports": [
+        "CasComponentProbeStatus",
+        "CasInspectHost"
+      ],
+      "smoke": {
+        "passed": true,
+        "diagnostic_only": true,
+        "game_access": false,
+        "core_methods_called": false,
+        "inspection_called": true,
+        "native_status": 4,
+        "hooks_active": false,
+        "host_sha256": ""
+      },
+      "imports": [
+        "KERNEL32.dll"
+      ],
+      "selected_static": {
+        "machine": "x64",
+        "exports_independently_verified": [
+          "CasComponentProbeStatus",
+          "CasInspectHost"
+        ],
+        "sections": [
+          ".text",
+          ".rdata",
+          ".data",
+          ".pdata",
+          ".fptable",
+          ".rsrc",
+          ".reloc"
+        ],
+        "overlay_present": false,
+        "scope": "Only selected headers/import/export metadata; no complete unwind or runtime verdict"
+      }
+    },
+    {
+      "label": "inspection",
+      "production_inspection": true,
+      "core_included": false,
+      "production_cpp_sources": [
+        "probe"
+      ],
+      "minhook_included": false,
+      "sha256": "15a591f00db466527e33eefb0ece2dbbaa7fd78bc75f4f21442f1afb4bafaa86",
+      "bytes": 497664,
+      "resource_sha256": "953799ffcb0e25fc38760a9ee29f1c5be4bc9e9bf37425333851b74f2a3b90f2",
+      "exports": [
+        "CasComponentProbeStatus",
+        "CasInspectHost"
+      ],
+      "smoke": {
+        "passed": true,
+        "diagnostic_only": true,
+        "game_access": false,
+        "core_methods_called": false,
+        "inspection_called": true,
+        "native_status": 4,
+        "hooks_active": false,
+        "host_sha256": "e471945b962aa32995928033d3da52e3ce7db78e525f2f67080f0ba94760bb8e"
+      },
+      "imports": [
+        "KERNEL32.dll",
+        "bcrypt.dll"
+      ],
+      "selected_static": {
+        "machine": "x64",
+        "exports_independently_verified": [
+          "CasComponentProbeStatus",
+          "CasInspectHost"
+        ],
+        "sections": [
+          ".text",
+          ".rdata",
+          ".data",
+          ".pdata",
+          ".fptable",
+          ".rsrc",
+          ".reloc"
+        ],
+        "overlay_present": false,
+        "scope": "Only selected headers/import/export metadata; no complete unwind or runtime verdict"
+      }
+    },
+    {
+      "label": "core",
+      "production_inspection": false,
+      "core_included": true,
+      "production_cpp_sources": [
+        "binding_guard",
+        "policy",
+        "selection",
+        "storage",
+        "runtime",
+        "backup",
+        "menu"
+      ],
+      "minhook_included": true,
+      "sha256": "7aac8e34c245e5e6058dc11c3195f734d407777a7d96e4b91fb62204118a397e",
+      "bytes": 1452032,
+      "resource_sha256": "953799ffcb0e25fc38760a9ee29f1c5be4bc9e9bf37425333851b74f2a3b90f2",
+      "exports": [
+        "CasComponentProbeStatus",
+        "CasInspectHost"
+      ],
+      "smoke": {
+        "passed": true,
+        "diagnostic_only": true,
+        "game_access": false,
+        "core_methods_called": false,
+        "inspection_called": true,
+        "native_status": 4,
+        "hooks_active": false,
+        "host_sha256": ""
+      },
+      "imports": [
+        "ADVAPI32.dll",
+        "KERNEL32.dll",
+        "bcrypt.dll"
+      ],
+      "selected_static": {
+        "machine": "x64",
+        "exports_independently_verified": [
+          "CasComponentProbeStatus",
+          "CasInspectHost"
+        ],
+        "sections": [
+          ".text",
+          ".rdata",
+          ".data",
+          ".pdata",
+          ".fptable",
+          ".rsrc",
+          ".reloc"
+        ],
+        "overlay_present": false,
+        "scope": "Only selected headers/import/export metadata; no complete unwind or runtime verdict"
+      }
+    },
+    {
+      "label": "inspection-core",
+      "production_inspection": true,
+      "core_included": true,
+      "production_cpp_sources": [
+        "probe",
+        "binding_guard",
+        "policy",
+        "selection",
+        "storage",
+        "runtime",
+        "backup",
+        "menu"
+      ],
+      "minhook_included": true,
+      "sha256": "e823bf9af6cbe2d533eef365fe42529a60c120bdfad305542fd73e0eb2988b1b",
+      "bytes": 1455616,
+      "resource_sha256": "953799ffcb0e25fc38760a9ee29f1c5be4bc9e9bf37425333851b74f2a3b90f2",
+      "exports": [
+        "CasComponentProbeStatus",
+        "CasInspectHost"
+      ],
+      "smoke": {
+        "passed": true,
+        "diagnostic_only": true,
+        "game_access": false,
+        "core_methods_called": false,
+        "inspection_called": true,
+        "native_status": 4,
+        "hooks_active": false,
+        "host_sha256": "e471945b962aa32995928033d3da52e3ce7db78e525f2f67080f0ba94760bb8e"
+      },
+      "imports": [
+        "ADVAPI32.dll",
+        "KERNEL32.dll",
+        "bcrypt.dll"
+      ],
+      "selected_static": {
+        "machine": "x64",
+        "exports_independently_verified": [
+          "CasComponentProbeStatus",
+          "CasInspectHost"
+        ],
+        "sections": [
+          ".text",
+          ".rdata",
+          ".data",
+          ".pdata",
+          ".fptable",
+          ".rsrc",
+          ".reloc"
+        ],
+        "overlay_present": false,
+        "scope": "Only selected headers/import/export metadata; no complete unwind or runtime verdict"
+      }
+    }
+  ],
+  "incomplete_methods": [
+    {
+      "kind": "TOOL ERROR",
+      "ci_run": 40658954904,
+      "state": "First overall run failed after first compilation/smoke at the bare export regex; later actual MSVC annotated export format was verified and reader corrected."
+    },
+    {
+      "kind": "TOOL ERROR",
+      "state": "Initial local receipt read assumed a flat artifact layout and stopped at missing input; nested retained path inspected before checking any bytes/source digests."
+    }
+  ],
+  "sources": {
+    "native/dependencies-lock.json": "07d0ce1859efae4a2739c57e4c4ec399480acbb95b5b3ab2b40eef643c0e639c",
+    "native/include/cas/backup.hpp": "7ad8a28e558c014e473d50059d43ddb0d0262cfcae3e46503c994ab633a47e52",
+    "native/include/cas/binding_guard.hpp": "e43066a41a7ff99c5e560f5e41702e8f9aae8aceb0dd1170354bedba8a9d4ea3",
+    "native/include/cas/caller_address.hpp": "d11f75d8cd722856b39ba3c359a70cd44060ab50c9dfeee8c1dd40eaeaa2712b",
+    "native/include/cas/load_context.hpp": "813918a2b53b6fc2835ca695b795fb166c8f61ae2153cddddc198e279325eeb7",
+    "native/include/cas/menu.hpp": "9e8ddb4c1cd021e7d59efb544742202d93711d138a026f4fc0d52cceb4ca4cef",
+    "native/include/cas/native_mapping.hpp": "6261b2e20098833405c42c9332114cbbdd41e8b487a64fc9e451df8fa2f88a0d",
+    "native/include/cas/policy.hpp": "c9ed2b7a8e4fe18f0a834711bb49f62830b6be33bc45515f7f20426e5d9cb8b4",
+    "native/include/cas/probe.h": "9d9c093eb05c84bf6beb36b5fff9e25ca675aff358685eab6a8a157bf72d3d77",
+    "native/include/cas/runtime.hpp": "d61d5f1274553a46d12673ea6edf3d513ba536ac9c2967837f6ef5eef82645a2",
+    "native/include/cas/selection.hpp": "b7d9e43369ac7c56fd0925e8b4c0efb6a46b7da2786a002e66393be28802d061",
+    "native/include/cas/storage.hpp": "40446468b626eaffee296562de03efc670d0db023bb7f17baba2be5d81d269d9",
+    "native/licenses/compiler-rt-LICENSE.txt": "1a8f1058753f1ba890de984e48f0242a3a5c29a6a8f2ed9fd813f36985387e8d",
+    "native/licenses/json-3.12.0-MIT.txt": "46a65cffd1ea955132d95a8dd921640714a8d6b537d2e4e482d31145ae95b603",
+    "native/licenses/libcxx-CREDITS.txt": "f39081875d1c5c35aab256b676e94003b453ecb2a1cae14026dfd23804dc97b2",
+    "native/licenses/libcxx-LICENSE.txt": "539dd7aed86e8a4f12cbdd0e6c50c189c7d74847e4fecc64ce2c6ee3a01da38b",
+    "native/licenses/libcxxabi-CREDITS.txt": "a259fff28a51623f14917dd68f97f3af7804984087ddc1bfd8196d08ebb75b83",
+    "native/licenses/libcxxabi-LICENSE.txt": "e2b35be49f7284a45b7baca8fc7b3ab7440e7902392b2528a457816b5bb2a15c",
+    "native/licenses/libunwind-LICENSE.txt": "b5efebcaca80879234098e52d1725e6d9eb8fb96a19fce625d39184b705f7b6d",
+    "native/licenses/LLVM-Apache-2.0-with-exceptions.txt": "8d85c1057d742e597985c7d4e6320b015a9139385cff4cbae06ffc0ebe89afee",
+    "native/licenses/MinGW-w64-general-NOTICES.txt": "f38e6194bd3bfa1b654f118e5acefe0aead437bbe669eee43957ccc65a7127f1",
+    "native/licenses/MinGW-w64-runtime-NOTICES.txt": "1db8da07b436c68833c0673ffee3d9fcb2526047f3820b81661865dfedc79a1f",
+    "native/licenses/MinHook-1.3.4-BSD-HDE.txt": "d5c2224982b0b95a16b098a561335fa93f3eaf4d0aa964b7843edb986df78dc8",
+    "native/licenses/README.md": "c3a17673006dd4d022e9da2710b6e56605d949d72a291a89f070bbf98c72cf1a",
+    "native/licenses/UAL-9.7.4-MIT.txt": "ceca73c504e39084b0b80d2a437aea9988313d1915418d3c629c3e4a8313f5a1",
+    "native/licenses/UAL-injector-zlib.txt": "4c71e58a290b09e756291ed676b5931d42d8e30b49de6ec33244797297e67ae5",
+    "native/licenses/UAL-MinHook-BSD-HDE.txt": "d5c2224982b0b95a16b098a561335fa93f3eaf4d0aa964b7843edb986df78dc8",
+    "native/licenses/UAL-miniz-notices.txt": "84e57ad892d6d47b65e6d2f334d98bdaafb69e3a68d4cca204dda3af44224ebc",
+    "native/licenses/winpthreads-NOTICES.txt": "63263614cdd29f2f93cba85e992f041b31f9fc7b4033692f31269489a8a1b177",
+    "native/player-README.md": "7f7cef80e56859f376ab262b5627edcd61613b02e1a6d36044c6d66497ab83e6",
+    "native/README.md": "52426c6a5520c5e15bc8dfa02a17e1e9b2895bea166e0b3c90d6176e532e335a",
+    "native/src/backup.cpp": "a5a88d6464d5a1b1c2b7f9376d79642e5bc129c1ccd0897401278a7225c83258",
+    "native/src/binding_guard.cpp": "1d31721c9df17b36dc7bef2d3fde966335aa07a1bf934c0c26b298b76e524d43",
+    "native/src/bootstrap.cpp": "94fe2d9cfc5ace309d544bec82cb9ab52cc9cea24ba117f8279a920552297aa5",
+    "native/src/menu.cpp": "67a1a19c0d39e53845162d6252a077b7b6409cc7744c41f7211f3a4b589a57ed",
+    "native/src/policy.cpp": "4be44889635342d1a615037824b69917fe04e9b667ab6897dec9882b98f39766",
+    "native/src/probe.cpp": "5a17fc99c85a5f395e6ccefeacdb2e584b28eda14b5ddfa6f13fc56776f2440b",
+    "native/src/runtime.cpp": "9c4fa09489240b1dc14f9732f654c5f5e615e43f549438cf080cbd96a3df97c3",
+    "native/src/selection.cpp": "ca103a7e776776c61d9d115eef565a4f208a14be02ae51f2b5ad83911ce24348",
+    "native/src/storage.cpp": "02fa81fafb43698b9df063bdcc5b83483bc294166d560177c576e788d9e7c102",
+    "native/tests/backup_driver.cpp": "b15e4335385b8fbedba1fa4b13e9b974a54ee6935719749bc436e19c2bb20d81",
+    "native/tests/hook_host.cpp": "fb8cd3920bb108a324520aacc8eb990304ea81923d651b6ea10772119589ae2f",
+    "native/tests/load_context_host.cpp": "3cb2389b0a32e78c7d31cb93e3a52bdf4e049872c9a84da2e7c2e46404127427",
+    "native/tests/menu_host.cpp": "9782347f83fe4e7c0e6757c62045f855d624942a9dd09e0383ae09760c7f7c5b",
+    "native/tests/minhook_query_host.c": "192d404b419b8fb0bfc09d4c2826728bf28ef18f078fa437950324a0210d2515",
+    "native/tests/native_host.cpp": "f56513c3f203a954d38815ec97384c2ef9bf25107f171798ca6074bfa58e9e5c",
+    "native/tests/policy_reference_driver.cpp": "408ab3941f0e3e68c5eb4919a6777350f0be5649fd278b23982426d7f7cbd00c",
+    "native/tests/probe_host.cpp": "93329225456b4d6a02174cb02806e9c774e9d5a279e8ce96eaf4d6346d24dbf6",
+    "native/tests/runtime_fixture.cpp": "fcc836c5321a6d8ff501527bada479cd52474b22a6b3a0f2ae284ada6b001516",
+    "native/tests/selection_reference_driver.cpp": "852f6221de653ef6458f411b136ac6cb6aeb6027d96b92513540dfd045d06db8",
+    "native/tests/storage_driver.cpp": "4221a30ccbe5688192bd9f0da197f4c6d0e73cae0d6c780960d63a81f61d4e95",
+    "native/tests/thread_factory_failure.cpp": "3d76ad694244f9e2774183db55c29211022051582785e7084ad10dfbf7094d02",
+    "native/tests/thread_factory_failure.hpp": "04ad691f13856388995dabec3310a83d30d2c479fb1b619c523a27c89e54897c",
+    "native/third_party/json-LICENSE.MIT": "46a65cffd1ea955132d95a8dd921640714a8d6b537d2e4e482d31145ae95b603",
+    "native/third_party/json.hpp": "aaf127c04cb31c406e5b04a63f1ae89369fccde6d8fa7cdda1ed4f32dfc5de63",
+    "native/third_party/minhook/CAS-PATCHES.md": "30018dad18e2e761f0ceb94b57356ccbfcec66b62a81cda0920f188b01b39733",
+    "native/third_party/minhook/include/MinHook.h": "62dff05e63155c6bf8135c36a0d79dedbdcaaede9da26fe38daf0bea34323e38",
+    "native/third_party/minhook/LICENSE.txt": "d5c2224982b0b95a16b098a561335fa93f3eaf4d0aa964b7843edb986df78dc8",
+    "native/third_party/minhook/src/buffer.c": "3a9b2f7a1fb084e72897acd8095d4325ab03545669b5b43d89d13ea71d113035",
+    "native/third_party/minhook/src/buffer.h": "9769702bd625249e59a19ede05c84365fcc7707e1fa0e5df08df42227cee13e3",
+    "native/third_party/minhook/src/hde/hde64.c": "824eafa315322e6da105a7ce4ec1fc0e0adeee0106d32152fbb0b59e709bd15c",
+    "native/third_party/minhook/src/hde/hde64.h": "e99aa4997bda14b534c614c3d8cb78a72c4aca91a1212c8b03ec605d1d75e36e",
+    "native/third_party/minhook/src/hde/pstdint.h": "604d1cdf45c5a95bc9cf1bbf39ca05ef83013541101d34971c5cd7577e3d5247",
+    "native/third_party/minhook/src/hde/table64.h": "b774446d2f110ce954fb0a710f4693c5562ddbd8d56fe84106f2ee80db8b50a2",
+    "native/third_party/minhook/src/hook.c": "edcce4c81985d7dd5b73feae96d6498c8f749b1bca4c3d2d9926ea9a17a84755",
+    "native/third_party/minhook/src/trampoline.c": "f13a169f803ff5a8e45c58ce668b4377a9878c0fc4452369b8a1325065186b2b",
+    "native/third_party/minhook/src/trampoline.h": "53ed9934492320617a27bfd952ffe7f5b7a4a1d09963d4512447082fe7b727b4",
+    "native/toolchain-lock.json": "ce9f1298bff409868c294577e29b965d332230643ed03fcc5abc3305ea8cecb3",
+    "native/validation/milestone-001.json": "68c708f8302a4bbee208455ba11f2a49ba72b7e9abf81eb05f3647567837bfd0",
+    "locales/de.json": "44ed7abde9f6308fa9ed88c40ab7c54cbd92249b9bff02e709cda2e9420f0edd",
+    "locales/en.json": "cf089298a1c975e97b03013fabe53fad32bb5181be180da7247b72987845d944",
+    "locales/es-ES.json": "73819a02419e38970214ff75e4014c64d413bd2e8844361c2cdf0075ef7c2f15",
+    "locales/fr.json": "377e2008512fd2a8e809d02b0d901ece096cf0659fb1b9a0d2aa252073e64acd",
+    "locales/it.json": "319b694cc927ffc49c655f72c974c031a333d300221aa59967e0190ea51ee141",
+    "locales/ja.json": "315aeed062e15e6b3b178b69334025f5db4c2ccc6a683f4861b86c8cfe0abcfc",
+    "locales/ko.json": "ab046620cbc84770f49207d4ab6297ceafcfe730b780f98aea2f4c17464867fa",
+    "locales/nl.json": "676e42ae08769c78675b29beb724a5cecccd930bbccfc79f4083a48e54a401e4",
+    "locales/pl.json": "20a102b1dc75ef7c5fa8d7eb723c976a78b4cc78932e57671e17c9c20f503b59",
+    "locales/pt-BR.json": "f4e87da2db4c410b182367d27c76e6bfb61da9470c1c5100512694ebb9a2a52d",
+    "locales/pt-PT.json": "0984bfd2f86ffe541d2df16902e62909751e259959adbf353b34a6fcf6d2f1c8",
+    "locales/ru.json": "dee879671228ac3f3d34baba2746a933f87d314c5268526343e6ef748ce441a7",
+    "locales/zh-Hans.json": "c0a3e2f631d2f4039499f26522b02e9ecdc6161c6708c26458cd97f65d23010d",
+    "locales/zh-Hant.json": "80ab9a4527094a8c801207bad374915356d95baae9bcfe2ff7f8175424502ad3",
+    "native_compatibility.json": "b4ea2c1b381d70de78ad1c03e2c0e00c63860dd2386d203789b945a323ea879d",
+    "native_mappings.json": "a27f809b066f80636536dbe04aeb3c5b6e46681469747fda958ae2ddf70b46f6",
+    "tools/research/build_inspection_probes.py": "0b3c6b22daa0cc78d57d3eafc8690357c8748eba383513b96e158bcf1408cd7b",
+    "tools/research/build_component_probes.py": "6fb4219aeaf6229e756a891bf38a4b1857a49cdfe4c3ed372543f9d44d97aa80",
+    "tools/research/component_probe.cpp": "4c0a3f60bdc4c2655ed76892d3191cdb53ff920844f35016b126378d21c1b6e9",
+    "tools/research/inspection_probe_stub.cpp": "7c061bb3b4c78216dfe22f25f89e6abf80dfd70deddb5b649e0c4e3ed15d4e18",
+    "tools/research/inspection_probe_host.cpp": "a9db5602378b38d664119783049254459a051df1f4ff7f27efdeb20b7783937c",
+    "tools/generate_native_catalog.py": "7269b79e846cd416666eebdf3c6245829041be8699178ba0bf6c46cc21cf9f4e",
+    "tools/native_compatibility.py": "ea1aa59baf86bef9aaae0a9a5573202369854bc4e620767f48f3e8d6c1480121",
+    "tools/native_mapping.py": "5bde3bf62035c6ab380f3358f88a33161355e8185ffc66c9a7da288c974575a8"
+  },
+  "static_tools": {
+    "python_version": "3.11.9",
+    "python_executable_sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec",
+    "pefile_version": "2024.8.26",
+    "method": "Exact size/SHA-256 before read-only PE x64, directory0/1, export-name and overlay checks; no native execution"
+  },
+  "state_scope": "Initial pre-submission review capture; any later approval/upload/results must be recorded separately"
+}
