@@ -53,7 +53,7 @@ hosts with status 2.
 | Ordinary owned functional bundle | Passed, all recorded reports/source digests verified |
 | Forced factory-zero, single-owner control | Passed: status 3, hooks inactive, one attempt for eight concurrent calls plus retry |
 | Exact-file Defender custom scan with positive control | Completed without detection; refresh failed, retained 22 October definitions |
-| Exact-candidate UAL automatic startup/normal process exit | Prepared separate CI; NOT CHECKED until readback |
+| Exact-candidate UAL automatic startup/normal process exit | Passed, three baselines plus three ASI cases, run 40655172010 |
 | Multivendor comparison for the exact new ASI | NOT CHECKED |
 | Exact-candidate NMS acceptance and Nexus availability | NOT CHECKED |
 
@@ -103,7 +103,7 @@ Run `audit_msvc_candidate_artifact.py --artifact-version 0.10.6-native-test`
 with the exact module/PDB paths and output argument.
 
 Sanitized receipt: [NATIVE-0106-EVIDENCE.json](NATIVE-0106-EVIDENCE.json), SHA-256
-`80923618be72b33c0d86570a4cd11d401527bc45a506cde71c5b0ce1cc02414d`.
+`c04c0f1bdfd905411b015fb862695bb86fb37441d8fed52d5daea29e4c0ffdaa`.
 The initial collector stopped on an incorrectly guessed hyphenated report
 filename; corrected actual underscore filenames precede all hash comparisons.
 No missing input was counted as passed.
@@ -114,3 +114,25 @@ identities, retains the existing Windows-CI-only guard and strips CI tokens
 from child environments. Three no-plugin baselines and three automatic-loader
 cases must pass without the host calling InitializeASI. Normal process exit
 is tested; arbitrary DLL unloading and NMS compatibility are outside this scope.
+
+## Exact loader lifecycle completed
+
+[UAL run 40655172010](https://github.com/lineum-dynamics/nms-companion-auto-summon/actions/runs/40655172010)
+passed at controller 732d37463eb44839400b467e18f4fc3d23ce8852. It downloaded the
+unchanged exact ASI 30cc9542 from candidate run 40653804116 and used the pinned
+official UAL 9.7.4/fa266e35. All three no-plugin baselines and three ASI cases
+exited 0. The loader discovered and initialized the ASI automatically; the host
+never called InitializeASI. Every ASI case reached unsupported status 2 and
+restored its working directory; input bytes remained unchanged. Host hash
+96b8fa5fb07baf86840b4d22ed8cf4fc34086be9da6f21a18898c27d03faf7ae is also
+unchanged from the earlier owned 0.10.5 lifecycle fixture. These remain owned
+unsupported-host observations, not NMS acceptance or arbitrary DLL unloading.
+
+The new exact hash currently returns Item not found on VirusTotal. The actual
+form was inspected: Terms of Service, Privacy Notice and sample sharing with
+the security community. No 0.10.6 file was selected or uploaded. A single new
+28 October reanalysis request for the already-public 0.10.5 control stopped at
+a visible CAPTCHA, left unsolved; no new analysis timestamp is established.
+The next consequential action needs one bundled approval for the exact new
+ASI/terms/sharing and the currently displayed control CAPTCHA. The held
+support draft remains unsent. No player package or Nexus replacement exists.

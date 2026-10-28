@@ -110,7 +110,8 @@ its MSF identity matches the DLL's CodeView GUID/age. The second PDB bytes diffe
 only DLL byte reproduction is established, not whole-build/PDB byte identity.
 
 The build/validation/report hashes match. All 89 recorded source input digests
-match both current unchanged inputs and Git blobs at the candidate commit.
+match Git blobs at the candidate commit; that check preceded the separate
+0.10.6 CRT-thread source correction.
 Passed owned checks: 31,216 policy comparisons/ 88 traces; 25,733 selection
 comparisons/ 59 traces; 333 storage cases/721 operations; 63 runtime cases;
 16 backup cases; 16 query cases; 10 hook-ABI groups; 21 load-context cases;

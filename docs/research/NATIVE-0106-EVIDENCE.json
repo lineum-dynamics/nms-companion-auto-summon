@@ -329,7 +329,7 @@
     "preference_sha256_after": "dfb9a81097c126eede6c564ebdc753c049b004e6d0de06b7b7c904192f3bb51e",
     "automatic_cloud_transmission": "NOT CHECKED"
   },
-  "defender_limit": "Signature refresh failed; retained definitions 1.461.156.0 dated22 October18:40:20 UTC. This is not a current-definition verdict. Stock CI realtime protection is false; the positively controlled custom scanner ran.",
+  "defender_limit": "Signature refresh failed; retained definitions 1.461.156.0 dated 22 October 18:40:20 UTC. This is not a current-definition verdict. Stock CI realtime protection is false; the positively controlled custom scanner ran.",
   "incomplete_methods": [
     {
       "kind": "TOOL ERROR",
@@ -337,11 +337,132 @@
     }
   ],
   "ual_exact_candidate_lifecycle": {
-    "state": "NOT CHECKED; prepared exact-artifact CI run"
+    "state": "COMPLETED",
+    "ci_run": 40655172010,
+    "controller_revision": "732d37463eb44839400b467e18f4fc3d23ce8852",
+    "observation_receipt_sha256": "e793f724cfdec2daa672c1dc20bfd7191fe3be4a7b9982429b027cfe77cd1d02",
+    "toolchain_receipt_sha256": "4aed7f287ca94c74cef53268391db41126c2c307c028e7864f694d1d65bcac1a",
+    "observation": {
+      "schema": 1,
+      "controller_revision": "732d37463eb44839400b467e18f4fc3d23ce8852",
+      "artifact_version": "0.10.6-native-test",
+      "module_sha256": "30cc9542a2af3529fd4f3a2299d6331bddf51b61f8213a0a1a779b472789de3d",
+      "loader_sha256": "fa266e3513d02c08a1b808f28c10538a489eaffaa4b0707f7cc1066e71b5afd7",
+      "host_sha256": "96b8fa5fb07baf86840b4d22ed8cf4fc34086be9da6f21a18898c27d03faf7ae",
+      "game_access": false,
+      "security_settings_changed": false,
+      "cases": [
+        {
+          "mode": "baseline",
+          "index": 0,
+          "os_exit_code": 0,
+          "records": {
+            "passed": true,
+            "game_access": false,
+            "asi_present": false,
+            "native_status": 0,
+            "manual_initialize_call": false,
+            "winmm_export_called": true,
+            "working_directory_restored": true
+          }
+        },
+        {
+          "mode": "baseline",
+          "index": 1,
+          "os_exit_code": 0,
+          "records": {
+            "passed": true,
+            "game_access": false,
+            "asi_present": false,
+            "native_status": 0,
+            "manual_initialize_call": false,
+            "winmm_export_called": true,
+            "working_directory_restored": true
+          }
+        },
+        {
+          "mode": "baseline",
+          "index": 2,
+          "os_exit_code": 0,
+          "records": {
+            "passed": true,
+            "game_access": false,
+            "asi_present": false,
+            "native_status": 0,
+            "manual_initialize_call": false,
+            "winmm_export_called": true,
+            "working_directory_restored": true
+          }
+        },
+        {
+          "mode": "with-asi",
+          "index": 0,
+          "os_exit_code": 0,
+          "records": {
+            "passed": true,
+            "game_access": false,
+            "asi_present": true,
+            "native_status": 2,
+            "manual_initialize_call": false,
+            "winmm_export_called": true,
+            "working_directory_restored": true
+          }
+        },
+        {
+          "mode": "with-asi",
+          "index": 1,
+          "os_exit_code": 0,
+          "records": {
+            "passed": true,
+            "game_access": false,
+            "asi_present": true,
+            "native_status": 2,
+            "manual_initialize_call": false,
+            "winmm_export_called": true,
+            "working_directory_restored": true
+          }
+        },
+        {
+          "mode": "with-asi",
+          "index": 2,
+          "os_exit_code": 0,
+          "records": {
+            "passed": true,
+            "game_access": false,
+            "asi_present": true,
+            "native_status": 2,
+            "manual_initialize_call": false,
+            "winmm_export_called": true,
+            "working_directory_restored": true
+          }
+        }
+      ],
+      "passed": true,
+      "scope": "Exact candidate and official UAL; unsupported owned host, normal process-exit teardown"
+    },
+    "toolchain": {
+      "schema": 1,
+      "controller_revision": "732d37463eb44839400b467e18f4fc3d23ce8852",
+      "candidate_source_revision": "4439c909942a333146f001e197360a9aac669c08",
+      "candidate_run": 40653804116,
+      "image": "win22",
+      "image_version": "20261022.344.1",
+      "compiler_sha256": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+      "compiler_signature": "Valid",
+      "host_source_sha256": "2418ab8996514705b7190adc8ad34d36605933d1b7ab650606966164dfd8c51c",
+      "host_sha256": "96b8fa5fb07baf86840b4d22ed8cf4fc34086be9da6f21a18898c27d03faf7ae",
+      "game_access": false,
+      "protection_settings_changed": false
+    },
+    "scope": "Exact ASI and official pinned UAL, owned unsupported host, automatic initialization and normal process exit; not NMS or arbitrary unloading"
   },
   "multivendor": {
     "uploaded": false,
-    "state": "NOT CHECKED; exact-file upload/terms approval required"
+    "state": "NOT CHECKED; exact-file upload/terms approval required",
+    "exact_hash_lookup": "Item not found on 28 October; no file selected or uploaded",
+    "actual_upload_form_inspected": true,
+    "displayed_terms": "Terms of Service, Privacy Notice, sample sharing with the security community; no personal information",
+    "control_0105_reanalysis": "Single new 28 October request stopped at visible CAPTCHA, unsolved; no new analysis timestamp established"
   },
   "game_acceptance_established": false,
   "packaging_approved": false,
@@ -352,7 +473,7 @@
   "limits": [
     "The thread API mismatch is documented; no low-memory failure/player crash or detection causality was reproduced.",
     "DLL byte identity is established; PDB byte identity is not established.",
-    "Selected structural PE checks retain15 pefile warnings and do not validate unwind opcode/prologue/handler semantics.",
+    "Selected structural PE checks retain 15 pefile warnings and do not validate unwind opcode/prologue/handler semantics.",
     "Unsupported owned-host fixtures do not establish exact-candidate NMS acceptance."
   ]
 }

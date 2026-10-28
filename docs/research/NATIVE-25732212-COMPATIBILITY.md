@@ -7103,9 +7103,29 @@ remain unresolved; no global safety or false-positive claim is made.
   collector guessed a hyphenated report filename and refused missing input;
   corrected retained underscore filenames before completing comparisons.
 - Evidence NATIVE-0106-EVIDENCE.json SHA-256
-  80923618be72b33c0d86570a4cd11d401527bc45a506cde71c5b0ce1cc02414d.
+  c04c0f1bdfd905411b015fb862695bb86fb37441d8fed52d5daea29e4c0ffdaa.
   Prepare the same owned UAL lifecycle check against this exact ASI, while
   preserving the old 0.10.5 identity and historical results. No game process or
   new executable image, mapping/profile/gameplay filter, locale text or player
   data changed. Game identity stays Cosmos 7.06/build 25732212/SHA 13d5060d.
   Loader readback, exact new-file VT and NMS/Nexus gates remain NOT CHECKED.
+
+### Exact CRT-thread loader completion and upload preparation, 28 October 2026
+
+- UAL run 40655172010 / controller 732d37463eb44839400b467e18f4fc3d23ce8852
+  passed against frozen ASI 30cc9542 / source 4439c90: three no-plugin baselines
+  and three automatic-loader cases, status 2 for every ASI case, cwd restored,
+  unchanged hashes and OS exits 0. The host did not call InitializeASI. This
+  closes only the owned unsupported-host startup/normal process-exit gate.
+- Current sanitized NATIVE-0106-EVIDENCE.json SHA-256
+  c04c0f1bdfd905411b015fb862695bb86fb37441d8fed52d5daea29e4c0ffdaa; includes exact loader observation/toolchain receipts.
+  It preserves the stale Defender-definition limit and all 15 parser warnings.
+- New ASI hash lookup: Item not found. The real VT form displays Terms of
+  Service, Privacy Notice and sample sharing; no new file selected/uploaded.
+  One new reanalysis request for public 0.10.5 stopped at a visible unsolved
+  CAPTCHA. No new control timestamp. Prepare one specific approval for new
+  ASI 749,568 B / SHA 30cc9542/terms/sharing and that current CAPTCHA. Existing
+  four-probe approval is completed and does not silently cover another file.
+- New exact-file multivendor, NMS acceptance, packaging and Nexus availability
+  remain NOT CHECKED. Support unsent; no local native execution, security
+  preference change, new game image/profile/RVA or player text/meaning edit.
