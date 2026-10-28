@@ -3697,3 +3697,13 @@ remain unresolved; no global safety or false-positive claim is made.
   target remains Cosmos 7.06/Steam 25732212/exe SHA 13d5060d. Game/Nexus gates
   remain separate; support unsent. Next: build/read the fixed four diagnostics,
   freeze exact bytes and prepare the actual upload review only if useful.
+
+### Inspection export-reader correction, 28 October 2026
+
+- First inspection CI 40658954904 / source 8b3ddb3 failed after first compilation/
+  owned smoke at the export reader, which rejected MSVC's trailing implementation
+  annotations. Actual prior 0.10.6 dump has CasInspectHost = CasInspectHost.
+  Correct parser optional annotation, retain strict exact-two-export assertion;
+  verify against actual owned three-export dump before repeating CI. TOOL ERROR,
+  not a zero-export/module finding. First overall run remains failed and DLL
+  retention skipped. Other diagnostic results still NOT CHECKED.

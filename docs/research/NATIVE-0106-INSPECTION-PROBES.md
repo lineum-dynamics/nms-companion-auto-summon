@@ -69,3 +69,16 @@ All 0.10.3/0.10.4/0.10.5/0.10.6 player artifacts remain preserved. Game target
 stays Cosmos 7.06 / Steam 25732212 / executable SHA-256
 13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499.
 No new game image or profile/RVA/text meaning change; support remains unsent.
+
+## Initial method refusal
+
+Run 40658954904 at 8b3ddb3932d55a17d746f29cca9171649e98064b failed at the first
+export-table check after compilation and the first owned smoke call. The
+initial regex accepted only bare export rows. The retained earlier exact
+0.10.6 compiler receipt shows the actual Microsoft format:
+`1 0 0000F010 CasInspectHost = CasInspectHost`.
+The corrected reader accepts the optional implementation annotation while
+preserving the exact two-name assertion. It was checked against that owned
+three-export production dump before another CI attempt. This is a TOOL ERROR,
+not evidence of absent exports or a diagnostic/module defect. The initial
+overall run is not a passed build and no DLL artifact was retained from it.

@@ -18,6 +18,11 @@ CASES={
 }
 
 
+def export_names(text):
+    # Debug-enabled MSVC dumpbin appends "= implementation" to named rows.
+    return sorted(re.findall(r'^\s+\d+\s+[0-9A-Fa-f]+\s+[0-9A-Fa-f]+\s+(\w+)(?:\s+=\s+\S+)?\s*$',text,re.M))
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--output',type=Path,required=True); args=p.parse_args()
@@ -88,13 +93,14 @@ def main():
             if not smoke.get('passed') or digest(binary)!=identity: raise ValueError('Inspection smoke/input check failed')
             if smoke['host_sha256']!=(digest(host) if production else ''): raise ValueError('Owned EXE hash/stub control failed')
             pe=run([inspect,'/headers','/imports','/exports',binary],directory)
-            exports=sorted(re.findall(r'^\s+\d+\s+[0-9A-F]+\s+[0-9A-F]+\s+(\w+)\s*$',pe,re.M))
-            if exports!=['CasComponentProbeStatus','CasInspectHost']: raise ValueError('Matched export control differs: '+repr(exports))
+            exports=export_names(pe)
             report['cases'].append({'label':label,'production_inspection':production,'core_included':core,
                 'production_cpp_sources':(['probe'] if production else [])+components,
                 'minhook_included':core,'sha256':identity,'bytes':binary.stat().st_size,
                 'resource_sha256':digest(resource),'exports':exports,'smoke':smoke,
                 'imports':sorted(set(re.findall(r'^\s+([A-Za-z0-9_.-]+\.dll)\s*$',pe,re.M)))})
+            if exports!=['CasComponentProbeStatus','CasInspectHost']:
+                raise ValueError('Matched export control differs: '+repr(exports)+'; inspect owned dumpbin output: '+pe[-6000:])
         if before!={x.relative_to(ROOT).as_posix():digest(x) for x in sources}: raise ValueError('Source changed during fixed probe build')
         if len(report['cases'])!=4 or len({x['resource_sha256'] for x in report['cases']})!=1: raise ValueError('Fixed resource/count controls differ')
         report['completed']=True
