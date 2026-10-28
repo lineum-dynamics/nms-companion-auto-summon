@@ -2,6 +2,14 @@
 
 ## 0.10.6-native-test — unreleased CRT-thread candidate
 
+- Complete all six approved inactive startup scans. No completed row reports
+  Yogi; three full cases have all eight earlier Yogi vendors Undetected, while
+  other cases have timeouts. Cynet remains on every case and Rising on four.
+  The frozen full player ASI remains Yogi-positive; no clearance is established.
+- Add an explicit CI-only, same-source `/analyze` comparison with a frozen-byte
+  baseline gate. Default analysis remains enabled; differing bytes require
+  owned validation, reproduction and an exercised scan before retention. See
+  [the preregistered comparison](docs/research/NATIVE-0106-ANALYSIS-FLAG.md).
 - Add six fixed inactive startup/link diagnostics, with forced host refusal,
   a synthetic supported-result control and eighteen passed owned process runs.
   These are research artifacts; frozen player ASIs are unchanged. The later

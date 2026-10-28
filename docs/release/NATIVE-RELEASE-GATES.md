@@ -136,3 +136,14 @@ negative, with one Cynet positive each including their inert baseline. These
 results do not close the player scanner/game/Nexus gates. The next fixed
 inactive startup/link probes are research only; prior uploads do not approve
 new files. Full current evidence is in the research report and its dated tables.
+
+## Inactive startup follow-up, 28 October 2026
+
+All six specifically approved startup diagnostics completed multivendor upload.
+No completed row reports Yogi; three full cases have all eight earlier Yogi
+vendors Undetected, while the others have timeouts. Cynet remains on all six,
+Rising on four; these are not clean files or player replacements. The frozen
+full 0.10.6 ASI remains Yogi-positive. See
+[the complete dated record](../research/NATIVE-0106-STARTUP-PROBES.md).
+The controlled compiler-flag comparison is research only; all release, game
+and Nexus gates remain unchanged. No new release label is authorized.

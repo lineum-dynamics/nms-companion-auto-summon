@@ -103,7 +103,7 @@ Run `audit_msvc_candidate_artifact.py --artifact-version 0.10.6-native-test`
 with the exact module/PDB paths and output argument.
 
 Sanitized receipt: [NATIVE-0106-EVIDENCE.json](NATIVE-0106-EVIDENCE.json), SHA-256
-`ebf161006dc1c92b528f7b3d65cb1a27d003e31534738a3ca313865f7c12334d`.
+`31a8ba1a1c98cbfa74897709cd0aab25e041478ce92591216827688fd72330be`.
 The initial collector stopped on an incorrectly guessed hyphenated report
 filename; corrected actual underscore filenames precede all hash comparisons.
 No missing input was counted as passed.

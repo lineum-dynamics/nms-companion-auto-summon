@@ -33,9 +33,13 @@ def main():
                         help="Build the distinct CRT-thread candidate with separate PDB symbols; packaging stays blocked")
     parser.add_argument("--startup-failure-fixture", action="store_true",
                         help="Also build an owned factory-failure DLL and check single-owner refusal")
+    parser.add_argument("--omit-analysis-for-comparison", action="store_true",
+                        help="Diagnostic compiler-flag comparison only; preserve source/version, omit DLL /analyze")
     args = parser.parse_args()
     if args.startup_failure_fixture and not args.release_candidate:
         parser.error("The startup failure fixture requires the explicit candidate mode")
+    if args.omit_analysis_for_comparison and not args.release_candidate:
+        parser.error("The compiler comparison requires explicit candidate mode; the default source audit stays enabled")
     if (os.name != "nt" or os.environ.get("GITHUB_ACTIONS") != "true"
             or os.environ.get("GITHUB_REPOSITORY") != "lineum-dynamics/nms-companion-auto-summon"):
         raise ValueError("This audit runs only on an isolated GitHub Actions runner")
@@ -87,11 +91,14 @@ def main():
         return result.stdout
 
     kind = "msvc-release-candidate" if args.release_candidate else "cross-compiler-audit"
+    if args.omit_analysis_for_comparison:
+        kind = "msvc-compiler-flag-comparison"
     log = {"kind":kind,"version":version,"base_player_version":BASE_VERSION,
            "game_access":False,"deployed":False,"binary_uploaded":False,"sources":before,"commands":commands,
            "compatibility":profile,"native_mapping":mapping,"completed":False,
            "caller_attribution":{"call_sites":2,"level":0,"intrinsic":"_ReturnAddress","call_site_macro":True},
-           "packaging_approved":False,"av_clearance":False}
+           "packaging_approved":False,"av_clearance":False,
+           "dll_static_analysis_included":not args.omit_analysis_for_comparison}
     try:
         includes = ["/I"+str(p) for p in (native/"include",native/"third_party",native/"third_party/minhook/include",generated)]
         cpp = [tools["cl.exe"],"/nologo","/std:c++17","/permissive-","/Zc:__cplusplus","/O2","/W4","/EHsc","/MT","/utf-8",
@@ -112,7 +119,8 @@ def main():
         if args.release_candidate:
             link += ["/DEBUG:FULL", "/PDBALTPATH:%_PDB%", "/OPT:REF", "/OPT:ICF"]
         binary = output/"CompanionAutoSummon.asi"
-        run([*cpp,"/analyze","/LD","/DCAS_NATIVE_RUNTIME","/DCAS_PROBE_BUILD","/DCAS_RESPAWN_OBSERVER",
+        analysis_options = [] if args.omit_analysis_for_comparison else ["/analyze"]
+        run([*cpp,*analysis_options,"/LD","/DCAS_NATIVE_RUNTIME","/DCAS_PROBE_BUILD","/DCAS_RESPAWN_OBSERVER",
              "/DCAS_TELEPORT_CANDIDATE_TRIAL",*runtime,*objects,res,"bcrypt.lib","advapi32.lib","shell32.lib",
              "ole32.lib","uuid.lib","user32.lib","/Fe"+str(binary),*link],timeout=900)
         hosts = {
@@ -166,7 +174,8 @@ def main():
         receipt.update(packaging_approved=False,av_clearance=False,
                        caller_attribution=log["caller_attribution"],
                        debug_symbols_separate=args.release_candidate,
-                       startup_thread_factory="_beginthreadex",startup_thread_failure_control=startup_failure)
+                       startup_thread_factory="_beginthreadex",startup_thread_failure_control=startup_failure,
+                       dll_static_analysis_included=not args.omit_analysis_for_comparison)
         if args.release_candidate:
             pdb = output/"CompanionAutoSummon.pdb"
             if not pdb.is_file():

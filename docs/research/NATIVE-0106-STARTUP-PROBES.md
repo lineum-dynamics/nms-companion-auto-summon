@@ -1,4 +1,4 @@
-# Fixed inactive startup comparison — 28 October 2026
+# Fixed inactive startup comparison â€” 28 October 2026
 
 All four approved matched-export inspection/core probes completed. Each has
 one Cynet label, including the inert baseline. All eight earlier Yogi-positive
@@ -113,6 +113,46 @@ x64, the three exports and no overlay. No complete unwind or game verification.
 
 Full metadata/source/generated/tool identities:
 [NATIVE-0106-STARTUP-IDENTITIES.json](NATIVE-0106-STARTUP-IDENTITIES.json), SHA-256
-`3388b85b3c2f7bc5ea7a238063ea784be9345a8f1610d55398d296f997fe3a3d`. This is an immutable initial pre-submission record. The actual upload
-form was inspected; the six files remain unselected/unsubmitted pending a
-specific grouped approval of the exact bytes and displayed terms/sample sharing.
+`3388b85b3c2f7bc5ea7a238063ea784be9345a8f1610d55398d296f997fe3a3d`. This is an immutable initial pre-submission record. At that initial checkpoint, submission had not yet been approved.
+The later completion below supersedes that historical review state.
+
+## Completed multivendor readback
+
+All six specifically approved ASIs completed submission and analysis. The final
+file's separately approved CAPTCHA was completed; it was an upload gate, not
+an antivirus finding. Each table contains 75 unique vendors, including four
+unsupported file types. Timeouts and failures remain unevaluated.
+
+| Case | Analysis UTC | Malicious/evaluated | Timeouts | Failures | Eight earlier Yogi vendors |
+| --- | --- | --- | ---: | ---: | --- |
+| cold | 14:20:21 | 1/54 | 16 | 1 | 7 Undetected, 1 timeout |
+| worker | 14:23:00 | 1/49 | 21 | 1 | 4 Undetected, 4 timeout |
+| full-stub | 14:24:11 | 2/70 | 0 | 1 | 8 Undetected, 0 timeout |
+| full-real | 14:24:13 | 2/63 | 7 | 1 | 4 Undetected, 4 timeout |
+| full-stub-ref | 14:24:12 | 2/68 | 0 | 3 | 8 Undetected, 0 timeout |
+| full-real-ref | 14:41:30 | 2/69 | 0 | 2 | 8 Undetected, 0 timeout |
+
+No completed startup row reports Yogi. In full-stub, full-stub-ref and
+full-real-ref all eight earlier Yogi vendors completed Undetected. The other
+three cases have incomplete Yogi coverage as shown. Cynet labels every case,
+including cold. Rising labels all four full cases, while cold/worker time out
+on Rising; this does not locate a Rising source boundary. These are not clean
+files, player replacements or confirmed false positives.
+
+The unchanged full 0.10.6 ASI (30cc9542) at 13:35:26 UTC remains 9/57, with
+12 timeouts, two failures and four unsupported. Six completed vendors still
+report Yogi. Even the full startup/real-inspection/REF+ICF diagnostic does not
+reproduce those labels. Startup inclusion alone is not a sufficient explanation
+under these controls. The forced-refusal adapter, resources/interface metadata,
+compiler recipe and object/layout differences remain unresolved.
+
+A concrete recipe difference is now registered for a byte-only first step:
+normal player MSVC builds include DLL /analyze, startup diagnostics do not.
+Reproduce frozen 30cc9542 first, then omit only that flag while preserving
+source, version, resources and linker settings. If bytes match, no new upload
+is needed. If different, require owned validation and independent PE comparison
+before considering any exact-file submission. No shipped default is changed.
+
+Full tables, hashes and direct report links: [NATIVE-0106-STARTUP-VT-20261028.json](NATIVE-0106-STARTUP-VT-20261028.json).
+Evidence SHA-256: `04fdafc602d18f091a19d322ffee6d535d6168f65e5e696c6c3a5cb34c79cc3b`.
+No new game, release or Nexus acceptance is established. Support remains unsent.

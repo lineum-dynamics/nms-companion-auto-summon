@@ -637,3 +637,9 @@ The later inspection/core controls and same-byte full-module reanalysis leave
 Yogi unresolved. The fixed [inactive startup/link diagnostics](docs/research/NATIVE-0106-STARTUP-PROBES.md)
 retain refusal on every host and are separate from player compilation, mapping,
 acceptance or release. Their UI/localization impact is none.
+
+The six inactive startup scans are completed; timeout rows remain unevaluated.
+See [the completed startup record](docs/research/NATIVE-0106-STARTUP-PROBES.md).
+A concrete recipe difference now has a byte-first
+[MSVC analysis-flag comparison](docs/research/NATIVE-0106-ANALYSIS-FLAG.md),
+without changing normal analysis defaults or player behavior.

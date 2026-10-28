@@ -522,5 +522,25 @@
     "all_eight_yogi_vendors_undetected_on_every_probe": true,
     "cynet_positive_every_probe_including_baseline": true,
     "private_rule_identified": false
+  },
+  "startup_comparison": {
+    "ci_run": 40700680862,
+    "source_revision": "a88f5e11c0744a481cd947a4adec3e3e795b9340",
+    "initial_identities": "NATIVE-0106-STARTUP-IDENTITIES.json",
+    "initial_identities_sha256": "3388b85b3c2f7bc5ea7a238063ea784be9345a8f1610d55398d296f997fe3a3d",
+    "specific_six_file_approval_fulfilled": true,
+    "final_captcha_approval_fulfilled": true,
+    "results": "NATIVE-0106-STARTUP-VT-20261028.json",
+    "results_sha256": "04fdafc602d18f091a19d322ffee6d535d6168f65e5e696c6c3a5cb34c79cc3b",
+    "yogi_detected_in_completed_rows": false,
+    "all_eight_yogi_undetected_cases": [
+      "full-stub",
+      "full-stub-ref",
+      "full-real-ref"
+    ],
+    "other_cases_have_timeouts": true,
+    "cynet_positive_every_case": true,
+    "rising_positive_four_full_cases": true,
+    "private_rule_identified": false
   }
 }

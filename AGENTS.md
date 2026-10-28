@@ -65,3 +65,12 @@ Player installation and removal instructions for current releases are English-on
 - Keep packaged candidate bytes and their build/validation/package receipts immutable. Record subsequent deployment, player observations and Nexus outcomes separately. Queue acceptance and logical activation are not proof of visible companion appearance.
 
 - For read-only native analysis helpers, classify failures that occur before image decoding as `TOOL ERROR`, never as a zero-match result. Check `Get-Command python,py`, verify the selected interpreter version and required imports, and rerun with its explicit executable path if `py -3.11` is misconfigured. Record the interpreter SHA-256, dependency versions and exact command in the exact-build report. Do not reinstall dependencies or change analysis code until the interpreter is verified.
+
+- Dated 28 October startup follow-up: all six approved inactive ASIs completed
+  VirusTotal. No completed row reports Yogi; full-stub, full-stub-ref and
+  full-real-ref have all eight earlier Yogi vendors Undetected. Other cases
+  have timeouts. Cynet labels all six and Rising labels the four full cases;
+  cold/worker Rising time out, so no source boundary is proven. The full
+  0.10.6 ASI remains Yogi-positive. Continue the controlled /analyze byte
+  comparison in docs/research/NATIVE-0106-ANALYSIS-FLAG.md; keep default analysis
+  and player guards, avoid repeated inclusion controls, and keep support unsent.

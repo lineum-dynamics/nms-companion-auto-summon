@@ -3636,7 +3636,7 @@ remain unresolved; no global safety or false-positive claim is made.
   collector guessed a hyphenated report filename and refused missing input;
   corrected retained underscore filenames before completing comparisons.
 - Evidence NATIVE-0106-EVIDENCE.json SHA-256
-  ebf161006dc1c92b528f7b3d65cb1a27d003e31534738a3ca313865f7c12334d.
+  31a8ba1a1c98cbfa74897709cd0aab25e041478ce92591216827688fd72330be.
   Prepare the same owned UAL lifecycle check against this exact ASI, while
   preserving the old 0.10.5 identity and historical results. No game process or
   new executable image, mapping/profile/gameplay filter, locale text or player
@@ -3651,7 +3651,7 @@ remain unresolved; no global safety or false-positive claim is made.
   unchanged hashes and OS exits 0. The host did not call InitializeASI. This
   closes only the owned unsupported-host startup/normal process-exit gate.
 - Current sanitized NATIVE-0106-EVIDENCE.json SHA-256
-  ebf161006dc1c92b528f7b3d65cb1a27d003e31534738a3ca313865f7c12334d; includes exact loader observation/toolchain receipts.
+  31a8ba1a1c98cbfa74897709cd0aab25e041478ce92591216827688fd72330be; includes exact loader observation/toolchain receipts.
   It preserves the stale Defender-definition limit and all 15 parser warnings.
 - New ASI hash lookup: Item not found. The real VT form displays Terms of
   Service, Privacy Notice and sample sharing; no new file selected/uploaded.
@@ -3681,7 +3681,7 @@ remain unresolved; no global safety or false-positive claim is made.
   No improvement, false-positive classification or private rule established.
 - Complete VT evidence NATIVE-0106-VT-EVIDENCE-20261028.json SHA-256
   82b926b07fd2bdd272fc3fe509b6778dfd85f2ee47ecc5c1c4cdabf796651685;
-  current 0.10.6 master ebf161006dc1c92b528f7b3d65cb1a27d003e31534738a3ca313865f7c12334d.
+  current 0.10.6 master 31a8ba1a1c98cbfa74897709cd0aab25e041478ce92591216827688fd72330be.
   Historical snapshots and all frozen player bytes remain preserved.
 - Next discriminator is preregistered 2x2 inspection/core inclusion with matched
   CasComponentProbeStatus/CasInspectHost exports, identical resource/filename/
@@ -3750,7 +3750,7 @@ remain unresolved; no global safety or false-positive claim is made.
   negative on all four probes; ALYac/BitDefender timed out on the full control.
   This reduces the multi-hour temporal confound, not private-definition or
   reachability/layout uncertainty. Complete evidence SHA-256 a4264cfd6421a63d24644b5b6577796fa271878c1708fffe13028b5dab2e83c2.
-  Current 0.10.6 master SHA-256 ebf161006dc1c92b528f7b3d65cb1a27d003e31534738a3ca313865f7c12334d.
+  Current 0.10.6 master SHA-256 31a8ba1a1c98cbfa74897709cd0aab25e041478ce92591216827688fd72330be.
 - The remaining fixed discriminator is six inactive startup/link cases with
   production-shaped three-export ABI and the same .asi filename/resource:
   cold, exact-export-tail/minimal-worker, full bootstrap+stub, full bootstrap+
@@ -3796,3 +3796,42 @@ remain unresolved; no global safety or false-positive claim is made.
   NMS/Nexus gates remain open; held support draft unsent. After any approval,
   submit only the frozen six and compare full vendor states/timestamps under
   the preregistered case interpretations, not headline counts alone.
+
+
+### Completed startup scans and controlled compiler-flag handoff, 28 October 2026
+
+- All six specifically approved startup ASIs were submitted and their complete
+  75-vendor tables read back. The last file's separately approved CAPTCHA was
+  completed; an expired first challenge was renewed before verified submission.
+  Frozen identities and player bytes remain unchanged. Results (UTC): cold
+  1/54 at 14:20:21, worker 1/49 at 14:23:00, full-stub 2/70 at 14:24:11,
+  full-real 2/63 at 14:24:13, full-stub-ref 2/68 at 14:24:12, full-real-ref
+  2/69 at 14:41:30. Full tables:
+  NATIVE-0106-STARTUP-VT-20261028.json, SHA-256
+  04fdafc602d18f091a19d322ffee6d535d6168f65e5e696c6c3a5cb34c79cc3b.
+- No completed row reports Yogi. Full-stub, full-stub-ref and full-real-ref
+  have all eight earlier Yogi vendors Undetected. Cold has one Yogi timeout;
+  worker/full-real each have four. Cynet labels every case; Rising labels the
+  four full cases and times out on cold/worker, so no Rising boundary is proven.
+  The unchanged full 30cc9542 ASI's 13:35:26 result remains 9/57 with six completed
+  Yogi-positive vendors, 12 timeouts/two failures/four unsupported. These are
+  dated snapshots, not complete clean-file or private-rule conclusions.
+- Full startup inclusion and real inspection with production REF/ICF are not
+  sufficient under these inactive controls. Do not keep repeating inclusion
+  probes. A concrete new recipe discriminator is DLL /analyze in the full
+  build, absent from startup probes. Microsoft documents _PREFAST_ under that
+  option; no owned-source use is found. A byte effect remains a hypothesis.
+- NATIVE-0106-ANALYSIS-FLAG.md registers A at original msvc-0106-a path and exact
+  frozen 30cc9542 gate, then B omitting only that flag with all other DLL inputs
+  checked. Equality rules out the output-byte explanation without a new upload.
+  Difference requires full owned validation, C reproduction, exercised exact
+  Defender scan and independent PE comparison before any upload consideration.
+  Default builds keep analysis enabled. This normal full module is not an
+  inert startup probe. No new upload is authorized by the fulfilled six-file
+  approval. Build/scan/PE results for this new experiment are NOT CHECKED.
+- No new game image was read: Cosmos 7.06 / Steam 25732212 / executable SHA-256
+  13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499 remains
+  the target. No mapping/profile/RVA, activation approval or player/locale
+  meaning changed; no local native execution, game launch, deployment, release
+  or Nexus acceptance. Support remains unsent. Next: publish and read the one
+  authorized controlled CI run, preserving failed gates as inconclusive.
