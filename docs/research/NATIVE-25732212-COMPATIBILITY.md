@@ -7339,3 +7339,24 @@ remain unresolved; no global safety or false-positive claim is made.
   No game image/mapping/profile/player/localization edit, local native execution
   or NMS/Nexus acceptance. Target remains exact Cosmos 7.06/25732212/exe
   13d5060d. Support unsent. Next: one corrected same-image CI comparison/readback.
+
+
+### Rolling image guard handoff, 28 October 2026
+
+- Run 40716983929/e382e974 stopped before compile: the pool assigned the known
+  older image 20261022.344.1, confirmed in the runner log. No /analyze or scan
+  conclusion. The previous run used 20261026.347.1, so single-image scheduling
+  was too narrow. No new native/locale/mapping input or retained binary.
+- Register two exact independently reproduced image/hash/owned-validation
+  profiles before the next run: old 20261022.344.1 -> frozen 30cc9542 / receipt
+  35e23e7b119b7fe3cd89132a24a6e14c9711fea894d55c3595707107dc4efd27;
+  new 20261026.347.1 -> a41fc094 / receipt
+  ed0fd1b0700340e44f39dd5d5c2363f247294c097ccdec6faae7dda461bb8fb5.
+  Select only by the actual image identity; reject unknown images and any
+  baseline-byte mismatch. All single-flag/input/reproduction/scan gates remain.
+  Equality applies only to the observed image; older 30cc9542 attribution is
+  checked only if that known image runs. Scanner correction NOT CHECKED.
+- Next: read one paired run, not repeat uninformative inclusion probes. No
+  local native execution, game/image/save access, source/profile/RVA or player
+  meaning change, VT submission, release or Nexus acceptance. Cosmos 7.06 /
+  Steam 25732212 / exe 13d5060d remains the target; support remains unsent.

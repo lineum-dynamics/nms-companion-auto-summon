@@ -114,3 +114,25 @@ B as C. In both cases a new positively controlled exact-module scan is required
 before retaining ASI/PDB for independent PE comparison. Existing 30cc9542 VT
 verdicts do not transfer to a41fc094. No automatic VT upload, player version
 bump, source/guard change or release is authorized by this protocol.
+
+
+## Rolling-image guard readback and paired-baseline revision
+
+The revised run 40716983929 at e382e974 stopped before compilation because
+GitHub assigned the older 20261022.344.1 image again. The job log explicitly
+identifies it; no flag result or scan is counted. Single-image gating was too
+narrow for the live rolling pool. The next run registers both independently
+reproduced profiles below, selected only by the observed exact image identity,
+never by a detection score or a newly produced output. Unknown images stop.
+
+| Image | Required A SHA-256 | Prior owned full-bundle receipt |
+| --- | --- | --- |
+| 20261022.344.1 | 30cc9542a2af3529fd4f3a2299d6331bddf51b61f8213a0a1a779b472789de3d | CI 40653804116 / 35e23e7b119b7fe3cd89132a24a6e14c9711fea894d55c3595707107dc4efd27 |
+| 20261026.347.1 | a41fc094e98332682200d6c70857cc21be327843734127c092fc7484e1b583f7 | CI 40714275407 / ed0fd1b0700340e44f39dd5d5c2363f247294c097ccdec6faae7dda461bb8fb5 |
+
+All input/command, flag-only, reproduction/validation and positive scan gates
+remain. An equality conclusion covers only the actually used image. If the
+older profile runs, it can directly test the frozen 30cc9542 recipe; otherwise
+historical-image attribution remains untested. The scanner fix's actual
+post-update control remains NOT CHECKED. No binary was retained by either
+failed comparison run; no new VT submission or player edit occurred.

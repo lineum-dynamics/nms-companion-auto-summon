@@ -9,8 +9,15 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[2]
 FROZEN_SHA256 = "30cc9542a2af3529fd4f3a2299d6331bddf51b61f8213a0a1a779b472789de3d"
-COMPARISON_BASELINE = "a41fc094e98332682200d6c70857cc21be327843734127c092fc7484e1b583f7"
-COMPARISON_IMAGE = "20261026.347.1"
+BASELINES = {
+    "20261022.344.1": {
+        "sha256": FROZEN_SHA256, "validation_ci": 40653804116,
+        "validation_receipt_sha256": "35e23e7b119b7fe3cd89132a24a6e14c9711fea894d55c3595707107dc4efd27"},
+    "20261026.347.1": {
+        "sha256": "a41fc094e98332682200d6c70857cc21be327843734127c092fc7484e1b583f7",
+        "validation_ci": 40714275407,
+        "validation_receipt_sha256": "ed0fd1b0700340e44f39dd5d5c2363f247294c097ccdec6faae7dda461bb8fb5"},
+}
 
 
 def digest(path):
@@ -28,12 +35,11 @@ def main():
     if ROOT != Path("C:/Projects/nms-companion-auto-summon-compat-cosmos-706"):
         raise ValueError("Use the exact original source mirror for the frozen-byte gate")
     report_path = ROOT / "build/msvc-analysis-comparison.json"
+    image_version = os.environ.get("ImageVersion")
+    baseline = BASELINES.get(image_version)
     report = {"schema": 1, "source_revision": os.environ["SUBJECT_REVISION"],
               "version": "0.10.6-native-test", "frozen_sha256": FROZEN_SHA256,
-              "comparison_baseline_sha256": COMPARISON_BASELINE,
-              "image_version": os.environ.get("ImageVersion"),
-              "baseline_owned_validation_ci": 40714275407,
-              "baseline_owned_validation_receipt_sha256": "ed0fd1b0700340e44f39dd5d5c2363f247294c097ccdec6faae7dda461bb8fb5",
+              "image_version": image_version, "registered_image_baseline": baseline,
               "game_access": False, "local_native_execution": False,
               "packaging_approved": False, "av_clearance": False,
               "completed": False, "commands": []}
@@ -110,13 +116,13 @@ def main():
         report["toolchain_inventory_file_count"] = len(seen)
 
     try:
-        if report["image_version"] != COMPARISON_IMAGE:
-            raise ValueError("The registered image-specific comparison baseline does not cover this runner image")
+        if baseline is None:
+            raise ValueError("No registered independently reproduced baseline covers this runner image")
         record_toolchain_inputs()
         a = build("a")
         receipt_a = record("analysis_enabled", a)
         report["original_frozen_reproduced"] = report["analysis_enabled"]["sha256"] == FROZEN_SHA256
-        report["baseline_reproduced"] = report["analysis_enabled"]["sha256"] == COMPARISON_BASELINE
+        report["baseline_reproduced"] = report["analysis_enabled"]["sha256"] == baseline["sha256"]
         if not report["baseline_reproduced"]:
             raise RuntimeError("Registered image-specific baseline did not reproduce; do not interpret the flag comparison")
         b = build("b", omit=True, failure=True)
@@ -132,10 +138,11 @@ def main():
         if not (report["resource_source_identical"]
                 and report["only_dll_compiler_argument_difference_is_analyze"]):
             raise ValueError("The single-flag comparison is not controlled")
-        report["dll_byte_identical"] = report["analysis_omitted"]["sha256"] == COMPARISON_BASELINE
+        report["dll_byte_identical"] = report["analysis_omitted"]["sha256"] == baseline["sha256"]
         if report["dll_byte_identical"]:
-            report["interpretation"] = "No /analyze output-byte difference on the registered current image; the older frozen-image comparison remains inconclusive"
-            report["functional_retest"] = "NOT REPEATED: identical current-image baseline passed owned full bundle in CI 40714275407; factory-failure control ran during build B"
+            report["interpretation"] = "No /analyze output-byte difference on registered image " + image_version
+            report["functional_retest"] = ("NOT REPEATED: identical baseline passed owned full bundle in CI "
+                                           + str(baseline["validation_ci"]) + "; factory-failure control ran during build B")
             report["third_build"] = "NOT REPEATED: A and B are byte-identical"
         else:
             run(ROOT / "tools/validate_native_bundle.py", "--build", b)
