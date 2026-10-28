@@ -1,0 +1,122 @@
+{
+  "schema": 1,
+  "date": "2026-10-28",
+  "ci_run": 40717532898,
+  "comparison": {
+    "schema": 1,
+    "source_revision": "6e2ecf860eba739bc997a9cfcd48793abbf266a5",
+    "version": "0.10.6-native-test",
+    "frozen_sha256": "30cc9542a2af3529fd4f3a2299d6331bddf51b61f8213a0a1a779b472789de3d",
+    "image_version": "20261022.344.1",
+    "registered_image_baseline": {
+      "sha256": "30cc9542a2af3529fd4f3a2299d6331bddf51b61f8213a0a1a779b472789de3d",
+      "validation_ci": 40653804116,
+      "validation_receipt_sha256": "35e23e7b119b7fe3cd89132a24a6e14c9711fea894d55c3595707107dc4efd27"
+    },
+    "game_access": false,
+    "local_native_execution": false,
+    "packaging_approved": false,
+    "av_clearance": false,
+    "completed": true,
+    "toolchain_input_inventory_sha256": "b9697790bb13dbf0fc8829f5d330ba3c81db88e1c7bc84ff4417769ea0dd051f",
+    "toolchain_inventory_file_count": 7170,
+    "analysis_enabled": {
+      "sha256": "30cc9542a2af3529fd4f3a2299d6331bddf51b61f8213a0a1a779b472789de3d",
+      "bytes": 749568,
+      "pdb_sha256": "ef9c4226884d8ea54f9eddc7fcda933474a93cac3ec39bd238a9f6e5c989c936",
+      "receipt_sha256": "12fdf513dbb0bdaa62e80d434f5f77ba986d1c0054c79442c87bd0e71e9fd4ed",
+      "dll_static_analysis_included": true
+    },
+    "original_frozen_reproduced": true,
+    "baseline_reproduced": true,
+    "analysis_omitted": {
+      "sha256": "30cc9542a2af3529fd4f3a2299d6331bddf51b61f8213a0a1a779b472789de3d",
+      "bytes": 749568,
+      "pdb_sha256": "4726f2bb31b0ba8bab4d311990e54844a234d3d47319a06a05565b7845565e26",
+      "receipt_sha256": "5733136e658c08d06aa51ef54a50be59bd22097e5afaf87bcba3032d5e4809e7",
+      "dll_static_analysis_included": false
+    },
+    "resource_source_identical": true,
+    "only_dll_compiler_argument_difference_is_analyze": true,
+    "dll_byte_identical": true,
+    "interpretation": "No /analyze output-byte difference on registered image 20261022.344.1",
+    "functional_retest": "NOT REPEATED: identical baseline passed owned full bundle in CI 40653804116; factory-failure control ran during build B",
+    "third_build": "NOT REPEATED: A and B are byte-identical"
+  },
+  "verified_source_inputs": 91,
+  "comparison_report_sha256": "7efd74350513a9f7ba797905bb8c7b69b1455e47fb8911ac0e16047450364f40",
+  "toolchain_receipt_sha256": "ae23d1f6eede3bbab383049a0afeea058e15762d70a60b859a1672dec84384ba",
+  "inventory_gzip": "NATIVE-0106-MSVC-INPUTS-20261022.json.gz",
+  "inventory_gzip_sha256": "9e4f96965d7496b709853310d06af5453a59b28c1222356d877ec015fc5da69a",
+  "inventory_uncompressed_sha256": "b9697790bb13dbf0fc8829f5d330ba3c81db88e1c7bc84ff4417769ea0dd051f",
+  "defender_report_sha256": "a6df0512e00325db7171c4b3b9f5636114f8542b4f25f052128d739c56a2bd72",
+  "defender": {
+    "result": "NO_DETECTION_RECORDED",
+    "scan_performed": true,
+    "scan_completed": true,
+    "signature_update": "completed",
+    "engine_before": {
+      "AMServiceEnabled": true,
+      "AntivirusEnabled": true,
+      "RealTimeProtectionEnabled": false,
+      "AMRunningMode": "Normal",
+      "AMProductVersion": "4.18.26100.4",
+      "AMEngineVersion": "1.1.26100.4",
+      "AntivirusSignatureVersion": "1.463.10.0",
+      "AntivirusSignatureLastUpdated": "2026-10-28T10:14:03+00:00"
+    },
+    "scan_engine_before": {
+      "AMServiceEnabled": true,
+      "AntivirusEnabled": true,
+      "RealTimeProtectionEnabled": false,
+      "AMRunningMode": "Normal",
+      "AMProductVersion": "4.18.26100.4",
+      "AMEngineVersion": "1.1.26100.4",
+      "AntivirusSignatureVersion": "1.463.10.0",
+      "AntivirusSignatureLastUpdated": "2026-10-28T10:14:03+00:00"
+    },
+    "engine_after": {
+      "AMServiceEnabled": true,
+      "AntivirusEnabled": true,
+      "RealTimeProtectionEnabled": false,
+      "AMRunningMode": "Normal",
+      "AMProductVersion": "4.18.26100.4",
+      "AMEngineVersion": "1.1.26100.4",
+      "AntivirusSignatureVersion": "1.463.10.0",
+      "AntivirusSignatureLastUpdated": "2026-10-28T10:14:03+00:00"
+    },
+    "scanner": {
+      "version": "4.18.26100.4 (79b015c6fabb20b1ccd067f376e490f0bac19809)",
+      "sha256": "eadb987d2174f22715f36e5c2c9f5b25ae3a6cf82425e963d0270534f0ce7ae4",
+      "signature_status": "Valid",
+      "signer": "CN=Microsoft Windows Publisher, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+    },
+    "positive_control": {
+      "source": "https://secure.eicar.org/eicar.com.txt",
+      "bytes": 68,
+      "sha256": "275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f",
+      "exit_code": 2,
+      "output": "Scan starting...\r\nScan finished.\r\nScanning <harmless-engine-control> found 1 threats.\r\n\r\n<===========================LIST OF DETECTED THREATS==========================>\r\n----------------------------- Threat information ------------------------------\r\nThreat                  : Virus:DOS/EICAR_Test_File\r\nResources               : 1 total\r\n    file                : <harmless-engine-control>\r\n-------------------------------------------------------------------------------",
+      "passed": true
+    },
+    "scan_exit_code": 0,
+    "scan_output": "Scan starting...\r\nScan finished.\r\nScanning <exact-module> found no threats.",
+    "protection_configuration_changed": false,
+    "input_sha256": "30cc9542a2af3529fd4f3a2299d6331bddf51b61f8213a0a1a779b472789de3d",
+    "input_sha256_after": "30cc9542a2af3529fd4f3a2299d6331bddf51b61f8213a0a1a779b472789de3d",
+    "preference_sha256_before": "dfb9a81097c126eede6c564ebdc753c049b004e6d0de06b7b7c904192f3bb51e",
+    "preference_sha256_after": "dfb9a81097c126eede6c564ebdc753c049b004e6d0de06b7b7c904192f3bb51e"
+  },
+  "factory_failure_control": {
+    "native_status": 3,
+    "host_sha256": "ebbae032cd33ea3178a71cf9d1e768fd7d3bc06fd0fafe9b8ad47da7cc4668fd",
+    "hooks_active": false,
+    "concurrent_calls": 8,
+    "thread_factory_calls": 1
+  },
+  "pdb_identity_established": false,
+  "av_clearance": false,
+  "nexus_acceptance": false,
+  "support_contact_sent": false,
+  "interpretation": "/analyze has no DLL-byte effect on the exact original frozen recipe; it cannot explain the observed original-file Yogi difference. Current-definition positively controlled Defender result is not a multivendor/Nexus verdict."
+}

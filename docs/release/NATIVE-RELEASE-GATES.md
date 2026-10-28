@@ -147,3 +147,12 @@ full 0.10.6 ASI remains Yogi-positive. See
 [the complete dated record](../research/NATIVE-0106-STARTUP-PROBES.md).
 The controlled compiler-flag comparison is research only; all release, game
 and Nexus gates remain unchanged. No new release label is authorized.
+
+## Exact original module/current-definition control, 28 October 2026
+
+Run40717532898 reproduced the frozen 30cc9542 ASI with /analyze both on/off.
+The corrected scanner exercised EICAR and completed an exact-file custom scan
+without detection using definitions1.463.10.0 dated28October10:14:03UTC. Input
+and preference hashes stayed unchanged. Stock realtime protection was false;
+this is only that custom-scan result, not a replacement for the dated Yogi
+positives, game acceptance or Nexus review. No new player label/package.

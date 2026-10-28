@@ -1,0 +1,119 @@
+name: Native Microsoft resource comparison
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [research/native-antivirus-attribution]
+    paths:
+      - .github/workflows/native-msvc-resource-comparison.yml
+      - tools/research/build_msvc_resource_comparison.py
+
+permissions:
+  contents: read
+
+concurrency:
+  group: native-msvc-resource-comparison-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  comparison:
+    runs-on: windows-2022
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      PYTHONUTF8: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+      SUBJECT_REVISION: ${{ github.sha }}
+    steps:
+      - name: Check out controlled comparison source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Set up Python 3.11.9
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.11.9'
+      - name: Verify installed Microsoft tools and compare unchanged build inputs
+        run: |
+          $locator = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio/Installer/vswhere.exe'
+          $installation = & $locator -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          if (-not $installation) { throw 'Official x64 C++ tools not found' }
+          Import-Module (Join-Path $installation 'Common7/Tools/Microsoft.VisualStudio.DevShell.dll')
+          Enter-VsDevShell -VsInstallPath $installation -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
+          $identities = @()
+          foreach ($name in @('cl.exe','rc.exe','dumpbin.exe')) {
+            $tool = (Get-Command $name -ErrorAction Stop).Source
+            $signature = Get-AuthenticodeSignature -LiteralPath $tool
+            if ($signature.Status -ne 'Valid' -or $signature.SignerCertificate.Subject -notmatch 'Microsoft') { throw "Unverified Microsoft tool: $name" }
+            $identities += [ordered]@{name=$name;sha256=(Get-FileHash -LiteralPath $tool -Algorithm SHA256).Hash.ToLowerInvariant();signature=[string]$signature.Status;version=(Get-Item -LiteralPath $tool).VersionInfo.FileVersion}
+          }
+          $mirror = 'C:/Projects/nms-companion-auto-summon-compat-cosmos-706'
+          if (Test-Path -LiteralPath $mirror) { throw 'Refuse existing source mirror' }
+          New-Item -ItemType Directory -Force -Path C:/Projects | Out-Null
+          git worktree add --detach $mirror $env:SUBJECT_REVISION
+          if ($LASTEXITCODE -ne 0) { throw 'Exact comparison checkout failed' }
+          New-Item -ItemType Directory -Force -Path build | Out-Null
+          [ordered]@{schema=1;source_revision=$env:SUBJECT_REVISION;image=$env:ImageOS;image_version=$env:ImageVersion;tools=$identities;game_access=$false;protection_settings_changed=$false} | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath build/msvc-resource-toolchain.json -Encoding utf8
+          python -B "$mirror/tools/research/build_msvc_resource_comparison.py"
+          if ($LASTEXITCODE -ne 0) { throw 'Compiler comparison failed; preserve incomplete evidence' }
+      - name: Scan the checked current-image comparison module
+        run: |
+          $mirror = 'C:/Projects/nms-companion-auto-summon-compat-cosmos-706'
+          $report = Get-Content -LiteralPath "$mirror/build/msvc-resource-comparison.json" -Raw | ConvertFrom-Json
+          if (-not $report.completed -or (-not $report.dll_byte_identical -and -not $report.comparison_reproduced)) { throw 'Incomplete comparison' }
+          & "$mirror/tools/research/scan_native_defender.ps1" -InputPath "$mirror/build/msvc-0106-b/CompanionAutoSummon.asi" -ExpectedSha256 $report.fixed_resource.sha256 -ReportPath build/msvc-resource-defender.json
+          if ($LASTEXITCODE -ne 0) { throw 'Comparison scan is not a completed no-detection result' }
+      - name: Collect reports on the artifact workspace volume
+        if: always()
+        run: |
+          $mirror = 'C:/Projects/nms-companion-auto-summon-compat-cosmos-706'
+          if (Test-Path -LiteralPath "$mirror/build/msvc-resource-comparison.json" -PathType Leaf) {
+            Copy-Item -LiteralPath "$mirror/build/msvc-resource-comparison.json" -Destination build/
+          }
+          if (Test-Path -LiteralPath "$mirror/build/msvc-resource-input-inventory.json" -PathType Leaf) {
+            Copy-Item -LiteralPath "$mirror/build/msvc-resource-input-inventory.json" -Destination build/
+          }
+          foreach ($label in @('a','b','c')) {
+            $source = "$mirror/build/msvc-0106-$label"
+            if (Test-Path -LiteralPath $source -PathType Container) {
+              $destination = "build/evidence/msvc-$label"
+              New-Item -ItemType Directory -Force -Path $destination | Out-Null
+              Get-ChildItem -LiteralPath $source -Filter '*.json' -File | ForEach-Object { Copy-Item -LiteralPath $_.FullName -Destination $destination }
+            }
+          }
+      - name: Retain comparison evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: native-msvc-resource-evidence
+          path: |
+            build/msvc-resource-*.json
+            build/evidence/**/*.json
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Stage the checked current-image research artifact
+        if: success()
+        run: |
+          $mirror = 'C:/Projects/nms-companion-auto-summon-compat-cosmos-706'
+          $report = Get-Content -LiteralPath "$mirror/build/msvc-resource-comparison.json" -Raw | ConvertFrom-Json
+          if (-not $report.completed -or (-not $report.dll_byte_identical -and -not $report.comparison_reproduced)) { throw 'Incomplete comparison' }
+          $destination = 'build/metadata-module/fixed-resource'
+          New-Item -ItemType Directory -Path $destination | Out-Null
+          $baselineDestination = 'build/metadata-module/baseline'
+          New-Item -ItemType Directory -Force -Path $baselineDestination | Out-Null
+          Copy-Item -LiteralPath "$mirror/build/msvc-0106-a/CompanionAutoSummon.asi" -Destination "$baselineDestination/CompanionAutoSummon.asi"
+          if ((Get-FileHash -LiteralPath "$baselineDestination/CompanionAutoSummon.asi" -Algorithm SHA256).Hash.ToLowerInvariant() -ne $report.baseline.sha256) { throw 'Baseline staging changed bytes' }
+          foreach ($name in @('CompanionAutoSummon.asi','CompanionAutoSummon.pdb')) {
+            Copy-Item -LiteralPath "$mirror/build/msvc-0106-b/$name" -Destination "$destination/$name"
+            if ((Get-FileHash -LiteralPath "$mirror/build/msvc-0106-b/$name").Hash -ne (Get-FileHash -LiteralPath "$destination/$name").Hash) { throw 'Staged comparison bytes changed' }
+          }
+      - name: Retain the fully checked research module
+        if: success()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: native-msvc-resource-research-module
+          path: build/metadata-module/**/*
+          if-no-files-found: ignore
+          retention-days: 7

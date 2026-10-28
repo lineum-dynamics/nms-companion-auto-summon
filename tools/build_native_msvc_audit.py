@@ -35,11 +35,17 @@ def main():
                         help="Also build an owned factory-failure DLL and check single-owner refusal")
     parser.add_argument("--omit-analysis-for-comparison", action="store_true",
                         help="Diagnostic compiler-flag comparison only; preserve source/version, omit DLL /analyze")
+    parser.add_argument("--fixed-version-resource-comparison", action="store_true",
+                        help="Diagnostic only: keep fixed VERSIONINFO fields and omit optional text resource blocks")
     args = parser.parse_args()
     if args.startup_failure_fixture and not args.release_candidate:
         parser.error("The startup failure fixture requires the explicit candidate mode")
     if args.omit_analysis_for_comparison and not args.release_candidate:
         parser.error("The compiler comparison requires explicit candidate mode; the default source audit stays enabled")
+    if args.fixed_version_resource_comparison and not args.release_candidate:
+        parser.error("The resource comparison requires explicit candidate mode")
+    if args.fixed_version_resource_comparison and args.omit_analysis_for_comparison:
+        parser.error("Compare one factor at a time; resource comparison retains /analyze")
     if (os.name != "nt" or os.environ.get("GITHUB_ACTIONS") != "true"
             or os.environ.get("GITHUB_REPOSITORY") != "lineum-dynamics/nms-companion-auto-summon"):
         raise ValueError("This audit runs only on an isolated GitHub Actions runner")
@@ -80,6 +86,12 @@ def main():
         resource.write_text(resource.read_text(encoding="utf-8").replace(
             "Companion Auto Summon - isolated compiler audit", "Companion Auto Summon for No Man's Sky - native test").replace(
             "Companion Auto Summon compiler audit", "Companion Auto Summon for No Man's Sky - by Lineum Dynamics"),encoding="utf-8")
+    if args.fixed_version_resource_comparison:
+        resource.write_text(
+            '#include <windows.h>\n1 VERSIONINFO\n'
+            f'FILEVERSION {numeric_version}\nPRODUCTVERSION {numeric_version}\n'
+            'FILEFLAGSMASK 0x3fL\nFILEFLAGS VS_FF_PRERELEASE\n'
+            'FILEOS VOS_NT_WINDOWS32\nFILETYPE VFT_DLL\nBEGIN\nEND\n',encoding="utf-8")
     commands = []
 
     def run(command, timeout=300):
@@ -93,12 +105,16 @@ def main():
     kind = "msvc-release-candidate" if args.release_candidate else "cross-compiler-audit"
     if args.omit_analysis_for_comparison:
         kind = "msvc-compiler-flag-comparison"
+    if args.fixed_version_resource_comparison:
+        kind = "msvc-fixed-resource-comparison"
     log = {"kind":kind,"version":version,"base_player_version":BASE_VERSION,
            "game_access":False,"deployed":False,"binary_uploaded":False,"sources":before,"commands":commands,
            "compatibility":profile,"native_mapping":mapping,"completed":False,
            "caller_attribution":{"call_sites":2,"level":0,"intrinsic":"_ReturnAddress","call_site_macro":True},
            "packaging_approved":False,"av_clearance":False,
-           "dll_static_analysis_included":not args.omit_analysis_for_comparison}
+           "dll_static_analysis_included":not args.omit_analysis_for_comparison,
+           "fixed_version_resource_comparison":args.fixed_version_resource_comparison,
+           "resource_source_sha256":digest(resource)}
     try:
         includes = ["/I"+str(p) for p in (native/"include",native/"third_party",native/"third_party/minhook/include",generated)]
         cpp = [tools["cl.exe"],"/nologo","/std:c++17","/permissive-","/Zc:__cplusplus","/O2","/W4","/EHsc","/MT","/utf-8",
@@ -175,7 +191,9 @@ def main():
                        caller_attribution=log["caller_attribution"],
                        debug_symbols_separate=args.release_candidate,
                        startup_thread_factory="_beginthreadex",startup_thread_failure_control=startup_failure,
-                       dll_static_analysis_included=not args.omit_analysis_for_comparison)
+                       dll_static_analysis_included=not args.omit_analysis_for_comparison,
+                       fixed_version_resource_comparison=args.fixed_version_resource_comparison,
+                       resource_source_sha256=digest(resource))
         if args.release_candidate:
             pdb = output/"CompanionAutoSummon.pdb"
             if not pdb.is_file():

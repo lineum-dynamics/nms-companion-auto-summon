@@ -7360,3 +7360,38 @@ remain unresolved; no global safety or false-positive claim is made.
   local native execution, game/image/save access, source/profile/RVA or player
   meaning change, VT submission, release or Nexus acceptance. Cosmos 7.06 /
   Steam 25732212 / exe 13d5060d remains the target; support remains unsent.
+
+
+### Original-byte flag result and fixed-resource discriminator, 28 October 2026
+
+- Run40717532898/source6e2ecf8 used original image20261022.344.1. Both /analyze
+  settings reproduce frozen ASI30cc9542/749,568B. Normalized DLL command differs
+  only by that flag; source/generated/resource inputs match. All91 source
+  digests match Git. This flag is a FALSE LEAD for the actual frozen-file
+  Yogi difference. B factory-failure control passed status3/one attempt; no
+  redundant third build/full functional repeat. PDBs differ; no PDB identity.
+- Scanner orchestration correction passed: update completed; active signed
+  platform4.18.26100.4/engine1.1.26100.4, defs1.463.10.0 dated28Oct10:14:03UTC.
+  EICAR detected (exit2), exact unchanged ASI custom scan completed no detection
+  (exit0), preferences/input hash unchanged. Stock realtimefalse; narrow custom
+  scan only. This supersedes no historical scan or current multivendor/Nexus
+  gate. Full ASI's dated VT9/57 still contains six completed Yogi detections.
+- Result NATIVE-0106-ANALYSIS-FLAG-RESULT.json SHA-256
+  384c7a3cc9ee54ffb902ad4f960a2504b339f7c823790a52f8736957d66a477e.
+  Retained 7,170-file configured tool/include/library inventory gzip SHA
+  9e4f96965d7496b709853310d06af5453a59b28c1222356d877ec015fc5da69a,
+  uncompressed b9697790bb13dbf0fc8829f5d330ba3c81db88e1c7bc84ff4417769ea0dd051f.
+  Does not prove every file was consumed; older/newer image byte cause still
+  NOT CHECKED until corresponding inputs can be compared.
+- Register one new factor in NATIVE-0106-RESOURCE-COMPARISON.md: normal full
+  module versus fixed VERSIONINFO only, omitting optional text/translation
+  blocks. Same numeric version, flags, filename, code, /analyze and guards.
+  This is a full guarded module, NOT an inactive probe. Require known-image
+  A baseline, B full owned suite/factory refusal, C byte reproduction, exercised
+  scan and independent program-section/fixed-field equality before considering
+  a new exact-file upload. Default resources/branding remain. New results and
+  private-rule consequences NOT CHECKED; no automatic multivendor submission.
+- No new game image, mapping/profile/RVA, activation approval, gameplay or
+  locale meaning changed. Exact target remains Cosmos7.06/Steam25732212/exe
+  13d5060d. No local native execution, deployment, player release or Nexus
+  acceptance; support unsent. Next: one controlled resource ablation/readback.

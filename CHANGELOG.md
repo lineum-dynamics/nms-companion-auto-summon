@@ -2,6 +2,13 @@
 
 ## 0.10.6-native-test — unreleased CRT-thread candidate
 
+- Rule out DLL /analyze on the exact frozen recipe: both settings produce
+  identical original ASI bytes. The corrected positively controlled Defender
+  scan passed with 28 October definitions, without multivendor/Nexus clearance.
+- Add one fixed VERSIONINFO text ablation for diagnosis, retaining all native
+  code/guards and ordinary build resources. Require original-byte baseline,
+  full owned validation, reproduction and scan before independent PE review.
+
 - Wait for a ready Defender engine after signature/platform updates, then
   resolve the active signed scanner. Preserve the positive-control gate;
   engine errors remain inconclusive. Record the newly observed CI image drift

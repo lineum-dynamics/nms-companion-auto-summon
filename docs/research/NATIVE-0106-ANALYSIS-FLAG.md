@@ -136,3 +136,35 @@ older profile runs, it can directly test the frozen 30cc9542 recipe; otherwise
 historical-image attribution remains untested. The scanner fix's actual
 post-update control remains NOT CHECKED. No binary was retained by either
 failed comparison run; no new VT submission or player edit occurred.
+
+
+## Completed original-image flag result
+
+Run 40717532898 at source 6e2ecf860eba739bc997a9cfcd48793abbf266a5 used the
+original 20261022.344.1 image. A and B both reproduce the frozen 749,568-byte
+30cc9542 module exactly. Source/generated/resource inputs match, with normalized
+DLL commands differing only by /analyze. All 91 recorded source inputs match
+Git blobs. Thus this flag has no output-byte effect on the original frozen
+recipe and cannot explain its Yogi difference. No third build/full functional
+repeat was needed; B's factory-failure control passed with stopped status3 and
+one factory attempt. PDB bytes differ; no PDB-identity claim.
+
+The corrected scanner update completed, then resolved signed platform
+4.18.26100.4 (scanner SHA eadb987d) with engine1.1.26100.4 and definitions
+1.463.10.0 dated 28 October 10:14:03 UTC. EICAR was detected (exit2); the exact
+unchanged module scan completed (exit0, no detection), with unchanged preference
+and input hashes. Stock realtime protection is false; only the exercised
+custom-scan claim is made. This does not clear the multivendor or Nexus gates.
+
+[NATIVE-0106-ANALYSIS-FLAG-RESULT.json](NATIVE-0106-ANALYSIS-FLAG-RESULT.json)
+SHA-256 384c7a3cc9ee54ffb902ad4f960a2504b339f7c823790a52f8736957d66a477e.
+The 7,170 configured compiler/include/library files are retained in
+NATIVE-0106-MSVC-INPUTS-20261022.json.gz, SHA-256
+9e4f96965d7496b709853310d06af5453a59b28c1222356d877ec015fc5da69a;
+uncompressed receipt SHA b9697790bb13dbf0fc8829f5d330ba3c81db88e1c7bc84ff4417769ea0dd051f.
+This is a configured input inventory, not proof each file was consumed.
+
+Do not repeat flag or inclusion probes without a new discriminator. The next
+single factor is [optional VERSIONINFO text](NATIVE-0106-RESOURCE-COMPARISON.md),
+retaining full native code and guards. No new multivendor upload is needed for
+the identical flag comparison. No player/Nexus acceptance or support contact.

@@ -643,3 +643,8 @@ See [the completed startup record](docs/research/NATIVE-0106-STARTUP-PROBES.md).
 A concrete recipe difference now has a byte-first
 [MSVC analysis-flag comparison](docs/research/NATIVE-0106-ANALYSIS-FLAG.md),
 without changing normal analysis defaults or player behavior.
+
+The original-byte [/analyze comparison](docs/research/NATIVE-0106-ANALYSIS-FLAG.md)
+is complete: both settings produce 30cc9542. A new
+[fixed resource comparison](docs/research/NATIVE-0106-RESOURCE-COMPARISON.md)
+is diagnostic only; normal VERSIONINFO text and player guards remain unchanged.

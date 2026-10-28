@@ -74,3 +74,11 @@ Player installation and removal instructions for current releases are English-on
   0.10.6 ASI remains Yogi-positive. Continue the controlled /analyze byte
   comparison in docs/research/NATIVE-0106-ANALYSIS-FLAG.md; keep default analysis
   and player guards, avoid repeated inclusion controls, and keep support unsent.
+
+- Completed original-image /analyze comparison40717532898 reproduces ASI30cc9542
+  in both modes: do not keep treating that flag as a Yogi lead. Corrected active
+  Defender custom scan passed with defs1.463.10.0 dated28Oct10:14:03UTC and an
+  EICAR positive control; no global/Nexus clearance. Next single discriminator
+  is docs/research/NATIVE-0106-RESOURCE-COMPARISON.md. Its B is the full guarded
+  module, NOT inactive; keep normal metadata and never choose player bytes by
+  scan score. No automatic VT submission or support contact.
