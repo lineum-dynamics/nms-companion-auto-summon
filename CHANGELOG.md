@@ -2,6 +2,13 @@
 
 ## 0.10.6-native-test — unreleased CRT-thread candidate
 
+- Subsequent exact-file VT results retain Yogi. The displayed 5/50 includes
+  20 timeouts; fresh unchanged 0.10.5 is 10/69. Both have five positives among 48
+  common completed scanners. No AV improvement or clearance is established.
+- Preregister an owned inspection/core diagnostic comparison with matched
+  exports. These inert libraries are never player payloads; see
+  [the fixed design](docs/research/NATIVE-0106-INSPECTION-PROBES.md).
+
 - Use `_beginthreadex` for the C++ initializer worker as required for the
   Microsoft multithreaded static CRT. Preserve normal asynchronous startup,
   once-only ownership, module pinning and exact-host/profile refusal.

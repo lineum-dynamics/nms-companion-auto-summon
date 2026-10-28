@@ -54,7 +54,7 @@ hosts with status 2.
 | Forced factory-zero, single-owner control | Passed: status 3, hooks inactive, one attempt for eight concurrent calls plus retry |
 | Exact-file Defender custom scan with positive control | Completed without detection; refresh failed, retained 22 October definitions |
 | Exact-candidate UAL automatic startup/normal process exit | Passed, three baselines plus three ASI cases, run 40655172010 |
-| Multivendor comparison for the exact new ASI | NOT CHECKED |
+| Multivendor comparison for the exact new ASI | Completed 5/50, 20 timeouts; fresh control 10/69; unresolved Yogi |
 | Exact-candidate NMS acceptance and Nexus availability | NOT CHECKED |
 
 Run native-msvc-candidate.yml on the exact source commit. Its first command
@@ -103,7 +103,7 @@ Run `audit_msvc_candidate_artifact.py --artifact-version 0.10.6-native-test`
 with the exact module/PDB paths and output argument.
 
 Sanitized receipt: [NATIVE-0106-EVIDENCE.json](NATIVE-0106-EVIDENCE.json), SHA-256
-`c04c0f1bdfd905411b015fb862695bb86fb37441d8fed52d5daea29e4c0ffdaa`.
+`3e5e0c3a17ff81b66ce27c66c0258204a42b8ec3db60884fc6d09613473bf72d`.
 The initial collector stopped on an incorrectly guessed hyphenated report
 filename; corrected actual underscore filenames precede all hash comparisons.
 No missing input was counted as passed.
@@ -128,11 +128,30 @@ restored its working directory; input bytes remained unchanged. Host hash
 unchanged from the earlier owned 0.10.5 lifecycle fixture. These remain owned
 unsupported-host observations, not NMS acceptance or arbitrary DLL unloading.
 
-The new exact hash currently returns Item not found on VirusTotal. The actual
-form was inspected: Terms of Service, Privacy Notice and sample sharing with
-the security community. No 0.10.6 file was selected or uploaded. A single new
-28 October reanalysis request for the already-public 0.10.5 control stopped at
-a visible CAPTCHA, left unsolved; no new analysis timestamp is established.
-The next consequential action needs one bundled approval for the exact new
-ASI/terms/sharing and the currently displayed control CAPTCHA. The held
-support draft remains unsent. No player package or Nexus replacement exists.
+## Completed multivendor result
+
+The owner explicitly approved this exact ASI, displayed terms/sharing and the
+current control CAPTCHA. The ASI upload completed. The continued control
+challenge was completed through observed DOM cells; a page reload verified
+that the new control analysis was queued, then its full dated result arrived.
+
+| Frozen module | Analysis UTC on 28 October | Malicious/evaluated | Other states |
+| --- | --- | --- | --- |
+| 0.10.6, 30cc9542 | 08:22:30 | 5/50 | 20 timeouts, 1 failure, 4 unsupported |
+| 0.10.5 control, 8e6dd664 | 08:29:05 | 10/69 | 1 timeout, 1 failure, 4 unsupported |
+
+Both complete tables have 75 distinct vendors. Only 48 completed both analyses;
+each file has five positives among those 48. Cynet changes from Undetected to
+malicious; TrendMicro-HouseCall changes the other way. eScan/GData/VIPRE still
+report Yogi on both. ALYac/Arcabit/BitDefender/CTX/Emsisoft all time out on the
+new candidate while remaining positive on the control. The lower displayed
+numerator does not establish an improvement. Engine/definition identity is
+not established from the UI. The documented CRT correction is not sufficient
+to remove the observed Yogi labels and is not AV clearance.
+
+Complete dated tables and comparison: [VT evidence](NATIVE-0106-VT-EVIDENCE-20261028.json),
+SHA-256 82b926b07fd2bdd272fc3fe509b6778dfd85f2ee47ecc5c1c4cdabf796651685.
+The next bounded discriminator is the preregistered
+[matched-export inspection/core comparison](NATIVE-0106-INSPECTION-PROBES.md).
+Those diagnostics do not modify frozen player bytes. NMS acceptance and Nexus
+availability remain separate open gates. Support remains unsent.

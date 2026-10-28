@@ -41,6 +41,13 @@ including the inert CRT-only control. No private rule or general clearance is
 established. A [0.10.6 CRT-thread correction](../research/NATIVE-0106-CRT-THREAD.md)
 has a documented engineering reason and separate pending build/scan/game gates.
 Neither candidate is a Nexus replacement or a released player archive.
+The approved 0.10.6 scan completed on 28 October 08:22:30 UTC: 5/50, 20 timeouts,
+one failure. Fresh unchanged 0.10.5 control at 08:29:05 is 10/69, one timeout,
+one failure. All 75 rows are preserved for each. On 48 common completed vendors,
+both have five detections; three completed Yogi vendors remain positive and
+five others time out on 0.10.6. The displayed lower count is not clearance or
+an established improvement. See [the complete comparison](../research/NATIVE-0106-VT-EVIDENCE-20261028.json).
+
 
 ## Evidence required before dropping the test label
 

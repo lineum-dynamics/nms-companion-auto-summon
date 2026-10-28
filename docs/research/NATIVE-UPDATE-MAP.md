@@ -3565,7 +3565,7 @@ remain unresolved; no global safety or false-positive claim is made.
   at a missing historical validator, while query-guard passed. Later success
   does not relabel these overall failed runs. No frozen player bytes changed.
 - Sanitized evidence NATIVE-0105-EVIDENCE.json, SHA-256
-  5292514fff69b8ba26b949528c0ef9ac125e630e7d8f61ae2477a8e11968f5ef.
+  dee2c1d8de809e7a71a6ca0fd943e5f44ee5a1d53836bed590a4000cdedf96d2.
   Detailed methods, exact artifacts and gates: NATIVE-0105-MSVC-CANDIDATE.md.
 - Multivendor submission is NOT CHECKED: new hash lookup is Item not found;
   the exact 747,520-byte ASI and displayed VirusTotal sharing/terms form are
@@ -3593,7 +3593,7 @@ remain unresolved; no global safety or false-positive claim is made.
   reachability or interactions. Core includes the generated catalog.
 - Component evidence NATIVE-0105-COMPONENT-EVIDENCE-20261028.json, SHA-256
   3eff44fb61c662094137516c5d25a86a88b6220ed8304cee4acd589d30367c69. Full 0.10.5 evidence now SHA-256
-  5292514fff69b8ba26b949528c0ef9ac125e630e7d8f61ae2477a8e11968f5ef; original morning scan snapshots remain historical.
+  dee2c1d8de809e7a71a6ca0fd943e5f44ee5a1d53836bed590a4000cdedf96d2; original morning scan snapshots remain historical.
   Initial 74-row parser refused an unlabeled failure; corrected visible parser
   asserts 75 distinct rows and preserves Google timeout/Zillya failure.
 - FALSE LEAD: own binding filter already uses RW allocation then verified RX;
@@ -3636,7 +3636,7 @@ remain unresolved; no global safety or false-positive claim is made.
   collector guessed a hyphenated report filename and refused missing input;
   corrected retained underscore filenames before completing comparisons.
 - Evidence NATIVE-0106-EVIDENCE.json SHA-256
-  c04c0f1bdfd905411b015fb862695bb86fb37441d8fed52d5daea29e4c0ffdaa.
+  3e5e0c3a17ff81b66ce27c66c0258204a42b8ec3db60884fc6d09613473bf72d.
   Prepare the same owned UAL lifecycle check against this exact ASI, while
   preserving the old 0.10.5 identity and historical results. No game process or
   new executable image, mapping/profile/gameplay filter, locale text or player
@@ -3651,7 +3651,7 @@ remain unresolved; no global safety or false-positive claim is made.
   unchanged hashes and OS exits 0. The host did not call InitializeASI. This
   closes only the owned unsupported-host startup/normal process-exit gate.
 - Current sanitized NATIVE-0106-EVIDENCE.json SHA-256
-  c04c0f1bdfd905411b015fb862695bb86fb37441d8fed52d5daea29e4c0ffdaa; includes exact loader observation/toolchain receipts.
+  3e5e0c3a17ff81b66ce27c66c0258204a42b8ec3db60884fc6d09613473bf72d; includes exact loader observation/toolchain receipts.
   It preserves the stale Defender-definition limit and all 15 parser warnings.
 - New ASI hash lookup: Item not found. The real VT form displays Terms of
   Service, Privacy Notice and sample sharing; no new file selected/uploaded.
@@ -3662,3 +3662,38 @@ remain unresolved; no global safety or false-positive claim is made.
 - New exact-file multivendor, NMS acceptance, packaging and Nexus availability
   remain NOT CHECKED. Support unsent; no local native execution, security
   preference change, new game image/profile/RVA or player text/meaning edit.
+
+### Completed paired VT and inspection-boundary handoff, 28 October 2026
+
+- Explicitly approved exact 0.10.6 ASI upload/terms/sharing completed. Frozen
+  30cc9542a2af3529fd4f3a2299d6331bddf51b61f8213a0a1a779b472789de3d:
+  5/50 at 08:22:30 UTC, 20 timeouts, one failure, four unsupported. Fresh unchanged
+  0.10.5 control 8e6dd664 completed at 08:29:05: 10/69, one timeout, one failure,
+  four unsupported. Current CAPTCHA was completed using observed DOM cells;
+  after one resumed Reanalyze and page reload, queue and final timestamp were
+  verified. Initial coordinate action refused input; the first image challenge
+  expired during API inspection. No security bypass or inferred fresh scan.
+- Both tables contain 75 distinct vendors. Of 48 completing both, each has five
+  detections. Cynet becomes positive; TrendMicro-HouseCall becomes Undetected.
+  eScan/GData/VIPRE still flag Yogi on both. The other five Yogi-positive control
+  vendors time out on 0.10.6. FALSE LEAD as a sufficient AV repair: the documented
+  CRT-thread correction does not remove the three observed Yogi detections.
+  No improvement, false-positive classification or private rule established.
+- Complete VT evidence NATIVE-0106-VT-EVIDENCE-20261028.json SHA-256
+  82b926b07fd2bdd272fc3fe509b6778dfd85f2ee47ecc5c1c4cdabf796651685;
+  current 0.10.6 master 3e5e0c3a17ff81b66ce27c66c0258204a42b8ec3db60884fc6d09613473bf72d.
+  Historical snapshots and all frozen player bytes remain preserved.
+- Next discriminator is preregistered 2x2 inspection/core inclusion with matched
+  CasComponentProbeStatus/CasInspectHost exports, identical resource/filename/
+  link flags: stub baseline, real probe.cpp, core+stub, core+real inspection.
+  No bootstrap/InitializeASI/worker/gameplay activation. Owned host invokes
+  only status and actual-current-EXE inspection/stub, checks independently
+  computed host SHA/unsupported status 4/inactive hooks, then unloads; child
+  environment omits CI tokens. Core methods retained but never called.
+- New diagnostic compilation/export/resource/control/identity results remain
+  NOT CHECKED until actual CI readback. No new diagnostic upload is authorized
+  by the completed prior-file approvals. Do not vary player artifacts or weaken
+  guards based on labels. No new game image/profile/RVA/UI meaning change;
+  target remains Cosmos 7.06/Steam 25732212/exe SHA 13d5060d. Game/Nexus gates
+  remain separate; support unsent. Next: build/read the fixed four diagnostics,
+  freeze exact bytes and prepare the actual upload review only if useful.

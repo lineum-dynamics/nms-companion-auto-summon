@@ -457,12 +457,31 @@
     "scope": "Exact ASI and official pinned UAL, owned unsupported host, automatic initialization and normal process exit; not NMS or arbitrary unloading"
   },
   "multivendor": {
-    "uploaded": false,
-    "state": "NOT CHECKED; exact-file upload/terms approval required",
-    "exact_hash_lookup": "Item not found on 28 October; no file selected or uploaded",
-    "actual_upload_form_inspected": true,
-    "displayed_terms": "Terms of Service, Privacy Notice, sample sharing with the security community; no personal information",
-    "control_0105_reanalysis": "Single new 28 October request stopped at visible CAPTCHA, unsolved; no new analysis timestamp established"
+    "uploaded": true,
+    "state": "COMPLETED_WITH_TIMEOUTS_UNRESOLVED_DETECTIONS",
+    "authorization": "Explicit user approval for the exact ASI, displayed terms/sharing and current control CAPTCHA; fulfilled",
+    "last_analysis_utc": "2026-10-28T08:22:30.000Z",
+    "malicious": 5,
+    "evaluated": 50,
+    "status_counts": {
+      "malicious": 5,
+      "undetected": 45,
+      "timeout": 20,
+      "type-unsupported": 4,
+      "failure": 1
+    },
+    "report_url": "https://www.virustotal.com/gui/file/30cc9542a2af3529fd4f3a2299d6331bddf51b61f8213a0a1a779b472789de3d/detection",
+    "evidence": "NATIVE-0106-VT-EVIDENCE-20261028.json",
+    "evidence_sha256": "82b926b07fd2bdd272fc3fe509b6778dfd85f2ee47ecc5c1c4cdabf796651685",
+    "fresh_control_last_analysis_utc": "2026-10-28T08:29:05.000Z",
+    "fresh_control_malicious": 10,
+    "fresh_control_evaluated": 69,
+    "common_completed_vendors": 48,
+    "candidate_common_malicious": 5,
+    "control_common_malicious": 5,
+    "conclusion": "Yogi persists on all three previously positive vendors that completed both. Five other Yogi-positive control vendors timed out on the new candidate. No improvement/clearance established.",
+    "initial_hash_lookup": "Item not found before explicitly approved upload",
+    "control_captcha": "Completed; queued reanalysis was verified after one page reload, then full dated result captured"
   },
   "game_acceptance_established": false,
   "packaging_approved": false,

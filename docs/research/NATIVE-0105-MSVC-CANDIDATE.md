@@ -12,6 +12,12 @@ exact ASI submission completed at 27 October 21:43:19 UTC with 8/71 detections,
 all Yogi labels. A fresh unchanged 0.10.4 control reports 30/71 at 21:53:11 UTC.
 This remains unresolved. No candidate game acceptance or Nexus upload occurred.
 
+The latest unchanged-file reanalysis completed on 28 October 08:29:05 UTC:
+**10/69**, with one timeout, one failure and four unsupported vendors. This
+supersedes the dated 8/71 snapshot as the latest observation. The 0.10.6 thread
+correction retains Yogi and has 20 timeouts; its 5/50 is not an improvement claim.
+See [the full fresh comparison](NATIVE-0106-VT-EVIDENCE-20261028.json).
+
 ## Engineering change
 
 - Use the existing signed Microsoft C/C++ toolchain on an isolated Windows CI
@@ -170,7 +176,7 @@ job passed. Later artifact staging/lock validation fixed those measurement
 methods; neither earlier overall run is relabelled successful.
 
 Sanitized receipts and identities: [NATIVE-0105-EVIDENCE.json](NATIVE-0105-EVIDENCE.json),
-SHA-256 `5292514fff69b8ba26b949528c0ef9ac125e630e7d8f61ae2477a8e11968f5ef`.
+SHA-256 `dee2c1d8de809e7a71a6ca0fd943e5f44ee5a1d53836bed590a4000cdedf96d2`.
 The new candidate is not installed or packaged for players. Complete tables
 and the fresh 0.10.4 comparison are in [the dated VT evidence](NATIVE-0105-VT-EVIDENCE-20261027.json).
 All eight 0.10.5 positive vendors are a subset of the control's 30 positives;

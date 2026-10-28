@@ -599,7 +599,22 @@
     "private_matching_rule_identified": false,
     "component_probes_upload_approval": "Explicit approval; all four submitted and completed",
     "component_evidence": "NATIVE-0105-COMPONENT-EVIDENCE-20261028.json",
-    "component_evidence_sha256": "3eff44fb61c662094137516c5d25a86a88b6220ed8304cee4acd589d30367c69"
+    "component_evidence_sha256": "3eff44fb61c662094137516c5d25a86a88b6220ed8304cee4acd589d30367c69",
+    "latest_reanalysis": {
+      "last_analysis_utc": "2026-10-28T08:29:05.000Z",
+      "malicious": 10,
+      "evaluated": 69,
+      "status_counts": {
+        "malicious": 10,
+        "undetected": 59,
+        "timeout": 1,
+        "type-unsupported": 4,
+        "failure": 1
+      },
+      "evidence": "NATIVE-0106-VT-EVIDENCE-20261028.json",
+      "evidence_sha256": "82b926b07fd2bdd272fc3fe509b6778dfd85f2ee47ecc5c1c4cdabf796651685",
+      "original27_October_snapshot_preserved": true
+    }
   },
   "game_acceptance_established": false,
   "nexus_candidate_uploaded": false,
