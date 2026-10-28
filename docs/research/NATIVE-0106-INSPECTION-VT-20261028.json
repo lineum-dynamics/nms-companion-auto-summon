@@ -1,0 +1,1996 @@
+{
+  "schema": 1,
+  "method": "Complete rendered Detection tables;75 unique vendor rows and headline denominator verified per file",
+  "parser_note": "Accept singular or plural vendor wording in completed header; raw DOM captures unchanged",
+  "results": [
+    {
+      "sha256": "8d042d4994b99feca64d45210b09d4063aa6b7ec5a8aef3dad7d47cfc57f4add",
+      "last_analysis_utc": "2026-10-28T13:23:12.000Z",
+      "observed_utc": "2026-10-28T13:28:48.325Z",
+      "malicious": 1,
+      "evaluated": 71,
+      "status_counts": {
+        "malicious": 1,
+        "undetected": 70,
+        "type-unsupported": 4
+      },
+      "vendors": [
+        {
+          "vendor": "Cynet",
+          "status": "malicious",
+          "label": "Malicious (score: 100)"
+        },
+        {
+          "vendor": "Acronis (Static ML)",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "AhnLab-V3",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Alibaba",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "AliCloud",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "ALYac",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Antiy-AVL",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Arcabit",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Arctic Wolf",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Avast",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "AVG",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Avira (no cloud)",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "BitDefender",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Bkav Pro",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "ClamAV",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "CMC",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "CrowdStrike Falcon",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "CTX",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "DeepInstinct",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "DrWeb",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Elastic",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Emsisoft",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "eScan",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "ESET-NOD32",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Fortinet",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "GData",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Google",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Gridinsoft (no cloud)",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Huorong",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Ikarus",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Jiangmin",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "K7AntiVirus",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "K7GW",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Kaspersky",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Kingsoft",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Lionic",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Malwarebytes",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "MaxSecure",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "McAfee Scanner",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Microsoft",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "NANO-Antivirus",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Palo Alto Networks",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Panda",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "QuickHeal",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Rising",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Sangfor Engine Zero",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "SecureAge",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "SentinelOne (Static ML)",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Skyhigh (SWG)",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Sophos",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "SUPERAntiSpyware",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Symantec",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "TACHYON",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "TEHTRIS",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Tencent",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Trapmine",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Trellix ENS",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "TrendMicro",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "TrendMicro-HouseCall",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Varist",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "VBA32",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "VIPRE",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "VirIT",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "ViRobot",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Webroot",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "WithSecure",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Xcitium",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Yandex",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Zillya",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "ZoneAlarm by Check Point",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Zoner",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Avast-Mobile",
+          "status": "type-unsupported",
+          "label": "Unable to process file type"
+        },
+        {
+          "vendor": "BitDefenderFalx",
+          "status": "type-unsupported",
+          "label": "Unable to process file type"
+        },
+        {
+          "vendor": "Symantec Mobile Insight",
+          "status": "type-unsupported",
+          "label": "Unable to process file type"
+        },
+        {
+          "vendor": "Trustlook",
+          "status": "type-unsupported",
+          "label": "Unable to process file type"
+        }
+      ],
+      "report_url": "https://www.virustotal.com/gui/file/8d042d4994b99feca64d45210b09d4063aa6b7ec5a8aef3dad7d47cfc57f4add/detection",
+      "case": "baseline",
+      "bytes": 494592
+    },
+    {
+      "sha256": "15a591f00db466527e33eefb0ece2dbbaa7fd78bc75f4f21442f1afb4bafaa86",
+      "last_analysis_utc": "2026-10-28T13:23:35.000Z",
+      "observed_utc": "2026-10-28T13:28:48.665Z",
+      "malicious": 1,
+      "evaluated": 70,
+      "status_counts": {
+        "malicious": 1,
+        "undetected": 69,
+        "type-unsupported": 4,
+        "failure": 1
+      },
+      "vendors": [
+        {
+          "vendor": "Cynet",
+          "status": "malicious",
+          "label": "Malicious (score: 100)"
+        },
+        {
+          "vendor": "Acronis (Static ML)",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "AhnLab-V3",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Alibaba",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "AliCloud",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "ALYac",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Antiy-AVL",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Arcabit",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Arctic Wolf",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Avast",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "AVG",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Avira (no cloud)",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "BitDefender",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Bkav Pro",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "ClamAV",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "CMC",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "CrowdStrike Falcon",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "CTX",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "DeepInstinct",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "DrWeb",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Elastic",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Emsisoft",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "eScan",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "ESET-NOD32",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Fortinet",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "GData",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Google",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Gridinsoft (no cloud)",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Huorong",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Ikarus",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Jiangmin",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "K7AntiVirus",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "K7GW",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Kaspersky",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Kingsoft",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Lionic",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Malwarebytes",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "MaxSecure",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "McAfee Scanner",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Microsoft",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "NANO-Antivirus",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Palo Alto Networks",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Panda",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "QuickHeal",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Rising",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Sangfor Engine Zero",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "SecureAge",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "SentinelOne (Static ML)",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Skyhigh (SWG)",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Sophos",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "SUPERAntiSpyware",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Symantec",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "TACHYON",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "TEHTRIS",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Tencent",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Trapmine",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Trellix ENS",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "TrendMicro",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "TrendMicro-HouseCall",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Varist",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "VBA32",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "VIPRE",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "VirIT",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "ViRobot",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Webroot",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "WithSecure",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Xcitium",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Yandex",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "ZoneAlarm by Check Point",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Zoner",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Avast-Mobile",
+          "status": "type-unsupported",
+          "label": "Unable to process file type"
+        },
+        {
+          "vendor": "BitDefenderFalx",
+          "status": "type-unsupported",
+          "label": "Unable to process file type"
+        },
+        {
+          "vendor": "Symantec Mobile Insight",
+          "status": "type-unsupported",
+          "label": "Unable to process file type"
+        },
+        {
+          "vendor": "Trustlook",
+          "status": "type-unsupported",
+          "label": "Unable to process file type"
+        },
+        {
+          "vendor": "Zillya",
+          "status": "failure",
+          "label": null
+        }
+      ],
+      "report_url": "https://www.virustotal.com/gui/file/15a591f00db466527e33eefb0ece2dbbaa7fd78bc75f4f21442f1afb4bafaa86/detection",
+      "case": "inspection",
+      "bytes": 497664
+    },
+    {
+      "sha256": "7aac8e34c245e5e6058dc11c3195f734d407777a7d96e4b91fb62204118a397e",
+      "last_analysis_utc": "2026-10-28T13:25:39.000Z",
+      "observed_utc": "2026-10-28T13:28:48.971Z",
+      "malicious": 1,
+      "evaluated": 71,
+      "status_counts": {
+        "malicious": 1,
+        "undetected": 70,
+        "type-unsupported": 4
+      },
+      "vendors": [
+        {
+          "vendor": "Cynet",
+          "status": "malicious",
+          "label": "Malicious (score: 100)"
+        },
+        {
+          "vendor": "Acronis (Static ML)",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "AhnLab-V3",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Alibaba",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "AliCloud",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "ALYac",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Antiy-AVL",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Arcabit",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Arctic Wolf",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Avast",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "AVG",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Avira (no cloud)",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "BitDefender",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Bkav Pro",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "ClamAV",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "CMC",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "CrowdStrike Falcon",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "CTX",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "DeepInstinct",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "DrWeb",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Elastic",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Emsisoft",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "eScan",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "ESET-NOD32",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Fortinet",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "GData",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Google",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Gridinsoft (no cloud)",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Huorong",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Ikarus",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Jiangmin",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "K7AntiVirus",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "K7GW",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Kaspersky",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Kingsoft",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Lionic",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Malwarebytes",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "MaxSecure",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "McAfee Scanner",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Microsoft",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "NANO-Antivirus",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Palo Alto Networks",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Panda",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "QuickHeal",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Rising",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Sangfor Engine Zero",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "SecureAge",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "SentinelOne (Static ML)",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Skyhigh (SWG)",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Sophos",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "SUPERAntiSpyware",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Symantec",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "TACHYON",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "TEHTRIS",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Tencent",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Trapmine",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Trellix ENS",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "TrendMicro",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "TrendMicro-HouseCall",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Varist",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "VBA32",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "VIPRE",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "VirIT",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "ViRobot",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Webroot",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "WithSecure",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Xcitium",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Yandex",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Zillya",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "ZoneAlarm by Check Point",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Zoner",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Avast-Mobile",
+          "status": "type-unsupported",
+          "label": "Unable to process file type"
+        },
+        {
+          "vendor": "BitDefenderFalx",
+          "status": "type-unsupported",
+          "label": "Unable to process file type"
+        },
+        {
+          "vendor": "Symantec Mobile Insight",
+          "status": "type-unsupported",
+          "label": "Unable to process file type"
+        },
+        {
+          "vendor": "Trustlook",
+          "status": "type-unsupported",
+          "label": "Unable to process file type"
+        }
+      ],
+      "report_url": "https://www.virustotal.com/gui/file/7aac8e34c245e5e6058dc11c3195f734d407777a7d96e4b91fb62204118a397e/detection",
+      "case": "core",
+      "bytes": 1452032
+    },
+    {
+      "sha256": "e823bf9af6cbe2d533eef365fe42529a60c120bdfad305542fd73e0eb2988b1b",
+      "last_analysis_utc": "2026-10-28T13:26:24.000Z",
+      "observed_utc": "2026-10-28T13:28:49.287Z",
+      "malicious": 1,
+      "evaluated": 71,
+      "status_counts": {
+        "malicious": 1,
+        "undetected": 70,
+        "type-unsupported": 4
+      },
+      "vendors": [
+        {
+          "vendor": "Cynet",
+          "status": "malicious",
+          "label": "Malicious (score: 100)"
+        },
+        {
+          "vendor": "Acronis (Static ML)",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "AhnLab-V3",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Alibaba",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "AliCloud",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "ALYac",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Antiy-AVL",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Arcabit",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Arctic Wolf",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Avast",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "AVG",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Avira (no cloud)",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "BitDefender",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Bkav Pro",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "ClamAV",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "CMC",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "CrowdStrike Falcon",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "CTX",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "DeepInstinct",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "DrWeb",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Elastic",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Emsisoft",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "eScan",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "ESET-NOD32",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Fortinet",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "GData",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Google",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Gridinsoft (no cloud)",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Huorong",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Ikarus",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Jiangmin",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "K7AntiVirus",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "K7GW",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Kaspersky",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Kingsoft",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Lionic",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Malwarebytes",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "MaxSecure",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "McAfee Scanner",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Microsoft",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "NANO-Antivirus",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Palo Alto Networks",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Panda",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "QuickHeal",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Rising",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Sangfor Engine Zero",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "SecureAge",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "SentinelOne (Static ML)",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Skyhigh (SWG)",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Sophos",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "SUPERAntiSpyware",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Symantec",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "TACHYON",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "TEHTRIS",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Tencent",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Trapmine",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Trellix ENS",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "TrendMicro",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "TrendMicro-HouseCall",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Varist",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "VBA32",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "VIPRE",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "VirIT",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "ViRobot",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Webroot",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "WithSecure",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Xcitium",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Yandex",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Zillya",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "ZoneAlarm by Check Point",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Zoner",
+          "status": "undetected",
+          "label": "Undetected"
+        },
+        {
+          "vendor": "Avast-Mobile",
+          "status": "type-unsupported",
+          "label": "Unable to process file type"
+        },
+        {
+          "vendor": "BitDefenderFalx",
+          "status": "type-unsupported",
+          "label": "Unable to process file type"
+        },
+        {
+          "vendor": "Symantec Mobile Insight",
+          "status": "type-unsupported",
+          "label": "Unable to process file type"
+        },
+        {
+          "vendor": "Trustlook",
+          "status": "type-unsupported",
+          "label": "Unable to process file type"
+        }
+      ],
+      "report_url": "https://www.virustotal.com/gui/file/e823bf9af6cbe2d533eef365fe42529a60c120bdfad305542fd73e0eb2988b1b/detection",
+      "case": "inspection-core",
+      "bytes": 1455616
+    }
+  ],
+  "date": "2026-10-28",
+  "authorization": "Explicit user approval for all four exact libraries, displayed terms and sample sharing; fulfilled",
+  "ci_run": 40659776218,
+  "source_revision": "75bb5e59d2f40bbf371261f67959e9aa6e4c62ba",
+  "initial_identity_manifest": "NATIVE-0106-INSPECTION-IDENTITIES.json",
+  "initial_identity_manifest_sha256": "94dcebcf3f7962d696771f159b91031f139bc6529582b0f818c766a19bc269dc",
+  "initial_review_state_preserved": true,
+  "uploaded": true,
+  "diagnostic_only": true,
+  "player_artifact": false,
+  "local_native_execution": false,
+  "protection_preferences_changed": false,
+  "support_contact_sent": false,
+  "interpretation": {
+    "all_eight_yogi_vendors_undetected_on_all_four": true,
+    "only_positive_vendor_all_four": "Cynet",
+    "inspection_alone_sufficient_under_controls": false,
+    "inspection_with_core_sufficient_under_controls": false,
+    "private_matching_rule_identified": false,
+    "confirmed_false_positive": false,
+    "engine_versions_and_definitions_identical": "NOT ESTABLISHED",
+    "unresolved": [
+      "Full bootstrap callback/code and lifecycle",
+      "Export/filename/resource/reachability/layout differences between diagnostic libraries and the full ASI",
+      "Production versus retained-code link policy"
+    ],
+    "fresh_full_control": "Completed same-byte reanalysis at 13:35:26 UTC: 9/57, 12 timeouts, two failures, four unsupported. Six Yogi-positive vendors completed; all six are negative on all four probes. Two other earlier Yogi vendors timed out on the full control."
+  },
+  "fresh_full_control": {
+    "sha256": "30cc9542a2af3529fd4f3a2299d6331bddf51b61f8213a0a1a779b472789de3d",
+    "last_analysis_utc": "2026-10-28T13:35:26.000Z",
+    "observed_utc": "2026-10-28T13:43:07.451Z",
+    "malicious": 9,
+    "evaluated": 57,
+    "status_counts": {
+      "malicious": 9,
+      "undetected": 48,
+      "timeout": 12,
+      "type-unsupported": 4,
+      "failure": 2
+    },
+    "vendors": [
+      {
+        "vendor": "Arcabit",
+        "status": "malicious",
+        "label": "Trojan.Yogi.D1676C"
+      },
+      {
+        "vendor": "CTX",
+        "status": "malicious",
+        "label": "Dll.unknown.yogi"
+      },
+      {
+        "vendor": "Cynet",
+        "status": "malicious",
+        "label": "Malicious (score: 100)"
+      },
+      {
+        "vendor": "Emsisoft",
+        "status": "malicious",
+        "label": "Gen:Variant.Yogi.92012 (B)"
+      },
+      {
+        "vendor": "eScan",
+        "status": "malicious",
+        "label": "Gen:Variant.Yogi.92012"
+      },
+      {
+        "vendor": "GData",
+        "status": "malicious",
+        "label": "Gen:Variant.Yogi.92012"
+      },
+      {
+        "vendor": "Rising",
+        "status": "malicious",
+        "label": "Trojan.Loader!8.15A8 (TFE:6:YnFJuV5OUTP)"
+      },
+      {
+        "vendor": "TrendMicro-HouseCall",
+        "status": "malicious",
+        "label": "TROJ_GEN.R002H09JS26"
+      },
+      {
+        "vendor": "VIPRE",
+        "status": "malicious",
+        "label": "Gen:Variant.Yogi.92012"
+      },
+      {
+        "vendor": "Acronis (Static ML)",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "AhnLab-V3",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "Alibaba",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "AliCloud",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "Antiy-AVL",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "Arctic Wolf",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "Avira (no cloud)",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "Bkav Pro",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "ClamAV",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "CMC",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "CrowdStrike Falcon",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "DrWeb",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "Elastic",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "Fortinet",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "Gridinsoft (no cloud)",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "Huorong",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "Ikarus",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "Jiangmin",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "K7AntiVirus",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "K7GW",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "Kingsoft",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "Lionic",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "Malwarebytes",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "MaxSecure",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "McAfee Scanner",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "Microsoft",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "NANO-Antivirus",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "Palo Alto Networks",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "Sangfor Engine Zero",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "SecureAge",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "SentinelOne (Static ML)",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "Sophos",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "SUPERAntiSpyware",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "Symantec",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "TACHYON",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "TEHTRIS",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "Tencent",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "Trapmine",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "VBA32",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "VirIT",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "ViRobot",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "Webroot",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "WithSecure",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "Xcitium",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "Yandex",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "Zillya",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "ZoneAlarm by Check Point",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "Zoner",
+        "status": "undetected",
+        "label": "Undetected"
+      },
+      {
+        "vendor": "ALYac",
+        "status": "timeout",
+        "label": "Timeout"
+      },
+      {
+        "vendor": "Avast",
+        "status": "timeout",
+        "label": "Timeout"
+      },
+      {
+        "vendor": "AVG",
+        "status": "timeout",
+        "label": "Timeout"
+      },
+      {
+        "vendor": "BitDefender",
+        "status": "timeout",
+        "label": "Timeout"
+      },
+      {
+        "vendor": "ESET-NOD32",
+        "status": "timeout",
+        "label": "Timeout"
+      },
+      {
+        "vendor": "Google",
+        "status": "timeout",
+        "label": "Timeout"
+      },
+      {
+        "vendor": "Kaspersky",
+        "status": "timeout",
+        "label": "Timeout"
+      },
+      {
+        "vendor": "Panda",
+        "status": "timeout",
+        "label": "Timeout"
+      },
+      {
+        "vendor": "QuickHeal",
+        "status": "timeout",
+        "label": "Timeout"
+      },
+      {
+        "vendor": "Trellix ENS",
+        "status": "timeout",
+        "label": "Timeout"
+      },
+      {
+        "vendor": "TrendMicro",
+        "status": "timeout",
+        "label": "Timeout"
+      },
+      {
+        "vendor": "Varist",
+        "status": "timeout",
+        "label": "Timeout"
+      },
+      {
+        "vendor": "Avast-Mobile",
+        "status": "type-unsupported",
+        "label": "Unable to process file type"
+      },
+      {
+        "vendor": "BitDefenderFalx",
+        "status": "type-unsupported",
+        "label": "Unable to process file type"
+      },
+      {
+        "vendor": "Symantec Mobile Insight",
+        "status": "type-unsupported",
+        "label": "Unable to process file type"
+      },
+      {
+        "vendor": "Trustlook",
+        "status": "type-unsupported",
+        "label": "Unable to process file type"
+      },
+      {
+        "vendor": "DeepInstinct",
+        "status": "failure",
+        "label": null
+      },
+      {
+        "vendor": "Skyhigh (SWG)",
+        "status": "failure",
+        "label": null
+      }
+    ],
+    "report_url": "https://www.virustotal.com/gui/file/30cc9542a2af3529fd4f3a2299d6331bddf51b61f8213a0a1a779b472789de3d/detection"
+  }
+}

@@ -126,3 +126,13 @@ the detector cause or clear Nexus quarantine.
   never force-enable the button or assume visible editor text was persisted.
 - Preserve the source tag, immutable package receipt and separate publication
   receipt. A successful save/upload is not a successful file download or scan.
+
+## Later exact-file control, 28 October 2026
+
+The unchanged 0.10.6 ASI's later 13:35:26 UTC report is 9/57, 12 timeouts, two
+failures and four unsupported. It still has six completed Yogi-positive vendors.
+All four separately approved matched inspection/core diagnostics are Yogi-
+negative, with one Cynet positive each including their inert baseline. These
+results do not close the player scanner/game/Nexus gates. The next fixed
+inactive startup/link probes are research only; prior uploads do not approve
+new files. Full current evidence is in the research report and its dated tables.

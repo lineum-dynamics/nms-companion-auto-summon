@@ -54,7 +54,7 @@ hosts with status 2.
 | Forced factory-zero, single-owner control | Passed: status 3, hooks inactive, one attempt for eight concurrent calls plus retry |
 | Exact-file Defender custom scan with positive control | Completed without detection; refresh failed, retained 22 October definitions |
 | Exact-candidate UAL automatic startup/normal process exit | Passed, three baselines plus three ASI cases, run 40655172010 |
-| Multivendor comparison for the exact new ASI | Completed 5/50, 20 timeouts; fresh control 10/69; unresolved Yogi |
+| Multivendor comparison for the exact new ASI | Latest 9/57 at 13:35:26 UTC, 12 timeouts/two failures; unresolved Yogi |
 | Exact-candidate NMS acceptance and Nexus availability | NOT CHECKED |
 
 Run native-msvc-candidate.yml on the exact source commit. Its first command
@@ -103,7 +103,7 @@ Run `audit_msvc_candidate_artifact.py --artifact-version 0.10.6-native-test`
 with the exact module/PDB paths and output argument.
 
 Sanitized receipt: [NATIVE-0106-EVIDENCE.json](NATIVE-0106-EVIDENCE.json), SHA-256
-`3e5e0c3a17ff81b66ce27c66c0258204a42b8ec3db60884fc6d09613473bf72d`.
+`ebf161006dc1c92b528f7b3d65cb1a27d003e31534738a3ca313865f7c12334d`.
 The initial collector stopped on an incorrectly guessed hyphenated report
 filename; corrected actual underscore filenames precede all hash comparisons.
 No missing input was counted as passed.
@@ -155,3 +155,17 @@ The next bounded discriminator is the preregistered
 [matched-export inspection/core comparison](NATIVE-0106-INSPECTION-PROBES.md).
 Those diagnostics do not modify frozen player bytes. NMS acceptance and Nexus
 availability remain separate open gates. Support remains unsent.
+
+## Afternoon controls and remaining boundary
+
+The approved four inspection/core files completed at 13:23:12, 13:23:35,
+13:25:39 and 13:26:24 UTC. All eight Yogi-positive vendors return Undetected
+on all four. Cynet labels each, including the inert baseline. Inspection-only
+is 1/70 because Zillya failed; the other three are 1/71. Those are not clean-file
+claims. A new same-byte full 0.10.6 reanalysis at 13:35:26 is 9/57, with 12 timeouts,
+two failures and four unsupported. Arcabit/CTX/Emsisoft/eScan/GData/VIPRE still
+flag Yogi; ALYac and BitDefender time out. Thus six contemporaneous positive
+control vendors are negative on every diagnostic. Definition/version identity
+remains unestablished. The next discriminator is the fixed inactive
+[startup/link comparison](NATIVE-0106-STARTUP-PROBES.md), not another player
+rebuild. No NMS/Nexus acceptance or private-rule explanation is established.

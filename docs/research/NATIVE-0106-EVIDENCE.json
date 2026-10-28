@@ -481,7 +481,23 @@
     "control_common_malicious": 5,
     "conclusion": "Yogi persists on all three previously positive vendors that completed both. Five other Yogi-positive control vendors timed out on the new candidate. No improvement/clearance established.",
     "initial_hash_lookup": "Item not found before explicitly approved upload",
-    "control_captcha": "Completed; queued reanalysis was verified after one page reload, then full dated result captured"
+    "control_captcha": "Completed; queued reanalysis was verified after one page reload, then full dated result captured",
+    "latest_reanalysis": {
+      "last_analysis_utc": "2026-10-28T13:35:26.000Z",
+      "malicious": 9,
+      "evaluated": 57,
+      "status_counts": {
+        "malicious": 9,
+        "undetected": 48,
+        "timeout": 12,
+        "type-unsupported": 4,
+        "failure": 2
+      },
+      "report_url": "https://www.virustotal.com/gui/file/30cc9542a2af3529fd4f3a2299d6331bddf51b61f8213a0a1a779b472789de3d/detection",
+      "evidence": "NATIVE-0106-INSPECTION-VT-20261028.json",
+      "evidence_sha256": "a4264cfd6421a63d24644b5b6577796fa271878c1708fffe13028b5dab2e83c2",
+      "source_file_unchanged": true
+    }
   },
   "game_acceptance_established": false,
   "packaging_approved": false,
@@ -494,5 +510,17 @@
     "DLL byte identity is established; PDB byte identity is not established.",
     "Selected structural PE checks retain 15 pefile warnings and do not validate unwind opcode/prologue/handler semantics.",
     "Unsupported owned-host fixtures do not establish exact-candidate NMS acceptance."
-  ]
+  ],
+  "inspection_factorial": {
+    "ci_run": 40659776218,
+    "source_revision": "75bb5e59d2f40bbf371261f67959e9aa6e4c62ba",
+    "initial_identities": "NATIVE-0106-INSPECTION-IDENTITIES.json",
+    "initial_identities_sha256": "94dcebcf3f7962d696771f159b91031f139bc6529582b0f818c766a19bc269dc",
+    "specific_upload_approval_fulfilled": true,
+    "results": "NATIVE-0106-INSPECTION-VT-20261028.json",
+    "results_sha256": "a4264cfd6421a63d24644b5b6577796fa271878c1708fffe13028b5dab2e83c2",
+    "all_eight_yogi_vendors_undetected_on_every_probe": true,
+    "cynet_positive_every_probe_including_baseline": true,
+    "private_rule_identified": false
+  }
 }

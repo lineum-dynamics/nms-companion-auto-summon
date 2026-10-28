@@ -3636,7 +3636,7 @@ remain unresolved; no global safety or false-positive claim is made.
   collector guessed a hyphenated report filename and refused missing input;
   corrected retained underscore filenames before completing comparisons.
 - Evidence NATIVE-0106-EVIDENCE.json SHA-256
-  3e5e0c3a17ff81b66ce27c66c0258204a42b8ec3db60884fc6d09613473bf72d.
+  ebf161006dc1c92b528f7b3d65cb1a27d003e31534738a3ca313865f7c12334d.
   Prepare the same owned UAL lifecycle check against this exact ASI, while
   preserving the old 0.10.5 identity and historical results. No game process or
   new executable image, mapping/profile/gameplay filter, locale text or player
@@ -3651,7 +3651,7 @@ remain unresolved; no global safety or false-positive claim is made.
   unchanged hashes and OS exits 0. The host did not call InitializeASI. This
   closes only the owned unsupported-host startup/normal process-exit gate.
 - Current sanitized NATIVE-0106-EVIDENCE.json SHA-256
-  3e5e0c3a17ff81b66ce27c66c0258204a42b8ec3db60884fc6d09613473bf72d; includes exact loader observation/toolchain receipts.
+  ebf161006dc1c92b528f7b3d65cb1a27d003e31534738a3ca313865f7c12334d; includes exact loader observation/toolchain receipts.
   It preserves the stale Defender-definition limit and all 15 parser warnings.
 - New ASI hash lookup: Item not found. The real VT form displays Terms of
   Service, Privacy Notice and sample sharing; no new file selected/uploaded.
@@ -3681,7 +3681,7 @@ remain unresolved; no global safety or false-positive claim is made.
   No improvement, false-positive classification or private rule established.
 - Complete VT evidence NATIVE-0106-VT-EVIDENCE-20261028.json SHA-256
   82b926b07fd2bdd272fc3fe509b6778dfd85f2ee47ecc5c1c4cdabf796651685;
-  current 0.10.6 master 3e5e0c3a17ff81b66ce27c66c0258204a42b8ec3db60884fc6d09613473bf72d.
+  current 0.10.6 master ebf161006dc1c92b528f7b3d65cb1a27d003e31534738a3ca313865f7c12334d.
   Historical snapshots and all frozen player bytes remain preserved.
 - Next discriminator is preregistered 2x2 inspection/core inclusion with matched
   CasComponentProbeStatus/CasInspectHost exports, identical resource/filename/
@@ -3734,3 +3734,39 @@ remain unresolved; no global safety or false-positive claim is made.
   meanings unchanged; no fresh game acceptance, AV clearance or Nexus promise.
   Do not send the held support draft. If scans are approved, record all vendor
   statuses (including timeouts/failures), timestamps and the four-cell outcome.
+
+### Matched inspection results and inactive startup design, 28 October 2026
+
+- Specifically approved four DLL uploads, terms and sample sharing completed:
+  baseline 8d042d49 1/71 at 13:23:12; inspection 15a591f0 1/70 at 13:23:35;
+  core 7aac8e34 1/71 at 13:25:39; inspection-core e823bf9a 1/71 at 13:26:24 UTC.
+  All have 75 rows, one Cynet positive and four unsupported; inspection has an
+  unlabeled Zillya failure. All eight earlier Yogi vendors completed Undetected
+  for every diagnostic, including the core+real-inspection cell. This is not
+  clearance or global exclusion of those components outside fixture controls.
+- Same frozen full 0.10.6 ASI 30cc9542 reanalysis was requested once and its queue
+  verified by one page reload. It completed at 13:35:26: 9/57, 12 timeouts, two
+  failures, four unsupported. Six Yogi vendors still flag it while all six are
+  negative on all four probes; ALYac/BitDefender timed out on the full control.
+  This reduces the multi-hour temporal confound, not private-definition or
+  reachability/layout uncertainty. Complete evidence SHA-256 a4264cfd6421a63d24644b5b6577796fa271878c1708fffe13028b5dab2e83c2.
+  Current 0.10.6 master SHA-256 ebf161006dc1c92b528f7b3d65cb1a27d003e31534738a3ca313865f7c12334d.
+- The remaining fixed discriminator is six inactive startup/link cases with
+  production-shaped three-export ABI and the same .asi filename/resource:
+  cold, exact-export-tail/minimal-worker, full bootstrap+stub, full bootstrap+
+  internal real inspection behind forced-refusal adapter; plus REF/ICF copies
+  of the two full cases. NOREF/NOICF in the first four retains requested unused
+  code; do not make that retention claim for REF variants. Never player builds.
+- Stub always refuses support; the real adapter converts supported to
+  unsupported. A synthetic owned control must verify this before retention.
+  The minimal worker cannot activate. Run the owned host three fresh times
+  per case with eight concurrent initializer calls plus retry; require status 2,
+  inactive hooks, expected actual/empty host hash and normal process exit.
+  Shared production export tail is 889 bytes/SHA-256
+  99a517c94cea7c652746db72c6f0bc7652ae5b0f7351725410582ec99d0477fd.
+- Source syntax/export-tail boundaries checked; new compilation/refusal/
+  startup/link controls NOT CHECKED until CI readback. No new startup probe
+  upload is authorized by prior-file approvals. No NMS launch/access, game
+  image, source/profile/RVA or locale-meaning edit; target remains exact
+  Cosmos 7.06/Steam 25732212/exe 13d5060d. Frozen player bytes unchanged, support
+  unsent. Next: perform the six fixed CI controls and freeze their identities.

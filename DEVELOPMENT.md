@@ -631,3 +631,9 @@ The player later confirmed one manual dismissal without reappearance in the same
 The proposed public installer is a portable, offline bundle with a tested private runtime and a graphical launcher. It has not been built. The existing development venv is not portable and must not be redistributed as if it were self-contained.
 
 Localization is also not implemented. Current UI and HUD messages are English. See `LOCALIZATION.md` before changing display strings or claiming translated support.
+
+
+The later inspection/core controls and same-byte full-module reanalysis leave
+Yogi unresolved. The fixed [inactive startup/link diagnostics](docs/research/NATIVE-0106-STARTUP-PROBES.md)
+retain refusal on every host and are separate from player compilation, mapping,
+acceptance or release. Their UI/localization impact is none.

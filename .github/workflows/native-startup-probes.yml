@@ -1,0 +1,76 @@
+name: Native fixed inactive startup diagnostic probes
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [research/native-antivirus-attribution]
+    paths:
+      - .github/workflows/native-startup-probes.yml
+      - tools/research/build_startup_probes.py
+      - tools/research/build_inspection_probes.py
+      - tools/research/build_component_probes.py
+      - tools/research/startup_probe_entry.cpp
+      - tools/research/startup_inspection_refusal.cpp
+      - tools/research/startup_refusal_driver.cpp
+      - tools/research/inspection_probe_stub.cpp
+      - native/src/bootstrap.cpp
+      - native/src/probe.cpp
+      - native/tests/native_host.cpp
+
+permissions:
+  contents: read
+
+jobs:
+  probes:
+    runs-on: windows-2022
+    timeout-minutes: 25
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      PYTHONUTF8: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Check out fixed diagnostic source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Set up Python 3.11.9
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.11.9'
+      - name: Verify signed tools and build six inactive libraries
+        run: |
+          $locator = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio/Installer/vswhere.exe'
+          $installation = & $locator -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          Import-Module (Join-Path $installation 'Common7/Tools/Microsoft.VisualStudio.DevShell.dll')
+          Enter-VsDevShell -VsInstallPath $installation -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
+          $identities = @()
+          foreach ($name in @('cl.exe','rc.exe','dumpbin.exe')) {
+            $tool = (Get-Command $name -ErrorAction Stop).Source
+            $signature = Get-AuthenticodeSignature -LiteralPath $tool
+            if ($signature.Status -ne 'Valid' -or $signature.SignerCertificate.Subject -notmatch 'Microsoft') { throw "Unverified Microsoft tool: $name" }
+            $identities += [ordered]@{name=$name;sha256=(Get-FileHash -LiteralPath $tool -Algorithm SHA256).Hash.ToLowerInvariant();signature=[string]$signature.Status;version=(Get-Item -LiteralPath $tool).VersionInfo.FileVersion}
+          }
+          New-Item -ItemType Directory -Path build | Out-Null
+          [ordered]@{schema=1;controller_revision='${{ github.sha }}';image=$env:ImageOS;image_version=$env:ImageVersion;tools=$identities;game_access=$false;protection_settings_changed=$false} | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath build/startup-toolchain.json -Encoding utf8
+          python -B tools/research/build_startup_probes.py --output build/startup-probes
+          if ($LASTEXITCODE -ne 0) { throw 'Fixed startup/refusal/link controls failed' }
+      - name: Retain diagnostic identity and control receipts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: native-startup-probe-evidence
+          path: |
+            build/startup-toolchain.json
+            build/startup-probes/startup-probes.json
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Retain the six labelled inactive libraries
+        if: success()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: native-startup-probe-libraries
+          path: build/startup-probes/*/CASStartupProbe.asi
+          if-no-files-found: error
+          retention-days: 7

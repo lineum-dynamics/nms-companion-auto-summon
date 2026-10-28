@@ -108,3 +108,33 @@ errors. No new diagnostic file has been selected or submitted to VirusTotal.
 The actual form has been inspected: Terms of Service, Privacy Notice and
 sample sharing. The next action requires approval for these exact four files.
 The player ASIs, game mapping/profile and support-contact state are unchanged.
+
+## Completed specifically approved submissions
+
+The owner approved all four frozen DLLs, displayed terms and sample sharing.
+All submissions completed on 28 October 2026. No player bytes were changed.
+
+| Case | Analysis UTC | Result | Unevaluated states |
+| --- | --- | --- | --- |
+| baseline | 13:23:12 | 1/71, Cynet | Four unsupported |
+| inspection | 13:23:35 | 1/70, Cynet | Zillya failure, four unsupported |
+| core | 13:25:39 | 1/71, Cynet | Four unsupported |
+| inspection-core | 13:26:24 | 1/71, Cynet | Four unsupported |
+
+All 75 vendor rows are preserved for each. All eight earlier Yogi vendors
+completed with Undetected in every case. Cynet labels all four, including the
+inert ABI stub baseline. Inspection alone and with the core is not sufficient
+under these controls. This does not exclude bootstrap, interface/resource/
+reachability/layout differences or prove any private rule or false positive.
+The parser accepts singular/plural completed-header wording and preserves
+unlabeled failure rows; no failure becomes Undetected.
+
+The unchanged complete 0.10.6 ASI was also reanalysed: 9/57 at 13:35:26 UTC,
+12 timeouts, two failures, four unsupported. Six Yogi vendors completed positively
+on that control and negatively on all four probes; two other earlier Yogi
+vendors time out on the full control. No same-definition claim or count-based
+improvement follows. Next: the preregistered inactive startup/link suite.
+
+Complete tables/control: [NATIVE-0106-INSPECTION-VT-20261028.json](NATIVE-0106-INSPECTION-VT-20261028.json),
+SHA-256 `a4264cfd6421a63d24644b5b6577796fa271878c1708fffe13028b5dab2e83c2`. The identity manifest remains an immutable initial review
+capture; this later record is authoritative for completed uploads/results.
