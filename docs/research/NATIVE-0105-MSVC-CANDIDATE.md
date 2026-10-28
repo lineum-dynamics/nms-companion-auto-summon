@@ -7,9 +7,10 @@ It is not yet a release or an antivirus clearance.
 
 **Readback:** the Microsoft candidate build, DLL reproduction, owned functional
 checks, positively controlled Defender scan, owned MinHook transitions and
-exact-candidate UAL startup/normal exit have completed. A new multivendor
-submission is prepared and awaits explicit upload/terms confirmation. No
-candidate game acceptance or Nexus upload has occurred.
+exact-candidate UAL startup/normal exit have completed. The explicitly approved
+exact ASI submission completed at 27 October 21:43:19 UTC with 8/71 detections,
+all Yogi labels. A fresh unchanged 0.10.4 control reports 30/71 at 21:53:11 UTC.
+This remains unresolved. No candidate game acceptance or Nexus upload occurred.
 
 ## Engineering change
 
@@ -45,7 +46,7 @@ acceptance does not transfer to a newly compiled module automatically.
 | Two-build DLL byte identity | Completed; both hashes 8e6dd664 below; PDB bytes differ |
 | Owned functional bundle | Passed; receipt hash chain and 89 recorded source inputs verified against the Git commit |
 | Positive-control Defender scan | Completed, no detection recorded; EICAR detected in the same mode |
-| Comparable multivendor scan | NOT CHECKED; hash lookup says Item not found, upload/terms confirmation pending |
+| Comparable multivendor scan | Completed exact-file 8/71, fresh control 30/71; unresolved detection, no clearance |
 | Owned active-hook source fixture | Completed for original and query-guard source, run 40585107247 |
 | Exact-candidate UAL lifecycle | Completed in an unsupported owned host, run 40586261812 |
 | Exact-candidate NMS acceptance | NOT CHECKED |
@@ -168,7 +169,16 @@ job passed. Later artifact staging/lock validation fixed those measurement
 methods; neither earlier overall run is relabelled successful.
 
 Sanitized receipts and identities: [NATIVE-0105-EVIDENCE.json](NATIVE-0105-EVIDENCE.json),
-SHA-256 `a26468a906116e34f7ab4f4f77c5b6cff8f208a90c60347f641249df7e441670`.
-The new candidate is not installed or packaged for players. The next detection
-gate is the exact-file multivendor comparison, pending the requested upload
-and displayed-terms confirmation. The support draft remains unsent.
+SHA-256 `5292514fff69b8ba26b949528c0ef9ac125e630e7d8f61ae2477a8e11968f5ef`.
+The new candidate is not installed or packaged for players. Complete tables
+and the fresh 0.10.4 comparison are in [the dated VT evidence](NATIVE-0105-VT-EVIDENCE-20261027.json).
+All eight 0.10.5 positive vendors are a subset of the control's 30 positives;
+22 rows changed from malicious to undetected. Engine/definition identity was
+not established from the UI, and multiple build factors changed. A reanalysis
+click produced no new timestamp; an independent repeat is not established.
+The [four approved component probes](NATIVE-0105-COMPONENT-PROBES.md) completed
+on 28 October: all eight Yogi scanners returned Undetected for each; Cynet
+labelled each, including the inert CRT-only control. Bootstrap/host inspection
+and component interactions remain unresolved. See the separate
+[documented CRT-thread correction](NATIVE-0106-CRT-THREAD.md) for the next
+engineering candidate. The support draft remains unsent.

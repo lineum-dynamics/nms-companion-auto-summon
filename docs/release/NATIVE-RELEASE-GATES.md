@@ -1,6 +1,6 @@
 # Native release status and promotion gates
 
-Reviewed: 27 October 2026.
+Reviewed: 28 October 2026.
 
 ## Current label
 
@@ -16,9 +16,9 @@ See [the exact release record](0.10.3-COSMOS-706.md).
 
 The separate **0.10.4-native-test** development candidate repairs a reproduced
 library error path and has local/clean-runner offline evidence. It remains
-unreleased. Its exact ASI now reports **17/70** in the completed 27 October
-07:47:26 UTC VirusTotal scan; the original 0.10.3 ASI reports **30/70** at
-07:50:46 UTC. These unresolved results keep the scanner gate open. Exact-package
+unreleased. Its exact ASI now reports **30/71** in the completed 27 October
+21:53:11 UTC VirusTotal reanalysis, superseding the historical17/70 snapshot;
+the original 0.10.3 ASI's dated **30/70** report is from07:50:46 UTC. These unresolved results keep the scanner gate open. Exact-package
 game acceptance is separate. Candidate ZIP submission was rejected by automatic
 approval review after the service warned that the stated inner-file scan would
 not run; selecting that ZIP establishes no upload or scan.
@@ -32,6 +32,15 @@ does not satisfy the scanner or moderator-review gate. A current
 [review request](NEXUS-QUARANTINE-REVIEW-20261027.md) is prepared locally and
 unsent. The further 27 October IAT/source audit and public vendor lookup add
 attribution evidence but establish no new repair or private detection rule.
+
+The distinct [Microsoft 0.10.5 candidate](../research/NATIVE-0105-MSVC-CANDIDATE.md)
+completed an approved exact-file scan with 8/71 Yogi detections at 27 October
+21:43:19 UTC. Four fixed diagnostic component libraries completed on 28 October:
+all eight Yogi vendors returned Undetected for each; Cynet labelled all four,
+including the inert CRT-only control. No private rule or general clearance is
+established. A [0.10.6 CRT-thread correction](../research/NATIVE-0106-CRT-THREAD.md)
+has a documented engineering reason and separate pending build/scan/game gates.
+Neither candidate is a Nexus replacement or a released player archive.
 
 ## Evidence required before dropping the test label
 

@@ -3,8 +3,9 @@
 ## Current result
 
 The frozen 0.10.4 ASI now has a completed, directly uploaded VirusTotal report:
-**17/70**, analysed **27 October 2026 07:47:26 UTC**. The unchanged submitted
-0.10.3 ASI was reanalysed at **07:50:46 UTC** and reports **30/70**. Neither
+**30/71**, reanalysed **27 October 2026 21:53:11 UTC**. This supersedes
+the morning 17/70 snapshot, which remains preserved as history. The unchanged
+submitted 0.10.3 ASI's dated **07:50:46 UTC** report remains **30/70**. Neither
 result is clearance or a confirmed false positive. File50040 remains the sole
 Nexus Main file and is still quarantined in the 27 October direct readback.
 The candidate ZIP was selected but its submission was rejected by automatic

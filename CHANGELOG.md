@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.10.6-native-test — unreleased CRT-thread candidate
+
+- Use `_beginthreadex` for the C++ initializer worker as required for the
+  Microsoft multithreaded static CRT. Preserve normal asynchronous startup,
+  once-only ownership, module pinning and exact-host/profile refusal.
+- Add an owned zero-return factory control with eight concurrent initializer
+  calls: one factory attempt, stopped status and no active hooks or retry.
+- Retain separate source/artifact identities and require reproduced DLL bytes,
+  owned functional checks and an exercised antivirus scan. The Yogi cause,
+  multivendor acceptance, game acceptance and release remain independent gates.
+- No player text, native RVA or gameplay policy changed. See
+  [the contract correction](docs/research/NATIVE-0106-CRT-THREAD.md).
+
 ## 0.10.5-native-test — unreleased Microsoft build candidate
 
 - Add a maintained Microsoft compiler candidate mode with separate full PDB

@@ -65,20 +65,20 @@ jobs:
           Import-Module (Join-Path $installation 'Common7/Tools/Microsoft.VisualStudio.DevShell.dll')
           Enter-VsDevShell -VsInstallPath $installation -SkipAutomaticLocation -DevCmdArguments '-arch=x64 -host_arch=x64'
           $mirror = 'C:/Projects/nms-companion-auto-summon-compat-cosmos-706'
-          python -B "$mirror/tools/build_native_msvc_audit.py" --release-candidate --output "$mirror/build/msvc-0105-a"
+          python -B "$mirror/tools/build_native_msvc_audit.py" --release-candidate --startup-failure-fixture --output "$mirror/build/msvc-0106-a"
           if ($LASTEXITCODE -ne 0) { throw 'First candidate build failed' }
-          python -B "$mirror/tools/validate_native_bundle.py" --build "$mirror/build/msvc-0105-a"
+          python -B "$mirror/tools/validate_native_bundle.py" --build "$mirror/build/msvc-0106-a"
           if ($LASTEXITCODE -ne 0) { throw 'Candidate functional validation failed' }
-          python -B "$mirror/tools/build_native_msvc_audit.py" --release-candidate --output "$mirror/build/msvc-0105-b"
+          python -B "$mirror/tools/build_native_msvc_audit.py" --release-candidate --output "$mirror/build/msvc-0106-b"
           if ($LASTEXITCODE -ne 0) { throw 'Second candidate build failed' }
-          $first = (Get-FileHash -LiteralPath "$mirror/build/msvc-0105-a/CompanionAutoSummon.asi" -Algorithm SHA256).Hash.ToLowerInvariant()
-          $second = (Get-FileHash -LiteralPath "$mirror/build/msvc-0105-b/CompanionAutoSummon.asi" -Algorithm SHA256).Hash.ToLowerInvariant()
-          [ordered]@{schema=1;source_revision=$env:SUBJECT_REVISION;version='0.10.5-native-test';first_sha256=$first;second_sha256=$second;byte_identical=($first -eq $second);game_access=$false;av_clearance=$false;packaging_approved=$false} | ConvertTo-Json | Set-Content -LiteralPath build/msvc-candidate-reproduction.json -Encoding utf8
+          $first = (Get-FileHash -LiteralPath "$mirror/build/msvc-0106-a/CompanionAutoSummon.asi" -Algorithm SHA256).Hash.ToLowerInvariant()
+          $second = (Get-FileHash -LiteralPath "$mirror/build/msvc-0106-b/CompanionAutoSummon.asi" -Algorithm SHA256).Hash.ToLowerInvariant()
+          [ordered]@{schema=1;source_revision=$env:SUBJECT_REVISION;version='0.10.6-native-test';first_sha256=$first;second_sha256=$second;byte_identical=($first -eq $second);game_access=$false;av_clearance=$false;packaging_approved=$false} | ConvertTo-Json | Set-Content -LiteralPath build/msvc-candidate-reproduction.json -Encoding utf8
           if ($first -ne $second) { throw 'Candidate build reproducibility failed; preserve both receipts' }
       - name: Scan exact candidate with a positive engine control
         run: |
           $mirror = 'C:/Projects/nms-companion-auto-summon-compat-cosmos-706'
-          $module = "$mirror/build/msvc-0105-a/CompanionAutoSummon.asi"
+          $module = "$mirror/build/msvc-0106-a/CompanionAutoSummon.asi"
           $expected = (Get-FileHash -LiteralPath $module -Algorithm SHA256).Hash.ToLowerInvariant()
           & "$mirror/tools/research/scan_native_defender.ps1" -InputPath $module -ExpectedSha256 $expected -ReportPath build/msvc-candidate-defender.json
           if ($LASTEXITCODE -ne 0) { throw 'Candidate scan is not a completed no-detection result' }
@@ -87,7 +87,7 @@ jobs:
         run: |
           $mirror = 'C:/Projects/nms-companion-auto-summon-compat-cosmos-706'
           foreach ($label in @('a','b')) {
-            $source = "$mirror/build/msvc-0105-$label"
+            $source = "$mirror/build/msvc-0106-$label"
             if (Test-Path -LiteralPath $source -PathType Container) {
               $destination = "build/evidence/msvc-$label"
               New-Item -ItemType Directory -Force -Path $destination | Out-Null
@@ -98,7 +98,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: native-msvc-0105-evidence
+          name: native-msvc-0106-evidence
           path: |
             build/msvc-candidate-*.json
             build/evidence/**/*.json
@@ -107,7 +107,7 @@ jobs:
       - name: Stage checked candidate on the artifact workspace volume
         if: success()
         run: |
-          $source = 'C:/Projects/nms-companion-auto-summon-compat-cosmos-706/build/msvc-0105-a'
+          $source = 'C:/Projects/nms-companion-auto-summon-compat-cosmos-706/build/msvc-0106-a'
           $destination = 'build/candidate'
           New-Item -ItemType Directory -Path $destination | Out-Null
           foreach ($name in @('CompanionAutoSummon.asi','CompanionAutoSummon.pdb')) {
@@ -118,7 +118,7 @@ jobs:
         if: success()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: native-msvc-0105-unreleased-candidate
+          name: native-msvc-0106-unreleased-candidate
           path: |
             build/candidate/CompanionAutoSummon.asi
             build/candidate/CompanionAutoSummon.pdb

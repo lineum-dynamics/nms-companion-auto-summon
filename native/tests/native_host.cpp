@@ -3,10 +3,12 @@
 #include "cas/probe.h"
 #include <array>
 #include <cstdio>
+#include <cwchar>
 #include <thread>
 #include <vector>
 int wmain(int argc,wchar_t** argv) {
-    if (argc != 2) return 2;
+    const bool factory_failure=argc==3 && std::wcscmp(argv[2],L"--expect-thread-failure")==0;
+    if (argc!=2 && !factory_failure) return 2;
     const auto module = LoadLibraryExW(argv[1],nullptr,LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR|LOAD_LIBRARY_SEARCH_SYSTEM32);
     if (!module) return 3;
     using Inspect = std::uint32_t(*)(CasHostReport*,std::uint32_t);
@@ -23,9 +25,15 @@ int wmain(int argc,wchar_t** argv) {
     for (auto& call : calls) call.join();
     const auto deadline = GetTickCount64()+15000;
     while (status() == 1 && GetTickCount64() < deadline) Sleep(5);
-    if (status() != 2) return 7;
-    initialize(); if (status() != 2) return 8;
-    std::printf("{\"native_status\":%u,\"host_sha256\":\"%s\",\"hooks_active\":false,\"concurrent_calls\":8}\n",status(),report.image_sha256);
+    const auto expected=factory_failure?3u:2u;
+    if (status() != expected) return 7;
+    initialize(); if (status() != expected) return 8;
+    if (factory_failure) {
+        const auto count=reinterpret_cast<Status>(GetProcAddress(module,"CasThreadFactoryFailureCalls"));
+        if (!count || count()!=1) return 9;
+    }
+    std::printf("{\"native_status\":%u,\"host_sha256\":\"%s\",\"hooks_active\":false,\"concurrent_calls\":8%s}\n",
+                status(),report.image_sha256,factory_failure?",\"thread_factory_calls\":1":"");
     // InitializeASI process-pins production code; unloading is not an API.
     return 0;
 }

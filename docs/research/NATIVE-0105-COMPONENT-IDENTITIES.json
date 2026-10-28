@@ -1,0 +1,146 @@
+{
+  "schema": 1,
+  "kind": "frozen-component-upload-review",
+  "source_revision": "72e76b7e5baa5d78cf991b0cb76c25a8ee9b29e4",
+  "ci_run": 40591032747,
+  "diagnostic_only": true,
+  "player_artifact": false,
+  "production_methods_called": false,
+  "uploaded_to_virustotal": false,
+  "receipt_sha256": "86d3d75dc0f459a411515d2f2d8cf77a2db2055126773522c9daab5deafd9b1f",
+  "toolchain": {
+    "schema": 1,
+    "controller_revision": "72e76b7e5baa5d78cf991b0cb76c25a8ee9b29e4",
+    "image": "win22",
+    "image_version": "20261022.344.1",
+    "tools": [
+      {
+        "name": "cl.exe",
+        "sha256": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+        "signature": "Valid",
+        "version": "19.44.35229.0"
+      },
+      {
+        "name": "rc.exe",
+        "sha256": "43da1503c262c30894c851589bf0155f8365d77e63a5f7bc13982320e3a6b42d",
+        "signature": "Valid",
+        "version": "10.0.26100.7705 (WinBuild.160101.0800)"
+      },
+      {
+        "name": "dumpbin.exe",
+        "sha256": "cfee7ed764b7b0866aae0be12f9c0ad2a7f5aecc4046ba2b7de26335827ca815",
+        "signature": "Valid",
+        "version": "14.44.35229.0"
+      }
+    ],
+    "game_access": false,
+    "protection_settings_changed": false
+  },
+  "recorded_source_inputs_verified": 86,
+  "files": [
+    {
+      "label": "crt",
+      "production_cpp_sources": [],
+      "minhook_included": false,
+      "sha256": "763c3dbd01e8d91fdec79b32bd345eb959b0554c293ce13376ea5aa730c64a5b",
+      "bytes": 494080,
+      "resource_sha256": "c80bb2a2b22eff92ac4f15fc242634fe0f7b5ec5b2dcc75f0984a1ac00e08e93",
+      "probe_entry_source_sha256": "4c0a3f60bdc4c2655ed76892d3191cdb53ff920844f35016b126378d21c1b6e9",
+      "smoke": {
+        "passed": true,
+        "diagnostic_only": true,
+        "load_status_export_unload": true,
+        "game_access": false,
+        "production_methods_called": false
+      },
+      "imports": [
+        "KERNEL32.dll"
+      ],
+      "relative_file": "crt/CASComponentProbe.dll",
+      "exports": [
+        "CasComponentProbeStatus"
+      ]
+    },
+    {
+      "label": "minhook",
+      "production_cpp_sources": [],
+      "minhook_included": true,
+      "sha256": "c7b00159c22ca90365eb7e44d2a532b28abf52597f239bd874fc6e3e4d357e04",
+      "bytes": 507904,
+      "resource_sha256": "c80bb2a2b22eff92ac4f15fc242634fe0f7b5ec5b2dcc75f0984a1ac00e08e93",
+      "probe_entry_source_sha256": "4c0a3f60bdc4c2655ed76892d3191cdb53ff920844f35016b126378d21c1b6e9",
+      "smoke": {
+        "passed": true,
+        "diagnostic_only": true,
+        "load_status_export_unload": true,
+        "game_access": false,
+        "production_methods_called": false
+      },
+      "imports": [
+        "KERNEL32.dll"
+      ],
+      "relative_file": "minhook/CASComponentProbe.dll",
+      "exports": [
+        "CasComponentProbeStatus"
+      ]
+    },
+    {
+      "label": "binding",
+      "production_cpp_sources": [
+        "binding_guard"
+      ],
+      "minhook_included": true,
+      "sha256": "8e6ce2405bc8d1fc835f4e639531a8c13b937644bb9a90316946056773d51ac2",
+      "bytes": 532480,
+      "resource_sha256": "c80bb2a2b22eff92ac4f15fc242634fe0f7b5ec5b2dcc75f0984a1ac00e08e93",
+      "probe_entry_source_sha256": "4c0a3f60bdc4c2655ed76892d3191cdb53ff920844f35016b126378d21c1b6e9",
+      "smoke": {
+        "passed": true,
+        "diagnostic_only": true,
+        "load_status_export_unload": true,
+        "game_access": false,
+        "production_methods_called": false
+      },
+      "imports": [
+        "KERNEL32.dll"
+      ],
+      "relative_file": "binding/CASComponentProbe.dll",
+      "exports": [
+        "CasComponentProbeStatus"
+      ]
+    },
+    {
+      "label": "core",
+      "production_cpp_sources": [
+        "binding_guard",
+        "policy",
+        "selection",
+        "storage",
+        "runtime",
+        "backup",
+        "menu"
+      ],
+      "minhook_included": true,
+      "sha256": "fee7eebe0215b3011e03e24a32cc72ec1df064152966ec23e54b2f325a06e04a",
+      "bytes": 1452032,
+      "resource_sha256": "c80bb2a2b22eff92ac4f15fc242634fe0f7b5ec5b2dcc75f0984a1ac00e08e93",
+      "probe_entry_source_sha256": "4c0a3f60bdc4c2655ed76892d3191cdb53ff920844f35016b126378d21c1b6e9",
+      "smoke": {
+        "passed": true,
+        "diagnostic_only": true,
+        "load_status_export_unload": true,
+        "game_access": false,
+        "production_methods_called": false
+      },
+      "imports": [
+        "ADVAPI32.dll",
+        "KERNEL32.dll",
+        "bcrypt.dll"
+      ],
+      "relative_file": "core/CASComponentProbe.dll",
+      "exports": [
+        "CasComponentProbeStatus"
+      ]
+    }
+  ]
+}

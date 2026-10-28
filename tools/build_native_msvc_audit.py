@@ -23,13 +23,19 @@ from validate_compatibility import validate
 from validate_native_dependencies import validate as validate_dependencies
 from validate_locales import validate as validate_locales
 
+CANDIDATE_VERSION = "0.10.6-native-test"
+
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--release-candidate", action="store_true",
-                        help="Build the distinct 0.10.5 candidate with separate PDB symbols; packaging stays blocked")
+                        help="Build the distinct CRT-thread candidate with separate PDB symbols; packaging stays blocked")
+    parser.add_argument("--startup-failure-fixture", action="store_true",
+                        help="Also build an owned factory-failure DLL and check single-owner refusal")
     args = parser.parse_args()
+    if args.startup_failure_fixture and not args.release_candidate:
+        parser.error("The startup failure fixture requires the explicit candidate mode")
     if (os.name != "nt" or os.environ.get("GITHUB_ACTIONS") != "true"
             or os.environ.get("GITHUB_REPOSITORY") != "lineum-dynamics/nms-companion-auto-summon"):
         raise ValueError("This audit runs only on an isolated GitHub Actions runner")
@@ -62,7 +68,7 @@ def main():
         f"inline constexpr char exe_sha256[] = {json.dumps(profile['exe_sha256'])};\n"
         f"inline constexpr char steam_build[] = {json.dumps(profile['steam_build'])};\n}}\n",encoding="utf-8")
     write_mapping_header(mapping,generated/"native_mapping_profile.hpp")
-    version = "0.10.5-native-test" if args.release_candidate else BASE_VERSION.split("-")[0]+"-msvc-audit"
+    version = CANDIDATE_VERSION if args.release_candidate else BASE_VERSION.split("-")[0]+"-msvc-audit"
     numeric_version = ",".join(version.split("-")[0].split(".")+["0"])
     resource = output/"version.rc"
     resource.write_text('#include <windows.h>\n1 VERSIONINFO\nFILEVERSION NUMERIC_VERSION_VALUE\nPRODUCTVERSION NUMERIC_VERSION_VALUE\nFILEFLAGSMASK 0x3fL\nFILEFLAGS VS_FF_PRERELEASE\nFILEOS VOS_NT_WINDOWS32\nFILETYPE VFT_DLL\nBEGIN\n BLOCK "StringFileInfo"\n BEGIN\n  BLOCK "040904b0"\n  BEGIN\n   VALUE "CompanyName", "Lineum Dynamics\\0"\n   VALUE "FileDescription", "Companion Auto Summon - isolated compiler audit\\0"\n   VALUE "FileVersion", "VERSION_VALUE\\0"\n   VALUE "ProductName", "Companion Auto Summon compiler audit\\0"\n   VALUE "ProductVersion", "VERSION_VALUE\\0"\n   VALUE "OriginalFilename", "CompanionAutoSummon.asi\\0"\n  END\n END\n BLOCK "VarFileInfo"\n BEGIN\n  VALUE "Translation", 0x0409, 1200\n END\nEND\n'.replace("NUMERIC_VERSION_VALUE",numeric_version).replace("VERSION_VALUE",version),encoding="utf-8")
@@ -131,6 +137,19 @@ def main():
         run([tools["cl.exe"],"/nologo","/TC","/std:c11","/O2","/W4","/MT",native/"tests/minhook_query_host.c",
              "/Fe"+str(query_host),*link])
         products.append(query_host)
+        startup_failure = None
+        if args.startup_failure_fixture:
+            failure = output/"ThreadFactoryFailure.dll"
+            shim = native/"tests/thread_factory_failure.hpp"
+            run([*cpp,"/FI"+str(shim),"/LD","/DCAS_NATIVE_RUNTIME","/DCAS_PROBE_BUILD","/DCAS_RESPAWN_OBSERVER",
+                 "/DCAS_TELEPORT_CANDIDATE_TRIAL",*runtime,native/"tests/thread_factory_failure.cpp",*objects,res,
+                 "bcrypt.lib","advapi32.lib","shell32.lib","ole32.lib","uuid.lib","user32.lib",
+                 "/Fe"+str(failure),*link],timeout=900)
+            startup_failure = json.loads(run([output/"native_host.exe",failure,"--expect-thread-failure"],timeout=30))
+            if (startup_failure.get("native_status") != 3 or startup_failure.get("hooks_active") is not False
+                    or startup_failure.get("thread_factory_calls") != 1):
+                raise RuntimeError("Thread factory failure did not remain stopped/inert")
+            products.append(failure)
         pe = run([tools["dumpbin.exe"],"/headers","/imports","/exports",binary])
         (output/"native-pe.txt").write_text(pe,encoding="utf-8")
         imports = sorted(set(re.findall(r"^\s+([A-Za-z0-9_.-]+\.dll)\s*$",pe,re.M)))
@@ -146,7 +165,8 @@ def main():
                    "generated":{p.name:digest(p) for p in generated.glob("*.hpp")}}
         receipt.update(packaging_approved=False,av_clearance=False,
                        caller_attribution=log["caller_attribution"],
-                       debug_symbols_separate=args.release_candidate)
+                       debug_symbols_separate=args.release_candidate,
+                       startup_thread_factory="_beginthreadex",startup_thread_failure_control=startup_failure)
         if args.release_candidate:
             pdb = output/"CompanionAutoSummon.pdb"
             if not pdb.is_file():

@@ -3518,7 +3518,7 @@ remain unresolved; no global safety or false-positive claim is made.
   3ea3eff plus the two-call-site intrinsic/header and candidate CI/tooling diff.
 - New package candidate is 0.10.5-native-test. Frozen original source852c5c55 /
   ASI6474247c and candidate source7fd4bc09 / ASI765cdbdf stay unchanged.
-- Target stays Windows/Steam Cosmos 7.06 / build25732212 / executable SHA-256
+- Target stays Windows/Steam Cosmos 7.06 / build 25732212 / executable SHA-256
   13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499.
   No game image is decoded and no mapping or gameplay policy changes. The two
   caller-filter roles keep the same level-zero call-site semantics.
@@ -3565,7 +3565,7 @@ remain unresolved; no global safety or false-positive claim is made.
   at a missing historical validator, while query-guard passed. Later success
   does not relabel these overall failed runs. No frozen player bytes changed.
 - Sanitized evidence NATIVE-0105-EVIDENCE.json, SHA-256
-  a26468a906116e34f7ab4f4f77c5b6cff8f208a90c60347f641249df7e441670.
+  5292514fff69b8ba26b949528c0ef9ac125e630e7d8f61ae2477a8e11968f5ef.
   Detailed methods, exact artifacts and gates: NATIVE-0105-MSVC-CANDIDATE.md.
 - Multivendor submission is NOT CHECKED: new hash lookup is Item not found;
   the exact 747,520-byte ASI and displayed VirusTotal sharing/terms form are
@@ -3573,3 +3573,40 @@ remain unresolved; no global safety or false-positive claim is made.
   this exact-file comparison. Game acceptance, packaging and Nexus download
   acceptance remain separate open gates; private-rule attribution and a
   confirmed-false-positive classification are not established. Support unsent.
+
+### Component readback and CRT-thread correction handoff, 28 October 2026
+
+- Exact target remains Windows/Steam Cosmos 7.06 / build 25732212 / executable
+  SHA-256 13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499.
+  No new game image, profile/RVA, gameplay filter or language meaning changed.
+- The approved 0.10.5 ASI 8e6dd664 completed at 27 October 21:43:19 UTC:8/71,
+  all Yogi labels. Fresh unchanged 0.10.4 control 765cdbdf completed at 21:53:11:
+  30/71. Both have 75 rows; 22 malicious-to-undetected changes, all eight remaining
+  positives shared. Engine/definition identity and compiler-alone causality
+  remain NOT ESTABLISHED; the repeat click produced no new analysis timestamp.
+- All four preregistered components from run 40591032747/source 72e76b7 completed
+  their specifically approved submissions. CRT 763c3dbd (494,080 B): 1/69 at 07:22:27;
+  MinHook c7b00159 (507,904 B): 1/71 at 07:23:00; binding 8e6ce240 (532,480 B): 1/71 at 07:23:32;
+  core fee7eebe (1,452,032 B): 1/71 at 07:24:14 UTC today. Cynet labels all four,
+  including inert CRT. All eight Yogi-positive scanners return Undetected for
+  each. These fixture negatives do not exclude bootstrap/host inspection,
+  reachability or interactions. Core includes the generated catalog.
+- Component evidence NATIVE-0105-COMPONENT-EVIDENCE-20261028.json, SHA-256
+  3eff44fb61c662094137516c5d25a86a88b6220ed8304cee4acd589d30367c69. Full 0.10.5 evidence now SHA-256
+  5292514fff69b8ba26b949528c0ef9ac125e630e7d8f61ae2477a8e11968f5ef; original morning scan snapshots remain historical.
+  Initial 74-row parser refused an unlabeled failure; corrected visible parser
+  asserts 75 distinct rows and preserves Google timeout/Zillya failure.
+- FALSE LEAD: own binding filter already uses RW allocation then verified RX;
+  no permanent RWX correction is needed there. Do not weaken working guards or
+  edit dependency code solely to chase scanner scores.
+- Implement the documented /MT CRT worker contract correction in separate
+  0.10.6-native-test: _beginthreadex, unsigned __stdcall callback, unchanged
+  once owner/pin/flags 0/closed handle/no-wait/guards; zero return stops status 3.
+  No low-memory failure, player crash or Yogi cause is claimed reproduced.
+- New owned control forces only that factory to return zero: eight concurrent
+  calls plus one retry must stay inert/status 3 with one attempt. Two-directory
+  DLL identity, normal functional bundle and positively controlled Defender
+  scan remain pending exact CI readback. New ASI multivendor/game/Nexus gates
+  are NOT CHECKED and do not inherit 0.10.5 results. No support message sent.
+  Next bounded action: read actual 0.10.6 CI/fault receipts and freeze its exact
+  bytes before any new upload request. No local native execution or AV change.

@@ -579,11 +579,27 @@
     }
   ],
   "multivendor": {
-    "new_candidate_uploaded": false,
-    "hash_lookup": "Item not found",
-    "upload_confirmation": "pending",
+    "new_candidate_uploaded": true,
+    "upload_confirmation": "explicitly approved and completed",
+    "last_analysis_utc": "2026-10-27T21:43:19Z",
+    "malicious": 8,
+    "evaluated": 71,
+    "status_counts": {
+      "malicious": 8,
+      "undetected": 63,
+      "type-unsupported": 4
+    },
+    "report_url": "https://www.virustotal.com/gui/file/8e6dd664c1fc0982a435b5932d0c9f006f1522926aa28b9556b7f2ce7dcb4695/detection",
+    "fresh_control_malicious": 30,
+    "fresh_control_evaluated": 71,
+    "fresh_control_analysis_utc": "2026-10-27T21:53:11Z",
+    "evidence": "NATIVE-0105-VT-EVIDENCE-20261027.json",
+    "evidence_sha256": "089b977653dd1b8c94b5904192c928393a8e41254840e2c891c6d459bf83be32",
     "confirmed_false_positive": false,
-    "private_matching_rule_identified": false
+    "private_matching_rule_identified": false,
+    "component_probes_upload_approval": "Explicit approval; all four submitted and completed",
+    "component_evidence": "NATIVE-0105-COMPONENT-EVIDENCE-20261028.json",
+    "component_evidence_sha256": "3eff44fb61c662094137516c5d25a86a88b6220ed8304cee4acd589d30367c69"
   },
   "game_acceptance_established": false,
   "nexus_candidate_uploaded": false,

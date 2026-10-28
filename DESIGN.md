@@ -1,5 +1,9 @@
 # Companion Auto Summon for No Man's Sky — player experience
 
+The **0.10.6-native-test** CRT-thread candidate preserves the existing player
+experience and exact game profile. Its new initialization implementation has
+separate engineering, scanner, game and publication gates. It is unreleased.
+
 The **0.10.5-native-test** Microsoft build candidate is a build/distribution
 investigation. It introduces no player-experience or native-mapping change.
 Its own validation, scanner and game acceptance gates must pass separately;

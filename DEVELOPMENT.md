@@ -1,5 +1,14 @@
 # Companion Auto Summon development guide
 
+## Unreleased 0.10.6 CRT-thread candidate
+
+The Microsoft candidate now uses `_beginthreadex` for its C++ CRT worker.
+The first CI build includes an owned factory-zero DLL/control; the second
+reproduces the ordinary ASI. Source/profile, ordinary validation, failure
+controls, engine scan and multivendor status stay separate. See
+[the exact correction and gates](docs/research/NATIVE-0106-CRT-THREAD.md).
+This does not transfer game acceptance or identify a proprietary detector rule.
+
 ## Unreleased 0.10.5 Microsoft build candidate
 
 The explicit `--release-candidate` mode of `tools/build_native_msvc_audit.py`

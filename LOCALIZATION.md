@@ -1,5 +1,9 @@
 # Companion Auto Summon localization
 
+The **0.10.6-native-test** CRT-thread correction changes only internal worker
+creation and its owned failure control. No player-facing text, meaning or
+language policy changes; all fourteen 64-key catalogs and review states remain.
+
 The unreleased **0.10.5-native-test** Microsoft build candidate changes the
 compiler/call-site intrinsic and debug-symbol storage only. No player-facing
 text, setting meaning or language selection changes; all fourteen 64-key

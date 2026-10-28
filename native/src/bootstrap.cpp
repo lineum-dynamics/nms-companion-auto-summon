@@ -3,6 +3,7 @@
 #include <windows.h>
 #include <bcrypt.h>
 #include <shlobj.h>
+#include <process.h>
 #include "MinHook.h"
 #include "cas/probe.h"
 #include "cas/runtime.hpp"
@@ -354,7 +355,7 @@ std::vector<Hook> hooks() {
     return result;
 }
 
-DWORD WINAPI initialize(void*) noexcept {
+unsigned __stdcall initialize(void*) noexcept {
     bool is_game = false;
     std::vector<void*> created;
     try {
@@ -477,8 +478,10 @@ extern "C" __declspec(dllexport) void InitializeASI() {
     if (InterlockedCompareExchange(&status,1,0) != 0) return;
     HMODULE pinned{};
     if (!GetModuleHandleExW(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS|GET_MODULE_HANDLE_EX_FLAG_PIN,reinterpret_cast<LPCWSTR>(&InitializeASI),&pinned)) { InterlockedExchange(&status,3); return; }
-    // No wait: the worker starts only once Windows releases loader serialization.
-    const auto thread = CreateThread(nullptr,0,initialize,nullptr,0,nullptr);
-    if (!thread) InterlockedExchange(&status,3); else CloseHandle(thread);
+    // CRT initialization/cleanup belongs to the thread factory because the
+    // worker uses C++ runtime facilities. Never wait under loader serialization.
+    const auto thread = _beginthreadex(nullptr,0,initialize,nullptr,0,nullptr);
+    if (!thread) InterlockedExchange(&status,3);
+    else CloseHandle(reinterpret_cast<HANDLE>(thread));
 }
 BOOL WINAPI DllMain(HINSTANCE,DWORD,LPVOID) { return TRUE; }
