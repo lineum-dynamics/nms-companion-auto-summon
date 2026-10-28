@@ -2,6 +2,11 @@
 
 ## 0.10.6-native-test — unreleased CRT-thread candidate
 
+- Add six fixed inactive startup/link diagnostics, with forced host refusal,
+  a synthetic supported-result control and eighteen passed owned process runs.
+  These are research artifacts; frozen player ASIs are unchanged. The later
+  same-byte full-module scan still reports Yogi. See
+  [the startup comparison](docs/research/NATIVE-0106-STARTUP-PROBES.md).
 - Subsequent exact-file VT results retain Yogi. The displayed 5/50 includes
   20 timeouts; fresh unchanged 0.10.5 is 10/69. Both have five positives among 48
   common completed scanners. No AV improvement or clearance is established.
