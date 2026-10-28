@@ -7,16 +7,29 @@ from pathlib import Path
 import struct
 import pefile
 
-EXPECTED="8e6dd664c1fc0982a435b5932d0c9f006f1522926aa28b9556b7f2ce7dcb4695"
-EXPECTED_PDB="568376af58a3d4475cb6ceaea02b495e602a001bc8875d09734dc84abb183b6d"
+FROZEN_ARTIFACTS = {
+    "0.10.5-native-test": {
+        "module_sha256": "8e6dd664c1fc0982a435b5932d0c9f006f1522926aa28b9556b7f2ce7dcb4695",
+        "module_bytes": 747520,
+        "pdb_sha256": "568376af58a3d4475cb6ceaea02b495e602a001bc8875d09734dc84abb183b6d",
+        "pdb_bytes": 11210752,
+    },
+    "0.10.6-native-test": {
+        "module_sha256": "30cc9542a2af3529fd4f3a2299d6331bddf51b61f8213a0a1a779b472789de3d",
+        "module_bytes": 749568,
+        "pdb_sha256": "5f32c8d508d3e8e4d03dcfdee7e2fdf533abd6ce600d85530d0cfd7aae47b8d1",
+        "pdb_bytes": 11210752,
+    },
+}
 
 
-def audit(module,pdb):
-    if module.stat().st_size!=747520 or pdb.stat().st_size!=11210752:
+def audit(module,pdb,artifact_version="0.10.5-native-test"):
+    expected=FROZEN_ARTIFACTS[artifact_version]
+    if module.stat().st_size!=expected["module_bytes"] or pdb.stat().st_size!=expected["pdb_bytes"]:
         raise ValueError("Exact artifact extents differ; refuse reads and image decoding")
     data=module.read_bytes(); symbols=pdb.read_bytes()
-    if (hashlib.sha256(data).hexdigest()!=EXPECTED or
-            hashlib.sha256(symbols).hexdigest()!=EXPECTED_PDB):
+    if (hashlib.sha256(data).hexdigest()!=expected["module_sha256"] or
+            hashlib.sha256(symbols).hexdigest()!=expected["pdb_sha256"]):
         raise ValueError("Not the exact candidate/symbol pair; refuse image decoding")
     if len(symbols)>32*1024*1024 or not symbols.startswith(b'Microsoft C/C++ MSF 7.00'):
         raise ValueError("Unsupported symbol input")
@@ -74,7 +87,8 @@ def audit(module,pdb):
             break
     if info is None or info[12:28]!=guid or struct.unpack_from('<I',info,8)[0]!=age:
         raise ValueError("PDB identity is not the selected module's CodeView identity")
-    return {"status":"SELECTED_STATIC_CHECKS_COMPLETED","module_sha256":EXPECTED,"bytes":len(data),
+    return {"status":"SELECTED_STATIC_CHECKS_COMPLETED","artifact_version":artifact_version,
+            "module_sha256":expected["module_sha256"],"bytes":len(data),
             "pdb_sha256":hashlib.sha256(symbols).hexdigest(),"pdb_guid_and_age_match":True,
             "sections":[s.Name.rstrip(b'\0').decode() for s in pe.sections],
             "imports":[x.dll.decode() for x in pe.DIRECTORY_ENTRY_IMPORT],
@@ -93,8 +107,9 @@ def audit(module,pdb):
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     for name in ('module','pdb','output'): p.add_argument('--'+name,type=Path,required=True)
+    p.add_argument('--artifact-version',choices=sorted(FROZEN_ARTIFACTS),default="0.10.5-native-test")
     args=p.parse_args(); report={"status":"TOOL_ERROR"}
-    try: report=audit(args.module,args.pdb)
+    try: report=audit(args.module,args.pdb,args.artifact_version)
     finally: args.output.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
     print(json.dumps({"status":report['status'],"unwind":report['unwind'],
                       "pdb_guid_and_age_match":report['pdb_guid_and_age_match'],

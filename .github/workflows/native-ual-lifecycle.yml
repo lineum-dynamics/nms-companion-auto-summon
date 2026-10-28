@@ -37,9 +37,9 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           New-Item -ItemType Directory -Path build | Out-Null
-          gh run download 40585107104 --repo lineum-dynamics/nms-companion-auto-summon --name native-msvc-0105-unreleased-candidate --dir build/candidate
+          gh run download 40653804116 --repo lineum-dynamics/nms-companion-auto-summon --name native-msvc-0106-unreleased-candidate --dir build/candidate
           if ($LASTEXITCODE -ne 0) { throw 'Checked candidate artifact is unavailable' }
-          if ((Get-FileHash -LiteralPath build/candidate/CompanionAutoSummon.asi -Algorithm SHA256).Hash.ToLowerInvariant() -ne '8e6dd664c1fc0982a435b5932d0c9f006f1522926aa28b9556b7f2ce7dcb4695') { throw 'Exact candidate identity mismatch' }
+          if ((Get-FileHash -LiteralPath build/candidate/CompanionAutoSummon.asi -Algorithm SHA256).Hash.ToLowerInvariant() -ne '30cc9542a2af3529fd4f3a2299d6331bddf51b61f8213a0a1a779b472789de3d') { throw 'Exact candidate identity mismatch' }
           Invoke-WebRequest -Uri 'https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases/download/v9.7.4/Ultimate-ASI-Loader_x64.zip' -OutFile build/ual-official.zip
           if ((Get-Item -LiteralPath build/ual-official.zip).Length -ne 2762703 -or (Get-FileHash -LiteralPath build/ual-official.zip -Algorithm SHA256).Hash.ToLowerInvariant() -ne '8272d83b2692662098746f2d0ad0e2d85f3c8358ab1d63f75fbe835c2c8135fd') { throw 'Pinned official loader archive differs' }
           Expand-Archive -LiteralPath build/ual-official.zip -DestinationPath build/ual-official
@@ -55,10 +55,10 @@ jobs:
           if ($signature.Status -ne 'Valid' -or $signature.SignerCertificate.Subject -notmatch 'Microsoft') { throw 'Unverified host compiler' }
           & $compiler /nologo /std:c++17 /EHsc /O2 /W4 /WX /MT tools/research/ual_lifecycle_host.cpp /Fe:build/cas-ual-host.exe /link /INCREMENTAL:NO /DYNAMICBASE /NXCOMPAT /Brepro
           if ($LASTEXITCODE -ne 0) { throw 'Owned UAL host compile failed' }
-          [ordered]@{schema=1;controller_revision='${{ github.sha }}';candidate_source_revision='085838cc3ef87ee98b935c2a6774a479df3343f4';candidate_run=40585107104;image=$env:ImageOS;image_version=$env:ImageVersion;compiler_sha256=(Get-FileHash -LiteralPath $compiler -Algorithm SHA256).Hash.ToLowerInvariant();compiler_signature=[string]$signature.Status;host_source_sha256=(Get-FileHash -LiteralPath tools/research/ual_lifecycle_host.cpp -Algorithm SHA256).Hash.ToLowerInvariant();host_sha256=(Get-FileHash -LiteralPath build/cas-ual-host.exe -Algorithm SHA256).Hash.ToLowerInvariant();game_access=$false;protection_settings_changed=$false} | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath build/ual-lifecycle-toolchain.json -Encoding utf8
+          [ordered]@{schema=1;controller_revision='${{ github.sha }}';candidate_source_revision='4439c909942a333146f001e197360a9aac669c08';candidate_run=40653804116;image=$env:ImageOS;image_version=$env:ImageVersion;compiler_sha256=(Get-FileHash -LiteralPath $compiler -Algorithm SHA256).Hash.ToLowerInvariant();compiler_signature=[string]$signature.Status;host_source_sha256=(Get-FileHash -LiteralPath tools/research/ual_lifecycle_host.cpp -Algorithm SHA256).Hash.ToLowerInvariant();host_sha256=(Get-FileHash -LiteralPath build/cas-ual-host.exe -Algorithm SHA256).Hash.ToLowerInvariant();game_access=$false;protection_settings_changed=$false} | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath build/ual-lifecycle-toolchain.json -Encoding utf8
       - name: Observe no-plugin baseline and automatic ASI loading
         run: |
-          python -B tools/research/audit_ual_lifecycle.py --host build/cas-ual-host.exe --module build/candidate/CompanionAutoSummon.asi --loader build/ual-official/dinput8.dll --output build/ual-lifecycle.json
+          python -B tools/research/audit_ual_lifecycle.py --artifact-version 0.10.6-native-test --host build/cas-ual-host.exe --module build/candidate/CompanionAutoSummon.asi --loader build/ual-official/dinput8.dll --output build/ual-lifecycle.json
           exit $LASTEXITCODE
       - name: Retain aggregate observations only
         if: always()

@@ -48,11 +48,12 @@ hosts with status 2.
 
 | Gate | State |
 | --- | --- |
-| Local Python syntax/dependency/locale checks | Preparation only |
-| Microsoft compilation and two-directory DLL identity | NOT CHECKED until CI readback |
-| Ordinary owned functional bundle | NOT CHECKED until CI readback |
-| Forced factory-zero, single-owner control | NOT CHECKED until CI readback |
-| Exact-file Defender custom scan with positive control | NOT CHECKED until CI readback |
+| Local Python syntax/dependency/locale checks | Passed, including 31 focused locale tests |
+| Microsoft compilation and two-directory DLL identity | Passed, run 40653804116; DLL hash 30cc9542 below |
+| Ordinary owned functional bundle | Passed, all recorded reports/source digests verified |
+| Forced factory-zero, single-owner control | Passed: status 3, hooks inactive, one attempt for eight concurrent calls plus retry |
+| Exact-file Defender custom scan with positive control | Completed without detection; refresh failed, retained 22 October definitions |
+| Exact-candidate UAL automatic startup/normal process exit | Prepared separate CI; NOT CHECKED until readback |
 | Multivendor comparison for the exact new ASI | NOT CHECKED |
 | Exact-candidate NMS acceptance and Nexus availability | NOT CHECKED |
 
@@ -61,3 +62,55 @@ uses `build_native_msvc_audit.py --release-candidate --startup-failure-fixture`;
 the second excludes the fault fixture. Read actual receipts before promoting
 any gate. No source/profile override, installation, save change or support
 contact is part of this correction.
+
+## Completed build and bounded readback
+
+[Candidate run 40653804116](https://github.com/lineum-dynamics/nms-companion-auto-summon/actions/runs/40653804116)
+passed at source `4439c909942a333146f001e197360a9aac669c08`.
+The ASI is **749,568 bytes**, SHA-256
+`30cc9542a2af3529fd4f3a2299d6331bddf51b61f8213a0a1a779b472789de3d`.
+Both build directories produced those exact DLL bytes. The retained PDB is
+11,210,752 bytes, SHA-256
+`5f32c8d508d3e8e4d03dcfdee7e2fdf533abd6ce600d85530d0cfd7aae47b8d1`.
+The second PDB differs; whole-build/PDB byte identity is not established.
+All 91 recorded source input digests match Git blobs at that exact source.
+The build/validation/individual report hash chain was verified locally without
+executing native files. [Source audit 40653804071](https://github.com/lineum-dynamics/nms-companion-auto-summon/actions/runs/40653804071)
+also passed.
+
+Owned checks passed: 31,216 policy comparisons / 88 traces; 25,733 selection
+comparisons / 59 traces; 333 storage cases / 721 operations; 63 runtime cases;
+16 backup cases; 16 query cases; 10 hook-ABI groups; 21 load-context cases;
+six unsupported-host runs with eight concurrent initializer calls each.
+The separate forced factory-zero DLL returned status 3, hooks inactive,
+exactly one factory call for eight simultaneous calls plus a later retry.
+That DLL is not retained as a player payload or submitted to antivirus.
+
+Defender 4.18.26090.9 / engine 1.1.26090.9 finished the read-only custom scan
+at 28 October 08:05:21 UTC without a detection and detected the same-mode
+68-byte EICAR control with exit 2. However, its signature refresh failed and
+definitions remained **1.461.156.0, dated 22 October 18:40:20 UTC**. This is
+explicitly not a current-definition verdict. Stock CI realtime protection is
+false; the custom scanner was exercised and preferences/input bytes unchanged.
+
+Selected static checks pin the exact ASI/PDB before decoding. PDB GUID/age
+matches CodeView. All 1,882 runtime entries, 460 chain steps and depth 5 satisfy
+selected bounds/sorting/no-cycle checks; 1,879 headers are V1 and three V2.
+Seven sections, six system-DLL import groups, the expected three exports and
+no overlay were recorded. Fifteen pefile 2024.8.26 chained-function warnings
+remain; unwind opcode/prologue/handler semantics are outside this check.
+Run `audit_msvc_candidate_artifact.py --artifact-version 0.10.6-native-test`
+with the exact module/PDB paths and output argument.
+
+Sanitized receipt: [NATIVE-0106-EVIDENCE.json](NATIVE-0106-EVIDENCE.json), SHA-256
+`80923618be72b33c0d86570a4cd11d401527bc45a506cde71c5b0ce1cc02414d`.
+The initial collector stopped on an incorrectly guessed hyphenated report
+filename; corrected actual underscore filenames precede all hash comparisons.
+No missing input was counted as passed.
+
+The next loader check uses the same pinned official UAL 9.7.4, exact ASI
+30cc9542 and source 4439c90. The controller keeps separate exact 0.10.5/0.10.6
+identities, retains the existing Windows-CI-only guard and strips CI tokens
+from child environments. Three no-plugin baselines and three automatic-loader
+cases must pass without the host calling InitializeASI. Normal process exit
+is tested; arbitrary DLL unloading and NMS compatibility are outside this scope.

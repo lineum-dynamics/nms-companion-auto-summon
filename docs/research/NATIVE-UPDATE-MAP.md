@@ -3610,3 +3610,35 @@ remain unresolved; no global safety or false-positive claim is made.
   are NOT CHECKED and do not inherit 0.10.5 results. No support message sent.
   Next bounded action: read actual 0.10.6 CI/fault receipts and freeze its exact
   bytes before any new upload request. No local native execution or AV change.
+
+### CRT-thread candidate CI readback, 28 October 2026
+
+- Candidate source 4439c909942a333146f001e197360a9aac669c08 passed
+  Microsoft source audit 40653804071 and candidate run 40653804116. Exact
+  0.10.6 ASI: 749,568 B, SHA-256
+  30cc9542a2af3529fd4f3a2299d6331bddf51b61f8213a0a1a779b472789de3d.
+  Both directories produce identical DLL bytes. Retained PDB 5f32c8d5 matches
+  CodeView GUID/age; second PDB differs. All 91 recorded source input digests
+  match source Git blobs; build, validation and individual report hashes match.
+- Normal owned bundle passed all eight validator groups and six foreign-host
+  runs. Forced CRT factory-zero control is status 3/inert with exactly one
+  attempt for eight concurrent initializer calls plus a later retry. This
+  proves the bounded refusal path, not a reproduced low-memory termination or
+  private antivirus rule.
+- The read-only custom Defender scan/EICAR control completed, but signature
+  refresh FAILED and retained definitions 1.461.156.0 dated 22 October 18:40:20 UTC.
+  No detection was recorded at 28 October 08:05:21 UTC; it is not a current-defs
+  verdict. Stock CI realtime protection false, custom mode positive control
+  passed, preferences/bytes unchanged. Keep this limit in upload/release notes.
+- Selected static ASI/PDB check: 1,882 runtime entries, 460 chain steps, depth 5,
+  sorted/bounded/no cycles; three V2 headers and 15 pefile warnings retained.
+  Opcode/prologue/handler semantics remain NOT CHECKED. The initial receipt
+  collector guessed a hyphenated report filename and refused missing input;
+  corrected retained underscore filenames before completing comparisons.
+- Evidence NATIVE-0106-EVIDENCE.json SHA-256
+  80923618be72b33c0d86570a4cd11d401527bc45a506cde71c5b0ce1cc02414d.
+  Prepare the same owned UAL lifecycle check against this exact ASI, while
+  preserving the old 0.10.5 identity and historical results. No game process or
+  new executable image, mapping/profile/gameplay filter, locale text or player
+  data changed. Game identity stays Cosmos 7.06/build 25732212/SHA 13d5060d.
+  Loader readback, exact new-file VT and NMS/Nexus gates remain NOT CHECKED.

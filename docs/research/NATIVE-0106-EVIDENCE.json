@@ -1,0 +1,358 @@
+{
+  "schema": 1,
+  "kind": "frozen-crt-thread-candidate-evidence",
+  "date": "2026-10-28",
+  "source_revision": "4439c909942a333146f001e197360a9aac669c08",
+  "candidate_ci_run": 40653804116,
+  "source_audit_ci_run": 40653804071,
+  "version": "0.10.6-native-test",
+  "game_target": {
+    "release": "Cosmos 7.06",
+    "store": "Windows Steam",
+    "build": 25732212,
+    "executable_sha256": "13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499",
+    "new_game_image_accessed": false,
+    "mapping_changed": false
+  },
+  "module": {
+    "sha256": "30cc9542a2af3529fd4f3a2299d6331bddf51b61f8213a0a1a779b472789de3d",
+    "bytes": 749568
+  },
+  "symbols": {
+    "sha256": "5f32c8d508d3e8e4d03dcfdee7e2fdf533abd6ce600d85530d0cfd7aae47b8d1",
+    "bytes": 11210752
+  },
+  "second_symbols": {
+    "sha256": "253d228c77766ae5c72485d2a641d50346ea30d18d7dd697b2aff253caa386e3",
+    "bytes": 11218944
+  },
+  "source_provenance": {
+    "recorded_input_count": 91,
+    "all_match_git_blobs_at_source_revision": true
+  },
+  "receipt_hashes": {
+    "first_build": "54fce37102a71d492f35937dce2f21248aa263fcb37b3b92f945cf9abd45c79d",
+    "second_build": "f3161a206f6c3c4fd4c2c167a78d987de462806e20c388ca3f9e5138636994b4",
+    "validation": "35e23e7b119b7fe3cd89132a24a6e14c9711fea894d55c3595707107dc4efd27",
+    "reproduction": "fb70a7cb304d2f8eff41ea486ad23b16464191977f45ae44503894e6e7d572c4",
+    "defender": "1bc3bba740cf7665b72368f1d38d002419abc7cabc6da385c5b6fd3fb50242a1",
+    "toolchain": "569900b42f69febecee298bd0644d83e3a9051b6731d6cd33cf923f2c20a0605",
+    "selected_static": "cc820bd4abccdab024bdd9fe5f3b8c1eaffe015f692774f47b2d7e25615209f3"
+  },
+  "toolchain": {
+    "schema": 1,
+    "source_revision": "4439c909942a333146f001e197360a9aac669c08",
+    "image": "win22",
+    "image_version": "20261022.344.1",
+    "tools": [
+      {
+        "name": "cl.exe",
+        "sha256": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+        "signature": "Valid",
+        "version": "19.44.35229.0"
+      },
+      {
+        "name": "rc.exe",
+        "sha256": "43da1503c262c30894c851589bf0155f8365d77e63a5f7bc13982320e3a6b42d",
+        "signature": "Valid",
+        "version": "10.0.26100.7705 (WinBuild.160101.0800)"
+      },
+      {
+        "name": "dumpbin.exe",
+        "sha256": "cfee7ed764b7b0866aae0be12f9c0ad2a7f5aecc4046ba2b7de26335827ca815",
+        "signature": "Valid",
+        "version": "14.44.35229.0"
+      }
+    ],
+    "game_access": false,
+    "protection_settings_changed": false
+  },
+  "reproduction": {
+    "schema": 1,
+    "source_revision": "4439c909942a333146f001e197360a9aac669c08",
+    "version": "0.10.6-native-test",
+    "first_sha256": "30cc9542a2af3529fd4f3a2299d6331bddf51b61f8213a0a1a779b472789de3d",
+    "second_sha256": "30cc9542a2af3529fd4f3a2299d6331bddf51b61f8213a0a1a779b472789de3d",
+    "byte_identical": true,
+    "game_access": false,
+    "av_clearance": false,
+    "packaging_approved": false
+  },
+  "startup_thread_factory": "_beginthreadex",
+  "startup_failure_control": {
+    "native_status": 3,
+    "host_sha256": "ebbae032cd33ea3178a71cf9d1e768fd7d3bc06fd0fafe9b8ad47da7cc4668fd",
+    "hooks_active": false,
+    "concurrent_calls": 8,
+    "thread_factory_calls": 1
+  },
+  "owned_validation": {
+    "version": "0.10.6-native-test",
+    "passed": true,
+    "native_host_runs": [
+      {
+        "native_status": 2,
+        "host_sha256": "ebbae032cd33ea3178a71cf9d1e768fd7d3bc06fd0fafe9b8ad47da7cc4668fd",
+        "hooks_active": false,
+        "concurrent_calls": 8
+      },
+      {
+        "native_status": 2,
+        "host_sha256": "ebbae032cd33ea3178a71cf9d1e768fd7d3bc06fd0fafe9b8ad47da7cc4668fd",
+        "hooks_active": false,
+        "concurrent_calls": 8
+      },
+      {
+        "native_status": 2,
+        "host_sha256": "ebbae032cd33ea3178a71cf9d1e768fd7d3bc06fd0fafe9b8ad47da7cc4668fd",
+        "hooks_active": false,
+        "concurrent_calls": 8
+      },
+      {
+        "native_status": 2,
+        "host_sha256": "ebbae032cd33ea3178a71cf9d1e768fd7d3bc06fd0fafe9b8ad47da7cc4668fd",
+        "hooks_active": false,
+        "concurrent_calls": 8
+      },
+      {
+        "native_status": 2,
+        "host_sha256": "ebbae032cd33ea3178a71cf9d1e768fd7d3bc06fd0fafe9b8ad47da7cc4668fd",
+        "hooks_active": false,
+        "concurrent_calls": 8
+      },
+      {
+        "native_status": 2,
+        "host_sha256": "ebbae032cd33ea3178a71cf9d1e768fd7d3bc06fd0fafe9b8ad47da7cc4668fd",
+        "hooks_active": false,
+        "concurrent_calls": 8
+      }
+    ],
+    "validators": {
+      "policy": {
+        "report_sha256": "a960767b810f91c3131e15219dabaf69e0165f156f23c5c9144a97c680888d39",
+        "summary": {
+          "passed": true,
+          "traces": 88,
+          "commands": 31216,
+          "report": "policy-validation.json"
+        }
+      },
+      "selection": {
+        "report_sha256": "aa89e404fc82b4353a471cea0ce895f0a64118a3eef428803154d8c49c77f0b6",
+        "summary": {
+          "passed": true,
+          "traces": 59,
+          "commands": 25733,
+          "report": "selection-validation.json"
+        }
+      },
+      "storage": {
+        "report_sha256": "650c05fc0a76bc257227636827d7f79a2a95e9f8d12a5b1fa74e71527b13c61e",
+        "summary": {
+          "status": "passed",
+          "differential_cases": 333,
+          "differential_operations": 721,
+          "checks_by_group": {
+            "differential": 11,
+            "legacy_and_current_migration": 24,
+            "settings_matrix": 384,
+            "invalid_existing_retained": 229,
+            "byte_limits": 12,
+            "invalid_arguments": 23,
+            "favorite_lifecycle": 9,
+            "unicode_paths_and_keys": 21,
+            "entry_limit_and_preservation": 6,
+            "reread_before_write": 1,
+            "locked_file_retained": 1,
+            "intentional_lone_surrogate_rejection": 1
+          }
+        }
+      },
+      "runtime": {
+        "report_sha256": "22e4d82ed79049c583cc8363de0f6c89b0264b609fe881cebd936a3570e05b35",
+        "summary": {
+          "status": "passed",
+          "cases": 63,
+          "failures": []
+        }
+      },
+      "backup": {
+        "report_sha256": "0d7ea06771e0303ccfcc4e076db3a4acf9905155a6844e93ea1da0a4ef0d999d",
+        "summary": {
+          "passed": true,
+          "checks": 16,
+          "report": "backup-validation.json"
+        }
+      },
+      "minhook_query": {
+        "report_sha256": "85a07626eb0827feab056ce85b5f95e78e0ca7993e4b5c2d94358dc3d8cc3796",
+        "summary": {
+          "passed": true,
+          "cases": 16,
+          "failed": 0,
+          "game_access": false
+        }
+      },
+      "hook_abi": {
+        "authored_hook_targets": 10,
+        "native_calls_per_pass": 17,
+        "detours_per_enabled_pass": 14,
+        "checks_passed": 10,
+        "argument_and_result_forwarding": true,
+        "mixed_float_stack_arguments": true,
+        "shared_trigger_order": true,
+        "same_thread_reentry": true,
+        "activation_gate": true,
+        "batch_enable_disable": true,
+        "original_bytes_restored": true,
+        "game_started_or_attached": false,
+        "nms_abi_proven": false
+      },
+      "load_context": {
+        "report_sha256": "58ebf7bef03cc3e4d01b0eeeb737c6770d0481d86c801aff7da113a07569d6c6",
+        "summary": {
+          "passed": true,
+          "cases": 21,
+          "game_access": false
+        }
+      }
+    },
+    "build_receipt_sha256": "54fce37102a71d492f35937dce2f21248aa263fcb37b3b92f945cf9abd45c79d",
+    "game_started_or_attached": false,
+    "gameplay_verified": false,
+    "deployed": false
+  },
+  "selected_static": {
+    "status": "SELECTED_STATIC_CHECKS_COMPLETED",
+    "artifact_version": "0.10.6-native-test",
+    "module_sha256": "30cc9542a2af3529fd4f3a2299d6331bddf51b61f8213a0a1a779b472789de3d",
+    "bytes": 749568,
+    "pdb_sha256": "5f32c8d508d3e8e4d03dcfdee7e2fdf533abd6ce600d85530d0cfd7aae47b8d1",
+    "pdb_guid_and_age_match": true,
+    "sections": [
+      ".text",
+      ".rdata",
+      ".data",
+      ".pdata",
+      ".fptable",
+      ".rsrc",
+      ".reloc"
+    ],
+    "imports": [
+      "bcrypt.dll",
+      "ADVAPI32.dll",
+      "SHELL32.dll",
+      "ole32.dll",
+      "USER32.dll",
+      "KERNEL32.dll"
+    ],
+    "exports": [
+      "CasInspectHost",
+      "CasRuntimeStatus",
+      "InitializeASI"
+    ],
+    "overlay_present": false,
+    "unwind": {
+      "runtime_function_entries": 1882,
+      "unique_chained_entries": 1882,
+      "chain_steps": 460,
+      "max_depth": 5,
+      "bounds_sorted_and_no_cycles": true,
+      "table_header_versions": {
+        "1": 1879,
+        "2": 3
+      }
+    },
+    "pefile_version": "2024.8.26",
+    "pefile_warnings": [
+      "Failed parsing FunctionEntry of UNWIND_INFO at af448: 'Chained function entry cannot be changed'",
+      "Failed parsing FunctionEntry of UNWIND_INFO at af484: 'Chained function entry cannot be changed'",
+      "Failed parsing FunctionEntry of UNWIND_INFO at af784: 'Chained function entry cannot be changed'",
+      "Failed parsing FunctionEntry of UNWIND_INFO at af790: 'Chained function entry cannot be changed'",
+      "Failed parsing FunctionEntry of UNWIND_INFO at af940: 'Chained function entry cannot be changed'",
+      "Failed parsing FunctionEntry of UNWIND_INFO at b048c: 'Chained function entry cannot be changed'",
+      "Failed parsing FunctionEntry of UNWIND_INFO at b04ec: 'Chained function entry cannot be changed'",
+      "Failed parsing FunctionEntry of UNWIND_INFO at b0a98: 'Chained function entry cannot be changed'",
+      "Failed parsing FunctionEntry of UNWIND_INFO at b0b7c: 'Chained function entry cannot be changed'",
+      "Failed parsing FunctionEntry of UNWIND_INFO at b12e4: 'Chained function entry cannot be changed'",
+      "Failed parsing FunctionEntry of UNWIND_INFO at b1368: 'Chained function entry cannot be changed'",
+      "Failed parsing FunctionEntry of UNWIND_INFO at b1434: 'Chained function entry cannot be changed'",
+      "Failed parsing FunctionEntry of UNWIND_INFO at b18d8: 'Chained function entry cannot be changed'",
+      "Failed parsing FunctionEntry of UNWIND_INFO at b19ec: 'Chained function entry cannot be changed'",
+      "Failed parsing FunctionEntry of UNWIND_INFO at b3828: 'Chained function entry cannot be changed'"
+    ],
+    "limits": [
+      "Unwind opcode/prologue semantics and all handler data are not validated.",
+      "Parser warnings are retained, not converted to a zero-warning claim.",
+      "PDB identity matching is not complete symbol-content validation.",
+      "These structural checks are not an antivirus or gameplay verdict."
+    ]
+  },
+  "selected_static_tool_sha256": "c836910d05d85559dbaebc45b71bae993c4bca3662c451567c2dcf6c94ae5539",
+  "defender": {
+    "result": "NO_DETECTION_RECORDED",
+    "scan_performed": true,
+    "scan_completed": true,
+    "finished_utc": "2026-10-28T08:05:21.2760474Z",
+    "signature_update": "failed-existing-dated-signatures-retained",
+    "scan_engine_before": {
+      "AMServiceEnabled": true,
+      "AntivirusEnabled": true,
+      "RealTimeProtectionEnabled": false,
+      "AMRunningMode": "Normal",
+      "AMProductVersion": "4.18.26090.9",
+      "AMEngineVersion": "1.1.26090.9",
+      "AntivirusSignatureVersion": "1.461.156.0",
+      "AntivirusSignatureLastUpdated": "2026-10-22T18:40:20+00:00"
+    },
+    "positive_control": {
+      "source": "https://secure.eicar.org/eicar.com.txt",
+      "bytes": 68,
+      "sha256": "275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f",
+      "exit_code": 2,
+      "output": "Scan starting...\r\nScan finished.\r\nScanning <harmless-engine-control> found 1 threats.\r\n\r\n<===========================LIST OF DETECTED THREATS==========================>\r\n----------------------------- Threat information ------------------------------\r\nThreat                  : Virus:DOS/EICAR_Test_File\r\nResources               : 1 total\r\n    file                : <harmless-engine-control>\r\n-------------------------------------------------------------------------------",
+      "passed": true
+    },
+    "scan_exit_code": 0,
+    "scan_output": "Scan starting...\r\nScan finished.\r\nScanning <exact-module> found no threats.",
+    "scan_mode": {
+      "type": "read-only custom scan",
+      "switch": "-DisableRemediation",
+      "machine_wide_preferences_changed": false,
+      "file_exclusions_ignored_by_documented_mode": true,
+      "detections_reported_in": "command output, not UI or event log"
+    },
+    "protection_configuration_changed": false,
+    "input_sha256": "30cc9542a2af3529fd4f3a2299d6331bddf51b61f8213a0a1a779b472789de3d",
+    "input_sha256_after": "30cc9542a2af3529fd4f3a2299d6331bddf51b61f8213a0a1a779b472789de3d",
+    "preference_sha256_before": "dfb9a81097c126eede6c564ebdc753c049b004e6d0de06b7b7c904192f3bb51e",
+    "preference_sha256_after": "dfb9a81097c126eede6c564ebdc753c049b004e6d0de06b7b7c904192f3bb51e",
+    "automatic_cloud_transmission": "NOT CHECKED"
+  },
+  "defender_limit": "Signature refresh failed; retained definitions 1.461.156.0 dated22 October18:40:20 UTC. This is not a current-definition verdict. Stock CI realtime protection is false; the positively controlled custom scanner ran.",
+  "incomplete_methods": [
+    {
+      "kind": "TOOL ERROR",
+      "method": "Initial local receipt collector guessed a hyphenated query-report name and stopped at missing input. Actual retained filenames use underscores; corrected before checking those report hashes. No absent report was counted as passed."
+    }
+  ],
+  "ual_exact_candidate_lifecycle": {
+    "state": "NOT CHECKED; prepared exact-artifact CI run"
+  },
+  "multivendor": {
+    "uploaded": false,
+    "state": "NOT CHECKED; exact-file upload/terms approval required"
+  },
+  "game_acceptance_established": false,
+  "packaging_approved": false,
+  "nexus_candidate_uploaded": false,
+  "local_native_execution": false,
+  "support_contact_sent": false,
+  "av_clearance": false,
+  "limits": [
+    "The thread API mismatch is documented; no low-memory failure/player crash or detection causality was reproduced.",
+    "DLL byte identity is established; PDB byte identity is not established.",
+    "Selected structural PE checks retain15 pefile warnings and do not validate unwind opcode/prologue/handler semantics.",
+    "Unsupported owned-host fixtures do not establish exact-candidate NMS acceptance."
+  ]
+}
