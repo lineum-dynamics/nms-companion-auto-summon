@@ -85,3 +85,34 @@ Target remains Windows/Steam Cosmos 7.06 / build 25732212 / executable SHA-256
 No new game image, mapping/RVA/profile or player-facing meaning is changed.
 This suite is research, not a new player version or Nexus replacement. Support
 contact remains unsent.
+
+## Completed owned CI readback
+
+[Run 40700680862](https://github.com/lineum-dynamics/nms-companion-auto-summon/actions/runs/40700680862)
+at source a88f5e11c0744a481cd947a4adec3e3e795b9340 passed without a repair run.
+All 96 recorded source inputs match Git blobs. The supported-result adapter
+control passed, preserving ordinary errors and invalid arguments. All 18 fresh
+process runs passed, three per case: eight concurrent InitializeASI calls plus
+retry reached status 2/inactive hooks. Real inspection cases match the owned
+host hash; stub cases have an empty hash. The 889-byte shared export tail's
+recorded hash 99a517c9 matches the reviewed source. No local native execution.
+
+All six resources and three exported names match. The first four explicitly
+request NOREF/NOICF retention; the two REF/ICF cases retain only referenced/
+merged code as the linker chooses. Independent selected local PE checks confirm
+x64, the three exports and no overlay. No complete unwind or game verification.
+
+| Case | Bytes | SHA-256 |
+| --- | ---: | --- |
+| cold | 1,452,544 | `7505d9a7649ab435b2ebb2c28d4020214c3eb3a4082e2ac57242748c5bc89661` |
+| worker | 1,452,544 | `2e95ed46873b1b9edf483a23b338a6e947975299711b4bbe01a145b303c226bc` |
+| full-stub | 1,799,168 | `593f0a662c91011dc1dbe7ee5aa97126543cf212083efc68160bd179a92a1f02` |
+| full-real | 1,802,240 | `8dd9e588a52c32101e933787d3c12ab2d12430fdce9524d6bd16b6e6010be9d0` |
+| full-stub-ref | 746,496 | `addb9ad40048b56c1d1141e6baca69b7fb271d1070ff10156291ea0a75f20a9b` |
+| full-real-ref | 749,568 | `62388dcef02f5eddaf39c1a8a05706d2233c3afba862292e6f5259e4ceb8254a` |
+
+Full metadata/source/generated/tool identities:
+[NATIVE-0106-STARTUP-IDENTITIES.json](NATIVE-0106-STARTUP-IDENTITIES.json), SHA-256
+`3388b85b3c2f7bc5ea7a238063ea784be9345a8f1610d55398d296f997fe3a3d`. This is an immutable initial pre-submission record. The actual upload
+form was inspected; the six files remain unselected/unsubmitted pending a
+specific grouped approval of the exact bytes and displayed terms/sample sharing.

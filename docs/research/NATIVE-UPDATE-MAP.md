@@ -3770,3 +3770,29 @@ remain unresolved; no global safety or false-positive claim is made.
   image, source/profile/RVA or locale-meaning edit; target remains exact
   Cosmos 7.06/Steam 25732212/exe 13d5060d. Frozen player bytes unchanged, support
   unsent. Next: perform the six fixed CI controls and freeze their identities.
+
+### Inactive startup/link CI completion and frozen review, 28 October 2026
+
+- Run 40700680862 / source a88f5e11c0744a481cd947a4adec3e3e795b9340 passed all
+  six cases. All 96 source digests match Git. The synthetic supported->unsupported
+  adapter control and ordinary error preservation passed. All 18 fresh owned
+  process runs (three per case, eight concurrent calls plus retry) passed with
+  status 2/inactive hooks and expected actual/empty host hash. No NMS or local
+  native execution; only ordinary process exit, no arbitrary DLL unload.
+- Shared production export tail is 889 B/SHA 99a517c9. All resources and the
+  three production-shaped exported names match; local selected PE metadata
+  confirms x64, those exports and no overlay. NOREF/NOICF in four cases versus
+  intentional REF/ICF in two; do not claim unused retention for REF cases.
+- Freeze CASStartupProbe.asi: cold 7505d9a7 / 1,452,544 B;
+  worker 2e95ed46 / 1,452,544 B; full-stub 593f0a66 / 1,799,168 B;
+  full-real 8dd9e588 / 1,802,240 B; full-stub-ref addb9ad4 / 746,496 B;
+  full-real-ref 62388dce / 749,568 B. Full SHA-256/control/source/tool metadata in
+  NATIVE-0106-STARTUP-IDENTITIES.json, SHA-256
+  3388b85b3c2f7bc5ea7a238063ea784be9345a8f1610d55398d296f997fe3a3d. No startup diagnostic selected/uploaded yet.
+- Actual VT form inspected: terms/privacy notice/sample sharing. Next is one
+  exact six-file approval; previous four-file approvals are fulfilled. Keep
+  frozen player bytes, Cosmos 7.06/Steam 25732212/exe 13d5060d mappings/guards,
+  player settings and locale meanings unchanged. Scanner/private-rule and
+  NMS/Nexus gates remain open; held support draft unsent. After any approval,
+  submit only the frozen six and compare full vendor states/timestamps under
+  the preregistered case interpretations, not headline counts alone.
